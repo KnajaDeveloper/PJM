@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+	
+		<div class="row">
+		<div class="panel panel-primary">
+			<div class="panel-heading">ค้นหาประเภทงาน</div>
+			<div class="panel-body">
+				<br/>
+				<div class="col-xs-12">
+					<form class="form-horizontal">
+						<div class="form-group col-xs-6">
+							<label class="control-label col-xs-3">รหัสประเภทงาน : </label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
+							</div>
+						</div>
+						<div class="form-group col-xs-6">
+							<label class="control-label col-xs-3">ชื่อประเภทงาน : </label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control" id="positionName" placeholder="ชื่อประเภทงาน" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<br/>
+				<br/>
+				<br/>
+				<div class="col-xs-8">
+					<div class="col-xs-offset-8 col-xs-2">
+						<button type="button" class="btn btn-primary">ค้นหา</button>
+					</div>
+				</div>
+				<br/>
+				<br/>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<div class="row" >
+			<div class=" col-sm-12">
+				<form class="form-inline">
+					<div class="form-group">
+						<div class=" col-sm-4">
+							<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#add">เพิ่ม</button>
+						</div>
+						<div class=" col-sm-4">
+							<button type="delete" class="btn btn-danger">ลบที่เลือก</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<form class="form-horizontal">
+		<div class="form-group">
+			<table class="table">
+						<th class="danger"><input type="checkbox" id="checkAll"/></th>
+						<th class="danger">แก้ไข</th>
+						<th class="danger">รหัสประเภทงาน</th>
+						<th class="danger">ชื่อประเภทงาน</th>
+				<tbody>
+					<tr>
+						<td><input class="check" type="checkbox" id="checkDelete"/></td>
+						<td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#edit">แก้ไข</button></td>
+						<td>1</td>
+						<td>a</td>
+					</tr>
+				</tbody>
+				
+			</table>
+		</div>
+	</form>
+
+	<!-- Modal Add -->
+	<div class="modal fade" id="add" role="dialog">
+		<div class="modal-dialog ">
+
+			<!-- Modal content-->
+			<div class="modal-content " >
+				<div class="modal-header bg-primary">
+					<h4 class="modal-title">เพิ่มประเภทงาน</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+						<label class="control-label col-xs-3 required">รหัสประเภทงาน : </label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
+							</div>
+						</div>
+
+						<div class="form-group">
+						<label class="control-label col-xs-3 required">ชื่อประเภทงาน : </label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control" id="positionCode" placeholder="ชื่อประเภทงาน"/>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="saveAdd">บันทึก</button>
+					<button type="button" class="btn btn-primary" id="saveAdd">ถัดไป</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal edit -->
+	<div class="modal fade" id="edit" role="dialog">
+		<div class="modal-dialog ">
+
+			<!-- Modal content-->
+			<div class="modal-content " >
+				<div class="modal-header bg-primary">
+					<h4 class="modal-title">แก้ไขประเภทงาน</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+						<label class="control-label col-xs-3 required">รหัสประเภทงาน : </label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
+							</div>
+						</div>
+
+						<div class="form-group">
+						<label class="control-label col-xs-3 required">ชื่อประเภทงาน : </label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control" id="positionCode" placeholder="ชื่อประเภทงาน"/>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="saveAdd">บันทึก</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+
+	$("#checkAll").click(function () {
+    $(".check").prop('checked', $(this).prop('checked'));
+	});
+	
+</script>
+
+
+</div>
+
