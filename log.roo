@@ -1,0 +1,61 @@
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-02-05 10:18:35
+project --topLevelPackage com.app2.app2t --projectName APP2_PJM --java 7
+persistence setup --provider HIBERNATE --database DERBY_EMBEDDED
+entity jpa --class ~base.BaseEntity --abstract --mappedSuperclass --activeRecord
+field string createdBy
+field string updatedBy
+field string status
+field date --fieldName createdDate --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+field date --fieldName updatedDate --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+entity jpa --class ~.domain.pjm.project --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string projectCode
+field string projectName
+field number --type java.lang.Integer --fieldName projectCost
+field date --fieldName dateStart --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+field date --fieldName dateEnd --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+entity jpa --class ~.domain.pjm.typeTask --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string typeTaskCode
+field string typeTaskName
+entity jpa --class ~.domain.pjm.moduleProject --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string moduleCode
+field string moduleName
+field number --type java.lang.Integer --fieldName moduleCost
+field date --fieldName dateStart --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+field date --fieldName dateEnd --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+field reference --fieldName project --type ~.domain.pjm.project --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName project
+entity jpa --class ~.domain.pjm.task --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string taskCode
+field string taskName
+field number --type java.lang.Integer --fieldName taskCost
+// [failed] field reference --fieldName typeTask --type ~.domain.pjm.typeTask --cardinality ONE_TO_MANY --fetch LAZY --joinColumnName typeTask
+field reference --fieldName typeTask --type ~.domain.pjm.typeTask --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName typeTask
+field string empCode
+field string detail
+field date --fieldName dateStart --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+field date --fieldName dateEnd --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
+field reference --fieldName moduleProject --type ~.domain.pjm.moduleProject --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName moduleProject
+field string fileName
+field string url
+// [failed] focus --class  ~.domain.pnm.plan
+// [failed] focus --class  ~.com.app2.app2t.domain.pnm.plan
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-02-05 10:44:26
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-02-05 10:47:50
+entity jpa --class ~.domain.pjm.projectManager --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string empCode
+field reference --fieldName project --type ~.domain.pjm.project --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName project
+entity jpa --class ~.domain.pjm.moduleManager --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string empCode
+field reference --fieldName moduleProject --type ~.domain.pjm.moduleProject --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName moduleProject
+entity jpa --class ~.domain.pjm.moduleMember --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string empCode
+field reference --fieldName moduleProject --type ~.domain.pjm.moduleProject --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName moduleProject
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-02-05 10:54:45
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-02-05 10:54:50
+json all 
+json all --deepSerialize 
+web mvc setup
+web mvc all --package ~.web.pjm
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-02-05 11:11:55

@@ -1,0 +1,91 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+  <jsp:output omit-xml-declaration="yes" />
+
+  <spring:theme code="styleSheet" var="roo_css" />
+  <spring:url value="/${roo_css}" var="roo_css_url" />
+  <spring:url value="/resources/dojo/dojo.js" var="dojo_url" />
+  <spring:url value="/resources/dijit/themes/tundra/tundra.css" var="tundra_url" />
+  <spring:url value="/resources/spring/Spring.js" var="spring_url" />
+  <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
+  <spring:url value="/resources/images/favicon.ico" var="favicon" />
+  <link rel="stylesheet" type="text/css" href="${tundra_url}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
+  <link rel="SHORTCUT ICON" href="${favicon}" />
+
+  <spring:url value="/resources/styles/bootstrap.min.css" var="bootstrap_css_url" />
+  <spring:url value="/resources/styles/font-awesome.min.css" var="fontAwesome_css_url" />
+  <spring:url value="/resources/styles/jquery-ui-1.11.1.min.css" var="jqueryUI_css_url" />
+  <spring:url value="/resources/styles/jquery.timepicker.css" var="timepicker_css_url" />
+  <spring:url value="/resources/styles/common.css" var="common_css_url" />
+  <spring:url value="/resources/styles/fullcalendar.css" var="fullcalendar_css_url" />
+  <spring:url value="/resources/styles/fullcalendar.print.css" var="fullcalendarPrint_css_url" />
+  <spring:url value="/resources/styles/jquery-ui.css" var="jquery_ui_css_url" />
+  <spring:url value="/resources/styles/master.css" var="master_css_url" />
+  <spring:url value="/resources/styles/selectize.bootstrap3.css" var="selectize_bootstrap3_css_url" />
+
+  <link rel="stylesheet" type="text/css" href="${bootstrap_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${fontAwesome_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${jqueryUI_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${timepicker_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${common_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${master_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${fullcalendar_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${fullcalendarPrint_css_url}" media='print' />
+  <link rel="stylesheet" type="text/css" href="${jquery_ui_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${selectize_bootstrap3_css_url}" />
+
+  <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->
+  <c:set var="userLocale">
+    <c:set var="plocale">${pageContext.response.locale}</c:set>
+    <c:out value="${fn:replace(plocale, '_', '-')}" default="en" />
+  </c:set>
+
+  <script type="text/javascript">var djConfig = {parseOnLoad: false, isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
+
+  <script src="${dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${spring_url}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
+  <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
+
+  <spring:url value="/resources/scripts/jquery-1.11.1.min.js" var="jquery_js_url" />
+  <spring:url value="/resources/scripts/jquery-ui-1.11.1.min.js" var="jqueryUI_js_url" />
+  <spring:url value="/resources/scripts/bootstrap.min.js" var="bootstrap_js_url" />
+  <spring:url value="/resources/scripts/jquery.holder.js" var="jquery_holder_js_url" />
+  <spring:url value="/resources/scripts/jquery.typeahead.js" var="jquery_typeahead_js_url" />
+  <spring:url value="/resources/scripts/common.js" var="common_js_url" />
+  <spring:url value="/resources/scripts/chart.min.js" var="chart_js_url" />
+  <spring:url value="/resources/scripts/fullcalendar.moment.min.js" var="fullcalendar_moment_js_url" />
+  <spring:url value="/resources/scripts/fullcalendar.js" var="fullcalendar_js_url" />
+  <spring:url value="/resources/scripts/jquery.navgoco.js" var="jquery_navgoco_js_url" />
+  <spring:url value="/resources/scripts/jquery.bootbox.js" var="jquery_bootbox_js_url" />
+  <spring:url value="/resources/scripts/jquery.ui.datepicker-th.js" var="jquery_ui_datepicker_th_js_url" />
+  <spring:url value="/resources/scripts/jquery.ui.datetimepicker.js" var="jquery_ui_datetimepicker_js_url" />
+  <spring:url value="/resources/scripts/jquery.ui.datepicker.ext.be.js" var="jquery_ui_datepicker_ext_be_js_url" />
+  <spring:url value="/resources/scripts/jquery.timepicker.js" var="jquery_timepicker_js_url" />
+  <spring:url value="/resources/scripts/modernizr.js" var="modernizr_js_url" />
+  <spring:url value="/resources/scripts/selectize.js" var="selectize_js_url" />
+  <spring:url value="/resources/scripts/selectize.min.js" var="selectize_min_js_url" />
+  <!--<spring:url value="/resources/scripts/Util/UtilScript.js" var="util_script_js" />-->
+
+  <script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jqueryUI_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${bootstrap_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_holder_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_typeahead_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${common_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${chart_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${fullcalendar_moment_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${fullcalendar_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_navgoco_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_bootbox_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_ui_datepicker_th_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_ui_datetimepicker_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_ui_datepicker_ext_be_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_timepicker_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${modernizr_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${selectize_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${selectize_min_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <!--<script src="${util_script_js}" type="text/javascript">&lt;!&ndash; required for FF3 and Opera &ndash;&gt;</script>-->
+
+</jsp:root>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_app2_app2t_domain_pjm_Project" modelAttribute="project" path="/projects" versionField="Version" z="DiUQ9rQ4XtvunJvmOqXKUMaNs10=">
+        <field:input field="createdBy" id="c_com_app2_app2t_domain_pjm_Project_createdBy" z="xzt1QCIrV2cflt2yyTTwLVE6uRc="/>
+        <field:input field="updatedBy" id="c_com_app2_app2t_domain_pjm_Project_updatedBy" z="8FJ7vSbyA+O8r0WppbRlub3XcoA="/>
+        <field:input field="status" id="c_com_app2_app2t_domain_pjm_Project_status" z="NQ6zWk6ALZ9R0ZE7bu77MRiefIQ="/>
+        <field:datetime dateTimePattern="${project_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_Project_createdDate" z="/HqCF3Bpi2buzKCwtV4ZQt39Afw="/>
+        <field:datetime dateTimePattern="${project_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Project_updatedDate" z="GOfjWxqTlocsCa/O8m7AzJA6W3g="/>
+        <field:input field="projectCode" id="c_com_app2_app2t_domain_pjm_Project_projectCode" z="6TXXMzNQzcrd/V2YS548fxOdowg="/>
+        <field:input field="projectName" id="c_com_app2_app2t_domain_pjm_Project_projectName" z="y16XKHdNGKmy91o5WOivGIJcXD4="/>
+        <field:input field="projectCost" id="c_com_app2_app2t_domain_pjm_Project_projectCost" validationMessageCode="field_invalid_integer" z="51CeShUCIOmxWb9VKFjnGk0Ch94="/>
+        <field:datetime dateTimePattern="${project_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Project_dateStart" z="G0lFVL25DHGyjD+iNt2oehmLfEs="/>
+        <field:datetime dateTimePattern="${project_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Project_dateEnd" z="/fojNwi2K0dhqQHlJ7YFqcjf2QU="/>
+    </form:update>
+</div>

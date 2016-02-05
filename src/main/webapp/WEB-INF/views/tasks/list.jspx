@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_pjm_Task" items="${tasks}" z="b1oi28gtlaLhlmGfr6EuGsUuOMA=">
+        <table:table data="${tasks}" id="l_com_app2_app2t_domain_pjm_Task" path="/tasks" z="VTKMKxmAb+I0faOUT/z0GDf4KZM=">
+            <table:column id="c_com_app2_app2t_domain_pjm_Task_createdBy" property="createdBy" z="V98z0RhCpaS/WUKXNcZsCmgDmU8="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Task_updatedBy" property="updatedBy" z="YiZBa4su6KpKqczAkQN03N8RKvc="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Task_status" property="status" z="mZ42w0Wps71kCMZkU6qPbG2Rh7U="/>
+            <table:column date="true" dateTimePattern="${task_createddate_date_format}" id="c_com_app2_app2t_domain_pjm_Task_createdDate" property="createdDate" z="wk/7637MydGK6uJD2GtDjSx2iQM="/>
+            <table:column date="true" dateTimePattern="${task_updateddate_date_format}" id="c_com_app2_app2t_domain_pjm_Task_updatedDate" property="updatedDate" z="UDAPKqzYHTa06//AHz+lLDtikSo="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Task_taskCode" property="taskCode" z="MpkIXg4b31Q9meTqd5660X1L9ek="/>
+        </table:table>
+    </page:list>
+</div>

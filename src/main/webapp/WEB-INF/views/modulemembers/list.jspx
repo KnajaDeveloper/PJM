@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_pjm_ModuleMember" items="${modulemembers}" z="F/ciakBo/2Dxz5CjOEvVTeREi9w=">
+        <table:table data="${modulemembers}" id="l_com_app2_app2t_domain_pjm_ModuleMember" path="/modulemembers" z="ZS1W73tiNlcTOXN3cuVP5MDGxlI=">
+            <table:column id="c_com_app2_app2t_domain_pjm_ModuleMember_createdBy" property="createdBy" z="UzIiE8Dl9WctlvxRjSnImfMSIKk="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_ModuleMember_updatedBy" property="updatedBy" z="/7Fj5E0+fzoftpPgECOYGm0FRuI="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_ModuleMember_status" property="status" z="2BpUeWpETdgpawo13wy8Ejr2GHE="/>
+            <table:column date="true" dateTimePattern="${moduleMember_createddate_date_format}" id="c_com_app2_app2t_domain_pjm_ModuleMember_createdDate" property="createdDate" z="ok586ak9fHceItdAz8g5L02tVrA="/>
+            <table:column date="true" dateTimePattern="${moduleMember_updateddate_date_format}" id="c_com_app2_app2t_domain_pjm_ModuleMember_updatedDate" property="updatedDate" z="vTiNzjN8EUcwwcxA0uDGp/Tafig="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_ModuleMember_empCode" property="empCode" z="7aDXP0aez8Uz4vCAyVxx4BMCoQc="/>
+        </table:table>
+    </page:list>
+</div>

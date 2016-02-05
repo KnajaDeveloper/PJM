@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_Task" object="${task}" path="/tasks" z="lyTHKUXANqwAqEas6OT3J6z4H+Q=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_Task_createdBy" object="${task}" z="o/cEndIRbIgWaPTi/tj2GpHqefY="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_Task_updatedBy" object="${task}" z="0Yf/el9Vm1QWCAXz6OhNupgsniA="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_Task_status" object="${task}" z="RBA9qeZI9PEW17H9sQ85rmlQcs4="/>
+        <field:display date="true" dateTimePattern="${task_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_Task_createdDate" object="${task}" z="n5hsWUL4Y/tX9JAOsqOgHZdy+RM="/>
+        <field:display date="true" dateTimePattern="${task_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_Task_updatedDate" object="${task}" z="hUnScnlbnyX/xQ7kvZzLCGGCJ6c="/>
+        <field:display field="taskCode" id="s_com_app2_app2t_domain_pjm_Task_taskCode" object="${task}" z="nBRk5eIsx6w8q7Bhtp6LFjROyDw="/>
+        <field:display field="taskName" id="s_com_app2_app2t_domain_pjm_Task_taskName" object="${task}" z="i39iTSDUcqeBmTyA9/Xl2bE3wtI="/>
+        <field:display field="taskCost" id="s_com_app2_app2t_domain_pjm_Task_taskCost" object="${task}" z="paLWuvaxe/xqkQb8TxVR6GIclZ8="/>
+        <field:display field="typeTask" id="s_com_app2_app2t_domain_pjm_Task_typeTask" object="${task}" z="efmOtru00zuqwHtDPwFB+ZT3F2U="/>
+        <field:display field="empCode" id="s_com_app2_app2t_domain_pjm_Task_empCode" object="${task}" z="WB5Raycz2aABlY7IbrRI0Mg7oVQ="/>
+        <field:display field="detail" id="s_com_app2_app2t_domain_pjm_Task_detail" object="${task}" z="msj4TczgeyV0TmBaCjFar/nOFRU="/>
+        <field:display date="true" dateTimePattern="${task_datestart_date_format}" field="dateStart" id="s_com_app2_app2t_domain_pjm_Task_dateStart" object="${task}" z="2WV12KkcUwjA3ehAvIl8P6jxmlY="/>
+        <field:display date="true" dateTimePattern="${task_dateend_date_format}" field="dateEnd" id="s_com_app2_app2t_domain_pjm_Task_dateEnd" object="${task}" z="XW8WLcKay6OchLa9e0xTpNOZDkI="/>
+        <field:display field="moduleProject" id="s_com_app2_app2t_domain_pjm_Task_moduleProject" object="${task}" z="5GZPQQmHtddcCakMOsAIwJ2rJQs="/>
+        <field:display field="fileName" id="s_com_app2_app2t_domain_pjm_Task_fileName" object="${task}" z="6GjbDS33rapCl0DZxWVTSQspU+U="/>
+        <field:display field="url" id="s_com_app2_app2t_domain_pjm_Task_url" object="${task}" z="hbABs4t1bmh3Qz70UqSLmRnHZpw="/>
+    </page:show>
+</div>

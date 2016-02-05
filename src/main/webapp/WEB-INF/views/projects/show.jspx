@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_Project" object="${project}" path="/projects" z="uAUUAEMye6oCncZ73ne0U/cSSrc=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_Project_createdBy" object="${project}" z="IB7IA6/ce5OGbXzt9yVh8lEMGJk="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_Project_updatedBy" object="${project}" z="rnX+sSeLFja2RfXTcaHskiO3ZQ4="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_Project_status" object="${project}" z="BOMAcZcz/+9jGWRp5Kp+jnlL3Gk="/>
+        <field:display date="true" dateTimePattern="${project_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_Project_createdDate" object="${project}" z="UGTO8prFgIyJtix9gfS/fAql21Q="/>
+        <field:display date="true" dateTimePattern="${project_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_Project_updatedDate" object="${project}" z="A5gn7yACjpnEzjL4hVlf01/a3yY="/>
+        <field:display field="projectCode" id="s_com_app2_app2t_domain_pjm_Project_projectCode" object="${project}" z="wNHhYZ135SJstwwovHACfgoSLs4="/>
+        <field:display field="projectName" id="s_com_app2_app2t_domain_pjm_Project_projectName" object="${project}" z="Ffo7+TpUw/kYYGjLOsUMVFrC0EI="/>
+        <field:display field="projectCost" id="s_com_app2_app2t_domain_pjm_Project_projectCost" object="${project}" z="P/siQPdhzsBez5g2n/udur7drkw="/>
+        <field:display date="true" dateTimePattern="${project_datestart_date_format}" field="dateStart" id="s_com_app2_app2t_domain_pjm_Project_dateStart" object="${project}" z="YsmokdYa5CItVhWbWxcUf3sc+P8="/>
+        <field:display date="true" dateTimePattern="${project_dateend_date_format}" field="dateEnd" id="s_com_app2_app2t_domain_pjm_Project_dateEnd" object="${project}" z="XVYazQi3AbOiLbT7S9zN5LdQ4jo="/>
+    </page:show>
+</div>

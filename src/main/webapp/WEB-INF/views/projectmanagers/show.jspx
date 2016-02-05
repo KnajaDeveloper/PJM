@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_ProjectManager" object="${projectmanager}" path="/projectmanagers" z="1p1MDgDPRr84WiwYXkZxmxndm6c=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_ProjectManager_createdBy" object="${projectmanager}" z="CocmVohveYpwfmME3BuAvm5FyNI="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_ProjectManager_updatedBy" object="${projectmanager}" z="hz4oh5A+Ih/ScDe1Jcz62c7SJlU="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_ProjectManager_status" object="${projectmanager}" z="VpoBPQdpSkVaPBLYzAsST8NmB2c="/>
+        <field:display date="true" dateTimePattern="${projectManager_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_ProjectManager_createdDate" object="${projectmanager}" z="0CsNqOiotYy8aAhNrl0aSVpCIig="/>
+        <field:display date="true" dateTimePattern="${projectManager_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_ProjectManager_updatedDate" object="${projectmanager}" z="nTq6pvQkYQdo0wFxppFi2dWqEtU="/>
+        <field:display field="empCode" id="s_com_app2_app2t_domain_pjm_ProjectManager_empCode" object="${projectmanager}" z="872ywuQ+ZosE++5rr5qMjJfXoaI="/>
+        <field:display field="project" id="s_com_app2_app2t_domain_pjm_ProjectManager_project" object="${projectmanager}" z="KNHejemeny7WMRc0YoVvTWvEwYg="/>
+    </page:show>
+</div>
