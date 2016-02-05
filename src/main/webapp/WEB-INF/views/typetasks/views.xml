@@ -13,4 +13,7 @@
 <definition extends="default" name="typetasks/update">
         <put-attribute name="body" value="/WEB-INF/views/typetasks/update.jspx"/>
     </definition>
+    <definition extends="default" name="typetasks/typetask">
+        <put-attribute name="body" value="/WEB-INF/views/typetasks/typetask.jspx"/>
+    </definition>
 </tiles-definitions>
