@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_ModuleMember" object="${modulemember}" path="/modulemembers" z="zkGRRDh1C0lufbRWM7uj6ORe74k=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_ModuleMember_createdBy" object="${modulemember}" z="04Ju9ivyklpOzlvxcNBat5q33kI="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_ModuleMember_updatedBy" object="${modulemember}" z="itBjzh1k+SyNWZnS185upBKUQ9c="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_ModuleMember_status" object="${modulemember}" z="gpylgX9ff1clf0GiN8m/O/p+KxI="/>
+        <field:display date="true" dateTimePattern="${moduleMember_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_ModuleMember_createdDate" object="${modulemember}" z="sxjrT2sPzKDuoSo6S8e8UJMpLEs="/>
+        <field:display date="true" dateTimePattern="${moduleMember_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_ModuleMember_updatedDate" object="${modulemember}" z="dkCv1wtUscsXRpj2M0cWx646gak="/>
+        <field:display field="empCode" id="s_com_app2_app2t_domain_pjm_ModuleMember_empCode" object="${modulemember}" z="IBEvEOffbiDBBKh9CpnlzLeeKns="/>
+        <field:display field="moduleProject" id="s_com_app2_app2t_domain_pjm_ModuleMember_moduleProject" object="${modulemember}" z="ZznRZ2s+emat7UYQYzgnqY4Gwdg="/>
+    </page:show>
+</div>

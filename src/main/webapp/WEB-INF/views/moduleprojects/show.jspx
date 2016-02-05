@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_ModuleProject" object="${moduleproject}" path="/moduleprojects" z="JYta+aohJC5v8zYQMpmgiJk1X3s=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_ModuleProject_createdBy" object="${moduleproject}" z="3lDKlyCEUZ2U6I0IrYAtqDyB9v8="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_ModuleProject_updatedBy" object="${moduleproject}" z="i6I7p+QAYzYzUaPlFYf+GXEfffQ="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_ModuleProject_status" object="${moduleproject}" z="00xNFs1DND3YgNiizctK+UJo2e0="/>
+        <field:display date="true" dateTimePattern="${moduleProject_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_ModuleProject_createdDate" object="${moduleproject}" z="vlSR9wFBian4QHeTLW/yEIFd5HY="/>
+        <field:display date="true" dateTimePattern="${moduleProject_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_ModuleProject_updatedDate" object="${moduleproject}" z="ZTj90+DxGjawlGfrHp6wRKemIlI="/>
+        <field:display field="moduleCode" id="s_com_app2_app2t_domain_pjm_ModuleProject_moduleCode" object="${moduleproject}" z="i53/+rBwuba4OHt3h0uwP15/BYU="/>
+        <field:display field="moduleName" id="s_com_app2_app2t_domain_pjm_ModuleProject_moduleName" object="${moduleproject}" z="xv+42wIRxI0jELPHWhN7UAFkMPU="/>
+        <field:display field="moduleCost" id="s_com_app2_app2t_domain_pjm_ModuleProject_moduleCost" object="${moduleproject}" z="jZAah692iynebMJdiqDdGsX0h8s="/>
+        <field:display date="true" dateTimePattern="${moduleProject_datestart_date_format}" field="dateStart" id="s_com_app2_app2t_domain_pjm_ModuleProject_dateStart" object="${moduleproject}" z="9oIqrNd/dW2NLGK4tDucHb4EgSc="/>
+        <field:display date="true" dateTimePattern="${moduleProject_dateend_date_format}" field="dateEnd" id="s_com_app2_app2t_domain_pjm_ModuleProject_dateEnd" object="${moduleproject}" z="lysApx4wt/mDSIUcdULsI0SedDU="/>
+        <field:display field="project" id="s_com_app2_app2t_domain_pjm_ModuleProject_project" object="${moduleproject}" z="SWzIZ5SkzTzwKcXStPBnGwSUyP4="/>
+    </page:show>
+</div>

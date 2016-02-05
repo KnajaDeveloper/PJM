@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_pjm_Project" items="${projects}" z="Ont3wU4oit8kp6/MTF2+ghg/i5E=">
+        <table:table data="${projects}" id="l_com_app2_app2t_domain_pjm_Project" path="/projects" z="cpn8USc5oWKN26EEA4ojhbEXmvo=">
+            <table:column id="c_com_app2_app2t_domain_pjm_Project_createdBy" property="createdBy" z="c29NKn/Wg6pb9lwiuyhQ3lY4RaE="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Project_updatedBy" property="updatedBy" z="kRlzZzuqA/oBxJyIBfvOq3c1cNs="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Project_status" property="status" z="s369uUw+E8M2DAlhYqaZzjCak8U="/>
+            <table:column date="true" dateTimePattern="${project_createddate_date_format}" id="c_com_app2_app2t_domain_pjm_Project_createdDate" property="createdDate" z="5Fv1yGm3OM6TV3cy2rxpfpP+5cc="/>
+            <table:column date="true" dateTimePattern="${project_updateddate_date_format}" id="c_com_app2_app2t_domain_pjm_Project_updatedDate" property="updatedDate" z="hv9HOA82NCXs3kuDY8OsOrFFrXQ="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Project_projectCode" property="projectCode" z="9kdMeucUMviTBX+qZi1c9kmKh8k="/>
+        </table:table>
+    </page:list>
+</div>
