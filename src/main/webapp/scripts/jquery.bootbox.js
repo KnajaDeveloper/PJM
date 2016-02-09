@@ -32,7 +32,7 @@
       "<div class='bootbox modal' tabindex='-1' role='dialog'>" +
         "<div class='modal-dialog'>" +
           "<div class='modal-content'>" +
-            "<div class='modal-body'><div class='bootbox-body'></div></div>" +
+            "<div class='modal-body'><div class='bootbox-body text-center' style='padding:10px'></div></div>" +
           "</div>" +
         "</div>" +
       "</div>",
@@ -43,7 +43,7 @@
     footer:
       "<div class='modal-footer'></div>",
     closeButton:
-      "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'><span class='fa fa-times'><jsp:text/></span></button>",
+      "",
     form:
       "<form class='bootbox-form'></form>",
     inputs: {
@@ -178,12 +178,16 @@
       }
 
       if (!button.className) {
+        var name=""+button.label;
+        name=name.toUpperCase();
         if (total <= 2 && index === total-1) {
           // always add a primary to the main option in a two-button dialog
           button.className = "btn-primary";
         } else {
           button.className = "btn-default";
         }
+        if(name=="OK") button.className = "btn-primary";
+        else if(name=="CANCEL") button.className = "btn-danger";
       }
     });
 
@@ -323,7 +327,7 @@
   exports.confirm = function() {
     var options;
 
-    options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+    options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
 
     /**
      * overrides; undo anything the user tried to set they shouldn't have
@@ -564,7 +568,6 @@
 
   exports.dialog = function(options) {
     options = sanitize(options);
-
     var dialog = $(templates.dialog);
     var innerDialog = dialog.find(".modal-dialog");
     var body = dialog.find(".modal-body");
@@ -596,8 +599,10 @@
     if (options.size === "large") {
       innerDialog.addClass("modal-lg");
     }
-
-    if (options.size === "small") {
+    else if (options.size === "small") {
+      innerDialog.addClass("modal-sm");
+    }
+    else{
       innerDialog.addClass("modal-sm");
     }
 
