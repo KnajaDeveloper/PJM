@@ -5,21 +5,55 @@
 	
 		<div class="row">
 		<div class="panel panel-primary">
-			<div class="panel-heading">ค้นหาประเภทงาน</div>
+			<div class="panel-heading">ค้นหาโปรเจค</div>
 			<div class="panel-body">
 				<br/>
 				<div class="col-xs-12">
 					<form class="form-horizontal">
 						<div class="form-group col-xs-6">
-							<label class="control-label col-xs-3">รหัสประเภทงาน : </label>
-							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3">วันที่เริ่ม(จาก)</label>
+								<div class="col-xs-8">
+									<input class="form-control" type="date"/>
+								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3">วันที่เสร็จ(จาก)</label>
+								<div class="col-xs-8">
+									<input class="form-control" type="date"/>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-xs-3">จำนวนต้นทุน(จาก)</label>
+								<div class="col-xs-8">
+									<input class="form-control" type="date"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3">วันที่เสร็จ(จาก)</label>
+								<div class="col-xs-8">
+									<input class="form-control" type="date"/>
+								</div>
+							</div>
+
 						</div>
 						<div class="form-group col-xs-6">
-							<label class="control-label col-xs-3">ชื่อประเภทงาน : </label>
-							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionName" placeholder="ชื่อประเภทงาน" />
+							<div class="form-group">
+								<label class="control-label col-xs-3">วันที่เริ่ม(ถึง)</label>
+								<div class="col-xs-8">
+									<input class="form-control" type="date"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3">วันที่เสร็จ(ถึง)</label>
+								<div class="col-xs-8">
+									<input class="form-control" type="date"/>
+								</div>
 							</div>
 						</div>
 					</form>
