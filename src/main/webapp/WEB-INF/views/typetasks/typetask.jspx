@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
+
 	
+
 		<div class="row">
 		<div class="panel panel-primary">
 			<div class="panel-heading">ค้นหาประเภทงาน</div>
@@ -29,7 +31,7 @@
 				<br/>
 				<div class="col-xs-8">
 					<div class="col-xs-offset-8 col-xs-2">
-						<button type="button" class="btn btn-primary">ค้นหา</button>
+						<button id="" type="button" class="btn btn-primary">ค้นหา</button>
 					</div>
 				</div>
 				<br/>
@@ -98,23 +100,23 @@
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group">
-						<label class="control-label col-xs-3 required">รหัสประเภทงาน : </label>
+						<label  class="control-label col-xs-3 required">รหัสประเภทงาน : </label>
 							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
+								<input type="text" class="form-control" id="typeTaskCode" placeholder="รหัสประเภทงาน"/>
 							</div>
 						</div>
 
 						<div class="form-group">
-						<label class="control-label col-xs-3 required">ชื่อประเภทงาน : </label>
+						<label  class="control-label col-xs-3 required">ชื่อประเภทงาน : </label>
 							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="ชื่อประเภทงาน"/>
+								<input type="text" class="form-control" id="typeTaskName" placeholder="ชื่อประเภทงาน"/>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="saveAdd">บันทึก</button>
-					<button type="button" class="btn btn-primary" id="saveAdd">ถัดไป</button>
+					<button type="button" class="btn btn-primary" id="nextAdd">ถัดไป</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
 				</div>
 			</div>
@@ -181,15 +183,12 @@
 		</div>
 	</div>
 
-
-<script type="text/javascript">
-
-	$("#checkAll").click(function () {
-    $(".check").prop('checked', $(this).prop('checked'));
-	});
-	
-</script>
-
+	<spring:url value="/resources/scripts/PJM/typetask.js" var="typetask" />
+    <script src="${typetask}" type="text/javascript"><!--Not Empty --></script>
+	<script>
+    	var contextPath = '${pageContext.request.contextPath}';
+    </script>
+ 	 	
 
 </div>
 

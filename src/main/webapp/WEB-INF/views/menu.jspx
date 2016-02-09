@@ -31,5 +31,6 @@
             <menu:item id="i_task_new" messageCode="global_menu_new" url="/tasks?form" z="YotbILlsjTB2PtR5PNSnTnvYdJ4="/>
             <menu:item id="i_task_list" messageCode="global_menu_list" url="/tasks?page=1&amp;size=${empty param.size ? 10 : param.size}" z="IzVMulpv8+zgMUzz/aHI/gQB7NM="/>
         </menu:category> -->
+        
     </menu:menu>
 </div>
