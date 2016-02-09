@@ -3,6 +3,19 @@
 	});
 	
 
+
+function add() {
+
+	if ($("#typeTaskCode").val() == "" ){
+	
+      	$("#typeTaskCode").popover('show');
+
+     } else if ($("#typeTaskName").val() == ""){
+
+      	$("#typeTaskName").popover('show');
+
+     }else {
+
 	$("#saveAdd").click(function(){
 	var typeTask = {
 		typeTaskCode : $("#typeTaskCode").val(),
@@ -21,12 +34,13 @@
 		url: contextPath + '/typetasks',
 		data : JSON.stringify(typeTask),
 		complete: function(xhr){
-
 		},
 		async: false
 	});
-	
-	
-	
 });
+
+
+}
+	
+}
 
