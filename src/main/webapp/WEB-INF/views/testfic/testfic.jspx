@@ -3,6 +3,21 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
-    <button type="button" class="btn btn-primary">Primary</button>
+    <button id="btnAlert" type="button" class="btn btn-primary">Alert</button>
+    <button id="btnConfirm" type="button" class="btn btn-success" style='margin:10px'>Confirm</button>
+    
+    <script type="text/javascript">
+    	$("#btnConfirm").click(function(){
+    		bootbox.confirm("Confirm Dialog",function(result) {
+    			alert("Return : "+result);
+    		});
+    	});
+    	$("#btnAlert").click(function(){
+    		bootbox.alert({
+    			 message: "Alert Dialog",
+    			 size : "small"
+    		});
+    	}); 	    		
+    </script>
 
 </div>
