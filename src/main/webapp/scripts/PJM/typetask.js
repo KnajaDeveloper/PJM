@@ -8,7 +8,7 @@
 	$('[id^=btnM]').click(function() {
 	    var id = this.id.split('M')[1];
 	    if (id == 'Cancel') {
-			$('#add').modal('hide');
+			
 	        $('#typeTaskCode').popover('hide');
 	        $('#typeTaskName').popover('hide');
 	        $('#typeTaskCode').val(null);
