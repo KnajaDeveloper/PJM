@@ -3,18 +3,29 @@
 
 package com.app2.app2t.domain.pjm;
 
-
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(TypeTask_Custom_Jpa_ActiveRecord.class);
-/*
-    public static List<TypeTask>TypeTask.findTypeTask(){
+
+    public static List<TypeTask> TypeTask.findAllProject() {
         EntityManager ent = TypeTask.entityManager();
-        Criteria criteria = ((Session)ent.getDelegate()).createCriteria(TypeTask.class);
-        criteria.add(Restrictions.eq());
-        return null;
-    }*/
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        return criteria.list();
+    }
+
+    public static List<TypeTask> TypeTask.findProjectBytypeTaskCode(String typeTaskCode) {
+        EntityManager ent = TypeTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        criteria.add(Restrictions.eq("typeTaskCode", typeTaskCode));
+        return criteria.list();
+    }
 }

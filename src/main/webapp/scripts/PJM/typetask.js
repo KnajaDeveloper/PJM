@@ -2,9 +2,6 @@
 	    $(".check").prop('checked', $(this).prop('checked'));
 	});
 
-
-
-
 	$('[id^=btnM]').click(function() {
 	    var id = this.id.split('M')[1];
 	    if (id == 'Cancel') {
@@ -43,7 +40,7 @@
 	                    Accept: "application/json"
 	                },
 	                url: contextPath + '/typetasks',
-	                data: JSON.stringify(typeTask),
+	                data: JSON.stringify(),
 	                complete: function(xhr) {
 	                    if (xhr.status == 201) {
 	                    	if (id == 'Add') {
@@ -57,7 +54,7 @@
 	                        bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
 	                    }
 	                },
-	                async: false
+	                async: false /********/
 	            });
 
 	        }
