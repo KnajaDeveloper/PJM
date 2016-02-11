@@ -3,21 +3,50 @@
 
 package com.app2.app2t.web.pjm;
 
+import flexjson.JSONSerializer;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import  com.app2.app2t.domain.pjm.TypeTask;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
 privileged aspect TypeTaskController_Custom_Controller_Json {
-   /*
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @ResponseBody
-    public ResponseEntity<String> TypeTaskController.findTypeTask(@RequestParam(value = "typetask", required = false) String typetask){
+
+    @RequestMapping(value = "/findAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> TypeTaskController.findAllProject() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=utf-8");
+        headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List <TypeTask>result = TypeTask.findTypeTask(typetask);
-            return new ResponseEntity<String>(TypeTask.findTypeTask(result), headers, HttpStatus.OK);
+            List<TypeTask> result = TypeTask.findAllProject();
+            for(int i = 0 ; i < result.size() ; i++) {
+                TypeTask ty = result.get(i);
+                System.out.println("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
+            }
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
-    
+    }
 
-    
+    @RequestMapping(value = "/findProjectBytypeTaskCode",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> TypeTaskController.findProjectBytypeTaskCode() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<TypeTask> result = TypeTask.findProjectBytypeTaskCode("AAAA");
+            for(int i = 0 ; i < result.size() ; i++) {
+                TypeTask ty = result.get(i);
+                System.out.println("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
+            }
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

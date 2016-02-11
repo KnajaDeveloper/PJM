@@ -14,9 +14,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TypeTaskController {
    protected Logger LOGGER = LoggerFactory.getLogger(TypeTaskController.class);
 
- /*  @Autowired
-   private TypeTaskCode typeTaskCode;
-
-   @Autowired
-   private TypeTaskName typeTaskName;*/
 }
