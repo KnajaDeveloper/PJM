@@ -172,7 +172,7 @@ glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group">
-							
+
 						<label class="col-xs-12" >คุณต้องการลบข้อมูลที่เลือกจริงหรือไม่</label>
 							
 						</div>
@@ -185,6 +185,7 @@ glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
 			</div>
 		</div>
 	</div>
+
 
 	<spring:url value="/resources/scripts/PJM/typetask.js" var="typetask" />
     <script src="${typetask}" type="text/javascript"><!--Not Empty --></script>
