@@ -16,16 +16,15 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(TypeTask_Custom_Jpa_ActiveRecord.class);
 
-    public static List<TypeTask> TypeTask.findAllProject() {
+    public static List<TypeTask> TypeTask.findAllProject(String typeTCode, String typeTName) {
         EntityManager ent = TypeTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+            criteria.add(Restrictions.like("typeTaskCode", "%"+typeTCode+"%" ));
+            criteria.add(Restrictions.like("typeTaskName", "%"+typeTName+"%"));
+
+
         return criteria.list();
     }
 
-    public static List<TypeTask> TypeTask.findProjectBytypeTaskCode(String typeTaskCode) {
-        EntityManager ent = TypeTask.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
-        criteria.add(Restrictions.eq("typeTaskCode", typeTaskCode));
-        return criteria.list();
-    }
+
 }

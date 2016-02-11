@@ -11,34 +11,23 @@ import  com.app2.app2t.domain.pjm.TypeTask;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<String> TypeTaskController.findAllProject() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<TypeTask> result = TypeTask.findAllProject();
-            for(int i = 0 ; i < result.size() ; i++) {
-                TypeTask ty = result.get(i);
-                System.out.println("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
-            }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    public ResponseEntity<String> TypeTaskController.findAllProject(
+            @RequestParam(value = "findTypeCode", required= false) String findtypecode,
+            @RequestParam(value = "findTypeName", required= false) String findtypename) {
 
-    @RequestMapping(value = "/findProjectBytypeTaskCode",method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<String> TypeTaskController.findProjectBytypeTaskCode() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
+
         try {
-            List<TypeTask> result = TypeTask.findProjectBytypeTaskCode("AAAA");
+
+            List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
             for(int i = 0 ; i < result.size() ; i++) {
                 TypeTask ty = result.get(i);
                 System.out.println("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
