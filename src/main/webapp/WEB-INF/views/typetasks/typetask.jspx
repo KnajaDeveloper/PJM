@@ -178,8 +178,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="submit">ยืนยัน</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
+                    <button type="button" class="btn btn-primary" id="btnMDel">ยืนยัน</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnMCancel">ยกเลิก</button>
                 </div>
             </div>
         </div>
