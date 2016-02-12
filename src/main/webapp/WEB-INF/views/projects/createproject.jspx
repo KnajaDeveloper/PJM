@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <style>
+	    .input-group-addon{
+	        padding: 0 12px;
+	    }
+	    .btnAddPM{
+	    	margin-left: 10px;
+	    }
+
+    </style>
+
+    <div class="panel panel-primary">
+		<div class="panel-heading">Create Project</div>
+		<div class="panel-body">
+			<form class="form-horizontal">
+				<div name="container_Name" class="form-group">
+					<label class="col-sm-3 control-label required" >Project Name </label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="txtProjectName"></input>
+						</div>
+				</div>
+				<div name="container_initialName_costsProject" class="form-group">
+					<label class="col-sm-3 control-label required" >Initial Name </label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="txtInitialProjectName"></input>
+					</div>
+					<label class="col-sm-1 control-label required" >Cost </label>
+					<div class="col-sm-2 input-group">
+						<input type="text" class="form-control" id="txtCostsProject"></input>
+	                    <span class="input-group-addon">Point</span>
+					</div>
+				</div>
+				<div name="container_dateProject" class="form-group">
+					<label class="col-sm-3 control-label required" >Start Date </label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="txtDateStart"></input>
+					</div>
+					<label class="col-sm-1 control-label required" >End Date </label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="txtDateEnd"></input>
+					</div>
+				</div>
+				<div id="container_nameManager" class="form-group">
+					<label class="col-sm-3 control-label required">Project Manager </label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="txtProjectManagerName0"></input>
+					</div>
+					<button id="btnDeletePM0" type="button" class="btn btn-danger">Delete</button>
+				</div>
+				<div name="container_btnAddProjectManager" class="form-group">
+					<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
+					<button id="btnAddPM" type="button" class="btn btn-success"> + Project Manager</button>
+				</div>
+			</form> 
+		</div>
+	</div>
+</div>

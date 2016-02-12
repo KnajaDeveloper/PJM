@@ -16,4 +16,7 @@
     <definition extends="default" name="projects/searchproject">
         <put-attribute name="body" value="/WEB-INF/views/projects/searchproject.jspx"/>
     </definition>
+    <definition extends="default" name="projects/createproject">
+        <put-attribute name="body" value="/WEB-INF/views/projects/createproject.jspx"/>
+    </definition>
 </tiles-definitions>

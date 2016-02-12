@@ -21,8 +21,14 @@ privileged aspect ProjectController_Custom_Controller {
 
 	@RequestMapping(value = "/searchproject", produces = "text/html")
     public String ProjectController.typetask(Model uiModel) {
-        
+     
         return "projects/searchproject";
+    }
+
+    @RequestMapping(value = "/createproject", produces = "text/html")
+    public String ProjectController.createproject(Model uiModel) {
+     
+        return "projects/createproject";
     }
 
 }
