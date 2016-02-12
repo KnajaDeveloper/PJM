@@ -189,7 +189,7 @@
     <spring:url value="/resources/scripts/PJM/typetask.js" var="typetask"/>
     <script src="${typetask}" type="text/javascript"><!--Not Empty --></script>
 
-    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <spring:url value="/resources/scripts\component\UtilPagination.js" var="UtilPagination"/>
     <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
 
     <script>
