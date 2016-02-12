@@ -5,6 +5,9 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
 
     <div class="row">
         <div class="panel panel-primary">
@@ -189,13 +192,7 @@
     <spring:url value="/resources/scripts/PJM/typetask.js" var="typetask"/>
     <script src="${typetask}" type="text/javascript"><!--Not Empty --></script>
 
-    <spring:url value="/resources/scripts\component\UtilPagination.js" var="UtilPagination"/>
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
     <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
-
-    <script>
-        var contextPath = '${pageContext.request.contextPath}';
-    </script>
-
-
 </div>
 

@@ -959,3 +959,7 @@ function daysInMonth(m, y) { // m is 1 indexed: 0-12
 function isValid(d, m, y) {
     return m > 0 && m <= 12 && d > 0 && d <= daysInMonth(m, y);
 }
+
+var commonData = new Object();
+
+commonData.language = 'TH';

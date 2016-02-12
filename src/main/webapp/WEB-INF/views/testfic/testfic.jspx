@@ -9,6 +9,7 @@
     <script>
         var contextPath = '${pageContext.request.contextPath}';
     </script>
+    
     <div class="form-horizontal">
         <div class="form-group">
             <div id="penaltyTableContainer" class="table-responsive">
