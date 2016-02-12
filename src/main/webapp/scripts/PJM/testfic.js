@@ -6,7 +6,6 @@ $(document).ready(function(){
 
 paggination.setEventPaggingBtn("paggingSimple",paggination);
 paggination.loadTable = function loadTable (jsonData) {
-
     if(jsonData.length <= 0){
         MessageUtil.alertBootBoxMessage({
             title : Message.NotHaveData,

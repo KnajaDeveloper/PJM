@@ -5,19 +5,52 @@
 
     <button id="btnAlert" type="button" class="btn btn-primary">Alert</button>
     <button id="btnConfirm" type="button" class="btn btn-success" style='margin:10px'>Confirm</button>
-    
-    <script type="text/javascript">
-    	$("#btnConfirm").click(function(){
-    		bootbox.confirm("Confirm Dialog",function(result) {
-    			alert("Return : "+result);
-    		});
-    	});
-    	$("#btnAlert").click(function(){
-    		bootbox.alert({
-    			 message: "Alert Dialog",
-    			 size : "small"
-    		});
-    	}); 	    		
-    </script>
 
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div id="penaltyTableContainer" class="table-responsive">
+                <table id="Table" class="table table-condensed " style="margin:0px;">
+                    <thead>
+                    <tr class="bg-info">
+                        <!-- <th class=" text-center"><input type="checkbox" id="selecctall"/></th> -->
+                        <th class="text-center">Code</th>
+                        <th class="text-center">Name</th>
+                    </tr>
+
+                    </thead>
+                    <tbody id="ResualtSearch" style="cursor:pointer">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-horizontal">
+        <div class="form-group">
+            <component:pagging id="paggingSimple"/>
+        </div>
+    </div>
+
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/PJM/testfic.js" var="testfic" />
+    <script src="${testfic}" type="text/javascript"><!--Not Empty --></script>
+
+    <script type="text/javascript">
+        $("#btnConfirm").click(function(){
+            bootbox.confirm("Confirm Dialog",function(result) {
+                alert("Return : "+result);
+            });
+        });
+        $("#btnAlert").click(function(){
+            bootbox.alert({
+                 message: "Alert Dialog",
+                 size : "small"
+            });
+        });                 
+    </script>
 </div>
