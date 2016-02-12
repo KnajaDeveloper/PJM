@@ -63,7 +63,7 @@ $('[id^=btnM]').click(function () {
 });
 
 
-$('#search').click(function () {
+/*$('#search').click(function () {
 
     var responseHeader = $.ajax({
         type: "GET",
@@ -80,7 +80,7 @@ $('#search').click(function () {
         complete: function (xhr) {
 
         },
-        async: false /*ต้องใส่*/
+        async: false /!*ต้องใส่*!/
     });
 
 
@@ -109,11 +109,70 @@ $('#search').click(function () {
             tableData
         );
     });
-});
+});*/
 
 $('#search').click(function () {
+    searchData();
 
 });
+
+var paggination = Object.create(UtilPaggination);
+
+paggination.setEventPaggingBtn("paggingSimple",paggination);
+paggination.loadTable = function loadTable (jsonData) {
+    if(jsonData.length <= 0){
+        MessageUtil.alertBootBoxMessage({
+            title : Message.NotHaveData,
+            buttons: {
+                cancel: {
+                    label:  Button.Approve,
+                }
+            }
+        });
+    }
+
+    $('#tbody').empty();
+    var link = "";
+    var tableData = "";
+    jsonData.forEach(function(value){
+        tableData = ''
+            +'<tr>'
+            + '<td class="text-center">'
+            + '<input class="check" type="checkbox" id="checkDelete"/>'
+            + '</td>'
+            + '<td class="text-center">'
+            + '<button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+            + '</td>'
+            + '<td id="tdTypeTaskCode">'
+            + val["typeTaskCode"]
+            + '</td>'
+            + '<td id="tdTypeTaskName">'
+            + val["typeTaskName"]
+            + '</td>'
+            + '</tr>';
+
+        $('#tbody').append(tableData);
+    });
+};
+
+function searchData(){
+    var dataJsonData = {
+        findTypeCode: $('#sTypeTaskCode').val(),
+        findTypeName: $('#sTypeTaskName').val()
+    }
+
+    paggination.setOptionJsonData({
+        url:contextPath+"/typetasks/testPaggingData",
+        data:dataJsonData
+    });
+
+    paggination.setOptionJsonSize({
+        url:contextPath+"/typetasks/testPaggingSize",
+        data:dataJsonData
+    });
+
+    paggination.search(paggination);
+}
 
 
 
