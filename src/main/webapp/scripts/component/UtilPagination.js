@@ -72,24 +72,24 @@ var UtilPaggination = new function(){
 		}
 		else
 		{
-			$(idPagging+"CurrentPage").val(currentPage);
+			$(idPagging+"CurrentPage").val(currentPage);	
 		}
+        
+        if(currentPage > 1) 
+        {
+                $(idPagging+ "StartDisplayRecords").text(startDisplayRecords+1);
+        }
+        else 
+        {
+                $(idPagging+ "StartDisplayRecords").text(startDisplayRecords);
+        }
 
-		if(currentPage > 1)
-		{
-			$(idPagging+ "StartDisplayRecords").text(startDisplayRecords+1);
-		}
-		else
-		{
-			$(idPagging+ "StartDisplayRecords").text(startDisplayRecords);
-		}
-
-		$(idPagging+ "ToDisplayRecords").text(toDisplayRecords);
-		$(idPagging+ "DisplayTotalRecord").text(maxData);
+        $(idPagging+ "ToDisplayRecords").text(toDisplayRecords);
+        $(idPagging+ "DisplayTotalRecord").text(maxData);        
 	}
 
 	this.search = function (object) {
-
+		
 		var jsonData = AjaxUtil.get(optionJsonSize);
 		jsonSize = jsonData;
 		maxData = jsonData.size;
@@ -103,45 +103,45 @@ var UtilPaggination = new function(){
 	}
 
 	this.next = function(object) {
-		if(currentPage < maxPage)
-		{
-			currentPage++;
-			var firstResult = (currentPage - 1)*limitData;
-			var maxResult = (currentPage*limitData);
-			this.loadData(object,firstResult,limitData);
-		}
+	    if(currentPage < maxPage)
+	    {
+	        currentPage++;
+	        var firstResult = (currentPage - 1)*limitData;
+	        var maxResult = (currentPage*limitData);
+	        this.loadData(object,firstResult,limitData);
+	    }
 
 	};
 
 	this.prev = function(object) {
 		if(currentPage > 1)
-		{
-			currentPage--;
-			var firstResult = (currentPage - 1)*limitData;
-			var maxResult = (currentPage*limitData);
-			this.loadData(object,firstResult,limitData);
-		}
+	    {
+	        currentPage--;
+	        var firstResult = (currentPage - 1)*limitData;
+	        var maxResult = (currentPage*limitData);
+	        this.loadData(object,firstResult,limitData);
+	    }
 	};
 
 	this.first = function(object) {
 		if(maxPage == 0 ||currentPage == 1){
-			return;
+		        return;
 		}
-
-		currentPage = 1;
-		var firstResult = (currentPage - 1)*limitData;
-		var maxResult = (currentPage*limitData);
-		this.loadData(object,firstResult,limitData);
+	    
+	    currentPage = 1;
+	    var firstResult = (currentPage - 1)*limitData;
+	    var maxResult = (currentPage*limitData);
+        this.loadData(object,firstResult,limitData);
 	};
 
 	this.last = function(object) {
-		if(maxPage == 0 || currentPage == maxPage){
-			return;
-		}
-		currentPage = maxPage;
-		var firstResult = (currentPage - 1)*limitData;
-		var maxResult = (currentPage*limitData);
-		this.loadData(object,firstResult,limitData);
+	    if(maxPage == 0 || currentPage == maxPage){
+	        return;
+	    }
+	    currentPage = maxPage;
+	    var firstResult = (currentPage - 1)*limitData;
+	    var maxResult = (currentPage*limitData);
+        this.loadData(object,firstResult,limitData);
 	};
 
 	this.loadPage = function (page,object){
@@ -150,20 +150,20 @@ var UtilPaggination = new function(){
 		}
 		else
 		{
-			currentPage = page;
-			var firstResult = (currentPage - 1)*limitData;
-			var maxResult = (currentPage*limitData);
-			this.loadData(object,firstResult,limitData);
+	        currentPage = page;
+	        var firstResult = (currentPage - 1)*limitData;
+	        var maxResult = (currentPage*limitData);
+	        this.loadData(object,firstResult,limitData);
 		}
 	};
 
-	this.loadData = function (object,firstResult,maxResult) {
+	this.loadData = function (object,firstResult,maxResult) {	
 		var temp = optionJsonData;
 		var defualt = {
 			firstResult:firstResult,
 			maxResult:maxResult
 		};
-
+		
 		$.extend(temp.data,defualt);
 		var jsonData = AjaxUtil.get(temp);
 		if(maxData == 0){
@@ -182,12 +182,12 @@ var UtilPaggination = new function(){
 				startDisplayRecords = firstResult;
 				toDisplayRecords = startDisplayRecords+jsonData.length;
 			}
-
-
+		
+			
 		}
 
-		object.loadTable(jsonData);
-		this.updateLabel();
+		object.loadTable(jsonData);	
+		this.updateLabel();	
 	};
 
 	this.loadTable = function(jsonData) {
@@ -207,10 +207,10 @@ var UtilPaggination = new function(){
 		$(idPagging+"BtnNext").on('click',function() {
 			_this.next(object);
 		});
-
+		
 		$(idPagging+"BtnLast").on('click',function() {
 			_this.last(object);
-		});
+		});	
 
 		this.disabled();
 
@@ -221,7 +221,7 @@ var UtilPaggination = new function(){
 		$(idPagging+"BtnPrev").attr('disabled','disabled');
 		$(idPagging+"BtnNext").attr('disabled','disabled');
 		$(idPagging+"BtnLast").attr('disabled','disabled');
-		$(idPagging+"CurrentPage").attr('disabled','disabled');
+		$(idPagging+"CurrentPage").attr('disabled','disabled');	
 		isCloseButton = true;
 	};
 
@@ -234,6 +234,6 @@ var UtilPaggination = new function(){
 			$(idPagging+"CurrentPage").removeAttr('disabled');
 			isCloseButton = false;
 		}
-
+	
 	};
 };

@@ -1,61 +1,203 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <jsp:output omit-xml-declaration="yes"/>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
 
-    <style>
-	    .input-group-addon{
-	        padding: 0 12px;
-	    }
-	    .btnAddPM{
-	    	margin-left: 10px;
-	    }
+	<style>
+	.input-group-addon{
+		padding: 0 12px;
+	}
+	.btnAddPM{
+		margin-left: 10px;
+	}
+	.marginLeft5{
+		margin-left: 5px;
+	}
+	.marginTop-5{
+		margin-top: -5px;
+	}
 
-    </style>
+	</style>
 
-    <div class="panel panel-primary">
+	<div class="panel panel-primary">
 		<div class="panel-heading">Create Project</div>
 		<div class="panel-body">
 			<form class="form-horizontal">
 				<div name="container_Name" class="form-group">
 					<label class="col-sm-3 control-label required" >Project Name </label>
-						<div class="col-sm-7">
-							<input type="text" class="form-control" id="txtProjectName"></input>
-						</div>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="txtProjectName"></input>
+					</div>
 				</div>
+
 				<div name="container_initialName_costsProject" class="form-group">
 					<label class="col-sm-3 control-label required" >Initial Name </label>
 					<div class="col-sm-3">
 						<input type="text" class="form-control" id="txtInitialProjectName"></input>
 					</div>
-					<label class="col-sm-1 control-label required" >Cost </label>
+					<label class="col-sm-1 control-label required " >Cost </label>
 					<div class="col-sm-2 input-group">
-						<input type="text" class="form-control" id="txtCostsProject"></input>
-	                    <span class="input-group-addon">Point</span>
+						<input type="text" class="form-control marginLeft5" id="txtCostsProject"></input>
+						<span class="input-group-addon">Point</span>
+						<span id="btnIncresePoint" type="button" class="form-control btn btn-primary text-center">+</span>
 					</div>
 				</div>
+
 				<div name="container_dateProject" class="form-group">
-					<label class="col-sm-3 control-label required" >Start Date </label>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" id="txtDateStart"></input>
-					</div>
-					<label class="col-sm-1 control-label required" >End Date </label>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" id="txtDateEnd"></input>
+					<div class="form-inline">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label required" >Start Date </label>
+							<div class="col-sm-5 input-group">
+								<input class="form-control marginLeft5" type="text" id="cSearchDateBegin" name="cSearchDateBegin" placeholder="Start Time" readonly="true" style="cursor:pointer"></input>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar "></span>
+								</span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-2 control-label required" >End Date </label>
+							<div class="col-sm-5  input-group">
+								<input class="form-control marginLeft5" type="text" id="cSearchDateEnd" name="cSearchDateEnd" placeholder="End Time" readonly="true" style="cursor:pointer"></input>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar "></span>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
+
 				<div id="container_nameManager" class="form-group">
 					<label class="col-sm-3 control-label required">Project Manager </label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="txtProjectManagerName0"></input>
+						<input type="text" class="form-control" id="txtProjectManagerName1"></input>
 					</div>
-					<button id="btnDeletePM0" type="button" class="btn btn-danger">Delete</button>
+					<button id="btnDeletePM1" type="button" class="btn btn-danger">Delete</button>
 				</div>
+
 				<div name="container_btnAddProjectManager" class="form-group">
 					<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
 					<button id="btnAddPM" type="button" class="btn btn-success"> + Project Manager</button>
 				</div>
+
+				<div name="container_UpDownModule" class="form-group">
+					<button id="upModule" type="button" class="glyphicon glyphicon-chevron-up btn btn-primary" aria-hidden="true"></button>
+					<button id="downModule" type="button" class=" glyphicon glyphicon-chevron-down btn btn-primary" aria-hidden="true" style="margin:10px;"></button>
+				</div>
+
+				<div id="container_Module" class="form-group">
+					<div class="panel-group" id="recordsModule" role="tablist" aria-multiselectable="true">
+					 	
+					</div>
+				</div>
+
+				<div name="container_AddModule" class="form-group">
+					<button id="btnAddModule" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddModule"> + Module</button>
+				</div>
+				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog">
+		            <div class="modal-dialog modal-lg">
+		                <div class="modal-content">
+		                    <div class="modal-header bg-primary">
+		                        <h4 class="modal-title">Add Module</h4>
+		                    </div>
+		                    <div class="modal-body">
+		                        <div name="container_Name" class="form-group">
+									<label class="col-sm-3 control-label required" >Module Name</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="txtModuleName1"></input>
+									</div>
+								</div>
+
+								<div name="container_initialName_costsProject" class="form-group">
+									<label class="col-sm-3 control-label required" >Initial Name </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" id="txtInitialModuleName1"></input>
+									</div>
+									<label class="col-sm-1 control-label required " >Cost </label>
+									<div class="col-sm-3 input-group">
+										<input type="text" class="form-control marginLeft5" id="txtCostsModule1"></input>
+										<span class="input-group-addon">Point</span>
+									</div>
+								</div>
+
+								<div name="container_dateProject" class="form-group">
+									<div class="form-inline">
+										<div class="col-sm-6">
+											<label class="col-sm-6 control-label required" >Start Date </label>
+											<div class="col-sm-5 input-group">
+												<input class="form-control marginLeft5" type="text" id="cSearchDateBegin" name="cSearchDateBegin" placeholder="Start Time" readonly="true" style="cursor:pointer"></input>
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar "></span>
+												</span>
+											</div>
+										</div>
+										<div class="col-sm-6 ">
+											<label class="col-sm-3 control-label required" >End Date </label>
+											<div class="col-sm-5  input-group">
+												<input class="form-control marginLeft5" type="text" id="cSearchDateEnd" name="cSearchDateEnd" placeholder="End Time" readonly="true" style="cursor:pointer"></input>
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar "></span>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="container_nameModuleManager" class="form-group">
+									<label class="col-sm-3 control-label required">Module Manager </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" id="txtModuleManagerName1"></input>
+									</div>
+									<button id="btnDeleteMM1" type="button" class="btn btn-danger">Delete</button>
+								</div>
+
+								<div name="container_btnAddProjectManager" class="form-group">
+									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
+									<button id="btnAddMM1" type="button" class="btn btn-success"> + Module Manager</button>
+								</div>
+
+								<div id="container_nameModuleMember" class="form-group">
+									<label class="col-sm-3 control-label required">Module Member </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" id="txtModuleMemberName1"></input>
+									</div>
+									<button id="btnDeleteMMem1" type="button" class="btn btn-danger">Delete</button>
+								</div>
+
+								<div name="container_btnAddProjectManager" class="form-group">
+									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
+									<button id="btnAddMMem1" type="button" class="btn btn-success"> + Module Member</button>
+								</div>		                        
+		                    </div>
+		                    <div class="modal-footer">
+		                    	<br/>
+		                        <button type="button" id="btnSaveModule" class="btn btn-primary">Save</button>
+		                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancle</button>
+		                    </div>
+		                </div>
+		            </div>
+	        	</div>
+
 			</form> 
 		</div>
 	</div>
+
+
+	<spring:url value="/resources/scripts/createproject/btnSaveModule.js" var="btnSaveModule"/>
+    <script src="${btnSaveModule}" type="text/javascript"><!--Not Empty--></script>
+
+    <spring:url value="/resources/scripts/createproject/loopAddPeople.js" var="loopAddPeople"/>
+    <script src="${loopAddPeople}" type="text/javascript"><!--Not Empty--></script>
+
+    <spring:url value="/resources/scripts/createproject/addModule.js" var="addModule"/>
+    <script src="${addModule}" type="text/javascript"><!--Not Empty--></script>
+
+	<!-- Script Calendar -->
+	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
+    <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
+    <script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
+    <script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
+    <spring:url value="/resources/scripts/plancalendar/site.js" var="plancalendar"/>
+    <script src="${plancalendar}" type="text/javascript"><!--Not Empty--></script>
+
+
 </div>

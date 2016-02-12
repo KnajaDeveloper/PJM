@@ -118,6 +118,7 @@ $('#search').click(function () {
 
 var paggination = Object.create(UtilPaggination);
 
+
 paggination.setEventPaggingBtn("paggingSimple",paggination);
 paggination.loadTable = function loadTable (jsonData) {
     if(jsonData.length <= 0){
