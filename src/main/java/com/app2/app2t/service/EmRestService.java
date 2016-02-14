@@ -21,7 +21,7 @@ public class EmRestService extends AbstractHRMSService {
         this.HRMSServer  = connectProperties.getProperty("EM-HRMSServer");///test/test
     }
 
-    public List<Map> getDepartmentById(String id) {
+    public List<Map> getEmtestService() {
         List<Map> listMap = new ArrayList<>();
         try {
             setWebServicesString("http://" + this.HRMSServer + "/test/test");
