@@ -11,8 +11,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-// import com.spt.hrms.util.AuthorizeUtil;
-// import com.spt.hrms.util.ConstantKeyAuthorizeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -32,9 +30,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-public abstract class AbstractHRMSService {
-    protected static Logger LOGGER = LoggerFactory.getLogger(AbstractHRMSService.class);
-    protected String HRMSServer = "172.16.250.68:8099/rest";
+public abstract class AbstractAPP2Service {
+    protected static Logger LOGGER = LoggerFactory.getLogger(AbstractAPP2Service.class);
+    protected String APP2Server = "172.16.250.68:8099/rest";
     protected static Properties connectProperties = null;
 
     protected String webServicesString = "";
@@ -71,15 +69,15 @@ public abstract class AbstractHRMSService {
         }
     }
 
-    public AbstractHRMSService(){
-        this.HRMSServer  = connectProperties.getProperty("HRMSServer");
+    public AbstractAPP2Service(){
+        this.APP2Server  = connectProperties.getProperty("APP2Server");
     }
 
-    public String getHRMSServer() {
-        return HRMSServer;
+    public String getAPP2Server() {
+        return APP2Server;
     }
-    public void setHRMSServer(String HRMSServer) {
-        this.HRMSServer = HRMSServer;
+    public void setAPP2Server(String APP2Server) {
+        this.APP2Server = APP2Server;
     }
     public String getWebServicesString() {
         return webServicesString;
