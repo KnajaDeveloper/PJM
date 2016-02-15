@@ -23,6 +23,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.findAllProject(
+            //value รับค่าจาก js เก็บ string
             @RequestParam(value = "findTypeCode", required= false) String findtypecode,
             @RequestParam(value = "findTypeName", required= false) String findtypename) {
 
@@ -30,12 +31,13 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
 
         try {
-
+            //ส่งค่า ไป Active
             List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
             for(int i = 0 ; i < result.size() ; i++) {
                 TypeTask ty = result.get(i);
                 System.out.println("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
             }
+            //return กลับไป js
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -43,20 +45,54 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         }
     }
 
+    //------------------------------------------------------------------------------------
+
+
+    @RequestMapping(value = "/checkAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> TypeTaskController.checkAllProject(
+            @RequestParam(value = "checkTypeCode", required= false) String checktypecode){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+
+        try {
+            List<TypeTask> result = TypeTask.checkAllProject(checktypecode);
+
+            /*if(result.size() != 0){
+                System.out.print("not null");
+            }else {
+                System.out.print("null");
+            }*/
+
+            // return result.size() ไป js
+            // +"" เปลี่ยน result.size() เป็น string
+            return  new ResponseEntity<String>(result.size()+"", headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //------------------------------------------------------------------------------------
+
     @RequestMapping(value = "/testPaggingData", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> TypeTaskController.testPaggingData(
-            @RequestParam(value = "maxResult", required = false) Integer maxResult
-            ,@RequestParam(value = "firstResult", required = false) Integer firstResult
-    ) {
+            @RequestParam(value = "maxResult", required = false) Integer maxResult,
+            @RequestParam(value = "firstResult", required = false) Integer firstResult,
+            @RequestParam(value = "findTypeCode", required= false) String findtypecode,
+            @RequestParam(value = "findTypeName", required= false) String findtypename)
+     {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             List<Map<String,String>> list = new ArrayList<>();
-            for(int i=firstResult;i<maxResult + firstResult && i < 18;i++){
+            List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
+            for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
+                TypeTask ty = result.get(i);
                 Map<String,String> map = new HashMap<>();
-                map.put("code","c" + i);
-                map.put("name","n" + i);
+                map.put("code",ty.getTypeTaskCode());
+                map.put("name",ty.getTypeTaskName());
                 list.add(map);
             }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
@@ -68,16 +104,23 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/testPaggingSize", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<String> TypeTaskController.testPaggingSize() {
+    public ResponseEntity<String> TypeTaskController.testPaggingSize(
+            @RequestParam(value = "findTypeCode", required= false) String findtypecode,
+            @RequestParam(value = "findTypeName", required= false) String findtypename)
+            {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+            List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
             Map data = new HashMap();
-            data.put("size", 18);
+            data.put("size", result.size());
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //------------------------------------------------------------------------------------
+
 }

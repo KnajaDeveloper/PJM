@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3 required">รหัสประเภทงาน</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control" id="typeTaskCode" placeholder="รหัสประเภทงาน"
+                                <input type="text" class="form-control" id="aTypeTaskCode" placeholder="รหัสประเภทงาน"
                                        data-content="กรุณากรอกข้อมูล" data-placement="bottom"/>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3 required">ชื่อประเภทงาน</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control" id="typeTaskName" placeholder="ชื่อประเภทงาน"
+                                <input type="text" class="form-control" id="aTypeTaskName" placeholder="ชื่อประเภทงาน"
                                        data-content="กรุณากรอกข้อมูล" data-placement="bottom"/>
                             </div>
                         </div>
@@ -142,14 +142,14 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3 required">รหัสประเภทงาน</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
+                                <input type="text" class="form-control" id="eTypeTaskCode" placeholder="รหัสประเภทงาน" disabled="disabled"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-xs-3 required">ชื่อประเภทงาน</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control" id="positionCode" placeholder="ชื่อประเภทงาน"/>
+                                <input type="text" class="form-control" id="eTypeTaskName" placeholder="ชื่อประเภทงาน"/>
                             </div>
                         </div>
                     </form>
@@ -188,11 +188,18 @@
         </div>
     </div>
 
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
 
     <spring:url value="/resources/scripts/PJM/typetask.js" var="typetask"/>
     <script src="${typetask}" type="text/javascript"><!--Not Empty --></script>
 
     <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
     <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+
 </div>
 
