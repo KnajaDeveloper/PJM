@@ -27,16 +27,41 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    //------------------------------------------------------------------------------------
+    //---------Check Data---------------------------------------------------------------------------
 
     public static List<TypeTask> TypeTask.checkAllProject(String typeTCode) {
         EntityManager ent = TypeTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
         // ใน .java
         criteria.add(Restrictions.eq("typeTaskCode", typeTCode ));
+
         //System.out.print(criteria.list().size());
         return criteria.list();
     }
 
+    //---------Edit Data---------------------------------------------------------------------------
 
+    public static List<TypeTask> TypeTask.editAllProject(String typeTCode, String typeTName) {
+        EntityManager ent = TypeTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        criteria.add(Restrictions.eq("typeTaskCode", typeTCode));
+        List<TypeTask> result = criteria.list();
+        TypeTask edTypeTask = result.get(0);
+        edTypeTask.setTypeTaskName(typeTName);
+        edTypeTask.merge();
+        return criteria.list();
+    }
+
+    //---------Delete Data---------------------------------------------------------------------------
+//check ว่าตารางนั้นมีข้อมูลไหมถ้ามีแสดงว่ามีการเรียกใช้อยู่
+    public static List<TypeTask> TypeTask.deleteAllProject(String typeTCode) {
+        EntityManager ent = TypeTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        criteria.add(Restrictions.eq("typeTaskCode", typeTCode));
+        List<TypeTask> result = criteria.list();
+        TypeTask deTypeTask = result.get(0);
+        System.out.print(deTypeTask);
+        deTypeTask.remove();
+        return criteria.list();
+    }
 }

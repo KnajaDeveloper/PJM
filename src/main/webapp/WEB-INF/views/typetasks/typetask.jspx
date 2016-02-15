@@ -54,7 +54,7 @@
                             </button>
                         </div>
                         <div class=" col-sm-4">
-                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                            <button id="btnDelete" type="button" class="btn btn-danger" data-toggle="modal"
                                     data-target="#delete">ลบที่เลือก
                             </button>
                         </div>
@@ -106,7 +106,7 @@
                             <label class="control-label col-xs-3 required">รหัสประเภทงาน</label>
                             <div class="col-xs-8">
                                 <input type="text" class="form-control" id="aTypeTaskCode" placeholder="รหัสประเภทงาน"
-                                       data-content="กรุณากรอกข้อมูล" data-placement="bottom"/>
+                                        data-placement="bottom"/>
                             </div>
                         </div>
 
@@ -162,31 +162,7 @@
         </div>
     </div>
 
-    <!-- Modal confirm -->
-    <div class="modal fade" id="delete" role="dialog">
-        <div class="modal-dialog ">
 
-            <!-- Modal content-->
-            <div class="modal-content ">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-
-                            <label class="col-xs-12">คุณต้องการลบข้อมูลที่เลือกจริงหรือไม่</label>
-
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnMDel">ยืนยัน</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnMCancel">ยกเลิก</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
     <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>

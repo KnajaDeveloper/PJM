@@ -1,12 +1,17 @@
-$("#checkAll").click(function () {
-    $(".check").prop('checked', $(this).prop('checked'));
-});
-
+//-----Check Syntax-------------------------------------------------------------------------------
+function checkString() {
+    var checkS = $("#aTypeTaskCode").val();
+    if (/[^A-Za-z0-9\-\d]/.test(checkS)) {
+        $('#aTypeTaskCode').attr("data-content", "กรุณากรอกข้อมูลรหัสพนักงานเป็น a-Z หรือ A-Z หรือ 0-9").popover('show');
+        $("#aTypeTaskName").popover('hide');
+    }
+}
 //------------------------------------------------------------------------------------
+var chk = false;
 
 $('#search').click(function () {
+    chk = true;
     searchData();
-
 });
 
 var paggination = Object.create(UtilPaggination);
@@ -14,14 +19,7 @@ var paggination = Object.create(UtilPaggination);
 paggination.setEventPaggingBtn("paggingSimple", paggination);
 paggination.loadTable = function loadTable(jsonData) {
     if (jsonData.length <= 0) {
-        MessageUtil.alertBootBoxMessage({
-            title: Message.NotHaveData,
-            buttons: {
-                cancel: {
-                    label: Button.Approve,
-                }
-            }
-        });
+        bootbox.alert("ไม่มีข้อมูล");
     }
 
     $('#tbody').empty();
@@ -70,14 +68,16 @@ function searchData() {
 }
 
 //------------------------------------------------------------------------------------
+var checkEdit = "";
 
 $("#table").on("click", '[id^=btnEdit]', function () {
     var id = this.id.split('t')[2];
     $("#eTypeTaskCode").val($("#tdTypeTaskCode" + id).text());
     $("#eTypeTaskName").val($("#tdTypeTaskName" + id).text());
+    checkEdit = $('#tdTypeTaskName' + id).text();
 });
 //------------------------------------------------------------------------------------
-var sizedata ;
+var sizedata;
 //ส่ง ค่าเข้าไป check ข้างใน active แล้ว return กลับมาเป็นเลข แล้วเอามา check
 function checkData() {
     var checkTypeTask = {
@@ -118,18 +118,24 @@ $('[id^=btnM]').click(function () {
 
         if ($("#aTypeTaskCode").val() == "") {
 
-            $("#aTypeTaskCode").popover('show');
+            $("#aTypeTaskCode").attr("data-content", "กรุณากรอกข้อมูล").popover('show');
 
         } else if ($("#aTypeTaskName").val() == "") {
 
             $("#aTypeTaskName").popover('show');
+
+            if ($("#aTypeTaskCode").val() != "") {
+
+                checkString();
+
+            }
 
         } else {
 
             var typeTask = {
                 typeTaskCode: $("#aTypeTaskCode").val(),
                 typeTaskName: $("#aTypeTaskName").val()
-            }
+            };
 
 
             checkData();
@@ -157,6 +163,7 @@ $('[id^=btnM]').click(function () {
                             $('#aTypeTaskName').val(null);
                         } else if (xhr.status == 500) {
 
+                            bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
                         }
                     },
                     async: false /*ต้องใส่*/
@@ -166,11 +173,129 @@ $('[id^=btnM]').click(function () {
             }
         }
     }
+
 });
 
+//-----Delete-------------------------------------------------------------------------------
+
+var dataTypeTaskCode = [];
+var sendData = "";
 
 
+$('#btnDelete').click(function () {
+    if (dataTypeTaskCode.length > 0) {
+        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function (result) {
+            if (result === true) {
+                for (var i = 0; i < dataTypeTaskCode.length; i++) {
+                    sendData = dataTypeTaskCode[i];
+                    deleteData();
+                }
+                dataTypeTaskCode.splice(0, dataTypeTaskCode.length);
+                if (chk = true) {
+                    searchData();
+                }
+                $('#checkAll').prop('checked', false);
+            }
+        });
+    } else if (dataTypeTaskCode.length == 0) {
+        bootbox.alert("กรุณาเลือกข้อมูลที่ต้องการลบ");
+    }
 
+
+});
+
+$('#table').on("click", "[id^=checkDelete]", function () {
+    var id = this.id.split('e')[4];
+    if ($(this).prop('checked') == true) {
+        dataTypeTaskCode.push($('#tdTypeTaskCode' + id).text());
+    }
+    else if ($(this).prop('checked') == false) {
+        var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + id).text());
+        dataTypeTaskCode.splice(num, 1);
+    }
+});
+
+$('#checkAll').click(function () {
+    $(".check").prop('checked', $(this).prop('checked'));
+    var lengthTr = $('#table').find('tr').length;
+    for (var i = 1; i < lengthTr; i++) {
+        if ($(this).prop('checked') == true) {
+            var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + i).text())
+            if (num != "") {
+                dataTypeTaskCode.push($('#tdTypeTaskCode' + i).text());
+            }
+        }
+        else {
+            var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + i).text());
+            dataTypeTaskCode.splice(num, 1);
+        }
+    }
+});
+
+//-----Function Delete-------------------------------------------------------------------------------
+
+function deleteData() {
+    var dataJsonData = {
+        delTypeCode: sendData
+    }
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/typetasks/deleteAllProject',
+        data: dataJsonData,
+        complete: function (xhr) {
+        },
+        async: false
+    });
+}
+
+
+//-----Edit-------------------------------------------------------------------------------
+
+
+$('#btnMUpdate').click(function () {
+    if ($('#eTypeTaskName').val() === checkEdit) {
+        bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
+        $('#edit').modal('hide');
+    } else {
+
+        editData();
+    }
+});
+
+//-----Function Edit-------------------------------------------------------------------------------
+
+function editData() {
+    var dataJsonData = {
+        editTypeCode: $('#eTypeTaskCode').val(),
+        editTypeName: $('#eTypeTaskName').val()
+    };
+
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/typetasks/editAllProject',
+        data: dataJsonData,
+        complete: function (xhr) {
+            if (xhr.status === 200) {
+                bootbox.alert("แก้ไขข้อมูลสำเร็จ");
+                searchData();
+            } else if (xhr.status === 500) {
+                bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
+            }
+        },
+        async: false
+    });
+}
 
 
 
