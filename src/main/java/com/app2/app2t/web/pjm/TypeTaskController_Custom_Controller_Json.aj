@@ -23,7 +23,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.findAllProject(
-            //value รับค่าจาก js เก็บ string
+            //value รับค่าจาก js เก็บ string ตรงกับใน function
             @RequestParam(value = "findTypeCode", required= false) String findtypecode,
             @RequestParam(value = "findTypeName", required= false) String findtypename) {
 
@@ -45,7 +45,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         }
     }
 
-    //------------------------------------------------------------------------------------
+    //----------Check Data--------------------------------------------------------------------------
 
 
     @RequestMapping(value = "/checkAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
@@ -72,6 +72,42 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //------Edit Data------------------------------------------------------------------------------
+
+    @RequestMapping(value = "/editAllProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TypeTaskController.editAllProject(
+            @RequestParam(value = "editTypeCode", required = false) String edittypecode
+            ,@RequestParam(value = "editTypeName", required = false) String edittypename
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<TypeTask> result = TypeTask.editAllProject(edittypecode, edittypename);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //---------Delete Data---------------------------------------------------------------------------
+
+    @RequestMapping(value = "/deleteAllProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TypeTaskController.deleteAllProject(
+            @RequestParam(value = "delTypeCode", required = false) String deletetypecode
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<TypeTask> result = TypeTask.deleteAllProject(deletetypecode);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     //------------------------------------------------------------------------------------
 
