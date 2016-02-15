@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class EmRestService extends AbstractHRMSService {
+public class EmRestService extends AbstractAPP2Service {
 
     private static Logger LOGGER = LoggerFactory.getLogger(EmRestService.class);
 
     public EmRestService() {
-        this.HRMSServer  = connectProperties.getProperty("EM-HRMSServer");///test/test
+        this.APP2Server  = connectProperties.getProperty("EM-APP2Server");///test/test
     }
 
     public List<Map> getEmtestService() {
         List<Map> listMap = new ArrayList<>();
         try {
-            setWebServicesString("http://" + this.HRMSServer + "/test/test");
+            setWebServicesString("http://" + this.APP2Server + "/test/test");
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
