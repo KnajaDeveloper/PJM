@@ -131,7 +131,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
                 map.put("name",ty.getTypeTaskName());
                 list.add(map);
             }
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

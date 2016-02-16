@@ -4,24 +4,18 @@
 package com.app2.app2t.web.pjm;
 
 import com.app2.app2t.domain.pjm.Task;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import flexjson.JSONSerializer;
+
+import org.json.JSONArray;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import flexjson.JSONSerializer;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.List;
 
 privileged aspect TaskController_Custom_Controller_Json {
 
@@ -44,5 +38,24 @@ privileged aspect TaskController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @RequestMapping(value = "/findProjectByTask",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.findProjectByTask(
+            @RequestParam(value = "typeTask", required = false) long typeTask
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Task> result = Task.findProjectByTask(typeTask);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            /*Logger.error(e.getMessage(), e);*/
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
 
 }
