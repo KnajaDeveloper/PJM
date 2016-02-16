@@ -92,11 +92,11 @@ $(document).ready(function () {
             $('#grpTaskType').html('');
             if (xhr.status === 200) {
                 $.each(data, function (k, v) {
-                    $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" value="' + v.typeTaskCode + '"/>' + v.typeTaskName + '</label></div>');
+                    $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="' + v.typeTaskCode + '"/>' + v.typeTaskName + '</label></div>');
                 });
             }
-            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" value="myTask"/>งานของตนเอง</label></div>');
-            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" value="otherTask"/>งานที่ไม่มีเจ้าของ</label></div>');
+            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="myTask"/>งานของตนเอง</label></div>');
+            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="otherTask"/>งานที่ไม่มีเจ้าของ</label></div>');
         },
         async: false
     });
@@ -131,6 +131,16 @@ $('#btnSearchByModule').click(function () {
     $('#grpResultModuleSearch').empty();
 
     // Load and map task by condition
+    var moduleCode = $('#ddlJobModule').val();
+    var arrTypeTask = [];
+
+    $('[name=checkTypeTask]:checked').each(function () {
+        arrTypeTask.push($(this).val());
+    });
+
+    console.log(moduleCode);
+    console.log(arrTypeTask);
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=UTF-8",
@@ -138,13 +148,11 @@ $('#btnSearchByModule').click(function () {
         headers: {
             Accept: "application/json"
         },
-        data: {
-            
-        },
-        url: contextPath + '/plans/findTaskByModuleAndTypeTask',
+        url: contextPath + '/tasks/findTaskByModuleAndTypeTask',
+        data: JSON.stringify([moduleCode, arrTypeTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
-                if(data.length === 0) {
+                if (data.length === 0) {
                     // no result
                     $('#lblNoResultSerchByModule').show();
                 } else {
@@ -156,9 +164,6 @@ $('#btnSearchByModule').click(function () {
         },
         async: false
     });
-
-
-
 
 
 });

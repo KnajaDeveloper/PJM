@@ -3,10 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProject;
-import com.app2.app2t.domain.pjm.Plan;
-import com.app2.app2t.domain.pjm.TypeTask;
-import com.app2.app2t.web.pjm.PlanController;
+import com.app2.app2t.domain.pjm.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,26 +19,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
-privileged aspect PlanController_Custom_Controller_Json {
+import flexjson.JSONSerializer;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-    @RequestMapping(value = "/findAllModule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<String> PlanController.findAllModule() {
+privileged aspect TaskController_Custom_Controller_Json {
+
+    @RequestMapping(value = "/findTaskByModuleAndTypeTask", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String>  TaskController.findTaskByModuleAndTypeTask(@RequestBody String json) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> result = ModuleProject.findAllModuleProjects();
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+            JSONArray jsonArray = new JSONArray(json);
+            String moduleCode = jsonArray.get(0).toString();
 
-    @RequestMapping(value = "/findAllTaskType", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<String> PlanController.findAllTaskType() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<TypeTask> result = TypeTask.findAllTypeTasks();
+            JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(1);
+            for(int i=0; i<jsonArrayTypeTask.length(); i++) {
+                System.out.println(jsonArrayTypeTask.get(i));
+            }
+
+            List<Task> result = Task.findAllTasks();
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
