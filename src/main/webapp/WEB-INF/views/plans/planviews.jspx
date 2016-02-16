@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
+    <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
+    <script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
+    <script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
+
+    <input type="hidden" class="datepicker"/>
+	<input type="hidden" class="datetimepicker"/>
+
+	<div name="cotainerData" class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">View Plan</div><br/>
+			<div class="panel-body">
+				<form class="form-horizontal">
+					<div name="container_Year" class="form-group">
+						<label class="col-sm-4 control-label required" >Year create project </label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="txtYear" data-placement="bottom"></input>
+						</div>
+					</div> 
+					<div name="container_Project" class="form-group ">
+						<label class="col-sm-4 control-label">Project</label>
+						<div class="col-sm-5">
+							<select id="ddlProject" class="form-control">
+								<option>-- Project Name --</option>
+							</select>
+						</div>
+					</div>
+					<div name="container_Module" class="form-group">
+						<label class="col-sm-4 control-label">Module</label>
+						<div class="col-sm-5">
+							<select id="ddlModule" class="form-control">
+								<option>-- Module --</option>
+							</select>
+						</div>
+					</div>
+					<div name="container_Team" class="form-group">
+						<label class="col-sm-4 control-label">Team</label>
+						<div class="col-sm-5">
+							<select id="ddlTeam" class="form-control">
+								<option>-- Team --</option>
+							</select>
+						</div>
+					</div>
+					<div name="container_Date" class="form-group">
+						<div class="form-inline">
+							<label class="col-sm-4 control-label required">Start Date </label>
+							<div class='col-sm-2'>
+								<div class='input-group'>
+									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="Start Time" readonly="true" style="cursor:pointer"></input>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar "></span>
+									</span>
+								</div>
+							</div>
+							<label class="control-label required">End Date </label>
+							<div class='col-sm-2 pull-left'>
+								<div class='input-group'>
+									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="End Time" readonly="true" style="cursor:pointer"></input>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>		
+					
+					<div name="btnSearchAndReset" class="form-group">
+						<div class="col-sm-6"><!--Not Empty --></div>
+						<button id="btnSearch" type="button" class="btn btn-primary">Search</button>
+						<button id="btnReset" type="button" class="btn btn-danger" style='margin:10px'>Reset</button>
+					</div>			
+				</form>
+			</div>
+		</div>
+	</div>
+	<div name="cotainerAnswer">
+		<div name="panelEmployee" class="col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Employee Detail</div>
+					<div style="width: 100%; height: 100%; overflow-x: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">  
+						<table id="tableData" class="table table-bordered text-center">
+							<tr id="tbDate">
+								<th class="text-center">Name</th>
+							</tr> 
+						</table>
+					</div>
+			</div>
+		</div>
+		<div name="panelPlan" class="col-md-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Plan Detail</div>
+					<table id="tableEmpty" class="table table-bordered">
+					  	<tr>
+							<th class="text-center">Name</th>
+							<th class="text-center">Module</th>
+							<th class="text-center">Type</th>
+						</tr> 
+					</table>
+			</div>
+		</div>
+	</div>
+
+	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
+    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+
+	<spring:url value="/resources/scripts/Plan/emptyPlan.js" var="emptyPlan"/>
+	<script src="${emptyPlan}" type="text/javascript"><!--Not Empty--></script>	
+
+	<spring:url value="/resources/scripts/Plan/schedulePlan.js" var="schedulePlan"/>
+	<script src="${schedulePlan}" type="text/javascript"><!--Not Empty--></script>	
+
+	<spring:url value="/resources/scripts/Plan/addDropDownList.js" var="addDropDownList"/>
+	<script src="${addDropDownList}" type="text/javascript"><!--Not Empty--></script>
+
+	<spring:url value="/resources/scripts/Plan/btnSearch.js" var="btnSearch"/>
+	<script src="${btnSearch}" type="text/javascript"><!--Not Empty--></script>
+
+	<!-- Script Calendar -->
+	<spring:url value="/resources/scripts/Plan/dateTimeEvent.js" var="dateTimeEvent"/>
+	<script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>	
+
+</div>

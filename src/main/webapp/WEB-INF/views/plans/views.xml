@@ -16,4 +16,7 @@
 <definition extends="default" name="plans/plancalendar">
         <put-attribute name="body" value="/WEB-INF/views/plans/plancalendar.jspx"/>
     </definition>
+<definition extends="default" name="plans/planviews">
+        <put-attribute name="body" value="/WEB-INF/views/plans/planviews.jspx"/>
+    </definition>
 </tiles-definitions>
