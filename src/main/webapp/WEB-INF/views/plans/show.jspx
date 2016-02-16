@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_Plan" object="${plan}" path="/plans" z="Rwg1eCMSwYgVRAQqFuXRv7cb8nE=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_Plan_createdBy" object="${plan}" z="bSti/7t8C+Z/Vhx0szEeYSo+nW4="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_Plan_updatedBy" object="${plan}" z="9+rElZT8vqmsH5ddEihgLt1lorE="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_Plan_status" object="${plan}" z="hR73hl8veHITf1f0KWioKiHEHWw="/>
+        <field:display date="true" dateTimePattern="${plan_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_Plan_createdDate" object="${plan}" z="XPMll8NDcETG38ztNPqgXfZiUgo="/>
+        <field:display date="true" dateTimePattern="${plan_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_Plan_updatedDate" object="${plan}" z="wTshcmi8GZmrPzIHquZdwhsv/PM="/>
+        <field:display field="note" id="s_com_app2_app2t_domain_pjm_Plan_note" object="${plan}" z="f/awAmKbo3LCkW/xZqL1VxPXPtg="/>
+        <field:display date="true" dateTimePattern="${plan_datestart_date_format}" field="dateStart" id="s_com_app2_app2t_domain_pjm_Plan_dateStart" object="${plan}" z="eKAXriJrwCRonQii1Kr/Jovtp4E="/>
+        <field:display date="true" dateTimePattern="${plan_dateend_date_format}" field="dateEnd" id="s_com_app2_app2t_domain_pjm_Plan_dateEnd" object="${plan}" z="woPCQM8G6V/vu4guzXAaG71sKP4="/>
+        <field:display field="task" id="s_com_app2_app2t_domain_pjm_Plan_task" object="${plan}" z="4PuQEXuC2Y+ejBA5Ra1dDqJGbps="/>
+    </page:show>
+</div>

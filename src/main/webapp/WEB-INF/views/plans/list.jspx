@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_pjm_Plan" items="${plans}" z="/vZ0HaBU5aG0iViNo2uPFQj4ufk=">
+        <table:table data="${plans}" id="l_com_app2_app2t_domain_pjm_Plan" path="/plans" z="bhGAHculiVcqCIjH4PdQVOueYnk=">
+            <table:column id="c_com_app2_app2t_domain_pjm_Plan_createdBy" property="createdBy" z="bPUOzllvlLuuVYfnpkkN+l+du04="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Plan_updatedBy" property="updatedBy" z="VRi7cbvvsXzE9rWXq2n9OqaxNOY="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Plan_status" property="status" z="fJ3INlhZan+4Uk6Nfz3qNh86OPk="/>
+            <table:column date="true" dateTimePattern="${plan_createddate_date_format}" id="c_com_app2_app2t_domain_pjm_Plan_createdDate" property="createdDate" z="lsY+JiCIFwmZk1kvnF/3cnEpspE="/>
+            <table:column date="true" dateTimePattern="${plan_updateddate_date_format}" id="c_com_app2_app2t_domain_pjm_Plan_updatedDate" property="updatedDate" z="xAliU2FrvBSqLTyB8YDRMmSnU8w="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_Plan_note" property="note" z="GCb+VATXgT5zMAmbJWHkf4ACJYA="/>
+        </table:table>
+    </page:list>
+</div>

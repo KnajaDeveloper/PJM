@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_Program" object="${program}" path="/programs" z="959pi4IpfWZLFVXQRxtycH3dSZ0=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_Program_createdBy" object="${program}" z="ZL3Cv271i5IQEe1Eqj5L4LjOnV0="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_Program_updatedBy" object="${program}" z="qunqLbajMyFpzA7T5dmqtfoU00I="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_Program_status" object="${program}" z="vFnQh+a0rY3zCSJpy36cvjLsBKI="/>
+        <field:display date="true" dateTimePattern="${program_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_Program_createdDate" object="${program}" z="HVMB3fBpzHvH0xxouzPS8RrEMEg="/>
+        <field:display date="true" dateTimePattern="${program_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_Program_updatedDate" object="${program}" z="p7OCVxNUnQDNGnsUQvt4yU75Kgo="/>
+        <field:display field="programCode" id="s_com_app2_app2t_domain_pjm_Program_programCode" object="${program}" z="/TzApI1JGUF482Z41deTLdTqVfk="/>
+        <field:display field="programName" id="s_com_app2_app2t_domain_pjm_Program_programName" object="${program}" z="cGW1AvmuA/h1y3czfb32f8uJnTY="/>
+        <field:display field="moduleProject" id="s_com_app2_app2t_domain_pjm_Program_moduleProject" object="${program}" z="2BkCzUMja/HBwSxdUf+7VlqtNMU="/>
+    </page:show>
+</div>

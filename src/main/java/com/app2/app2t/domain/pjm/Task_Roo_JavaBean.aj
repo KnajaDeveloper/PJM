@@ -4,6 +4,7 @@
 package com.app2.app2t.domain.pjm;
 
 import com.app2.app2t.domain.pjm.ModuleProject;
+import com.app2.app2t.domain.pjm.Program;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TypeTask;
 import java.util.Date;
@@ -96,6 +97,22 @@ privileged aspect Task_Roo_JavaBean {
     
     public void Task.setUrl(String url) {
         this.url = url;
+    }
+    
+    public Integer Task.getProgress() {
+        return this.progress;
+    }
+    
+    public void Task.setProgress(Integer progress) {
+        this.progress = progress;
+    }
+    
+    public Program Task.getProgram() {
+        return this.program;
+    }
+    
+    public void Task.setProgram(Program program) {
+        this.program = program;
     }
     
 }
