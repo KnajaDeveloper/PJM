@@ -3,46 +3,24 @@ import com.app2.app2t.base.BaseEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord(inheritanceType = "TABLE_PER_CLASS")
 @RooJson
-public class Task extends BaseEntity {
+public class Plan extends BaseEntity {
 
     /**
      */
-    private String taskCode;
-
-    /**
-     */
-    private String taskName;
-
-    /**
-     */
-    private Integer taskCost;
-
-    /**
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "typeTask")
-    private TypeTask typeTask;
-
-    /**
-     */
-    private String empCode;
-
-    /**
-     */
-    private String detail;
+    private String note;
 
     /**
      */
@@ -59,24 +37,6 @@ public class Task extends BaseEntity {
     /**
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "moduleProject")
-    private ModuleProject moduleProject;
-
-    /**
-     */
-    private String fileName;
-
-    /**
-     */
-    private String url;
-
-    /**
-     */
-    private Integer progress;
-
-    /**
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program")
-    private Program program;
+    @JoinColumn(name = "task")
+    private Task task;
 }

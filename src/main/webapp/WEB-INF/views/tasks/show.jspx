@@ -19,5 +19,7 @@
         <field:display field="moduleProject" id="s_com_app2_app2t_domain_pjm_Task_moduleProject" object="${task}" z="5GZPQQmHtddcCakMOsAIwJ2rJQs="/>
         <field:display field="fileName" id="s_com_app2_app2t_domain_pjm_Task_fileName" object="${task}" z="6GjbDS33rapCl0DZxWVTSQspU+U="/>
         <field:display field="url" id="s_com_app2_app2t_domain_pjm_Task_url" object="${task}" z="hbABs4t1bmh3Qz70UqSLmRnHZpw="/>
+        <field:display field="progress" id="s_com_app2_app2t_domain_pjm_Task_progress" object="${task}" z="ffJIaSvLR8UBFIEypAETnpYiH/o="/>
+        <field:display field="program" id="s_com_app2_app2t_domain_pjm_Task_program" object="${task}" z="5f2CJiSwGNn6S9wg0eMp7rGSawA="/>
     </page:show>
 </div>

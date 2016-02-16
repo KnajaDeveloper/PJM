@@ -3,11 +3,9 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProjectDataOnDemand;
-import com.app2.app2t.domain.pjm.ProgramDataOnDemand;
-import com.app2.app2t.domain.pjm.Task;
+import com.app2.app2t.domain.pjm.Plan;
+import com.app2.app2t.domain.pjm.PlanDataOnDemand;
 import com.app2.app2t.domain.pjm.TaskDataOnDemand;
-import com.app2.app2t.domain.pjm.TypeTaskDataOnDemand;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,119 +19,71 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
+privileged aspect PlanDataOnDemand_Roo_DataOnDemand {
     
-    declare @type: TaskDataOnDemand: @Component;
+    declare @type: PlanDataOnDemand: @Component;
     
-    private Random TaskDataOnDemand.rnd = new SecureRandom();
+    private Random PlanDataOnDemand.rnd = new SecureRandom();
     
-    private List<Task> TaskDataOnDemand.data;
-    
-    @Autowired
-    ModuleProjectDataOnDemand TaskDataOnDemand.moduleProjectDataOnDemand;
+    private List<Plan> PlanDataOnDemand.data;
     
     @Autowired
-    ProgramDataOnDemand TaskDataOnDemand.programDataOnDemand;
+    TaskDataOnDemand PlanDataOnDemand.taskDataOnDemand;
     
-    @Autowired
-    TypeTaskDataOnDemand TaskDataOnDemand.typeTaskDataOnDemand;
-    
-    public Task TaskDataOnDemand.getNewTransientTask(int index) {
-        Task obj = new Task();
+    public Plan PlanDataOnDemand.getNewTransientPlan(int index) {
+        Plan obj = new Plan();
         setCreatedBy(obj, index);
         setCreatedDate(obj, index);
         setDateEnd(obj, index);
         setDateStart(obj, index);
-        setDetail(obj, index);
-        setEmpCode(obj, index);
-        setFileName(obj, index);
-        setProgress(obj, index);
+        setNote(obj, index);
         setStatus(obj, index);
-        setTaskCode(obj, index);
-        setTaskCost(obj, index);
-        setTaskName(obj, index);
         setUpdatedBy(obj, index);
         setUpdatedDate(obj, index);
-        setUrl(obj, index);
         return obj;
     }
     
-    public void TaskDataOnDemand.setCreatedBy(Task obj, int index) {
+    public void PlanDataOnDemand.setCreatedBy(Plan obj, int index) {
         String createdBy = "createdBy_" + index;
         obj.setCreatedBy(createdBy);
     }
     
-    public void TaskDataOnDemand.setCreatedDate(Task obj, int index) {
+    public void PlanDataOnDemand.setCreatedDate(Plan obj, int index) {
         Date createdDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCreatedDate(createdDate);
     }
     
-    public void TaskDataOnDemand.setDateEnd(Task obj, int index) {
+    public void PlanDataOnDemand.setDateEnd(Plan obj, int index) {
         Date dateEnd = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setDateEnd(dateEnd);
     }
     
-    public void TaskDataOnDemand.setDateStart(Task obj, int index) {
+    public void PlanDataOnDemand.setDateStart(Plan obj, int index) {
         Date dateStart = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setDateStart(dateStart);
     }
     
-    public void TaskDataOnDemand.setDetail(Task obj, int index) {
-        String detail = "detail_" + index;
-        obj.setDetail(detail);
+    public void PlanDataOnDemand.setNote(Plan obj, int index) {
+        String note = "note_" + index;
+        obj.setNote(note);
     }
     
-    public void TaskDataOnDemand.setEmpCode(Task obj, int index) {
-        String empCode = "empCode_" + index;
-        obj.setEmpCode(empCode);
-    }
-    
-    public void TaskDataOnDemand.setFileName(Task obj, int index) {
-        String fileName = "fileName_" + index;
-        obj.setFileName(fileName);
-    }
-    
-    public void TaskDataOnDemand.setProgress(Task obj, int index) {
-        Integer progress = new Integer(index);
-        obj.setProgress(progress);
-    }
-    
-    public void TaskDataOnDemand.setStatus(Task obj, int index) {
+    public void PlanDataOnDemand.setStatus(Plan obj, int index) {
         String status = "status_" + index;
         obj.setStatus(status);
     }
     
-    public void TaskDataOnDemand.setTaskCode(Task obj, int index) {
-        String taskCode = "taskCode_" + index;
-        obj.setTaskCode(taskCode);
-    }
-    
-    public void TaskDataOnDemand.setTaskCost(Task obj, int index) {
-        Integer taskCost = new Integer(index);
-        obj.setTaskCost(taskCost);
-    }
-    
-    public void TaskDataOnDemand.setTaskName(Task obj, int index) {
-        String taskName = "taskName_" + index;
-        obj.setTaskName(taskName);
-    }
-    
-    public void TaskDataOnDemand.setUpdatedBy(Task obj, int index) {
+    public void PlanDataOnDemand.setUpdatedBy(Plan obj, int index) {
         String updatedBy = "updatedBy_" + index;
         obj.setUpdatedBy(updatedBy);
     }
     
-    public void TaskDataOnDemand.setUpdatedDate(Task obj, int index) {
+    public void PlanDataOnDemand.setUpdatedDate(Plan obj, int index) {
         Date updatedDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setUpdatedDate(updatedDate);
     }
     
-    public void TaskDataOnDemand.setUrl(Task obj, int index) {
-        String url = "url_" + index;
-        obj.setUrl(url);
-    }
-    
-    public Task TaskDataOnDemand.getSpecificTask(int index) {
+    public Plan PlanDataOnDemand.getSpecificPlan(int index) {
         init();
         if (index < 0) {
             index = 0;
@@ -141,36 +91,36 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
         if (index > (data.size() - 1)) {
             index = data.size() - 1;
         }
-        Task obj = data.get(index);
+        Plan obj = data.get(index);
         Long id = obj.getId();
-        return Task.findTask(id);
+        return Plan.findPlan(id);
     }
     
-    public Task TaskDataOnDemand.getRandomTask() {
+    public Plan PlanDataOnDemand.getRandomPlan() {
         init();
-        Task obj = data.get(rnd.nextInt(data.size()));
+        Plan obj = data.get(rnd.nextInt(data.size()));
         Long id = obj.getId();
-        return Task.findTask(id);
+        return Plan.findPlan(id);
     }
     
-    public boolean TaskDataOnDemand.modifyTask(Task obj) {
+    public boolean PlanDataOnDemand.modifyPlan(Plan obj) {
         return false;
     }
     
-    public void TaskDataOnDemand.init() {
+    public void PlanDataOnDemand.init() {
         int from = 0;
         int to = 10;
-        data = Task.findTaskEntries(from, to);
+        data = Plan.findPlanEntries(from, to);
         if (data == null) {
-            throw new IllegalStateException("Find entries implementation for 'Task' illegally returned null");
+            throw new IllegalStateException("Find entries implementation for 'Plan' illegally returned null");
         }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<Task>();
+        data = new ArrayList<Plan>();
         for (int i = 0; i < 10; i++) {
-            Task obj = getNewTransientTask(i);
+            Plan obj = getNewTransientPlan(i);
             try {
                 obj.persist();
             } catch (final ConstraintViolationException e) {

@@ -6,6 +6,8 @@ package com.app2.app2t.web.pjm;
 import com.app2.app2t.domain.pjm.ModuleManager;
 import com.app2.app2t.domain.pjm.ModuleMember;
 import com.app2.app2t.domain.pjm.ModuleProject;
+import com.app2.app2t.domain.pjm.Plan;
+import com.app2.app2t.domain.pjm.Program;
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
 import com.app2.app2t.domain.pjm.Task;
@@ -87,6 +89,54 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.ModuleProject>() {
             public com.app2.app2t.domain.pjm.ModuleProject convert(String id) {
                 return getObject().convert(getObject().convert(id, Long.class), ModuleProject.class);
+            }
+        };
+    }
+    
+    public Converter<Plan, String> ApplicationConversionServiceFactoryBean.getPlanToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.Plan, java.lang.String>() {
+            public String convert(Plan plan) {
+                return new StringBuilder().append(plan.getCreatedBy()).append(' ').append(plan.getUpdatedBy()).append(' ').append(plan.getStatus()).append(' ').append(plan.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, Plan> ApplicationConversionServiceFactoryBean.getIdToPlanConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.pjm.Plan>() {
+            public com.app2.app2t.domain.pjm.Plan convert(java.lang.Long id) {
+                return Plan.findPlan(id);
+            }
+        };
+    }
+    
+    public Converter<String, Plan> ApplicationConversionServiceFactoryBean.getStringToPlanConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.Plan>() {
+            public com.app2.app2t.domain.pjm.Plan convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Plan.class);
+            }
+        };
+    }
+    
+    public Converter<Program, String> ApplicationConversionServiceFactoryBean.getProgramToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.Program, java.lang.String>() {
+            public String convert(Program program) {
+                return new StringBuilder().append(program.getCreatedBy()).append(' ').append(program.getUpdatedBy()).append(' ').append(program.getStatus()).append(' ').append(program.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, Program> ApplicationConversionServiceFactoryBean.getIdToProgramConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.pjm.Program>() {
+            public com.app2.app2t.domain.pjm.Program convert(java.lang.Long id) {
+                return Program.findProgram(id);
+            }
+        };
+    }
+    
+    public Converter<String, Program> ApplicationConversionServiceFactoryBean.getStringToProgramConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.Program>() {
+            public com.app2.app2t.domain.pjm.Program convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Program.class);
             }
         };
     }
@@ -197,6 +247,12 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getModuleProjectToStringConverter());
         registry.addConverter(getIdToModuleProjectConverter());
         registry.addConverter(getStringToModuleProjectConverter());
+        registry.addConverter(getPlanToStringConverter());
+        registry.addConverter(getIdToPlanConverter());
+        registry.addConverter(getStringToPlanConverter());
+        registry.addConverter(getProgramToStringConverter());
+        registry.addConverter(getIdToProgramConverter());
+        registry.addConverter(getStringToProgramConverter());
         registry.addConverter(getProjectToStringConverter());
         registry.addConverter(getIdToProjectConverter());
         registry.addConverter(getStringToProjectConverter());
