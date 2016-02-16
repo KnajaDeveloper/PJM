@@ -15,7 +15,31 @@ import java.util.List;
 privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Task_Custom_Jpa_ActiveRecord.class);
+	
+	public static List<Task> Task.findTaskByModuleAndTypeTask(String moduleCode, List<String> listTypeTaskCode, boolean getMyTask, boolean getOtherTask) {
+        EntityManager ent = Task.entityManager();
 
+
+
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.createAlias("typeTask", "t")
+                .createAlias("moduleProject", "m");
+
+        if (!moduleCode.equals("AllModule")) {
+            criteria.add(Restrictions.eq("m.moduleCode", moduleCode));
+        }
+        if (listTypeTaskCode.size() > 0) {
+            criteria.add(Restrictions.in("t.typeTaskCode", listTypeTaskCode));
+        }
+
+        criteria.addOrder(Order.desc("empCode"))
+                .addOrder(Order.asc("t.typeTaskName"))
+                .addOrder(Order.asc("dateStart"))
+                .addOrder(Order.asc("dateEnd"));
+
+        List<Task> tasks = criteria.list();
+        return tasks;
+    }
 
     public static List<Task> Task.findProjectByTask(long typeCode) {
         EntityManager ent = Task.entityManager();
