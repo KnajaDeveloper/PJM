@@ -3,9 +3,11 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.ModuleMember;
 import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Plan;
 import com.app2.app2t.domain.pjm.TypeTask;
+import com.app2.app2t.util.AuthorizeUtil;
 import com.app2.app2t.web.pjm.PlanController;
 
 import java.util.ArrayList;
@@ -29,7 +31,15 @@ privileged aspect PlanController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> result = ModuleProject.findAllModuleProjects();
+            String userName = AuthorizeUtil.getUserName();
+            List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(userName);
+
+            List<ModuleProject> result = new ArrayList<>();
+
+            for(ModuleMember moduleMember: moduleMembers) {
+                result.add(ModuleProject.findModuleProject(moduleMember.getId()));
+            }
+
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,5 +57,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
 }

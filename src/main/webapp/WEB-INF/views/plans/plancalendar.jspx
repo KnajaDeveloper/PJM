@@ -86,11 +86,11 @@
         }
         .list-group-item.danger {
             color: #d43f3a;
-            font-weight: bold;
+            /*font-weight: bold;*/
         }
         .list-group-item.success {
             color: #7db223;
-            font-weight: bold;
+            /*font-weight: bold;*/
         }
     </style>
 
@@ -148,7 +148,7 @@
     <!-- Content -->
     <div class="row">
         <!-- Calendar -->
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <br/>
             <div id='calendar'>.</div>
         </div>
@@ -173,10 +173,10 @@
                                 </div>
                                 <div id="grpTaskType">
                                     <div class="row checkbox">
-                                        <label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="myTask"/>งานของตนเอง</label>
+                                        <label class="col-sm-12"><input type="checkbox" id="checkMyTask"/>งานของตนเอง</label>
                                     </div>
                                     <div class="row checkbox">
-                                        <label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="otherTask"/>งานที่ไม่มีเจ้าของ</label>
+                                        <label class="col-sm-12"><input type="checkbox" id="checkOtherTask"/>งานที่ไม่มีเจ้าของ</label>
                                     </div>
                                 </div>
                                 <br/>
@@ -187,15 +187,7 @@
                                 <hr/>
                                 <div id="lblNoResultSerchByModule" style="display: none;" class="text-center">ไม่พบข้อมูล</div>
                                 <div id="grpResultModuleSearch" class="list-group">
-                                    <a class="list-group-item danger" workCode="WK001" projectCode="PJ001" moduleCode="MD001" onclick="openModalAddPlan(this)">First job
-                                        <span class="pull-right">Dev</span>
-                                    </a>
-                                    <a class="list-group-item success" workcode="WK002" projectCode="PJ002" moduleCode="MD002" onclick="openModalAddPlan(this)">Second job
-                                        <span class="pull-right">Dev</span>
-                                    </a>
-                                    <a class="list-group-item success" workcode="WK003" projectCode="PJ003" moduleCode="MD003" onclick="openModalAddPlan(this)">Third job
-                                        <span class="pull-right">Design</span>
-                                    </a>
+                                    Task result
                                 </div>
                             </div>
                         </div>

@@ -95,8 +95,8 @@ $(document).ready(function () {
                     $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="' + v.typeTaskCode + '"/>' + v.typeTaskName + '</label></div>');
                 });
             }
-            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="myTask"/>งานของตนเอง</label></div>');
-            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="otherTask"/>งานที่ไม่มีเจ้าของ</label></div>');
+            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" id="checkMyTask"/>งานของตนเอง</label></div>');
+            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" id="checkOtherTask"/>งานที่ไม่มีเจ้าของ</label></div>');
         },
         async: false
     });
@@ -138,8 +138,8 @@ $('#btnSearchByModule').click(function () {
         arrTypeTask.push($(this).val());
     });
 
-    console.log(moduleCode);
-    console.log(arrTypeTask);
+    var getMyTask = $('#checkMyTask').prop('checked');
+    var getOtherTask = $('#checkOtherTask').prop('checked');
 
     $.ajax({
         type: "POST",
@@ -149,16 +149,17 @@ $('#btnSearchByModule').click(function () {
             Accept: "application/json"
         },
         url: contextPath + '/tasks/findTaskByModuleAndTypeTask',
-        data: JSON.stringify([moduleCode, arrTypeTask]),
+        data: JSON.stringify([moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
                 if (data.length === 0) {
                     // no result
                     $('#lblNoResultSerchByModule').show();
                 } else {
-                    //$.each(data, function (k, v) {
-                    //    $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" value="' + v.typeTaskCode + '"/>' + v.typeTaskName + '</label></div>');
-                    //});
+                    $('#lblNoResultSerchByModule').hide();
+                    $.each(data, function (k, v) {
+                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == '' ? 'danger' : 'success') + '" taskCode="' + v.taskCode + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
+                    });
                 }
             }
         },

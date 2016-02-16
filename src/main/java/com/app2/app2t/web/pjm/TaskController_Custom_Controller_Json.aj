@@ -26,13 +26,17 @@ privileged aspect TaskController_Custom_Controller_Json {
         try {
             JSONArray jsonArray = new JSONArray(json);
             String moduleCode = jsonArray.get(0).toString();
-
             JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(1);
-            for(int i=0; i<jsonArrayTypeTask.length(); i++) {
-                System.out.println(jsonArrayTypeTask.get(i));
+            boolean getMyTask = Boolean.parseBoolean(jsonArray.get(2).toString());
+            boolean getOtherTask = Boolean.parseBoolean(jsonArray.get(3).toString());
+
+            List<String> listTypeTaskCode = new ArrayList<>();
+            for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
+                listTypeTaskCode.add(jsonArrayTypeTask.get(i).toString());
             }
 
-            List<Task> result = Task.findAllTasks();
+            List<Task> result = Task.findTaskByModuleAndTypeTask(moduleCode, listTypeTaskCode, getMyTask, getOtherTask);
+
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
