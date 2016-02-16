@@ -1,3 +1,4 @@
+var ids = [];
 //-----Check Syntax-------------------------------------------------------------------------------
 function checkString() {
     var checkS = $("#aTypeTaskCode").val();
@@ -10,6 +11,7 @@ function checkString() {
 var chk = false;
 
 $('#search').click(function () {
+
     chk = true;
     searchData();
 });
@@ -28,22 +30,42 @@ paggination.loadTable = function loadTable(jsonData) {
     var tableData = "";
     jsonData.forEach(function (value) {
 
-        tableData = ''
-            + '<tr>'
-            + '<td class="text-center">'
-            + '<input class="check" type="checkbox" id="checkDelete' + i + '"/>'
-            + '</td>'
-            + '<td class="text-center">'
-            + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
-            + '</td>'
-            + '<td id="tdTypeTaskCode' + i + '">'
-            + value.code
-            + '</td>'
-            + '<td id="tdTypeTaskName' + i++ + '">'
-            + value.name
-            + '</td>'
-            + '</tr>';
+        check(value.id);
+        console.log(value.id);
+        if (ids == ""){
+            tableData = ''
+                + '<tr>'
+                + '<td class="text-center">'
+                + '<input class="check" type="checkbox" id="checkDelete' + i + '"/>'
+                + '</td>'
+                + '<td class="text-center">'
+                + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '</td>'
+                + '<td id="tdTypeTaskCode' + i + '">'
+                + value.typeTaskCode
+                + '</td>'
+                + '<td id="tdTypeTaskName' + i++ + '">'
+                + value.typeTaskName
+                + '</td>'
+                + '</tr>';
+        }else {
 
+            tableData = ''
+                + '<tr>'
+                + '<td class="text-center">'
+                + '<input class="check" type="checkbox" id="DischeckDelete' + i + '" disabled="disabled"/>'
+                + '</td>'
+                + '<td class="text-center">'
+                + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '</td>'
+                + '<td id="tdTypeTaskCode' + i + '">'
+                + value.typeTaskCode
+                + '</td>'
+                + '<td id="tdTypeTaskName' + i++ + '">'
+                + value.typeTaskName
+                + '</td>'
+                + '</tr>';
+        }
         $('#tbody').append(tableData);
     });
 };
@@ -186,11 +208,16 @@ $('#btnDelete').click(function () {
     if (dataTypeTaskCode.length > 0) {
         bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function (result) {
             if (result === true) {
+
                 for (var i = 0; i < dataTypeTaskCode.length; i++) {
                     sendData = dataTypeTaskCode[i];
                     deleteData();
                 }
+
                 dataTypeTaskCode.splice(0, dataTypeTaskCode.length);
+                bootbox.alert("ลบข้อมูลสำเร็จ  " + success + "ลบข้อมูลไม่สำเร็จ  " + fail );
+                success = 0;
+                fail = 0;
                 if (chk = true) {
                     searchData();
                 }
@@ -200,6 +227,7 @@ $('#btnDelete').click(function () {
     } else if (dataTypeTaskCode.length == 0) {
         bootbox.alert("กรุณาเลือกข้อมูลที่ต้องการลบ");
     }
+
 
 
 });
@@ -216,10 +244,10 @@ $('#table').on("click", "[id^=checkDelete]", function () {
 });
 
 $('#checkAll').click(function () {
-    $(".check").prop('checked', $(this).prop('checked'));
+    $('[id^=checkDelete]').prop('checked', $(this).prop('checked'));
     var lengthTr = $('#table').find('tr').length;
     for (var i = 1; i < lengthTr; i++) {
-        if ($(this).prop('checked') == true) {
+        if ($("#checkDelete" + i).prop('checked') == true) {
             var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + i).text())
             if (num != "") {
                 dataTypeTaskCode.push($('#tdTypeTaskCode' + i).text());
@@ -230,9 +258,13 @@ $('#checkAll').click(function () {
             dataTypeTaskCode.splice(num, 1);
         }
     }
+    //
+    //console.log(dataTypeTaskCode);
 });
 
 //-----Function Delete-------------------------------------------------------------------------------
+var success = 0;
+var fail = 0;
 
 function deleteData() {
     var dataJsonData = {
@@ -249,6 +281,16 @@ function deleteData() {
         url: contextPath + '/typetasks/deleteAllProject',
         data: dataJsonData,
         complete: function (xhr) {
+
+            if (xhr.status == 200) {
+
+                success++;
+
+
+            } else if (xhr.status == 500) {
+                fail++;
+
+            }
         },
         async: false
     });
@@ -297,6 +339,33 @@ function editData() {
     });
 }
 
+
+function check(id) {
+    var responsResult = null;
+    var dataJsonData = {
+        typeTask: id
+
+    };
+
+    responsResult = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/tasks/findProjectByTask',
+        data: dataJsonData,
+        complete: function (xhr) {
+
+        },
+        async: false
+    });
+
+    ids = jQuery.parseJSON(responsResult.responseText);
+    console.log(ids);
+
+}
 
 
 
