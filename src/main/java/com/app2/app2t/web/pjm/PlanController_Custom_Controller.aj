@@ -19,6 +19,10 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect PlanController_Custom_Controller {
+	@RequestMapping(value = "/planviews", method = RequestMethod.GET, produces = "text/html")
+    public String PlanController.planviews(Model uiModel) {
+        return "plans/planviews";
+    }
 
     @RequestMapping(value = "/plancalendar", method = RequestMethod.GET, produces = "text/html")
     public String PlanController.plancalendar(Model uiModel) {
