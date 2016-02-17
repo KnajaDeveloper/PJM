@@ -1,4 +1,4 @@
-$("#container_DataModule").hide();
+//$("#container_DataModule").hide();
 var i = 1;
 var arr_nameModule = [] , arr_initialNameModule = [] , arr_moduleManager = [] , arr_moduleMember = [] , arr_costModule = [] ,
 	arr_startDate = [] , arr_endDate = [];
@@ -14,61 +14,64 @@ $("#btnSaveModule").click(function(){
 	var boolData = checkModal();
 	var boolCost = checkCost($("#txtCostsModule1").val());
 	if(boolData==true && boolCost == true){
-		var allModuleManager = ""+getAllModuleManager();
-		var allModuleMember = ""+getAllModuleMember();
-		arr_nameModule.push(""+$("#txtModuleName1").val());
-		arr_initialNameModule.push(""+$("#txtInitialModuleName1").val());
-		arr_moduleManager.push(""+allModuleManager);
-		arr_moduleMember.push(""+allModuleMember);
-		arr_costModule.push(""+$("#txtCostsModule1").val());
-		arr_startDate.push(""+$("#dateStartModule").val());
-		arr_endDate.push(""+$("#dateEndModule").val());
-		var html="<div class='panel panel-primary' id='subrecordsModule"+i+"'>"+
-			    	"<div class='panel-heading' role='tab' id='heading"+i+"'>"+
-			    		"<h4 class='panel-title'>"+
-				        	"<a id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
-				          		"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
-				        	"</a>"+
-				        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
-							"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
-			      		"</h4>"+
-			    	"</div>"+
-				    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"'>"+
-				    	"<div class='panel-body'>"+
-				    		"<div class='form-inline'>"+
-								"<div class='col-sm-6'>"+
-									"<label class='col-sm-6 control-label'>Start Date : </label>"+
-									"<div class='col-sm-5 input-group'>"+
-										"<label id='lbDateStartEditModule"+i+"' class='control-label'>"+$("#dateStartModule").val()+"</label>"+
-									"</div>"+
-								"</div>"+
-								"<div class='col-sm-6'>"+
-									"<label class='col-sm-3 control-label'>End Date : </label>"+
-									"<div class='col-sm-5 input-group'>"+
-										"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
-									"</div>"+
-								"</div>"+
-							"</div>"+
-							"<div class='form-inline'>"+
-								"<div class='col-sm-6'>"+
-									"<label class='col-sm-6 control-label'>Module Manager :</label>"+
-									"<div class='col-sm-5 input-group'>"+
-										"<label id='lbEditModuleManager"+i+"' class='control-label'>"+allModuleManager+"</input>"+
-									"</div>"+
-								"</div>"+
-								"<div class='col-sm-6'>"+
-									"<label class='col-sm-3 control-label'>Module Member :</label>"+
-									"<div class='col-sm-5 input-group'>"+
-										"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
-									"</div>"+
-								"</div>"+	
-							"</div>"+
+		var boolSaveDB = saveModuleProjectToDB();
+		if(boolSaveDB==true){
+			var allModuleManager = ""+getAllModuleManager();
+			var allModuleMember = ""+getAllModuleMember();
+			arr_nameModule.push(""+$("#txtModuleName1").val());
+			arr_initialNameModule.push(""+$("#txtInitialModuleName1").val());
+			arr_moduleManager.push(""+allModuleManager);
+			arr_moduleMember.push(""+allModuleMember);
+			arr_costModule.push(""+$("#txtCostsModule1").val());
+			arr_startDate.push(""+$("#dateStartModule").val());
+			arr_endDate.push(""+$("#dateEndModule").val());
+			var html="<div class='panel panel-primary' id='subrecordsModule"+i+"'>"+
+				    	"<div class='panel-heading' role='tab' id='heading"+i+"'>"+
+				    		"<h4 class='panel-title'>"+
+					        	"<a id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
+					          		"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
+					        	"</a>"+
+					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
+								"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
+				      		"</h4>"+
 				    	"</div>"+
-				    "</div>"+
-				"</div>";
-		$("#recordsModule").append(html);
-		i++;
-		clearModal();
+					    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"'>"+
+					    	"<div class='panel-body'>"+
+					    		"<div class='form-inline'>"+
+									"<div class='col-sm-6'>"+
+										"<label class='col-sm-6 control-label'>Start Date : </label>"+
+										"<div class='col-sm-5 input-group'>"+
+											"<label id='lbDateStartEditModule"+i+"' class='control-label'>"+$("#dateStartModule").val()+"</label>"+
+										"</div>"+
+									"</div>"+
+									"<div class='col-sm-6'>"+
+										"<label class='col-sm-3 control-label'>End Date : </label>"+
+										"<div class='col-sm-5 input-group'>"+
+											"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
+										"</div>"+
+									"</div>"+
+								"</div>"+
+								"<div class='form-inline'>"+
+									"<div class='col-sm-6'>"+
+										"<label class='col-sm-6 control-label'>Module Manager :</label>"+
+										"<div class='col-sm-5 input-group'>"+
+											"<label id='lbEditModuleManager"+i+"' class='control-label'>"+allModuleManager+"</input>"+
+										"</div>"+
+									"</div>"+
+									"<div class='col-sm-6'>"+
+										"<label class='col-sm-3 control-label'>Module Member :</label>"+
+										"<div class='col-sm-5 input-group'>"+
+											"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
+										"</div>"+
+									"</div>"+	
+								"</div>"+
+					    	"</div>"+
+					    "</div>"+
+					"</div>";
+			$("#recordsModule").append(html);
+			i++;
+			clearModal();
+		}
 	}
 	if(boolData==false&&boolCost==false) bootbox.alert("Total cost of module is more than project cost.");
 });
@@ -246,7 +249,6 @@ function clearEditModal(){
 function getAllModuleManager(){
 	var allNameModuleManager = "";
 	var count_Element = $('[id^=txtModuleManagerName]').length;
-	//alert(""+count_Element);	
 	for(var i = 0 ; i < count_Element ; i++){
 		var id = $('[id^=txtModuleManagerName]')[i].id;
 		allNameModuleManager += ""+$("#"+id).val()+"<br/>";

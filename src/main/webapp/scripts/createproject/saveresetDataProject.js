@@ -1,7 +1,8 @@
 $("#btnSaveProject").click(function(){
 	var checkInputProject = checkDataProject();
 	if(checkInputProject==true){
-		$("#container_DataModule").show(500);
+		var bool = saveProjectToDB();
+		if(bool==true) $("#container_DataModule").show(500);
 	}
 });
 
@@ -56,10 +57,9 @@ function checkDataProject(){
 }
 
 function resetDataProject(){
+	$("#subProjectManager").empty();
 	$("#txtProjectName").val("");
 	$("#txtInitialProjectName").val("");
-	$("#cSearchDateBegin").val("");
-	$("#cSearchDateEnd").val("");
 	$("#txtProjectManagerName1").val("");
 	$("#txtCostsProject").val("");
 	$("#dateStartProject").val("");

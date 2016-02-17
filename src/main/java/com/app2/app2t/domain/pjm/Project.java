@@ -14,7 +14,6 @@ import org.springframework.roo.addon.json.RooJson;
 @RooJpaActiveRecord(inheritanceType = "TABLE_PER_CLASS")
 @RooJson
 public class Project extends BaseEntity {
-
     /**
      */
     private String projectCode;
