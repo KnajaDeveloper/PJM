@@ -3,15 +3,15 @@
 
 package com.app2.app2t.domain.pjm;
 
-import java.util.List;
-import com.app2.app2t.domain.pjm.Project;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Date;
+
 import javax.persistence.EntityManager;
+import java.util.Date;
+import java.util.List;
 
 privileged aspect Project_Custom_Jpa_ActiveRecord {
 
@@ -34,6 +34,24 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         criteria.add(Restrictions.eq("projectCode", projectCode));
+        return criteria.list();
+    }
+
+    public static List<Project> Project.findProjectSearchData(Date StDateBegin,Date StDateEnd) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+
+            criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
+        try
+        {
+            List<Project> projects = criteria.list();
+//            Project project = Project.get(0);
+//            project.getId();
+        }
+        catch (IndexOutOfBoundsException e){
+            return  criteria.list();
+        }
+
         return criteria.list();
     }
     

@@ -23,7 +23,9 @@ $("#FnDateEnd").on('change', function(){
     DateUtil.setMaxDate('FnDateEnd', 'FnDateBegin');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+$("#search").click(function(){
+   searchData();
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $("#addProject").click(function () {
     window.location.href= contextPath + '/projects/createproject';
@@ -39,7 +41,6 @@ paggination.loadTable = function loadTable(jsonData) {
     $('#ResualtSearch').empty();
 
     var tableData = "";
-    var key = 1;
 
     jsonData.forEach(function (value) {
 
@@ -47,16 +48,28 @@ paggination.loadTable = function loadTable(jsonData) {
 
             + '<tr  style="background-color: #fff">'
             + '<td class="text-center">'
-            + '<input id="chDelete' + key + '" class="check" type="checkbox" name="checkdDelete"  />'
+            + ' <input id="checkAll" class="check" type="checkbox"/>'
             + '</td>'
             + '<td class="text-center">'
-            + '<button id="btnEdit' + key + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#ModalEdit" data-backdrop="static" ><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+            + '<button class="btn btn-info" type="button">E</button>'
+            + '</td>'
+            + '<td class="text-center">'
+            + '<button class="btn btn-info" type="button">A</button>'
+            + '</td>'
+            + '<td class="text-center">'
+            + '<button class="btn btn-info" type="button">V</button>'
             + '</td>'
             + '<td id="tdTeamCode' + key + '" class="text-center" style="color: #000">'
-            + value.teamCode
+            + value.projectName
             + '</td>'
             + '<td id="tdTeamName' + key++ + '" class="text-center" style="color: #000">'
-            + value.teamName
+            + value.dateStart
+            + '</td>'
+            + '<td id="tdTeamName' + key++ + '" class="text-center" style="color: #000">'
+            + value.dateEnd
+            + '</td>'
+            + '<td id="tdTeamName' + key++ + '" class="text-center" style="color: #000">'
+            + value.projectCost
             + '</td>'
             + '</tr>';
         $('#ResualtSearch').append(
@@ -67,10 +80,11 @@ paggination.loadTable = function loadTable(jsonData) {
 
 };
 function searchData() {
-
+    var convertFormatDateStart = new Date(convertDate($('#StDateBegin').val()));
+    var convertFormatDateEnd = new Date(convertDate($('#StDateEnd').val()));
     var dataJsonData = {
-        StDateBegin: $("#StDateBegin").val(),
-        StDateEnd: $("#StDateEnd").val()
+        StDateBegin: convertFormatDateStart,
+        StDateEnd  :convertFormatDateEnd
     }
     paggination.setOptionJsonData({
         url: contextPath + "/projects/findProjectSearchData",
@@ -82,3 +96,8 @@ function searchData() {
     });
     paggination.search(paggination);
 }  //--functionSearch--//
+
+function convertDate(input){
+    var x = input.split('/');
+    return ""+x[1]+"/"+x[0]+"/"+x[2];
+}

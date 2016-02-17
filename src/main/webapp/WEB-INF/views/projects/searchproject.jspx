@@ -171,26 +171,7 @@
                         <th class="text-center" style="width: 70px ;color:#000">จำนวนต้นทุน</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-center" style="width: 30px ; color:#000">
-                            <input id="checkAll" class="check" type="checkbox"/>
-                        </td>
-                        <td class="text-center" style="width: 40px ; color:#000">
-                            <button class="btn btn-info" type="button">E</button>
-                        </td>
-                        <td class="text-center" style="width: 40px ; color:#000">
-                            <button class="btn btn-info" type="button">A</button>
-                        </td>
-                        <td class="text-center" style="width: 40px ; color:#000">
-                            <button class="btn btn-info" type="button">V</button>
-                        </td>
-                        <td class="text-center" style="width: 200px; color:#000">..</td>
-                        <td class="text-center" style="width: 70px ;color:#000">..</td>
-                        <td class="text-center" style="width: 70px ;color:#000">..</td>
-                        <td class="text-center" style="width: 70px ;color:#000">..</td>
-                    </tr>
-                    </tbody>
+                    <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
                 </table>
 
                 <div class="form-horizontal">
