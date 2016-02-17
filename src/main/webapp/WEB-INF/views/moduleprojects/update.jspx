@@ -14,5 +14,6 @@
         <field:datetime dateTimePattern="${moduleProject_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_ModuleProject_dateStart" z="eSURyhZWY0++ul+C2OK7qNFZUXw="/>
         <field:datetime dateTimePattern="${moduleProject_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_ModuleProject_dateEnd" z="dgJq2xauR0fqvYdkd74uG4ovk78="/>
         <field:select field="project" id="c_com_app2_app2t_domain_pjm_ModuleProject_project" itemValue="id" items="${projects}" path="/projects" z="RQoKHr1xGAMwT3+BTuVdIZt8Rzs="/>
+        <field:input field="moduleStatus" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleStatus" z="tYRLOr+bWECVwgKJ8p7zGrQYU7Y="/>
     </form:update>
 </div>

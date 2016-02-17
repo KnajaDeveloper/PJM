@@ -39,6 +39,7 @@ privileged aspect ModuleProjectDataOnDemand_Roo_DataOnDemand {
         setModuleCode(obj, index);
         setModuleCost(obj, index);
         setModuleName(obj, index);
+        setModuleStatus(obj, index);
         setStatus(obj, index);
         setUpdatedBy(obj, index);
         setUpdatedDate(obj, index);
@@ -78,6 +79,11 @@ privileged aspect ModuleProjectDataOnDemand_Roo_DataOnDemand {
     public void ModuleProjectDataOnDemand.setModuleName(ModuleProject obj, int index) {
         String moduleName = "moduleName_" + index;
         obj.setModuleName(moduleName);
+    }
+    
+    public void ModuleProjectDataOnDemand.setModuleStatus(ModuleProject obj, int index) {
+        String moduleStatus = "moduleStatus_" + index;
+        obj.setModuleStatus(moduleStatus);
     }
     
     public void ModuleProjectDataOnDemand.setStatus(ModuleProject obj, int index) {
