@@ -140,7 +140,12 @@ function checkModal(){
 			$("#"+id).popover('show');
 			return false;
 		}
-	}		
+	}
+	var boolCheckSameName = checkSameNameBeforeSave();
+	if(boolCheckSameName==false) {
+		bootbox.alert("It's has a same name in textbox.");
+		return false;
+	}
 	return true;	
 }
 
@@ -357,4 +362,28 @@ function saveEditModule(object){
 		bootbox.alert("Edit Success");
 		$('#modalEditModule').modal('toggle');
 	}
+}
+
+function checkSameNameBeforeSave(){
+	var count_Element = $("[id^=txtModuleManagerName").length;
+	var arrManager = [];
+	for(var i=0;i<count_Element;i++){
+		var id = $("[id^=txtModuleManagerName")[i].id;
+		var name = ""+$("#"+id).val();
+		if(arrManager.indexOf(""+name) < 0) arrManager.push(""+name);
+		else {
+			return false;
+		}
+	}
+	var count_Element2 = $("[id^=txtModuleMemberName").length;
+	var arrMember = [];
+	for(var i=0;i<count_Element2;i++){
+		var id = $("[id^=txtModuleMemberName")[i].id;
+		var name = ""+$("#"+id).val();
+		if(arrMember.indexOf(""+name) < 0) arrMember.push(""+name);
+		else {
+			return false;
+		}
+	}
+	return true;
 }

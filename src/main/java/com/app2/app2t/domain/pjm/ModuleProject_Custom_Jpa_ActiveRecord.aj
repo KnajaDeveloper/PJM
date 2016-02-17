@@ -4,15 +4,14 @@
 package com.app2.app2t.domain.pjm;
 
 import com.app2.app2t.domain.pjm.ModuleProject;
-import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Date;
 import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Date;
 
 privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProject_Custom_Jpa_ActiveRecord.class);
@@ -31,5 +30,11 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         moduleproject.persist();
         return moduleproject;
     }
-    
+
+    public static List<ModuleProject> ModuleProject.findModuleByModuleCode(String moduleCode) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("moduleCode", moduleCode));
+        return criteria.list();
+    }
 }
