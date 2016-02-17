@@ -58,12 +58,6 @@ public class Task extends BaseEntity {
 
     /**
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "moduleProject")
-    private ModuleProject moduleProject;
-
-    /**
-     */
     private String fileName;
 
     /**

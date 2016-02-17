@@ -16,7 +16,6 @@
         <field:input field="detail" id="c_com_app2_app2t_domain_pjm_Task_detail" z="riXRBod20R1Zp7Pn2V2FZyspbLo="/>
         <field:datetime dateTimePattern="${task_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Task_dateStart" z="AT12xNRRqZJl4ba0dU3AtJ4+I0Q="/>
         <field:datetime dateTimePattern="${task_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Task_dateEnd" z="+/Jmpha+p0Ah77nKIPqE9UqEQJo="/>
-        <field:select field="moduleProject" id="c_com_app2_app2t_domain_pjm_Task_moduleProject" itemValue="id" items="${moduleprojects}" path="/moduleprojects" z="34AwBhXJEQkKw/CcsG4tBS6Ynps="/>
         <field:input field="fileName" id="c_com_app2_app2t_domain_pjm_Task_fileName" z="5skkm8zQn+e8EP+WgxtbFXCqRTQ="/>
         <field:input field="url" id="c_com_app2_app2t_domain_pjm_Task_url" z="aW24bbgCqf3tl4OhaYMPxNLNFiI="/>
         <field:input field="progress" id="c_com_app2_app2t_domain_pjm_Task_progress" validationMessageCode="field_invalid_integer" z="RG0Pcf1sf8mY/wBsa/ktbw6pIvg="/>

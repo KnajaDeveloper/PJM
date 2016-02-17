@@ -3,7 +3,6 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProjectDataOnDemand;
 import com.app2.app2t.domain.pjm.ProgramDataOnDemand;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TaskDataOnDemand;
@@ -28,9 +27,6 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
     private Random TaskDataOnDemand.rnd = new SecureRandom();
     
     private List<Task> TaskDataOnDemand.data;
-    
-    @Autowired
-    ModuleProjectDataOnDemand TaskDataOnDemand.moduleProjectDataOnDemand;
     
     @Autowired
     ProgramDataOnDemand TaskDataOnDemand.programDataOnDemand;
