@@ -14,5 +14,6 @@
         <field:display date="true" dateTimePattern="${moduleProject_datestart_date_format}" field="dateStart" id="s_com_app2_app2t_domain_pjm_ModuleProject_dateStart" object="${moduleproject}" z="9oIqrNd/dW2NLGK4tDucHb4EgSc="/>
         <field:display date="true" dateTimePattern="${moduleProject_dateend_date_format}" field="dateEnd" id="s_com_app2_app2t_domain_pjm_ModuleProject_dateEnd" object="${moduleproject}" z="lysApx4wt/mDSIUcdULsI0SedDU="/>
         <field:display field="project" id="s_com_app2_app2t_domain_pjm_ModuleProject_project" object="${moduleproject}" z="SWzIZ5SkzTzwKcXStPBnGwSUyP4="/>
+        <field:display field="moduleStatus" id="s_com_app2_app2t_domain_pjm_ModuleProject_moduleStatus" object="${moduleproject}" z="b+hNV+mnoIVQ0iF0H8AqqKn2Yhk="/>
     </page:show>
 </div>

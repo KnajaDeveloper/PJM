@@ -47,4 +47,10 @@ public class ModuleProject extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project")
     private Project project;
+
+    /**
+     */
+    private String moduleStatus;
+    //success
+    //fail
 }

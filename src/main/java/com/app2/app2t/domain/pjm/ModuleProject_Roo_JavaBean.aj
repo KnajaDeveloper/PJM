@@ -57,4 +57,12 @@ privileged aspect ModuleProject_Roo_JavaBean {
         this.project = project;
     }
     
+    public String ModuleProject.getModuleStatus() {
+        return this.moduleStatus;
+    }
+    
+    public void ModuleProject.setModuleStatus(String moduleStatus) {
+        this.moduleStatus = moduleStatus;
+    }
+    
 }
