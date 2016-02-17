@@ -72,5 +72,7 @@ function findSameProjectCode(){
 
 function convertDate(input){
 	var x = input.split('/');
+	var year = parseInt(x[2])-543;
+	x[2] = ""+year;
 	return ""+x[1]+"/"+x[0]+"/"+x[2];
 }
