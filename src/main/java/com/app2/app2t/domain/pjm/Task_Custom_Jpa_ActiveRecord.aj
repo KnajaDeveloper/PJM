@@ -5,6 +5,7 @@ package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,45 +16,53 @@ import java.util.List;
 privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Task_Custom_Jpa_ActiveRecord.class);
-	
-	public static List<Task> Task.findTaskByModuleAndTypeTask(String moduleCode, List<String> listTypeTaskCode, boolean getMyTask, boolean getOtherTask) {
+
+    public static List<Task> Task.findTaskByModuleAndTypeTask(List<String> listModuleCode, List<String> listTypeTaskCode, boolean getMyTask, boolean getOtherTask, String userName) {
         EntityManager ent = Task.entityManager();
-
-
-
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
         criteria.createAlias("typeTask", "t")
                 .createAlias("moduleProject", "m");
+        criteria.add(Restrictions.in("m.moduleCode", listModuleCode));
 
-        if (!moduleCode.equals("AllModule")) {
-            criteria.add(Restrictions.eq("m.moduleCode", moduleCode));
-        }
         if (listTypeTaskCode.size() > 0) {
             criteria.add(Restrictions.in("t.typeTaskCode", listTypeTaskCode));
         }
 
+        if(getMyTask && !getOtherTask) {
+            criteria.add(Restrictions.eq("empCode", userName));
+        } else if(!getMyTask && getOtherTask) {
+            criteria.add(Restrictions.eq("empCode", ""));
+        }
+
         criteria.addOrder(Order.desc("empCode"))
-                .addOrder(Order.asc("t.typeTaskName"))
-                .addOrder(Order.asc("dateStart"))
-                .addOrder(Order.asc("dateEnd"));
+                .addOrder(Order.desc("t.typeTaskName"))
+                .addOrder(Order.desc("dateStart"))
+                .addOrder(Order.desc("dateEnd"));
 
         List<Task> tasks = criteria.list();
         return tasks;
     }
 
+    public static Task Task.findTaskByTaskCode(String taskCode) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("taskCode", taskCode));
+
+        List<Task> tasks = criteria.list();
+        return tasks.get(0);
+    }
+
     public static List<Task> Task.findProjectByTask(long typeCode) {
         EntityManager ent = Task.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class,"Test");
-        criteria.createAlias("Test.typeTask","typeTask");
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "Task");
+        criteria.createAlias("Task.typeTask", "typeTask");
         try {
-
             criteria.add(Restrictions.eq("typeTask.id", typeCode));
             List<Task> emEmployees = criteria.list();
             Task emEmployee = emEmployees.get(0);
-            System.out.print( emEmployee.getId());
-        } catch (IndexOutOfBoundsException e)
-        {
-            System.out.print( e );
+            System.out.print(emEmployee.getId());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.print(e);
             return criteria.list();
         }
         return criteria.list();

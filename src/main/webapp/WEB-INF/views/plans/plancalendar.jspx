@@ -291,18 +291,17 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3 required">ขยับวันเมื่อซ้อนทับ </label>
                             <div class="col-sm-8">
-                                <label class="radio-inline" for="radioPostpone_add">
-                                    <input type="radio" id="radioPostpone_add" name="optradio"/> ขยับ
-                                </label>
                                 <label class="radio-inline" for="radioNoPostpone_add">
-                                    <input type="radio" id="radioNoPostpone_add" name="optradio"/> ไม่ขยับ
-                                </label>
-                            </div>
-                        </div>
+                        <input type="radio" id="radioNoPostpone_add" name="optradio"/> ไม่ขยับ
+                    </label>
+                        <label class="radio-inline" for="radioPostpone_add">
+                            <input type="radio" id="radioPostpone_add" name="optradio"/> ขยับ
+                        </label>
+                    </div>
+                </div>
 
-                        <span id="workCode" class="hidden">workCode</span>
-                        <span id="projectCode" class="hidden">projectCode</span>
-                        <span id="moduleCode" class="hidden">moduleCode</span>
+                        <input type="hidden" id="taskCode"/>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -355,11 +354,11 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3 required">ขยับวันเมื่อซ้อนทับ </label>
                             <div class="col-sm-8">
-                                <label class="radio-inline" for="radioPostpone_edit">
-                                    <input type="radio" id="radioPostpone_edit" name="optradio" checked=""/> ขยับ
-                                </label>
                                 <label class="radio-inline" for="radioNoPostpone_edit">
                                     <input type="radio" id="radioNoPostpone_edit" name="optradio"/> ไม่ขยับ
+                                </label>
+                                <label class="radio-inline" for="radioPostpone_edit">
+                                    <input type="radio" id="radioPostpone_edit" name="optradio" checked=""/> ขยับ
                                 </label>
                             </div>
                         </div>

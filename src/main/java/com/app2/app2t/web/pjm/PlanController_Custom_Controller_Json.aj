@@ -3,28 +3,46 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleMember;
-import com.app2.app2t.domain.pjm.ModuleProject;
-import com.app2.app2t.domain.pjm.Plan;
-import com.app2.app2t.domain.pjm.TypeTask;
+import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
 import com.app2.app2t.web.pjm.PlanController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import flexjson.JSONSerializer;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 privileged aspect PlanController_Custom_Controller_Json {
+
+    @RequestMapping(value = "/findPlanByMonth", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.findPlanByMonth(
+            @RequestParam(value = "month", required = false) Integer month
+            , @RequestParam(value = "year", required = false) Integer year
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<String> moduleCode = new ArrayList<>();
+            List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());
+            for (ModuleMember moduleMember : moduleMembers) {
+                moduleCode.add(moduleMember.getModuleProject().getModuleCode());
+            }
+
+            List<Plan> result = Plan.findPlansByMonthYear(month, year, moduleCode);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @RequestMapping(value = "/findAllModule", method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> PlanController.findAllModule() {
@@ -36,8 +54,8 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             List<ModuleProject> result = new ArrayList<>();
 
-            for(ModuleMember moduleMember: moduleMembers) {
-                result.add(ModuleProject.findModuleProject(moduleMember.getId()));
+            for (ModuleMember moduleMember : moduleMembers) {
+                result.add(ModuleProject.findModuleProject(moduleMember.getModuleProject().getId()));
             }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -58,6 +76,30 @@ privileged aspect PlanController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/insertplan", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String>  PlanController.insertPlan(@RequestBody String json) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            JSONArray jsonArrayPlan = new JSONArray(json);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            for (int i = 0; i < jsonArrayPlan.length(); i++) {
+                JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
+                String taskCode = jsonPlan.get("taskCode").toString();
+                Task task = Task.findTaskByTaskCode(taskCode);
+                Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
+                Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
+                dateStart = formatter.parse(formatter.format(dateStart));
+                dateEnd = formatter.parse(formatter.format(dateEnd));
 
+                Plan.insertPlan(task, dateStart, dateEnd);
+            }
+
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

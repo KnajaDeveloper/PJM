@@ -3,7 +3,9 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.ModuleMember;
 import com.app2.app2t.domain.pjm.Task;
+import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
 
 import org.json.JSONArray;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 privileged aspect TaskController_Custom_Controller_Json {
@@ -30,12 +33,22 @@ privileged aspect TaskController_Custom_Controller_Json {
             boolean getMyTask = Boolean.parseBoolean(jsonArray.get(2).toString());
             boolean getOtherTask = Boolean.parseBoolean(jsonArray.get(3).toString());
 
+            List<String> listModuleCode = new ArrayList<>();
+            if (moduleCode.equals("AllModule")) {
+                List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());
+                for(ModuleMember moduleMember : moduleMembers) {
+                    listModuleCode.add(moduleMember.getModuleProject().getModuleCode());
+                }
+            } else {
+                listModuleCode.add(moduleCode);
+            }
+
             List<String> listTypeTaskCode = new ArrayList<>();
             for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
                 listTypeTaskCode.add(jsonArrayTypeTask.get(i).toString());
             }
 
-            List<Task> result = Task.findTaskByModuleAndTypeTask(moduleCode, listTypeTaskCode, getMyTask, getOtherTask);
+            List<Task> result = Task.findTaskByModuleAndTypeTask(listModuleCode, listTypeTaskCode, getMyTask, getOtherTask, AuthorizeUtil.getUserName());
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -44,7 +57,7 @@ privileged aspect TaskController_Custom_Controller_Json {
     }
 
 
-    @RequestMapping(value = "/findProjectByTask",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findProjectByTask", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findProjectByTask(
             @RequestParam(value = "typeTask", required = false) long typeTask
     ) {
@@ -52,14 +65,12 @@ privileged aspect TaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             List<Task> result = Task.findProjectByTask(typeTask);
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             /*Logger.error(e.getMessage(), e);*/
-            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 
 
 }
