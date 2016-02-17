@@ -347,6 +347,8 @@
     <spring:url value="/resources/scripts/createproject/addModuleToDB.js" var="addModuleToDB"/>
     <script src="${addModuleToDB}" type="text/javascript"><!--Not Empty--></script>
 
+    <spring:url value="/resources/scripts/createproject/incresePoint.js" var="incresePoint"/>
+    <script src="${incresePoint}" type="text/javascript"><!--Not Empty--></script>
     <!--           -->
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>

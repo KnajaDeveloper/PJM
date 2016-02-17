@@ -9,6 +9,7 @@ import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.web.pjm.ModuleProjectController;
 import com.sun.xml.internal.ws.api.server.Module;
+import flexjson.JSONSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +60,22 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         try {
             List<ModuleProject> result = ModuleProject.findModuleByModuleCode(moduleCode);
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findModuleByProjectCode",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode(
+            @RequestParam(value = "projectCode", required = false) String projectCode
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Project> project = Project.findProjectByProjectCode(projectCode);
+            List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode(project.get(0));
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
