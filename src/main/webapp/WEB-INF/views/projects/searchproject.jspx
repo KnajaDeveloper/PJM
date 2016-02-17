@@ -1,229 +1,223 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+     xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component"
+     xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-	
-		<div class="row">
-		<div class="panel panel-primary">
-			<div class="panel-heading">ค้นหาโปรเจค</div>
-			<div class="panel-body">
-				<br/>
-				<div class="col-xs-12">
-					<form class="form-horizontal">
-						<div class="form-group col-xs-6">
 
-							<div class="form-group">
-								<label class="control-label col-xs-3">วันที่เริ่ม(จาก)</label>
-								<div class="col-xs-8">
-									<input class="form-control" type="date"/>
-								</div>
-							</div>
+    <style>
 
-							<div class="form-group">
-								<label class="control-label col-xs-3">วันที่เสร็จ(จาก)</label>
-								<div class="col-xs-8">
-									<input class="form-control" type="date"/>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<label class="control-label col-xs-3">จำนวนต้นทุน(จาก)</label>
-								<div class="col-xs-8">
-									<input class="form-control" type="date"/>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-xs-3">วันที่เสร็จ(จาก)</label>
-								<div class="col-xs-8">
-									<input class="form-control" type="date"/>
-								</div>
-							</div>
-
-						</div>
-						<div class="form-group col-xs-6">
-							<div class="form-group">
-								<label class="control-label col-xs-3">วันที่เริ่ม(ถึง)</label>
-								<div class="col-xs-8">
-									<input class="form-control" type="date"/>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-xs-3">วันที่เสร็จ(ถึง)</label>
-								<div class="col-xs-8">
-									<input class="form-control" type="date"/>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<br/>
-				<br/>
-				<br/>
-				<div class="col-xs-8">
-					<div class="col-xs-offset-8 col-xs-2">
-						<button type="button" class="btn btn-primary">ค้นหา</button>
-					</div>
-				</div>
-				<br/>
-				<br/>
-			</div>
-		</div>
-	</div>
-
-	<div>
-		<div class="row" >
-			<div class=" col-sm-12">
-				<form class="form-inline">
-					<div class="form-group">
-						<div class=" col-sm-4">
-							<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#add">เพิ่ม</button>
-						</div>
-						<div class=" col-sm-4">
-							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">ลบที่เลือก</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+        .input-group-addon {
+            padding: 0 12px;
+        }
+    </style>
 
 
-	<form class="form-horizontal">
-		<div class="form-group">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th><input type="checkbox" id="checkAll"/></th>
-						<th>แก้ไข</th>
-						<th>รหัสประเภทงาน</th>
-						<th>ชื่อประเภทงาน</th>
-						</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input class="check" type="checkbox" id="checkDelete"/></td>
-						<td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#edit">แก้ไข</button></td>
-						<td>1</td>
-						<td>a</td>
-					</tr>
-					<tr>
-						<td><input class="check" type="checkbox" id="checkDelete"/></td>
-						<td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#edit">แก้ไข</button></td>
-						<td>1</td>
-						<td>a</td>
-					</tr>
-				</tbody>
-				
-			</table>
-		</div>
-	</form>
 
-	<!-- Modal Add -->
-	<div class="modal fade" id="add" role="dialog">
-		<div class="modal-dialog ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">ค้นหาโปรเจค</div>
+                <div class="panel-body">
+                    <br></br>
+                    <div class="col-sm-12">
+                        <form class="form-horizontal">
 
-			<!-- Modal content-->
-			<div class="modal-content " >
-				<div class="modal-header bg-primary">
-					<h4 class="modal-title">เพิ่มประเภทงาน</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-						<label class="control-label col-xs-3 required">รหัสประเภทงาน : </label>
-							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
-							</div>
-						</div>
-
-						<div class="form-group">
-						<label class="control-label col-xs-3 required">ชื่อประเภทงาน : </label>
-							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="ชื่อประเภทงาน"/>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="saveAdd">บันทึก</button>
-					<button type="button" class="btn btn-primary" id="saveAdd">ถัดไป</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal edit -->
-	<div class="modal fade" id="edit" role="dialog">
-		<div class="modal-dialog ">
-
-			<!-- Modal content-->
-			<div class="modal-content " >
-				<div class="modal-header bg-primary">
-					<h4 class="modal-title">แก้ไขประเภทงาน</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-						<label class="control-label col-xs-3 required">รหัสประเภทงาน : </label>
-							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="รหัสประเภทงาน"/>
-							</div>
-						</div>
-
-						<div class="form-group">
-						<label class="control-label col-xs-3 required">ชื่อประเภทงาน : </label>
-							<div class="col-xs-8">
-								<input type="text" class="form-control" id="positionCode" placeholder="ชื่อประเภทงาน"/>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="saveAdd">บันทึก</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal confirm -->
-	<div class="modal fade" id="delete" role="dialog">
-		<div class="modal-dialog ">
-
-			<!-- Modal content-->
-			<div class="modal-content " >
-				<div class="modal-header bg-primary">
-					<h4 class="modal-title">ยืนยันการลบข้อมูล</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							
-						<label class="col-xs-12" >คุณต้องการลบข้อมูลที่เลือกจริงหรือไม่</label>
-							
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="submit">ยืนยัน</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelAdd">ยกเลิก</button>
-				</div>
-			</div>
-		</div>
-	</div>
+                            <input type="hidden" class="datetimepicker"/>
+                            <input type="hidden" class="datepicker"/>
 
 
-<script type="text/javascript">
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">วันที่เริ่ม(จาก)</label>
+                                <div class="col-xs-7">
+                                    <div class="input-group date ">
+                                        <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy" readonly="" style="cursor:pointer; background-color:white"/>
+                                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-	$("#checkAll").click(function () {
-    $(".check").prop('checked', $(this).prop('checked'));
-	});
-	
-</script>
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">วันที่เริ่ม(ถึง)</label>
+                                <div class="col-xs-7">
+                                    <div class="input-group date ">
+                                        <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy" readonly="" style="cursor:pointer; background-color:white"/><span
+                                            class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <form class="form-horizontal">
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">วันที่เสร็จ(จาก)</label>
+                                <div class="col-xs-7">
+                                    <div class="input-group date ">
+                                        <input id="FnDateBegin" class="form-control " type="text"
+                                               placeholder="dd/mm/yyyy" readonly=""
+                                               style="cursor:pointer; background-color:white"/>
+                                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">วันที่เสร็จ(ถึง)</label>
+                                <div class="col-xs-7">
+                                    <div class="input-group date ">
+                                        <input id="FnDateEnd" class="form-control " type="text"
+                                               placeholder="dd/mm/yyyy" readonly=""
+                                               style="cursor:pointer; background-color:white"/>
+                                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-12">
+                        <form class="form-horizontal">
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">จำนวนต้นทุน(จาก)</label>
+                                <div class="col-xs-5">
+                                    <div class="input-group date ">
+                                        <input class="form-control" type="date" name="searchCode"
+                                               placeholder="จำนวนต้นทุน(จาก)"/>
+                                        <span class="input-group-addon">Point</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">จำนวนต้นทุน(ถึง)</label>
+                                <div class="col-xs-5">
+                                    <div class="input-group date ">
+                                        <input class="form-control" type="date" name="searchName"
+                                               placeholder="จำนวนต้นทุน(ถึง)"/>
+                                        <span class="input-group-addon">Point</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-12">
+                        <form class="form-horizontal">
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">ผู้ดูแลโปรเจค</label>
+                                <div class="col-xs-5">
+                                    <input class="form-control" type="date" name="searchCode"
+                                           placeholder="(ชื่อเล่น)ชื่อจริง"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <form class="form-horizontal"/>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="col-xs-offset-8 col-xs-2">
+                            <button id="search" class="btn btn-primary" type="button">ค้นหา</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="row">
+            <div class=" col-sm-6">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class=" col-sm-2">
+                            <button id="addProject" type="button" class="btn btn-primary">เพิ่มโปรเจค</button>
+                        </div>
+                        <div >
+                            <button id="btnDelete" type="button" class="btn btn-danger">ลบที่เลือก</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+            <div class="form-group">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="info">
+                        <th class="text-center" style="width: 30px ;">
+                            <input id="checkAll" class="check" type="checkbox"/>
+                        </th>
+                        <th class="text-center" style="width: 40px ; color:#000">แก้ไข</th>
+                        <th class="text-center" style="width: 40px ; color:#000">เพิ่มงาน</th>
+                        <th class="text-center" style="width: 40px ; color:#000">ดูความคืบหน้า</th>
+                        <th class="text-center" style="width: 200px ; color:#000">ชื่อโปรเจค</th>
+                        <th class="text-center" style="width: 70px ;color:#000">วันที่เริ่ม</th>
+                        <th class="text-center" style="width: 70px ;color:#000">วันที่เสร็จ</th>
+                        <th class="text-center" style="width: 70px ;color:#000">จำนวนต้นทุน</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text-center" style="width: 30px ; color:#000">
+                            <input id="checkAll" class="check" type="checkbox"/>
+                        </td>
+                        <td class="text-center" style="width: 40px ; color:#000">
+                            <button class="btn btn-info" type="button">E</button>
+                        </td>
+                        <td class="text-center" style="width: 40px ; color:#000">
+                            <button class="btn btn-info" type="button">A</button>
+                        </td>
+                        <td class="text-center" style="width: 40px ; color:#000">
+                            <button class="btn btn-info" type="button">V</button>
+                        </td>
+                        <td class="text-center" style="width: 200px; color:#000">..</td>
+                        <td class="text-center" style="width: 70px ;color:#000">..</td>
+                        <td class="text-center" style="width: 70px ;color:#000">..</td>
+                        <td class="text-center" style="width: 70px ;color:#000">..</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <component:pagging id="paggingSimple"/>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
+    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+    <spring:url value="/resources/scripts/PJM/searchProject.js" var="searchProject"/>
+    <script src="${searchProject}" type="text/javascript"><!--Not Empty --></script>
 
 
 </div>
+
+
+
+
 
