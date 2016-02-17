@@ -4,11 +4,60 @@
 package com.app2.app2t.domain.pjm;
 
 import com.app2.app2t.domain.pjm.Plan;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.Date;
 
 privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
+    public static void Plan.insertPlan(Task task, Date dateStart, Date dateEnd) {
+        Plan plan = new Plan();
+        plan.setTask(task);
+        plan.setDateStart(dateStart);
+        plan.setDateEnd(dateEnd);
+        plan.persist();
+    }
 
-    
+    public static List<Plan> Plan.findPlansByMonthYear(int month, int year, List<String> moduleCode) {
+
+        String datePreviousMonth = "01/01/1111";
+        String dateNextMonth = "01/01/1111";
+
+        DecimalFormat fm = new DecimalFormat("00");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+
+        if (month == 1) {
+            datePreviousMonth = "12/15/" + (year - 1);
+            dateNextMonth = "02/15/" + year;
+        } else if (month == 12) {
+            datePreviousMonth = "11/15/" + year;
+            dateNextMonth = "01/15/" + (year + 1);
+        } else {
+            datePreviousMonth = fm.format(month - 1) + "/25/" + year;
+            dateNextMonth = fm.format(month + 1) + "/15/" + year;
+        }
+
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
+        criteria.createAlias("Plan.task", "task");
+
+        try {
+            criteria.add(Restrictions.eq("task.id", 5L));
+            criteria.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
+            criteria.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
+        } catch (Exception e) {
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX");
+        }
+
+        return criteria.list();
+    }
 }

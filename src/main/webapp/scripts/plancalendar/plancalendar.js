@@ -11,6 +11,9 @@ $(document).ready(function () {
 
     // Fix bug for <textarea>
     $('#txtAddNote').text('');
+    // Fix bug for grpResultModuleSearch
+    $('#grpResultModuleSearch').html('');
+
 
     // Load and map plan
     $('#calendar').fullCalendar({
@@ -184,10 +187,7 @@ $('#btnSearchByCustom').click(function () {
 // Add plan ------------------------------------------------------------------------------------------------------------
 function openModalAddPlan(jobElement) {
     var jobName = $.trim(jobElement.innerHTML.split('<span')[0]);
-    //var jobType = $.trim(jobElement.innerHTML.split('right">')[1].split('</span>')[0]);
-    var workCode = jobElement.getAttribute('workCode');
-    var projectCode = jobElement.getAttribute('projectCode');
-    var moduleCode = jobElement.getAttribute('moduleCode');
+    var taskCode = jobElement.getAttribute('taskCode');
 
     // set name
     $('#lblAddNameWork').html(jobName);
@@ -211,15 +211,14 @@ function openModalAddPlan(jobElement) {
     $('#txtAddNote').val('');
 
     // default check
-    $('#radioPostpone_add').prop('checked', true);
+    $('#radioNoPostpone_add').prop('checked', true);
 
     // show modal
     $('#mdAddToPlan').modal({backdrop: 'static'});
 
     // set hidden
-    $('#workCode').html(workCode);
-    $('#projectCode').html(projectCode);
-    $('#moduleCode').html(moduleCode);
+    $('#taskCode').val(taskCode);
+
 }
 function getFirstEmptyDate(baseId) {
     // หา date field แรกที่ว่าง
@@ -323,23 +322,15 @@ $('#btnSaveAddPlan').click(function () {
     } else if (checkOverlapDate()) {
         bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
     } else {
-        var plan = {
-            workCode: $('#workCode').html(),
-            note: $('#txtAddNote').val(),
-            progress: 0,
-            empCode: 'EM001',
-            projectCode: $('#projectCode').html(),
-            moduleCode: $('#moduleCode').html()
-        };
-
-        var planDate = [];
+        var plans = [];
 
         if (_language == 'TH') {
             $('[id^=cAddDateBegin_][id$=_convert]').each(function () {
                 var id = this.id.split('_')[1];
                 var dateBegin = $('#cAddDateBegin_' + id).val();
                 var dateEnd = $('#cAddDateEnd_' + id).val();
-                planDate.push({
+                plans.push({
+                        taskCode: $('#taskCode').val(),
                         dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
                         dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
                     }
@@ -352,7 +343,8 @@ $('#btnSaveAddPlan').click(function () {
                     var dateBegin = $('#cAddDateBegin_' + id).val();
                     var dateEnd = $('#cAddDateEnd_' + id).val();
                 }
-                planDate.push({
+                plans.push({
+                        taskCode: $('#taskCode').val(),
                         dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
                         dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
                     }
@@ -368,7 +360,7 @@ $('#btnSaveAddPlan').click(function () {
                 Accept: "application/json"
             },
             url: contextPath + '/plans/insertplan',
-            data: JSON.stringify([plan, planDate]),
+            data: JSON.stringify(plans),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
                     bootbox.alert("บันทึกข้อมูลสำเร็จ");
@@ -413,7 +405,7 @@ function openModalEditPlan(event) {
     DateUtil.setMaxDate('cEditDateEnd', 'cEditDateBegin');
 
     // set shifting
-    $('#radioPostpone_edit').prop('checked', true);
+    $('#radioNoPostpone_edit').prop('checked', true);
 
     // set plan id
     $('#txtEditPlanId').val(event.planId);
@@ -560,17 +552,13 @@ function loadAndMapPlan(month, year) {
 
                 var event = {
                     _id: v.id,
-                    title: 'event',
+                    title: v.task.taskName,
                     start: startDate,
                     end: endDate,
-                    planId: v.plan.id,
-                    planDateId: v.id,
-                    workCode: v.plan.workCode,
-                    note: v.plan.note,
-                    progress: v.plan.progress,
-                    empCode: v.plan.empCode,
-                    projectCode: v.plan.projectCode,
-                    moduleCode: v.plan.moduleCode
+                    taskId: v.task.id,
+                    planId: v.id,
+                    note: v.note,
+                    progress: v.task.progress,
                 };
                 events.push(event);
             });
