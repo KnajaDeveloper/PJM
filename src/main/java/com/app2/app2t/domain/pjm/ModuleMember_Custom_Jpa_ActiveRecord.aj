@@ -9,19 +9,32 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 privileged aspect ModuleMember_Custom_Jpa_ActiveRecord {
+
+    protected static Logger LOGGER = LoggerFactory.getLogger(ModuleMember_Custom_Jpa_ActiveRecord.class);
     
     public static List<ModuleMember> ModuleMember.findModuleMemberByUserName(String userName) {
         EntityManager ent = ModuleMember.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class);
         criteria.add(Restrictions.eq("empCode", userName));
-
         List<ModuleMember> moduleMembers = criteria.list();
         return moduleMembers;
     }
-    
+
+    public static void ModuleMember.saveModuleMemberByModuleProject(ModuleProject moduleproject,String[] empCode) {
+        EntityManager ent = ModuleMember.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class);
+        for(String name : empCode){
+            ModuleMember mm = new ModuleMember();
+            mm.setEmpCode(name);
+            mm.setModuleProject(moduleproject);
+            mm.persist();
+        }
+    }
 }
