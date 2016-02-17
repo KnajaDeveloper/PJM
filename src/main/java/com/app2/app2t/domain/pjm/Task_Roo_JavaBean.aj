@@ -3,7 +3,6 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Program;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TypeTask;
@@ -73,14 +72,6 @@ privileged aspect Task_Roo_JavaBean {
     
     public void Task.setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
-    }
-    
-    public ModuleProject Task.getModuleProject() {
-        return this.moduleProject;
-    }
-    
-    public void Task.setModuleProject(ModuleProject moduleProject) {
-        this.moduleProject = moduleProject;
     }
     
     public String Task.getFileName() {

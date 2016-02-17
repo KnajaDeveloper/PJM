@@ -3,7 +3,6 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Program;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TypeTask;
@@ -99,7 +98,6 @@ privileged aspect TaskController_Roo_Controller {
     void TaskController.populateEditForm(Model uiModel, Task task) {
         uiModel.addAttribute("task", task);
         addDateTimeFormatPatterns(uiModel);
-        uiModel.addAttribute("moduleprojects", ModuleProject.findAllModuleProjects());
         uiModel.addAttribute("programs", Program.findAllPrograms());
         uiModel.addAttribute("typetasks", TypeTask.findAllTypeTasks());
     }
