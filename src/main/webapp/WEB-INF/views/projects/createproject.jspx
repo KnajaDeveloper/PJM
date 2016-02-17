@@ -336,6 +336,19 @@
 
 	</div>
 
+	<script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+    
+    <!-- Data Base -->
+    <spring:url value="/resources/scripts/createproject/addProjectToDB.js" var="addProjectToDB"/>
+    <script src="${addProjectToDB}" type="text/javascript"><!--Not Empty--></script>
+
+    <spring:url value="/resources/scripts/createproject/addModuleToDB.js" var="addModuleToDB"/>
+    <script src="${addModuleToDB}" type="text/javascript"><!--Not Empty--></script>
+
+    <!--           -->
+
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
