@@ -89,7 +89,7 @@
                                 <label class="control-label col-xs-3">จำนวนต้นทุน(จาก)</label>
                                 <div class="col-xs-5">
                                     <div class="input-group date ">
-                                        <input class="form-control" type="date" name="searchCode"
+                                        <input id="costStart" class="form-control" type="date" name="searchCode"
                                                placeholder="จำนวนต้นทุน(จาก)"/>
                                         <span class="input-group-addon">Point</span>
                                     </div>
@@ -100,7 +100,7 @@
                                 <label class="control-label col-xs-3">จำนวนต้นทุน(ถึง)</label>
                                 <div class="col-xs-5">
                                     <div class="input-group date ">
-                                        <input class="form-control" type="date" name="searchName"
+                                        <input id="costEnd" class="form-control" type="date" name="searchName"
                                                placeholder="จำนวนต้นทุน(ถึง)"/>
                                         <span class="input-group-addon">Point</span>
                                     </div>
@@ -113,7 +113,7 @@
                             <div class="form-group col-xs-6">
                                 <label class="control-label col-xs-3">ผู้ดูแลโปรเจค</label>
                                 <div class="col-xs-5">
-                                    <input class="form-control" type="date" name="searchCode"
+                                    <input id="projectManage" class="form-control" type="date" name="searchCode"
                                            placeholder="(ชื่อเล่น)ชื่อจริง"/>
                                 </div>
                             </div>

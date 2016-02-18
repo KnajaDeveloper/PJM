@@ -62,8 +62,13 @@ privileged aspect ProjectController_Custom_Controller_Json {
     public ResponseEntity<String> ProjectController.findProjectSearchData(
             @RequestParam(value="StDateBegin",required=false)Date StDateBegin,
             @RequestParam(value="StDateEnd",required=false)Date StDateEnd,
-            @RequestParam(value = "maxResult", required = false) Integer maxResult
-            ,@RequestParam(value = "firstResult", required = false) Integer firstResult
+            @RequestParam(value="FnDateBegin",required=false)Date FnDateBegin,
+            @RequestParam(value="FnDateEnd",required=false)Date FnDateEnd,
+            @RequestParam(value = "costStart", required = false) Integer costStart,
+            @RequestParam(value = "costEnd", required = false) Integer costEnd,
+            @RequestParam(value = "projectManage", required = false) String projectManage,
+            @RequestParam(value = "maxResult", required = false) Integer maxResult,
+            @RequestParam(value = "firstResult", required = false) Integer firstResult
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -71,7 +76,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
         try
         {
 
-            List<Project> result = Project.findProjectSearchData( StDateBegin,StDateEnd );
+            List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
 //            List<Map<String,String>> list = new ArrayList<>();
 //            for(int i=firstResult;i<maxResult + firstResult && i < result.size() ;i++){
 //                Project ty = result.get(i);
@@ -93,11 +98,17 @@ privileged aspect ProjectController_Custom_Controller_Json {
     @ResponseBody
     public ResponseEntity<String> ProjectController.projectPaggingSize(
             @RequestParam(value="StDateBegin",required=false)Date StDateBegin,
-            @RequestParam(value="StDateEnd",required=false)Date StDateEnd) {
+            @RequestParam(value="StDateEnd",required=false)Date StDateEnd,
+            @RequestParam(value="FnDateBegin",required=false)Date FnDateBegin,
+            @RequestParam(value="FnDateEnd",required=false)Date FnDateEnd,
+            @RequestParam(value = "costStart", required = false) Integer costStart,
+            @RequestParam(value = "costEnd", required = false) Integer costEnd,
+            @RequestParam(value = "projectManage", required = false) String projectManage
+    ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Project> result = Project.findProjectSearchData( StDateBegin,StDateEnd );
+            List<Project> result = Project.findProjectSearchData( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
             Map data = new HashMap();
             data.put("size", result.size());
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);

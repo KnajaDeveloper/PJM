@@ -37,11 +37,14 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Project> Project.findProjectSearchData(Date StDateBegin,Date StDateEnd) {
+    public static List<Project> Project.findProjectSearchData(Date StDateBegin,Date StDateEnd,Date FnDateBegin,Date FnDateEnd,Integer costStart,Integer costEnd,String projectManage) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
 
             criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
+            criteria.add(Restrictions.between("dateEnd",FnDateBegin,FnDateEnd));
+            criteria.add(Restrictions.between("projectCost",costStart,costEnd));
+//            criteria.add(Restrictions.like("projectCost",projectManage));
         try
         {
             List<Project> projects = criteria.list();

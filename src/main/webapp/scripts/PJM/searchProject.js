@@ -41,7 +41,7 @@ paggination.loadTable = function loadTable(jsonData) {
     $('#ResualtSearch').empty();
 
     var tableData = "";
-
+    var key = 1 ;
     jsonData.forEach(function (value) {
 
         tableData = ''
@@ -62,11 +62,11 @@ paggination.loadTable = function loadTable(jsonData) {
             + '<td id="tdTeamCode' + key + '" class="text-center" style="color: #000">'
             + value.projectName
             + '</td>'
-            + '<td id="tdTeamName' + key++ + '" class="text-center" style="color: #000">'
-            + value.dateStart
+            + '<td id="tdTeamName' + key + '" class="text-center" style="color: #000">'
+            + DateUtil.dataDateToFrontend(value.dateStart,_language)
             + '</td>'
-            + '<td id="tdTeamName' + key++ + '" class="text-center" style="color: #000">'
-            + value.dateEnd
+            + '<td id="tdTeamName' + key + '" class="text-center" style="color: #000">'
+            + DateUtil.dataDateToFrontend(value.dateEnd,_language)
             + '</td>'
             + '<td id="tdTeamName' + key++ + '" class="text-center" style="color: #000">'
             + value.projectCost
@@ -82,9 +82,17 @@ paggination.loadTable = function loadTable(jsonData) {
 function searchData() {
     var convertFormatDateStart = new Date(convertDate($('#StDateBegin').val()));
     var convertFormatDateEnd = new Date(convertDate($('#StDateEnd').val()));
+    var convertFormatFnDateStart = new Date(convertDate($('#FnDateBegin').val()));
+    var convertFormatFnDateEnd =   new Date(convertDate($('#FnDateEnd').val()));
     var dataJsonData = {
+        projectManage :  $('#projectManage').val(),
         StDateBegin: convertFormatDateStart,
-        StDateEnd  :convertFormatDateEnd
+        StDateEnd  :convertFormatDateEnd,
+        FnDateBegin: convertFormatFnDateStart,
+        FnDateEnd  :convertFormatFnDateEnd,
+        costStart : $('#costStart').val(),
+        costEnd   : $('#costEnd').val(),
+
     }
     paggination.setOptionJsonData({
         url: contextPath + "/projects/findProjectSearchData",
@@ -99,5 +107,7 @@ function searchData() {
 
 function convertDate(input){
     var x = input.split('/');
+    var year = parseInt(x[2])-543;
+    x[2] = ""+year;
     return ""+x[1]+"/"+x[0]+"/"+x[2];
 }
