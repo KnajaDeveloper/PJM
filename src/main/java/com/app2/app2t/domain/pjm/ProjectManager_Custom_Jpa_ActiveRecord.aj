@@ -3,16 +3,13 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ProjectManager;
-import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(Project_Custom_Jpa_ActiveRecord.class);
@@ -26,5 +23,30 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
             pjm.setProject(project);
             pjm.persist();
         }
+    }
+
+    public static List<ProjectManager> ProjectManager.findSelectProjectManager( String projectManage) {
+        EntityManager ent = ProjectManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class);
+
+//            criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
+//            criteria.add(Restrictions.between("dateEnd",FnDateBegin,FnDateEnd));
+//            criteria.add(Restrictions.between("projectCost",costStart,costEnd));
+//            criteria.add(Restrictions.like("projectCost",projectManage));
+        try
+        {
+            List<ProjectManager> projectManagers = criteria.list();
+            for(int i= 0; projectManagers.size() > i ;i++){
+                ProjectManager projectManager = projectManagers.get(i);
+
+                LOGGER.error(">>>"+  projectManager.getId());
+            }
+
+        }
+        catch (IndexOutOfBoundsException e){
+            return  criteria.list();
+        }
+
+        return criteria.list();
     }
 }

@@ -75,8 +75,9 @@ privileged aspect ProjectController_Custom_Controller_Json {
 //        System.out.println(searchCode + "+++"+searchName);
         try
         {
+            List<ProjectManager> resultPm = ProjectManager.findSelectProjectManager(projectManage);
 
-            List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
+//            List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd );
 //            List<Map<String,String>> list = new ArrayList<>();
 //            for(int i=firstResult;i<maxResult + firstResult && i < result.size() ;i++){
 //                Project ty = result.get(i);
@@ -87,7 +88,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
 //                list.add(map);
 //
 //            }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultPm), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -108,7 +109,9 @@ privileged aspect ProjectController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Project> result = Project.findProjectSearchData( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
+            List<ProjectManager> result= ProjectManager.findSelectProjectManager(projectManage);
+
+//            List<Project> result = Project.findSelectProjectManager( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
             Map data = new HashMap();
             data.put("size", result.size());
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);

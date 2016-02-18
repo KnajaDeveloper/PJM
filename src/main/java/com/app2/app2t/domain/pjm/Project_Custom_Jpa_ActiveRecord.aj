@@ -37,25 +37,29 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Project> Project.findProjectSearchData(Date StDateBegin,Date StDateEnd,Date FnDateBegin,Date FnDateEnd,Integer costStart,Integer costEnd,String projectManage) {
-        EntityManager ent = Project.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
-
-            criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
-            criteria.add(Restrictions.between("dateEnd",FnDateBegin,FnDateEnd));
-            criteria.add(Restrictions.between("projectCost",costStart,costEnd));
-//            criteria.add(Restrictions.like("projectCost",projectManage));
-        try
-        {
-            List<Project> projects = criteria.list();
-//            Project project = Project.get(0);
-//            project.getId();
-        }
-        catch (IndexOutOfBoundsException e){
-            return  criteria.list();
-        }
-
-        return criteria.list();
-    }
+//    public static List<Project> Project.findProjectSearchData(Date StDateBegin,Date StDateEnd,Date FnDateBegin,Date FnDateEnd,Integer costStart,Integer costEnd,String projectManage) {
+//        EntityManager ent = Project.entityManager();
+//        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+//
+////            criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
+////            criteria.add(Restrictions.between("dateEnd",FnDateBegin,FnDateEnd));
+////            criteria.add(Restrictions.between("projectCost",costStart,costEnd));
+////            criteria.add(Restrictions.like("projectCost",projectManage));
+//        try
+//        {
+//            List<Project> projects = criteria.list();
+//            for(int i= 0; projects.size() > i ;i++){
+//                Project project = projects.get(i);
+//
+//                LOGGER.error(">>>"+  project.getId());
+//            }
+//
+//        }
+//        catch (IndexOutOfBoundsException e){
+//            return  criteria.list();
+//        }
+//
+//        return criteria.list();
+//    }
     
 }
