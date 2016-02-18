@@ -168,7 +168,7 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <select class="form-control" id="ddlJobModule" name="ddlJobModule">
-                                        <option value="AllModule">โมดูลทั้งหมด</option>
+                                        <option value="0">โมดูลทั้งหมด</option>
                                     </select>
                                 </div>
                                 <div id="grpTaskType">
@@ -196,25 +196,25 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input class="form-control" type="text" id="txtJobName" name="txtJobName" placeholder="ชื่องาน"/>
+                                        <input class="form-control" type="text" id="txtTaskName" placeholder="ชื่องาน"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="txtNumMan" name="txtNumMan" placeholder="จำนวนแมน"/>
+                                            <input data-content="กรุณาระบุจำนวนแมนให้ถูกต้อง" data-placement="bottom" class="form-control" type="text" id="txtNumMan" placeholder="จำนวนแมน"/>
                                             <span class="input-group-addon">Point</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input class="form-control" type="text" id="cSearchDateBegin" name="cSearchDateBegin" placeholder="วันที่เริ่ม" readonly=""/>
+                                        <input class="form-control" type="text" id="cSearchDateBegin" placeholder="วันที่เริ่ม" readonly=""/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input class="form-control" type="text" id="cSearchDateEnd" name="cSearchDateEnd" placeholder="วันที่สิ้นสุด" readonly=""/>
+                                        <input class="form-control" type="text" id="cSearchDateEnd" placeholder="วันที่สิ้นสุด" readonly=""/>
                                     </div>
                                 </div>
                                 <br/>
@@ -261,7 +261,7 @@
                                 <label id="lblAddNameWork" class="control-label text-left full-label">ทดสอบงาน</label>
                             </div>
                         </div>
-                        <div id="grpDate">
+                        <div id="grpAddDate">
                             <div class="form-group">
                                 <label class="control-label col-xs-3 required">วันที่เริ่ม </label>
                                 <div class="col-xs-6">
@@ -300,7 +300,7 @@
                     </div>
                 </div>
 
-                        <input type="hidden" id="taskCode"/>
+                        <input type="hidden" id="taskId"/>
 
                     </div>
                 </div>
@@ -334,21 +334,28 @@
                             <label class="control-label col-xs-3 required">ความคืบหน้าของงาน </label>
                             <div class="col-xs-8">
                                 <div class="input-group">
-                                    <input class="form-control" type="text" id="txtPercentage" name="txtPercentage" data-placement="bottom" data-content="กรุณาปีความคืบหน้าให้ถูกต้อง"/>
+                                    <input class="form-control" type="text" id="txtPercentage" name="txtPercentage" data-placement="bottom" data-content="กรุณาความคืบหน้าให้ถูกต้อง"/>
                                     <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3 required">วันที่เริ่ม </label>
-                            <div class="col-xs-8">
-                                <input id="cEditDateBegin" type="text" class="form-control" readonly=""/>
+                        <div id="grpEditDate">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3 required">วันที่เริ่ม </label>
+                                <div class="col-xs-8">
+                                    <input id="cEditDateBegin_0" type="text" class="form-control" readonly=""/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>
+                                <div class="col-xs-8">
+                                    <input id="cEditDateEnd_0" type="text" class="form-control" readonly=""/>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>
-                            <div class="col-xs-8">
-                                <input id="cEditDateEnd" type="text" class="form-control" readonly=""/>
+                            <div class="col-sm-8 col-xs-offset-3">
+                                <button id="btnAddTime_edit" type="button" class="btn btn-primary">เพิ่มช่วงเวลา</button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -364,7 +371,6 @@
                         </div>
 
                         <input type="hidden" id="txtEditPlanId"/>
-                        <input type="hidden" id="txtEditPlanDateId"/>
                     </div>
                 </div>
                 <div class="modal-footer">

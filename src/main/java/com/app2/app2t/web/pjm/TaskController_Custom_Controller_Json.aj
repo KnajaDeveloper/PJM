@@ -22,41 +22,6 @@ import java.util.List;
 
 privileged aspect TaskController_Custom_Controller_Json {
 
-    @RequestMapping(value = "/findTaskByModuleAndTypeTask", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String>  TaskController.findTaskByModuleAndTypeTask(@RequestBody String json) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            JSONArray jsonArray = new JSONArray(json);
-            String moduleCode = jsonArray.get(0).toString();
-            JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(1);
-            boolean getMyTask = Boolean.parseBoolean(jsonArray.get(2).toString());
-            boolean getOtherTask = Boolean.parseBoolean(jsonArray.get(3).toString());
-
-            List<String> listModuleCode = new ArrayList<>();
-            if (moduleCode.equals("AllModule")) {
-                List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());
-                for(ModuleMember moduleMember : moduleMembers) {
-                    listModuleCode.add(moduleMember.getModuleProject().getModuleCode());
-                }
-            } else {
-                listModuleCode.add(moduleCode);
-            }
-
-            List<String> listTypeTaskCode = new ArrayList<>();
-            for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
-                listTypeTaskCode.add(jsonArrayTypeTask.get(i).toString());
-            }
-
-            List<Task> result = Task.findTaskByModuleAndTypeTask(listModuleCode, listTypeTaskCode, getMyTask, getOtherTask, AuthorizeUtil.getUserName());
-
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
     @RequestMapping(value = "/findProjectByTask", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findProjectByTask(
             @RequestParam(value = "typeTask", required = false) long typeTask

@@ -31,13 +31,42 @@ privileged aspect PlanController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<String> moduleCode = new ArrayList<>();
-            List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());
-            for (ModuleMember moduleMember : moduleMembers) {
-                moduleCode.add(moduleMember.getModuleProject().getModuleCode());
+            String userName = AuthorizeUtil.getUserName();
+            List<Plan> result = Plan.findPlansByMonthYear(month, year, userName);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findTaskByModuleAndTypeTask", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String>  PlanController.findTaskByModuleAndTypeTask(@RequestBody String json) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            Long moduleId = Long.parseLong(jsonArray.get(0).toString());
+            JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(1);
+            boolean getMyTask = Boolean.parseBoolean(jsonArray.get(2).toString());
+            boolean getOtherTask = Boolean.parseBoolean(jsonArray.get(3).toString());
+
+            List<Long> listModuleId = new ArrayList<>();
+            if (moduleId == 0) {
+                List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());
+                for (ModuleMember moduleMember : moduleMembers) {
+                    listModuleId.add(moduleMember.getModuleProject().getId());
+                }
+            } else {
+                listModuleId.add(moduleId);
             }
 
-            List<Plan> result = Plan.findPlansByMonthYear(month, year, moduleCode);
+            List<Long> listTypeTaskId = new ArrayList<>();
+            for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
+                listTypeTaskId.add(Long.parseLong(jsonArrayTypeTask.get(i).toString()));
+            }
+
+            List<Task> result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, AuthorizeUtil.getUserName());
+
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -82,11 +111,16 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArrayPlan = new JSONArray(json);
+            Long taskId = Long.parseLong(jsonArrayPlan.get(0).toString());
+
+            // Edit task -> update empCode = userName
+            String userName = AuthorizeUtil.getUserName();
+            Task task = Task.updateEmpCode(taskId, userName);
+
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            for (int i = 0; i < jsonArrayPlan.length(); i++) {
+
+            for (int i = 1; i < jsonArrayPlan.length(); i++) {
                 JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
-                String taskCode = jsonPlan.get("taskCode").toString();
-                Task task = Task.findTaskByTaskCode(taskCode);
                 Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
                 Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
                 dateStart = formatter.parse(formatter.format(dateStart));
@@ -97,6 +131,20 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
 
+        } catch (Exception e) {
+            LOGGER.debug("error " + e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/deletePlan", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.deletePlan(@RequestBody String json) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            long planId = Long.parseLong(json.toString());
+            Plan.deleteById(planId);
+            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }

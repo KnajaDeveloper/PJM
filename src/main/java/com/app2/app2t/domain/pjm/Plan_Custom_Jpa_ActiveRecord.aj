@@ -7,15 +7,15 @@ import com.app2.app2t.domain.pjm.Plan;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.*;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.Date;
 
 privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
@@ -27,7 +27,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         plan.persist();
     }
 
-    public static List<Plan> Plan.findPlansByMonthYear(int month, int year, List<String> moduleCode) {
+    public static List<Plan> Plan.findPlansByMonthYear(int month, int year, String userName) {
 
         String datePreviousMonth = "01/01/1111";
         String dateNextMonth = "01/01/1111";
@@ -51,7 +51,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.createAlias("Plan.task", "task");
 
         try {
-            criteria.add(Restrictions.eq("task.id", 5L));
+            criteria.add(Restrictions.eq("task.empCode", userName));
             criteria.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
             criteria.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
         } catch (Exception e) {
@@ -59,5 +59,28 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         }
 
         return criteria.list();
+    }
+
+    public static Set<Long> Plan.findAllDistinctTaskId() {
+        List<Plan> plans = entityManager().createQuery("SELECT o FROM Plan o", Plan.class).getResultList();
+        Set<Long> setTaskId = new HashSet<>();
+        for (Plan plan : plans) {
+            setTaskId.add(plan.getTask().getId());
+        }
+
+        return setTaskId;
+    }
+
+    public static void Plan.deleteById(long planId) {
+        try {
+            EntityManager ent = Plan.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+            criteria.add(Restrictions.eq("id", planId));
+            List<Plan> plans = criteria.list();
+            Plan plan = plans.get(0);
+            plan.remove();
+        } catch (Exception ex) {
+
+        }
     }
 }
