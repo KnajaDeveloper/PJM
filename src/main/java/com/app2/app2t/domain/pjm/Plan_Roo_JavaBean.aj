@@ -41,4 +41,28 @@ privileged aspect Plan_Roo_JavaBean {
         this.task = task;
     }
     
+    public String Plan.getPlanType() {
+        return this.planType;
+    }
+    
+    public void Plan.setPlanType(String planType) {
+        this.planType = planType;
+    }
+    
+    public String Plan.getPlanName() {
+        return this.planName;
+    }
+    
+    public void Plan.setPlanName(String planName) {
+        this.planName = planName;
+    }
+    
+    public Integer Plan.getPlanCost() {
+        return this.planCost;
+    }
+    
+    public void Plan.setPlanCost(Integer planCost) {
+        this.planCost = planCost;
+    }
+    
 }

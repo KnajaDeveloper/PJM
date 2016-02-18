@@ -39,4 +39,18 @@ public class Plan extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task")
     private Task task;
+
+    /**
+     * M = Module plan
+     * O = Other plan
+     */
+    private String planType;
+
+    /**
+     */
+    private String planName;
+
+    /**
+     */
+    private Integer planCost;
 }

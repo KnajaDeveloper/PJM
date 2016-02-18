@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import sun.rmi.runtime.Log;
 
 privileged aspect PlanController_Custom_Controller_Json {
 
@@ -50,6 +51,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             boolean getMyTask = Boolean.parseBoolean(jsonArray.get(2).toString());
             boolean getOtherTask = Boolean.parseBoolean(jsonArray.get(3).toString());
 
+            // find my module
             List<Long> listModuleId = new ArrayList<>();
             if (moduleId == 0) {
                 List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());

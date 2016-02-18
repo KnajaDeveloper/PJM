@@ -179,14 +179,18 @@ $('#btnSearchByCustom').click(function () {
     $('#grpResultCustomSearch').empty();
 
     var taskName = $('#txtTaskName').val();
-    var pointMan = $('#txtNumMan').val();
+    var taskCost = $('#txtNumMan').val();
     var dateStart = $('#cSearchDateBegin').val();
     var dateEnd = $('#cSearchDateEnd').val();
 
-    if (pointMan.length > 0 && (!$.isNumeric(pointMan)) || pointMan.indexOf('.') >= 0) {
+    if (taskCost.length > 0 && (!$.isNumeric(taskCost)) || taskCost.indexOf('.') >= 0) {
         $('#txtNumMan').popover('show');
     } else {
-        console.log(taskName + ' ' + pointMan + ' ' + dateStart + ' ' + dateEnd);
+        console.log(taskName + ' ' + taskCost + ' ' + dateStart + ' ' + dateEnd);
+
+        dateStart = dateStart.length > 0 ? DateUtil.dataDateToDataBase(dateStart, _language) : null;
+        dateEnd = dateEnd.length > 0 ? DateUtil.dataDateToDataBase(dateEnd, _language) : null;
+
         $.ajax({
             type: "GET",
             contentType: "application/json; charset=UTF-8",
@@ -194,16 +198,24 @@ $('#btnSearchByCustom').click(function () {
             headers: {
                 Accept: "application/json"
             },
-            url: contextPath + '/plans/findTask?taskName=' + taskName + '&point=' + pointMan + '&dateStart=' + dateStart + '&dateEnd=' + dateEnd,
+            url: contextPath + '/plans/findTask'
+            + '?taskName=' + taskName
+            + '&taskCost=' + taskCost
+            + '&dateStart=' + dateStart
+            + '&dateEnd=' + dateEnd,
             success: function (data, status, xhr) {
+                if(data.length === 0) {
+                    // no result
+                    $('#lblNoResultSerchByCustom').show();
+                }else{
 
+                }
             },
             async: false
         });
     }
 
-    // no result
-    $('#lblNoResultSerchByCustom').show();
+
 });
 
 // Add plan ------------------------------------------------------------------------------------------------------------
