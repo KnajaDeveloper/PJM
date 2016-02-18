@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     // Set current month/year and load current plan
     setCurrentMonthYear();
-    //loadAndMapPlan(_month, _year);
+    loadAndMapPlan(_month, _year);
 
     // Date picker for tab search job
     $("#cSearchDateBegin").datepicker(dateLang);
@@ -52,14 +52,14 @@ $(document).ready(function () {
     });
 
     // Date picker for edit modal
-    $("#cEditDateBegin").datepicker(dateLang);
-    $("#cEditDateEnd").datepicker(dateLang);
+    $("#cEditDateBegin_0").datepicker(dateLang);
+    $("#cEditDateEnd_0").datepicker(dateLang);
 
-    $("#cEditDateBegin").on('change', function () {
-        DateUtil.setMinDate('cEditDateBegin', 'cEditDateEnd');
+    $("#cEditDateBegin_0").on('change', function () {
+        DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
     });
-    $("#cEditDateEnd").on('change', function () {
-        DateUtil.setMaxDate('cEditDateEnd', 'cEditDateBegin');
+    $("#cEditDateEnd_0").on('change', function () {
+        DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
     });
 
 
@@ -75,7 +75,7 @@ $(document).ready(function () {
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
                 $.each(data, function (k, v) {
-                    $('#ddlJobModule').append('<option value="' + v.moduleCode + '">' + v.moduleName + '</option>');
+                    $('#ddlJobModule').append('<option value="' + v.id + '">' + v.moduleName + '</option>');
                 });
             }
         },
@@ -95,7 +95,7 @@ $(document).ready(function () {
             $('#grpTaskType').html('');
             if (xhr.status === 200) {
                 $.each(data, function (k, v) {
-                    $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="' + v.typeTaskCode + '"/>' + v.typeTaskName + '</label></div>');
+                    $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="' + v.id + '"/>' + v.typeTaskName + '</label></div>');
                 });
             }
             $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" id="checkMyTask"/>งานของตนเอง</label></div>');
@@ -151,7 +151,7 @@ $('#btnSearchByModule').click(function () {
         headers: {
             Accept: "application/json"
         },
-        url: contextPath + '/tasks/findTaskByModuleAndTypeTask',
+        url: contextPath + '/plans/findTaskByModuleAndTypeTask',
         data: JSON.stringify([moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
@@ -161,7 +161,7 @@ $('#btnSearchByModule').click(function () {
                 } else {
                     $('#lblNoResultSerchByModule').hide();
                     $.each(data, function (k, v) {
-                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == '' ? 'danger' : 'success') + '" taskCode="' + v.taskCode + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
+                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == null ? 'danger' : 'success') + '" taskId="' + v.id + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
                     });
                 }
             }
@@ -174,11 +174,33 @@ $('#btnSearchByModule').click(function () {
 
 // Search job [custom]-----------------------------------------------------------------------------------------------
 $('#btnSearchByCustom').click(function () {
-    //
-    //
 
     // clear result list
     $('#grpResultCustomSearch').empty();
+
+    var taskName = $('#txtTaskName').val();
+    var pointMan = $('#txtNumMan').val();
+    var dateStart = $('#cSearchDateBegin').val();
+    var dateEnd = $('#cSearchDateEnd').val();
+
+    if (pointMan.length > 0 && (!$.isNumeric(pointMan)) || pointMan.indexOf('.') >= 0) {
+        $('#txtNumMan').popover('show');
+    } else {
+        console.log(taskName + ' ' + pointMan + ' ' + dateStart + ' ' + dateEnd);
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: contextPath + '/plans/findTask?taskName=' + taskName + '&point=' + pointMan + '&dateStart=' + dateStart + '&dateEnd=' + dateEnd,
+            success: function (data, status, xhr) {
+
+            },
+            async: false
+        });
+    }
 
     // no result
     $('#lblNoResultSerchByCustom').show();
@@ -187,7 +209,7 @@ $('#btnSearchByCustom').click(function () {
 // Add plan ------------------------------------------------------------------------------------------------------------
 function openModalAddPlan(jobElement) {
     var jobName = $.trim(jobElement.innerHTML.split('<span')[0]);
-    var taskCode = jobElement.getAttribute('taskCode');
+    var taskId = jobElement.getAttribute('taskId');
 
     // set name
     $('#lblAddNameWork').html(jobName);
@@ -217,35 +239,38 @@ function openModalAddPlan(jobElement) {
     $('#mdAddToPlan').modal({backdrop: 'static'});
 
     // set hidden
-    $('#taskCode').val(taskCode);
+    $('#taskId').val(taskId);
 
 }
 function getFirstEmptyDate(baseId) {
+
     // หา date field แรกที่ว่าง
     var obj = null;
     $('[id^=' + baseId + ']').each(function () {
-        if (obj === null)
-            if ($(this).val().length === 0)
+        if (obj === null) {
+            if ($(this).val().length === 0) {
                 obj = $(this);
+            }
+        }
     });
     return obj;
 }
-function checkOverlapDate() {
+function checkOverlapDate(idDateBegin, idDateEnd) {
     var isOverlap = false;
     var xx = commonData.language == 'TH' ? '_convert' : '';
 
-    $('[id^=cAddDateBegin_]').each(function () {              // loop parent
+    $('[id^=' + idDateBegin + ']').each(function () {              // loop parent
 
         var id1 = this.id.split('_')[1];
-        var dateBegin1 = date2EnStyle($('#cAddDateBegin_' + id1 + xx).val());
-        var dateEnd1 = date2EnStyle($('#cAddDateEnd_' + id1 + xx).val());
+        var dateBegin1 = date2EnStyle($('#' + idDateBegin + id1 + xx).val());
+        var dateEnd1 = date2EnStyle($('#' + idDateEnd + id1 + xx).val());
 
-        $('[id^=cAddDateBegin_]').each(function () {          // loop child
+        $('[id^=' + idDateBegin + ']').each(function () {          // loop child
 
             var id2 = this.id.split('_')[1];
             if (id2 !== id1) {   // not itself
-                var dateBegin2 = date2EnStyle($('#cAddDateBegin_' + id2 + xx).val());
-                var dateEnd2 = date2EnStyle($('#cAddDateEnd_' + id2 + xx).val());
+                var dateBegin2 = date2EnStyle($('#' + idDateBegin + id2 + xx).val());
+                var dateEnd2 = date2EnStyle($('#' + idDateEnd + id2 + xx).val());
                 if (dates.inRange(dateBegin1, dateBegin2, dateEnd2) || dates.inRange(dateEnd1, dateBegin2, dateEnd2)) {
                     isOverlap = true;
                 }
@@ -257,15 +282,15 @@ function checkOverlapDate() {
 
     return isOverlap;
 }
-function setDatePicker(id) {
-    $("#cAddDateBegin_" + id).datepicker(dateLang);
-    $("#cAddDateEnd_" + id).datepicker(dateLang);
+function setDatePicker(idDateBegin, idDateEnd, id) {
+    $("#" + idDateBegin + id).datepicker(dateLang);
+    $("#" + idDateEnd + id).datepicker(dateLang);
 
-    $("#cAddDateBegin_" + id).on('change', function () {
-        DateUtil.setMinDate('cAddDateBegin_' + id, 'cAddDateEnd_' + id);
+    $("#" + idDateBegin + id).on('change', function () {
+        DateUtil.setMinDate(idDateBegin + id, idDateEnd + id);
     });
-    $("#cAddDateEnd_" + id).on('change', function () {
-        DateUtil.setMaxDate('cAddDateEnd_' + id, 'cAddDateBegin_' + id);
+    $("#" + idDateEnd + id).on('change', function () {
+        DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
     });
 }
 
@@ -276,11 +301,11 @@ $('#btnAddTime').click(function () {
         b.popover('show');
     } else if (e !== null) {
         e.popover('show');
-    } else if (checkOverlapDate()) {
+    } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
         bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
     } else {
         ++dateAddMaxId;
-        $('#grpDate').append('<div class="form-group">'
+        $('#grpAddDate').append('<div class="form-group">'
             + '<label class="control-label col-xs-3 required">วันที่เริ่ม </label>'
             + '<div class="col-xs-6">'
             + '<input id="cAddDateBegin_'
@@ -288,7 +313,7 @@ $('#btnAddTime').click(function () {
             + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
             + '</div>'
             + '</div>');
-        $('#grpDate').append('<div class="form-group">'
+        $('#grpAddDate').append('<div class="form-group">'
             + '<label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>'
             + '<div class="col-xs-6">'
             + '<input id="cAddDateEnd_'
@@ -302,10 +327,10 @@ $('#btnAddTime').click(function () {
             + '</div>'
             + '</div>');
 
-        setDatePicker(dateAddMaxId);
+        setDatePicker('cAddDateBegin_', 'cAddDateEnd_', dateAddMaxId);
     }
 });
-$('#grpDate').on('click', '[id^=btnDeleteAddDate_]', function () {
+$('#grpAddDate').on('click', '[id^=btnDeleteAddDate_]', function () {
     var id = this.id.split('_')[1];
     $('#cAddDateBegin_' + id).parent().parent().remove();
     $('#cAddDateEnd_' + id).parent().parent().remove();
@@ -319,10 +344,11 @@ $('#btnSaveAddPlan').click(function () {
         b.popover('show');
     } else if (e !== null) {
         e.popover('show');
-    } else if (checkOverlapDate()) {
+    } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
         bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
     } else {
-        var plans = [];
+        var taskId = $('#taskId').val();
+        var plans = [taskId];
 
         if (_language == 'TH') {
             $('[id^=cAddDateBegin_][id$=_convert]').each(function () {
@@ -330,7 +356,6 @@ $('#btnSaveAddPlan').click(function () {
                 var dateBegin = $('#cAddDateBegin_' + id).val();
                 var dateEnd = $('#cAddDateEnd_' + id).val();
                 plans.push({
-                        taskCode: $('#taskCode').val(),
                         dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
                         dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
                     }
@@ -344,7 +369,6 @@ $('#btnSaveAddPlan').click(function () {
                     var dateEnd = $('#cAddDateEnd_' + id).val();
                 }
                 plans.push({
-                        taskCode: $('#taskCode').val(),
                         dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
                         dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
                     }
@@ -365,6 +389,7 @@ $('#btnSaveAddPlan').click(function () {
                 if (xhr.status === 200) {
                     bootbox.alert("บันทึกข้อมูลสำเร็จ");
                     $('#mdAddToPlan').modal('hide');
+                    $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
                     loadAndMapPlan(_month, _year);
                 } else if (xhr.status === 500) {
                     bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
@@ -391,18 +416,26 @@ function openModalEditPlan(event) {
     var endDate = event.end._i.split('T')[0];
 
     if (commonData.language == 'TH') {
-        startDate = parseDateToBE(parseDatePicker(startDate));
-        endDate = parseDateToBE(parseDatePicker(endDate));
+        $('#cEditDateBegin_0').val(parseDateToBE(parseDatePicker(startDate)));
+        $('#cEditDateEnd_0').val(parseDateToBE(parseDatePicker(endDate)));
+        $('#cEditDateBegin_0_convert').val(parseDatePicker(startDate));
+        $('#cEditDateEnd_0_convert').val(parseDatePicker(endDate));
     } else {
-        startDate = parseDatePicker(startDate);
-        endDate = parseDatePicker(endDate);
+        $('#cEditDateBegin_0').val(parseDatePicker(startDate));
+        $('#cEditDateEnd_0').val(parseDatePicker(endDate));
     }
 
-    $('#cEditDateBegin').val(startDate);
-    $('#cEditDateEnd').val(endDate);
+    dateAddMaxId = 0;
+    $('[id^=cEditDateBegin_]').each(function () {
+        var id = this.id.split('_')[1];
+        if (id !== '0') {
+            $('#cEditDateBegin_' + id).parent().parent().remove();
+            $('#cEditDateEnd_' + id).parent().parent().remove();
+        }
+    });
 
-    DateUtil.setMinDate('cEditDateBegin', 'cEditDateEnd');
-    DateUtil.setMaxDate('cEditDateEnd', 'cEditDateBegin');
+    DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
+    DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
 
     // set shifting
     $('#radioNoPostpone_edit').prop('checked', true);
@@ -410,12 +443,52 @@ function openModalEditPlan(event) {
     // set plan id
     $('#txtEditPlanId').val(event.planId);
 
-    // set plan_date id
-    $('#txtEditPlanDateId').val(event.planDateId);
-
     // show modal
     $('#mdEditToPlan').modal({backdrop: 'static'});
 }
+
+$('#btnAddTime_edit').click(function () {
+    var b = getFirstEmptyDate('cEditDateBegin_');
+    var e = getFirstEmptyDate('cEditDateEnd_');
+
+    if (b !== null) {
+        b.popover('show');
+    } else if (e !== null) {
+        e.popover('show');
+    } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
+        bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
+    } else {
+        ++dateAddMaxId;
+        $('#grpEditDate').append('<div class="form-group">'
+            + '<label class="control-label col-xs-3 required">วันที่เริ่ม </label>'
+            + '<div class="col-xs-6">'
+            + '<input id="cEditDateBegin_'
+            + dateAddMaxId
+            + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '</div>'
+            + '</div>');
+        $('#grpEditDate').append('<div class="form-group">'
+            + '<label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>'
+            + '<div class="col-xs-6">'
+            + '<input id="cEditDateEnd_'
+            + dateAddMaxId
+            + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '</div>'
+            + '<div class="col-sm-1">'
+            + '<button id="btnDeleteEditDate_'
+            + dateAddMaxId
+            + '" type="button" class="btn btn-danger col-sm-12">ลบ</button>'
+            + '</div>'
+            + '</div>');
+
+        setDatePicker('cEditDateBegin_', 'cEditDateEnd_', dateAddMaxId);
+    }
+});
+$('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
+    var id = this.id.split('_')[1];
+    $('#cEditDateBegin_' + id).parent().parent().remove();
+    $('#cEditDateEnd_' + id).parent().parent().remove();
+});
 
 $('#btnCancelEditPlan').click(function () {
     $('#mdEditToPlan').modal('hide');
@@ -423,16 +496,16 @@ $('#btnCancelEditPlan').click(function () {
 $('#btnSaveEditPlan').click(function () {
     // Save process
     var progress = $('#txtPercentage').val();
-    var dateBegin = $('#cEditDateBegin').val();
-    var dateEnd = $('#cEditDateEnd').val();
+    //var dateBegin = $('#cEditDateBegin').val();
+    //var dateEnd = $('#cEditDateEnd').val();
 
     if ($.isNumeric(progress) && progress <= 100 && progress >= 0) {
         console.log(progress);
     } else if (progress < 0 || progress > 100) {
-        $('#txtPercentage').data("bs.popover").options.content = "กรุราระบุความคืบหน้าในช่วง 0 ถึง 100";
+        $("#txtPercentage").attr('data-content', 'กรุณาระบุความคืบหน้าในช่วง 0 ถึง 100');
         $('#txtPercentage').popover('show');
     } else {
-        $('#txtPercentage').data("bs.popover").options.content = "กรุราระบุความคืบหน้าให้ถูกต้อง";
+        $("#txtPercentage").attr('data-content', 'กรุณาระบุความคืบหน้าให้ถูกต้อง');
         $('#txtPercentage').popover('show');
     }
 
@@ -440,8 +513,7 @@ $('#btnSaveEditPlan').click(function () {
 $('#btnDeleteEditPlan').click(function () {
     // Delete process
     var planId = $('#txtEditPlanId').val();
-    var planDateId = $('#txtEditPlanDateId').val();
-
+    console.log(planId);
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=UTF-8",
@@ -449,16 +521,13 @@ $('#btnDeleteEditPlan').click(function () {
         headers: {
             Accept: "application/json"
         },
-        url: contextPath + '/plans/deletePersonalPlan',
-        data: JSON.stringify({
-            planDateId: planDateId,
-            planId: planId
-        }),
+        url: contextPath + '/plans/deletePlan',
+        data: planId,
         complete: function (xhr) {
             if (xhr.status === 201) {
                 bootbox.alert("ลบข้อมูลสำเร็จ");
                 $('#mdEditToPlan').modal('hide');
-                $('#calendar').fullCalendar('removeEvents', planDateId);
+                $('#calendar').fullCalendar('removeEvents', planId);
                 $('#calendar').fullCalendar("rerenderEvents");
             } else if (xhr.status === 500) {
                 bootbox.alert("ลบข้อมูลไม่สำเร็จ");
@@ -584,10 +653,6 @@ function parseDatePicker(date) {
     // yyyy-mm-dd -> dd/mm/yyyy
     date = date.split('-');
     return date[2] + '/' + date[1] + '/' + date[0];
-}
-function parseDateToBC(date) {
-    date = date.split('/');
-    return date[0] + '/' + date[1] + '/' + (parseInt(date[2]) - 543);
 }
 function parseDateToBE(date) {
     date = date.split('/');
