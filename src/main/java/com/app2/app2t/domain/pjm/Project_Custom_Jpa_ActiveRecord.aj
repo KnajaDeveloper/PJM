@@ -61,7 +61,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
 //
 //        return criteria.list();
 //    }
-    
+
     public static Project Project.increseCostByModuleNameAndCodeProject(String projectCode,Integer increseCost,Integer totalCost) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
@@ -69,7 +69,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         List<Project> projectList = criteria.list();
         Project project = projectList.get(0);;
         int oldCost = project.getProjectCost();
-        if(totalCost+increseCost>oldCost) totalCost = project.getProjectCost() + increseCost ;
+        if(totalCost+increseCost>oldCost) totalCost = totalCost + increseCost ;
         else totalCost = project.getProjectCost();
         project.setProjectCost(totalCost);
         project.merge();

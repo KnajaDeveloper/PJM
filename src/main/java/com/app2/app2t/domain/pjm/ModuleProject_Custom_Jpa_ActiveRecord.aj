@@ -28,6 +28,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         moduleproject.setDateStart(dateStart);
         moduleproject.setDateEnd(dateEnd);
         moduleproject.setProject(project);
+        moduleproject.setModuleStatus("Not Success");
         moduleproject.persist();
         return moduleproject;
     }
@@ -62,18 +63,20 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return moduleProject;
     }
 
-    public static void ModuleProject.increseCostByModuleNameAndCodeProject(Project project,String codeModuleProject,Integer costIncrese) {
+    public static int ModuleProject.increseCostByModuleNameAndCodeProject(Project project,String codeModuleProject,Integer costIncrese) {
+        int totalCost = 0 ;
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria.add(Restrictions.eq("project", project));
         criteria.add(Restrictions.eq("moduleCode", codeModuleProject));
         List<ModuleProject> moduleProject = criteria.list();
         for(int i=0;i<moduleProject.size();i++) {
-            ModuleProject editCostModuleProject = new ModuleProject();
-            int totalCost = editCostModuleProject.getModuleCost() + costIncrese;
+            ModuleProject editCostModuleProject = moduleProject.get(0);
+            totalCost = editCostModuleProject.getModuleCost() + costIncrese;
             editCostModuleProject.setModuleCost(totalCost);
             editCostModuleProject.merge();
         }
+        return totalCost;
     }
 
     public static int ModuleProject.findAllModuleCostByProject(Project project) {
@@ -83,7 +86,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("project", project));
         List<ModuleProject> moduleProject = criteria.list();
         for(int i=0;i<moduleProject.size();i++) {
-            ModuleProject editCostModuleProject = new ModuleProject();
+            ModuleProject editCostModuleProject = moduleProject.get(i);
             totalCost += editCostModuleProject.getModuleCost();
         }
         return totalCost;
