@@ -6,8 +6,10 @@ package com.app2.app2t.domain.pjm;
 import com.app2.app2t.domain.pjm.ModuleManager;
 import java.util.List;
 
+import com.sun.xml.internal.ws.api.server.Module;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,4 +30,16 @@ privileged aspect ModuleManager_Custom_Jpa_ActiveRecord {
             mm.persist();
         }
     }
+
+    public static void ModuleManager.deleteModuleManagerByModuleProject(ModuleProject moduleproject) {
+        EntityManager ent = ModuleManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class);
+        criteria.add(Restrictions.eq("moduleProject", moduleproject));
+        List<ModuleManager> moduleManagersList = criteria.list();
+        for(int i=0;i<moduleManagersList.size();i++){
+            ModuleManager mm = moduleManagersList.get(i);
+            mm.remove();
+        }
+    }
+
 }

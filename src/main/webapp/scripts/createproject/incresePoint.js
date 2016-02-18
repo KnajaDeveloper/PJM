@@ -1,4 +1,4 @@
-var dataDDLByCode;
+var dataDDLByCode ;
 
 $("#btnIncresePoint").click(function(){
 	addDataToDDLModule();
@@ -6,6 +6,32 @@ $("#btnIncresePoint").click(function(){
 
 $("#btnSaveIncreseCostModule").click(function(){
 	var bool = checkDataBeforeSave();
+	var idModuleProject = focusModuleCode($("#ddlIncreseCostModuleName").val());
+	var editCostModuleProject = {
+		codeProject: $("#txtInitialProjectName").val(),
+		codeModuleProject: idModuleProject ,
+		costIncrese: parseInt($("#txtIncreseCostModuleCost").val())
+	};
+	var responseHeader = null;
+	$.ajax({
+		headers: {
+			Accept: "application/json"
+		},
+		type: "POST",
+		url: contextPath + '/moduleprojects/increseCostByModuleNameAndCodeProject',
+		data : editCostModuleProject,
+		complete: function(xhr){
+			if(xhr.status === 201){
+				bootbox.alert("Edit Success");
+				return true;
+			}else if(xhr.status === 500){
+				bootbox.alert("Edit Error");
+				return false;
+			}
+		},
+		async: false
+	});
+	return true;
 });
 
 function addDataToDDLModule(){
@@ -20,7 +46,7 @@ function addDataToDDLModule(){
 		headers: {
 			Accept: "application/json"
 		},
-		url: contextPath + '/moduleprojects/findAllNameModuleByProjectCode',
+		url: contextPath + '/moduleprojects/findModuleByProjectCode',
 		data : dataJsonData,
 		complete: function(xhr){
 
@@ -31,9 +57,18 @@ function addDataToDDLModule(){
     $("#ddlIncreseCostModuleName").append("<option>--- Module Name ---</option>");
 	dataDDLByCode = dataDDLByCode.responseJSON;
 	dataDDLByCode.forEach(function(name) {
-    	$("#ddlIncreseCostModuleName").append("<option>"+name.moduleName+"</option>");
+		var text="("+name.moduleCode+") "+name.moduleName
+    	$("#ddlIncreseCostModuleName").append("<option>"+text+"</option>");
 	});
 }
+
+
+function focusModuleCode(input){
+	var subInput = input.split(" ");
+	var str = ""+subInput[0];
+	return str.substring(1, str.length-1);
+}
+
 
 
 function checkDataBeforeSave(){

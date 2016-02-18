@@ -37,4 +37,15 @@ privileged aspect ModuleMember_Custom_Jpa_ActiveRecord {
             mm.persist();
         }
     }
+
+    public static void ModuleMember.deleteModuleMemberByModuleProject(ModuleProject moduleproject) {
+        EntityManager ent = ProjectManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class);
+        criteria.add(Restrictions.eq("moduleProject", moduleproject));
+        List<ModuleMember> moduleMembersList = criteria.list();
+        for(int i=0;i<moduleMembersList.size();i++){
+            ModuleMember mm = moduleMembersList.get(i);
+            mm.remove();
+        }
+    }
 }

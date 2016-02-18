@@ -81,4 +81,54 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/editModuleProjectByModuleProjectCode",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.editModuleProjectByModuleProjectCode(
+            @RequestParam(value = "moduleNeedEdit", required = false) String moduleNeedEdit,
+            @RequestParam(value = "moduleCode", required = false) String moduleCode,
+            @RequestParam(value = "moduleName", required = false) String moduleName,
+            @RequestParam(value = "moduleCost", required = false) Integer moduleCost,
+            @RequestParam(value = "dateStart", required = false) Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "arr_moduleManager", required = false) String arr_moduleManager,
+            @RequestParam(value = "arr_moduleMember", required = false) String arr_moduleMember
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            ModuleProject moduleProject = ModuleProject.editModuleProjectByModuleProjectCode(moduleNeedEdit,moduleCode,
+                    moduleName,moduleCost,dateStart,dateEnd);
+            // Edit
+            ModuleManager.deleteModuleManagerByModuleProject(moduleProject);
+            ModuleManager.saveModuleManagerByModuleProject(moduleProject, arr_moduleManager.split("=="));
+
+            ModuleMember.deleteModuleMemberByModuleProject(moduleProject);
+            ModuleMember.saveModuleMemberByModuleProject(moduleProject, arr_moduleMember.split("=="));
+
+            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/increseCostByModuleNameAndCodeProject",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.increseCostByModuleNameAndCodeProject(
+            @RequestParam(value = "codeProject", required = false) String codeProject,
+            @RequestParam(value = "codeModuleProject", required = false) String codeModuleProject,
+            @RequestParam(value = "costIncrese", required = false) Integer costIncrese
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Project> projectList = Project.findProjectByProjectCode(codeProject);
+            int totalCostModule = ModuleProject.findAllModuleCostByProject(projectList.get(0));
+            Project project = Project.increseCostByModuleNameAndCodeProject(codeProject, costIncrese, totalCostModule);
+            ModuleProject.increseCostByModuleNameAndCodeProject(project, codeModuleProject, costIncrese);
+            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

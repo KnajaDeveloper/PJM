@@ -349,6 +349,9 @@
 
     <spring:url value="/resources/scripts/createproject/incresePoint.js" var="incresePoint"/>
     <script src="${incresePoint}" type="text/javascript"><!--Not Empty--></script>
+
+    <spring:url value="/resources/scripts/createproject/editModule.js" var="editModule"/>
+    <script src="${editModule}" type="text/javascript"><!--Not Empty--></script>
     <!--           -->
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>

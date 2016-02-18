@@ -4,6 +4,7 @@
 package com.app2.app2t.domain.pjm;
 
 import com.app2.app2t.domain.pjm.ModuleProject;
+import com.sun.xml.internal.ws.api.server.Module;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -43,5 +44,48 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria.add(Restrictions.eq("project", project));
         return criteria.list();
+    }
+
+    public static ModuleProject ModuleProject.editModuleProjectByModuleProjectCode(String moduleNeedEdit, String moduleCode,
+           String moduleName, Integer moduleCost, Date dateStart, Date dateEnd    ) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("moduleCode", moduleNeedEdit));
+        List<ModuleProject> result = criteria.list();
+        ModuleProject moduleProject = result.get(0);
+        moduleProject.setModuleCode(moduleCode);
+        moduleProject.setModuleName(moduleName);
+        moduleProject.setModuleCost(moduleCost);
+        moduleProject.setDateEnd(dateStart);
+        moduleProject.setDateEnd(dateEnd);
+        moduleProject.merge();
+        return moduleProject;
+    }
+
+    public static void ModuleProject.increseCostByModuleNameAndCodeProject(Project project,String codeModuleProject,Integer costIncrese) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("project", project));
+        criteria.add(Restrictions.eq("moduleCode", codeModuleProject));
+        List<ModuleProject> moduleProject = criteria.list();
+        for(int i=0;i<moduleProject.size();i++) {
+            ModuleProject editCostModuleProject = new ModuleProject();
+            int totalCost = editCostModuleProject.getModuleCost() + costIncrese;
+            editCostModuleProject.setModuleCost(totalCost);
+            editCostModuleProject.merge();
+        }
+    }
+
+    public static int ModuleProject.findAllModuleCostByProject(Project project) {
+        int totalCost = 0 ;
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("project", project));
+        List<ModuleProject> moduleProject = criteria.list();
+        for(int i=0;i<moduleProject.size();i++) {
+            ModuleProject editCostModuleProject = new ModuleProject();
+            totalCost += editCostModuleProject.getModuleCost();
+        }
+        return totalCost;
     }
 }
