@@ -73,6 +73,9 @@ field number --type java.lang.Integer --fieldName progress
 field reference --fieldName program --type ~.domain.pjm.program --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName program
 entity jpa --class ~.domain.pjm.Plan --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
 field string note
+field string planType
+field string planName
+field string planCost
 field date --fieldName dateStart --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
 field date --fieldName dateEnd --type java.util.Date --dateFormat SHORT --dateTimeFormatPattern "dd/MM/yyyy"
 field reference --fieldName task --type ~.domain.pjm.Task --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName task
@@ -100,3 +103,17 @@ web mvc all --package ~.web.pjm
 web mvc json all 
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-02-17 13:00:56
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-02-18 17:17:26
+focus --class ~.domain.pjm.Plan
+field string planType
+field string planName
+field number --type java.lang.Integer --fieldName planCost
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-02-18 17:19:57
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-02-18 17:20:27
+json all 
+json all --deepSerialize 
+web mvc all --package ~.web.pjm
+web mvc json all 
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-02-18 17:21:04

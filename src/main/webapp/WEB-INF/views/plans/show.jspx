@@ -12,5 +12,8 @@
         <field:display date="true" dateTimePattern="${plan_datestart_date_format}" field="dateStart" id="s_com_app2_app2t_domain_pjm_Plan_dateStart" object="${plan}" z="eKAXriJrwCRonQii1Kr/Jovtp4E="/>
         <field:display date="true" dateTimePattern="${plan_dateend_date_format}" field="dateEnd" id="s_com_app2_app2t_domain_pjm_Plan_dateEnd" object="${plan}" z="woPCQM8G6V/vu4guzXAaG71sKP4="/>
         <field:display field="task" id="s_com_app2_app2t_domain_pjm_Plan_task" object="${plan}" z="4PuQEXuC2Y+ejBA5Ra1dDqJGbps="/>
+        <field:display field="planType" id="s_com_app2_app2t_domain_pjm_Plan_planType" object="${plan}" z="kOvgG6FiA8KWRT0FuwidQYUH/Fs="/>
+        <field:display field="planName" id="s_com_app2_app2t_domain_pjm_Plan_planName" object="${plan}" z="uxJ04z7B0r7kYkZ5w0SmmS51/3w="/>
+        <field:display field="planCost" id="s_com_app2_app2t_domain_pjm_Plan_planCost" object="${plan}" z="CC2cTxNM6X6rw2zDap28fOYNPMc="/>
     </page:show>
 </div>

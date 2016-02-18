@@ -61,16 +61,6 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static Set<Long> Plan.findAllDistinctTaskId() {
-        List<Plan> plans = entityManager().createQuery("SELECT o FROM Plan o", Plan.class).getResultList();
-        Set<Long> setTaskId = new HashSet<>();
-        for (Plan plan : plans) {
-            setTaskId.add(plan.getTask().getId());
-        }
-
-        return setTaskId;
-    }
-
     public static void Plan.deleteById(long planId) {
         try {
             EntityManager ent = Plan.entityManager();

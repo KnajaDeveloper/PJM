@@ -12,5 +12,6 @@ import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 @RooWebScaffold(path = "moduleprojects", formBackingObject = ModuleProject.class)
 @RooWebJson(jsonObject = ModuleProject.class)
 public class ModuleProjectController {
+
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProjectController.class);
 }

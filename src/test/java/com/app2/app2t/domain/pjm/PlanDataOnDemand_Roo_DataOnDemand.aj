@@ -37,6 +37,9 @@ privileged aspect PlanDataOnDemand_Roo_DataOnDemand {
         setDateEnd(obj, index);
         setDateStart(obj, index);
         setNote(obj, index);
+        setPlanCost(obj, index);
+        setPlanName(obj, index);
+        setPlanType(obj, index);
         setStatus(obj, index);
         setUpdatedBy(obj, index);
         setUpdatedDate(obj, index);
@@ -66,6 +69,21 @@ privileged aspect PlanDataOnDemand_Roo_DataOnDemand {
     public void PlanDataOnDemand.setNote(Plan obj, int index) {
         String note = "note_" + index;
         obj.setNote(note);
+    }
+    
+    public void PlanDataOnDemand.setPlanCost(Plan obj, int index) {
+        Integer planCost = new Integer(index);
+        obj.setPlanCost(planCost);
+    }
+    
+    public void PlanDataOnDemand.setPlanName(Plan obj, int index) {
+        String planName = "planName_" + index;
+        obj.setPlanName(planName);
+    }
+    
+    public void PlanDataOnDemand.setPlanType(Plan obj, int index) {
+        String planType = "planType_" + index;
+        obj.setPlanType(planType);
     }
     
     public void PlanDataOnDemand.setStatus(Plan obj, int index) {
