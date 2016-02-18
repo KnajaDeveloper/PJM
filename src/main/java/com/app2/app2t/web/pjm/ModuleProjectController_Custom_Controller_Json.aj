@@ -121,11 +121,14 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+            String costProjectandModuleProject = "";
             List<Project> projectList = Project.findProjectByProjectCode(codeProject);
             int totalCostModule = ModuleProject.findAllModuleCostByProject(projectList.get(0));
             Project project = Project.increseCostByModuleNameAndCodeProject(codeProject, costIncrese, totalCostModule);
-            ModuleProject.increseCostByModuleNameAndCodeProject(project, codeModuleProject, costIncrese);
-            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+            int moduleCost = ModuleProject.increseCostByModuleNameAndCodeProject(project, codeModuleProject, costIncrese);
+            costProjectandModuleProject += project.getProjectCost();
+            costProjectandModuleProject += "," +moduleCost ;
+            return  new ResponseEntity<String>(costProjectandModuleProject,headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

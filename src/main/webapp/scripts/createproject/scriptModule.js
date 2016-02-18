@@ -35,7 +35,7 @@ $("#btnSaveModule").click(function(){
 								"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
 				      		"</h4>"+
 				    	"</div>"+
-					    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"'>"+
+					    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
 					    	"<div class='panel-body'>"+
 					    		"<div class='form-inline'>"+
 									"<div class='col-sm-6'>"+
@@ -356,7 +356,7 @@ function saveEditModule(object){
 	var boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(),id);
 	if(bool==true && boolSameName==true && boolCheckCost==true){
 		var boolSave = editDataModuleInDB();
-		if(boolsave==true){
+		if(boolSave==true){
 			var allModuleManager = ""+getAllEditModuleManager();
 			var allModuleMember = ""+getAllEditModuleMember();
 			var number = id.split("btnEditSaveModule");
