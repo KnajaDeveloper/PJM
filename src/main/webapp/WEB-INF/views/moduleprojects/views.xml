@@ -13,4 +13,7 @@
 <definition extends="default" name="moduleprojects/update">
         <put-attribute name="body" value="/WEB-INF/views/moduleprojects/update.jspx"/>
     </definition>
+<definition extends="default" name="moduleprojects/detailsModule">
+        <put-attribute name="body" value="/WEB-INF/views/moduleprojects/detailsModule.jspx"/>
+    </definition>
 </tiles-definitions>

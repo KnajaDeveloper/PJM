@@ -64,4 +64,10 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         deTypeTask.remove();
         return criteria.list();
     }
+
+    public static List<TypeTask> TypeTask.findAllTypeTask() {
+        EntityManager ent = TypeTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        return criteria.list();
+    }
 }

@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <style>
+        label.control-label {
+            width: 100%;
+        }
+        th.text-center {
+            color: #000;
+        }
+        #thChkAll {
+            width: 7%;
+        }
+        #thEdit {
+            width: 10%;
+        }
+        #thProgramCode {
+            width: 25%;
+        }
+        #thProgramName {
+            width: 58%;
+        }
+        #thChkAllTask {
+            width: 5%;
+        }
+        #thEditTask {
+            width: 7%;
+        }
+        #thTaskCode {
+            width: 15%;
+        }
+        #thTaskName {
+            width: 35%;
+        }
+        #thNumberCost {
+            width: 13%;
+        }
+        #thProgress {
+            width: 25%;
+        }
+        input#txtPositionCode.form-control {
+            width: 100%
+        }
+        input#txtPositionName.form-control {
+            width: 100%
+        }
+        span.input-group-addon {
+            padding: 0 12px;
+        }
+        .btn .caret {
+            margin-left: 50%;
+        }
+        select#ddlTypeTask.btn.btn-default.dropdown-toggle{
+            width: 60%;
+            background-color:white;
+        }
+    </style>
+
+    <input type="hidden" class="datetimepicker"/>
+    <input type="hidden" class="datepicker"/>
+
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">รายละเอียดโมดูล</div>
+            <div class="panel-body">
+                <br/>
+                <div class="col-xs-11 col-xs-offset-1">
+                    <form class="form-inline">
+                        <div class="col-xs-1">
+                            <label class="control-label">ชื่อโมดูล</label>
+                            <br/>
+                            <br/>
+                            <label class="control-label">ชื่อย่อโมดูล</label>
+                            <br/>
+                            <br/>
+                            <label class="control-label">จำนวนต้นทุน</label>
+                            <br/>
+                            <br/>
+                            <label class="control-label">วันที่เริ่ม</label>
+                            <br/>
+                            <br/>
+                            <label class="control-label">ผู้ดูแล</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <label id="lblModuleName" class="control-label">Neme Module 0001</label>
+                            <br/>
+                            <br/>
+                            <label id="lblModuleInitials" class="control-label">NM0001</label>
+                            <br/>
+                            <br/>
+                            <label id="lblCostsPoint" class="control-label">150 Point</label>
+                            <br/>
+                            <br/>
+                            <label id="lblStartDate" class="control-label" >05/02/2559</label>
+                            <br/>
+                            <br/>
+                            <label id="lblCaretakerName" class="control-label">นาย ธงชัย รักพวกกลาง</label>
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-xs-2">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label class="control-label">จำนวนต้นทุ้นคงเหลือ</label>
+                                <br/>
+                                <br/>
+                                <label class="control-label">วันที่สิ้นสุด</label>
+                        </div>
+                        <div class="col-xs-4">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label id="lblBalanceCostsPoint" class="control-label">100 Point</label>
+                                <br/>
+                                <br/>
+                                <label id="lblEndDate" class="control-label">01/01/2560</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-5">
+            <form class="form-inline">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <button id="btnAddProgram" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProgram" data-backdrop="static">เพิ่มโปรแกรม</button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button id="btnDeleteProgram" type="button" class="btn btn-danger">ลบที่เลือก</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-7">
+            <form class="form-inline">
+                <div class="form-group">
+                    <div class="col-xs-5">
+                        <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">เพิ่มงาน</button>
+                    </div>
+                    <div class="col-xs-5">
+                        <button id="btnDeleteTask" type="button" class="btn btn-danger">ลบที่เลือก</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal fade" id="modalProgram" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">เพิ่มโปรแกรม</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label required">รหัสโปรแกรม</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtProgramCode" data-placement="bottom" placeholder="รหัสโปรแกรม" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label required">ชื่อโปรแกรม</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtProgramName" data-placement="bottom" placeholder="ชื่อโปรแกรม" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnModalProgramAdd" type="button" class="btn btn-primary">ตกลง</button>
+                        <button id="btnModalProgramNext" type="button" class="btn btn-primary">ถัดไป</button>
+                        <button id="btnModalProgramCancel" type="button" class="btn btn-danger">ยกเลิก</button>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalTask" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">เพิ่มงาน</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label required">รหัสงาน</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTaskCode" data-placement="bottom" placeholder="รหัสงาน" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label required">ชื่องาน</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTaskName" data-placement="bottom" placeholder="ชื่องาน" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label required">จำนวนต้นทุน</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtNumberCost" data-placement="bottom" placeholder="จำนวนต้นทุน" />
+                                        <span class="input-group-addon">Point</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label required">ประเภทงาน</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="dropdown">
+                                        <select class="btn btn-default dropdown-toggle" id="ddlTypeTask"
+                                        data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ประเภทงาน<span class="caret"></span>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label ">ผู้รับผิดชอบ</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtCaretakerName" placeholder="ผู้รับผิดชอบ" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label">วันที่เริ่ม</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text"  class="form-control" id="dateStartProject" name="dateStartProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="วันที่เริ่ม" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label">วันที่สิ้นสุด</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dateEndProject" name="dateEndProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="วันที่สิ้นสุด" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label ">แนบไฟล์</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button id="btnSelectFile" type="button" class="btn btn-primary">เลือกไฟล์</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-offset-1 col-xs-2">
+                                    <label class="control-label ">รายละเอียด</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <textarea id="txtaDescription" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnModalTaskAdd" type="button" class="btn btn-primary">ตกลง</button>
+                        <button id="btnModalTaskNext" type="button" class="btn btn-primary">ถัดไป</button>
+                        <button id="btnModalTaskCancel" type="button" class="btn btn-danger">ยกเลิก</button>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-xs-5">
+                    <div id="penaltyTableContainer" class="table-responsive">
+                        <table id="Table" class="table table-hover">
+                            <thead>
+                                <tr class="info">
+                                    <th id="thChkAll" class="text-center">
+                                        <input id="checkboxAll" type="checkbox" name="checkdDelete" />
+                                    </th>
+                                    <th id="thEdit" class="text-center">แก้ไข</th>
+                                    <th id="thProgramCode" class="text-center" >รหัสโปรแกรม</th>
+                                    <th id="thProgramName" class="text-center" >ชื่อโปรแกรม</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+                        </table>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <component:pagging id="paggingSimple"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div id="penaltyTableContainer" class="table-responsive">
+                        <table id="Table" class="table table-hover">
+                            <thead>
+                                <tr class="info">
+                                    <th id="thChkAllTask" class="text-center">
+                                        <input id="checkboxAll" type="checkbox" name="checkdDelete" />
+                                    </th>
+                                    <th id="thEditTask" class="text-center">แก้ไข</th>
+                                    <th id="thTaskCode" class="text-center" >รหัสงาน</th>
+                                    <th id="thTaskName" class="text-center" >ชื่องาน</th>
+                                    <th id="thNumberCost" class="text-center" >จำนวนต้นทุน</th>
+                                    <th id="thProgress" class="text-center" >ความคืบหน้า</th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody id="ResualtSearch" style="cursor:pointer"></tbody> -->
+                            <tr style="background-color: #fff">
+                                <td class="text-center">
+                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
+                                </td>
+                                <td class="text-center">
+                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
+                                </td>
+                                <td id="" class="text-center">T0001</td>
+                                <td id="" class="text-center">TN 01</td>
+                                <td id="" class="text-center">100 Point</td>
+                                <td>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">20%</div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #fff">
+                                <td class="text-center">
+                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
+                                </td>
+                                <td class="text-center">
+                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
+                                </td>
+                                <td id="" class="text-center">T0002</td>
+                                <td id="" class="text-center">TN 02</td>
+                                <td id="" class="text-center">100 Point</td>
+                                <td>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">40%</div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #fff">
+                                <td class="text-center">
+                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
+                                </td>
+                                <td class="text-center">
+                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
+                                </td>
+                                <td id="" class="text-center">T0003</td>
+                                <td id="" class="text-center">TN 03</td>
+                                <td id="" class="text-center">100 Point</td>
+                                <td>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">60%</div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #fff">
+                                <td class="text-center">
+                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
+                                </td>
+                                <td class="text-center">
+                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
+                                </td>
+                                <td id="" class="text-center">T0004</td>
+                                <td id="" class="text-center">TN 04</td>
+                                <td id="" class="text-center">100 Point</td>
+                                <td>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">80%</div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #fff">
+                                <td class="text-center">
+                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
+                                </td>
+                                <td class="text-center">
+                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
+                                </td>
+                                <td id="" class="text-center">T0005</td>
+                                <td id="" class="text-center">TN 05</td>
+                                <td id="" class="text-center">100 Point</td>
+                                <td>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <component:pagging id="paggingSimple"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <form class="form-inline">
+            <div class="col-xs-offset-5 col-xs-7">
+                <div class="col-xs-2">
+                    <label class="control-label">ประเภทงาน</label>
+                    <br/>
+                    <br/>
+                    <label class="control-label">วันที่เริ่ม</label>
+                    <br/>
+                    <br/>
+                    <label class="control-label">วันที่สิ้นสุด</label>
+                    <br/>
+                    <br/>
+                    <label class="control-label">แนบไฟล์</label>
+                    <br/>
+                    <br/>
+                    <label class="control-label">รายละเอียด</label>
+                </div>
+                <div class="col-xs-6">
+                    <label class="control-label">Type Task</label>
+                    <br/>
+                    <br/>
+                    <label class="control-label">01/01/2559</label>
+                    <br/>
+                    <br/>
+                    <label class="control-label">01/01/2560</label>
+                    <br/>
+                    <br/>
+                    <button id="" type="button" class="btn btn-primary">ดาวน์โหลดไฟล์</button>
+                    <br/>
+                    <br/>
+                    <textarea class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+
+    <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
+    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/ModuleProject/detailsModule.js" var="detailsModule" />
+    <script src="${detailsModule}" type="text/javascript"><!--Not Empty --></script>
+
+
+    <!-- Script Calendar -->
+    <spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
+    <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
+    <script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
+    <script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
+    <spring:url value="/resources/scripts/ModuleProject/dateTimeEvent.js" var="dateTimeEvent"/>
+    <script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>
+</div>
