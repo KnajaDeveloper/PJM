@@ -11,8 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import flexjson.JSONSerializer;
+import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.Days;
+import org.joda.time.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
@@ -107,13 +112,14 @@ privileged aspect PlanController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/insertplan", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/insertPlan", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<String>  PlanController.insertPlan(@RequestBody String json) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArrayPlan = new JSONArray(json);
             Long taskId = Long.parseLong(jsonArrayPlan.get(0).toString());
+            boolean shiftPlan = Boolean.parseBoolean(jsonArrayPlan.get(1).toString());
 
             // Edit task -> update empCode = userName
             String userName = AuthorizeUtil.getUserName();
@@ -121,14 +127,129 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-            for (int i = 1; i < jsonArrayPlan.length(); i++) {
+            for (int i = 2; i < jsonArrayPlan.length(); i++) {
                 JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
                 Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
                 Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
                 dateStart = formatter.parse(formatter.format(dateStart));
                 dateEnd = formatter.parse(formatter.format(dateEnd));
 
-                Plan.insertPlan(task, dateStart, dateEnd);
+                if (shiftPlan) {                                                    // ถ้าต้องเลื่อนแผนงาน
+                    List<Plan> plans = Plan.findPlanEndAfter(dateStart);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
+
+                    long diffInMillies = dateEnd.getTime() - plans.get(0).getDateStart().getTime();
+                    int shiftDate = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1;
+                    LOGGER.debug("-------" + shiftDate);
+
+                    for (int j = 0; j < plans.size(); j++) {
+                        Plan plan = plans.get(j);
+                        plan.setDateStart(DateUtils.addDays(plan.getDateStart(), shiftDate));
+                        plan.setDateEnd(DateUtils.addDays(plan.getDateEnd(), shiftDate));
+                        plan.merge();
+                    }
+                }
+
+                Plan.insertPlan(task, dateStart, dateEnd);                          // เพิ่มแผนงานใหม่
+            }
+
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
+
+        } catch (Exception e) {
+            LOGGER.debug("error " + e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/insertCustomPlan", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String>  PlanController.insertCustomPlan(@RequestBody String json) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            JSONObject jsonPlan = new JSONObject(json);
+            String taskName = jsonPlan.get("taskName").toString();
+            String taskCost = jsonPlan.get("taskCost").toString();
+            String dateStart = jsonPlan.get("dateStart").toString();
+            String dateEnd = jsonPlan.get("dateEnd").toString();
+
+
+//            // Edit task -> update empCode = userName
+//            String userName = AuthorizeUtil.getUserName();
+//            Task task = Task.updateEmpCode(taskId, userName);
+//
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//
+//            for (int i = 1; i < jsonArrayPlan.length(); i++) {
+//                JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
+//                Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
+//                Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
+//                dateStart = formatter.parse(formatter.format(dateStart));
+//                dateEnd = formatter.parse(formatter.format(dateEnd));
+//
+//                Plan.insertPlan(task, dateStart, dateEnd);
+//            }
+
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
+
+        } catch (Exception e) {
+            LOGGER.debug("error " + e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/cancelTask", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.cancelTask(@RequestBody String json) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            long taskId = Long.parseLong(json.toString());
+            Task.updateEmpCode(taskId, null);
+            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/updatePlan", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String>  PlanController.updatePlan(@RequestBody String json) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            JSONArray jsonArrayPlan = new JSONArray(json);
+            Long planId = Long.parseLong(jsonArrayPlan.get(0).toString());
+            boolean shiftPlan = Boolean.parseBoolean(jsonArrayPlan.get(1).toString());
+            int progress = Integer.parseInt(jsonArrayPlan.get(2).toString());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            Task task = null;
+            for (int i = 3; i < jsonArrayPlan.length(); i++) {
+                JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
+                Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
+                Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
+                dateStart = formatter.parse(formatter.format(dateStart));
+                dateEnd = formatter.parse(formatter.format(dateEnd));
+
+                if (shiftPlan) {                                                    // ถ้าต้องเลื่อนแผนงาน
+                    List<Plan> plans = Plan.findPlanEndAfter(dateStart);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
+
+                    long diffInMillies = dateEnd.getTime() - plans.get(0).getDateStart().getTime();
+                    int shiftDate = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1;
+
+                    for (int j = 0; j < plans.size(); j++) {
+                        Plan plan = plans.get(j);
+                        plan.setDateStart(DateUtils.addDays(plan.getDateStart(), shiftDate));
+                        plan.setDateEnd(DateUtils.addDays(plan.getDateEnd(), shiftDate));
+                        plan.merge();
+                    }
+                }
+
+                if (i == 3) {               // update
+                    task = Plan.updatePlan(planId, dateStart, dateEnd);
+                    task.setProgress(progress);
+                    task.merge();
+                } else {                    // insert more plan
+                    Plan.insertPlan(task, dateStart, dateEnd);
+                }
             }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);

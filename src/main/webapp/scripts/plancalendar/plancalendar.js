@@ -9,6 +9,16 @@ var _year;
 // Ready page ----------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
 
+    $('.glyphicon-calendar').parent().css('border-left', '0')
+        .css('border-top-right-radius', '4px')
+        .css('border-bottom-right-radius', '4px');
+    $('.glyphicon-calendar').parent().click(function () {
+        $(this).parent().children(':first').focus();
+    });
+    $('.glyphicon-calendar').parent().mouseenter(function () {
+        $(this).css('cursor', 'pointer');
+    });
+
     // Fix bug for <textarea>
     $('#txtAddNote').text('');
     // Fix bug for grpResultModuleSearch
@@ -30,14 +40,14 @@ $(document).ready(function () {
     loadAndMapPlan(_month, _year);
 
     // Date picker for tab search job
-    $("#cSearchDateBegin").datepicker(dateLang);
-    $("#cSearchDateEnd").datepicker(dateLang);
+    $("#cPlanDateBegin").datepicker(dateLang);
+    $("#cPlanDateEnd").datepicker(dateLang);
 
-    $("#cSearchDateBegin").on('change', function () {
-        DateUtil.setMinDate('cSearchDateBegin', 'cSearchDateEnd');
+    $("#cPlanDateBegin").on('change', function () {
+        DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
     });
-    $("#cSearchDateEnd").on('change', function () {
-        DateUtil.setMaxDate('cSearchDateEnd', 'cSearchDateBegin');
+    $("#cPlanDateEnd").on('change', function () {
+        DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
     });
 
     // Date picker for first time in add modal
@@ -108,6 +118,14 @@ $(document).ready(function () {
 
 // Search plan ---------------------------------------------------------------------------------------------------------
 $('#btnSearchPlan').click(function () {
+    searchPlan();
+});
+$('#txtYearSearch').keydown(function (e) {
+    if (e.keyCode == 13) {
+        searchPlan();
+    }
+});
+function searchPlan() {
     // search plan by month and year
     var month = $('#ddlMonthSearch').val();
     var year = $('#txtYearSearch').val();
@@ -125,7 +143,7 @@ $('#btnSearchPlan').click(function () {
     } else {         // not correct year format
         $('#txtYearSearch').popover('show');
     }
-});
+}
 
 // Search job [module]-----------------------------------------------------------------------------------------------
 $('#btnSearchByModule').click(function () {
@@ -172,43 +190,49 @@ $('#btnSearchByModule').click(function () {
 
 });
 
-// Search job [custom]-----------------------------------------------------------------------------------------------
-$('#btnSearchByCustom').click(function () {
+// Add other plan -----------------------------------------------------------------------------------------------
+$('#btnAddOtherPlan').click(function () {
 
     // clear result list
     $('#grpResultCustomSearch').empty();
 
-    var taskName = $('#txtTaskName').val();
-    var taskCost = $('#txtNumMan').val();
-    var dateStart = $('#cSearchDateBegin').val();
-    var dateEnd = $('#cSearchDateEnd').val();
+    var taskName = $('#txtPlanName').val();
+    var taskCost = $('#txtPlanCost').val();
+    var dateStart = $('#cPlanDateBegin').val();
+    var dateEnd = $('#cPlanDateEnd').val();
 
-    if (taskCost.length > 0 && (!$.isNumeric(taskCost)) || taskCost.indexOf('.') >= 0) {
-        $('#txtNumMan').popover('show');
+
+    if (taskName.length == 0) {
+        $('#txtPlanName').popover('show');
+    } else if (taskCost.indexOf('.') > 0 || !$.isNumeric(taskCost)) {
+        $('#txtPlanCost').popover('show');
+    } else if (dateStart.length == 0) {
+        $('#cPlanDateBegin').popover('show');
+    } else if (dateEnd.length == 0) {
+        $('#cPlanDateEnd').popover('show');
     } else {
-        console.log(taskName + ' ' + taskCost + ' ' + dateStart + ' ' + dateEnd);
-
-        dateStart = dateStart.length > 0 ? DateUtil.dataDateToDataBase(dateStart, _language) : null;
-        dateEnd = dateEnd.length > 0 ? DateUtil.dataDateToDataBase(dateEnd, _language) : null;
-
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json; charset=UTF-8",
             dataType: "json",
             headers: {
                 Accept: "application/json"
             },
-            url: contextPath + '/plans/findTask'
-            + '?taskName=' + taskName
-            + '&taskCost=' + taskCost
-            + '&dateStart=' + dateStart
-            + '&dateEnd=' + dateEnd,
+            url: contextPath + '/plans/insertCustomPlan',
+            data: JSON.stringify({
+                taskName: taskName,
+                taskCost: taskCost,
+                dateStart: DateUtil.dataDateToDataBase(),
+                dateEnd: DateUtil.dataDateToDataBase()
+            }),
             success: function (data, status, xhr) {
-                if(data.length === 0) {
-                    // no result
-                    $('#lblNoResultSerchByCustom').show();
-                }else{
-
+                if (xhr.status === 200) {
+                    bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                    //$('#mdAddToPlan').modal('hide');
+                    //$('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
+                    loadAndMapPlan(_month, _year);
+                } else if (xhr.status === 500) {
+                    bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
                 }
             },
             async: false
@@ -236,8 +260,8 @@ function openModalAddPlan(jobElement) {
                 $.datepicker._clearDate(this);
             });
         } else {
-            $('#cAddDateBegin_' + id).parent().parent().remove();
-            $('#cAddDateEnd_' + id).parent().parent().remove();
+            $('#cAddDateBegin_' + id).parent().parent().parent().remove();
+            $('#cAddDateEnd_' + id).parent().parent().parent().remove();
         }
     });
 
@@ -320,17 +344,24 @@ $('#btnAddTime').click(function () {
         $('#grpAddDate').append('<div class="form-group">'
             + '<label class="control-label col-xs-3 required">วันที่เริ่ม </label>'
             + '<div class="col-xs-6">'
+            + '<div class="input-group">'
             + '<input id="cAddDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '</div>'
             + '</div>'
             + '</div>');
+
         $('#grpAddDate').append('<div class="form-group">'
             + '<label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>'
             + '<div class="col-xs-6">'
+            + '<div class="input-group">'
             + '<input id="cAddDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '</div>'
             + '</div>'
             + '<div class="col-sm-1">'
             + '<button id="btnDeleteAddDate_'
@@ -347,10 +378,18 @@ $('#grpAddDate').on('click', '[id^=btnDeleteAddDate_]', function () {
     $('#cAddDateBegin_' + id).parent().parent().remove();
     $('#cAddDateEnd_' + id).parent().parent().remove();
 });
+//$('#grpAddDate').on('click', '.glyphicon-calendar', function () {
+//    //console.log($(this).parent().children(':first'));
+//    $(this).parent().children(':first').focus();
+//});
+$('#grpAddDate').on('mouseenter', '.glyphicon-calendar', function(){
+    $(this).css('cursor', 'pointer');
+});
 
 $('#btnSaveAddPlan').click(function () {
     var b = getFirstEmptyDate('cAddDateBegin_');
     var e = getFirstEmptyDate('cAddDateEnd_');
+    var shiftPlan = $('#radioPostpone_add').prop('checked');
 
     if (b !== null) {
         b.popover('show');
@@ -360,7 +399,7 @@ $('#btnSaveAddPlan').click(function () {
         bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
     } else {
         var taskId = $('#taskId').val();
-        var plans = [taskId];
+        var plans = [taskId, shiftPlan];
 
         if (_language == 'TH') {
             $('[id^=cAddDateBegin_][id$=_convert]').each(function () {
@@ -395,7 +434,7 @@ $('#btnSaveAddPlan').click(function () {
             headers: {
                 Accept: "application/json"
             },
-            url: contextPath + '/plans/insertplan',
+            url: contextPath + '/plans/insertPlan',
             data: JSON.stringify(plans),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
@@ -413,6 +452,30 @@ $('#btnSaveAddPlan').click(function () {
 });
 $('#btnCancelAddPlan').click(function () {
     $('#mdAddToPlan').modal('hide');
+});
+$('#btnCancelTask').click(function () {
+    var taskId = $('#taskId').val();
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/cancelTask',
+        data: taskId,
+        complete: function (xhr) {
+            if (xhr.status === 201) {
+                bootbox.alert("ละทิ้งงานสำเร็จ");
+                $('#mdAddToPlan').modal('hide');
+                $('[taskId=' + taskId + ']').removeClass('success').addClass('danger');
+            } else if (xhr.status === 500) {
+                bootbox.alert("ละทิ้งงานไม่สำเร็จ");
+            }
+        },
+        async: false
+    });
 });
 
 // Edit/Delete plan -----------------------------------------------------------------------------------------------------------
@@ -441,8 +504,8 @@ function openModalEditPlan(event) {
     $('[id^=cEditDateBegin_]').each(function () {
         var id = this.id.split('_')[1];
         if (id !== '0') {
-            $('#cEditDateBegin_' + id).parent().parent().remove();
-            $('#cEditDateEnd_' + id).parent().parent().remove();
+            $('#cEditDateBegin_' + id).parent().parent().parent().remove();
+            $('#cEditDateEnd_' + id).parent().parent().parent().remove();
         }
     });
 
@@ -474,17 +537,24 @@ $('#btnAddTime_edit').click(function () {
         $('#grpEditDate').append('<div class="form-group">'
             + '<label class="control-label col-xs-3 required">วันที่เริ่ม </label>'
             + '<div class="col-xs-6">'
+            + '<div class="input-group">'
             + '<input id="cEditDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '</div>'
             + '</div>'
             + '</div>');
+
         $('#grpEditDate').append('<div class="form-group">'
             + '<label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>'
             + '<div class="col-xs-6">'
+            + '<div class="input-group">'
             + '<input id="cEditDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" readonly="" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '</div>'
             + '</div>'
             + '<div class="col-sm-1">'
             + '<button id="btnDeleteEditDate_'
@@ -501,31 +571,85 @@ $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
     $('#cEditDateBegin_' + id).parent().parent().remove();
     $('#cEditDateEnd_' + id).parent().parent().remove();
 });
+$('#grpEditDate').on('mouseenter', $('.glyphicon-calendar'), function(){
+    $(this).css('cursor', 'pointer');
+});
 
 $('#btnCancelEditPlan').click(function () {
     $('#mdEditToPlan').modal('hide');
 });
 $('#btnSaveEditPlan').click(function () {
-    // Save process
+    var b = getFirstEmptyDate('cEditDateBegin_');
+    var e = getFirstEmptyDate('cEditDateEnd_');
     var progress = $('#txtPercentage').val();
-    //var dateBegin = $('#cEditDateBegin').val();
-    //var dateEnd = $('#cEditDateEnd').val();
+    var shiftPlan = $('#radioPostpone_edit').prop('checked');
 
-    if ($.isNumeric(progress) && progress <= 100 && progress >= 0) {
-        console.log(progress);
+    if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
+        $('#txtPercentage').attr('data-content', 'กรุณาความคืบหน้าให้ถูกต้อง').popover('show');
     } else if (progress < 0 || progress > 100) {
-        $("#txtPercentage").attr('data-content', 'กรุณาระบุความคืบหน้าในช่วง 0 ถึง 100');
-        $('#txtPercentage').popover('show');
+        $('#txtPercentage').attr('data-content', 'กรุณาระบุความคืบหน้าในช่วง 0 ถึง 100').popover('show');
+    } else if (b !== null) {
+        b.popover('show');
+    } else if (e !== null) {
+        e.popover('show');
+    } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
+        bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
     } else {
-        $("#txtPercentage").attr('data-content', 'กรุณาระบุความคืบหน้าให้ถูกต้อง');
-        $('#txtPercentage').popover('show');
-    }
+        var planId = $('#txtEditPlanId').val();
+        var plans = [planId, shiftPlan, progress];
 
+        if (_language == 'TH') {
+            $('[id^=cEditDateBegin_][id$=_convert]').each(function () {
+                var id = this.id.split('_')[1];
+                var dateBegin = $('#cEditDateBegin_' + id).val();
+                var dateEnd = $('#cEditDateEnd_' + id).val();
+                plans.push({
+                        dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
+                        dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
+                    }
+                );
+            });
+        } else {
+            $('[id^=cEditDateBegin_]').each(function () {
+                if (this.id.indexOf('_convert') < 0) {
+                    var id = this.id.split('_')[1];
+                    var dateBegin = $('#cAddEditBegin_' + id).val();
+                    var dateEnd = $('#cEditDateEnd_' + id).val();
+                }
+                plans.push({
+                        dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
+                        dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
+                    }
+                );
+            });
+        }
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: contextPath + '/plans/updatePlan',
+            data: JSON.stringify(plans),
+            success: function (data, status, xhr) {
+                if (xhr.status === 200) {
+                    bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                    $('#mdEditToPlan').modal('hide');
+                    loadAndMapPlan(_month, _year);
+                } else if (xhr.status === 500) {
+                    bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                }
+            },
+            async: false
+        });
+    }
 });
 $('#btnDeleteEditPlan').click(function () {
     // Delete process
     var planId = $('#txtEditPlanId').val();
-    console.log(planId);
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=UTF-8",
