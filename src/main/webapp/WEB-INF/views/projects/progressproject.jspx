@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">ความคืบหน้าของโปรเจค</div>
+					<div class="panel-body">	
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-1 control-label "><b>ชื่อโปรเจค</b></label>
+								<label class="col-sd-1 control-label ">HENEMRRTT</label>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label "><b>ชื่อย่อโปรเจค</b></label>
+								<label class="col-sm-1 control-label ">HeMO</label>
+							</div>
+							<div class="form-group">
+
+								<label class="col-sm-1 control-label "><b>ต้นทุนโปรเจค</b></label>
+								<label class="col-sm-1 control-label ">300 Point</label>
+								<label class="col-sm-5 control-label "><b>ต้นทุนโปรเจค</b></label>
+								<label class="col-sm-1 control-label ">300 Point</label>
+							</div>
+							<div class="form-group">
+
+								<label class="col-sm-1 control-label "><b>วันที่เริ่ม</b></label>
+								<label class="col-sm-1 control-label ">10/02/2556</label>
+								<label class="col-sm-5 control-label "><b>วันที่สิ้นสุด</b></label>
+								<label class="col-sm-1 control-label ">15/02/2556</label>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-1 control-label "><b>ผู้ดูแลโปรเจค</b></label>
+								<label class="col-sm-1 control-label ">HeMO</label>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<div id="penaltyTableContainer" class="table-responsive">
+								<table id="Table" class="table table-hover">
+									<thead>
+										<tr class="info">                              
+											<th class="text-center" style="color: #000" width="80" >รายละเอียด</th>
+											<th class="text-center" style="color: #000" width="250">ชื่อโมดูล</th>
+											<th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
+											<th class="text-center" style="color: #000">วันที่เริ่ม</th>
+											<th class="text-center" style="color: #000">วันที่เสร็จ</th>
+											<th class="text-center" style="color: #000">ผู้รับดูแล</th>
+										</tr>
+									</thead>
+									<tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+							<!-- 	<tbody>
+									<td class="text-center"><button type="button" class="btn btn-primary btn-lg" width="100">V</button>
+									</td> 
+									<td class="text-center">.....
+									</td>
+									<td class="progressbar-center">
+										
+											<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+												 60%									
+										</div>
+									</td>
+									<td class="text-center">10/02/2556
+									</td>
+									<td class="text-center">16/02/2556
+									</td>
+									<td class="text-center">
+									</td>
+								</tbody> -->
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+var contextPath = '${pageContext.request.contextPath}';
+</script>
+<spring:url value="/resources/scripts/projects/progressproject.js" var="progressproject" />
+<script src="${progressproject}" type="text/javascript"><!--Not Empty --></script>
+
+</div>

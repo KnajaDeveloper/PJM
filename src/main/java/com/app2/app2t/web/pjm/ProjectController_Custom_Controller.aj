@@ -30,5 +30,10 @@ privileged aspect ProjectController_Custom_Controller {
      
         return "projects/createproject";
     }
+        @RequestMapping(value = "/progressproject", produces = "text/html")
+    public String ProjectController.progressproject(Model uiModel) {
+     
+        return "projects/progressproject";
+    }
 
 }
