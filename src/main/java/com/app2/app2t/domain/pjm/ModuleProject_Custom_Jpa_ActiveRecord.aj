@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Date;
+import java.util.*;
 
 privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProject_Custom_Jpa_ActiveRecord.class);
@@ -91,4 +92,9 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         }
         return totalCost;
     }
+    public static List<ModuleProject> ModuleProject.findProjectBymoduleProjectAll() {
+         EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        return criteria.list();
+     }
 }
