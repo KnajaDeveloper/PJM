@@ -5,10 +5,12 @@ package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.List;
 
 privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
@@ -25,28 +27,22 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
         }
     }
 
-    public static List<ProjectManager> ProjectManager.findSelectProjectManager( String projectManage) {
-        EntityManager ent = ProjectManager.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class);
 
-//            criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
-//            criteria.add(Restrictions.between("dateEnd",FnDateBegin,FnDateEnd));
-//            criteria.add(Restrictions.between("projectCost",costStart,costEnd));
-//            criteria.add(Restrictions.like("projectCost",projectManage));
-        try
-        {
+    @Transactional
+    public static void ProjectManager.findDeleteProjectManager(long deleteCode) {
+            EntityManager ent = ProjectManager.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class,"Pm");
+            criteria.createAlias("Pm.project","project");
+            criteria.add(Restrictions.eq("project.id", deleteCode));
             List<ProjectManager> projectManagers = criteria.list();
-            for(int i= 0; projectManagers.size() > i ;i++){
+            for(int i= 0; projectManagers.size() >i ; i++)
+            {
                 ProjectManager projectManager = projectManagers.get(i);
-
-                LOGGER.error(">>>"+  projectManager.getId());
+                projectManager.remove();
             }
 
-        }
-        catch (IndexOutOfBoundsException e){
-            return  criteria.list();
-        }
 
-        return criteria.list();
     }
+
+
 }

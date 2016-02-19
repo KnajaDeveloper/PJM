@@ -31,7 +31,7 @@
                                 <label class="control-label col-xs-3">วันที่เริ่ม(จาก)</label>
                                 <div class="col-xs-7">
                                     <div class="input-group date ">
-                                        <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy" readonly="" style="cursor:pointer; background-color:white"/>
+                                        <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy"  style="cursor:pointer; background-color:white"/>
                                         <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
@@ -43,7 +43,7 @@
                                 <label class="control-label col-xs-3">วันที่เริ่ม(ถึง)</label>
                                 <div class="col-xs-7">
                                     <div class="input-group date ">
-                                        <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy" readonly="" style="cursor:pointer; background-color:white"/><span
+                                        <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy"  style="cursor:pointer; background-color:white"/><span
                                             class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
@@ -60,7 +60,7 @@
                                 <div class="col-xs-7">
                                     <div class="input-group date ">
                                         <input id="FnDateBegin" class="form-control " type="text"
-                                               placeholder="dd/mm/yyyy" readonly=""
+                                               placeholder="dd/mm/yyyy"
                                                style="cursor:pointer; background-color:white"/>
                                         <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar "></span>
@@ -73,7 +73,7 @@
                                 <div class="col-xs-7">
                                     <div class="input-group date ">
                                         <input id="FnDateEnd" class="form-control " type="text"
-                                               placeholder="dd/mm/yyyy" readonly=""
+                                               placeholder="dd/mm/yyyy"
                                                style="cursor:pointer; background-color:white"/>
                                         <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar "></span>
@@ -156,7 +156,7 @@
         <div class="col-sm-12">
             <form class="form-horizontal">
             <div class="form-group">
-                <table class="table table-hover">
+                <table id="data" class="table table-hover">
                     <thead>
                     <tr class="info">
                         <th class="text-center" style="width: 30px ;">
