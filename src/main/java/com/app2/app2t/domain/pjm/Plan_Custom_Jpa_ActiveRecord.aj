@@ -12,6 +12,7 @@ import java.util.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,11 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         plan.setTask(task);
         plan.setDateStart(dateStart);
         plan.setDateEnd(dateEnd);
+        plan.setPlanType("M");
         plan.persist();
     }
+
+
 
     public static List<Plan> Plan.findPlansByMonthYear(int month, int year, String userName) {
 
@@ -59,6 +63,39 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         }
 
         return criteria.list();
+    }
+
+    public static List<Plan> Plan.findPlanEndAfter(Date beginDate) {
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+
+        try {
+            criteria.add(Restrictions.ge("dateEnd", beginDate));
+            criteria.addOrder(Order.asc("dateStart"));
+        } catch (Exception e) {
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX");
+        }
+
+        return criteria.list();
+    }
+
+    public static Task Plan.updatePlan(Long planId, Date dateStart, Date dateEnd) {
+        try {
+            EntityManager ent = Plan.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+            criteria.add(Restrictions.eq("id", planId));
+            List<Plan> plans = criteria.list();
+            Plan plan = plans.get(0);
+            plan.setDateStart(dateStart);
+            plan.setDateEnd(dateEnd);
+            plan.merge();
+
+            return plan.getTask();
+        } catch (Exception ex) {
+
+        }
+
+        return null;
     }
 
     public static void Plan.deleteById(long planId) {
