@@ -3,17 +3,17 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProject;
-import com.sun.xml.internal.ws.api.server.Module;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import javax.persistence.EntityManager;
-import java.util.List;
 import java.util.Date;
-import java.util.*;
+import java.util.List;
+
+
+
 
 privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProject_Custom_Jpa_ActiveRecord.class);
@@ -47,6 +47,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("project", project));
         return criteria.list();
     }
+
 
     public static ModuleProject ModuleProject.editModuleProjectByModuleProjectCode(String moduleNeedEdit, String moduleCode,
            String moduleName, Integer moduleCost, Date dateStart, Date dateEnd    ) {
@@ -97,4 +98,22 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         return criteria.list();
      }
+
+    public static List<ModuleProject> ModuleProject.findProjectCheckID(long projectId) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class,"moDuleProject");
+        criteria.createAlias("moDuleProject.project","project");
+
+        try
+        {
+            criteria.add(Restrictions.eq("project.id", projectId));
+            return criteria.list();
+        }
+        catch (Exception e) {
+            System.out.print(">>>>>>>>>>>>>>>>>>>>>>>."+e);
+            return criteria.list();
+        }
+
+    }
+
 }

@@ -3,6 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
 import flexjson.JSONSerializer;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 privileged aspect ProjectController_Custom_Controller_Json {
 
@@ -60,24 +58,21 @@ privileged aspect ProjectController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findProjectSearchData",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> ProjectController.findProjectSearchData(
-            @RequestParam(value="StDateBegin",required=false)Date StDateBegin,
-            @RequestParam(value="StDateEnd",required=false)Date StDateEnd,
-            @RequestParam(value="FnDateBegin",required=false)Date FnDateBegin,
-            @RequestParam(value="FnDateEnd",required=false)Date FnDateEnd,
+            @RequestParam(value="StDateBegin",required=false)String StDateBegin,
+            @RequestParam(value="StDateEnd",required=false)String StDateEnd,
+            @RequestParam(value="FnDateBegin",required=false)String FnDateBegin,
+            @RequestParam(value="FnDateEnd",required=false)String FnDateEnd,
             @RequestParam(value = "costStart", required = false) Integer costStart,
             @RequestParam(value = "costEnd", required = false) Integer costEnd,
             @RequestParam(value = "projectManage", required = false) String projectManage,
             @RequestParam(value = "maxResult", required = false) Integer maxResult,
-            @RequestParam(value = "firstResult", required = false) Integer firstResult
-    ) {
+            @RequestParam(value = "firstResult", required = false) Integer firstResult)
+            {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
-//        System.out.println(searchCode + "+++"+searchName);
         try
         {
-            List<ProjectManager> resultPm = ProjectManager.findSelectProjectManager(projectManage);
-
-//            List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd );
+            List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
 //            List<Map<String,String>> list = new ArrayList<>();
 //            for(int i=firstResult;i<maxResult + firstResult && i < result.size() ;i++){
 //                Project ty = result.get(i);
@@ -86,9 +81,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
 //                map.put("teamName",ty.getProjectName());
 //
 //                list.add(map);
-//
 //            }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultPm), headers, HttpStatus.OK);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -98,20 +92,19 @@ privileged aspect ProjectController_Custom_Controller_Json {
     @RequestMapping(value = "/projectPaggingSize", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> ProjectController.projectPaggingSize(
-            @RequestParam(value="StDateBegin",required=false)Date StDateBegin,
-            @RequestParam(value="StDateEnd",required=false)Date StDateEnd,
-            @RequestParam(value="FnDateBegin",required=false)Date FnDateBegin,
-            @RequestParam(value="FnDateEnd",required=false)Date FnDateEnd,
+            @RequestParam(value="StDateBegin",required=false)String StDateBegin,
+            @RequestParam(value="StDateEnd",required=false)String StDateEnd,
+            @RequestParam(value="FnDateBegin",required=false)String FnDateBegin,
+            @RequestParam(value="FnDateEnd",required=false)String FnDateEnd,
             @RequestParam(value = "costStart", required = false) Integer costStart,
             @RequestParam(value = "costEnd", required = false) Integer costEnd,
-            @RequestParam(value = "projectManage", required = false) String projectManage
-    ) {
+            @RequestParam(value = "projectManage", required = false) String projectManage)
+            {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<ProjectManager> result= ProjectManager.findSelectProjectManager(projectManage);
-
-//            List<Project> result = Project.findSelectProjectManager( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
+        try
+        {
+            List<Project> result = Project.findProjectSearchData( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage);
             Map data = new HashMap();
             data.put("size", result.size());
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
@@ -120,4 +113,41 @@ privileged aspect ProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/findDeleteProjects",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.findDeleteProjects(
+            @RequestParam(value="deleteCode",required=false)long deleteCode)
+            {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try
+        {
+            ProjectManager.findDeleteProjectManager(deleteCode);
+            List<Project> result = Project.findDeleteProjects(deleteCode);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findProjectCheckID",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.findProjectCheckID(
+            @RequestParam(value="projectId",required=false)long projectId)
+            {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", "application/json;charset=UTF-8");
+                try
+                {
+                    List<ModuleProject> result = ModuleProject.findProjectCheckID(projectId);
+                    return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+                }
+                catch (Exception e)
+                {
+                    LOGGER.error(e.getMessage(), e);
+                    return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
 }

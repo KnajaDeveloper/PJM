@@ -5,19 +5,24 @@ package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 privileged aspect Project_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Project_Custom_Jpa_ActiveRecord.class);
-    
-	public static Project Project.saveOrUpdateProject(String projectCode,String projectName,Integer projectCost,Date dateStart,Date dateEnd) {
+
+    public static Project Project.saveOrUpdateProject(String projectCode, String projectName, Integer projectCost, Date dateStart, Date dateEnd) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         Project project = new Project();
@@ -37,30 +42,75 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-//    public static List<Project> Project.findProjectSearchData(Date StDateBegin,Date StDateEnd,Date FnDateBegin,Date FnDateEnd,Integer costStart,Integer costEnd,String projectManage) {
-//        EntityManager ent = Project.entityManager();
-//        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
-//
-////            criteria.add(Restrictions.between("dateStart",StDateBegin,StDateEnd));
-////            criteria.add(Restrictions.between("dateEnd",FnDateBegin,FnDateEnd));
-////            criteria.add(Restrictions.between("projectCost",costStart,costEnd));
-////            criteria.add(Restrictions.like("projectCost",projectManage));
-//        try
-//        {
-//            List<Project> projects = criteria.list();
-//            for(int i= 0; projects.size() > i ;i++){
-//                Project project = projects.get(i);
-//
-//                LOGGER.error(">>>"+  project.getId());
-//            }
-//
-//        }
-//        catch (IndexOutOfBoundsException e){
-//            return  criteria.list();
-//        }
-//
-//        return criteria.list();
-//    }
+    public static List<Project> Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class, "project");
+        try {
+            //-- FormatDate--//
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            //-- Startdate Select --//
+            if (StDateBegin != "" && StDateEnd != "") {
+                Date stDatebegin = new Date(Long.parseLong(StDateBegin));
+                Date stDateend = new Date(Long.parseLong(StDateEnd));
+                stDatebegin = formatter.parse(formatter.format(stDatebegin));
+                stDateend = formatter.parse(formatter.format(stDateend));
+                criteria.add(Restrictions.between("dateStart", stDatebegin, stDateend));
+            } else if (StDateBegin != "" && StDateEnd == "") {
+                Date stDatebegin = new Date(Long.parseLong(StDateBegin));
+                stDatebegin = formatter.parse(formatter.format(stDatebegin));
+                criteria.add(Restrictions.ge("dateStart", stDatebegin));
+            } else if (StDateBegin == "" && StDateEnd != "") {
+                Date stDateend = new Date(Long.parseLong(StDateEnd));
+                stDateend = formatter.parse(formatter.format(stDateend));
+                criteria.add(Restrictions.le("dateStart", stDateend));
+            }
+            //-- Enddate Select --//
+            if (FnDateBegin != "" && FnDateEnd != "") {
+                Date fnDatebegin = new Date(Long.parseLong(FnDateBegin));
+                Date fnDateend = new Date(Long.parseLong(FnDateEnd));
+                fnDatebegin = formatter.parse(formatter.format(fnDatebegin));
+                fnDateend = formatter.parse(formatter.format(fnDateend));
+                criteria.add(Restrictions.between("dateEnd", fnDatebegin, fnDateend));
+            } else if (FnDateBegin != "" && FnDateEnd == "") {
+                Date fnDatebegin = new Date(Long.parseLong(FnDateBegin));
+                fnDatebegin = formatter.parse(formatter.format(fnDatebegin));
+                criteria.add(Restrictions.ge("dateEnd", fnDatebegin));
+            } else if (FnDateBegin == "" && FnDateEnd != "") {
+                Date fnDateend = new Date(Long.parseLong(FnDateEnd));
+                fnDateend = formatter.parse(formatter.format(fnDateend));
+                criteria.add(Restrictions.le("dateEnd", fnDateend));
+            }
+            //-- Cost Select --//
+            if (costStart != null && costEnd != null) {
+                criteria.add(Restrictions.between("projectCost", costStart, costEnd));
+            } else if (costStart != null && costEnd == null) {
+                criteria.add(Restrictions.ge("projectCost", costStart));
+            } else if (costStart == null && costEnd != null) {
+                criteria.add(Restrictions.le("projectCost", costEnd));
+            }
+            //-- SubQuery ProjectManager --//
+            DetachedCriteria subCriteria = DetachedCriteria.forClass(ProjectManager.class, "projectManager");
+            subCriteria.add(Restrictions.like("empCode", "%" + projectManage + "%"));
+            subCriteria.setProjection(Projections.property("project"));
+            //----//
+            criteria.add(Subqueries.propertyIn("project.id", subCriteria));
+        } catch (Exception e) {
+            LOGGER.error(">>>{} :" + e);
+        }
+        try
+        {
+            List<Project> projects = criteria.list();
+            for (int i = 0; projects.size() > i; i++) {
+                Project project = projects.get(i);
+                LOGGER.error(">>>" + project.getId());
+            }
+        }
+        catch (IndexOutOfBoundsException e){
+            return  criteria.list();
+        }
+
+        return criteria.list();
+    }
 
     public static Project Project.increseCostByModuleNameAndCodeProject(String projectCode,Integer increseCost,Integer totalCost) {
         EntityManager ent = Project.entityManager();
@@ -75,4 +125,18 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         project.merge();
         return project;
     }
+
+
+    @Transactional
+    public static List<Project> Project.findDeleteProjects(long deleteCode) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        criteria.add(Restrictions.eq("id", deleteCode));
+        List<Project> projects = criteria.list();
+        Project project = projects.get(0);
+        project.remove();
+        return criteria.list();
+    }
+
+
 }
