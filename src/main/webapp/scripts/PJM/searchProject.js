@@ -11,7 +11,7 @@ var checkedRows = [];
 var dataJsonData;
 var DeSuccess = 0;
 var DeFail = 0;
-var checkBoxDisable = [];
+var dataModule = [];
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $("#StDateBegin").datepicker(dateLang);
 $("#StDateEnd").datepicker(dateLang);
@@ -79,11 +79,17 @@ $("#search").click(function () {
         costEnd: $('#costEnd').val(),
     }
     searchData();
-});
+}); //-- searchData --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $("#addProject").click(function () {
     window.location.href = contextPath + '/projects/createproject';
-});
+}); //-- link Addproject --//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#data').on("click", "[id^=progress]", function () {
+    var id =  this.id.split('progress')[1];
+    console.log(id);
+    window.location.href = contextPath + '/projects/progressproject?id='+id;
+}); //-- link Progress --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 paggination.setEventPaggingBtn("paggingSimple", paggination);
 paggination.loadTable = function loadTable(jsonData) {
@@ -97,22 +103,23 @@ paggination.loadTable = function loadTable(jsonData) {
     var tableData = "";
     var key = 1;
     jsonData.forEach(function (value) {
-        checkIdKey(value.id);
-        if (checkBoxDisable != "") {
+        dataModule =[];
+        checkIdModule(value.id);
+        if (dataModule != "") {
             tableData = ''
 
                 + '<tr  style="background-color: #fff">'
                 + '<td class="text-center">'
-                + ' <input id="checkBoxDisable'+value.id+'" class="check" type="checkbox" disabled="disabled"/>'
+                + ' <input id="checkBoxDisable_'+value.id+'" class="check" type="checkbox" disabled="disabled"/>'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="editProject'+key+'" class="btn btn-info" type="button">E</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="addTask'+key+'" class="btn btn-info" type="button">A</button>'
+                + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="progress'+key+'" class="btn btn-info" type="button">V</button>'
+                + '<button id="progress'+value.id+'" class="btn btn-info" type="button">V</button>'
                 + '</td>'
                 + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
                 + value.projectName
@@ -137,16 +144,16 @@ paggination.loadTable = function loadTable(jsonData) {
 
                 + '<tr  style="background-color: #fff">'
                 + '<td class="text-center">'
-                + ' <input id="checkBoxDelete'+value.id+'" class="check" type="checkbox"/>'
+                + ' <input id="checkBoxDisable_'+value.id+'" class="check" type="checkbox"/>'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="editProject'+key+'" class="btn btn-info" type="button">E</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="addTask'+key+'" class="btn btn-info" type="button">A</button>'
+                + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="progress'+key+'" class="btn btn-info" type="button">V</button>'
+                + '<button id="progress'+value.id+'" class="btn btn-info" type="button">V</button>'
                 + '</td>'
                 + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
                 + value.projectName
@@ -171,8 +178,8 @@ paggination.loadTable = function loadTable(jsonData) {
 
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$('#data').on("click", "[id^=checkBoxDelete]", function () {
-    var id = this.id.split('checkBoxDelete')[1];
+$('#data').on("click", "[id^=checkBoxDisable_]", function () {
+    var id = this.id.split('checkBoxDisable_')[1];
     if ($(this).prop('checked') == true) {
         checkedRows.push(id);
         alert(">>> " + checkedRows + "..");
@@ -183,7 +190,7 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
         checkedRows.splice(num, 1);
         alert(">>> " + checkedRows + "..");
     }
-}); //--checkData--//
+}); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
 
@@ -277,7 +284,7 @@ function DeleteData(i) {
     });
 } //--functionDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function checkIdKey(id) {
+function checkIdModule(id) {
     var responseResult = null;
     var dataJsonData = {
         projectId: id
@@ -297,8 +304,53 @@ function checkIdKey(id) {
         },
         async: false
     });
-    checkBoxDisable = jQuery.parseJSON(responseResult.responseText);
-    console.log(checkBoxDisable);
+    dataModule = jQuery.parseJSON(responseResult.responseText);
+    console.log(dataModule);
 
 } //--functionCheckID--//
+/////////////////////////////////////////////////////////////////////////////////////////////////
+$('#data').on("click", "[id^=addTask_]", function () {
+    var id =  this.id.split('addTask_')[1];
+    //console.log(id);
+    checkIdModule(id);
+    $('#ResualtModule').empty();
+    var tableData = "";
+    var key = 1;
+    $.each(dataModule, function (key,value) {
+        tableData = ''
+            + '<td class="text-center">'
+            + '<button id="addTask_' + value.id + '" class="btn btn-info" type="button">A</button>'
+            + '</td>'
+            + '<td id="moduleName_' + value.moduleCode + '" class="text-center" style="color: #000">'
+            + value.moduleName
+            + '</td>'
+            + '<td id="dateStart' + key + '" class="text-center" style="color: #000">'
+            + DateUtil.dataDateToFrontend(value.dateStart, _language)
+            + '</td>'
+            + '<td id="dateEnd' + key + '" class="text-center" style="color: #000">'
+            + DateUtil.dataDateToFrontend(value.dateEnd, _language)
+            + '</td>'
+            + '<td id="projectCost' + key++ + '" class="text-center" style="color: #000">'
+            + value.moduleCost
+            + '</td>'
+            + '</tr>';
+        $('#ResualtModule').append(
+            tableData);
+    });
+
+        $("#modalAddModule").modal('show');
+
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
+$('#data').on("click", "[id^=moduleName_]", function () {
+    var moduleCode =  this.id.split('moduleName_')[1];
+    console.log(id);
+    window.location.href = contextPath + '/moduleprojects/detailsModule?moduleProject='+moduleCode;
+
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
+$("#close").click(function () {
+    //$("#modalAddModule").modal('hide');
+    //searchData();
+}); //-- closeModal --//
 /////////////////////////////////////////////////////////////////////////////////////////////////

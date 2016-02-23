@@ -184,6 +184,42 @@
         </div>
     </div>
 
+    <!-- Modal AddModule -->
+    <div class="modal fade" id="modalAddModule" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title">เพิ่มงานให้โมดูล</h4>
+                </div>
+                <div class="modal-body">
+                    <br></br>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <table id="data" class="table table-hover">
+                                <thead>
+                                <tr class="info">
+
+                                    <th class="text-center" style="width: 40px ;color:#000">เพิ่มงาน</th>
+                                    <th class="text-center" style="width: 200px ;color:#000">ชื่อโมดูล</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">วันที่เริ่ม</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">วันที่สิ้นสุด</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">จำนวนต้นทุน</th>
+                                </tr>
+                                </thead>
+                                <tbody id="ResualtModule" style="cursor:pointer"></tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
