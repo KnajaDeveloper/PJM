@@ -39,25 +39,25 @@ public class ReportController extends AbstractReportJasperXLS{
 
 //------JSPX 001----------------------------------------------------------------------------------------
 
-    @RequestMapping(value = "/report001", produces = "text/html")
-    public String report001(Model uiModel) {
+    @RequestMapping(value = "/PJMRP01", produces = "text/html")
+    public String PJMRP01(Model uiModel) {
 
-        return "reports/report001";
+        return "reports/PJMRP01";
     }
 
     //------JSPX 002----------------------------------------------------------------------------------------
 
-    @RequestMapping(value = "/report002", produces = "text/html")
+    @RequestMapping(value = "/PJMRP02", produces = "text/html")
     public String report002(Model uiModel) {
 
-        return "reports/report002";
+        return "reports/PJMRP02";
     }
 
 
 
-//------Export 001--------------------------------------------------------------------------------------
+//------Export 01--------------------------------------------------------------------------------------
 
-    @RequestMapping(value = "/exportReport001", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/exportPJMRP01", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
             //value รับค่าจาก js เก็บ string ตรงกับใน function
@@ -65,25 +65,37 @@ public class ReportController extends AbstractReportJasperXLS{
             , @RequestParam(value = "dateStart", required = false)String dateStart
             , @RequestParam(value = "dateEnd", required = false)String dateEnd
             , @RequestParam(value = "printDate", required = false)String printDate
+            , @RequestParam(value = "plusYear", required = false)Integer plusYear
+            , @RequestParam(value = "userName", required = false)String userName
 
 
     ) throws ParseException{
-
+//-------------------------------------------------------------------------------------
         List<Map> listMap = emRestService.getEmpNameByEmpCode(empCode) ;
         Map<String, String> map = listMap.get(0);
 
-
-        //String a =  map.values().iterator().next();
         String Fname = map.get("Fname");
         String Lname = map.get("Lname");
 
         LOGGER.debug(Fname);
         LOGGER.debug(Lname);
 
+//-------------------------------------------------------------------------------------
+        List<Map> listMapp = emRestService.getEmpNameByUserName(userName) ;
+        Map<String, String> mapp = listMapp.get(0);
+
+        String UFname = mapp.get("UFname");
+        String ULname = mapp.get("ULname");
+
+        LOGGER.debug(Fname);
+        LOGGER.debug(Lname);
+        LOGGER.debug(UFname);
+        LOGGER.debug(ULname);
+
         Integer number = 1;
-        String reportName = "report1";
-        String reportFileName = "report1.xls";
-        String jasperFileName = "report1.jasper";
+        String reportName = "PJMRP01";
+        String reportFileName = "PJMRP01.xls";
+        String jasperFileName = "PJMRP01.jasper";
 
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -111,16 +123,22 @@ public class ReportController extends AbstractReportJasperXLS{
         params.put("November",getLabelFromPropertiesFile("L0023"));
         params.put("December",getLabelFromPropertiesFile("L0024"));
         params.put("Error",getLabelFromPropertiesFile("L0025"));
+        params.put("fTaskName",getLabelFromPropertiesFile("L0028"));
+        params.put("tPoint",getLabelFromPropertiesFile("L0030"));
         params.put("dateStart",dateStart);
         params.put("dateEnd",dateEnd);
         params.put("printDate",printDate);
+        params.put("PlusYear",plusYear);
         params.put("EMP_FIRST_NAME",Fname);
         params.put("EMP_LAST_NAME",Lname);
+        params.put("printFName",UFname);
+        params.put("printLName",ULname);
+
 
         StringBuilder sqlQuery = new StringBuilder();
 
-        // where ตรงกับตอน2 สร้าง view VIEW report001 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        sqlQuery.append(" SELECT * FROM REPORT001 WHERE EMPCODE = ? ");
+        // where ตรงกับตอน2 สร้าง view VIEW PJMRP01 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
+        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE EMPCODE = ? ");
         sqlQuery.append(" and DATESTART >= ? and DATEEND <= ? ");
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -148,7 +166,7 @@ public class ReportController extends AbstractReportJasperXLS{
             preparedStatement.close();
             c.close();
         }catch(Exception e){
-            LOGGER.error("Can't generate report001",e);
+            LOGGER.error("Can't generate PJMRP01",e);
             throw new RuntimeException(e);
         }
     }
