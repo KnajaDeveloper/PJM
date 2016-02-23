@@ -35,7 +35,7 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         // ใน .java
         criteria.add(Restrictions.eq("typeTaskCode", typeTCode ));
 
-        //System.out.print(criteria.list().size());
+
         return criteria.list();
     }
 
@@ -60,7 +60,6 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("typeTaskCode", typeTCode));
         List<TypeTask> result = criteria.list();
         TypeTask deTypeTask = result.get(0);
-        System.out.print(deTypeTask);
         deTypeTask.remove();
         return criteria.list();
     }

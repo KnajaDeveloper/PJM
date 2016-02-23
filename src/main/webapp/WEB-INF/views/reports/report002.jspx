@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+     xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+     xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+
+
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">รายงานสรุปงานโปรเจค</div>
+
+            <div class="panel-body">
+                <br/>
+
+
+                    <div class="col-xs-12 ">
+                        <form class="form-horizontal ">
+                            <div class="form-group col-xs-12">
+                                <label class="control-label col-xs-4 required">โปรเจค</label>
+
+
+                                <div class="col-xs-5">
+
+
+                                    <select class="form-control"  id="ddlProject" name="ddlProject">
+                                        <option>กรุณาเลือก</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <form class="form-horizontal">
+                            <div class="form-group col-xs-12">
+                                <label class="control-label col-xs-4">โมดูล</label>
+                                <div class="col-xs-5">
+                                    <select class="form-control"  id="ddlProject" name="ddlProject">
+                                        <option>กรุณาเลือก</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                <br/>
+                <br/>
+                <br/>
+
+
+                <div class="col-xs-8">
+                    <div class="col-xs-offset-8 col-xs-2">
+                        <button id="export" type="button" class="btn btn-primary">รายงาน</button>
+                    </div>
+                </div>
+
+
+                <br/>
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </div>
+
+
+    <spring:url value="/resources/scripts/report/report002.js" var="report002"/>
+    <script src="${report002}" type="text/javascript"><!--Not Empty --></script>
+
+
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+
+
+</div>
+

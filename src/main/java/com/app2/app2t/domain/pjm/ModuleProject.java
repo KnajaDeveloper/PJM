@@ -51,6 +51,6 @@ public class ModuleProject extends BaseEntity {
     /**
      */
     private String moduleStatus;
-    //success
-    //fail
+    //finish
+    //unfinished
 }

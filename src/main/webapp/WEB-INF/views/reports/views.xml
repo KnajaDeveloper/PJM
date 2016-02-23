@@ -5,5 +5,8 @@
     <definition extends="default" name="reports/report001">
         <put-attribute name="body" value="/WEB-INF/views/reports/report001.jspx"/>
     </definition>
+    <definition extends="default" name="reports/report002">
+        <put-attribute name="body" value="/WEB-INF/views/reports/report002.jspx"/>
+    </definition>
 </tiles-definitions>
 

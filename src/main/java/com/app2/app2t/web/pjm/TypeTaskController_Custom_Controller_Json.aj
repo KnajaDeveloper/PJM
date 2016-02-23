@@ -35,7 +35,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
             List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
             for(int i = 0 ; i < result.size() ; i++) {
                 TypeTask ty = result.get(i);
-                System.out.println("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
+                //LOGGER.info("Code : "+ty.getTypeTaskCode()+"\nName : "+ty.getTypeTaskName()+"\n==================");
             }
             //return กลับไป js
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -58,11 +58,6 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         try {
             List<TypeTask> result = TypeTask.checkAllProject(checktypecode);
 
-            /*if(result.size() != 0){
-                System.out.print("not null");
-            }else {
-                System.out.print("null");
-            }*/
 
             // return result.size() ไป js
             // +"" เปลี่ยน result.size() เป็น string

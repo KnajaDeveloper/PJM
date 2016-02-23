@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<Configure class="org.mortbay.jetty.plugin.JettyServer">
+
+<New id="ds" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>jdbc/HRMS</Arg>
+    <Arg>
+    <New class="org.apache.commons.dbcp.BasicDataSource">
+                <Set name="driverClassName">org.apache.derby.jdbc.ClientDriver</Set>
+                 <Set name="url">jdbc:derby://localhost:1527/APP2</Set>
+                 <Set name="username">app2</Set>
+                 <Set name="password">app2</Set>
+    </New>
+    </Arg>
+</New>
+
+
+</Configure>
+ 
