@@ -70,4 +70,11 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
         return criteria.list();
     }
+
+    public static List<TypeTask> TypeTask.findTypeTaskByTypeTaskCode(String typeTaskCode) {
+        EntityManager ent = TypeTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        criteria.add(Restrictions.eq("typeTaskCode", typeTaskCode));
+        return criteria.list();
+    }
 }

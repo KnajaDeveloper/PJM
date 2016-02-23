@@ -14,11 +14,29 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Program_Custom_Jpa_ActiveRecord.class);
 
-    public static List<Program> Program.findProjectByProgram(String programCode, String programName) {
+    public static Program Program.saveProgram(String programCode, String programName, ModuleProject moduleProject) {
         EntityManager ent = Program.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class);
-        criteria.add(Restrictions.like("programCode", "%" + programCode + "%"));
-        criteria.add(Restrictions.like("programName", "%" + programName + "%"));
+        Program program = new Program();
+        program.setProgramCode(programCode);
+        program.setProgramName(programName);
+        program.setModuleProject(moduleProject);
+        program.persist();
+        return program;
+    }
+
+    public static List<Program> Program.findProjectByProgram(ModuleProject moduleProject) {
+        EntityManager ent = Program.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject", moduleProject));
+        return criteria.list();
+    }
+
+    public static List<Program> Program.findProgramByProgramCode(String programCode) {
+        EntityManager ent = Program.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class);
+        criteria.add(Restrictions.eq("programCode", programCode));
         return criteria.list();
     }
 }

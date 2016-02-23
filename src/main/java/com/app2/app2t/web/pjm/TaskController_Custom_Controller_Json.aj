@@ -3,8 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleMember;
-import com.app2.app2t.domain.pjm.Task;
+import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
 
@@ -12,13 +11,9 @@ import org.json.JSONArray;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 privileged aspect TaskController_Custom_Controller_Json {
 
@@ -37,5 +32,31 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-
+    @RequestMapping(value = "/saveTask",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.saveTask(
+            @RequestParam(value = "taskCode", required = false) String taskCode,
+            @RequestParam(value = "taskName", required = false) String taskName,
+            @RequestParam(value = "taskCost", required = false) Integer taskCost,
+            @RequestParam(value = "typeTask", required = false) String typeTask,
+            @RequestParam(value = "empCode", required = false) String empCode,
+            @RequestParam(value = "dateStart", required = false) Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "detail", required = false) String detail,
+            @RequestParam(value = "progress", required = false) Integer progress,
+            @RequestParam(value = "program", required = false) String program
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
+            List<Program> pg = Program.findProgramByProgramCode(program);
+            LOGGER.info(tt.get(0) + ", " + pg.get(0));
+            Task task = Task.saveTask(taskCode, taskName, taskCost, tt.get(0), empCode,
+                dateStart, dateEnd, detail, progress, pg.get(0));
+            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

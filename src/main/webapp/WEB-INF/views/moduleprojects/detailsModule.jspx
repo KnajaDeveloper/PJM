@@ -311,12 +311,12 @@
                                     <th id="thProgramName" class="text-center" >ชื่อโปรแกรม</th>
                                 </tr>
                             </thead>
-                            <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+                            <tbody id="ResualtSearchProgram" style="cursor:pointer"></tbody>
                         </table>
                     </div>
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <component:pagging id="paggingSimple"/>
+                            <component:pagging id="paggingSimpleProgram"/>
                         </div>
                     </div>
                 </div>
@@ -335,7 +335,7 @@
                                     <th id="thProgress" class="text-center" >ความคืบหน้า</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody id="ResualtSearch" style="cursor:pointer"></tbody> -->
+                            <!-- <tbody id="ResualtSearchTask" style="cursor:pointer"></tbody> -->
                             <tr style="background-color: #fff">
                                 <td class="text-center">
                                     <input  id="" class="check" type="checkbox" name="chkdelete" />
@@ -350,67 +350,11 @@
                                     <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">20%</div>
                                 </td>
                             </tr>
-                            <tr style="background-color: #fff">
-                                <td class="text-center">
-                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
-                                </td>
-                                <td class="text-center">
-                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
-                                </td>
-                                <td id="" class="text-center">T0002</td>
-                                <td id="" class="text-center">TN 02</td>
-                                <td id="" class="text-center">100 Point</td>
-                                <td>
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">40%</div>
-                                </td>
-                            </tr>
-                            <tr style="background-color: #fff">
-                                <td class="text-center">
-                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
-                                </td>
-                                <td class="text-center">
-                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
-                                </td>
-                                <td id="" class="text-center">T0003</td>
-                                <td id="" class="text-center">TN 03</td>
-                                <td id="" class="text-center">100 Point</td>
-                                <td>
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">60%</div>
-                                </td>
-                            </tr>
-                            <tr style="background-color: #fff">
-                                <td class="text-center">
-                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
-                                </td>
-                                <td class="text-center">
-                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
-                                </td>
-                                <td id="" class="text-center">T0004</td>
-                                <td id="" class="text-center">TN 04</td>
-                                <td id="" class="text-center">100 Point</td>
-                                <td>
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">80%</div>
-                                </td>
-                            </tr>
-                            <tr style="background-color: #fff">
-                                <td class="text-center">
-                                    <input  id="" class="check" type="checkbox" name="chkdelete" />
-                                </td>
-                                <td class="text-center">
-                                <button id="btnEdit" type="button" class="btn btn-info" data-toggle="modal" data-target="#add" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>
-                                </td>
-                                <td id="" class="text-center">T0005</td>
-                                <td id="" class="text-center">TN 05</td>
-                                <td id="" class="text-center">100 Point</td>
-                                <td>
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
-                                </td>
-                            </tr>
                         </table>
                     </div>
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <component:pagging id="paggingSimple"/>
+                            <component:pagging id="paggingSimpleTask"/>
                         </div>
                     </div>
                 </div>

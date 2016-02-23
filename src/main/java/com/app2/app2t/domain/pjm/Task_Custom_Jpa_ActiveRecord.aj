@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
 
 privileged aspect Task_Custom_Jpa_ActiveRecord {
 
@@ -89,6 +90,26 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
         return null;
     }
+
+    public static Task Task.saveTask(String taskCode, String taskName, Integer taskCost,
+        TypeTask typeTask, String empCode, Date dateStart, Date dateEnd, String detail,
+        Integer progress, Program program) {
+
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        Task task = new Task();
+        task.setTaskCode(taskCode);
+        task.setTaskName(taskName);
+        task.setTaskCost(taskCost);
+        task.setTypeTask(typeTask);
+        task.setEmpCode(empCode);
+        task.setDateStart(dateStart);
+        task.setDateEnd(dateEnd);
+        task.setDetail(detail);
+        task.setProgress(progress);
+        task.setProgram(program);
+        task.persist();
+
+        return task;
+    }
 }
-
-
