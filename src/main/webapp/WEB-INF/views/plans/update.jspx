@@ -12,8 +12,6 @@
         <field:datetime dateTimePattern="${plan_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Plan_dateStart" z="BGywWPNOs2iaJM+gWaDiU0bG3rs="/>
         <field:datetime dateTimePattern="${plan_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Plan_dateEnd" z="+wmcLitxXIZskI6KErpX5Mv0h+M="/>
         <field:select field="task" id="c_com_app2_app2t_domain_pjm_Plan_task" itemValue="id" items="${tasks}" path="/tasks" z="JWwrz8EqibwWTRJClSchVeJAe+Y="/>
-        <field:input field="planType" id="c_com_app2_app2t_domain_pjm_Plan_planType" z="Kz+cbnhqIMnMRgnmvy0JPZ+8V78="/>
-        <field:input field="planName" id="c_com_app2_app2t_domain_pjm_Plan_planName" z="lWzJczdSRrPlfa+lwBroUJiLsN8="/>
-        <field:input field="planCost" id="c_com_app2_app2t_domain_pjm_Plan_planCost" validationMessageCode="field_invalid_integer" z="BAFHYyYvZPZ7B7vpI0sNTObzXE4="/>
+        <field:select field="otherTask" id="c_com_app2_app2t_domain_pjm_Plan_otherTask" itemValue="id" items="${othertasks}" path="/othertasks" z="13RsQVMBo1jB6DrukbOavv229pE="/>
     </form:update>
 </div>

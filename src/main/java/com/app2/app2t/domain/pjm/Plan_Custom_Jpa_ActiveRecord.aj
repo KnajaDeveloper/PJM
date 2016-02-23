@@ -25,7 +25,6 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         plan.setTask(task);
         plan.setDateStart(dateStart);
         plan.setDateEnd(dateEnd);
-        plan.setPlanType("M");
         plan.persist();
     }
 
