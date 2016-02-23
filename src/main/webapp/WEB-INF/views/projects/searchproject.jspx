@@ -197,7 +197,7 @@
                     <br></br>
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <table id="data" class="table table-hover">
+                            <table id="tableAddTask" class="table table-hover">
                                 <thead>
                                 <tr class="info">
 
