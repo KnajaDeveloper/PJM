@@ -107,6 +107,12 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         try
         {
             criteria.add(Restrictions.eq("project.id", projectId));
+            List<ModuleProject> moduleProject = criteria.list();
+            for(int i=0 ; moduleProject.size() > i ;i++ ){
+                ModuleProject moduleProject1 = moduleProject.get(i);
+                LOGGER.error(">>>>>>>>>>>><<<<<[} :" +moduleProject1);
+            }
+
             return criteria.list();
         }
         catch (Exception e) {
@@ -115,5 +121,6 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         }
 
     }
+
 
 }
