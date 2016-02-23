@@ -319,9 +319,9 @@ $('#data').on("click", "[id^=addTask_]", function () {
     $.each(dataModule, function (key,value) {
         tableData = ''
             + '<td class="text-center">'
-            + '<button id="addTask_' + value.id + '" class="btn btn-info" type="button">A</button>'
+            + '<button id="addTask_' + value.moduleCode + '" class="btn btn-info" type="button">A</button>'
             + '</td>'
-            + '<td id="moduleName_' + value.moduleCode + '" class="text-center" style="color: #000">'
+            + '<td id="moduleName_' + key + '" class="text-center" style="color: #000">'
             + value.moduleName
             + '</td>'
             + '<td id="dateStart' + key + '" class="text-center" style="color: #000">'
@@ -342,10 +342,10 @@ $('#data').on("click", "[id^=addTask_]", function () {
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
-$('#data').on("click", "[id^=moduleName_]", function () {
-    var moduleCode =  this.id.split('moduleName_')[1];
-    console.log(id);
-    window.location.href = contextPath + '/moduleprojects/detailsModule?moduleProject='+moduleCode;
+$('#tableAddTask').on("click", "[id^=addTask_]", function () {
+    var moduleCode =  this.id.split('addTask_')[1];
+    console.log(moduleCode);
+    window.location.href = contextPath + '/moduleprojects/detailsModule?moduleProject='+ moduleCode;
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
