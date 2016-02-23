@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+	<fontFamily name="TH Sarabun New">
+		<normal>reportFonts/THSarabunNew.ttf</normal>
+		<bold>reportFonts/THSarabunNew.ttf</bold>
+<!-- 		<italic>reportFonts/TAHOMA.TTF</italic> -->
+<!-- 		<boldItalic>reportFonts/TAHOMABD.TTF</boldItalic> -->
+		<pdfEmbedded>true</pdfEmbedded>
+		<pdfEncoding>Identity-H</pdfEncoding>
+	</fontFamily>
+	
+<!--	<fontFamily name="Arial Unicode MS">
+		<normal>reportFonts/TAHOMA.TTF</normal>
+		<bold>reportFonts/TAHOMABD.TTF</bold>
+&lt;!&ndash; 		<italic>reportFonts/TAHOMA.TTF</italic> &ndash;&gt;
+&lt;!&ndash; 		<boldItalic>reportFonts/TAHOMABD.TTF</boldItalic> &ndash;&gt;
+		<pdfEmbedded>true</pdfEmbedded>
+		<pdfEncoding>Identity-H</pdfEncoding>
+	</fontFamily>
+
+
+	<fontFamily name="DejaVuSans">
+		<normal>reportFonts/DejaVuSans.ttf</normal>
+		<bold>reportFonts/DejaVuSans_Bold.ttf</bold>
+		<italic>reportFonts/DejaVuSans_Oblique.ttf</italic>
+		<boldItalic>reportFonts/DejaVuSans_BoldOblique.ttf</boldItalic>
+		<pdfEmbedded>true</pdfEmbedded>
+		<pdfEncoding>Identity-H</pdfEncoding>
+	</fontFamily>-->
+
+
+</fontFamilies>

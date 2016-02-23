@@ -42,6 +42,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+
     public static List<Project> Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class, "project");
@@ -138,5 +139,14 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+
+
+   /* public static List<Project> Project.findProjectName(String projectCode) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        criteria.add(Restrictions.eq("projectCode", projectCode));
+        return criteria.list();
+    }*/
+    
 
 }
