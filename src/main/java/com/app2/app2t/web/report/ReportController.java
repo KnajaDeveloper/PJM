@@ -2,6 +2,7 @@ package com.app2.app2t.web.report;
 
 import com.app2.app2t.service.EmRestService;
 import com.app2.app2t.util.AbstractReportJasperXLS;
+import com.app2.app2t.util.AuthorizeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class ReportController extends AbstractReportJasperXLS{
             , @RequestParam(value = "dateEnd", required = false)String dateEnd
             , @RequestParam(value = "printDate", required = false)String printDate
             , @RequestParam(value = "plusYear", required = false)Integer plusYear
-            , @RequestParam(value = "userName", required = false)String userName
+
 
 
     ) throws ParseException{
@@ -81,7 +82,9 @@ public class ReportController extends AbstractReportJasperXLS{
         LOGGER.debug(Lname);
 
 //-------------------------------------------------------------------------------------
-        List<Map> listMapp = emRestService.getEmpNameByUserName(userName) ;
+        //emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ส่งไป service
+        //List<Map> listMapp return มาเก็บไว้ ใน listmapp
+        List<Map> listMapp = emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ;
         Map<String, String> mapp = listMapp.get(0);
 
         String UFname = mapp.get("UFname");
