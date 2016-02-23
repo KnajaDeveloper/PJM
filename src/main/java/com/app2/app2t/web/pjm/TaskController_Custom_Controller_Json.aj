@@ -50,10 +50,89 @@ privileged aspect TaskController_Custom_Controller_Json {
         try {
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
             List<Program> pg = Program.findProgramByProgramCode(program);
-            LOGGER.info(tt.get(0) + ", " + pg.get(0));
             Task task = Task.saveTask(taskCode, taskName, taskCost, tt.get(0), empCode,
                 dateStart, dateEnd, detail, progress, pg.get(0));
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findPaggingDataTask", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> TaskController.findPaggingDataTask(
+        @RequestParam(value = "program", required = false) String program
+        ,@RequestParam(value = "maxResult", required = false) Integer maxResult
+        ,@RequestParam(value = "firstResult", required = false) Integer firstResult
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Program> pg = Program.findProgramByProgramCode(program);
+            List<Task> result = Task.findTaskByProgramCode(pg.get(0));
+            List<Map<String, Object>> list = new ArrayList<>();
+            for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
+                Task ta = result.get(i);
+                Map<String, Object> map = new HashMap<>();
+                map.put("taskCode", ta.getTaskCode());
+                map.put("taskName", ta.getTaskName());
+                map.put("taskCost", ta.getTaskCost() + "");
+                map.put("typeTask", ta.getTypeTask());
+                map.put("empCode", ta.getEmpCode());
+                map.put("dateStart", ta.getDateStart() + "");
+                map.put("dateEnd", ta.getDateEnd() + "");
+                map.put("progress", ta.getProgress() + "");
+                map.put("detail", ta.getDetail());
+                list.add(map);
+            }
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findPaggingSizeTask", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> TaskController.findPaggingSizeProgram(
+        @RequestParam(value = "program", required = false) String program
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Program> pg = Program.findProgramByProgramCode(program);
+            List<Task> result = Task.findTaskByProgramCode(pg.get(0));
+            Map data = new HashMap();
+            data.put("size", result.size());
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findEditTask",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.findEditTask(
+            @RequestParam(value = "program", required = false) String program,
+            @RequestParam(value = "taskCode", required = false) String taskCode,
+            @RequestParam(value = "taskName", required = false) String taskName,
+            @RequestParam(value = "taskCost", required = false) Integer taskCost,
+            @RequestParam(value = "typeTask", required = false) String typeTask,
+            @RequestParam(value = "empCode", required = false) String empCode,
+            @RequestParam(value = "dateStart", required = false) Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "detail", required = false) String detail,
+            @RequestParam(value = "progress", required = false) Integer progress
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Program> pg = Program.findProgramByProgramCode(program);
+            List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
+            List<Task> result = Task.findEditTask(pg.get(0), taskCode, taskName, taskCost, tt.get(0), empCode,
+                dateStart, dateEnd, detail, progress);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

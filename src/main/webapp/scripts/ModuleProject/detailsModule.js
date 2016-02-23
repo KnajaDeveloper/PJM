@@ -1,10 +1,9 @@
-var pagginationProgram = Object.create(UtilPaggination);
-var pagginationTask = Object.create(UtilPaggination);
+var pagginationProgram = $.extend({},UtilPaggination);
+var pagginationTask = $.extend({},UtilPaggination);
 
 $(document).ready(function(){
   searchDataProgram();
-  //searchDataTask();
-  DDLData();
+  searchDataTask();
 });
 
 pagginationProgram.setEventPaggingBtn("paggingSimpleProgram",pagginationProgram);
@@ -27,7 +26,7 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
         	+ '</div>'
             + '</td>'
             + '<td class="text-center">'
-            + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+            + '<button id="btnEditProgram' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="tdProgramCode' + i + '" class="text-center">'
             + value.code
@@ -61,74 +60,146 @@ function searchDataProgram() {
     pagginationProgram.search(pagginationProgram);
 }
 
-$('#Table').on("click", "[id^=btnEdit]", function () {
-    var id = this.id.split('t')[2];
+var checkProgramName;
+
+$('#TableProgram').on("click", "[id^=btnEditProgram]", function () {
+	chkAEProgram = 1;
+    var id = this.id.split('m')[1];
     $('#btnModalProgramNext').hide();
 	$(".modal-title").text("แก้ไขโปรแกรม");
 	$('#txtProgramCode').val($('#tdProgramCode' + id).text()).attr('disabled', true);
-	checkEdit = $('#tdPositionName' + id).text();
+	checkProgramName = $('#tdProgramName' + id).text();
 	$('#txtProgramName').val($('#tdProgramName' + id).text());
 });
 
-$('#Table').on("click", "[id^=tdProgramCode]", function () {
+$('#TableProgram').on("click", "[id^=tdProgramCode]", function () {
     var id = this.id.split('e')[1];
     bootbox.alert($('#tdProgramCode' + id).text());
 });
 
-// pagginationTask.setEventPaggingBtn("paggingSimpleTask",pagginationTask);
-// pagginationTask.loadTable = function loadTable (jsonData) {
+var dataTypeTask = []
+var dataEmpCode = []
+var dataDateStart = []
+var dataDateEnd = []
+var dataDetail = []
 
-//     if(jsonData.length <= 0)
-//        bootbox.alert("ไม่พบข้อมูล");
+function convertdataDate(input){
+	var x = input.split('-');
+	var year = parseInt(x[0])+543;
+	x[0] = "" + year;
+	return ""+x[2]+"/"+x[1]+"/"+x[0];
+}
 
-//     $('#ResualtSearchTask').empty();
+pagginationTask.setEventPaggingBtn("paggingSimpleTask",pagginationTask);
+pagginationTask.loadTable = function loadTable (jsonData) {
 
-//     var link = "";
-//     var i = 1;
-//     var tableData = "";
+    if(jsonData.length <= 0)
+       bootbox.alert("ไม่พบข้อมูล");
 
-//     jsonData.forEach(function(value){
-//         tableData = ''
-// 		+ '<tr style="background-color: #fff">'
-//             + '<td>'
-//         	+ '<div id="chkBox' + i + '" class="text-center">'
-//             + '<input  id="chkDelete' + i + '" class="check" type="checkbox" name="chkdelete" />'
-//         	+ '</div>'
-//             + '</td>'
-//             + '<td class="text-center">'
-//             + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
-//             + '</td>'
-//             + '<td id="tdProgramCode' + i + '" class="text-center">'
-//             + value.code
-//             + '</td>'
-//             + '<td id="tdProgramName' + i++ + '" class="text-center">'
-//             + value.name
-//             + '</td>'
-//         + '</tr>';
+    $('#ResualtSearchTask').empty();
 
-//         $('#ResualtSearchTask').append(
-//             tableData
-//         );
-//     });
-// };
+    var link = "";
+    var i = 1;
+    var tableData = "";
 
-// function searchDataTask() {
-//   	var dataJsonData = {
-//   		moduleProject: ""
-//     }
+    dataTypeTask = [];
+	dataEmpCode = [];
+	dataDateStart = [];
+	dataDateEnd = [];
+	dataDetail = [];
 
-//     pagginationTask.setOptionJsonData({
-//       	url:contextPath + "/programs/findPaggingDataProgram",
-//       	data:dataJsonData
-//     });
+    jsonData.forEach(function(value){
+    	dataTypeTask.push(value.typeTask.typeTaskName);
+    	dataEmpCode.push(value.empCode);
+    	dataDateStart.push(convertdataDate((value.dateStart).split(' ')[0]));
+    	dataDateEnd.push(convertdataDate((value.dateEnd).split(' ')[0]));
+    	dataDetail.push(value.detail);
 
-//     pagginationTask.setOptionJsonSize({
-//         url:contextPath + "/programs/findPaggingSizeProgram",
-//         data:dataJsonData
-//     });
+        tableData = ''
+		+ '<tr style="background-color: #fff">'
+            + '<td>'
+        	+ '<div id="chkBox' + i + '" class="text-center">'
+            + '<input  id="chkDelete' + i + '" class="check" type="checkbox" name="chkdelete" />'
+        	+ '</div>'
+            + '</td>'
+            + '<td class="text-center">'
+            + '<button id="btnEditTask' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+            + '</td>'
+            + '<td id="tdTaskCode' + i + '" class="text-center">'
+            + value.taskCode
+            + '</td>'
+            + '<td id="tdTaskName' + i + '" class="text-center">'
+            + value.taskName
+            + '</td>'
+            + '<td id="tdTaskCost' + i + '" class="text-center">'
+            + value.taskCost
+            + ' Point</td>'
+            + '<td>'
+            + '<div id="tdProgress' + i++ + '" class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
+            + 'style="width: ' + value.progress + '%;">'
+            + value.progress
+            + '%</div>'
+            + '</td>'
+        + '</tr>';
 
-//     pagginationTask.search(pagginationTask);
-// }
+        $('#ResualtSearchTask').append(
+            tableData
+        );
+    });
+};
+
+function searchDataTask() {
+  	var dataJsonData = {
+  		program: "P0001"
+    }
+
+    pagginationTask.setOptionJsonData({
+      	url:contextPath + "/tasks/findPaggingDataTask",
+      	data:dataJsonData
+    });
+
+    pagginationTask.setOptionJsonSize({
+        url:contextPath + "/tasks/findPaggingSizeTask",
+        data:dataJsonData
+    });
+
+    pagginationTask.search(pagginationTask);
+}
+
+$('#TableTask').on("click", "[id^=btnEditTask]", function () {
+	chkAETask = 1;
+    var id = this.id.split('k')[1];
+    DDLData();
+    $('#btnModalTaskNext').hide();
+	$(".modal-title").text("แก้ไขงาน");
+	$('#txtTaskCode').val($('#tdTaskCode' + id).text()).attr('disabled', true);
+	$('#txtTaskName').val($('#tdTaskName' + id).text());
+	$('#txtTaskCost').val($('#tdTaskCost' + id).text().split(' ')[0]);
+	document.getElementById("ddlTypeTask").value = "0";
+	$('#txtEmpName').val(dataEmpCode[id - 1]);
+	$('#dateStartProject').val(dataDateStart[id - 1]);
+	$('#dateEndProject').val(dataDateEnd[id - 1]);
+	$('#txtProgress').val($('#tdProgress' + id).text().split('%')[0]).attr('disabled', false);
+	$('#txtaDescription').val(dataDetail[id - 1]);
+});
+
+$('#TableTask').on("click", "[id^=tdTaskCode]", function () {
+    var id = this.id.split('e')[1];
+    console.log(dataEmpCode[id - 1] + ", " + dataTypeTask[id - 1]  + ", " +  dataDateStart[id - 1]  + ", " +  dataDateEnd[id - 1]  + ", " +  dataDetail[id - 1]);
+	$('#lblEmpName').text(dataEmpCode[id - 1]);
+	$('#lblTaskName').text(dataTypeTask[id - 1]);
+	$('#lblSDate').text(dataDateStart[id - 1]);
+	$('#lblEDate').text(dataDateEnd[id - 1]);
+	$('#txtaDetail').val(dataDetail[id - 1]);
+});
+
+$('#btnAddProgram').click(function() {
+	$('#txtProgramCode').attr('disabled', false);
+	$('#txtProgramCode').val(null);
+	$('#txtProgramName').val(null);
+});
+
+var chkAEProgram = 0;
 
 $('[id^=btnModalProgram]').click(function() {
 	var id = this.id.split('m')[1];
@@ -148,29 +219,72 @@ $('[id^=btnModalProgram]').click(function() {
 				moduleProject: "MP0001"
 			};
 
-			$.ajax({
-				headers: {
-					Accept: "application/json"
-				},
-				type: "POST",
-				url: contextPath + '/programs/saveProgram',
-				data : pjmProgram,
-				complete: function(xhr){
-					if(xhr.status === 201){
-						if(id === 'Add'){
-							bootbox.alert("บันทึกข้อมูลสำเร็จ");
-							$('#modalProgram').modal('hide');
+			if(chkAEProgram === 0){
+				$.ajax({
+					headers: {
+						Accept: "application/json"
+					},
+					type: "POST",
+					url: contextPath + '/programs/saveProgram',
+					data : pjmProgram,
+					complete: function(xhr){
+						if(xhr.status === 201){
+							if(id === 'Add'){
+								bootbox.alert("บันทึกข้อมูลสำเร็จ");
+								$('#modalProgram').modal('hide');
+							}
+							$('#txtProgramCode').val(null);
+							$('#txtProgramName').val(null);
+						}else if(xhr.status === 500){
+							bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
 						}
+					},
+					async: false
+				});
+			}else if(chkAEProgram === 1){
+				if($('#txtProgramName').val() === checkProgramName){
+						bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
+						$('#modalProgram').modal('hide');
 						$('#txtProgramCode').val(null);
 						$('#txtProgramName').val(null);
-					}else if(xhr.status === 500){
-						bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
-					}
-				},
-				async: false
-			});
+				}else{
+					$.ajax({
+						headers: {
+							Accept: "application/json"
+						},
+						type: "GET",
+						url: contextPath + '/programs/findEditProgram',
+						data : pjmProgram,
+						complete: function(xhr){
+							if(xhr.status === 200){
+								bootbox.alert("แก้ไขข้อมูลสำเร็จ");
+								$('#modalProgram').modal('hide');
+								$('#txtProgramCode').val(null);
+								$('#txtProgramName').val(null);
+								searchDataProgram();
+							}else if(xhr.status === 500){
+								bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
+							}
+						},
+						async: false
+					});
+				}
+			}
 		}
 	}
+});
+
+$('#btnAddTask').click(function() {
+	DDLData();
+	$('#txtTaskCode').attr('disabled', false);
+	$('#txtProgress').attr('disabled', true);
+	$('#txtTaskCode').val(null);
+	$('#txtTaskName').val(null);
+	$('#txtTaskCost').val(null);
+	$('#txtEmpName').val(null);
+	$('#dateStartProject').val(null);
+	$('#dateEndProject').val(null);
+	$('#txtaDescription').val("");
 });
 
 function convertDate(input){
@@ -180,15 +294,17 @@ function convertDate(input){
 	return ""+x[1]+"/"+x[0]+"/"+x[2];
 }
 
+var chkAETask = 0;
+
 $('[id^=btnModalTask]').click(function() {
 	var id = this.id.split('k')[1];
 	if(id === 'Cancel'){
 		$('#modalTask').modal('hide');
 		$('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null);
 		$('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
-		$('#txtNumberCost').popover('hide'); $('#txtNumberCost').val(null);
+		$('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
 		$('#ddlTypeTask').popover('hide');
-		$('#txtCaretakerName').val(null);
+		$('#txtEmpName').val(null);
 		$('#dateStartProject').val(null);
 		$('#dateEndProject').val(null);
 		$('#txtaDescription').val("");
@@ -197,55 +313,86 @@ $('[id^=btnModalTask]').click(function() {
 			$('#txtTaskCode').attr("data-content" , "กรุณากรอกข้อมูลรหัสงาน").popover('show');
 		}else if($('#txtTaskName').val() === ""){
 			$('#txtTaskName').attr("data-content" , "กรุณากรอกข้อมูลชื่องาน").popover('show');
-		}else if($('#txtNumberCost').val() === ""){
-			$('#txtNumberCost').attr("data-content" , "กรุณากรอกข้อมูลจำนวนต้นทุน").popover('show');
+		}else if($('#txtTaskCost').val() === ""){
+			$('#txtTaskCost').attr("data-content" , "กรุณากรอกข้อมูลจำนวนต้นทุน").popover('show');
 		}else if($('#ddlTypeTask').val() === "<-- ประเภทงาน -->"){
 			$('#ddlTypeTask').attr("data-content" , "กรุณาเลือกข้อมูลประเภทงาน").popover('show');
 		}else{
+
+			myFunction();
 			var pjmTask = {
 				taskCode: $('#txtTaskCode').val(),
 				taskName: $('#txtTaskName').val(),
-				taskCost: parseInt($('#txtNumberCost').val()),
-				typeTask: $('#ddlTypeTask').val(),
-				empCode: $('#txtCaretakerName').val(),
+				taskCost: parseInt($('#txtTaskCost').val()),
+				typeTask: dataTypeTaskCode[index],
+				empCode: $('#txtEmpName').val(),
 				dateStart: new Date(convertDate($('#dateStartProject').val())),
 				dateEnd: new Date(convertDate($('#dateEndProject').val())),
 				detail: $('#txtaDescription').val(),
-				progress: 0,
+				progress: $('#txtProgress').val(),
 				program: "P0001"
 			};
 
-			$.ajax({
-				headers: {
-					Accept: "application/json"
-				},
-				type: "POST",
-				url: contextPath + '/tasks/saveTask',
-				data : pjmTask,
-				complete: function(xhr){
-					if(xhr.status === 201){
-						if(id === 'Add'){
-							bootbox.alert("บันทึกข้อมูลสำเร็จ");
-							$('#modalTask').modal('hide');
+			if(chkAETask === 0){
+				$.ajax({
+					headers: {
+						Accept: "application/json"
+					},
+					type: "POST",
+					url: contextPath + '/tasks/saveTask',
+					data : pjmTask,
+					complete: function(xhr){
+						if(xhr.status === 201){
+							if(id === 'Add'){
+								bootbox.alert("บันทึกข้อมูลสำเร็จ");
+								$('#modalTask').modal('hide');
+							}
+							$('#txtTaskCode').val(null);
+							$('#txtTaskName').val(null);
+							$('#txtTaskCost').val(null);
+							$('#txtEmpName').val(null);
+							$('#dateStartProject').val(null);
+							$('#dateEndProject').val(null);
+							$('#txtaDescription').val("");
+						}else if(xhr.status === 500){
+							bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
 						}
-						$('#txtTaskCode').val(null);
-						$('#txtTaskName').val(null);
-						$('#txtNumberCost').val(null);
-						$('#txtCaretakerName').val(null);
-						$('#dateStartProject').val(null);
-						$('#dateEndProject').val(null);
-						$('#txtaDescription').val("");
-					}else if(xhr.status === 500){
-						bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
-					}
-				},
-				async: false
-			});
+					},
+					async: false
+				});
+			}else if(chkAETask === 1){
+				$.ajax({
+					headers: {
+						Accept: "application/json"
+					},
+					type: "GET",
+					url: contextPath + '/tasks/findEditTask',
+					data : pjmTask,
+					complete: function(xhr){
+						if(xhr.status === 200){
+							bootbox.alert("แก้ไขข้อมูลสำเร็จ");
+							$('#modalTask').modal('hide');
+							$('#txtTaskCode').val(null);
+							$('#txtTaskName').val(null);
+							$('#txtTaskCost').val(null);
+							$('#txtEmpName').val(null);
+							$('#dateStartProject').val(null);
+							$('#dateEndProject').val(null);
+							$('#txtaDescription').val("");
+							searchDataTask();
+						}else if(xhr.status === 500){
+							bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
+						}
+					},
+					async: false
+				});
+			}
 		}
 	}
 });
 
 var ddlData;
+var dataTypeTaskCode = [];
 function DDLData() {
 	ddlData = $.ajax({
 		headers: {
@@ -260,11 +407,19 @@ function DDLData() {
 		async: false
 	});
 
+	dataTypeTaskCode = [];
+	var i = 0;
 	var addData = ddlData.responseJSON;
 	$('#ddlTypeTask').empty();
 	$('#ddlTypeTask').append("<option><-- ประเภทงาน --></option>");
 	addData.forEach(function(value){
-		var text =  ""+ value.typeTaskName;
-		$('#ddlTypeTask').append("<option>"+ text +"</option>");
+		dataTypeTaskCode.push(value.typeTaskCode);
+		var text = value.typeTaskName;
+		$('#ddlTypeTask').append("<option value=" + i++ + ">" + text + "</option>");
 	});
+}
+
+var index;
+function myFunction() {
+    index = document.getElementById("ddlTypeTask").value;
 }
