@@ -112,4 +112,34 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
         return task;
     }
+
+    public static List<Task> Task.findTaskByProgramCode(Program program) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.add(Restrictions.eq("program", program));
+        return criteria.list();
+    }
+
+    public static List<Task> Task.findEditTask(Program program, String taskCode,
+        String taskName, Integer taskCost, TypeTask typeTask, String empCode,
+        Date dateStart, Date dateEnd, String detail, Integer progress) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.add(Restrictions.eq("program", program));
+        criteria.add(Restrictions.eq("taskCode", taskCode));
+        List<Task> et = criteria.list();
+        Task edTask = et.get(0);
+        edTask.setTaskName(taskName);
+        edTask.setTaskCost(taskCost);
+        edTask.setTypeTask(typeTask);
+        edTask.setEmpCode(empCode);
+        edTask.setDateStart(dateStart);
+        edTask.setDateEnd(dateEnd);
+        edTask.setDetail(detail);
+        edTask.setProgress(progress);
+        edTask.merge();
+        return criteria.list();
+    }
 }

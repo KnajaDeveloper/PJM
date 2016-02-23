@@ -39,4 +39,17 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("programCode", programCode));
         return criteria.list();
     }
+
+    public static List<Program> Program.findEditProgram(ModuleProject moduleProject, String programCode, String programName) {
+        EntityManager ent = Program.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject", moduleProject));
+        criteria.add(Restrictions.eq("programCode", programCode));
+        List<Program> ep = criteria.list();
+        Program edProgram = ep.get(0);
+        edProgram.setProgramName(programName);
+        edProgram.merge();
+        return criteria.list();
+    }
 }
