@@ -193,14 +193,10 @@ $('#btnSearchByModule').click(function () {
 // Add other plan -----------------------------------------------------------------------------------------------
 $('#btnAddOtherPlan').click(function () {
 
-    // clear result list
-    $('#grpResultCustomSearch').empty();
-
     var taskName = $('#txtPlanName').val();
     var taskCost = $('#txtPlanCost').val();
     var dateStart = $('#cPlanDateBegin').val();
     var dateEnd = $('#cPlanDateEnd').val();
-
 
     if (taskName.length == 0) {
         $('#txtPlanName').popover('show');
@@ -218,12 +214,12 @@ $('#btnAddOtherPlan').click(function () {
             headers: {
                 Accept: "application/json"
             },
-            url: contextPath + '/plans/insertCustomPlan',
+            url: contextPath + '/plans/insertOtherPlan',
             data: JSON.stringify({
                 taskName: taskName,
                 taskCost: taskCost,
-                dateStart: DateUtil.dataDateToDataBase(),
-                dateEnd: DateUtil.dataDateToDataBase()
+                dateStart: DateUtil.dataDateToDataBase(dateStart, _language),
+                dateEnd: DateUtil.dataDateToDataBase(dateEnd, _language)
             }),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
@@ -382,7 +378,7 @@ $('#grpAddDate').on('click', '[id^=btnDeleteAddDate_]', function () {
 //    //console.log($(this).parent().children(':first'));
 //    $(this).parent().children(':first').focus();
 //});
-$('#grpAddDate').on('mouseenter', '.glyphicon-calendar', function(){
+$('#grpAddDate').on('mouseenter', '.glyphicon-calendar', function () {
     $(this).css('cursor', 'pointer');
 });
 
@@ -571,7 +567,7 @@ $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
     $('#cEditDateBegin_' + id).parent().parent().remove();
     $('#cEditDateEnd_' + id).parent().parent().remove();
 });
-$('#grpEditDate').on('mouseenter', $('.glyphicon-calendar'), function(){
+$('#grpEditDate').on('mouseenter', $('.glyphicon-calendar'), function () {
     $(this).css('cursor', 'pointer');
 });
 
@@ -757,13 +753,14 @@ function loadAndMapPlan(month, year) {
 
                 var event = {
                     _id: v.id,
-                    title: v.task.taskName,
+                    title: v.task != null ? v.task.taskName : v.otherTask.taskName,
                     start: startDate,
                     end: endDate,
-                    taskId: v.task.id,
+                    taskId: v.task != null ? v.task.id : null,
+                    otherTaskId: v.otherTask != null ? v.otherTask.id : null,
                     planId: v.id,
                     note: v.note,
-                    progress: v.task.progress,
+                    progress: v.task != null ? v.task.progress : v.otherTask.progress,
                 };
                 events.push(event);
             });

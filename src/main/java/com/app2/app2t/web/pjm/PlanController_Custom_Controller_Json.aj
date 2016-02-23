@@ -160,33 +160,23 @@ privileged aspect PlanController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/insertCustomPlan", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String>  PlanController.insertCustomPlan(@RequestBody String json) {
+    @RequestMapping(value = "/insertOtherPlan", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String>  PlanController.insertOtherPlan(@RequestBody String json) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONObject jsonPlan = new JSONObject(json);
             String taskName = jsonPlan.get("taskName").toString();
-            String taskCost = jsonPlan.get("taskCost").toString();
-            String dateStart = jsonPlan.get("dateStart").toString();
-            String dateEnd = jsonPlan.get("dateEnd").toString();
+            int taskCost = Integer.parseInt(jsonPlan.get("taskCost").toString());
+            Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
+            Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
 
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            dateStart = formatter.parse(formatter.format(dateStart));
+            dateEnd = formatter.parse(formatter.format(dateEnd));
 
-//            // Edit task -> update empCode = userName
-//            String userName = AuthorizeUtil.getUserName();
-//            Task task = Task.updateEmpCode(taskId, userName);
-//
-//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-//
-//            for (int i = 1; i < jsonArrayPlan.length(); i++) {
-//                JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
-//                Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
-//                Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
-//                dateStart = formatter.parse(formatter.format(dateStart));
-//                dateEnd = formatter.parse(formatter.format(dateEnd));
-//
-//                Plan.insertPlan(task, dateStart, dateEnd);
-//            }
+            OtherTask otherTask = OtherTask.insertOtherTask(taskName, taskCost, AuthorizeUtil.getUserName());
+            Plan.insertOtherPlan(otherTask, dateStart, dateEnd);
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
 
@@ -222,6 +212,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
             Task task = null;
+            OtherTask otherTask = null;
             for (int i = 3; i < jsonArrayPlan.length(); i++) {
                 JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
                 Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
@@ -244,11 +235,23 @@ privileged aspect PlanController_Custom_Controller_Json {
                 }
 
                 if (i == 3) {               // update
-                    task = Plan.updatePlan(planId, dateStart, dateEnd);
-                    task.setProgress(progress);
-                    task.merge();
+                    Plan tmpPlan = Plan.updatePlan(planId, dateStart, dateEnd);
+                    task = tmpPlan.getTask();
+                    otherTask = tmpPlan.getOtherTask();
+
+                    if(task != null) {
+                        task.setProgress(progress);
+                        task.merge();
+                    }
+                    if(otherTask != null) {
+                        otherTask.setProgress(progress);
+                        otherTask.merge();
+                    }
                 } else {                    // insert more plan
-                    Plan.insertPlan(task, dateStart, dateEnd);
+                    if(task != null)
+                        Plan.insertPlan(task, dateStart, dateEnd);
+                    if(otherTask != null)
+                        Plan.insertOtherPlan(otherTask, dateStart, dateEnd);
                 }
             }
 

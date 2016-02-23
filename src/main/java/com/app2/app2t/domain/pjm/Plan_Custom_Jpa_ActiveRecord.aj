@@ -28,7 +28,13 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         plan.persist();
     }
 
-
+    public static void Plan.insertOtherPlan(OtherTask otherTask, Date dateStart, Date dateEnd) {
+        Plan plan = new Plan();
+        plan.setOtherTask(otherTask);
+        plan.setDateStart(dateStart);
+        plan.setDateEnd(dateEnd);
+        plan.persist();
+    }
 
     public static List<Plan> Plan.findPlansByMonthYear(int month, int year, String userName) {
 
@@ -51,17 +57,26 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
+        Criteria criteria2 = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan2");
         criteria.createAlias("Plan.task", "task");
+        criteria2.createAlias("Plan2.otherTask", "otherTask");
 
         try {
             criteria.add(Restrictions.eq("task.empCode", userName));
             criteria.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
             criteria.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
+
+            criteria2.add(Restrictions.eq("otherTask.empCode", userName));
+            criteria2.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
+            criteria2.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
         } catch (Exception e) {
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX");
+
         }
 
-        return criteria.list();
+        List<Plan> plans = new ArrayList<>(criteria.list());
+        plans.addAll(criteria2.list());
+
+        return plans;
     }
 
     public static List<Plan> Plan.findPlanEndAfter(Date beginDate) {
@@ -78,7 +93,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static Task Plan.updatePlan(Long planId, Date dateStart, Date dateEnd) {
+    public static Plan Plan.updatePlan(Long planId, Date dateStart, Date dateEnd) {
         try {
             EntityManager ent = Plan.entityManager();
             Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
@@ -89,7 +104,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             plan.setDateEnd(dateEnd);
             plan.merge();
 
-            return plan.getTask();
+            return plan;
         } catch (Exception ex) {
 
         }
