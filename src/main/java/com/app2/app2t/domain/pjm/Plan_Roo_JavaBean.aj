@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.Plan;
 import com.app2.app2t.domain.pjm.Task;
 import java.util.Date;
@@ -41,28 +42,12 @@ privileged aspect Plan_Roo_JavaBean {
         this.task = task;
     }
     
-    public String Plan.getPlanType() {
-        return this.planType;
+    public OtherTask Plan.getOtherTask() {
+        return this.otherTask;
     }
     
-    public void Plan.setPlanType(String planType) {
-        this.planType = planType;
-    }
-    
-    public String Plan.getPlanName() {
-        return this.planName;
-    }
-    
-    public void Plan.setPlanName(String planName) {
-        this.planName = planName;
-    }
-    
-    public Integer Plan.getPlanCost() {
-        return this.planCost;
-    }
-    
-    public void Plan.setPlanCost(Integer planCost) {
-        this.planCost = planCost;
+    public void Plan.setOtherTask(OtherTask otherTask) {
+        this.otherTask = otherTask;
     }
     
 }

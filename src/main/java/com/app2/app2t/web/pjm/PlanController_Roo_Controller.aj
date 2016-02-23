@@ -3,6 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.Plan;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.web.pjm.PlanController;
@@ -97,6 +98,7 @@ privileged aspect PlanController_Roo_Controller {
     void PlanController.populateEditForm(Model uiModel, Plan plan) {
         uiModel.addAttribute("plan", plan);
         addDateTimeFormatPatterns(uiModel);
+        uiModel.addAttribute("othertasks", OtherTask.findAllOtherTasks());
         uiModel.addAttribute("tasks", Task.findAllTasks());
     }
     

@@ -3,10 +3,9 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.OtherTaskDataOnDemand;
-import com.app2.app2t.domain.pjm.Plan;
-import com.app2.app2t.domain.pjm.PlanDataOnDemand;
-import com.app2.app2t.domain.pjm.TaskDataOnDemand;
+import com.app2.app2t.domain.pjm.TypeTaskDataOnDemand;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,74 +19,83 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-privileged aspect PlanDataOnDemand_Roo_DataOnDemand {
+privileged aspect OtherTaskDataOnDemand_Roo_DataOnDemand {
     
-    declare @type: PlanDataOnDemand: @Component;
+    declare @type: OtherTaskDataOnDemand: @Component;
     
-    private Random PlanDataOnDemand.rnd = new SecureRandom();
+    private Random OtherTaskDataOnDemand.rnd = new SecureRandom();
     
-    private List<Plan> PlanDataOnDemand.data;
-    
-    @Autowired
-    OtherTaskDataOnDemand PlanDataOnDemand.otherTaskDataOnDemand;
+    private List<OtherTask> OtherTaskDataOnDemand.data;
     
     @Autowired
-    TaskDataOnDemand PlanDataOnDemand.taskDataOnDemand;
+    TypeTaskDataOnDemand OtherTaskDataOnDemand.typeTaskDataOnDemand;
     
-    public Plan PlanDataOnDemand.getNewTransientPlan(int index) {
-        Plan obj = new Plan();
+    public OtherTask OtherTaskDataOnDemand.getNewTransientOtherTask(int index) {
+        OtherTask obj = new OtherTask();
         setCreatedBy(obj, index);
         setCreatedDate(obj, index);
-        setDateEnd(obj, index);
-        setDateStart(obj, index);
-        setNote(obj, index);
+        setDetail(obj, index);
+        setEmpCode(obj, index);
+        setProgress(obj, index);
         setStatus(obj, index);
+        setTaskCost(obj, index);
+        setTaskName(obj, index);
         setUpdatedBy(obj, index);
         setUpdatedDate(obj, index);
         return obj;
     }
     
-    public void PlanDataOnDemand.setCreatedBy(Plan obj, int index) {
+    public void OtherTaskDataOnDemand.setCreatedBy(OtherTask obj, int index) {
         String createdBy = "createdBy_" + index;
         obj.setCreatedBy(createdBy);
     }
     
-    public void PlanDataOnDemand.setCreatedDate(Plan obj, int index) {
+    public void OtherTaskDataOnDemand.setCreatedDate(OtherTask obj, int index) {
         Date createdDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCreatedDate(createdDate);
     }
     
-    public void PlanDataOnDemand.setDateEnd(Plan obj, int index) {
-        Date dateEnd = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
-        obj.setDateEnd(dateEnd);
+    public void OtherTaskDataOnDemand.setDetail(OtherTask obj, int index) {
+        String detail = "detail_" + index;
+        obj.setDetail(detail);
     }
     
-    public void PlanDataOnDemand.setDateStart(Plan obj, int index) {
-        Date dateStart = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
-        obj.setDateStart(dateStart);
+    public void OtherTaskDataOnDemand.setEmpCode(OtherTask obj, int index) {
+        String empCode = "empCode_" + index;
+        obj.setEmpCode(empCode);
     }
     
-    public void PlanDataOnDemand.setNote(Plan obj, int index) {
-        String note = "note_" + index;
-        obj.setNote(note);
+    public void OtherTaskDataOnDemand.setProgress(OtherTask obj, int index) {
+        Integer progress = new Integer(index);
+        obj.setProgress(progress);
     }
     
-    public void PlanDataOnDemand.setStatus(Plan obj, int index) {
+    public void OtherTaskDataOnDemand.setStatus(OtherTask obj, int index) {
         String status = "status_" + index;
         obj.setStatus(status);
     }
     
-    public void PlanDataOnDemand.setUpdatedBy(Plan obj, int index) {
+    public void OtherTaskDataOnDemand.setTaskCost(OtherTask obj, int index) {
+        Integer taskCost = new Integer(index);
+        obj.setTaskCost(taskCost);
+    }
+    
+    public void OtherTaskDataOnDemand.setTaskName(OtherTask obj, int index) {
+        String taskName = "taskName_" + index;
+        obj.setTaskName(taskName);
+    }
+    
+    public void OtherTaskDataOnDemand.setUpdatedBy(OtherTask obj, int index) {
         String updatedBy = "updatedBy_" + index;
         obj.setUpdatedBy(updatedBy);
     }
     
-    public void PlanDataOnDemand.setUpdatedDate(Plan obj, int index) {
+    public void OtherTaskDataOnDemand.setUpdatedDate(OtherTask obj, int index) {
         Date updatedDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setUpdatedDate(updatedDate);
     }
     
-    public Plan PlanDataOnDemand.getSpecificPlan(int index) {
+    public OtherTask OtherTaskDataOnDemand.getSpecificOtherTask(int index) {
         init();
         if (index < 0) {
             index = 0;
@@ -95,36 +103,36 @@ privileged aspect PlanDataOnDemand_Roo_DataOnDemand {
         if (index > (data.size() - 1)) {
             index = data.size() - 1;
         }
-        Plan obj = data.get(index);
+        OtherTask obj = data.get(index);
         Long id = obj.getId();
-        return Plan.findPlan(id);
+        return OtherTask.findOtherTask(id);
     }
     
-    public Plan PlanDataOnDemand.getRandomPlan() {
+    public OtherTask OtherTaskDataOnDemand.getRandomOtherTask() {
         init();
-        Plan obj = data.get(rnd.nextInt(data.size()));
+        OtherTask obj = data.get(rnd.nextInt(data.size()));
         Long id = obj.getId();
-        return Plan.findPlan(id);
+        return OtherTask.findOtherTask(id);
     }
     
-    public boolean PlanDataOnDemand.modifyPlan(Plan obj) {
+    public boolean OtherTaskDataOnDemand.modifyOtherTask(OtherTask obj) {
         return false;
     }
     
-    public void PlanDataOnDemand.init() {
+    public void OtherTaskDataOnDemand.init() {
         int from = 0;
         int to = 10;
-        data = Plan.findPlanEntries(from, to);
+        data = OtherTask.findOtherTaskEntries(from, to);
         if (data == null) {
-            throw new IllegalStateException("Find entries implementation for 'Plan' illegally returned null");
+            throw new IllegalStateException("Find entries implementation for 'OtherTask' illegally returned null");
         }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<Plan>();
+        data = new ArrayList<OtherTask>();
         for (int i = 0; i < 10; i++) {
-            Plan obj = getNewTransientPlan(i);
+            OtherTask obj = getNewTransientOtherTask(i);
             try {
                 obj.persist();
             } catch (final ConstraintViolationException e) {

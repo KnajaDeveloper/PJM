@@ -117,3 +117,18 @@ web mvc all --package ~.web.pjm
 web mvc json all 
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-02-18 17:21:04
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-02-23 10:11:38
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-02-23 10:11:46
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-02-23 10:12:05
+entity jpa --class ~.domain.pjm.otherTask --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string taskName
+field string empCode
+field string detail
+field reference --fieldName typeTask --type ~.domain.pjm.typeTask --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName typeTask
+field number --type java.lang.Integer --fieldName taskCost
+field number --type java.lang.Integer --fieldName progress
+focus --class ~.domain.pjm.Plan
+field reference --fieldName otherTask --type ~.domain.pjm.OtherTask --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName otherTask
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-02-23 10:31:40
