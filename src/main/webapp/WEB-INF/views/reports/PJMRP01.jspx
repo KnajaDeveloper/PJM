@@ -24,7 +24,7 @@
                 <div class="col-xs-12">
                     <form class="form-horizontal">
                         <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-3">พนักงาน</label>
+                            <label class="control-label col-xs-3 required">พนักงาน</label>
                             <div class="col-xs-7">
                                 <input type="text" class="form-control" id="emp" placeholder="พนักงาน" data-placement="bottom"/>
                             </div>
@@ -36,7 +36,7 @@
                     <form class="form-horizontal">
 
                         <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-3">วันที่เริ่มต้น</label>
+                            <label class="control-label col-xs-3 required">วันที่เริ่มต้น</label>
                             <div class="col-xs-7">
                                 <div class='input-group date'>
                                     <input type="text" class="form-control" id="cDateBegin" placeholder="dd/mm/yyyy" data-placement="bottom"/>
@@ -49,7 +49,7 @@
 
 
                         <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-3">วันที่สิ้นสุด</label>
+                            <label class="control-label col-xs-3 required">วันที่สิ้นสุด</label>
                             <div class="col-xs-7">
                                 <div class='input-group date'>
                                     <input type='text' class="form-control" id="cDateEnd" placeholder="dd/mm/yyyy"  data-placement="bottom"/>
@@ -87,8 +87,8 @@
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
-    <spring:url value="/resources/scripts/report/report001.js" var="report001"/>
-    <script src="${report001}" type="text/javascript"><!--Not Empty --></script>
+    <spring:url value="/resources/scripts/report/PJMRP01.js" var="PJMRP01"/>
+    <script src="${PJMRP01}" type="text/javascript"><!--Not Empty --></script>
 
 
     <script>

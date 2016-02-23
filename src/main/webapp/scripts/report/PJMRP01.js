@@ -54,12 +54,29 @@ function sendData() {
         var empCode = $("#emp").val();
         var dateStart = $("#cDateBegin").val();
         var dateEnd = $("#cDateEnd").val();
+        var plusYear = 0;
+        var userName = "user002";
+
+        if (_language == "TH"){
+            plusYear = 543;
+            window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                + '&dateStart=' + dateStart
+                + '&dateEnd=' + dateEnd
+                + '&printDate=' + printDate
+                + '&plusYear='+ plusYear
+            + '&userName='+ userName;
+        }else if(_language == "EN"){
+            plusYear = 0;
+            window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                + '&dateStart=' + dateStart
+                + '&dateEnd=' + dateEnd
+                + '&printDate=' + printDate
+                + '&plusYear='+ plusYear
+                + '&userName='+ userName;
+        }
 
 
-        window.location.href = contextPath + '/reports/exportReport001?empCode=' + empCode
-            + '&dateStart=' + dateStart
-            + '&dateEnd=' + dateEnd
-            + '&printDate=' + printDate;
+
 
     }
 }

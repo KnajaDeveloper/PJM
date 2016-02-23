@@ -962,4 +962,4 @@ function isValid(d, m, y) {
 
 var commonData = new Object();
 
-commonData.language = 'TH';
+commonData.language = 'EN';

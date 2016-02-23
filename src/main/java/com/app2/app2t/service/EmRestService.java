@@ -36,10 +36,31 @@ public class EmRestService extends AbstractAPP2Service {
         }
     }
 
+    //----------GetEmpNameByEmpCode------------------------------------------------------------------------
+
     public List<Map> getEmpNameByEmpCode(String Empcode) {
         List<Map> listMap = new ArrayList<>();
         try {
             setWebServicesString("http://" + this.APP2Server + "/employees/findEMNameByEMCode?empCode="+ Empcode);
+            if (!getResultString().equals("[{}]")) {
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
+                }
+            }
+            return listMap;
+        } catch (Exception e) {
+            LOGGER.error("Error : {}", e.getMessage());
+            return listMap;
+        }
+    }
+
+    //----------GetEmpNameByUsername------------------------------------------------------------------------
+
+    public List<Map> getEmpNameByUserName(String userName) {
+        List<Map> listMap = new ArrayList<>();
+        try {
+            setWebServicesString("http://" + this.APP2Server + "/employees/findEMNameByUserName?userName="+ userName);
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
