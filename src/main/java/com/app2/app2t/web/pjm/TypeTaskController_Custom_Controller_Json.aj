@@ -172,4 +172,21 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         }
     }
 
+    //------------------------------------------------------------------------------------
+
+    @RequestMapping(value = "/findTypeTaskByTypeTaskCode",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TypeTaskController.findTypeTaskByTypeTaskCode(
+            @RequestParam(value = "typeTaskCode", required = false) String typeTaskCode
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<TypeTask> result = TypeTask.findTypeTaskByTypeTaskCode(typeTaskCode);
+            return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

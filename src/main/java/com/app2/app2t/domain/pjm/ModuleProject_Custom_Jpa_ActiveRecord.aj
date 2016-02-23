@@ -35,7 +35,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
     }
 
     public static List<ModuleProject> ModuleProject.findModuleByModuleCode(String moduleCode) {
-        EntityManager ent = Project.entityManager();
+        EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria.add(Restrictions.eq("moduleCode", moduleCode));
         return criteria.list();
