@@ -71,6 +71,8 @@ public class ReportController extends AbstractReportJasperXLS{
 
 
     ) throws ParseException{
+        LOGGER.debug(dateStart);
+        LOGGER.debug(dateEnd);
 //-------------------------------------------------------------------------------------
         List<Map> listMap = emRestService.getEmpNameByEmpCode(empCode) ;
         Map<String, String> map = listMap.get(0);

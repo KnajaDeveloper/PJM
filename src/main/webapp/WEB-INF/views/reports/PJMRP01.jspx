@@ -52,7 +52,7 @@
                             <label class="control-label col-xs-3 required">วันที่สิ้นสุด</label>
                             <div class="col-xs-7">
                                 <div class='input-group date'>
-                                    <input type='text' class="form-control" id="cDateEnd" placeholder="dd/mm/yyyy"  data-placement="bottom"/>
+                                    <input type='text' class="form-control" id="cDateEnd" placeholder="dd/mm/yyyy"   data-placement="bottom"/>
 									<span id="spanEnd" class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
