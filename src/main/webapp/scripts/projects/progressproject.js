@@ -1,46 +1,81 @@
-//var paggination = Object.create(UtilPaggination);
-var tableData;
+var pagginationModule = Object.create(UtilPaggination);
+pagginationModule.setEventPaggingBtn("paggingSimpleModuleProject",pagginationModule);
+pagginationModule.loadTable = function loadTable (jsonData) {
+
+    if(jsonData.length <= 0)
+       bootbox.alert("ไม่พบข้อมูล");
+
+    $('#ResualtSearchProgram').empty();
+    var link = "";
+    //var i = 1;
+    var tableData = "";
+  jsonData.forEach(function(value){ 
+     text =  ''
+     +'<tr >'
+      + '<td class="text-center"><button type="button" class="btn btn-primary btn-lg" width="100">V</button></td>' 
+       +'<td class="text-center">' + value.moduleName + '</td>'
+       +'<td class="progressbar-center"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">'
+       +'60%   '                                 
+       +'</div>'
+     +'</td>'
+     +'<td class="text-center">'+value.dateStart+'</td>'
+       +'<td class="text-center">'+value.dateEnd+' </td>'
+       +'<td class="text-center">'+"5555"+'</td>' 
+      + '</tr>'
+      $('#ResualtSearch').append(text);
+    });
+
+ };
+
+var labelData;
 $(document).ready(function(){
-   tableData = $.ajax({
+   searchDataProgram();
+  var dataJsonData = {
+    projectCode: "ก"
+  }
+   labelData = $.ajax({
       headers: {
          Accept: "application/json"
      },
      type: "GET",
-     url: contextPath + '/moduleprojects/findProjectBymoduleProjectAll',
-     data : {},
+     url: contextPath + '/projects/findProjectByProjectCode2',
+     data : dataJsonData,
      complete: function(xhr){
-
      },
      async: false
  });
-    var addData = tableData.responseJSON;
-     var text
-  addData.forEach(function(value){
-     text =  ''
-     +'<tr >'
-      + '<td class="text-center"><button type="button" class="btn btn-primary btn-lg" width="100">V</button></td>' 
-      +'<td class="text-center">' + value.moduleName + '</td>'
-      +'<td class="progressbar-center"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">'
-      +'60%   '                                 
-      +'</div>'
-      +'</td>'
-      +'<td class="text-center">'+value.dateStart+'</td>'
-      +'<td class="text-center">'+value.dateEnd+' </td>'
-      +'<td class="text-center">'+value.arr_moduleManager+'</td>' 
-      + '</tr>'
-     $('#ResualtSearch').append(text);});
+    var addData = labelData.responseJSON;
 
+  $('#lblName').text(addData[0].projectName);
+  $('#lblProjectCode').text(addData[0].projectCode);
+  $('#lblCostsPoint').text(addData[0].projectCost);
+  $('#lblStartDate').text(addData[0].dateStart);
+  $('#lblCaretakerName').text(addData[0].projectCost);
+  $('#lblBalanceCostsPoint').text(addData[0].projectCost);
+  $('#lbldateEnd').text(addData[0].dateEnd);
  });
 
+     // $('#lblProjectName').text(addData[0].projectName); 
+     // $('#lblProjectCode').text(addData[0].projectCost); 
+     // console.log(addData[0].projectCost);
 
 
- //paggination.setEventPaggingBtn("paggingSimple",paggination);
-// paggination.loadTable = function loadTable (jsonData) {
+
+ 
+
+// var pagginationModule = $.extend({},UtilPaggination);
+
+// $(document).ready(function(){
+//   searchDataProgram();
+// });
+
+// pagginationModule.setEventPaggingBtn("paggingSimpleProgram",pagginationModule);
+// pagginationModule.loadTable = function loadTable (jsonData) {
 
 //     if(jsonData.length <= 0)
 //        bootbox.alert("ไม่พบข้อมูล");
 
-//     $('#ResualtSearch').empty();
+//     $('#ResualtSearchProgram').empty();
 //     var link = "";
 //     var i = 1;
 //     var tableData = "";
@@ -48,13 +83,8 @@ $(document).ready(function(){
 //     jsonData.forEach(function(value){
 //         tableData = ''
 //   + '<tr style="background-color: #fff">'
-//             + '<td>'
-//          + '<div id="chkBox' + i + '" class="text-center">'
-//             + '<input  id="chkDelete' + i + '" class="check" type="checkbox" name="chkdelete" />'
-//          + '</div>'
-//             + '</td>'
 //             + '<td class="text-center">'
-//             + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+//             + '<button id="btnEditProgram' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
 //             + '</td>'
 //             + '<td id="tdProgramCode' + i + '" class="text-center">'
 //             + value.code
@@ -64,38 +94,24 @@ $(document).ready(function(){
 //             + '</td>'
 //         + '</tr>';
 
-//         $('#ResualtSearch').append(
-//             tableData
-//         );
+//         $('#ResualtSearchProgram').append(tableData);
 //     });
 // };
 
-// function searchData() {
-//    var dataJsonData = {
-//     programCode: "",
-//   programName: ""
-//     }
+function searchDataProgram() {
+   var dataJsonData = {
+    projectCode: "ก"
+    }
 
-//     paggination.setOptionJsonData({
-//        url:contextPath + "/programs/findPaggingData",
-//        data:dataJsonData
-//     });
+    pagginationModule.setOptionJsonData({
+       url:contextPath + "/moduleprojects/findModuleByProjectCode2",
+       data:dataJsonData
+    });
 
-//     paggination.setOptionJsonSize({
-//         url:contextPath + "/programs/findPaggingSize",
-//         data:dataJsonData
-//     });
+    pagginationModule.setOptionJsonSize({
+        url:contextPath + "/moduleprojects/findPaggingSizeModuleProject",
+        data:dataJsonData
+    });
 
-//     paggination.search(paggination);
-// }
-
-
-
-
-
-
-
-
-
-
-
+    pagginationModule.search(pagginationModule);
+}
