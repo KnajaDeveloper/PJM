@@ -182,20 +182,20 @@ $('#data').on("click", "[id^=checkBoxDisable_]", function () {
     var id = this.id.split('checkBoxDisable_')[1];
     if ($(this).prop('checked') == true) {
         checkedRows.push(id);
-        alert(">>> " + checkedRows + "..");
+        //alert(">>> " + checkedRows + "..");
 
     }
     else {
         var num = checkedRows.indexOf(id);
         checkedRows.splice(num, 1);
-        alert(">>> " + checkedRows + "..");
+        //alert(">>> " + checkedRows + "..");
     }
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
 
     $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
-    alert($('#data').find('tr').length);
+    //alert($('#data').find('tr').length);
     $('[id^=checkBoxDelete]').each(function() {
       var id =  this.id.split('checkBoxDelete')[1];
         if ($('#checkBoxDelete' + id).prop('checked') == true) {
@@ -210,7 +210,7 @@ $('#data').on("click", "#checkAll", function () {
                     checkedRows.splice(num, 1);
                 }
     });
-    alert(">>> " + checkedRows + "..");
+    //alert(">>> " + checkedRows + "..");
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $("#btnDelete").click(function () {
