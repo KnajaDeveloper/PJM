@@ -52,8 +52,8 @@
         .btn .caret {
             margin-left: 50%;
         }
-        select#ddlTypeTask.btn.btn-default.dropdown-toggle{
-            width: 60%;
+        select#ddlTypeTask.dropdown-toggle{
+            width: 50%;
             background-color:white;
         }
     </style>
@@ -84,19 +84,19 @@
                             <label class="control-label">ผู้ดูแล</label>
                         </div>
                         <div class="col-xs-4">
-                            <label id="lblModuleName" class="control-label">Neme Module 0001</label>
+                            <label id="lbl" class="control-label">Neme Module 0001</label>
                             <br/>
                             <br/>
-                            <label id="lblModuleInitials" class="control-label">NM0001</label>
+                            <label id="lbl" class="control-label">NM0001</label>
                             <br/>
                             <br/>
-                            <label id="lblCostsPoint" class="control-label">150 Point</label>
+                            <label id="lbl" class="control-label">150 Point</label>
                             <br/>
                             <br/>
-                            <label id="lblStartDate" class="control-label" >05/02/2559</label>
+                            <label id="lbl" class="control-label" >05/02/2559</label>
                             <br/>
                             <br/>
-                            <label id="lblCaretakerName" class="control-label">นาย ธงชัย รักพวกกลาง</label>
+                            <label id="lbl" class="control-label">นาย ธงชัย รักพวกกลาง</label>
                             <br/>
                             <br/>
                             <br/>
@@ -116,10 +116,10 @@
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label id="lblBalanceCostsPoint" class="control-label">100 Point</label>
+                                <label id="lbl" class="control-label">100 Point</label>
                                 <br/>
                                 <br/>
-                                <label id="lblEndDate" class="control-label">01/01/2560</label>
+                                <label id="lbl" class="control-label">01/01/2560</label>
                         </div>
                     </form>
                 </div>
@@ -227,7 +227,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="dropdown">
-                                        <select class="btn btn-default dropdown-toggle" id="ddlTypeTask"
+                                        <select class="dropdown-toggle" id="ddlTypeTask"
                                         data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ประเภทงาน<span class="caret"></span>
                                         </select>
                                     </div>
