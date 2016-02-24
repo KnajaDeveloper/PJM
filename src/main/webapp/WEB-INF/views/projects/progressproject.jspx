@@ -1,91 +1,127 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
-	<jsp:output omit-xml-declaration="yes"/>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">ความคืบหน้าของโปรเจค</div>
-					<div class="panel-body">	
-						<form class="form-horizontal">
-							<div class="form-group">
-								<label class="col-sm-1 control-label "><b>ชื่อโปรเจค</b></label>
-								<label class="col-sd-1 control-label ">HENEMRRTT</label>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-1 control-label "><b>ชื่อย่อโปรเจค</b></label>
-								<label class="col-sm-1 control-label ">HeMO</label>
-							</div>
-							<div class="form-group">
-
-								<label class="col-sm-1 control-label "><b>ต้นทุนโปรเจค</b></label>
-								<label class="col-sm-1 control-label ">300 Point</label>
-								<label class="col-sm-5 control-label "><b>ต้นทุนโปรเจค</b></label>
-								<label class="col-sm-1 control-label ">300 Point</label>
-							</div>
-							<div class="form-group">
-
-								<label class="col-sm-1 control-label "><b>วันที่เริ่ม</b></label>
-								<label class="col-sm-1 control-label ">10/02/2556</label>
-								<label class="col-sm-5 control-label "><b>วันที่สิ้นสุด</b></label>
-								<label class="col-sm-1 control-label ">15/02/2556</label>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-1 control-label "><b>ผู้ดูแลโปรเจค</b></label>
-								<label class="col-sm-1 control-label ">HeMO</label>
-							</div>
-						</form>
-					</div>
-				</div>
-				<div class="row">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<div id="penaltyTableContainer" class="table-responsive">
-								<table id="Table" class="table table-hover">
-									<thead>
-										<tr class="info">                              
-											<th class="text-center" style="color: #000" width="80" >รายละเอียด</th>
-											<th class="text-center" style="color: #000" width="250">ชื่อโมดูล</th>
-											<th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
-											<th class="text-center" style="color: #000">วันที่เริ่ม</th>
-											<th class="text-center" style="color: #000">วันที่เสร็จ</th>
-											<th class="text-center" style="color: #000">ผู้รับดูแล</th>
-										</tr>
-									</thead>
-									<tbody id="ResualtSearch" style="cursor:pointer"></tbody>
-							<!-- 	<tbody>
-									<td class="text-center"><button type="button" class="btn btn-primary btn-lg" width="100">V</button>
-									</td> 
-									<td class="text-center">.....
-									</td>
-									<td class="progressbar-center">
-										
-											<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-												 60%									
-										</div>
-									</td>
-									<td class="text-center">10/02/2556
-									</td>
-									<td class="text-center">16/02/2556
-									</td>
-									<td class="text-center">
-									</td>
-								</tbody> -->
-							</table>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+     <style>
+        label.control-label {
+            width: 100%;
+        }
+        th.text-center {
+            color: #000;
+        }  
+    </style>
+  <div class="container-fluid">
+     <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">ภาพรวมโปรเจค</div>
+            <div class="panel-body">
+                <br/>
+                <div class="col-xs-11 col-xs-offset-1">
+                    <form class="form-inline">
+                        <div class="col-xs-2">
+                            <label class="control-label"><b>ชื่อโปรเจค</b></label>
+                            <br/>
+                            <br/>
+                            <label class="control-label"><b>ชื่อย่อโปรเจค</b></label>
+                            <br/>
+                            <br/>
+                            <label class="control-label"><b>ต้นทุนโปรเจค</b></label>
+                            <br/>
+                            <br/>
+                            <label class="control-label"><b>วันที่เริ่ม</b></label>
+                            <br/>
+                            <br/>
+                            <label class="control-label"><b>ผู้ดูแลโปรเจค</b></label>
+                        </div>
+                        <div class="col-xs-4">
+                            <label id="lblName" class="control-label">555</label>
+                            <br/>
+                            <br/>
+                            <label id="lblProjectCode" class="control-label">55555</label>
+                            <br/>
+                            <br/>
+                            <label id="lblCostsPoint" class="control-label">5555</label>
+                            <br/>
+                            <br/>
+                            <label id="lblStartDate" class="control-label" >5555</label>
+                            <br/>
+                            <br/>
+                            <label id="lblCaretakerName" class="control-label">55555</label>
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-xs-2">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label class="control-label"><b>ต้นทุนคงเหลือ</b></label>
+                                <br/>
+                                <br/>
+                                <label class="control-label"><b>วันที่สิ้นสุด</b></label>
+                        </div>
+                        <!-- <div class="col-xs-5">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label id="lblBalanceCostsPoint" class="control-label"></label>
+                                <br/>
+                                <br/>
+                                <label id="lblBalanceCostsPoint2" class="control-label"></label>
+                        </div> -->
+                          <div class="col-xs-4">
+                            <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label id="lblBalanceCostsPoints" class="control-label">2000</label>
+                                <br/>
+                                <br/>
+                                <label id="lbldateEnd" class="control-label"></label>
+                            </div>
+                   </form>
+                </div>
+            </div>
+        </div>        
+        <div class="row">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <div id="penaltyTableContainer" class="table-responsive">
+                <table id="Table" class="table table-hover">
+                  <thead>
+                    <tr class="info">                              
+                      <th class="text-center" style="color: #000" width="80" >รายละเอียด</th>
+                      <th class="text-center" style="color: #000" width="250">ชื่อโมดูล</th>
+                      <th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
+                      <th class="text-center" style="color: #000">วันที่เริ่ม</th>
+                      <th class="text-center" style="color: #000">วันที่เสร็จ</th>
+                      <th class="text-center" style="color: #000">ผู้รับดูแล</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+      </div>
+          <div class="form-horizontal">
+                        <div class="form-group">
+                            <component:pagging id="paggingSimpleModuleProject"/>
+                        </div>
+                    </div> 
+ </div>
 </div>
 
 <script>
 var contextPath = '${pageContext.request.contextPath}';
 </script>
+<spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+ <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
 <spring:url value="/resources/scripts/projects/progressproject.js" var="progressproject" />
 <script src="${progressproject}" type="text/javascript"><!--Not Empty --></script>
+
 
 </div>

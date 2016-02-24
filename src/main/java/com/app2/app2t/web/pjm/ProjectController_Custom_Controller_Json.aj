@@ -151,6 +151,21 @@ privileged aspect ProjectController_Custom_Controller_Json {
                 }
             }
 
+      @RequestMapping(value = "/findProjectByProjectCode2",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.findProjectByProjectCode2(
+        @RequestParam(value = "projectCode", required = false) String projectCode
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Project> result = Project.findProjectByProjectCode2(projectCode);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
 
