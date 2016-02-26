@@ -318,6 +318,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
     var key = 1;
     $.each(dataModule, function (key,value) {
         tableData = ''
+            + '<tr>'
             + '<td class="text-center">'
             + '<button id="addTask_' + value.moduleCode + '" class="btn btn-info" type="button">A</button>'
             + '</td>'

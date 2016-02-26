@@ -19,8 +19,12 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect ModuleProjectController_Custom_Controller {
+
     @RequestMapping(value = "/detailsModule", produces = "text/html")
-    public String ModuleProjectController.detailsModule(Model uiModel) {
+    public String ModuleProjectController.detailsModule(Model uiModel,
+        @RequestParam(value = "moduleProject", required = false) String moduleProject
+    ) {
+    	uiModel.addAttribute("moduleCode", moduleProject);
         return "moduleprojects/detailsModule";
     }
 }
