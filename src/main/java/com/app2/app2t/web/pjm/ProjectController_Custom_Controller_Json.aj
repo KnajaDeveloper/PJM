@@ -165,6 +165,20 @@ privileged aspect ProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+       @RequestMapping(value = "/findproject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.findproject(
+            @RequestParam(value = "projectCode", required = false) String projectCode
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Project> result = Project.findproject(projectCode);
+            return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
 

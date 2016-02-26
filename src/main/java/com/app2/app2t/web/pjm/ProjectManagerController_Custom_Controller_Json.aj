@@ -3,27 +3,33 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.Project;
-import com.app2.app2t.domain.pjm.ProjectManager;
+import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.web.pjm.ProjectManagerController;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
-import org.springframework.web.util.WebUtils;
-
-privileged aspect ProjectManagerController_Custom_Controller {
-
-
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+import flexjson.JSONSerializer;
+import java.util.*;
+privileged aspect ProjectManagerController_Custom_Controller_Json {
+   @RequestMapping(value = "/findManagerByProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectManagerController.findManagerByProject(
+            @RequestParam(value = "project", required = false) String project
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {    
+            List<Project> projectzz = Project.findProjectByProjectCode(project);
+            List<ProjectManager> result = ProjectManager.findManagerByProject(projectzz.get(0));
+   			//LOGGER.info(">>>>>>>>>>>>>>>>>>Modul"+project);           
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+     }
+     
+ 
 }

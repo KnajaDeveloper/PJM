@@ -35,19 +35,19 @@
                             <label class="control-label"><b>ผู้ดูแลโปรเจค</b></label>
                         </div>
                         <div class="col-xs-4">
-                            <label id="lblName" class="control-label">555</label>
+                            <label id="lblName" class="control-label">...</label>
                             <br/>
                             <br/>
-                            <label id="lblProjectCode" class="control-label">55555</label>
+                            <label id="lblProjectCode" class="control-label">...</label>
                             <br/>
                             <br/>
-                            <label id="lblCostsPoint" class="control-label">5555</label>
+                            <label id="lblCostsPoint" class="control-label">...</label>
                             <br/>
                             <br/>
-                            <label id="lblStartDate" class="control-label" >5555</label>
+                            <label id="lblStartDate" class="control-label" >...</label>
                             <br/>
                             <br/>
-                            <label id="lblCaretakerName" class="control-label">55555</label>
+                            <label id="lblCaretakerName" class="control-label">...</label>
                             <br/>
                             <br/>
                             <br/>
@@ -77,10 +77,10 @@
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label id="lblBalanceCostsPoints" class="control-label">2000</label>
+                                <label id="lblBalanceCostsPoints" class="control-label"></label>
                                 <br/>
                                 <br/>
-                                <label id="lbldateEnd" class="control-label"></label>
+                                <label id="lbldateEnd" class="control-label">...</label>
                             </div>
                    </form>
                 </div>
@@ -98,7 +98,7 @@
                       <th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
                       <th class="text-center" style="color: #000">วันที่เริ่ม</th>
                       <th class="text-center" style="color: #000">วันที่เสร็จ</th>
-                      <th class="text-center" style="color: #000">ผู้รับดูแล</th>
+                      <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
                     </tr>
                   </thead>
                   <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
