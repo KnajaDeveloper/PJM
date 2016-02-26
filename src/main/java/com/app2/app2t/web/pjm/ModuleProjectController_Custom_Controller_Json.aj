@@ -153,10 +153,11 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
- @RequestMapping(value = "/findModuleByProjectCode2",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+
+    @RequestMapping(value = "/findModuleByProjectCode2",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
-            @RequestParam(value = "projectCode", required = false) String projectCode
-            ,@RequestParam(value = "maxResult", required = false) Integer maxResult
+        @RequestParam(value = "projectCode", required = false) String projectCode
+        ,@RequestParam(value = "maxResult", required = false) Integer maxResult
         ,@RequestParam(value = "firstResult", required = false) Integer firstResult
     ) {
         HttpHeaders headers = new HttpHeaders();
@@ -171,17 +172,18 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
                 ModuleProject ta = result.get(i);
                 Map<String, Object> map = new HashMap<>();
-                map.put("moduleName", ta.getModuleName());                      
+                map.put("moduleName", ta.getModuleName());
                 map.put("dateStart", ta.getDateStart() + "");
-                map.put("dateEnd", ta.getDateEnd() + "");               
-                list.add(map);             
+                map.put("dateEnd", ta.getDateEnd() + "");
+                list.add(map);
             }
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-     }
+    }
+
     @RequestMapping(value = "/findPaggingSizeModuleProject", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
@@ -190,8 +192,8 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-        List<Project> project = Project.findProjectByProjectCode(projectCode);
-        List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
+            List<Project> project = Project.findProjectByProjectCode(projectCode);
+            List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
             Map data = new HashMap();
             data.put("size", result.size());
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
@@ -200,6 +202,20 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-   
 
+    @RequestMapping(value = "/findModuleProjectByModuleCode",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.findModuleProjectByModuleCode(
+            @RequestParam(value = "moduleCode", required = false) String moduleCode
+        ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<ModuleProject> result = ModuleProject.findModuleProjectByModuleCode(moduleCode);
+            List<ModuleManager> result1 = ModuleManager.findModuleManagerByModuleCode(result.get(0));
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result1), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

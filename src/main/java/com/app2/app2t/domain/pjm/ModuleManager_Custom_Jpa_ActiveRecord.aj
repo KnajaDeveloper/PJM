@@ -3,7 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleManager;
+import com.app2.app2t.domain.pjm.*;
 import java.util.List;
 
 import com.sun.xml.internal.ws.api.server.Module;
@@ -41,10 +41,19 @@ privileged aspect ModuleManager_Custom_Jpa_ActiveRecord {
             mm.remove();
         }
     }
-      public static List<ModuleManager> ModuleManager.findModuleManagerByModuleProject(ModuleProject moduleProject) {
+
+    public static List<ModuleManager> ModuleManager.findModuleManagerByModuleProject(ModuleProject moduleProject) {
         EntityManager ent = ModuleManager.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class, "modul");
         criteria.createAlias("modul.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject", moduleProject));
+        return criteria.list();
+    }
+
+    public static List<ModuleManager> ModuleManager.findModuleManagerByModuleCode(ModuleProject moduleProject) {
+        EntityManager ent = ModuleManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class, "moduleManager");
+        criteria.createAlias("moduleManager.moduleProject", "moduleProject");
         criteria.add(Restrictions.eq("moduleProject", moduleProject));
         return criteria.list();
     }

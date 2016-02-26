@@ -23,7 +23,8 @@ DateUtil.dataDateToFrontend =  function dataDateToFrontend(date,lang){
     var dateresult="";
     if(lang=='EN'||lang=='EN_US'){
          dateresult = dataDate.format('dd/mm/yyyy');
-    }if(lang=='TH'){
+    }
+    if(lang=='TH'){
          dateresult = new Date(dataDate.setFullYear(dataDate.getFullYear()+543)).format('dd/mm/yyyy');
     }
 

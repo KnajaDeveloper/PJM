@@ -142,4 +142,43 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.merge();
         return criteria.list();
     }
+
+    public static List<Task> Task.findDeleteTask(Program program, String taskCode) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.add(Restrictions.eq("program", program));
+        criteria.add(Restrictions.eq("taskCode", taskCode));
+        List<Task> et = criteria.list();
+        Task edTask = et.get(0);
+        edTask.remove();
+        return criteria.list();
+    }
+
+    public static List<Task> Task.findSizeTaskByTaskCode(Program program, String taskCode) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.add(Restrictions.eq("program", program));
+        criteria.add(Restrictions.eq("taskCode", taskCode));
+        return criteria.list();
+    }
+
+    public static List<Task> Task.findCheckProgramCode(Program program) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.add(Restrictions.eq("program", program));
+        return criteria.list();
+    }
+
+    public static List Task.findTaskCostforSum(ModuleProject moduleProject) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria1 = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria1.createAlias("task.program", "program");
+        criteria1.createAlias("program.moduleProject", "moduleProject");
+        criteria1.add(Restrictions.eq("moduleProject.id", moduleProject.getId()));
+        criteria1.setProjection(Projections.sum("task.taskCost"));
+        return criteria1.list();
+    }
 }

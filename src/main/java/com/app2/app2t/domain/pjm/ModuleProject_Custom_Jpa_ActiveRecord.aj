@@ -121,6 +121,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         }
 
     }
+
     public static List<ModuleProject> ModuleProject.findAllNameModuleByProjectCode2(Project project) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class, "modul");
@@ -129,4 +130,10 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static List<ModuleProject> ModuleProject.findModuleProjectByModuleCode(String moduleCode) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("moduleCode", moduleCode));
+        return criteria.list();
+     }
 }

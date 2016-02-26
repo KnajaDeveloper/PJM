@@ -6,6 +6,7 @@
     <style>
         label.control-label {
             width: 100%;
+            color: #000;
         }
         th.text-center {
             color: #000;
@@ -13,7 +14,7 @@
         #thChkAll {
             width: 7%;
         }
-        #thEdit {
+        #thEditProgram {
             width: 10%;
         }
         #thProgramCode {
@@ -56,7 +57,17 @@
             width: 50%;
             background-color:white;
         }
+        div.progress-bar{
+            color: #000;
+        }
+        td.text-center {
+            color: #000;
+        }
     </style>
+
+    <script>
+        var moduleCode = '${moduleCode}';
+    </script>
 
     <input type="hidden" class="datetimepicker"/>
     <input type="hidden" class="datepicker"/>
@@ -84,19 +95,19 @@
                             <label class="control-label">ผู้ดูแล</label>
                         </div>
                         <div class="col-xs-4">
-                            <label id="lbl" class="control-label">Neme Module 0001</label>
+                            <label id="lblModuleNeme" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lbl" class="control-label">NM0001</label>
+                            <label id="lblModuleInitial" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lbl" class="control-label">150 Point</label>
+                            <label id="lblModuleCost" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lbl" class="control-label" >05/02/2559</label>
+                            <label id="lblModuleDateStart" class="control-label" ><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lbl" class="control-label">นาย ธงชัย รักพวกกลาง</label>
+                            <label id="lblModuleManager" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
                             <br/>
@@ -116,10 +127,10 @@
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label id="lbl" class="control-label">100 Point</label>
+                                <label id="lblModuleCostBalance" class="control-label"><jsp:text/></label>
                                 <br/>
                                 <br/>
-                                <label id="lbl" class="control-label">01/01/2560</label>
+                                <label id="lblModuleDateEnd" class="control-label"><jsp:text/></label>
                         </div>
                     </form>
                 </div>
@@ -140,7 +151,7 @@
             </form>
         </div>
         <div class="col-xs-7">
-            <form class="form-inline">
+            <form id="formADTask" class="form-inline" hidden="true">
                 <div class="form-group">
                     <div class="col-xs-5">
                         <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">เพิ่มงาน</button>
@@ -272,7 +283,7 @@
                                     <label class="control-label ">ความคืบหน้า</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtProgress" placeholder="ความคืบหน้า" value="0" disabled="true"/>
+                                    <input type="text" class="form-control" id="txtProgress" placeholder="ความคืบหน้า" disabled="true"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -312,9 +323,9 @@
                             <thead>
                                 <tr class="info">
                                     <th id="thChkAll" class="text-center">
-                                        <input id="checkboxAll" type="checkbox" name="checkdDelete" />
+                                        <input id="checkboxAllProgram" type="checkbox" name="checkdDelete" />
                                     </th>
-                                    <th id="thEdit" class="text-center">แก้ไข</th>
+                                    <th id="thEditProgram" class="text-center">แก้ไข</th>
                                     <th id="thProgramCode" class="text-center" >รหัสโปรแกรม</th>
                                     <th id="thProgramName" class="text-center" >ชื่อโปรแกรม</th>
                                 </tr>
@@ -328,13 +339,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-7">
+                <div id="formTask" class="col-xs-7" hidden="true">
                     <div id="penaltyTableContainer" class="table-responsive">
                         <table id="TableTask" class="table table-hover">
                             <thead>
                                 <tr class="info">
                                     <th id="thChkAllTask" class="text-center">
-                                        <input id="checkboxAll" type="checkbox" name="checkdDelete" />
+                                        <input id="checkboxAllTask" type="checkbox" name="checkdDelete" />
                                     </th>
                                     <th id="thEditTask" class="text-center">แก้ไข</th>
                                     <th id="thTaskCode" class="text-center" >รหัสงาน</th>
@@ -351,48 +362,42 @@
                             <component:pagging id="paggingSimpleTask"/>
                         </div>
                     </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <form class="form-inline">
-            <div class="col-xs-offset-5 col-xs-7">
-                <div class="col-xs-2">
-                    <label class="control-label">ผู้รับผิดชอบ</label>
-                    <br/>
-                    <br/>
-                    <label class="control-label">ประเภทงาน</label>
-                    <br/>
-                    <br/>
-                    <label class="control-label">วันที่เริ่ม</label>
-                    <br/>
-                    <br/>
-                    <label class="control-label">วันที่สิ้นสุด</label>
-                    <br/>
-                    <br/>
-                    <label class="control-label">แนบไฟล์</label>
-                    <br/>
-                    <br/>
-                    <label class="control-label">รายละเอียด</label>
-                </div>
-                <div class="col-xs-6">
-                    <label id="lblEmpName" class="control-label"><jsp:text/></label>
-                    <br/>
-                    <br/>
-                    <label id="lblTaskName" class="control-label"><jsp:text/></label>
-                    <br/>
-                    <br/>
-                    <label id="lblSDate" class="control-label"><jsp:text/></label>
-                    <br/>
-                    <br/>
-                    <label id="lblEDate" class="control-label"><jsp:text/></label>
-                    <br/>
-                    <br/>
-                    <button id="" type="button" class="btn btn-primary">ดาวน์โหลดไฟล์</button>
-                    <br/>
-                    <br/>
-                    <textarea id="txtaDetail" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
+                    <div class="col-xs-2">
+                        <label class="control-label">ผู้รับผิดชอบ</label>
+                        <br/>
+                        <br/>
+                        <label class="control-label">ประเภทงาน</label>
+                        <br/>
+                        <br/>
+                        <label class="control-label">วันที่เริ่ม</label>
+                        <br/>
+                        <br/>
+                        <label class="control-label">วันที่สิ้นสุด</label>
+                        <br/>
+                        <br/>
+                        <label class="control-label">แนบไฟล์</label>
+                        <br/>
+                        <br/>
+                        <label class="control-label">รายละเอียด</label>
+                    </div>
+                    <div class="col-xs-6">
+                        <label id="lblEmpName" class="control-label"><jsp:text/></label>
+                        <br/>
+                        <br/>
+                        <label id="lblTaskName" class="control-label"><jsp:text/></label>
+                        <br/>
+                        <br/>
+                        <label id="lblSDate" class="control-label"><jsp:text/></label>
+                        <br/>
+                        <br/>
+                        <label id="lblEDate" class="control-label"><jsp:text/></label>
+                        <br/>
+                        <br/>
+                        <button id="" type="button" class="btn btn-primary">ดาวน์โหลดไฟล์</button>
+                        <br/>
+                        <br/>
+                        <textarea id="txtaDetail" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
+                    </div>
                 </div>
             </div>
         </form>
