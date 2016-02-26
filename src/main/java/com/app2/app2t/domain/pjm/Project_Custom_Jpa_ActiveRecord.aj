@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.*;
 
 privileged aspect Project_Custom_Jpa_ActiveRecord {
 
@@ -153,5 +154,10 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("projectCode", projectCode));
         return criteria.list();
     }
-
+     public static List<Project> Project.findproject(String projectCode) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("projectCode", projectCode));
+        return criteria.list();
+    }
 }

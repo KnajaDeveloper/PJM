@@ -3,7 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleManager;
+import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.web.pjm.ModuleManagerController;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +11,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import flexjson.JSONSerializer;
+import java.util.*;
 privileged aspect ModuleManagerController_Custom_Controller_Json {
-
+	 @RequestMapping(value = "/findModuleManagerByModuleProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleManagerController.findModuleManagerByModuleProject(
+            @RequestParam(value = "moduleProject", required = false) String moduleProject
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+        	LOGGER.info(">>>>>>>>>>>>>>"+moduleProject);
+            List<ModuleProject> project = ModuleProject.findModuleByModuleCode(moduleProject);
+            LOGGER.info("SIZEEEEEEE>>>>>>>>>"+project.size());
+            List<ModuleManager> result = ModuleManager.findModuleManagerByModuleProject(project.get(0));
+   			LOGGER.info(">>>>>>>>>>>>>>>>>>Modul"+project);
+            
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+     }
+   
+   
+   
+ 
 }
