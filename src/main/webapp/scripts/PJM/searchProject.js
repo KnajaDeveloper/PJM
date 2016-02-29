@@ -1,7 +1,5 @@
 var _language = commonData.language;  // ค่าของ language อยู่ในไฟล์ common.js
 var dateLang = checkLanguageDatePicker(_language);
-//var _language2 = commonData.language;
-//var dateLang2 = checkLanguageDatePicker(_language2);
 var paggination = Object.create(UtilPaggination);
 var dateStart = $('#StDateBegin').val();
 var dateEnd = $('#StDateEnd').val();
@@ -88,7 +86,7 @@ $("#addProject").click(function () {
 $('#data').on("click", "[id^=progress]", function () {
     var id =  this.id.split('progress')[1];
     console.log(id);
-    window.location.href = contextPath + '/projects/progressproject?id='+id;
+    window.location.href = contextPath + '/projects/progressproject?projectCode='+id;
 }); //-- link Progress --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 paggination.setEventPaggingBtn("paggingSimple", paggination);
@@ -119,7 +117,7 @@ paggination.loadTable = function loadTable(jsonData) {
                 + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="progress'+value.id+'" class="btn btn-info" type="button">V</button>'
+                + '<button id="progress'+value.projectCode+'" class="btn btn-info" type="button">V</button>'
                 + '</td>'
                 + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
                 + value.projectName
@@ -153,7 +151,7 @@ paggination.loadTable = function loadTable(jsonData) {
                 + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="progress'+value.id+'" class="btn btn-info" type="button">V</button>'
+                + '<button id="progress'+value.projectCode+'" class="btn btn-info" type="button">V</button>'
                 + '</td>'
                 + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
                 + value.projectName
