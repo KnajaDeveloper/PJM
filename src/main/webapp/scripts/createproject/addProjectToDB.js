@@ -1,9 +1,12 @@
 function saveProjectToDB(){
 	var boolSameProjectCode = findSameProjectCode();
 	var arr_ProjectManager = projectManagerToArray();
+	var statusReturn ;
 	if(boolSameProjectCode==true){
-		var convertFormatDateStart = new Date(convertDate($('#dateStartProject').val()));
-		var convertFormatDateEnd = new Date(convertDate($('#dateEndProject').val()));
+		var textdateStart = $('#dateStartProject').val();
+		var textdateEnd = $('#dateEndProject').val();
+		var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase(textdateStart, _language));
+		var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase(textdateEnd, _language));
 		var crateProject = {
 			projectCode: $('#txtInitialProjectName').val(),
 			projectName: $('#txtProjectName').val(),
@@ -23,8 +26,10 @@ function saveProjectToDB(){
 			complete: function(xhr){
 				if(xhr.status === 201){
 					bootbox.alert("Save Success");
-				}else if(xhr.status === 500){
+					statusReturn = true;
+				}else{
 					bootbox.alert("Save Error");
+					statusReturn = false;
 				}
 			},
 			async: false
@@ -34,7 +39,8 @@ function saveProjectToDB(){
 		bootbox.alert("["+$('#txtInitialProjectName').val()+"] has in database.");
 		return false;
 	}
-	return true;
+	if(statusReturn==true) return true;
+	else return false;
 }
 
 function projectManagerToArray(){
