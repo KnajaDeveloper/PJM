@@ -25,9 +25,9 @@ $(document).ready(function(){
 	$("#lblModuleNeme").text(checkdDb[0].moduleProject.moduleName);
 	$("#lblModuleInitial").text(checkdDb[0].moduleProject.moduleCode);
 	$("#lblModuleCost").text(checkdDb[0].moduleProject.moduleCost);
+	$("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
 	$("#lblModuleDateStart").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateStart,commonData.language));
 	$("#lblModuleDateEnd").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateEnd,commonData.language));
-	$("#lblModuleCostBalance").text(searchTaskCost(checkdDb[0].moduleProject.moduleCost));
 
 	checkdDb.forEach(function(value){
 		$("#lblModuleManager").append(value.empCode + '<br/>');
@@ -199,8 +199,14 @@ pagginationTask.loadTable = function loadTable (jsonData) {
 	$('#formADTask').show();
     $('#formTask').show();
 
-    if(jsonData.length <= 0)
+    if(jsonData.length <= 0){
        bootbox.alert("ไม่พบข้อมูลงาน");
+       $('#lblEmpName').text("");
+		$('#lblTaskName').text("");
+		$('#lblSDate').text("");
+		$('#lblEDate').text("");
+		$('#txtaDetail').val(null);
+    }
 
     $('#ResualtSearchTask').empty();
 
@@ -586,6 +592,12 @@ $('#btnDeleteTask').click(function() {
 					deleteDataTask();
 				}
 				dataTaskCode = [];
+				dataTypeTask = []
+				dataTypeTaskName = []
+				dataEmpCode = []
+				dataDateStart = []
+				dataDateEnd = []
+				dataDetail = []
 				searchDataTask();
 				searchDataProgram();
 				$('#trProgram' + idPC).css('background-color', '#F5F5F5');
@@ -599,6 +611,8 @@ $('#btnDeleteTask').click(function() {
 
 				chkDTaskStatus200 = 0;
 				chkDTaskStatus500 = 0;
+
+				$("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
 			}
 		});
 	}else{
@@ -745,36 +759,41 @@ $('[id^=btnModalTask]').click(function() {
 				if(chkAETask === 0){
 					checkDataTask();
 					if(chkDbTask === 0){
-						$.ajax({
-							headers: {
-								Accept: "application/json"
-							},
-							type: "POST",
-							url: contextPath + '/tasks/saveTask',
-							data : pjmTask,
-							complete: function(xhr){
-								if(xhr.status === 201){
-									if(id === 'Add'){
-										bootbox.alert("บันทึกข้อมูลสำเร็จ");
-										$('#modalTask').modal('hide');
+						if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
+							bootbox.alert("จำนวนต้นทุนเกินต้นทุนคงเหลือ");
+						}else{
+							$.ajax({
+								headers: {
+									Accept: "application/json"
+								},
+								type: "POST",
+								url: contextPath + '/tasks/saveTask',
+								data : pjmTask,
+								complete: function(xhr){
+									if(xhr.status === 201){
+										if(id === 'Add'){
+											bootbox.alert("บันทึกข้อมูลสำเร็จ");
+											$('#modalTask').modal('hide');
+										}
+										$('#txtTaskCode').val(null);
+										$('#txtTaskName').val(null);
+										$('#txtTaskCost').val(null);
+										$('#txtEmpName').val(null);
+										$('#dateStartProject').val(null);
+										$('#dateEndProject').val(null);
+										$('#txtaDescription').val("");
+										DDLData();
+										searchDataTask();
+										searchDataProgram();
+										$('#trProgram' + idPC).css('background-color', '#F5F5F5');
+										$("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+									}else if(xhr.status === 500){
+										bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
 									}
-									$('#txtTaskCode').val(null);
-									$('#txtTaskName').val(null);
-									$('#txtTaskCost').val(null);
-									$('#txtEmpName').val(null);
-									$('#dateStartProject').val(null);
-									$('#dateEndProject').val(null);
-									$('#txtaDescription').val("");
-									DDLData();
-									searchDataTask();
-									searchDataProgram();
-									$('#trProgram' + idPC).css('background-color', '#F5F5F5');
-								}else if(xhr.status === 500){
-									bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
-								}
-							},
-							async: false
-						});
+								},
+								async: false
+							});
+						}
 					}else{
 						bootbox.alert("รหัสงานมีแล้ว");
 					}
@@ -805,6 +824,7 @@ $('[id^=btnModalTask]').click(function() {
 									$('#dateEndProject').val(null);
 									$('#txtaDescription').val("");
 									searchDataTask();
+									$("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
 								}else if(xhr.status === 500){
 									bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
 								}
