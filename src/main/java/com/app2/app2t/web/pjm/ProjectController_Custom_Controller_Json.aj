@@ -73,16 +73,20 @@ privileged aspect ProjectController_Custom_Controller_Json {
         try
         {
             List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
-//            List<Map<String,String>> list = new ArrayList<>();
-//            for(int i=firstResult;i<maxResult + firstResult && i < result.size() ;i++){
-//                Project ty = result.get(i);
-//                Map<String,String> map = new HashMap<>();
-//                map.put("teamCode",ty.getProjectCode());
-//                map.put("teamName",ty.getProjectName());
-//
-//                list.add(map);
-//            }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            List<Map<String,Object>> list = new ArrayList<>();
+            for(int i=firstResult;i<maxResult + firstResult && i < result.size() ;i++) {
+                Project ty = result.get(i);
+                Map<String, Object> map = new HashMap<>();
+                map.put("projectName", ty.getProjectName());
+                map.put("projectCost", ty.getProjectCost());
+                map.put("dateStart", ty.getDateStart());
+                map.put("dateEnd", ty.getDateEnd());
+                map.put("id", ty.getId());
+                map.put("projectCode", ty.getProjectCode());
+                list.add(map);
+
+            }
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

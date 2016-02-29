@@ -56,6 +56,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
                 Date stDateend = new Date(Long.parseLong(StDateEnd));
                 stDatebegin = formatter.parse(formatter.format(stDatebegin));
                 stDateend = formatter.parse(formatter.format(stDateend));
+
                 criteria.add(Restrictions.between("dateStart", stDatebegin, stDateend));
             } else if (StDateBegin != "" && StDateEnd == "") {
                 Date stDatebegin = new Date(Long.parseLong(StDateBegin));
@@ -104,7 +105,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             List<Project> projects = criteria.list();
             for (int i = 0; projects.size() > i; i++) {
                 Project project = projects.get(i);
-                LOGGER.error(">>>" + project.getId());
+                LOGGER.error("{}????????>>>" + project);
             }
         }
         catch (IndexOutOfBoundsException e){
