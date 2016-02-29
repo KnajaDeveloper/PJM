@@ -209,6 +209,10 @@ privileged aspect TaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findTaskProgestByProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findTaskProgestByProgram(
+        @RequestParam(value = "program", required = false) String program
+    ){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
         try {    
             List<Program> mo = Program.findProgramByProgramCode(program);
             List<Task> result = Task.findTaskProgestByProgram(mo.get(0));
