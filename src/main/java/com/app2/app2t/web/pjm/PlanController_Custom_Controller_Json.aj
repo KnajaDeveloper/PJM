@@ -60,6 +60,9 @@ privileged aspect PlanController_Custom_Controller_Json {
             List<Long> listModuleId = new ArrayList<>();
             if (moduleId == 0) {
                 List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByUserName(AuthorizeUtil.getUserName());
+
+                LOGGER.debug("List module members {}", moduleMembers);
+
                 for (ModuleMember moduleMember : moduleMembers) {
                     listModuleId.add(moduleMember.getModuleProject().getId());
                 }
@@ -72,7 +75,12 @@ privileged aspect PlanController_Custom_Controller_Json {
                 listTypeTaskId.add(Long.parseLong(jsonArrayTypeTask.get(i).toString()));
             }
 
-            List<Task> result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, AuthorizeUtil.getUserName());
+            LOGGER.debug("List module id {}", listModuleId);
+
+            List<Task> result = null;
+            if (listModuleId.size() > 0) {
+                result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, AuthorizeUtil.getUserName());
+            }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -239,18 +247,18 @@ privileged aspect PlanController_Custom_Controller_Json {
                     task = tmpPlan.getTask();
                     otherTask = tmpPlan.getOtherTask();
 
-                    if(task != null) {
+                    if (task != null) {
                         task.setProgress(progress);
                         task.merge();
                     }
-                    if(otherTask != null) {
+                    if (otherTask != null) {
                         otherTask.setProgress(progress);
                         otherTask.merge();
                     }
                 } else {                    // insert more plan
-                    if(task != null)
+                    if (task != null)
                         Plan.insertPlan(task, dateStart, dateEnd);
-                    if(otherTask != null)
+                    if (otherTask != null)
                         Plan.insertOtherPlan(otherTask, dateStart, dateEnd);
                 }
             }

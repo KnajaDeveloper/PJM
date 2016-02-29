@@ -9,18 +9,16 @@ var _year;
 // Ready page ----------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
 
-    $('.glyphicon-calendar').parent().css('border-left', '0')
-        .css('border-top-right-radius', '4px')
-        .css('border-bottom-right-radius', '4px');
-    $('.glyphicon-calendar').parent().click(function () {
-        $(this).parent().children(':first').focus();
-    });
-    $('.glyphicon-calendar').parent().mouseenter(function () {
-        $(this).css('cursor', 'pointer');
-    });
+//    $('.glyphicon-calendar').parent().css('border-left', '0')
+//        .css('border-top-right-radius', '4px')
+//        .css('border-bottom-right-radius', '4px');
+//    $('.glyphicon-calendar').parent().click(function () {
+//        $(this).parent().children(':first').focus();
+//    });
+//    $('.glyphicon-calendar').parent().mouseenter(function () {
+//        $(this).css('cursor', 'pointer');
+//    });
 
-    // Fix bug for <textarea>
-    $('#txtAddNote').text('');
     // Fix bug for grpResultModuleSearch
     $('#grpResultModuleSearch').html('');
 
@@ -141,7 +139,7 @@ function searchPlan() {
         $('#calendar').fullCalendar('gotoDate', moment(defaultDate).format('YYYY-MM-DD'));
 
     } else {         // not correct year format
-        $('#txtYearSearch').popover('show');
+        $('#txtYearSearch').attr('data-content', MESSAGE.ALERT_YEAR).popover('show');
     }
 }
 
@@ -173,7 +171,7 @@ $('#btnSearchByModule').click(function () {
         data: JSON.stringify([moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
-                if (data.length === 0) {
+                if (data == null || data.length == 0) {
                     // no result
                     $('#lblNoResultSerchByModule').show();
                 } else {
@@ -197,15 +195,15 @@ $('#btnAddOtherPlan').click(function () {
     var taskCost = $('#txtPlanCost').val();
     var dateStart = $('#cPlanDateBegin').val();
     var dateEnd = $('#cPlanDateEnd').val();
-
+    
     if (taskName.length == 0) {
-        $('#txtPlanName').popover('show');
+        $('#txtPlanName').attr('data-content', MESSAGE.POPOVER_TASK_NAME).popover('show');
     } else if (taskCost.indexOf('.') > 0 || !$.isNumeric(taskCost)) {
-        $('#txtPlanCost').popover('show');
+        $('#txtPlanCost').attr('data-content', MESSAGE.POPOVER_TASK_COST).popover('show');
     } else if (dateStart.length == 0) {
-        $('#cPlanDateBegin').popover('show');
+        $('#cPlanDateBegin').attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
     } else if (dateEnd.length == 0) {
-        $('#cPlanDateEnd').popover('show');
+        $('#cPlanDateEnd').attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
     } else {
         $.ajax({
             type: "POST",
@@ -223,12 +221,12 @@ $('#btnAddOtherPlan').click(function () {
             }),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
-                    bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                    bootbox.alert(MESSAGE.ALERT_SAVE_COMPLETED);
                     //$('#mdAddToPlan').modal('hide');
                     //$('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
                     loadAndMapPlan(_month, _year);
                 } else if (xhr.status === 500) {
-                    bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                    bootbox.alert(MESSAGE.ALERT_SAVE_FAILED);
                 }
             },
             async: false
@@ -237,6 +235,10 @@ $('#btnAddOtherPlan').click(function () {
 
 
 });
+$('.input-group-addon.date').click(function(){
+    $(this).parent().children(':first').focus();
+});
+
 
 // Add plan ------------------------------------------------------------------------------------------------------------
 function openModalAddPlan(jobElement) {
@@ -330,11 +332,11 @@ $('#btnAddTime').click(function () {
     var b = getFirstEmptyDate('cAddDateBegin_');
     var e = getFirstEmptyDate('cAddDateEnd_');
     if (b !== null) {
-        b.popover('show');
+        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
     } else if (e !== null) {
-        e.popover('show');
+        e.attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
     } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
-        bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
+        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
     } else {
         ++dateAddMaxId;
         $('#grpAddDate').append('<div class="form-group">'
@@ -344,7 +346,7 @@ $('#btnAddTime').click(function () {
             + '<input id="cAddDateBegin_'
             + dateAddMaxId
             + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
-            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '</div>');
@@ -356,7 +358,7 @@ $('#btnAddTime').click(function () {
             + '<input id="cAddDateEnd_'
             + dateAddMaxId
             + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
-            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '<div class="col-sm-1">'
@@ -374,12 +376,8 @@ $('#grpAddDate').on('click', '[id^=btnDeleteAddDate_]', function () {
     $('#cAddDateBegin_' + id).parent().parent().remove();
     $('#cAddDateEnd_' + id).parent().parent().remove();
 });
-//$('#grpAddDate').on('click', '.glyphicon-calendar', function () {
-//    //console.log($(this).parent().children(':first'));
-//    $(this).parent().children(':first').focus();
-//});
-$('#grpAddDate').on('mouseenter', '.glyphicon-calendar', function () {
-    $(this).css('cursor', 'pointer');
+$('#grpAddDate').on('click', '.input-group-addon.date', function () {
+    $(this).parent().children(':first').focus();
 });
 
 $('#btnSaveAddPlan').click(function () {
@@ -388,11 +386,11 @@ $('#btnSaveAddPlan').click(function () {
     var shiftPlan = $('#radioPostpone_add').prop('checked');
 
     if (b !== null) {
-        b.popover('show');
+        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
     } else if (e !== null) {
-        e.popover('show');
+        e.attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
     } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
-        bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
+        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
     } else {
         var taskId = $('#taskId').val();
         var plans = [taskId, shiftPlan];
@@ -434,12 +432,12 @@ $('#btnSaveAddPlan').click(function () {
             data: JSON.stringify(plans),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
-                    bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                    bootbox.alert(MESSAGE.ALERT_SAVE_COMPLETED);
                     $('#mdAddToPlan').modal('hide');
                     $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
                     loadAndMapPlan(_month, _year);
                 } else if (xhr.status === 500) {
-                    bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                    bootbox.alert(MESSAGE.MESSAGE_ALERT_SAVE_FAILED);
                 }
             },
             async: false
@@ -463,11 +461,11 @@ $('#btnCancelTask').click(function () {
         data: taskId,
         complete: function (xhr) {
             if (xhr.status === 201) {
-                bootbox.alert("ละทิ้งงานสำเร็จ");
+                bootbox.alert(MESSAGE.ALERT_LEAVE_COMPLETED);
                 $('#mdAddToPlan').modal('hide');
                 $('[taskId=' + taskId + ']').removeClass('success').addClass('danger');
             } else if (xhr.status === 500) {
-                bootbox.alert("ละทิ้งงานไม่สำเร็จ");
+                bootbox.alert(MESSAGE.ALERT_LEAVE_FAILED);
             }
         },
         async: false
@@ -523,11 +521,11 @@ $('#btnAddTime_edit').click(function () {
     var e = getFirstEmptyDate('cEditDateEnd_');
 
     if (b !== null) {
-        b.popover('show');
+        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
     } else if (e !== null) {
-        e.popover('show');
+        e.attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
     } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
-        bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
+        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
     } else {
         ++dateAddMaxId;
         $('#grpEditDate').append('<div class="form-group">'
@@ -537,7 +535,7 @@ $('#btnAddTime_edit').click(function () {
             + '<input id="cEditDateBegin_'
             + dateAddMaxId
             + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
-            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '</div>');
@@ -549,7 +547,7 @@ $('#btnAddTime_edit').click(function () {
             + '<input id="cEditDateEnd_'
             + dateAddMaxId
             + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
-            + '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar "></span></span>'
+            + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '<div class="col-sm-1">'
@@ -562,13 +560,13 @@ $('#btnAddTime_edit').click(function () {
         setDatePicker('cEditDateBegin_', 'cEditDateEnd_', dateAddMaxId);
     }
 });
+$('#grpEditDate').on('click', '.input-group-addon.date', function () {
+    $(this).parent().children(':first').focus();
+});
 $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
     var id = this.id.split('_')[1];
-    $('#cEditDateBegin_' + id).parent().parent().remove();
-    $('#cEditDateEnd_' + id).parent().parent().remove();
-});
-$('#grpEditDate').on('mouseenter', $('.glyphicon-calendar'), function () {
-    $(this).css('cursor', 'pointer');
+    $('#cEditDateBegin_' + id).parent().parent().parent().remove();
+    $('#cEditDateEnd_' + id).parent().parent().parent().remove();
 });
 
 $('#btnCancelEditPlan').click(function () {
@@ -581,15 +579,15 @@ $('#btnSaveEditPlan').click(function () {
     var shiftPlan = $('#radioPostpone_edit').prop('checked');
 
     if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
-        $('#txtPercentage').attr('data-content', 'กรุณาความคืบหน้าให้ถูกต้อง').popover('show');
+        $('#txtPercentage').attr('data-content', MESSAGE.POPOVER_PROGRESS).popover('show');
     } else if (progress < 0 || progress > 100) {
-        $('#txtPercentage').attr('data-content', 'กรุณาระบุความคืบหน้าในช่วง 0 ถึง 100').popover('show');
+        $('#txtPercentage').attr('data-content', MESSAGE.POPOVER_PROGRESS_FORMAT).popover('show');
     } else if (b !== null) {
-        b.popover('show');
+        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
     } else if (e !== null) {
-        e.popover('show');
+        e.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
     } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
-        bootbox.alert("เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน");
+        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
     } else {
         var planId = $('#txtEditPlanId').val();
         var plans = [planId, shiftPlan, progress];
@@ -631,11 +629,11 @@ $('#btnSaveEditPlan').click(function () {
             data: JSON.stringify(plans),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
-                    bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                    bootbox.alert(MESSAGE.ALERT_SAVE_COMPLETED);
                     $('#mdEditToPlan').modal('hide');
                     loadAndMapPlan(_month, _year);
                 } else if (xhr.status === 500) {
-                    bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                    bootbox.alert(MESSAGE.ALERT_SAVE_FAILED);
                 }
             },
             async: false
@@ -657,12 +655,12 @@ $('#btnDeleteEditPlan').click(function () {
         data: planId,
         complete: function (xhr) {
             if (xhr.status === 201) {
-                bootbox.alert("ลบข้อมูลสำเร็จ");
+                bootbox.alert(MESSAGE.ALERT_DELETE_COMPLETED);
                 $('#mdEditToPlan').modal('hide');
                 $('#calendar').fullCalendar('removeEvents', planId);
                 $('#calendar').fullCalendar("rerenderEvents");
             } else if (xhr.status === 500) {
-                bootbox.alert("ลบข้อมูลไม่สำเร็จ");
+                bootbox.alert(MESSAGE.ALERT_DELETE_FAILED);
             }
         },
         async: false

@@ -4,6 +4,89 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
+    <c:set var="LABEL_MONTH" scope="request"><spring:message text="เดือน"/></c:set>
+    <c:set var="LABEL_YEAR" scope="request"><spring:message text="ปี"/></c:set>
+    <c:set var="LABEL_SEARCH" scope="request"><spring:message text="ค้นหา"/></c:set>
+
+    <c:set var="LABEL_JANUARY" scope="request"><spring:message text="มกราคม"/></c:set>
+    <c:set var="LABEL_FEBRUARY" scope="request"><spring:message text="กุมภาพันธ์"/></c:set>
+    <c:set var="LABEL_MARCH" scope="request"><spring:message text="มีนาคม"/></c:set>
+    <c:set var="LABEL_APRIL" scope="request"><spring:message text="เมษายน"/></c:set>
+    <c:set var="LABEL_MAY" scope="request"><spring:message text="พฤษภาคม"/></c:set>
+    <c:set var="LABEL_JUNE" scope="request"><spring:message text="มิถุนายน"/></c:set>
+    <c:set var="LABEL_JULY" scope="request"><spring:message text="กรกฎาคม"/></c:set>
+    <c:set var="LABEL_AUGUST" scope="request"><spring:message text="สิงหาคม"/></c:set>
+    <c:set var="LABEL_SEPTEMBER" scope="request"><spring:message text="กันยายน"/></c:set>
+    <c:set var="LABEL_OCTOBER" scope="request"><spring:message text="ตุลาคม"/></c:set>
+    <c:set var="LABEL_NOVEMBER" scope="request"><spring:message text="พฤศจิกายน"/></c:set>
+    <c:set var="LABEL_DECEMBER" scope="request"><spring:message text="ธันวาคม"/></c:set>
+
+    <c:set var="LABEL_TASK_FROM_MODULE" scope="request"><spring:message text="งานจากโมดูล"/></c:set>
+    <c:set var="LABEL_TASK_OTHER" scope="request"><spring:message text="งานอื่นๆ"/></c:set>
+    <c:set var="LABEL_ALL_MODULE" scope="request"><spring:message text="โมดูลทั้งหมด"/></c:set>
+    <c:set var="LABEL_PRIVEATE_TASK" scope="request"><spring:message text="งานของตนเอง"/></c:set>
+    <c:set var="LABEL_PUBLIC_TASK" scope="request"><spring:message text="งานที่ไม่มีเจ้าของ"/></c:set>
+    <c:set var="LABEL_NO_RESULT" scope="request"><spring:message text="ไม่พบข้อมูล"/></c:set>
+
+    <c:set var="LABEL_PLAN_NAME" scope="request"><spring:message text="ชื่องาน"/></c:set>
+    <c:set var="LABEL_PLAN_COST" scope="request"><spring:message text="จำนวนแมน"/></c:set>
+    <c:set var="LABEL_DATE_BEGIN" scope="request"><spring:message text="วันที่เริ่ม"/></c:set>
+    <c:set var="LABEL_DATE_END" scope="request"><spring:message text="วันที่สิ้นสุด"/></c:set>
+    <c:set var="LABEL_POINT" scope="request"><spring:message text="พอยน์"/></c:set>
+
+    <c:set var="LABEL_ADD_PLAN" scope="request"><spring:message text="เพิ่มแผนงาน"/></c:set>
+    <c:set var="LABEL_NOTE" scope="request"><spring:message text="หมายเหตุ"/></c:set>
+    <c:set var="LABEL_SHIFT_WHEN_OVERLAP" scope="request"><spring:message text="ขยับวันเมื่อซ้อนทับ"/></c:set>
+    <c:set var="LABEL_NOT_SHIFT" scope="request"><spring:message text="ไม่ขยับ"/></c:set>
+    <c:set var="LABEL_SHIFT" scope="request"><spring:message text="ขยับ"/></c:set>
+
+    <c:set var="LABEL_EDIT_PLAN" scope="request"><spring:message text="แก้ไขแผนงาน"/></c:set>
+    <c:set var="LABEL_PROGRESS" scope="request"><spring:message text="ความคืบหน้าของงาน"/></c:set>
+
+    <c:set var="BUTTON_ADD" scope="request"><spring:message text="เพิ่ม"/></c:set>
+    <c:set var="BUTTON_DELETE" scope="request"><spring:message text="ลบ"/></c:set>
+    <c:set var="BUTTON_SAVE" scope="request"><spring:message text="บันทึก"/></c:set>
+    <c:set var="BUTTON_CANCEL" scope="request"><spring:message text="ยกเลิก"/></c:set>
+    <c:set var="BUTTON_LEAVE" scope="request"><spring:message text="ละทิ้งงาน"/></c:set>
+    <c:set var="BUTTON_ADD_DURATION" scope="request"><spring:message text="เพิ่มช่วงเวลา"/></c:set>
+
+    <c:set var="MESSAGE_POPOVER_YEAR" scope="request"><spring:message text="กรุณาปีให้ถูกต้อง"/></c:set>
+    <c:set var="MESSAGE_POPOVER_TASK_NAME" scope="request"><spring:message text="กรุณาระบุชื่องาน"/></c:set>
+    <c:set var="MESSAGE_POPOVER_TASK_COST" scope="request"><spring:message text="กรุณาระบุจำนวนแมนให้ถูกต้อง"/></c:set>
+    <c:set var="MESSAGE_POPOVER_DATE_BEGIN" scope="request"><spring:message text="กรุณาระบุวันที่เริ่มต้น"/></c:set>
+    <c:set var="MESSAGE_POPOVER_DATE_END" scope="request"><spring:message text="กรุณาระบุวันที่สิ้นสุด"/></c:set>
+    <c:set var="MESSAGE_POPOVER_PROGRESS" scope="request"><spring:message text="กรุณาความคืบหน้าให้ถูกต้อง"/></c:set>
+    <c:set var="MESSAGE_POPOVER_PROGRESS_FORMAT" scope="request"><spring:message text="กรุณาระบุความคืบหน้าในช่วง 0 ถึง 100"/></c:set>
+
+    <c:set var="MESSAGE_ALERT_DATE_OVERLAY" scope="request"><spring:message text="เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน"/></c:set>
+    <c:set var="MESSAGE_ALERT_SAVE_COMPLETED" scope="request"><spring:message text="บันทึกข้อมูล่สำเร็จ"/></c:set>
+    <c:set var="MESSAGE_ALERT_SAVE_FAILED" scope="request"><spring:message text="บันทึกข้อมูลไมสำเร็จ"/></c:set>
+    <c:set var="MESSAGE_ALERT_LEAVE_COMPLETED" scope="request"><spring:message text="ละทิ้งงานสำเร็จ"/></c:set>
+    <c:set var="MESSAGE_ALERT_LEAVE_FAILED" scope="request"><spring:message text="ละทิ้งงานไม่สำเร็จ"/></c:set>
+    <c:set var="MESSAGE_ALERT_DELETE_COMPLETED" scope="request"><spring:message text="ลบข้อมูลสำเร็จ"/></c:set>
+    <c:set var="MESSAGE_ALERT_DELETE_FAILED" scope="request"><spring:message text="ลบข้อมูลไม่สำเร็จ"/></c:set>
+
+
+    <script>
+        var MESSAGE = {};
+
+        MESSAGE.POPOVER_YEAR = '${MESSAGE_POPOVER_YEAR}';
+        MESSAGE.POPOVER_TASK_NAME = '${MESSAGE_POPOVER_TASK_NAME}';
+        MESSAGE.POPOVER_TASK_COST = '${MESSAGE_POPOVER_TASK_COST}';
+        MESSAGE.POPOVER_DATE_BEGIN = '${MESSAGE_POPOVER_DATE_BEGIN}';
+        MESSAGE.POPOVER_DATE_END = '${MESSAGE_POPOVER_DATE_END}';
+        MESSAGE.POPOVER_PROGRESS = '${MESSAGE_POPOVER_PROGRESS}';
+        MESSAGE.POPOVER_PROGRESS_FORMAT = '${MESSAGE_POPOVER_PROGRESS_FORMAT}';
+
+        MESSAGE.ALERT_DATE_OVERLAY = '${MESSAGE_ALERT_DATE_OVERLAY}';
+        MESSAGE.ALERT_SAVE_COMPLETED = '${MESSAGE_ALERT_SAVE_COMPLETED}';
+        MESSAGE.ALERT_SAVE_FAILED = '${MESSAGE_ALERT_SAVE_FAILED}';
+        MESSAGE.ALERT_LEAVE_COMPLETED = '${MESSAGE_ALERT_LEAVE_COMPLETED}';
+        MESSAGE.ALERT_LEAVE_FAILED = '${MESSAGE_ALERT_LEAVE_FAILED}';
+        MESSAGE.ALERT_DELETE_COMPLETED = '${MESSAGE_ALERT_DELETE_COMPLETED}';
+        MESSAGE.ALERT_DELETE_FAILED = '${MESSAGE_ALERT_DELETE_FAILED}';
+    </script>
+
     <spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
     <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
     <script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
@@ -84,6 +167,11 @@
 
         .input-group-addon {
             padding: 0 12px;
+            border-left: 0;
+        }
+        
+        .input-group-addon.date{
+            cursor: pointer;
         }
 
         .control-label.text-left {
@@ -115,7 +203,7 @@
             color: #7db223;
             /*font-weight: bold;*/
         }
-
+        
     </style>
 
     <input type="hidden" class="datetimepicker"/>
@@ -128,22 +216,22 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <div class="col-sm-3">
-                        <label class="" for="ddlMonthSearch">เดือน *</label>
+                        <label class="" for="ddlMonthSearch">${LABEL_MONTH} *</label>
                     </div>
                     <div class="col-sm-9">
                         <select class="form-control" id="ddlMonthSearch" name="ddlMonthSearch">
-                            <option value="1">มกราคม</option>
-                            <option value="2">กุมภาพันธ์</option>
-                            <option value="3">มีนาคม</option>
-                            <option value="4">เมษายน</option>
-                            <option value="5">พฤษภาคม</option>
-                            <option value="6">มิถุนายน</option>
-                            <option value="7">กรกฎาคม</option>
-                            <option value="8">สิงหาคม</option>
-                            <option value="9">กันยายน</option>
-                            <option value="10">ตุลาคม</option>
-                            <option value="11">พฤศจิกายน</option>
-                            <option value="12">ธันวาคม</option>
+                            <option value="1">${LABEL_JANUARY}</option>
+                            <option value="2">${LABEL_FEBRUARY}</option>
+                            <option value="3">${LABEL_MARCH}</option>
+                            <option value="4">${LABEL_APRIL}</option>
+                            <option value="5">${LABEL_MAY}</option>
+                            <option value="6">${LABEL_JUNE}</option>
+                            <option value="7">${LABEL_JULY}</option>
+                            <option value="8">${LABEL_AUGUST}</option>
+                            <option value="9">${LABEL_SEPTEMBER}</option>
+                            <option value="10">${LABEL_OCTOBER}</option>
+                            <option value="11">${LABEL_NOVEMBER}</option>
+                            <option value="12">${LABEL_DECEMBER}</option>
                         </select>
                     </div>
                 </div>
@@ -151,10 +239,10 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <div class="col-sm-3">
-                        <label for="txtYearSearch">ปี *</label>
+                        <label for="txtYearSearch">${LABEL_YEAR} *</label>
                     </div>
                     <div class="col-sm-9">
-                        <input data-content="กรุณาปีให้ถูกต้อง" data-placement="bottom" type="text" class="form-control"
+                        <input data-content="" data-placement="bottom" type="text" class="form-control"
                                id="txtYearSearch" name="txtYearSearch" placeholder=""/>
                     </div>
                 </div>
@@ -162,7 +250,7 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <button id="btnSearchPlan" type="button" class="btn btn-primary">ค้นหา</button>
+                        <button id="btnSearchPlan" type="button" class="btn btn-primary">${LABEL_SEARCH}</button>
                     </div>
                 </div>
             </div>
@@ -183,8 +271,8 @@
         <div class="col-sm-3">
             <br/>
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#tabFromModule">งานจากโมดูล</a></li>
-                <li><a data-toggle="tab" href="#tabFromOther">งานทั่วไป</a></li>
+                <li class="active"><a data-toggle="tab" href="#tabFromModule">${LABEL_TASK_FROM_MODULE}</a></li>
+                <li><a data-toggle="tab" href="#tabFromOther">${LABEL_TASK_OTHER}</a></li>
             </ul>
             <div class="panel panel-info">
                 <br/>
@@ -195,30 +283,30 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <select class="form-control" id="ddlJobModule" name="ddlJobModule">
-                                        <option value="0">โมดูลทั้งหมด</option>
+                                        <option value="0">${LABEL_ALL_MODULE}</option>
                                     </select>
                                 </div>
                                 <div id="grpTaskType">
                                     <div class="row checkbox">
-                                        <label class="col-sm-12"><input type="checkbox"
-                                                                        id="checkMyTask"/>งานของตนเอง</label>
+                                        <label class="col-sm-12">
+                                        <input type="checkbox" id="checkMyTask"/>${LABEL_PRIVEATE_TASK}</label>
                                     </div>
                                     <div class="row checkbox">
-                                        <label class="col-sm-12"><input type="checkbox" id="checkOtherTask"/>งานที่ไม่มีเจ้าของ</label>
+                                        <label class="col-sm-12"><input type="checkbox" id="checkOtherTask"/>${LABEL_PUBLIC_TASK}</label>
                                     </div>
                                 </div>
                                 <br/>
 
                                 <div class="text-center">
-                                    <button id="btnSearchByModule" class="btn btn-primary" type="button">ค้นหา</button>
+                                    <button id="btnSearchByModule" class="btn btn-primary" type="button">${LABEL_SEARCH}</button>
                                 </div>
 
                                 <hr/>
                                 <div id="lblNoResultSerchByModule" style="display: none;"
-                                     class="text-center">ไม่พบข้อมูล
+                                     class="text-center">${LABEL_NO_RESULT}
                                 </div>
                                 <div id="grpResultModuleSearch" class="list-group">
-                                    Task result
+                                    <jsp:text/>
                                 </div>
                             </div>
                         </div>
@@ -227,27 +315,27 @@
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input data-content="กรุณาระบุชื่องาน" data-placement="bottom"
-                                               class="form-control" type="text" id="txtPlanName" placeholder="ชื่องาน"/>
+                                        <input data-content="" data-placement="bottom"
+                                               class="form-control" type="text" id="txtPlanName" placeholder="${LABEL_PLAN_NAME}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input data-content="กรุณาระบุจำนวนแมนให้ถูกต้อง" data-placement="bottom"
+                                            <input data-content="" data-placement="bottom"
                                                    class="form-control" type="text" id="txtPlanCost"
-                                                   placeholder="จำนวนแมน"/>
-                                            <span class="input-group-addon">Point</span>
+                                                   placeholder="${LABEL_PLAN_COST}"/>
+                                            <span class="input-group-addon">${LABEL_POINT}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input data-content="กรุณาระบุวันที่เริ่มต้น" data-placement="bottom"
+                                            <input data-content="" data-placement="bottom"
                                                    class="form-control" type="text" id="cPlanDateBegin"
-                                                   placeholder="วันที่เริ่ม"/>
-                                            <span class="input-group-addon">
+                                                   placeholder="${LABEL_DATE_BEGIN}"/>
+                                            <span class="input-group-addon date">
                                                 <span class="glyphicon glyphicon-calendar "></span>
                                             </span>
                                         </div>
@@ -256,10 +344,10 @@
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input data-content="กรุณาระบุวันที่สิ้นสุด" data-placement="bottom"
+                                            <input data-content="" data-placement="bottom"
                                                    class="form-control" type="text" id="cPlanDateEnd"
-                                                   placeholder="วันที่สิ้นสุด"/>
-                                            <span class="input-group-addon">
+                                                   placeholder="${LABEL_DATE_END}"/>
+                                            <span class="input-group-addon date">
                                                 <span class="glyphicon glyphicon-calendar "></span>
                                             </span>
                                         </div>
@@ -268,7 +356,7 @@
                                 <br/>
 
                                 <div class="text-center">
-                                    <button id="btnAddOtherPlan" class="btn btn-primary" type="button">เพิ่ม</button>
+                                    <button id="btnAddOtherPlan" class="btn btn-primary" type="button">${BUTTON_ADD}</button>
                                 </div>
                                 <br/>
                             </div>
@@ -288,39 +376,39 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">เพิ่มแผนงาน</h4>
+                    <h4 class="modal-title">${LABEL_ADD_PLAN}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3">ชื่องาน </label>
+                            <label class="control-label col-xs-3">${LABEL_PLAN_NAME} </label>
 
                             <div class="col-xs-8">
-                                <label id="lblAddNameWork" class="control-label text-left full-label">ทดสอบงาน</label>
+                                <label id="lblAddNameWork" class="control-label text-left full-label"></label>
                             </div>
                         </div>
                         <div id="grpAddDate">
                             <div class="form-group">
-                                <label class="control-label col-xs-3 required">วันที่เริ่ม </label>
+                                <label class="control-label col-xs-3 required">${LABEL_DATE_BEGIN} </label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <input id="cAddDateBegin_0" type="text" class="form-control"
-                                           data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar "></span>
+                                           data-placement="bottom" data-content=""/>
+                                        <span class="input-group-addon date">
+                                            <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>
+                                <label class="control-label col-xs-3 required">${LABEL_DATE_END} </label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <input id="cAddDateEnd_0" type="text" class="form-control"
-                                           data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>
-                                        <span class="input-group-addon">
+                                           data-placement="bottom" data-content=""/>
+                                        <span class="input-group-addon date">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
@@ -329,25 +417,25 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-8 col-xs-offset-3">
-                                <button id="btnAddTime" type="button" class="btn btn-primary">เพิ่มช่วงเวลา</button>
+                                <button id="btnAddTime" type="button" class="btn btn-primary">${BUTTON_ADD_DURATION}</button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">หมายเหตุ </label>
+                            <label class="control-label col-xs-3">${LABEL_NOTE} </label>
 
                             <div class="col-xs-8">
                                 <textarea id="txtAddNote" class="form-control" rows="5">.</textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">ขยับวันเมื่อซ้อนทับ </label>
+                            <label class="control-label col-xs-3 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
 
                             <div class="col-sm-8">
                                 <label class="radio-inline" for="radioNoPostpone_add">
-                                    <input type="radio" id="radioNoPostpone_add" name="optradio"/> ไม่ขยับ
+                                    <input type="radio" id="radioNoPostpone_add" name="optradio"/> ${LABEL_NOT_SHIFT}
                                 </label>
                                 <label class="radio-inline" for="radioPostpone_add">
-                                    <input type="radio" id="radioPostpone_add" name="optradio"/> ขยับ
+                                    <input type="radio" id="radioPostpone_add" name="optradio"/> ${LABEL_SHIFT}
                                 </label>
                             </div>
                         </div>
@@ -358,9 +446,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer">
-                        <button id="btnSaveAddPlan" type="button" class="btn btn-primary">บันทึก</button>
-                        <button id="btnCancelAddPlan" type="button" class="btn btn-danger">ยกเลิก</button>
-                        <button id="btnCancelTask" type="button" class="btn btn-danger">ละทิ้งงาน</button>
+                        <button id="btnSaveAddPlan" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+                        <button id="btnCancelAddPlan" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                        <button id="btnCancelTask" type="button" class="btn btn-danger">${BUTTON_LEAVE}</button>
                     </div>
                 </div>
             </div>
@@ -373,48 +461,48 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">แก้ไขแผนงาน</h4>
+                    <h4 class="modal-title">${LABEL_EDIT_PLAN}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3">ชื่องาน </label>
+                            <label class="control-label col-xs-3">${LABEL_PLAN_NAME} </label>
 
                             <div class="col-xs-8">
-                                <label id="lblEditNameWork" class="control-label text-left full-label">ทดสอบงาน</label>
+                                <label id="lblEditNameWork" class="control-label text-left full-label"></label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">ความคืบหน้าของงาน </label>
+                            <label class="control-label col-xs-3 required">${LABEL_PROGRESS} </label>
 
                             <div class="col-xs-8">
                                 <div class="input-group">
                                     <input class="form-control" type="text" id="txtPercentage" name="txtPercentage"
-                                           data-placement="bottom" data-content="กรุณาความคืบหน้าให้ถูกต้อง"/>
+                                           data-placement="bottom" data-content=""/>
                                     <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                         </div>
                         <div id="grpEditDate">
                             <div class="form-group">
-                                <label class="control-label col-xs-3 required">วันที่เริ่ม </label>
+                                <label class="control-label col-xs-3 required">${LABEL_DATE_BEGIN} </label>
 
                                 <div class="col-xs-8">
                                     <div class="input-group">
                                         <input id="cEditDateBegin_0" type="text" class="form-control"/>
-                                        <span class="input-group-addon">
+                                        <span class="input-group-addon date">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>
+                                <label class="control-label col-xs-3 required">${LABEL_DATE_END} </label>
 
                                 <div class="col-xs-8">
                                     <div class="input-group">
                                         <input id="cEditDateEnd_0" type="text" class="form-control"/>
-                                        <span class="input-group-addon">
+                                        <span class="input-group-addon date">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
@@ -423,19 +511,19 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-8 col-xs-offset-3">
-                                <button id="btnAddTime_edit" type="button" class="btn btn-primary">เพิ่มช่วงเวลา
+                                <button id="btnAddTime_edit" type="button" class="btn btn-primary">${BUTTON_ADD_DURATION}
                                 </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">ขยับวันเมื่อซ้อนทับ </label>
+                            <label class="control-label col-xs-3 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
 
                             <div class="col-sm-8">
                                 <label class="radio-inline" for="radioNoPostpone_edit">
-                                    <input type="radio" id="radioNoPostpone_edit" name="optradio"/> ไม่ขยับ
+                                    <input type="radio" id="radioNoPostpone_edit" name="optradio"/> ${LABEL_NOT_SHIFT}
                                 </label>
                                 <label class="radio-inline" for="radioPostpone_edit">
-                                    <input type="radio" id="radioPostpone_edit" name="optradio" checked=""/> ขยับ
+                                    <input type="radio" id="radioPostpone_edit" name="optradio" checked=""/> ${LABEL_SHIFT}
                                 </label>
                             </div>
                         </div>
@@ -445,9 +533,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer">
-                        <button id="btnSaveEditPlan" type="button" class="btn btn-primary">บันทึก</button>
-                        <button id="btnCancelEditPlan" type="button" class="btn btn-danger">ยกเลิก</button>
-                        <button id="btnDeleteEditPlan" type="button" class="btn btn-danger">ลบ</button>
+                        <button id="btnSaveEditPlan" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+                        <button id="btnCancelEditPlan" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                        <button id="btnDeleteEditPlan" type="button" class="btn btn-danger">${BUTTON_DELETE}</button>
                     </div>
                 </div>
             </div>
@@ -468,3 +556,4 @@
 
 
 </div>
+
