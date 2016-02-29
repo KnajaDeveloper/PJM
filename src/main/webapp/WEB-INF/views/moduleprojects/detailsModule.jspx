@@ -117,7 +117,7 @@
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label class="control-label">จำนวนต้นทุ้นคงเหลือ</label>
+                                <label class="control-label">จำนวนต้นทุนคงเหลือ</label>
                                 <br/>
                                 <br/>
                                 <label class="control-label">วันที่สิ้นสุด</label>
@@ -290,8 +290,11 @@
                                 <div class="col-xs-offset-1 col-xs-2">
                                     <label class="control-label ">แนบไฟล์</label>
                                 </div>
-                                <div class="col-sm-6">
-                                    <button id="btnSelectFile" type="button" class="btn btn-primary">เลือกไฟล์</button>
+                                <div class="col-sm-4">
+                                    <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">เลือกไฟล์</button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input id="myInput" type="file" style="visibility:hidden" />
                                 </div>
                             </div>
                             <div class="form-group">
