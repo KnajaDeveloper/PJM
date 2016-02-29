@@ -2,11 +2,12 @@ var labelData;
 var ll2;
 var ll3;
 $(document).ready(function(){
+  console.log("xxxxxxxxxxxx"+projectCode );
  searchDataProgram();
  ProjectManager();
  MuduleManager();
  var dataJsonData = {
-  projectCode: "MoMilk"
+  projectCode: projectCode
 }
 labelData = $.ajax({
   headers: {
@@ -23,7 +24,7 @@ labelData = $.ajax({
 var addData = labelData.responseJSON;
 $('#lblName').text(addData[0].projectName);
 $('#lblProjectCode').text(addData[0].projectCode);
-$('#lblCostsPoint').text(addData[0].projectCost+""+""+""+"Point");
+$('#lblCostsPoint').text(addData[0].projectCost+"Point");
 $('#lblStartDate').text(DateUtil.dataDateToFrontend(addData[0].dateStart,commonData.language));
 $('#lblBalanceCostsPoint').text(addData[0].projectCost);
 $('#lbldateEnd').text(DateUtil.dataDateToFrontend(addData[0].dateEnd,commonData.language));
@@ -62,7 +63,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
 };
 function searchDataProgram() {
  var dataJsonData = {
-  projectCode: "MoMilk"
+  projectCode: projectCode
 }
 pagginationModule.setOptionJsonData({
  url:contextPath + "/moduleprojects/findModuleByProjectCode2",
@@ -79,7 +80,7 @@ pagginationModule.search(pagginationModule);
 
 function ProjectManager(){
   var dataJsonData = {
-  project: "MoMilk"
+  project: projectCode
 }
 ll2 = $.ajax({
   headers: {
