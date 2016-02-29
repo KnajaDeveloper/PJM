@@ -20,10 +20,12 @@ privileged aspect ProjectController_Custom_Controller {
         return "projects/createproject";
     }
         @RequestMapping(value = "/progressproject", produces = "text/html")
-    public String ProjectController.progressproject(Model uiModel) {
-     
+    public String ProjectController.progressproject(Model uiModel)
+   // ,
+      //  @RequestParam(value = "projectCode", required = false) String projectCode
+    //) 
+    {
+        //uiModel.addAttribute("projectCode", projectCode);
         return "projects/progressproject";
     }
-
-
 }
