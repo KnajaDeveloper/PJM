@@ -54,10 +54,6 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
     }
 
     public static List<Program> Program.findDeleteProgram(ModuleProject moduleProject, String programCode) {
-        EntityManager ent = Program.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
-        criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("moduleProject", moduleProject));
         criteria.add(Restrictions.eq("programCode", programCode));
         List<Program> ep = criteria.list();
         Program edProgram = ep.get(0);
@@ -71,6 +67,14 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         criteria.createAlias("program.moduleProject", "moduleProject");
         criteria.add(Restrictions.eq("moduleProject", moduleProject));
         criteria.add(Restrictions.eq("programCode", programCode));
+        return criteria.list();
+    }
+
+    public static List<Program> Program.findProgramByModuleProject(ModuleProject moduleProject) {
+        EntityManager ent = Program.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject", moduleProject));
         return criteria.list();
     }
 }

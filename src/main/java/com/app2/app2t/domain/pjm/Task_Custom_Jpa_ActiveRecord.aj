@@ -142,7 +142,6 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.merge();
         return criteria.list();
     }
-
     public static List<Task> Task.findDeleteTask(Program program, String taskCode) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
@@ -180,5 +179,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria1.add(Restrictions.eq("moduleProject.id", moduleProject.getId()));
         criteria1.setProjection(Projections.sum("task.taskCost"));
         return criteria1.list();
+    }
+    public static List<Task> Task.findTaskProgestByProgram(Program program) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "taskProgest");
+        criteria.createAlias("taskProgest.program", "program");
+        criteria.add(Restrictions.eq("program", program));
+        return criteria.list();
     }
 }

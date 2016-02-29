@@ -183,6 +183,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             List<Program> pg = Program.findProgramByProgramCode(program);
             List<Task> result = Task.findCheckProgramCode(pg.get(0));
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -205,4 +206,17 @@ privileged aspect TaskController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/findTaskProgestByProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.findTaskProgestByProgram(
+        try {    
+            List<Program> mo = Program.findProgramByProgramCode(program);
+            List<Task> result = Task.findTaskProgestByProgram(mo.get(0));
+            //LOGGER.info(">>>>>>>>>>>>>>>>>>Modul"+project);           
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+     }
 }

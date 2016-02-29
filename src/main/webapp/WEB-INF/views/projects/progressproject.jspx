@@ -3,16 +3,19 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
-     <style>
-        label.control-label {
-            width: 100%;
-        }
-        th.text-center {
-            color: #000;
-        }  
+    <style>
+    label.control-label {
+        width: 100%;
+    }
+    th.text-center {
+        color: #000;
+    }  
     </style>
-  <div class="container-fluid">
-     <div class="row">
+    <script>
+        var projectCode = '${projectCode}';
+    </script>
+    <div class="container-fluid">
+       <div class="row">
         <div class="panel panel-primary">
             <div class="panel-heading">ภาพรวมโปรเจค</div>
             <div class="panel-body">
@@ -53,14 +56,14 @@
                             <br/>
                         </div>
                         <div class="col-xs-2">
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <label class="control-label"><b>ต้นทุนคงเหลือ</b></label>
-                                <br/>
-                                <br/>
-                                <label class="control-label"><b>วันที่สิ้นสุด</b></label>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <label class="control-label"><b>ต้นทุนคงเหลือ</b></label>
+                            <br/>
+                            <br/>
+                            <label class="control-label"><b>วันที่สิ้นสุด</b></label>
                         </div>
                         <!-- <div class="col-xs-5">
                                 <br/>
@@ -71,9 +74,9 @@
                                 <br/>
                                 <br/>
                                 <label id="lblBalanceCostsPoint2" class="control-label"></label>
-                        </div> -->
-                          <div class="col-xs-4">
-                            <br/>
+                            </div> -->
+                            <div class="col-xs-4">
+                                <br/>
                                 <br/>
                                 <br/>
                                 <br/>
@@ -82,44 +85,61 @@
                                 <br/>
                                 <label id="lbldateEnd" class="control-label">...</label>
                             </div>
-                   </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </div>        
-        <div class="row">
-          <form class="form-horizontal">
-            <div class="form-group">
-              <div id="penaltyTableContainer" class="table-responsive">
-                <table id="Table" class="table table-hover">
-                  <thead>
-                    <tr class="info">                              
-                      <th class="text-center" style="color: #000" width="80" >รายละเอียด</th>
-                      <th class="text-center" style="color: #000" width="250">ชื่อโมดูล</th>
-                      <th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
-                      <th class="text-center" style="color: #000">วันที่เริ่ม</th>
-                      <th class="text-center" style="color: #000">วันที่เสร็จ</th>
-                      <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
-                    </tr>
+            </div>        
+            <div class="row">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <div id="penaltyTableContainer" class="table-responsive">
+                    <table id="Table" class="table table-hover">
+                      <thead>
+                        <tr class="info">                              
+                          <th class="text-center" style="color: #000" width="80" >รายละเอียด</th>
+                          <th class="text-center" style="color: #000" width="250">ชื่อโมดูล</th>
+                          <th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
+                          <th class="text-center" style="color: #000">วันที่เริ่ม</th>
+                          <th class="text-center" style="color: #000">วันที่เสร็จ</th>
+                          <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
+                      </tr>
                   </thead>
                   <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
               </table>
-            </div>
           </div>
-        </form>
       </div>
-          <div class="form-horizontal">
-                        <div class="form-group">
-                            <component:pagging id="paggingSimpleModuleProject"/>
+  </form>
+</div>
+<div class="form-horizontal">
+    <div class="form-group">
+        <component:pagging id="paggingSimpleModuleProject"/>
+    </div>
+</div> 
+
+<div class="col-xs-9 col-xs-offset-3">
+                    <form class="form-inline">
+                        <div class="col-xs-2">
+                            <label class="control-label"><b>ผู้ดูแลโมดูล</b></label>
+                            
                         </div>
-                    </div> 
- </div>
+                        <div class="col-xs-4">
+                            <label id="lblModuleManager" class="control-label">...</label>
+                            
+                        </div>
+                        </form>
+                    </div>
+
+
+</div>
 </div>
 
 <script>
 var contextPath = '${pageContext.request.contextPath}';
 </script>
+<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
+<script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
- <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+<script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
 <spring:url value="/resources/scripts/projects/progressproject.js" var="progressproject" />
 <script src="${progressproject}" type="text/javascript"><!--Not Empty --></script>
 
