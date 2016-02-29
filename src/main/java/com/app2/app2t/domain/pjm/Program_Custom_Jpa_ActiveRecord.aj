@@ -72,11 +72,14 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    // public static List<Program> Program.findProgramByModuleProject(ModuleProject moduleProject) {
-    //     EntityManager ent = Program.entityManager();
-    //     Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
-    //     criteria.createAlias("program.moduleProject", "moduleProject");
-    //     criteria.add(Restrictions.eq("moduleProject", moduleProject));
-    //     return criteria.list();
-    // }
+    public static List<Program> Program.findProgramByModuleProject(ModuleProject moduleProject) {
+        EntityManager ent = Program.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject", moduleProject));
+        return criteria.list();
+    }
+    
+
+   
 }

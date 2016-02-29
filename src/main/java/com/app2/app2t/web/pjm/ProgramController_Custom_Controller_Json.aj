@@ -146,20 +146,22 @@ privileged aspect ProgramController_Custom_Controller_Json {
         }
     }
 
-//        @RequestMapping(value = "/findProgramByModuleProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-//     public ResponseEntity<String> ProgramController.findProgramByModuleProject(
-//             @RequestParam(value = "moduleProject", required = false) String moduleProject
-//     ) {
-//         HttpHeaders headers = new HttpHeaders();
-//         headers.add("Content-Type", "application/json;charset=UTF-8");
-//         try {    
-//             List<ModuleProject> mo = ModuleProject.findModuleByModuleCode(moduleProject);
-//             List<Program> result = Program.findProgramByModuleProject(mo.get(0));
-//             //LOGGER.info(">>>>>>>>>>>>>>>>>>Modul"+project);           
-// } catch (Exception e){
-//             LOGGER.error(e.getMessage(), e);
-//             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-//         }
-//      }
+       @RequestMapping(value = "/findProgramByModuleProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProgramController.findProgramByModuleProject(
+            @RequestParam(value = "moduleProject", required = false) String moduleProject
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {    
+            List<ModuleProject> mo = ModuleProject.findModuleByModuleCode(moduleProject);
+            List<Program> result = Program.findProgramByModuleProject(mo.get(0));
+            return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+            //LOGGER.info(">>>>>>>>>>>>>>>>>>Modul"+project);           
+} catch (Exception e){
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+     }
+          
 
 }
