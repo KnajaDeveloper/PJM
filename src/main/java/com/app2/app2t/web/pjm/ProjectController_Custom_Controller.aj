@@ -47,4 +47,12 @@ privileged aspect ProjectController_Custom_Controller {
         uiModel.addAttribute("projectCode", project);
         return "projects/progressproject";
     }
+
+    @RequestMapping(value = "/editproject", produces = "text/html")
+    public String ProjectController.editproject(Model uiModel) {
+     
+        return "projects/editproject";
+    }
+
+
 }

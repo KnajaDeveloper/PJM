@@ -42,6 +42,10 @@
 	}
 
 	</style>
+	<script>
+        var projectCode = '${projectCode}';
+        console.log(""+projectCode);
+    </script>
 
 	<input type="hidden" class="datetimepicker"/>
     <input type="hidden" class="datepicker"/>
