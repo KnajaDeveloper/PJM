@@ -42,6 +42,9 @@
 	}
 
 	</style>
+	<script>
+        var projectId = '${projectId}';
+    </script>
 
 	<input type="hidden" class="datetimepicker"/>
     <input type="hidden" class="datepicker"/>
@@ -98,7 +101,7 @@
                     	<div style='padding-bottom:5px;'>
 	                        <label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
 	                        <div class="col-sm-3">
-	                            <input type="text" class="form-control" id="txtProjectManagerName1" data-placement="bottom"></input>
+	                            <input type="text" class="form-control" id="txtProjectManagerName0" data-placement="bottom"></input>
 	                        </div>
 	                        <div class='btn'><!--Not Empty--></div>
                     	</div>
@@ -336,7 +339,7 @@
 		</div>
 	</div>
 
-	<div id='container_DataModule' class='panel panel-primary'>
+	<div id='container_EditDataModule' class='panel panel-primary'>
 		<div class="panel-heading">Create Module</div>
 		<div class="panel-body">
 		    <div name="container_AddModule" class="form-group">
@@ -364,6 +367,9 @@
     <!-- Data Base -->
     <spring:url value="/resources/scripts/createproject/addProjectToDB.js" var="addProjectToDB"/>
     <script src="${addProjectToDB}" type="text/javascript"><!--Not Empty--></script>
+
+    <spring:url value="/resources/scripts/editProject/editproject.js" var="editproject"/>
+    <script src="${editproject}" type="text/javascript"><!--Not Empty--></script>
 
     <spring:url value="/resources/scripts/createproject/addModuleToDB.js" var="addModuleToDB"/>
     <script src="${addModuleToDB}" type="text/javascript"><!--Not Empty--></script>

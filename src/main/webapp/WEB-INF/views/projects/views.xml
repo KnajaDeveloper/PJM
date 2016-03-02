@@ -22,4 +22,7 @@
     <definition extends="default" name="projects/progressproject">
         <put-attribute name="body" value="/WEB-INF/views/projects/progressproject.jspx"/>
     </definition>
+    <definition extends="default" name="projects/editproject">
+        <put-attribute name="body" value="/WEB-INF/views/projects/editproject.jspx"/>
+    </definition>
 </tiles-definitions>

@@ -161,4 +161,11 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("projectCode", projectCode));
         return criteria.list();
     }
+
+    public static List<Project> Project.findProjectByIdProject(long projectID) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        criteria.add(Restrictions.eq("id", projectID));
+        return criteria.list();
+    }
 }
