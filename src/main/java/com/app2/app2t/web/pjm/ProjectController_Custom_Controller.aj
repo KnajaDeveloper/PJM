@@ -49,8 +49,10 @@ privileged aspect ProjectController_Custom_Controller {
     }
 
     @RequestMapping(value = "/editproject", produces = "text/html")
-    public String ProjectController.editproject(Model uiModel) {
-     
+    public String ProjectController.editproject(Model uiModel,
+        @RequestParam(value = "projectId", required = false) String projectId) 
+    {
+        uiModel.addAttribute("projectId", projectId);
         return "projects/editproject";
     }
 

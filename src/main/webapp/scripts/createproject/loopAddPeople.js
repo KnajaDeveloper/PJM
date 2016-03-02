@@ -73,13 +73,17 @@ function btnDeleteEditModuleMember(id) {
 ////////////////// Project Manager //////////////////
 
 $("#btnAddPM").click(function(){
+	loopAddPM();
+});
+
+function loopAddPM(){
 	var count_elements = countProjectManager;
 	var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtProjectManagerName"+[count_elements+1]+"'></input></div>"+
 			"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>Delete</button></div>";
 	$("#subProjectManager").append(html);
 	countProjectManager++;
-});
+}
 
 function btnDeleteProjectManager(id) {
 	id = id.replace("btnDeletePM","container_subProjectManager");

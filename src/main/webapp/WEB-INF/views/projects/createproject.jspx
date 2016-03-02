@@ -132,7 +132,7 @@
 								</div>
 
 								<div name="container_initialName_costsProject" class="form-group">
-									<label class="col-sm-3 control-label required" >LABEL_INITIAL_NAME</label>
+									<label class="col-sm-3 control-label required" >${LABEL_INITIAL_NAME}</label>
 									<div class="col-sm-3">
 										<input type="text" class="form-control" id="txtInitialModuleName1"></input>
 									</div>

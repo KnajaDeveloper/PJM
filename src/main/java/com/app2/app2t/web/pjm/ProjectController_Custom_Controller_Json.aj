@@ -3,9 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProject;
-import com.app2.app2t.domain.pjm.Project;
-import com.app2.app2t.domain.pjm.ProjectManager;
+import com.app2.app2t.domain.pjm.*;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -178,6 +176,31 @@ privileged aspect ProjectController_Custom_Controller_Json {
         try {
             List<Project> result = Project.findproject(projectCode);
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findProjectByIdProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.findProjectByIdProject(
+        @RequestParam(value = "projectID", required = false) long projectID
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Project> dataProject = Project.findProjectByIdProject(projectID);
+            List<ProjectManager> dataProjectManager = ProjectManager.findManagerByProject(dataProject.get(0));
+            List<ModuleProject> dataModuleProject = ModuleProject.findAllNameModuleByProjectCode(dataProject.get(0));
+            List<ModuleManager> dataModuleManager = ModuleManager.findModuleManagerByModuleProject(dataModuleProject.get(0));
+            List<ModuleMember> dataModuleMember = ModuleMember.findModuleMemberByModuleProject(dataModuleProject.get(0));
+            Map<String,Object> result = new HashMap<>();
+            result.put("Project",dataProject);
+            result.put("ProjectManager",dataProjectManager);
+            result.put("ModuleProject",dataModuleProject);
+            result.put("ModuleManager",dataModuleManager);
+            result.put("ModuleMember",dataModuleMember);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
