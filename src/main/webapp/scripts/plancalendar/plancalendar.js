@@ -8,21 +8,6 @@ var _year;
 
 // Ready page ----------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
-
-//    $('.glyphicon-calendar').parent().css('border-left', '0')
-//        .css('border-top-right-radius', '4px')
-//        .css('border-bottom-right-radius', '4px');
-//    $('.glyphicon-calendar').parent().click(function () {
-//        $(this).parent().children(':first').focus();
-//    });
-//    $('.glyphicon-calendar').parent().mouseenter(function () {
-//        $(this).css('cursor', 'pointer');
-//    });
-
-    // Fix bug for grpResultModuleSearch
-    $('#grpResultModuleSearch').html('');
-
-
     // Load and map plan
     $('#calendar').fullCalendar({
         defaultDate: moment().format('YYYY-MM-DD'),
@@ -35,6 +20,8 @@ $(document).ready(function () {
 
     // Set current month/year and load current plan
     setCurrentMonthYear();
+    if(_language == 'EN')
+        _year += 543;
     loadAndMapPlan(_month, _year);
 
     // Date picker for tab search job
@@ -103,11 +90,13 @@ $(document).ready(function () {
             $('#grpTaskType').html('');
             if (xhr.status === 200) {
                 $.each(data, function (k, v) {
-                    $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" name="checkTypeTask" value="' + v.id + '"/>' + v.typeTaskName + '</label></div>');
+					$('#grpTaskType').append('<div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" value="' + v.id + '"/><label for="checkOtherTask">'+v.id+'</label></div>');
                 });
             }
-            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" id="checkMyTask"/>งานของตนเอง</label></div>');
-            $('#grpTaskType').append('<div class="row checkbox"><label class="col-sm-12"><input type="checkbox" id="checkOtherTask"/>งานที่ไม่มีเจ้าของ</label></div>');
+			                        
+			$('#grpTaskType').append('<br/><div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" id="checkMyTask"/><label for="checkMyTask">'+MESSAGE.CHECKBOX_PRIVATE_TASK+'</label></div>');
+			$('#grpTaskType').append('<div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" id="checkOtherTask"/><label for="checkOtherTask">'+MESSAGE.CHECKBOX_PUBLIC_TASK+'</label></div>');
+           
         },
         async: false
     });
@@ -529,8 +518,8 @@ $('#btnAddTime_edit').click(function () {
     } else {
         ++dateAddMaxId;
         $('#grpEditDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-3 required">วันที่เริ่ม </label>'
-            + '<div class="col-xs-6">'
+            + '<label class="control-label col-xs-4 required">วันที่เริ่ม </label>'
+            + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cEditDateBegin_'
             + dateAddMaxId
@@ -541,8 +530,8 @@ $('#btnAddTime_edit').click(function () {
             + '</div>');
 
         $('#grpEditDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>'
-            + '<div class="col-xs-6">'
+            + '<label class="control-label col-xs-4 required">วันที่สิ้นสุด </label>'
+            + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cEditDateEnd_'
             + dateAddMaxId
@@ -550,7 +539,7 @@ $('#btnAddTime_edit').click(function () {
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
-            + '<div class="col-sm-1">'
+            + '<div class="col-sm-2">'
             + '<button id="btnDeleteEditDate_'
             + dateAddMaxId
             + '" type="button" class="btn btn-danger col-sm-12">ลบ</button>'
@@ -594,6 +583,7 @@ $('#btnSaveEditPlan').click(function () {
 
         if (_language == 'TH') {
             $('[id^=cEditDateBegin_][id$=_convert]').each(function () {
+				console.log(this.id);
                 var id = this.id.split('_')[1];
                 var dateBegin = $('#cEditDateBegin_' + id).val();
                 var dateEnd = $('#cEditDateEnd_' + id).val();
@@ -605,6 +595,7 @@ $('#btnSaveEditPlan').click(function () {
             });
         } else {
             $('[id^=cEditDateBegin_]').each(function () {
+				console.log(this.id);
                 if (this.id.indexOf('_convert') < 0) {
                     var id = this.id.split('_')[1];
                     var dateBegin = $('#cAddEditBegin_' + id).val();

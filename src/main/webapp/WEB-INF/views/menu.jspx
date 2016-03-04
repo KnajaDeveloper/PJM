@@ -2,70 +2,123 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
-        <!-- <menu:category id="c_moduleproject" z="avtTe1Qz45WvEaaDb9DtjMw6g3w=">
-            <menu:item id="i_moduleproject_new" messageCode="global_menu_new" url="/moduleprojects?form" z="1O04P3iuwNqupa8twSnZE4Yb7VM="/>
-            <menu:item id="i_moduleproject_list" messageCode="global_menu_list" url="/moduleprojects?page=1&amp;size=${empty param.size ? 10 : param.size}" z="Rg9OnCMwqWzHQGVhk53C0kRUQWg="/>
-        </menu:category>
-        <menu:category id="c_modulemanager" z="z84Zk7uqEeLBy7z13rLcYcFei24=">
-            <menu:item id="i_modulemanager_new" messageCode="global_menu_new" url="/modulemanagers?form" z="Bu2TQ0S2YGooqHH9QskF8WJ4nlQ="/>
-            <menu:item id="i_modulemanager_list" messageCode="global_menu_list" url="/modulemanagers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="6t5J3uTtkiDpdnwIKx+Mr1S6w0o="/>
-        </menu:category>
-        <menu:category id="c_modulemember" z="3jedp3P2pRbYA8ReGNVbqaQTLrw=">
-            <menu:item id="i_modulemember_new" messageCode="global_menu_new" url="/modulemembers?form" z="PtfavE6IUobtGjh3mCjwMrVu0rA="/>
-            <menu:item id="i_modulemember_list" messageCode="global_menu_list" url="/modulemembers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="sbOGt3Wq3LgRocZSby6XwguuyEQ="/>
-        </menu:category>
-        <menu:category id="c_projectmanager" z="oOle2vm25UQ1zzhp9vy0oDfwGzk=">
-            <menu:item id="i_projectmanager_new" messageCode="global_menu_new" url="/projectmanagers?form" z="KGApvyGG55IuwRgqCo2F5YhfdDc="/>
-            <menu:item id="i_projectmanager_list" messageCode="global_menu_list" url="/projectmanagers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="oGsmET6NXaHl0d0xoN/wFfvIGuo="/>
-        </menu:category>
-        <menu:category id="c_project" z="u0PzRIwMDmEv/J6b8vbKakXGIdQ=">
-            <menu:item id="i_project_new" messageCode="global_menu_new" url="/projects?form" z="1BazRC1rLnod0a+MpP1flWTvehA="/>
-            <menu:item id="i_project_list" messageCode="global_menu_list" url="/projects?page=1&amp;size=${empty param.size ? 10 : param.size}" z="GHL05c3Rvr+eKDgRCk3Ttak0W+g="/>
-        </menu:category>
-        <menu:category id="c_typetask" z="64xLEkF1iSmhKW0p63tf31c2IeI=">
-            <menu:item id="i_typetask_new" messageCode="global_menu_new" url="/typetasks?form" z="LgfnACYb6sHfX8GmmZNoHwjnBxA="/>
-            <menu:item id="i_typetask_list" messageCode="global_menu_list" url="/typetasks?page=1&amp;size=${empty param.size ? 10 : param.size}" z="tC0VVGABVJc1xeaoYTEhWkmcDpg="/>
-        </menu:category>
-        <menu:category id="c_task" z="5/YEXemVsbl4iFvHS/UosIk5vGA=">
-            <menu:item id="i_task_new" messageCode="global_menu_new" url="/tasks?form" z="YotbILlsjTB2PtR5PNSnTnvYdJ4="/>
-            <menu:item id="i_task_list" messageCode="global_menu_list" url="/tasks?page=1&amp;size=${empty param.size ? 10 : param.size}" z="IzVMulpv8+zgMUzz/aHI/gQB7NM="/>
-        </menu:category> -->
-        <menu:category id="c_projectmanager" z="oOle2vm25UQ1zzhp9vy0oDfwGzk=">
-            <menu:item id="i_projectmanager_new" messageCode="global_menu_new" url="/projectmanagers?form" z="KGApvyGG55IuwRgqCo2F5YhfdDc="/>
-            <menu:item id="i_projectmanager_list" messageCode="global_menu_list" url="/projectmanagers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="oGsmET6NXaHl0d0xoN/wFfvIGuo="/>
-        </menu:category>
-        <menu:category id="c_modulemanager" z="z84Zk7uqEeLBy7z13rLcYcFei24=">
-            <menu:item id="i_modulemanager_new" messageCode="global_menu_new" url="/modulemanagers?form" z="Bu2TQ0S2YGooqHH9QskF8WJ4nlQ="/>
-            <menu:item id="i_modulemanager_list" messageCode="global_menu_list" url="/modulemanagers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="6t5J3uTtkiDpdnwIKx+Mr1S6w0o="/>
-        </menu:category>
-        <menu:category id="c_task" z="5/YEXemVsbl4iFvHS/UosIk5vGA=">
-            <menu:item id="i_task_new" messageCode="global_menu_new" url="/tasks?form" z="YotbILlsjTB2PtR5PNSnTnvYdJ4="/>
-            <menu:item id="i_task_list" messageCode="global_menu_list" url="/tasks?page=1&amp;size=${empty param.size ? 10 : param.size}" z="IzVMulpv8+zgMUzz/aHI/gQB7NM="/>
-        </menu:category>
-        <menu:category id="c_project" z="u0PzRIwMDmEv/J6b8vbKakXGIdQ=">
-            <menu:item id="i_project_new" messageCode="global_menu_new" url="/projects?form" z="1BazRC1rLnod0a+MpP1flWTvehA="/>
-            <menu:item id="i_project_list" messageCode="global_menu_list" url="/projects?page=1&amp;size=${empty param.size ? 10 : param.size}" z="GHL05c3Rvr+eKDgRCk3Ttak0W+g="/>
-        </menu:category>
-        <menu:category id="c_typetask" z="64xLEkF1iSmhKW0p63tf31c2IeI=">
-            <menu:item id="i_typetask_new" messageCode="global_menu_new" url="/typetasks?form" z="LgfnACYb6sHfX8GmmZNoHwjnBxA="/>
-            <menu:item id="i_typetask_list" messageCode="global_menu_list" url="/typetasks?page=1&amp;size=${empty param.size ? 10 : param.size}" z="tC0VVGABVJc1xeaoYTEhWkmcDpg="/>
-        </menu:category>
-        <menu:category id="c_modulemember" z="3jedp3P2pRbYA8ReGNVbqaQTLrw=">
-            <menu:item id="i_modulemember_new" messageCode="global_menu_new" url="/modulemembers?form" z="PtfavE6IUobtGjh3mCjwMrVu0rA="/>
-            <menu:item id="i_modulemember_list" messageCode="global_menu_list" url="/modulemembers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="sbOGt3Wq3LgRocZSby6XwguuyEQ="/>
-        </menu:category>
-        <menu:category id="c_moduleproject" z="avtTe1Qz45WvEaaDb9DtjMw6g3w=">
-            <menu:item id="i_moduleproject_new" messageCode="global_menu_new" url="/moduleprojects?form" z="1O04P3iuwNqupa8twSnZE4Yb7VM="/>
-            <menu:item id="i_moduleproject_list" messageCode="global_menu_list" url="/moduleprojects?page=1&amp;size=${empty param.size ? 10 : param.size}" z="Rg9OnCMwqWzHQGVhk53C0kRUQWg="/>
-        </menu:category>
-        <menu:category id="c_plan" z="rFhVlXy74qcnIbTwQajzgsWD6BQ=">
-            <menu:item id="i_plan_new" messageCode="global_menu_new" url="/plans?form" z="pmT6Tnb2ILN69q8LLN9eOwtpb5s="/>
-            <menu:item id="i_plan_list" messageCode="global_menu_list" url="/plans?page=1&amp;size=${empty param.size ? 10 : param.size}" z="FI29aui93BPpx9sqFBTejTem3nY="/>
-        </menu:category>
-        <menu:category id="c_program" z="YGxVV4/fAoI1UpA5Qj+HrGbzkYw=">
-            <menu:item id="i_program_new" messageCode="global_menu_new" url="/programs?form" z="zDcnKu0MxAKfjglkepWRPV+CgbM="/>
-            <menu:item id="i_program_list" messageCode="global_menu_list" url="/programs?page=1&amp;size=${empty param.size ? 10 : param.size}" z="Wo9hPjCt4LuJjE285foaXnjcGTM="/>
-        </menu:category>
-    </menu:menu>
+    <div class="side-menu sidebar-default">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="side-menu-container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <span class="icon fa fa-paper-plane"><jsp:text/></span>
+                        <span class="title">PNMS</span>
+                    </a>
+                    <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-times icon"><jsp:text/></i>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="">
+                        <a href="index.html">
+                            <span class="icon fa fa-tachometer"><jsp:text/></span>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="panel panel-default dropdown active">
+                        <a data-toggle="collapse" href="#dropdown-element">
+                            <span class="icon fa fa-desktop"><jsp:text/></span>
+                            <span class="title">UI Kits</span>
+                        </a>
+                        <!-- Dropdown level 1 -->
+                        <div id="dropdown-element" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown dropdown2">
+                                        <a data-toggle="collapse" href="#dropdown-theme">
+                                            <span class="title">Theming</span>
+                                        </a>
+                                        <!-- Dropdown level 2 -->
+                                        <div id="dropdown-theme" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <ul class="nav navbar-nav">
+                                                    <li><a href="ui-kits/theming.html">Theming</a>
+                                                    </li>
+                                                    <li><a href="ui-kits/grid.html">Grid</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a href="ui-kits/grid.html">Grid</a>
+                                    </li>
+                                    <li><a href="ui-kits/button.html">Buttons</a>
+                                    </li>
+                                    <li><a href="ui-kits/card.html">Cards</a>
+                                    </li>
+                                    <li><a href="ui-kits/list.html">Lists</a>
+                                    </li>
+                                    <li><a href="ui-kits/modal.html">Modals</a>
+                                    </li>
+                                    <li><a href="ui-kits/alert.html">Alerts - Toasts</a>
+                                    </li>
+                                    <li><a href="ui-kits/panel.html">Panels</a>
+                                    </li>
+                                    <li><a href="ui-kits/loader.html">Loaders</a>
+                                    </li>
+                                    <li><a href="ui-kits/step.html">Tabs - Steps</a>
+                                    </li>
+                                    <li><a href="ui-kits/other.html">Other</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="panel panel-default dropdown">
+                        <a data-toggle="collapse" href="#dropdown-table">
+                            <span class="icon fa fa-table"><jsp:text/></span>
+                            <span class="title">Table</span>
+                        </a>
+                        <!-- Dropdown level 1 -->
+                        <div id="dropdown-table" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="table/table.html">Table</a>
+                                    </li>
+                                    <li><a href="table/datatable.html">Datatable</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="panel panel-default dropdown">
+                        <a data-toggle="collapse" href="#dropdown-form">
+                            <span class="icon fa fa-file-text-o"><jsp:text/></span>
+                            <span class="title">Form</span>
+                        </a>
+                        <!-- Dropdown level 1 -->
+                        <div id="dropdown-form" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="form/ui-kits.html">Form UI Kits</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="license.html">
+                            <span class="icon fa fa-thumbs-o-up"><jsp:text/></span>
+                            <span class="title">License</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+        commonData.language = '${lang}';
+        if(commonData.language == 'TH_TH') {
+            commonData.language = 'TH';
+        }
+    </script>
+
 </div>
