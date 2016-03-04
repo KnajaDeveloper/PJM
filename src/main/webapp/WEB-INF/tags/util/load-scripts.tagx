@@ -2,15 +2,15 @@
 
   <jsp:output omit-xml-declaration="yes" />
 
-  <spring:theme code="styleSheet" var="roo_css" />
-  <spring:url value="/${roo_css}" var="roo_css_url" />
+  <!-- <spring:theme code="styleSheet" var="roo_css" /> -->
+  <!-- <spring:url value="/${roo_css}" var="roo_css_url" /> -->
   <spring:url value="/resources/dojo/dojo.js" var="dojo_url" />
-  <spring:url value="/resources/dijit/themes/tundra/tundra.css" var="tundra_url" />
+  <!-- <spring:url value="/resources/dijit/themes/tundra/tundra.css" var="tundra_url" /> -->
   <spring:url value="/resources/spring/Spring.js" var="spring_url" />
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
-  <link rel="stylesheet" type="text/css" href="${tundra_url}" />
-  <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
+  <!-- <link rel="stylesheet" type="text/css" href="${tundra_url}" /> -->
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" /> -->
   <link rel="SHORTCUT ICON" href="${favicon}" />
 
   <spring:url value="/resources/styles/bootstrap.min.css" var="bootstrap_css_url" />
@@ -23,17 +23,35 @@
   <spring:url value="/resources/styles/jquery-ui.css" var="jquery_ui_css_url" />
   <spring:url value="/resources/styles/master.css" var="master_css_url" />
   <spring:url value="/resources/styles/selectize.bootstrap3.css" var="selectize_bootstrap3_css_url" />
+  <!-- Fonts -->
+  <!-- <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'/> -->
+  <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'/> -->
+  <link href='https://fonts.googleapis.com/css?family=Kanit:300&amp;subset=thai,latin' rel='stylesheet' type='text/css'/>
+  <!-- flat theme -->
+  <spring:url value="/resources/styles/animate.min.css" var="animate_css_url" />
+  <spring:url value="/resources/styles/bootstrap-switch.min.css" var="bootstrap_switch_css_url" />
+  <!-- <spring:url value="/resources/styles/checkbox3.min.css" var="checkbox3_css_url" /> -->
+  <spring:url value="/resources/styles/select2.min.css" var="select2_css_url" />
+  <spring:url value="/resources/styles/style.css" var="site_style" />
+  <spring:url value="/resources/styles/theme/flat-blue.css" var="theme_flat_blue" />
 
   <link rel="stylesheet" type="text/css" href="${bootstrap_css_url}" />
   <link rel="stylesheet" type="text/css" href="${fontAwesome_css_url}" />
   <link rel="stylesheet" type="text/css" href="${jqueryUI_css_url}" />
   <link rel="stylesheet" type="text/css" href="${timepicker_css_url}" />
-  <link rel="stylesheet" type="text/css" href="${common_css_url}" />
-  <link rel="stylesheet" type="text/css" href="${master_css_url}" />
+  <!-- <link rel="stylesheet" type="text/css" href="${common_css_url}" /> -->
+  <!-- <link rel="stylesheet" type="text/css" href="${master_css_url}" /> -->
   <link rel="stylesheet" type="text/css" href="${fullcalendar_css_url}" />
   <link rel="stylesheet" type="text/css" href="${fullcalendarPrint_css_url}" media='print' />
   <link rel="stylesheet" type="text/css" href="${jquery_ui_css_url}" />
   <link rel="stylesheet" type="text/css" href="${selectize_bootstrap3_css_url}" />
+  <!-- flat theme -->
+  <link rel="stylesheet" type="text/css" href="${animate_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${bootstrap_switch_css_url}" />
+  <!-- <link rel="stylesheet" type="text/css" href="${checkbox3_css_url}" /> -->
+  <link rel="stylesheet" type="text/css" href="${select2_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${site_style}" />
+  <link rel="stylesheet" type="text/css" href="${theme_flat_blue}" />
 
   <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->
   <c:set var="userLocale">
@@ -68,6 +86,12 @@
   <spring:url value="/resources/scripts/selectize.min.js" var="selectize_min_js_url" />
   <!--<spring:url value="/resources/scripts/Util/UtilScript.js" var="util_script_js" />-->
 
+  <!-- flat design -->
+  <spring:url value="/resources/scripts/bootstrap-switch.min.js" var="bootstrap_switch_min_js_url" />
+  <spring:url value="/resources/scripts/jquery.matchHeight-min.js" var="jquery_matchHeight_min_js_url" />
+  <spring:url value="/resources/scripts/select2.full.min.js" var="select2_full_min_js_url" />
+  <spring:url value="/resources/scripts/app.js" var="app_js_url" />
+
   <script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jqueryUI_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${bootstrap_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
@@ -87,5 +111,11 @@
   <script src="${selectize_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${selectize_min_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <!--<script src="${util_script_js}" type="text/javascript">&lt;!&ndash; required for FF3 and Opera &ndash;&gt;</script>-->
+
+  <!-- flat design -->
+  <script src="${bootstrap_switch_min_js_url}" type="text/javascript"><!--  --></script>
+  <script src="${jquery_matchHeight_min_js_url}" type="text/javascript"><!--  --></script>
+  <script src="${select2_full_min_js_url}" type="text/javascript"><!--  --></script>
+  <script src="${app_js_url}" type="text/javascript"><!--  --></script>
 
 </jsp:root>
