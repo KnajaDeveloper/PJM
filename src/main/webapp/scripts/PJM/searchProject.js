@@ -167,7 +167,7 @@ paggination.loadTable = function loadTable(jsonData) {
 
                 + '<tr  style="background-color: #fff">'
                 + '<td class="text-center">'
-                + ' <input id="checkBoxDelete'+value.id+'" class="check" status="check" type="checkbox"/>'
+                + ' <input id="checkBoxDelete'+value.id+'" class="check" projectID="id_'+value.id+'" status="check" type="checkbox"/>'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="editProject_'+value.id+'" class="btn btn-info" type="button">E</button>'
@@ -209,17 +209,7 @@ $('#data').on("click", "[id^=checkBoxDisable_]", function () {
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=checkBoxDelete]", function () {
-    var id = this.id.split('checkBoxDelete')[1];
-    if ($(this).prop('checked') == true) {
-        checkedRows.push(id);
-        //alert(">>> " + checkedRows + "..");
 
-    }
-    else {
-        var num = checkedRows.indexOf(id);
-        checkedRows.splice(num, 1);
-        //alert(">>> " + checkedRows + "..");
-    }
     var checkNum = $('input[status=check]').length;
     var checkBoxCheck =  $('input[status=check]:checked').length;
     if (checkBoxCheck == checkNum){
@@ -229,40 +219,25 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
     {
         $('#checkAll').prop('checked', false);
     }
-
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
-
-
     $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
-    //alert($('#data').find('tr').length);
-    $('[id^=checkBoxDelete]').each(function() {
-      var id =  this.id.split('checkBoxDelete')[1];
-        if ($('#checkBoxDelete' + id).prop('checked') == true) {
-                    num = checkedRows.indexOf(id)
-                    if (num != "")
-                    {
-                        checkedRows.push(id);
-                    }
-                }
-                else {
-                    num = checkedRows.indexOf(id);
-                    checkedRows.splice(num, 1);
-                }
-    });
-    //alert(">>> " + checkedRows + "..");
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $("#btnDelete").click(function () {
-    //alert(checkedRows.length);
-    var i = 0;
+    $('input[status^=check]:checked').each(function () {
+        if( $('input[status^=check]:checked'))
+        {
+            var roleCode = $(this).attr('projectID').split("id_")[1];
+            checkedRows.push(roleCode);
+        }
+    });
+    console.log(checkedRows);
     if (checkedRows.length > 0) {
         bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function (result) {
             if (result === true) {
-                for (i; checkedRows.length > i; i++) {
-                    //alert(checkedRows[i] + 555555555);
-                    //checkIdKey(i);
+                for (var i=0; checkedRows.length > i; i++) {
                     DeleteData(i);
                 }
                 bootbox.alert(" ลบข้อมูลสำเร็จ : " + DeSuccess + "  ลบข้อมูลไม่สำเร็จ : " + DeFail);
@@ -270,18 +245,12 @@ $("#btnDelete").click(function () {
                 DeFail = 0;
                 checkedRows = [];
                 $("#checkAll").attr('checked', false);
-
-            }
-            if (searchclick = true) {
-                $("#checkAll").attr('checked', false);
                 searchData();
             }
         });
     } else if (checkedRows.length == 0) {
-        $("#checkAll").attr('checked', false);
         bootbox.alert("กรุณาเลือกข้อมูลที่ต้องการลบ");
     }
-
 }); //-- deleteData--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function searchData() {
@@ -396,3 +365,9 @@ $("#close").click(function () {
     //searchData();
 }); //-- closeModal --//
 /////////////////////////////////////////////////////////////////////////////////////////////////
+$("[id^=paggingSimpleBtn]").click(function () {
+    if ($('#checkAll').prop('checked') == true){
+        $('#checkAll').prop('checked', false);
+    }
+}); //--paggingSimpleBtn--//
+//////////////////////////////////////////////////////////////////////////////////////////////////
