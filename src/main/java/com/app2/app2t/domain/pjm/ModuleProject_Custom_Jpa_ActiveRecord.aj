@@ -110,13 +110,13 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
             List<ModuleProject> moduleProject = criteria.list();
             for(int i=0 ; moduleProject.size() > i ;i++ ){
                 ModuleProject moduleProject1 = moduleProject.get(i);
-                LOGGER.error(">>>>>>>>>>>><<<<<[} :" +moduleProject1);
+//                LOGGER.error(">>>>>>>>>>>><<<<<[} :" +moduleProject1);
             }
 
             return criteria.list();
         }
         catch (Exception e) {
-            System.out.print(">>>>>>>>>>>>>>>>>>>>>>>."+e);
+
             return criteria.list();
         }
 

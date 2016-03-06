@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.*;
 
 privileged aspect Project_Custom_Jpa_ActiveRecord {
 
@@ -44,10 +43,11 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
     }
 
 
-    public static List<Project> Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage) {
-        EntityManager ent = Project.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class, "project");
+    public static Criteria Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage) {
+
         try {
+            Session session = (Session) Project.entityManager().getDelegate();
+            Criteria criteria = session.createCriteria(Project.class, "project");
             //-- FormatDate--//
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             //-- Startdate Select --//
@@ -97,22 +97,11 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             subCriteria.setProjection(Projections.property("project"));
             //----//
             criteria.add(Subqueries.propertyIn("project.id", subCriteria));
+            return criteria ;
         } catch (Exception e) {
             LOGGER.error(">>>{} :" + e);
         }
-        try
-        {
-            List<Project> projects = criteria.list();
-            for (int i = 0; projects.size() > i; i++) {
-                Project project = projects.get(i);
-                LOGGER.error("{}????????>>>" + project);
-            }
-        }
-        catch (IndexOutOfBoundsException e){
-            return  criteria.list();
-        }
-
-        return criteria.list();
+        return null;
     }
 
     public static Project Project.increseCostByModuleNameAndCodeProject(String projectCode,Integer increseCost,Integer totalCost) {
@@ -168,4 +157,21 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("id", projectID));
         return criteria.list();
     }
+
+    public static List<Project> Project.finProjectOfDataPagingData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage,Integer maxResult,Integer firstResult
+
+    ){
+        Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+    public static  Long Project.finProjectOfDataPagingSize(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage
+
+    ){
+        Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
 }
