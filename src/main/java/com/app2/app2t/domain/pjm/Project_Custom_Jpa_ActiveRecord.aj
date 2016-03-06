@@ -158,7 +158,15 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Project> Project.finProjectOfDataPagingData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage,Integer maxResult,Integer firstResult
+    public static List<Project> Project.finProjectOfDataPagingData(String StDateBegin,
+                                                                   String StDateEnd,
+                                                                   String FnDateBegin,
+                                                                   String FnDateEnd,
+                                                                   Integer costStart,
+                                                                   Integer costEnd,
+                                                                   String projectManage,
+                                                                   Integer maxResult,
+                                                                   Integer firstResult
 
     ){
         Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage)
@@ -166,7 +174,13 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
                 .setMaxResults(maxResult);
         return criteria.list();
     }
-    public static  Long Project.finProjectOfDataPagingSize(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage
+    public static  Long Project.finProjectOfDataPagingSize(String StDateBegin,
+                                                           String StDateEnd,
+                                                           String FnDateBegin,
+                                                           String FnDateEnd,
+                                                           Integer costStart,
+                                                           Integer costEnd,
+                                                           String projectManage
 
     ){
         Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage)
