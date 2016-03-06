@@ -18,10 +18,22 @@ $("#StDateBegin").on('change', function () {
     DateUtil.setMinDate('StDateBegin', 'StDateEnd');
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#calendarStartFrom').click(function () {
+    $( "#StDateBegin" ).focus();
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
+$('#calendarStartFrom').click(function () {
+    $( "#StDateBegin" ).focus();
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
 $("#StDateEnd").on('change', function () {
     DateUtil.setMaxDate('StDateEnd', 'StDateBegin');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#calendarStartTo').click(function () {
+    $( "#StDateEnd" ).focus();
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
 $("#FnDateBegin").datepicker(dateLang);
 $("#FnDateEnd").datepicker(dateLang);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,10 +41,18 @@ $("#FnDateBegin").on('change', function () {
     DateUtil.setMinDate('FnDateBegin', 'FnDateEnd');
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#calendarFnFrom').click(function () {
+    $( "#FnDateBegin" ).focus();
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
 $("#FnDateEnd").on('change', function () {
     DateUtil.setMaxDate('FnDateEnd', 'FnDateBegin');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#calendarFnTo').click(function () {
+    $( "#FnDateEnd" ).focus();
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////
 $("#search").click(function () {
 
     if ($('#StDateBegin').val() != "") {
@@ -83,6 +103,11 @@ $("#addProject").click(function () {
     window.location.href = contextPath + '/projects/createproject';
 }); //-- link Addproject --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#data').on("click", "[id^=editProject_]", function () {
+    var id =  this.id.split('editProject_')[1];
+    window.location.href = contextPath + '/projects/editproject?projectid='+id;
+}); //-- link editProject --//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=progress]", function () {
     var id =  this.id.split('progress')[1];
     console.log(id);
@@ -108,10 +133,10 @@ paggination.loadTable = function loadTable(jsonData) {
 
                 + '<tr  style="background-color: #fff">'
                 + '<td class="text-center">'
-                + ' <input id="checkBoxDisable_'+value.id+'" class="check" type="checkbox" disabled="disabled"/>'
+                + ' <input id="checkBoxDisable_'+value.id+'" class="check" type="checkbox"  />'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="editProject'+key+'" class="btn btn-info" type="button">E</button>'
+                + '<button id="editProject_'+value.id+'" class="btn btn-info" type="button">E</button>'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
@@ -142,10 +167,10 @@ paggination.loadTable = function loadTable(jsonData) {
 
                 + '<tr  style="background-color: #fff">'
                 + '<td class="text-center">'
-                + ' <input id="checkBoxDisable_'+value.id+'" class="check" type="checkbox"/>'
+                + ' <input id="checkBoxDelete'+value.id+'" class="check" status="check" type="checkbox"/>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="editProject'+key+'" class="btn btn-info" type="button">E</button>'
+                + '<button id="editProject_'+value.id+'" class="btn btn-info" type="button">E</button>'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
@@ -177,7 +202,14 @@ paggination.loadTable = function loadTable(jsonData) {
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=checkBoxDisable_]", function () {
+   bootbox.alert("ไม่สามารถลบข้อมูลนี้ได้");
     var id = this.id.split('checkBoxDisable_')[1];
+    $("#checkBoxDisable_"+id).attr('checked', false);
+
+}); //--checkDataDelete--//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$('#data').on("click", "[id^=checkBoxDelete]", function () {
+    var id = this.id.split('checkBoxDelete')[1];
     if ($(this).prop('checked') == true) {
         checkedRows.push(id);
         //alert(">>> " + checkedRows + "..");
@@ -188,9 +220,20 @@ $('#data').on("click", "[id^=checkBoxDisable_]", function () {
         checkedRows.splice(num, 1);
         //alert(">>> " + checkedRows + "..");
     }
+    var checkNum = $('input[status=check]').length;
+    var checkBoxCheck =  $('input[status=check]:checked').length;
+    if (checkBoxCheck == checkNum){
+        $('#checkAll').prop('checked', true);
+    }
+    else
+    {
+        $('#checkAll').prop('checked', false);
+    }
+
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
+
 
     $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
     //alert($('#data').find('tr').length);

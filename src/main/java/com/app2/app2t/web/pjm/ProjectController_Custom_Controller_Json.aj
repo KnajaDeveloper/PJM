@@ -70,19 +70,18 @@ privileged aspect ProjectController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try
         {
-            List<Project> result = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage );
+            List<Project> result = Project.finProjectOfDataPagingData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,maxResult,firstResult );
             List<Map<String,Object>> list = new ArrayList<>();
-            for(int i=firstResult;i<maxResult + firstResult && i < result.size() ;i++) {
-                Project ty = result.get(i);
+            for(Project project : result) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("projectName", ty.getProjectName());
-                map.put("projectCost", ty.getProjectCost());
-                map.put("dateStart", ty.getDateStart());
-                map.put("dateEnd", ty.getDateEnd());
-                map.put("id", ty.getId());
-                map.put("projectCode", ty.getProjectCode());
+                map.put("projectName", project.getProjectName());
+                map.put("projectCost", project.getProjectCost());
+                map.put("dateStart", project.getDateStart());
+                map.put("dateEnd", project.getDateEnd());
+                map.put("id", project.getId());
+                map.put("projectCode", project.getProjectCode());
                 list.add(map);
-
+//            LOGGER.error(list.toString()+",.............");
             }
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -106,10 +105,10 @@ privileged aspect ProjectController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try
         {
-            List<Project> result = Project.findProjectSearchData( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage);
-            Map data = new HashMap();
-            data.put("size", result.size());
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
+           Long result = Project.finProjectOfDataPagingSize( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage);
+            Map dataSendToFront = new HashMap();
+            dataSendToFront.put("size",result);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -206,6 +205,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 }
 
