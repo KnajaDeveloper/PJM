@@ -1,11 +1,6 @@
-/**
- * Created by Kiki Kung on 1/3/2559.
- */
-
 _language = commonData.language;
 
 $(document).ready(function () {
-
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=UTF-8",
@@ -13,49 +8,47 @@ $(document).ready(function () {
         headers: {
             Accept: "application/json"
         },
-        url: contextPath + '/pjmmenus/findAppMenu',
+        url: contextPath + '/menus/findAppMenu',
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
-                $.each(data, function (k, menu) {
+                
+                $('#menuContainer').empty();
+
+                $.each(data, function (key, menu) {
                     var menuName = menu.menu_e_name;
                     if (_language == 'TH') {
                         menuName = menu.menu_t_name;
                     }
 
                     if (menu.menuLevel == 0) {
-                        $('#menubar').append('<li> <a id="menuLv0_' + menu.id + '" href="#">' + menuName + '</a> </li>');
+                        $('#menuContainer').append('<li><a menuLv0="'+ menu.id +'" href="#" data-toggle="collapse"><span class="icon fa '+ menu.menuIcon +'"></span><span class="title">'+ menuName +'</span></a></li>');
                     } else if (menu.menuLevel == 1) {
-                        var elmMenu = $('#menuLv0_' + menu.parent);
-                        if (!elmMenu.parent().hasClass('dropdown')) {
-                            var elmDropdown = elmMenu.parent().children(':first');
-                            var menuDropdownId = elmDropdown[0].id.split('_')[1];
-                            elmMenu.parent().addClass('dropdown');
-                            elmMenu.parent().append('<ul id="menuLv1_' + menuDropdownId + '" class="dropdown-menu">' +
-                                '<li><a id="menuLv2_' + menu.id + '" href="#">' + menuName + '</a></li>' +
-                                '</ul>');
-
-                            elmMenu.addClass('dropdown-toggle');
-                            elmMenu.attr('data-toggle', 'dropdown');
-                            elmMenu.attr('role', 'button');
-                            elmMenu.attr('aria-haspopup', 'true');
-                            elmMenu.attr('aria-expanded', 'false');
-                            elmMenu.append(' <span class="caret"></span>');
+                        var menuLv0 = $('[menuLv0='+ menu.parent +']');
+                        if (menuLv0.parent().hasClass('dropdown')) {
+                            $('#dropdown_menuLv0_' + menu.parent).children().children().append('<li><a menuLv1="'+ menu.id +'" href="#" data-toggle="collapse">'+ menuName +'</a></li>');
                         } else {
-                            $('#menuLv1_' + menu.parent).append('<li><a id="menuLv2_' + menu.id + '" href="#">' + menuName + '</a></li>');
+                            menuLv0.parent().addClass('panel panel-default dropdown');
+                            menuLv0.attr('href', '#dropdown_menuLv0_' + menuLv0.attr('menuLv0'));
+                            menuLv0.parent().append('<div id="dropdown_menuLv0_' + menuLv0.attr('menuLv0') + '" class="panel-collapse collapse"> \n\
+                                <div class="panel-body"> \n\
+                                <ul class="nav navbar-nav"> \n\
+                                <li><a menuLv1="'+ menu.id +'" href="#" data-toggle="collapse">'+ menuName +'</a></li> \n\
+                                </ul> \n\
+                                </div>');
                         }
                     } else if (menu.menuLevel == 2) {
-                        var elmMenu = $('#menuLv2_' + menu.parent);
-
-                        if (!elmMenu.parent().hasClass('dropdown-submenu')) {
-                            var elmDropdown = elmMenu.parent().children(':first');
-                            var menuDropdownId = elmDropdown[0].id.split('_')[1];
-
-                            elmMenu.parent().addClass('dropdown-submenu');
-                            elmMenu.parent().append('<ul id="menuLv3_' + menuDropdownId + '" class="dropdown-menu">' +
-                                '<li><a href="#">' + menuName + '</a></li>' +
-                                '</ul>');
+                        var menuLv1 = $('[menuLv1='+ menu.parent +']');
+                        if (menuLv1.parent().hasClass('dropdown')) {
+                            $('#dropdown_menuLv1_' + menu.parent).children().children().append('<li><a menuLv2="'+ menu.id +'" href="#" data-toggle="collapse">'+ menuName +'</a></li>');
                         } else {
-                            $('#menuLv3_' + menu.parent).append('<li><a href="#">' + menuName + '</a></li>');
+                            menuLv1.parent().addClass('panel panel-default dropdown dropdown2');
+                            menuLv1.attr('href', '#dropdown_menuLv1_' + menuLv1.attr('menuLv1'));
+                            menuLv1.parent().append('<div id="dropdown_menuLv1_' + menuLv1.attr('menuLv1') + '" class="panel-collapse collapse"> \n\
+                                <div class="panel-body"> \n\
+                                <ul class="nav navbar-nav"> \n\
+                                <li><a menuLv2="'+ menu.id +'" href="#" data-toggle="collapse">'+ menuName +'</a></li> \n\
+                                </ul> \n\
+                                </div>');
                         }
                     }
                 });
@@ -63,6 +56,4 @@ $(document).ready(function () {
         },
         async: false
     });
-
-
 });

@@ -269,16 +269,14 @@
                                 </select>
                                 <div id="grpTaskType">
                                     <br/>
-                                    <div class="checkbox3 checkbox-check checkbox-light">
-                                        <input type="checkbox" id="checkMyTask"/>
-                                        <label for="checkMyTask">
-                                          ${LABEL_PRIVEATE_TASK}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="checkMyTask"/>${LABEL_PRIVEATE_TASK}
                                         </label>
                                     </div>
-                                    <div class="checkbox3 checkbox-check checkbox-light">
-                                        <input type="checkbox" id="checkOtherTask"/>
-                                        <label for="checkOtherTask">
-                                          ${LABEL_PUBLIC_TASK}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="checkOtherTask"/>${LABEL_PUBLIC_TASK}
                                         </label>
                                     </div>
                                 </div>
@@ -368,15 +366,15 @@
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3">${LABEL_PLAN_NAME} </label>
+                            <label class="control-label col-xs-4">${LABEL_PLAN_NAME} </label>
 
-                            <div class="col-xs-8">
+                            <div class="col-xs-6">
                                 <label id="lblAddNameWork" class="control-label text-left full-label"></label>
                             </div>
                         </div>
                         <div id="grpAddDate">
                             <div class="form-group">
-                                <label class="control-label col-xs-3 required">${LABEL_DATE_BEGIN} </label>
+                                <label class="control-label col-xs-4 required">${LABEL_DATE_BEGIN} </label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">
@@ -389,7 +387,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-3 required">${LABEL_DATE_END} </label>
+                                <label class="control-label col-xs-4 required">${LABEL_DATE_END} </label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">
@@ -403,23 +401,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-8 col-xs-offset-3">
+                            <div class="col-sm-6 col-xs-offset-4">
                                 <button id="btnAddTime" type="button" class="btn btn-primary">${BUTTON_ADD_DURATION}</button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3">${LABEL_NOTE} </label>
+                            <label class="control-label col-xs-4">${LABEL_NOTE} </label>
 
-                            <div class="col-xs-8">
+                            <div class="col-xs-6">
                                 <textarea id="txtAddNote" class="form-control" rows="5">.</textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
+                            <label class="control-label col-xs-4 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
                                 <label class="radio-inline" for="radioNoPostpone_add">
-                                    <input type="radio" id="radioNoPostpone_add" name="optradio"/> ${LABEL_NOT_SHIFT}
+                                    <input type="radio" id="radioNoPostpone_add" name="optradio" checked=""/> ${LABEL_NOT_SHIFT}
                                 </label>
                                 <label class="radio-inline" for="radioPostpone_add">
                                     <input type="radio" id="radioPostpone_add" name="optradio"/> ${LABEL_SHIFT}
@@ -432,11 +430,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="modal-footer">
-                        <button id="btnSaveAddPlan" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
-                        <button id="btnCancelAddPlan" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
-                        <button id="btnCancelTask" type="button" class="btn btn-danger">${BUTTON_LEAVE}</button>
-                    </div>
+                    <button id="btnSaveAddPlan" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+                    <button id="btnCancelAddPlan" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                    <button id="btnCancelTask" type="button" class="btn btn-danger">${BUTTON_LEAVE}</button>
                 </div>
             </div>
         </div>
@@ -504,20 +500,13 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-4 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
-
                             <div class="col-sm-6">
-                                <div class="radio3 radio-check radio-inline radio-light">
-                                    <input type="radio" id="radioNoPostpone_edit" name="optradio" checked=""/>
-                                    <label for="radioNoPostpone_edit">
-                                        ${LABEL_NOT_SHIFT}
-                                    </label>
-                                </div>
-                                <div class="radio3 radio-check radio-inline radio-light">
-                                    <input type="radio" id="radioPostpone_edit" name="optradio"/>
-                                    <label for="radioPostpone_edit">
-                                        ${LABEL_SHIFT}
-                                    </label>
-                                </div>
+                                <label class="radio-inline" for="radioNoPostpone_edit">
+                                    <input type="radio" id="radioNoPostpone_edit" name="optradio"/> ${LABEL_NOT_SHIFT}
+                                </label>
+                                <label class="radio-inline" for="radioPostpone_edit">
+                                    <input type="radio" id="radioPostpone_edit" name="optradio"/> ${LABEL_SHIFT}
+                                </label>
                             </div>
                         </div>
 

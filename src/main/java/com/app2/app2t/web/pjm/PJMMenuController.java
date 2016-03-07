@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RequestMapping("/pjmmenus")
+@RequestMapping("/menus")
 @Controller
 public class PJMMenuController {
 	@Autowired

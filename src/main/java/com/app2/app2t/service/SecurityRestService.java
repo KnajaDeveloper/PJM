@@ -27,23 +27,11 @@ public class SecurityRestService extends AbstractAPP2Service {
         try {
             setWebServicesString("http://" + this.APP2Server + "/security/findAppMenuByAppRoleCode?appRoleCode=" + appRoleCode);
             if (!getResultString().equals("[{}]")) {
-                String json = getResultString();
-                JSONArray jsonArray = new JSONArray(json);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject obj = jsonArray.getJSONObject(i);
-                    Map map = new HashMap();
-                    map.put("id", Integer.parseInt(obj.get("id").toString()));
-                    map.put("sequent", Integer.parseInt(obj.get("sequent").toString()));
-                    map.put("link", obj.get("link"));
-                    map.put("parent", obj.get("parent"));
-                    map.put("menuLevel", obj.get("menuLevel"));
-                    map.put("controller", obj.get("controller"));
-                    map.put("menu_t_name", obj.get("menu_t_name"));
-                    map.put("menu_e_name", obj.get("menu_e_name"));
-                    listMap.add(map);
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
                 }
             }
-
             return listMap;
         } catch (Exception e) {
             LOGGER.error("Error : {}", e.getMessage());
