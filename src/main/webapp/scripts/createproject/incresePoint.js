@@ -32,6 +32,7 @@ $("#btnSaveIncreseCostModule").click(function(){
 		async: false
 	});
 	changeCostLabelModule(textNewCost);
+	$("#modalIncreseCost").modal('hide')
 	return true;
 });
 

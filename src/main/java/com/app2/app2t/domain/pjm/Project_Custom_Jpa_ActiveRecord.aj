@@ -188,4 +188,17 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return (Long) criteria.uniqueResult();
     }
 
+    public static Project Project.updateProjectByIdProject(long id,String projectCode, String projectName, Integer projectCost, Date dateStart, Date dateEnd) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        List<Project> listProject = Project.findProjectByIdProject(id);
+        Project project = listProject.get(0);
+        project.setProjectCode(projectCode);
+        project.setProjectName(projectName);
+        project.setProjectCost(projectCost);
+        project.setDateStart(dateStart);
+        project.setDateEnd(dateEnd);
+        project.merge();
+        return project;
+    }
 }

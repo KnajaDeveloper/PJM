@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.fasterxml.jackson.databind.Module;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -136,4 +137,13 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("moduleCode", moduleCode));
         return criteria.list();
      }
+
+    public static void ModuleProject.deleteModuleByModuleCode(String moduleCode) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("moduleCode", moduleCode));
+        List<ModuleProject> moduleProjectList = criteria.list();
+        ModuleProject moduleProject = moduleProjectList.get(0);
+        moduleProject.remove();
+    }
 }

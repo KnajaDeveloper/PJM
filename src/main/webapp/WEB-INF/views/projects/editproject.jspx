@@ -67,7 +67,7 @@
 					</div>
 					<label class="col-sm-1 control-label required " >${LABEL_COST}</label>
 					<div class="col-sm-2 input-group">
-						<input type="text" class="form-control marginLeft5" id="txtCostsProject" data-placement="bottom"></input>
+						<input type="text" class="form-control marginLeft5" id="txtCostsProject" data-placement="bottom" readonly="true"></input>
 						<span class="input-group-addon">${LABEL_POINT}</span>
 						<span id="btnIncresePoint" type="button" class="form-control btn btn-primary text-center" data-toggle="modal" data-target="#modalIncreseCost">+</span>
 					</div>
@@ -116,8 +116,8 @@
 
 				<div class='text-center'>
 					<br/>
-					<button id='btnSaveProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
-					<button id='btnResetProject' class='btn btn-danger btnAddPM' type='button'>${BUTTON_RESET}</button>
+					<button id='btnSaveEditProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
+					<!--<button id='btnResetEditProject' class='btn btn-danger btnAddPM' type='button'>${BUTTON_RESET}</button>-->
 				</div>
 
 				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog">
@@ -204,7 +204,7 @@
 		                    </div>
 		                    <div class="modal-footer">
 		                    	<br/>
-		                        <button type="button" id="btnSaveModule" class="btn btn-primary">${BUTTON_SAVE}</button>
+		                        <button type="button" id="btnSaveModule1" class="btn btn-primary">${BUTTON_SAVE}</button>
 		                        <button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
 		                    </div>
 		                </div>
@@ -294,7 +294,7 @@
 		                    </div>
 		                    <div class="modal-footer">
 		                    	<br/>
-		                        <button type="button" id="btnEditSaveModule" onclick="saveEditModule(this)" class="btn btn-primary">${BUTTON_SAVE}</button>
+		                        <button type="button" id="btnEditSaveModule" onclick="saveEditModule_(this)" class="btn btn-primary">${BUTTON_SAVE}</button>
 		                        <button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
 		                    </div>
 		                </div>
