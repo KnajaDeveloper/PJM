@@ -83,3 +83,27 @@ function findSameModuleCode(){
     if(returnSize != 0) return false;
     return true;
 }
+
+function findSameModuleCodeWhenEdit(editModuleName){
+	if(editModuleName==$('#txtEditInitialModuleName1').val()) return true;
+	var dataJsonData = {
+		moduleCode:$('#txtEditInitialModuleName1').val()
+    }
+
+    var size = $.ajax({
+		type: "GET",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		headers: {
+			Accept: "application/json"
+		},
+		url: contextPath + '/moduleprojects/findModuleByModuleCode',
+		data : dataJsonData,
+		complete: function(xhr){
+		},
+		async: false
+	});
+    var returnSize = jQuery.parseJSON(size.responseText);
+    if(returnSize != 0) return false;
+    return true;
+}

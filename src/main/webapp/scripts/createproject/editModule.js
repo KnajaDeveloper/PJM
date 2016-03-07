@@ -22,7 +22,7 @@ function editDataModuleInDB(){
 		url: contextPath + '/moduleprojects/editModuleProjectByModuleProjectCode',
 		data : crateModuleProject,
 		complete: function(xhr){
-			if(xhr.status === 201){
+			if(xhr.status === 201 || xhr.status === 200){
 				bootbox.alert("Edit Success");
 				return true;
 			}else if(xhr.status === 500){

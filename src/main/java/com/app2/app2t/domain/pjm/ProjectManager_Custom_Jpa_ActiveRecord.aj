@@ -54,5 +54,16 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static void ProjectManager.updateProjectManagerByProjectID(Project project,String[] empCode) {
+        EntityManager ent = ProjectManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class);
+        for(String name : empCode){
+            ProjectManager pjm = new ProjectManager();
+            pjm.setEmpCode(name);
+            pjm.setProject(project);
+            pjm.merge();
+        }
+    }
+
 
 }

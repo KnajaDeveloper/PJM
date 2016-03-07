@@ -191,8 +191,16 @@ privileged aspect ProjectController_Custom_Controller_Json {
             List<Project> dataProject = Project.findProjectByIdProject(projectID);
             List<ProjectManager> dataProjectManager = ProjectManager.findManagerByProject(dataProject.get(0));
             List<ModuleProject> dataModuleProject = ModuleProject.findAllNameModuleByProjectCode(dataProject.get(0));
-            List<ModuleManager> dataModuleManager = ModuleManager.findModuleManagerByModuleProject(dataModuleProject.get(0));
-            List<ModuleMember> dataModuleMember = ModuleMember.findModuleMemberByModuleProject(dataModuleProject.get(0));
+            List<List<ModuleManager>> dataModuleManager = new ArrayList<>();
+            List<List<ModuleMember>> dataModuleMember = new ArrayList<>();
+            for(int i = 0 ; i < dataModuleProject.size() ; i++){
+                List<ModuleManager> getData = ModuleManager.findModuleManagerByModuleProject(dataModuleProject.get(i));
+                dataModuleManager.add(getData);
+            }
+            for(int i = 0 ; i < dataModuleProject.size() ; i++){
+                List<ModuleMember> getData = ModuleMember.findModuleMemberByModuleProject(dataModuleProject.get(i));
+                dataModuleMember.add(getData);
+            }
             Map<String,Object> result = new HashMap<>();
             result.put("Project",dataProject);
             result.put("ProjectManager",dataProjectManager);
@@ -200,6 +208,29 @@ privileged aspect ProjectController_Custom_Controller_Json {
             result.put("ModuleManager",dataModuleManager);
             result.put("ModuleMember",dataModuleMember);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/updateProjectByIdProject",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.updateProjectByIdProject(
+            @RequestParam(value = "projectID", required = false) long projectID,
+            @RequestParam(value = "projectCode", required = false) String projectCode,
+            @RequestParam(value = "projectName", required = false) String projectName,
+            @RequestParam(value = "projectCost", required = false) Integer projectCost,
+            @RequestParam(value = "dateStart", required = false) Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "arr_ProjectManager", required = false) String arr_ProjectManager
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            String[] arrPJM = arr_ProjectManager.split("==");
+            Project project = Project.updateProjectByIdProject(projectID, projectCode, projectName, projectCost, dateStart, dateEnd);
+            ProjectManager.updateProjectManagerByProjectID(project, arrPJM);
+            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
