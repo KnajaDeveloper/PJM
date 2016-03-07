@@ -93,10 +93,8 @@ $(document).ready(function () {
 					$('#grpTaskType').append('<div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" value="' + v.id + '"/><label for="checkOtherTask">'+v.id+'</label></div>');
                 });
             }
-			                        
-			$('#grpTaskType').append('<br/><div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" id="checkMyTask"/><label for="checkMyTask">'+MESSAGE.CHECKBOX_PRIVATE_TASK+'</label></div>');
-			$('#grpTaskType').append('<div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" id="checkOtherTask"/><label for="checkOtherTask">'+MESSAGE.CHECKBOX_PUBLIC_TASK+'</label></div>');
-           
+			$('#grpTaskType').append('<br/><div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
+			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkOtherTask"/>'+ MESSAGE.CHECKBOX_PUBLIC_TASK +'</label></div>');
         },
         async: false
     });

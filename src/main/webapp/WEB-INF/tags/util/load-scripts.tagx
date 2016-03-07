@@ -85,7 +85,9 @@
   <spring:url value="/resources/scripts/selectize.js" var="selectize_js_url" />
   <spring:url value="/resources/scripts/selectize.min.js" var="selectize_min_js_url" />
   <!--<spring:url value="/resources/scripts/Util/UtilScript.js" var="util_script_js" />-->
-
+  <!-- Menu -->
+  <spring:url value="/resources/scripts/Menu/menu.js" var="menu_js_url" />
+  
   <!-- flat design -->
   <spring:url value="/resources/scripts/bootstrap-switch.min.js" var="bootstrap_switch_min_js_url" />
   <spring:url value="/resources/scripts/jquery.matchHeight-min.js" var="jquery_matchHeight_min_js_url" />
@@ -117,5 +119,8 @@
   <script src="${jquery_matchHeight_min_js_url}" type="text/javascript"><!--  --></script>
   <script src="${select2_full_min_js_url}" type="text/javascript"><!--  --></script>
   <script src="${app_js_url}" type="text/javascript"><!--  --></script>
+
+  <!-- Menu -->
+  <script src="${menu_js_url}" type="text/javascript"><!--  --></script>
 
 </jsp:root>
