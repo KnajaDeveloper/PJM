@@ -65,14 +65,20 @@ function sendData() {
         if (_language == "TH"){
             plusYear = 543;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                + '&dateStartBase=' + convertdataDate(dateStart)
+                + '&dateEndBase=' + convertdataDate(dateEnd)
                 + '&dateStart=' + dateStart
                 + '&dateEnd=' + dateEnd
                 + '&printDate=' + printDate
                 + '&plusYear='+ plusYear;
 
-        }else if(_language == "EN"){
+
+
+        }else if(_language == "EN" ||_language=='EN_US'){
             plusYear = 0;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                + '&dateStartBase=' + convertdataDate(dateStart)
+                + '&dateEndBase=' + convertdataDate(dateEnd)
                 + '&dateStart=' + dateStart
                 + '&dateEnd=' + dateEnd
                 + '&printDate=' + printDate
@@ -81,6 +87,18 @@ function sendData() {
 
 
 
+
+    }
+    function  convertdataDate(date){
+        var splitDate =date.split('/');
+        var dateresult="";
+        if(_language=='EN'||_language=='EN_US'){
+            dateresult = splitDate[0]+"/"+splitDate[1] +"/"+ splitDate[2];
+        }else if(_language=='TH'){
+            dateresult =  splitDate[0]+"/"+ splitDate[1]+"/"+ (parseInt(splitDate[2])-543);
+        }
+
+        return dateresult;
 
     }
 }

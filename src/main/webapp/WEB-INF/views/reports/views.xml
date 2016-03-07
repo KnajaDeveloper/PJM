@@ -5,7 +5,7 @@
     <definition extends="default" name="reports/PJMRP01">
         <put-attribute name="body" value="/WEB-INF/views/reports/PJMRP01.jspx"/>
     </definition>
-    <definition extends="default" name="reports/report002">
+    <definition extends="default" name="reports/PJMRP02">
         <put-attribute name="body" value="/WEB-INF/views/reports/PJMRP02.jspx"/>
     </definition>
 </tiles-definitions>

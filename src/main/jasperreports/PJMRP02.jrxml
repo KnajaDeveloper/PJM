@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP02" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
+	<property name="ireport.zoom" value="0.9330147604194858"/>
+	<property name="ireport.x" value="62"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FA8F00">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFF4E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="fTitle" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fPrintName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="printFName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="printLName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="fPrintDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="printDate" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fProjectName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fModuleName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tDateStart" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="tDateEnd" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="tPoint" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="total" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fTaskName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PlusYear" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="fTaskCode" class="java.lang.String"/>
+	<parameter name="projectName" class="java.lang.String"/>
+	<parameter name="moduleName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select  * from pjmrp02]]>
+	</queryString>
+	<field name="TASKCODE" class="java.lang.String"/>
+	<field name="TASKNAME" class="java.lang.String"/>
+	<field name="EN_TDATESTART" class="java.lang.String"/>
+	<field name="EN_TYEARSTART" class="java.lang.String"/>
+	<field name="EN_TDATEEND" class="java.lang.String"/>
+	<field name="EN_TYEAREND" class="java.lang.String"/>
+	<field name="TASKCOST" class="java.lang.Integer"/>
+	<field name="MODULENAME" class="java.lang.String"/>
+	<field name="PROJECTCODE" class="java.lang.String"/>
+	<field name="PROJECTNAME" class="java.lang.String"/>
+	<field name="MODULECODE" class="java.lang.String"/>
+	<variable name="sumPoint" class="java.lang.Integer" resetType="Group" resetGroup="report" calculation="Sum">
+		<variableExpression><![CDATA[$F{TASKCOST}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<group name="FModuleName">
+		<groupExpression><![CDATA[$F{MODULENAME}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<textField>
+					<reportElement uuid="e4bde487-b207-4b8d-90b0-b0db37eb171d" x="0" y="0" width="802" height="27"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MODULENAME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="report">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="78d89b12-08be-419f-9f68-d1df234eae80" mode="Transparent" x="203" y="0" width="192" height="27" backcolor="#CCCCFF"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{fTaskName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="56781f93-278a-402e-9fd1-70607ec9bca4" x="0" y="0" width="203" height="27"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{fTaskCode}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="b0c59b40-100a-4a37-add5-55fd73f2202c" x="395" y="0" width="147" height="27"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tDateStart}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="c198ea13-2116-4e5a-8f59-f8138df5a9c9" x="542" y="0" width="142" height="27"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tDateEnd}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="a8c86846-c9d9-4a78-824b-3a259c3eb1ec" x="684" y="0" width="118" height="27"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tPoint}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="9116fa37-be7c-4839-bca0-411a9e78f4cc" mode="Transparent" x="0" y="0" width="684" height="25" backcolor="#6699FF"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d1b8e154-d314-445a-82c6-7db88854713e" x="684" y="0" width="118" height="25"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumPoint}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="63b33197-5858-439d-aafe-17dab4157351" mode="Transparent" x="0" y="0" width="802" height="32" backcolor="#B7CEFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="542" y="21" width="142" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{printDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="31353aae-9acd-40cf-aa3b-009cbd415670" x="395" y="0" width="147" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fPrintName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="06f70bee-a98c-45c2-856a-fe54b877c404" x="395" y="21" width="147" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fPrintDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="542" y="0" width="142" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{printFName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="dc993c52-d871-450b-b243-f340805294a1" x="684" y="0" width="118" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{printLName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3f5e8313-4f82-48dd-b18a-f930a7fc3341" mode="Transparent" x="0" y="0" width="203" height="21" backcolor="#CCCCFF"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fProjectName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4d9b6fd4-37e1-4621-9d07-126fdfd055b3" mode="Transparent" x="0" y="21" width="203" height="20" backcolor="#CCCCFF"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fModuleName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="381c8009-c113-4103-bb89-ce5f52f2a990" x="203" y="0" width="192" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROJECTNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f691ce37-82fe-478f-971d-8c6c2e971246" x="203" y="21" width="192" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moduleName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement uuid="eba2d6be-ace6-4fe2-995c-25051b899566" x="203" y="0" width="192" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TASKNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="623bc493-e277-4d0f-a3ae-68404ca26c6f" x="0" y="0" width="203" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TASKCODE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9379f994-d015-4a0c-ac8a-dd1dc8bdbd8e" x="395" y="0" width="147" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EN_TDATESTART}+$F{EN_TYEARSTART}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="282b9a24-e227-4614-b3ba-1bf8eb88700a" x="542" y="0" width="142" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EN_TDATEEND}+$F{EN_TYEAREND}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="b8f2b1a3-9333-4d3b-8281-34cfab60deb4" x="684" y="0" width="118" height="26"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="4f67e882-007f-4104-a279-bac5ecc3c8fd" x="684" y="0" width="118" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TASKCOST}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="134" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
