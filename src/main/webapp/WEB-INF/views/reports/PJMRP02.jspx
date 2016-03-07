@@ -23,12 +23,9 @@
 
 
                                 <div class="col-xs-5">
-
-
-                                    <select class="form-control"  id="ddlProject" name="ddlProject">
-                                        <option>กรุณาเลือก</option>
+                                    <select class="form-control "  id="ddlProject" name="ddlProject" data-placement="bottom">
+                                        <jsp:text/>
                                     </select>
-
                                 </div>
 
                             </div>
@@ -40,7 +37,7 @@
                             <div class="form-group col-xs-12">
                                 <label class="control-label col-xs-4">โมดูล</label>
                                 <div class="col-xs-5">
-                                    <select class="form-control"  id="ddlProject" name="ddlProject">
+                                    <select class="form-control"  id="ddlModule" name="ddlModule" >
                                         <option>กรุณาเลือก</option>
                                     </select>
                                 </div>
@@ -70,8 +67,8 @@
     </div>
 
 
-    <spring:url value="/resources/scripts/report/report002.js" var="report002"/>
-    <script src="${report002}" type="text/javascript"><!--Not Empty --></script>
+    <spring:url value="/resources/scripts/report/PJMRP02.js" var="PJMRP02"/>
+    <script src="${PJMRP02}" type="text/javascript"><!--Not Empty --></script>
 
 
     <script>

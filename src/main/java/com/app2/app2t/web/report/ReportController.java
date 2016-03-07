@@ -31,7 +31,7 @@ import java.util.Map;
 
 @RequestMapping("/reports")
 @Controller
-public class ReportController extends AbstractReportJasperXLS{
+public class ReportController extends AbstractReportJasperXLS {
 
     protected Logger LOGGER = LoggerFactory.getLogger(ReportController.class);
 
@@ -49,11 +49,10 @@ public class ReportController extends AbstractReportJasperXLS{
     //------JSPX 002----------------------------------------------------------------------------------------
 
     @RequestMapping(value = "/PJMRP02", produces = "text/html")
-    public String report002(Model uiModel) {
+    public String PJMRP02(Model uiModel) {
 
         return "reports/PJMRP02";
     }
-
 
 
 //------Export 01--------------------------------------------------------------------------------------
@@ -61,20 +60,21 @@ public class ReportController extends AbstractReportJasperXLS{
     @RequestMapping(value = "/exportPJMRP01", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
-            //value รับค่าจาก js เก็บ string ตรงกับใน function
-            , @RequestParam(value = "empCode", required = false)String empCode
-            , @RequestParam(value = "dateStart", required = false)String dateStart
-            , @RequestParam(value = "dateEnd", required = false)String dateEnd
-            , @RequestParam(value = "printDate", required = false)String printDate
-            , @RequestParam(value = "plusYear", required = false)Integer plusYear
+                           //value รับค่าจาก js เก็บ string ตรงกับใน function
+            , @RequestParam(value = "empCode", required = false) String empCode
+            , @RequestParam(value = "dateStartBase", required = false) String dateStartBase
+            , @RequestParam(value = "dateEndBase", required = false) String dateEndBase
+            , @RequestParam(value = "dateStart", required = false) String dateStart
+            , @RequestParam(value = "dateEnd", required = false) String dateEnd
+            , @RequestParam(value = "printDate", required = false) String printDate
+            , @RequestParam(value = "plusYear", required = false) Integer plusYear
 
 
-
-    ) throws ParseException{
-        LOGGER.debug(dateStart);
-        LOGGER.debug(dateEnd);
+    ) throws ParseException {
+        LOGGER.debug(dateStartBase);
+        LOGGER.debug(dateEndBase);
 //-------------------------------------------------------------------------------------
-        List<Map> listMap = emRestService.getEmpNameByEmpCode(empCode) ;
+        List<Map> listMap = emRestService.getEmpNameByEmpCode(empCode);
         Map<String, String> map = listMap.get(0);
 
         String Fname = map.get("Fname");
@@ -86,14 +86,12 @@ public class ReportController extends AbstractReportJasperXLS{
 //-------------------------------------------------------------------------------------
         //emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ส่งไป service
         //List<Map> listMapp return มาเก็บไว้ ใน listmapp
-        List<Map> listMapp = emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ;
+        List<Map> listMapp = emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName());
         Map<String, String> mapp = listMapp.get(0);
 
         String UFname = mapp.get("UFname");
         String ULname = mapp.get("ULname");
 
-        LOGGER.debug(Fname);
-        LOGGER.debug(Lname);
         LOGGER.debug(UFname);
         LOGGER.debug(ULname);
 
@@ -104,40 +102,40 @@ public class ReportController extends AbstractReportJasperXLS{
 
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("fTitle",getLabelFromPropertiesFile("L0002"));
-        params.put("fempName",getLabelFromPropertiesFile("L0003"));
-        params.put("fDateStart",getLabelFromPropertiesFile("L0004"));
-        params.put("fDateEnd",getLabelFromPropertiesFile("L0005"));
-        params.put("fPrintName",getLabelFromPropertiesFile("L0006"));
-        params.put("fPrintDate",getLabelFromPropertiesFile("L0007"));
-        params.put("fProjectName",getLabelFromPropertiesFile("L0008"));
-        params.put("fModuleName",getLabelFromPropertiesFile("L0009"));
-        params.put("tDateStart",getLabelFromPropertiesFile("L0010"));
-        params.put("tDateEnd",getLabelFromPropertiesFile("L0011"));
-        params.put("total",getLabelFromPropertiesFile("L0012"));
-        params.put("January",getLabelFromPropertiesFile("L0013"));
-        params.put("February",getLabelFromPropertiesFile("L0014"));
-        params.put("March",getLabelFromPropertiesFile("L0015"));
-        params.put("April",getLabelFromPropertiesFile("L0016"));
-        params.put("May",getLabelFromPropertiesFile("L0017"));
-        params.put("June",getLabelFromPropertiesFile("L0018"));
-        params.put("July",getLabelFromPropertiesFile("L0019"));
-        params.put("August",getLabelFromPropertiesFile("L0020"));
-        params.put("September",getLabelFromPropertiesFile("L0021"));
-        params.put("October",getLabelFromPropertiesFile("L0022"));
-        params.put("November",getLabelFromPropertiesFile("L0023"));
-        params.put("December",getLabelFromPropertiesFile("L0024"));
-        params.put("Error",getLabelFromPropertiesFile("L0025"));
-        params.put("fTaskName",getLabelFromPropertiesFile("L0028"));
-        params.put("tPoint",getLabelFromPropertiesFile("L0030"));
-        params.put("dateStart",dateStart);
-        params.put("dateEnd",dateEnd);
-        params.put("printDate",printDate);
-        params.put("PlusYear",plusYear);
-        params.put("EMP_FIRST_NAME",Fname);
-        params.put("EMP_LAST_NAME",Lname);
-        params.put("printFName",UFname);
-        params.put("printLName",ULname);
+        params.put("fTitle", getLabelFromPropertiesFile("L0002"));
+        params.put("fempName", getLabelFromPropertiesFile("L0003"));
+        params.put("fDateStart", getLabelFromPropertiesFile("L0004"));
+        params.put("fDateEnd", getLabelFromPropertiesFile("L0005"));
+        params.put("fPrintName", getLabelFromPropertiesFile("L0006"));
+        params.put("fPrintDate", getLabelFromPropertiesFile("L0007"));
+        params.put("fProjectName", getLabelFromPropertiesFile("L0008"));
+        params.put("fModuleName", getLabelFromPropertiesFile("L0009"));
+        params.put("tDateStart", getLabelFromPropertiesFile("L0010"));
+        params.put("tDateEnd", getLabelFromPropertiesFile("L0011"));
+        params.put("total", getLabelFromPropertiesFile("L0012"));
+        params.put("January", getLabelFromPropertiesFile("L0013"));
+        params.put("February", getLabelFromPropertiesFile("L0014"));
+        params.put("March", getLabelFromPropertiesFile("L0015"));
+        params.put("April", getLabelFromPropertiesFile("L0016"));
+        params.put("May", getLabelFromPropertiesFile("L0017"));
+        params.put("June", getLabelFromPropertiesFile("L0018"));
+        params.put("July", getLabelFromPropertiesFile("L0019"));
+        params.put("August", getLabelFromPropertiesFile("L0020"));
+        params.put("September", getLabelFromPropertiesFile("L0021"));
+        params.put("October", getLabelFromPropertiesFile("L0022"));
+        params.put("November", getLabelFromPropertiesFile("L0023"));
+        params.put("December", getLabelFromPropertiesFile("L0024"));
+        params.put("Error", getLabelFromPropertiesFile("L0025"));
+        params.put("fTaskName", getLabelFromPropertiesFile("L0028"));
+        params.put("tPoint", getLabelFromPropertiesFile("L0030"));
+        params.put("dateStart", dateStart);
+        params.put("dateEnd", dateEnd);
+        params.put("printDate", printDate);
+        params.put("PlusYear", plusYear);
+        params.put("EmpFirstName", Fname);
+        params.put("EmpLastName", Lname);
+        params.put("printFName", UFname);
+        params.put("printLName", ULname);
 
 
         StringBuilder sqlQuery = new StringBuilder();
@@ -145,18 +143,19 @@ public class ReportController extends AbstractReportJasperXLS{
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP01 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
         sqlQuery.append(" SELECT * FROM PJMRP01 WHERE EMPCODE = ? ");
         sqlQuery.append(" and DATESTART >= ? and DATEEND <= ? ");
+        sqlQuery.append(" ORDER BY MONTH,DATEEND ASC");
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        Date datestart = format.parse(dateStart);
-        Date dateend = format.parse(dateEnd);
+        Date datestart = format.parse(dateStartBase);
+        Date dateend = format.parse(dateEndBase);
 
 
- //       LOGGER.error("sql >> {}",sqlQuery.toString());
-        try{
+        //       LOGGER.error("sql >> {}",sqlQuery.toString());
+        try {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setString(number++, empCode);
-            preparedStatement.setDate (number++, new java.sql.Date(datestart.getTime()));
+            preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
             preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
 
 
@@ -170,67 +169,73 @@ public class ReportController extends AbstractReportJasperXLS{
             exportReportByResultSet(request, response, modelAndView, configure, resultSet);
             preparedStatement.close();
             c.close();
-        }catch(Exception e){
-            LOGGER.error("Can't generate PJMRP01",e);
+        } catch (Exception e) {
+            LOGGER.error("Can't generate PJMRP01", e);
             throw new RuntimeException(e);
         }
     }
-}
+
 
 //------Export 002--------------------------------------------------------------------------------------
 
-  /*  @RequestMapping(value = "/exportReport002", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/exportPJMRP02", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
-
+            , @RequestParam(value = "projectCode", required = false) String projectCode
+            , @RequestParam(value = "moduleCode", required = false) String moduleCode
+            , @RequestParam(value = "moduleName", required = false) String moduleName
+            , @RequestParam(value = "printDate", required = false) String printDate
 
 
     ) throws ParseException{
 
+        //-------------------------------------------------------------------------------------
+        //emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ส่งไป service
+        //List<Map> listMapp return มาเก็บไว้ ใน listmapp
+        List<Map> listMapp = emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName());
+        Map<String, String> mapp = listMapp.get(0);
+
+        String UFname = mapp.get("UFname");
+        String ULname = mapp.get("ULname");
+
+        LOGGER.debug(UFname);
+        LOGGER.debug(ULname);
 
 
         Integer number = 1;
-        String reportName = "report2";
-        String reportFileName = "report2.xls";
-        String jasperFileName = "report2.jasper";
+        String reportName = "PJMRP02";
+        String reportFileName = "PJMRP02.xls";
+        String jasperFileName = "PJMRP02.jasper";
 
 
         Map<String, Object> params = new HashMap<String, Object>();
-        *//*params.put("fTitle",getLabelFromPropertiesFile("L0002"));
-        params.put("fempName",getLabelFromPropertiesFile("L0003"));
-        params.put("fDateStart",getLabelFromPropertiesFile("L0004"));
-        params.put("fDateEnd",getLabelFromPropertiesFile("L0005"));
-        params.put("fPrintName",getLabelFromPropertiesFile("L0006"));
-        params.put("fPrintDate",getLabelFromPropertiesFile("L0007"));
+        params.put("fTitle",getLabelFromPropertiesFile("L0026"));
         params.put("fProjectName",getLabelFromPropertiesFile("L0008"));
         params.put("fModuleName",getLabelFromPropertiesFile("L0009"));
+        params.put("fempName",getLabelFromPropertiesFile("L0003"));
+        params.put("fPrintName",getLabelFromPropertiesFile("L0006"));
+        params.put("fPrintDate",getLabelFromPropertiesFile("L0007"));
         params.put("tDateStart",getLabelFromPropertiesFile("L0010"));
         params.put("tDateEnd",getLabelFromPropertiesFile("L0011"));
         params.put("total",getLabelFromPropertiesFile("L0012"));
-        params.put("January",getLabelFromPropertiesFile("L0013"));
-        params.put("February",getLabelFromPropertiesFile("L0014"));
-        params.put("March",getLabelFromPropertiesFile("L0015"));
-        params.put("April",getLabelFromPropertiesFile("L0016"));
-        params.put("May",getLabelFromPropertiesFile("L0017"));
-        params.put("June",getLabelFromPropertiesFile("L0018"));
-        params.put("July",getLabelFromPropertiesFile("L0019"));
-        params.put("August",getLabelFromPropertiesFile("L0020"));
-        params.put("September",getLabelFromPropertiesFile("L0021"));
-        params.put("October",getLabelFromPropertiesFile("L0022"));
-        params.put("November",getLabelFromPropertiesFile("L0023"));
-        params.put("December",getLabelFromPropertiesFile("L0024"));
-        params.put("Error",getLabelFromPropertiesFile("L0025"));
-        params.put("dateStart",dateStart);
-        params.put("dateEnd",dateEnd);
+        params.put("fProjectName",getLabelFromPropertiesFile("L0027"));
+        params.put("fTaskCode",getLabelFromPropertiesFile("L0045"));
+        params.put("fTaskName",getLabelFromPropertiesFile("L0046"));
+        params.put("tPoint",getLabelFromPropertiesFile("L0030"));
+        params.put("moduleName",moduleName);
         params.put("printDate",printDate);
-        params.put("EMP_FIRST_NAME",Fname);
-        params.put("EMP_LAST_NAME",Lname);*//*
+        params.put("printFName", UFname);
+        params.put("printLName", ULname);
 
         StringBuilder sqlQuery = new StringBuilder();
 
-        // where ตรงกับตอน2 สร้าง view VIEW report001 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        sqlQuery.append(" SELECT * FROM REPORT001 WHERE EMPCODE = ? ");
-        sqlQuery.append(" and DATESTART >= ? and DATEEND <= ? ");
+        // where ตรงกับตอน2 สร้าง view VIEW PJMRP02 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
+        if (moduleCode.equals("NULL") ) {
+            sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTCODE = ? ");
+        }else {
+            sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTCODE = ? ");
+            sqlQuery.append(" and MODULECODE = ? ");
+        }
 
 
 
@@ -239,10 +244,12 @@ public class ReportController extends AbstractReportJasperXLS{
         try{
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-      *//*      preparedStatement.setString(number++, empCode);
-            preparedStatement.setDate (number++, new java.sql.Date(datestart.getTime()));
-            preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
-*//*
+            if (moduleCode.equals("NULL")) {
+            preparedStatement.setString(number++, projectCode);
+            }else {
+                preparedStatement.setString(number++, projectCode);
+            preparedStatement.setString(number++, moduleCode);
+            }
 
             ResultSet resultSet = preparedStatement.executeQuery();
             Map<String, Object> configure = new HashMap<>();
@@ -255,8 +262,9 @@ public class ReportController extends AbstractReportJasperXLS{
             preparedStatement.close();
             c.close();
         }catch(Exception e){
-            LOGGER.error("Can't generate report001",e);
+            LOGGER.error("Can't generate PJMRP02",e);
             throw new RuntimeException(e);
         }
     }
-}*/
+
+}

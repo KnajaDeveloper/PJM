@@ -138,6 +138,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("projectCode", projectCode));
         return criteria.list();
     }*/
+
     public static List<Project> Project.findProjectByProjectCode2(String projectCode) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
@@ -157,6 +158,15 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("id", projectID));
         return criteria.list();
     }
+
+
+    public static List<Project> Project.findAllProject() {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        return criteria.list();
+    }
+
+
 
     public static List<Project> Project.finProjectOfDataPagingData(String StDateBegin,
                                                                    String StDateEnd,
