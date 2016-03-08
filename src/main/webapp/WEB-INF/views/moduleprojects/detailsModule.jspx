@@ -66,7 +66,7 @@
     </style>
 
     <script>
-        var moduleCode = '${moduleCode}';
+        var id = '${moduleProjectID}';
     </script>
 
     <input type="hidden" class="datetimepicker"/>
@@ -413,12 +413,20 @@
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
-    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
-    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
-
     <spring:url value="/resources/scripts/ModuleProject/detailsModule.js" var="detailsModule" />
     <script src="${detailsModule}" type="text/javascript"><!--Not Empty --></script>
 
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/ModuleProject/detailsModuleProgram.js" var="detailsModuleProgram" />
+    <script src="${detailsModuleProgram}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+    <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/ModuleProject/detailsModuleTask.js" var="detailsModuleTask" />
+    <script src="${detailsModuleTask}" type="text/javascript"><!--Not Empty --></script>
 
     <!-- Script Calendar -->
     <spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>

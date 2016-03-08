@@ -36,15 +36,15 @@ privileged aspect ProgramController_Custom_Controller_Json {
     @RequestMapping(value = "/findPaggingDataProgram", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> ProgramController.findPaggingDataProgram(
-        @RequestParam(value = "moduleProject", required = false) String moduleProject
+        @RequestParam(value = "id", required = false) Long id
         ,@RequestParam(value = "maxResult", required = false) Integer maxResult
         ,@RequestParam(value = "firstResult", required = false) Integer firstResult
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleByModuleCode(moduleProject);
-            List<Program> result = Program.findProjectByProgram(mp.get(0));
+            List<ModuleProject> moduleProjectes = ModuleProject.findModuleProjectByModuleProjectID(id);
+            List<Program> result = Program.findProjectByProgram(moduleProjectes.get(0));
             List<Map<String,String>> list = new ArrayList<>();
             for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
                 Program ty = result.get(i);
@@ -63,13 +63,13 @@ privileged aspect ProgramController_Custom_Controller_Json {
     @RequestMapping(value = "/findPaggingSizeProgram", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> ProgramController.findPaggingSizeProgram(
-        @RequestParam(value = "moduleProject", required = false) String moduleProject
+        @RequestParam(value = "id", required = false) Long id
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleByModuleCode(moduleProject);
-            List<Program> result = Program.findProjectByProgram(mp.get(0));
+            List<ModuleProject> moduleProjectes = ModuleProject.findModuleProjectByModuleProjectID(id);
+            List<Program> result = Program.findProjectByProgram(moduleProjectes.get(0));
             Map data = new HashMap();
             data.put("size", result.size());
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);

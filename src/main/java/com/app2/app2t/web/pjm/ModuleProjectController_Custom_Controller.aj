@@ -22,9 +22,9 @@ privileged aspect ModuleProjectController_Custom_Controller {
 
     @RequestMapping(value = "/detailsModule", produces = "text/html")
     public String ModuleProjectController.detailsModule(Model uiModel,
-        @RequestParam(value = "moduleProject", required = false) String moduleProject
+        @RequestParam(value = "id", required = false) String moduleProjectID
     ) {
-    	uiModel.addAttribute("moduleCode", moduleProject);
+    	uiModel.addAttribute("moduleProjectID", moduleProjectID);
         return "moduleprojects/detailsModule";
     }
 }
