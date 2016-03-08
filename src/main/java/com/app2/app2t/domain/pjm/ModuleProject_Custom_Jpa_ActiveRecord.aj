@@ -35,13 +35,6 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return moduleproject;
     }
 
-    public static List<ModuleProject> ModuleProject.findModuleByModuleCode(String moduleCode) {
-        EntityManager ent = ModuleProject.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
-        criteria.add(Restrictions.eq("moduleCode", moduleCode));
-        return criteria.list();
-    }
-
     public static List<ModuleProject> ModuleProject.findAllNameModuleByProjectCode(Project project) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
@@ -49,6 +42,12 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static List<ModuleProject> ModuleProject.findModuleByModuleCode(String moduleCode) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("moduleCode", moduleCode));
+        return criteria.list();
+     }
 
     public static ModuleProject ModuleProject.editModuleProjectByModuleProjectCode(String moduleNeedEdit, String moduleCode,
            String moduleName, Integer moduleCost, Date dateStart, Date dateEnd    ) {
@@ -131,10 +130,10 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<ModuleProject> ModuleProject.findModuleProjectByModuleCode(String moduleCode) {
+    public static List<ModuleProject> ModuleProject.findModuleProjectByModuleProjectID(Long id) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
-        criteria.add(Restrictions.eq("moduleCode", moduleCode));
+        criteria.add(Restrictions.eq("id", id));
         return criteria.list();
      }
 
