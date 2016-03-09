@@ -1,8 +1,7 @@
 function saveProjectToDB(){
-	var boolSameProjectCode = findSameProjectCode();
+	//var boolSameProjectCode = findSameProjectCode();
 	var arr_ProjectManager = projectManagerToArray();
 	var statusReturn ;
-	if(boolSameProjectCode==true){
 		var textdateStart = $('#dateStartProject').val();
 		var textdateEnd = $('#dateEndProject').val();
 		var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase(textdateStart, _language));
@@ -34,11 +33,6 @@ function saveProjectToDB(){
 			},
 			async: false
 		});
-	}
-	else {
-		bootbox.alert("["+$('#txtInitialProjectName').val()+"] has in database.");
-		return false;
-	}
 	if(statusReturn==true) return true;
 	else return false;
 }
