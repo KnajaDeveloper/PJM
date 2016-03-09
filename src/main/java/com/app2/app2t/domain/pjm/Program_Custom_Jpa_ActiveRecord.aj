@@ -4,6 +4,7 @@ package com.app2.app2t.domain.pjm;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,33 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Program_Custom_Jpa_ActiveRecord.class);
 
+    public static Criteria Program.queryProgramPagging(Long id){
+        Session session = (Session) Program.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Program.class, "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject.id", id));
+        return criteria;
+    }
+
+    public static  List<Program> Program.findProgramDataPagingData(
+        Long id
+        ,Integer firstResult
+        ,Integer maxResult
+    ){
+        Criteria criteria = Program.queryProgramPagging(id)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+
+    public static  Long Program.findProgramDataPagingSize(
+        Long id
+    ){
+        Criteria criteria = Program.queryProgramPagging(id)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
     public static Program Program.saveProgram(String programCode, String programName, ModuleProject moduleProject) {
         EntityManager ent = Program.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class);
@@ -23,14 +51,6 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         program.setModuleProject(moduleProject);
         program.persist();
         return program;
-    }
-
-    public static List<Program> Program.findProjectByProgram(ModuleProject moduleProject) {
-        EntityManager ent = Program.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
-        criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("moduleProject", moduleProject));
-        return criteria.list();
     }
 
     public static List<Program> Program.findProgramByProgramCode(String programCode) {
@@ -79,7 +99,4 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("moduleProject", moduleProject));
         return criteria.list();
     }
-    
-
-   
 }

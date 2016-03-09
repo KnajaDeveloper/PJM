@@ -14,68 +14,67 @@ import java.util.*;
 
 privileged aspect ProgramController_Custom_Controller_Json {
 
-    @RequestMapping(value = "/saveProgram",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
-    public ResponseEntity<String> ProgramController.saveProgram(
-            @RequestParam(value = "programCode", required = false) String programCode,
-            @RequestParam(value = "programName", required = false) String programName,
-            @RequestParam(value = "moduleProject", required = false) String moduleProject
+    @RequestMapping(value = "/findPaggingData", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ProgramController.findPaggingData(
+        @RequestParam(value = "id", required = false) Long id
+        ,@RequestParam(value = "firstResult", required = false) Integer firstResult
+        ,@RequestParam(value = "maxResult", required = false) Integer maxResult
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleByModuleCode(moduleProject);
+            List<Map<String,Object>> resultSearch = new ArrayList<>();
+            List<Program> programes = Program.findProgramDataPagingData(id, firstResult, maxResult);
+            for (Program program: programes) {
+                Map<String,Object> buffer = new HashMap<>();
+                buffer.put("id", program.getId());
+                buffer.put("programCode", program.getProgramCode());
+                buffer.put("programName", program.getProgramName());
+                buffer.put("inUse", Task.findProgramByID(program.getId()));
+                resultSearch.add(buffer);
+            }
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findPaggingSize", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ProgramController.findPaggingSize(
+        @RequestParam(value = "id", required = false) Long id
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            Long size = Program.findProgramDataPagingSize(id);
+            Map dataSendToFront = new HashMap();
+            dataSendToFront.put("size",size);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/saveProgram",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProgramController.saveProgram(
+            @RequestParam(value = "programCode", required = false) String programCode,
+            @RequestParam(value = "programName", required = false) String programName,
+            @RequestParam(value = "id", required = false) Long id
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
             Program program = Program.saveProgram(programCode, programName, mp.get(0));
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/findPaggingDataProgram", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-    @ResponseBody
-    public ResponseEntity<String> ProgramController.findPaggingDataProgram(
-        @RequestParam(value = "id", required = false) Long id
-        ,@RequestParam(value = "maxResult", required = false) Integer maxResult
-        ,@RequestParam(value = "firstResult", required = false) Integer firstResult
-    ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<ModuleProject> moduleProjectes = ModuleProject.findModuleProjectByModuleProjectID(id);
-            List<Program> result = Program.findProjectByProgram(moduleProjectes.get(0));
-            List<Map<String,String>> list = new ArrayList<>();
-            for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
-                Program ty = result.get(i);
-                Map<String,String> map = new HashMap<>();
-                map.put("code", ty.getProgramCode());
-                map.put("name", ty.getProgramName());
-                list.add(map);
-            }
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error("findEvaPeriodTime :{}", e);
-            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/findPaggingSizeProgram", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-    @ResponseBody
-    public ResponseEntity<String> ProgramController.findPaggingSizeProgram(
-        @RequestParam(value = "id", required = false) Long id
-    ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<ModuleProject> moduleProjectes = ModuleProject.findModuleProjectByModuleProjectID(id);
-            List<Program> result = Program.findProjectByProgram(moduleProjectes.get(0));
-            Map data = new HashMap();
-            data.put("size", result.size());
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error("findEvaPeriodTime :{}", e);
-            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -96,14 +95,14 @@ privileged aspect ProgramController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findEditProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProgramController.findEditProgram(
-        @RequestParam(value = "moduleProject", required = false) String moduleProject
+        @RequestParam(value = "id", required = false) Long id
         ,@RequestParam(value = "programCode", required = false) String programCode
         ,@RequestParam(value = "programName", required = false) String programName
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleByModuleCode(moduleProject);
+            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
             List<Program> result = Program.findEditProgram(mp.get(0), programCode, programName);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -113,13 +112,13 @@ privileged aspect ProgramController_Custom_Controller_Json {
     }
     @RequestMapping(value = "/findDeleteProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProgramController.findDeleteProgram(
-        @RequestParam(value = "moduleProject", required = false) String moduleProject
+        @RequestParam(value = "id", required = false) Long id
         ,@RequestParam(value = "programCode", required = false) String programCode
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleByModuleCode(moduleProject);
+            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
             List<Program> result = Program.findDeleteProgram(mp.get(0), programCode);
 
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -131,13 +130,13 @@ privileged aspect ProgramController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findSizeProgramByProgramCode",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProgramController.findSizeProgramByProgramCode(
-        @RequestParam(value = "moduleProject", required = false) String moduleProject
+        @RequestParam(value = "id", required = false) Long id
         ,@RequestParam(value = "programCode", required = false) String programCode
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleByModuleCode(moduleProject);
+            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
             List<Program> result = Program.findSizeProgramByProgramCode(mp.get(0), programCode);
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
         } catch (Exception e) {
