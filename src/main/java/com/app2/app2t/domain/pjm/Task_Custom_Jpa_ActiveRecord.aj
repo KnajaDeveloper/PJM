@@ -187,4 +187,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("program", program));
         return criteria.list();
     }
+
+    public static Long Task.findProgramByID(Long id) {
+        Session session = (Session) Task.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Task.class, "Task");
+        criteria.createAlias("Task.program", "program");
+        criteria.add(Restrictions.eq("program.id", id));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
 }

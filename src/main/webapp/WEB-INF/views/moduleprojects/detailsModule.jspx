@@ -410,6 +410,9 @@
         var contextPath = '${pageContext.request.contextPath}';
     </script>
 
+    <spring:url value="/resources/scripts/component/common.js" var="common"/>
+    <script src="${common}" type="text/javascript"><!--Not Empty --></script>
+
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
