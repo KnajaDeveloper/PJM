@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 privileged aspect ProjectController_Custom_Controller_Json {
@@ -30,7 +32,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             String[] arrPJM = arr_ProjectManager.split("==");
-            Project project = Project.saveOrUpdateProject(projectCode, projectName, projectCost, dateStart, dateEnd);
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Project project = Project.saveOrUpdateProject(projectCode, projectName, projectCost, formatter.parse(formatter.format(dateStart)), formatter.parse(formatter.format(dateEnd)));
             ProjectManager.saveProjectManagerByProJect(project, arrPJM);
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
