@@ -112,7 +112,6 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("fModuleName", getLabelFromPropertiesFile("L0009"));
         params.put("tDateStart", getLabelFromPropertiesFile("L0010"));
         params.put("tDateEnd", getLabelFromPropertiesFile("L0011"));
-        params.put("total", getLabelFromPropertiesFile("L0012"));
         params.put("January", getLabelFromPropertiesFile("L0013"));
         params.put("February", getLabelFromPropertiesFile("L0014"));
         params.put("March", getLabelFromPropertiesFile("L0015"));
@@ -128,6 +127,9 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("Error", getLabelFromPropertiesFile("L0025"));
         params.put("fTaskName", getLabelFromPropertiesFile("L0028"));
         params.put("tPoint", getLabelFromPropertiesFile("L0030"));
+        params.put("otherTask", getLabelFromPropertiesFile("L0053"));
+        params.put("totalTask", getLabelFromPropertiesFile("L0012"));
+        params.put("totalOT", getLabelFromPropertiesFile("L0066"));
         params.put("dateStart", dateStart);
         params.put("dateEnd", dateEnd);
         params.put("printDate", printDate);
@@ -141,9 +143,9 @@ public class ReportController extends AbstractReportJasperXLS {
         StringBuilder sqlQuery = new StringBuilder();
 
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP01 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE EMPCODE = ? ");
-        sqlQuery.append(" and DATESTART >= ? and DATEEND <= ? ");
-        sqlQuery.append(" ORDER BY MONTH,DATEEND ASC");
+        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE TASK_EMPCODE = ? OR OT_EMPCODE = ?  ");
+        sqlQuery.append(" and D_START >= ? and D_END <= ? ");
+        sqlQuery.append(" ORDER BY MONTH,D_END ASC");
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date datestart = format.parse(dateStartBase);
@@ -154,6 +156,7 @@ public class ReportController extends AbstractReportJasperXLS {
         try {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            preparedStatement.setString(number++, empCode);
             preparedStatement.setString(number++, empCode);
             preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
             preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
@@ -217,7 +220,7 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("fPrintDate",getLabelFromPropertiesFile("L0007"));
         params.put("tDateStart",getLabelFromPropertiesFile("L0010"));
         params.put("tDateEnd",getLabelFromPropertiesFile("L0011"));
-        params.put("total",getLabelFromPropertiesFile("L0012"));
+        params.put("total",getLabelFromPropertiesFile("L0067"));
         params.put("fProjectName",getLabelFromPropertiesFile("L0027"));
         params.put("fTaskCode",getLabelFromPropertiesFile("L0033"));
         params.put("fTaskName",getLabelFromPropertiesFile("L0034"));

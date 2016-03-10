@@ -41,13 +41,13 @@ $('#cDateBegin').datepicker({
 function sendData() {
     if ($("#emp").val() == "") {
 
-        $("#emp").attr("data-content", "กรุณากรอกข้อมูล").popover('show');
+        $("#emp").attr("data-content", Message.PLEASE_INPUT).popover('show');
     } else if ($("#cDateBegin").val() == "") {
 
-        $("#cDateBegin").attr("data-content", "กรุณาเลือกวันที่").popover('show');
+        $("#cDateBegin").attr("data-content", Message.PLEASE_SELECT_DATE).popover('show');
     } else if ($("#cDateEnd").val() == "") {
 
-        $("#cDateEnd").attr("data-content", "กรุณาเลือกวันที่").popover('show');
+        $("#cDateEnd").attr("data-content", Message.PLEASE_SELECT_DATE).popover('show');
     } else {
         //ตรงกับ RequestParam value
 

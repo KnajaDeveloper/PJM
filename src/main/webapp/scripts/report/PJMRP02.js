@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     var addData = ddlProject.responseJSON;
     $('#ddlProject').empty();
-    $('#ddlProject').append("<option>กรุณาเลือก</option>");
+    $('#ddlProject').append("<option>"+Message.Please_Select+"</option>");
     addData.forEach(function (value) {
         var text = value.projectName;
         $('#ddlProject').append("<option value=" + value.projectCode + ">" + text + "</option>");
@@ -54,7 +54,7 @@ $("#ddlProject").change(function () {
 
     var addData = ddlModule.responseJSON;
     $('#ddlModule').empty();
-    $('#ddlModule').append("<option>กรุณาเลือก</option>");
+    $('#ddlModule').append("<option>"+Message.Please_Select+"</option>");
     addData.forEach(function (value) {
         var text = value.moduleName;
         $('#ddlModule').append("<option value=" + value.moduleCode + ">" + text + "</option>");
@@ -72,9 +72,9 @@ $("#export").click(function () {
 //--------------------------------------------------------------------------------
 
 function sendData() {
-    if ($("#ddlProject").val() == "กรุณาเลือก") {
+    if ($("#ddlProject").val() == Message.Please_Select) {
 
-        $("#ddlProject").attr("data-content", "กรุณากรอกข้อมูล").popover('show');
+        $("#ddlProject").attr("data-content", Message.Please_Select).popover('show');
     }else {
 
     var date = new Date();
@@ -89,7 +89,7 @@ function sendData() {
     console.log(moduleCode);
     console.log(moduleName);
 
-    if (moduleCode =='กรุณาเลือก'){
+    if (moduleCode ==Message.Please_Select){
         moduleCode = "NULL";
         moduleName = "ALL";
     }
