@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
      xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component"
-     xmlns:spring="http://www.springframework.org/tags" version="2.0">
+     xmlns:spring="http://www.springframework.org/tags" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
@@ -12,12 +12,50 @@
         }
     </style>
 
+    <c:set var="BUTTON_SEARCH_PROJECT" scope="request"><spring:message code="B0010"/></c:set>
+    <c:set var="BUTTON_CLOSE" scope="request"><spring:message code="B0012"/></c:set>
+    <c:set var="BUTTON_SEARCH" scope="request"><spring:message code="B0002"/></c:set>
+    <c:set var="LABEL_START_DATE_FROM" scope="request"><spring:message code="L0039"/></c:set>
+    <c:set var="LABEL_START_DATE_TO" scope="request"><spring:message code="L0040"/></c:set>
+    <c:set var="LABEL_COMPLETE_DATE_FROM" scope="request"><spring:message code="L0041"/></c:set>
+    <c:set var="LABEL_COMPLETE_DATE_TO" scope="request"><spring:message code="L0042"/></c:set>
+    <c:set var="LABEL_TOTALCOST_FROM" scope="request"><spring:message code="L0043"/></c:set>
+    <c:set var="LABEL_TOTALCOST_TO" scope="request"><spring:message code="L0044"/></c:set>
+    <c:set var="LABEL_PROJECT_MANAGER" scope="request"><spring:message code="L0045"/></c:set>
+    <c:set var="LABEL_POINT" scope="request"><spring:message code="L0049"/></c:set>
+    <c:set var="BUTTON_ADD_PROJECT" scope="request"><spring:message code="B0009"/></c:set>
+    <c:set var="BUTTON_REMOVE_SELECT" scope="request"><spring:message code="B0004"/></c:set>
+    <c:set var="LABEL_EDIT" scope="request"><spring:message code="L0035"/></c:set>
+    <c:set var="LABEL_ADD_TASK" scope="request"><spring:message code="L0036"/></c:set>
+    <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+    <c:set var="LABEL_PROJECT_NAME" scope="request"><spring:message code="L0038"/></c:set>
+    <c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0046"/></c:set>
+    <c:set var="LABEL_COMPLETE_DATE" scope="request"><spring:message code="L0047"/></c:set>
+    <c:set var="LABEL_TOTAL_COST" scope="request"><spring:message code="L0048"/></c:set>
+    <c:set var="ALERT_DELETE_SUCCESS" scope="request"><spring:message code="M0005"/></c:set>
+    <c:set var="ALERT_DELETE_FAIL" scope="request"><spring:message code="M0006"/></c:set>
+    <c:set var="ALERT_PLEASE_SELECT_DATA" scope="request"><spring:message code="M0003"/></c:set>
+    <c:set var="REMOVE_DATA" scope="request"><spring:message code="M0004"/></c:set>
+    <c:set var="NOT_DELETE_DATA" scope="request"><spring:message code="M0010"/></c:set>
+    <c:set var="LABEL_FIRST_NAME" scope="request"><spring:message code="L0063"/></c:set>
+    <c:set var="LABEL_ADD_TASK_MODULE" scope="request"><spring:message code="L0064"/></c:set>
+    <c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
 
+    <script>
+        var MESSAGE = {};
+
+        MESSAGE.ALERT_DELETE_SUCCESS = '${ALERT_DELETE_SUCCESS}';
+        MESSAGE.ALERT_DELETE_FAIL = '${ALERT_DELETE_FAIL}';
+        MESSAGE.ALERT_PLEASE_SELECT_DATA = '${ALERT_PLEASE_SELECT_DATA}';
+        MESSAGE.REMOVE_DATA = '${ALERT_PLEASE_SELECT_DATA}';
+        MESSAGE.NOT_DELETE_DATA = '${NOT_DELETE_DATA}';
+
+    </script>
 
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">ค้นหาโปรเจค</div>
+                <div class="panel-heading">${BUTTON_SEARCH_PROJECT}</div>
                 <div class="panel-body">
                     <br></br>
                     <div class="col-sm-12">
@@ -27,9 +65,9 @@
                             <input type="hidden" class="datepicker"/>
 
 
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">วันที่เริ่ม(จาก)</label>
-                                <div class="col-xs-7">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_START_DATE_FROM}</label>
+                                <div class="col-sm-7">
                                     <div class="input-group date ">
                                         <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy"  style="cursor:pointer; background-color:white"/>
                                         <span id="calendarStartFrom" class="input-group-addon">
@@ -39,9 +77,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">วันที่เริ่ม(ถึง)</label>
-                                <div class="col-xs-7">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_START_DATE_TO}</label>
+                                <div class="col-sm-7">
                                     <div class="input-group date ">
                                         <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy"  style="cursor:pointer; background-color:white"/><span
                                             id="calendarStartTo"  class="input-group-addon">
@@ -55,9 +93,9 @@
 
                     <div class="col-sm-12">
                         <form class="form-horizontal">
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">วันที่เสร็จ(จาก)</label>
-                                <div class="col-xs-7">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_COMPLETE_DATE_FROM}</label>
+                                <div class="col-sm-7">
                                     <div class="input-group date ">
                                         <input id="FnDateBegin" class="form-control " type="text"
                                                placeholder="dd/mm/yyyy"
@@ -68,9 +106,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">วันที่เสร็จ(ถึง)</label>
-                                <div class="col-xs-7">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_COMPLETE_DATE_TO}</label>
+                                <div class="col-sm-7">
                                     <div class="input-group date ">
                                         <input id="FnDateEnd" class="form-control " type="text"
                                                placeholder="dd/mm/yyyy"
@@ -85,24 +123,24 @@
                     </div>
                     <div class="col-sm-12">
                         <form class="form-horizontal">
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">จำนวนต้นทุน(จาก)</label>
-                                <div class="col-xs-5">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_TOTALCOST_FROM}</label>
+                                <div class="col-sm-5">
                                     <div class="input-group date ">
                                         <input id="costStart" class="form-control" type="date" name="searchCode"
-                                               placeholder="จำนวนต้นทุน(จาก)"/>
-                                        <span class="input-group-addon">Point</span>
+                                               placeholder="${LABEL_TOTALCOST_FROM}"/>
+                                        <span class="input-group-addon">${LABEL_POINT}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">จำนวนต้นทุน(ถึง)</label>
-                                <div class="col-xs-5">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_TOTALCOST_TO}</label>
+                                <div class="col-sm-5">
                                     <div class="input-group date ">
                                         <input id="costEnd" class="form-control" type="date" name="searchName"
-                                               placeholder="จำนวนต้นทุน(ถึง)"/>
-                                        <span class="input-group-addon">Point</span>
+                                               placeholder="${LABEL_TOTALCOST_TO}"/>
+                                        <span class="input-group-addon">${LABEL_POINT}</span>
                                     </div>
                                 </div>
                             </div>
@@ -110,11 +148,11 @@
                     </div>
                     <div class="col-sm-12">
                         <form class="form-horizontal">
-                            <div class="form-group col-xs-6">
-                                <label class="control-label col-xs-3">ผู้ดูแลโปรเจค</label>
-                                <div class="col-xs-5">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-4">${LABEL_PROJECT_MANAGER}</label>
+                                <div class="col-sm-5">
                                     <input id="projectManage" class="form-control" type="date" name="searchCode"
-                                           placeholder="(ชื่อเล่น)ชื่อจริง"/>
+                                           placeholder="${LABEL_FIRST_NAME}"/>
                                 </div>
                             </div>
                         </form>
@@ -123,9 +161,9 @@
                     <div class="col-sm-12">
                         <form class="form-horizontal"/>
                     </div>
-                    <div class="col-xs-8">
-                        <div class="col-xs-offset-8 col-xs-2">
-                            <button id="search" class="btn btn-primary" type="button">ค้นหา</button>
+                    <div class="col-sm-8">
+                        <div class="col-sm-offset-8 col-sm-2">
+                            <button id="search" class="btn btn-primary" type="button">${BUTTON_SEARCH}</button>
                         </div>
                     </div>
                 </div>
@@ -140,11 +178,10 @@
             <div class=" col-sm-6">
                 <form class="form-inline">
                     <div class="form-group">
-                        <div class=" col-sm-2">
-                            <button id="addProject" type="button" class="btn btn-primary">เพิ่มโปรเจค</button>
-                        </div>
-                        <div >
-                            <button id="btnDelete" type="button" class="btn btn-danger">ลบที่เลือก</button>
+                        <div class=" col-sm-offset-0">
+                            <button style="margin-left: 15px" id="addProject" type="button" class="btn btn-primary">${BUTTON_ADD_PROJECT}</button>
+
+                            <button style="margin-left: 3px" id="btnDelete" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECT}</button>
                         </div>
                     </div>
                 </form>
@@ -162,13 +199,13 @@
                         <th class="text-center" style="width: 30px ;">
                             <input id="checkAll" class="check" type="checkbox"/>
                         </th>
-                        <th class="text-center" style="width: 40px ; color:#000">แก้ไข</th>
-                        <th class="text-center" style="width: 40px ; color:#000">เพิ่มงาน</th>
-                        <th class="text-center" style="width: 40px ; color:#000">ดูความคืบหน้า</th>
-                        <th class="text-center" style="width: 200px ; color:#000">ชื่อโปรเจค</th>
-                        <th class="text-center" style="width: 70px ;color:#000">วันที่เริ่ม</th>
-                        <th class="text-center" style="width: 70px ;color:#000">วันที่เสร็จ</th>
-                        <th class="text-center" style="width: 70px ;color:#000">จำนวนต้นทุน</th>
+                        <th class="text-center" style="width: 40px ; color:#000">${LABEL_EDIT}</th>
+                        <th class="text-center" style="width: 40px ; color:#000">${LABEL_ADD_TASK}</th>
+                        <th class="text-center" style="width: 40px ; color:#000">${LABEL_PROGRESS}</th>
+                        <th class="text-center" style="width: 200px ; color:#000">${LABEL_PROJECT_NAMEA}</th>
+                        <th class="text-center" style="width: 70px ;color:#000">${LABEL_START_DATE}</th>
+                        <th class="text-center" style="width: 70px ;color:#000">${LABEL_COMPLETE_DATE}</th>
+                        <th class="text-center" style="width: 70px ;color:#000">${LABEL_TOTAL_COST}</th>
                     </tr>
                     </thead>
                     <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
@@ -191,7 +228,7 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">เพิ่มงานให้โมดูล</h4>
+                    <h4 class="modal-title">${LABEL_ADD_TASK_MODULE}</h4>
                 </div>
                 <div class="modal-body">
                     <br></br>
@@ -201,11 +238,11 @@
                                 <thead>
                                 <tr class="info">
 
-                                    <th class="text-center" style="width: 40px ;color:#000">เพิ่มงาน</th>
-                                    <th class="text-center" style="width: 200px ;color:#000">ชื่อโมดูล</th>
-                                    <th class="text-center" style="width: 40px ;color:#000">วันที่เริ่ม</th>
-                                    <th class="text-center" style="width: 40px ;color:#000">วันที่สิ้นสุด</th>
-                                    <th class="text-center" style="width: 40px ;color:#000">จำนวนต้นทุน</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_ADD_TASK}</th>
+                                    <th class="text-center" style="width: 200px ;color:#000">${LABEL_MODULE_NAME}</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_START_DATE}</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_COMPLETE_DATE}</th>
+                                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_TOTAL_COST}</th>
                                 </tr>
                                 </thead>
                                 <tbody id="ResualtModule" style="cursor:pointer"></tbody>
@@ -214,7 +251,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >ปิด</button>
+                    <button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >${BUTTON_CLOSE}</button>
                 </div>
             </div>
         </div>

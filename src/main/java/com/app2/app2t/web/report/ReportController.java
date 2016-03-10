@@ -219,8 +219,8 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("tDateEnd",getLabelFromPropertiesFile("L0011"));
         params.put("total",getLabelFromPropertiesFile("L0012"));
         params.put("fProjectName",getLabelFromPropertiesFile("L0027"));
-        params.put("fTaskCode",getLabelFromPropertiesFile("L0045"));
-        params.put("fTaskName",getLabelFromPropertiesFile("L0046"));
+        params.put("fTaskCode",getLabelFromPropertiesFile("L0033"));
+        params.put("fTaskName",getLabelFromPropertiesFile("L0034"));
         params.put("tPoint",getLabelFromPropertiesFile("L0030"));
         params.put("moduleName",moduleName);
         params.put("printDate",printDate);
