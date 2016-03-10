@@ -3,7 +3,6 @@ package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +56,13 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         EntityManager ent = Program.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class);
         criteria.add(Restrictions.eq("programCode", programCode));
+        return criteria.list();
+    }
+
+    public static List<Program> Program.findProgramByID(Long id) {
+        EntityManager ent = Program.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class);
+        criteria.add(Restrictions.eq("id", id));
         return criteria.list();
     }
 

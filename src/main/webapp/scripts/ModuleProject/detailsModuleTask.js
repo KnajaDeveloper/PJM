@@ -1,4 +1,29 @@
 var pagginationTask = $.extend({},UtilPaggination);
+var programID;
+var trProgramNum;
+
+function paramProgramId(programId, trProgramNumber){
+    programID = programId;
+    trProgramNum = trProgramNumber;
+}
+
+function searchDataTask() {
+    var dataJsonData = {
+        id: programID
+    }
+
+    pagginationTask.setOptionJsonData({
+        url:contextPath + "/tasks/findPaggingData",
+        data:dataJsonData
+    });
+
+    pagginationTask.setOptionJsonSize({
+        url:contextPath + "/tasks/findPaggingSize",
+        data:dataJsonData
+    });
+
+    pagginationTask.search(pagginationTask);
+}
 
 var dataTypeTask = []
 var dataTypeTaskName = []
@@ -6,13 +31,6 @@ var dataEmpCode = []
 var dataDateStart = []
 var dataDateEnd = []
 var dataDetail = []
-
-function convertdataDate(input){
-    var x = input.split('-');
-    var year = parseInt(x[0]);
-    x[0] = "" + year;
-    return ""+x[2]+"/"+x[1]+"/"+x[0];
-}
 
 pagginationTask.setEventPaggingBtn("paggingSimpleTask",pagginationTask);
 pagginationTask.loadTable = function loadTable (jsonData) {
@@ -46,45 +64,34 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         dataTypeTaskName.push(value.typeTask.typeTaskName);
         dataEmpCode.push(value.empCode);
 
-        if(convertdataDate((value.dateStart).split(' ')[0]) === "01/01/1970")
+        if(DateUtil.dataDateToFrontend(value.dateStart,commonData.language) == "01/01/1970")
             dataDateStart.push("");
         else
-            dataDateStart.push(convertdataDate((value.dateStart).split(' ')[0]));
+            dataDateStart.push(DateUtil.dataDateToFrontend(value.dateStart, commonData.language));
 
-        if(convertdataDate((value.dateEnd).split(' ')[0]) === "01/01/1970")
-            dataDateEnd.push("");
+        if(DateUtil.dataDateToFrontend(value.dateEnd,commonData.language) == "01/01/1970")
+            dataDateEnd.push();
         else
-            dataDateEnd.push(convertdataDate((value.dateEnd).split(' ')[0]));
+            dataDateEnd.push(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language));
 
         dataDetail.push(value.detail);
 
-        var colorProgress = "progress-bar-warning";
-        if(value.progress === "100"){
-            colorProgress = "progress-bar-success"
-        }
+        var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
 
         tableData = ''
-        + '<tr id="trTask' + i + '" style="background-color: #fff">'
+        + '<tr id="trTask' + i++ + '" style="background-color: #fff">'
             + '<td class="text-center">'
-            + '<input id="chkDeleteTask' + i + '" class="checkTask" type="checkbox" name="chkdelete" />'
+                + '<input id="' + value.id + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
             + '</td>'
             + '<td class="text-center">'
-            + '<button id="btnEditTask' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '<button onclick="openEditProgram($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
-            + '<td id="tdCodeTask' + i + '" class="text-center" onclick="onClickTrTask(this)">'
-            + value.taskCode
-            + '</td>'
-            + '<td id="tdNameTask' + i + '" class="text-center" onclick="onClickTrTask(this)">'
-            + value.taskName
-            + '</td>'
-            + '<td id="tdCostTask' + i + '" class="text-center" onclick="onClickTrTask(this)">'
-            + value.taskCost
-            + ' Point</td>'
-            + '<td id="tdProgressTask' + i++ + '" onclick="onClickTrTask(this)">'
-            + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
-            + 'style="width: ' + value.progress + '%;">'
-            + value.progress
-            + '%</div>'
+            + '<td id="tdCodeTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
+            + '<td id="tdNameTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
+            + '<td id="tdCostTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskCost + ' Point</td>'
+            + '<td id="tdProgressTask" onclick="onClickTrTask(this)">'
+                + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
+                + 'style="width: ' + value.progress + '%;">' + value.progress + '%</div>'
             + '</td>'
         + '</tr>';
 
@@ -94,22 +101,31 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     });
 };
 
-function searchDataTask() {
-    var dataJsonData = {
-        program: ProgramCode
-    }
+var ddlData;
+var dataTypeTaskCode = [];
+function DDLData() {
+    ddlData = $.ajax({
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/typetasks/findAllTypeTask',
+        data : {},
+        complete: function(xhr){
 
-    pagginationTask.setOptionJsonData({
-        url:contextPath + "/tasks/findPaggingDataTask",
-        data:dataJsonData
+        },
+        async: false
     });
 
-    pagginationTask.setOptionJsonSize({
-        url:contextPath + "/tasks/findPaggingSizeTask",
-        data:dataJsonData
+    dataTypeTaskCode = [];
+    ddlData = ddlData.responseJSON;
+    $('#ddlTypeTask').empty();
+    $('#ddlTypeTask').append("<option><-- ประเภทงาน --></option>");
+    ddlData.forEach(function(value){
+        dataTypeTaskCode.push(value.typeTaskCode);
+        var text = value.typeTaskName;
+        $('#ddlTypeTask').append("<option value=" + value.typeTaskCode + ">" + text + "</option>");
     });
-
-    pagginationTask.search(pagginationTask);
 }
 
 var checkTaskName;
@@ -121,33 +137,53 @@ var checkdateEnd;
 var checkProgress;
 var checkDescription;
 
-$('#TableTask').on("click", "[id^=btnEditTask]", function () {
+function openEditProgram(element){
+    var id = element.parent().parent().attr("id").split('k')[1];
+
     chkAETask = 1;
-    var id = this.id.split('k')[1];
     DDLData();
-    $('#btnModalTaskNext').hide();
+
     $(".modal-title").text("แก้ไขงาน");
-    $('#txtTaskCode').val($('#tdCodeTask' + id).text()).attr('disabled', true);
-    checkTaskName = $('#tdNameTask' + id).text();
-    $('#txtTaskName').val($('#tdNameTask' + id).text());
-    checkTaskCost = $('#tdCostTask' + id).text().split(' ')[0];
-    $('#txtTaskCost').val($('#tdCostTask' + id).text().split(' ')[0]);
+    $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null).attr('disabled', false);
+    $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
+    $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
+    $('#ddlTypeTask').popover('hide');
+    $('#txtEmpName').val(null);
+    $('#dateStartProject').val(null);
+    $('#dateEndProject').val(null);
+    $('#txtProgress').val(null).attr('disabled', true);
+    $('#txtaDescription').val("");
+    $('#btnModalTaskNext').hide();
+
+    $('#txtTaskCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCodeTask").text()).attr('disabled', true);
+
+    checkTaskName = checkTaskName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdNameTask").text();
+    $('#txtTaskName').val(checkTaskName).text();
+
+    checkTaskCost = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCostTask").text().split(' ')[0];
+    $('#txtTaskCost').val(checkTaskCost).text().split(' ')[0];
+
     checkTypeTask = dataTypeTask[id - 1];
-    document.getElementById("ddlTypeTask").value = dataTypeTask[id - 1];
+    document.getElementById("ddlTypeTask").value = checkTypeTask;
+
     checkEmpName = dataEmpCode[id - 1];
-    $('#txtEmpName').val(dataEmpCode[id - 1]);
+    $('#txtEmpName').val(checkEmpName);
+
     checkdateStart = dataDateStart[id - 1];
-    $('#dateStartProject').val(dataDateStart[id - 1]);
+    $('#dateStartProject').val(checkdateStart);
+
     checkdateEnd = dataDateEnd[id - 1];
-    $('#dateEndProject').val(dataDateEnd[id - 1]);
-    checkProgress = $('#tdProgressTask' + id).text().split('%')[0];
-    $('#txtProgress').val($('#tdProgressTask' + id).text().split('%')[0]).attr('disabled', false);
+    $('#dateEndProject').val(checkdateEnd);
+
+    checkProgress = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgressTask").text().split('%')[0];
+    $('#txtProgress').val(checkProgress).attr('disabled', false);
+
     checkDescription = dataDetail[id - 1];
-    $('#txtaDescription').val(dataDetail[id - 1]);
-});
+    $('#txtaDescription').val(checkDescription);
+}
 
 function onClickTrTask(object){
-    var id = object.id.split('k')[1];
+    var id = object.parentElement.id.split('k')[1];
     $('#lblEmpName').text(dataEmpCode[id - 1]);
     $('#lblTaskName').text(dataTypeTaskName[id - 1]);
     $('#lblSDate').text(dataDateStart[id - 1]);
@@ -159,7 +195,7 @@ function onClickTrTask(object){
         $('#trTask' + i).css('background-color', '#FFF');
     }
 
-    $('#trTask' + id).css('background-color', '#F5F5F5');
+    $(object.parentElement).css('background-color', '#F5F5F5');
 }
 
 $('#btnAddTask').click(function() {
@@ -179,113 +215,6 @@ $('#btnAddTask').click(function() {
     $('#txtaDescription').val("");
 });
 
-var dataTaskCode = [];
-var sendDataTask = "";
-
-$('#btnDeleteTask').click(function() {
-    if(dataTaskCode.length > 0){
-        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function(result) {
-            if(result == true){
-                for(var i = 0; i < dataTaskCode.length; i++){
-                    sendDataTask = dataTaskCode[i];
-                    deleteDataTask();
-                }
-                dataTaskCode = [];
-                dataTypeTask = []
-                dataTypeTaskName = []
-                dataEmpCode = []
-                dataDateStart = []
-                dataDateEnd = []
-                dataDetail = []
-                searchDataTask();
-                searchDataProgram();
-                $('#trProgram' + idPC).css('background-color', '#F5F5F5');
-                $('#checkboxAllTask').prop('checked', false);
-
-                if(chkDTaskStatus500 === 0){
-                    bootbox.alert("ลบข้อมูลสำเร็จ : " + chkDTaskStatus200 + " รายการ");
-                }else{
-                    bootbox.alert("ลบข้อมูลสำเร็จ : " + chkDTaskStatus200 + " รายการ ลบข้อมูลไม่สำเร็จ : " + chkDTaskStatus500 + " รายการ");
-                }
-
-                chkDTaskStatus200 = 0;
-                chkDTaskStatus500 = 0;
-
-                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-            }
-        });
-    }else{
-        bootbox.alert("คุณยังไม่ได้เลือกข้อมูลที่ต้องการลบ");
-    }
-});
-
-$('#TableTask').on("click", "[id^=chkDeleteTask]", function () {
-    var id = this.id.split('k')[2];
-    if ($(this).prop('checked') == true) {
-        dataTaskCode.push($('#tdCodeTask' + id).text());
-    }
-    else if ($(this).prop('checked') == false) {
-        var num = dataTaskCode.indexOf($('#tdCodeTask' + id).text());
-        dataTaskCode.splice(num, 1);
-    }
-});
-
-$('#checkboxAllTask').click(function(){
-    dataTaskCode = [];
-    $(".checkTask").prop('checked', $(this).prop('checked'));
-    var lengthTr = $('#TableTask').find('tr').length;
-    for (var i = 1; i < lengthTr; i++) {
-        if ($(this).prop('checked') == true) {
-            // if($('#chkDeleteTask' + i).prop('disabled') == true){
-            //  $('#chkDeleteTask' + i).prop('checked', false);
-            // }
-            var num = dataTaskCode.indexOf($('#tdCodeTask' + i).text())
-            if (num != "") {
-                dataTaskCode.push($('#tdCodeTask' + i).text());
-            }
-        }
-        else {
-            var num = dataTaskCode.indexOf($('#tdCodeTask' + i).text());
-            dataTaskCode.splice(num, 1);
-        }
-    }
-});
-
-var chkDTaskStatus200 = 0;
-var chkDTaskStatus500 = 0;
-
-function deleteDataTask() {
-    var dataJsonData = {
-        taskCode:sendDataTask,
-        program: ProgramCode
-    }
-
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/tasks/findDeleteTask',
-        data : dataJsonData,
-        complete: function(xhr){
-            if(xhr.status === 200)
-                chkDTaskStatus200++;
-            if(xhr.status === 500)
-                chkDTaskStatus500++;
-        },
-        async: false
-    });
-}
-
-function convertDate(input){
-    var x = input.split('/');
-    var year = parseInt(x[2]);
-    x[2] = ""+year;
-    return ""+x[1]+"/"+x[0]+"/"+x[2];
-}
-
 var chkAETask = 0;
 
 function checkTaskCode() {
@@ -298,6 +227,11 @@ function checkTaskCode() {
         return true;
     }
 };
+
+var index;
+function myFunction() {
+    index = (document.getElementById("ddlTypeTask").selectedIndex) - 1;
+}
 
 $('[id^=btnModalTask]').click(function() {
     var id = this.id.split('k')[1];
@@ -327,20 +261,11 @@ $('[id^=btnModalTask]').click(function() {
                 $('#ddlTypeTask').attr("data-content" , "กรุณาเลือกข้อมูลประเภทงาน").popover('show');
             }
         }else{
-            if(checkTaskCode() === true){
+            if(checkTaskCode() == true){
                 myFunction();
 
-                var dateStart = $('#dateStartProject').val();
-                if(dateStart === "")
-                    dateStart = null;
-                else
-                    dateStart = convertDate(dateStart)
-
-                var dateEnd = $('#dateStartProject').val();
-                if(dateEnd === "")
-                    dateEnd =   null;
-                else
-                    dateEnd = convertDate(dateEnd)
+                var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase(dateStart, commonData.language);
+                var dateEnd = $('#dateStartProject').val() == "" ? null : dataDateToDataBase(dateEnd, commonData.language);
 
                 var pjmTask = {
                     taskCode: $('#txtTaskCode').val(),
@@ -352,12 +277,11 @@ $('[id^=btnModalTask]').click(function() {
                     dateEnd: new Date(dateEnd),
                     detail: $('#txtaDescription').val(),
                     progress: $('#txtProgress').val(),
-                    program: ProgramCode
+                    id: programID
                 };
 
-                if(chkAETask === 0){
-                    checkDataTask();
-                    if(chkDbTask === 0){
+                if(chkAETask == 0){
+                    if(checkDataTask() == 0){
                         if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
                             bootbox.alert("จำนวนต้นทุนเกินต้นทุนคงเหลือ");
                         }else{
@@ -369,8 +293,8 @@ $('[id^=btnModalTask]').click(function() {
                                 url: contextPath + '/tasks/saveTask',
                                 data : pjmTask,
                                 complete: function(xhr){
-                                    if(xhr.status === 201){
-                                        if(id === 'Add'){
+                                    if(xhr.status == 201){
+                                        if(id == 'Add'){
                                             bootbox.alert("บันทึกข้อมูลสำเร็จ");
                                             $('#modalTask').modal('hide');
                                         }
@@ -384,9 +308,9 @@ $('[id^=btnModalTask]').click(function() {
                                         DDLData();
                                         searchDataTask();
                                         searchDataProgram();
-                                        $('#trProgram' + idPC).css('background-color', '#F5F5F5');
+                                        $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                                         $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-                                    }else if(xhr.status === 500){
+                                    }else if(xhr.status == 500){
                                         bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
                                     }
                                 },
@@ -396,11 +320,15 @@ $('[id^=btnModalTask]').click(function() {
                     }else{
                         bootbox.alert("รหัสงานมีแล้ว");
                     }
-                }else if(chkAETask === 1){
-                    if($('#txtTaskName').val() === checkTaskName && $('#txtTaskCost').val() === checkTaskCost &&
-                    dataTypeTaskCode[index] === checkTypeTask && $('#txtEmpName').val() === checkEmpName &&
-                    $('#dateStartProject').val() === checkdateStart && $('#dateEndProject').val() === checkdateEnd &&
-                    $('#txtProgress').val() === checkProgress && $('#txtaDescription').val() === checkDescription){
+                }else if(chkAETask == 1){
+                    if($('#txtTaskName').val() == checkTaskName &&
+                        $('#txtTaskCost').val() == checkTaskCost &&
+                        dataTypeTaskCode[index] == checkTypeTask &&
+                        $('#txtEmpName').val() == checkEmpName &&
+                        $('#dateStartProject').val() == checkdateStart &&
+                        $('#dateEndProject').val() == checkdateEnd &&
+                        $('#txtProgress').val() == checkProgress &&
+                        $('#txtaDescription').val() == checkDescription){
                         bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
                         $('#modalTask').modal('hide');
                     }else{
@@ -437,13 +365,7 @@ $('[id^=btnModalTask]').click(function() {
     }
 });
 
-var chkDbTask;
 function checkDataTask() {
-    var dataJsonData = {
-        taskCode: $('#txtTaskCode').val(),
-        program: ProgramCode
-    }
-
     var checkdDb = $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -452,43 +374,91 @@ function checkDataTask() {
             Accept: "application/json"
         },
         url: contextPath + '/tasks/findSizeTaskByTaskCode',
-        data : dataJsonData,
+        data : {
+            taskCode: $('#txtTaskCode').val(),
+            id: programID
+        },
         complete: function(xhr){
         },
         async: false
     });
 
-    chkDbTask = checkdDb.responseJSON;
+    return checkdDb.responseJSON;
 }
 
-var ddlData;
-var dataTypeTaskCode = [];
-function DDLData() {
-    ddlData = $.ajax({
-        headers: {
-            Accept: "application/json"
-        },
-        type: "GET",
-        url: contextPath + '/typetasks/findAllTypeTask',
-        data : {},
-        complete: function(xhr){
+var chkDTaskStatus200 = 0;
+var chkDTaskStatus500 = 0;
 
-        },
-        async: false
+function deleteDataTask() {
+    $.each($(".checkboxTableTask:checked"),function(index,value){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: contextPath + '/tasks/findDeleteTask',
+            data : {
+                id: programID,
+                taskID: $(this).attr("id")
+            },
+            complete: function(xhr){
+                if(xhr.status === 200)
+                    chkDTaskStatus200++;
+                if(xhr.status === 500)
+                    chkDTaskStatus500++;
+            },
+            async: false
+        });
     });
-
-    dataTypeTaskCode = [];
-    var addData = ddlData.responseJSON;
-    $('#ddlTypeTask').empty();
-    $('#ddlTypeTask').append("<option><-- ประเภทงาน --></option>");
-    addData.forEach(function(value){
-        dataTypeTaskCode.push(value.typeTaskCode);
-        var text = value.typeTaskName;
-        $('#ddlTypeTask').append("<option value=" + value.typeTaskCode + ">" + text + "</option>");
-    });
 }
 
-var index;
-function myFunction() {
-    index = (document.getElementById("ddlTypeTask").selectedIndex) - 1;
-}
+$('#btnDeleteTask').click(function() {
+    if($(".checkboxTableTask:checked").length <= 0){
+        bootbox.alert("คุณยังไม่ได้เลือกข้อมูลที่ต้องการลบ");
+        return false;
+    }else{
+        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function(result) {
+            if(result == true){
+                deleteDataTask();
+                searchDataTask();
+                searchDataProgram();
+
+                dataTaskCode = [];
+                dataTypeTask = []
+                dataTypeTaskName = []
+                dataEmpCode = []
+                dataDateStart = []
+                dataDateEnd = []
+                dataDetail = []
+
+                $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
+                $('#checkboxAllTask').prop('checked', false);
+
+                if(chkDTaskStatus500 === 0){
+                    bootbox.alert("ลบข้อมูลสำเร็จ : " + chkDTaskStatus200 + " รายการ");
+                }else{
+                    bootbox.alert("ลบข้อมูลสำเร็จ : " + chkDTaskStatus200 + " รายการ ลบข้อมูลไม่สำเร็จ : " + chkDTaskStatus500 + " รายการ");
+                }
+
+                chkDTaskStatus200 = 0;
+                chkDTaskStatus500 = 0;
+
+                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+            }
+        });
+    }
+});
+
+$('#checkboxAllTask').click(function(){
+    $(".checkboxTableTask").prop('checked', $(this).prop('checked'));
+});
+
+$('#TableTask').on("click", ".checkboxTableTask", function () {
+    if($(".checkboxTableTask:checked").length == $(".checkboxTableTask").length){
+        $("#checkboxAllTask").prop("checked", true);
+    }else{
+        $("#checkboxAllTask").prop("checked", false);
+    }
+});

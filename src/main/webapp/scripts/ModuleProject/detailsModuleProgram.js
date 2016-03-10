@@ -32,7 +32,7 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
 
     jsonData.forEach(function(value){
         tableData = ''
-		+ '<tr id="trProgram' + i++ + '">'
+		+ '<tr id="trProgram' + i++ + '" style="background-color: #fff">'
             + '<td class="text-center">'
                 + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" class="checkboxTableProgram" type="checkbox" />'
             + '</td>'
@@ -67,7 +67,8 @@ var programId;
 
 function onClickTrProgram(object) {
     programId = object.attributes.programid.textContent;
-    //searchDataTask();
+    paramProgramId(programId, object.parentElement.id.split('m')[1]);
+    searchDataTask();
   	$('#checkboxAllTask').prop('checked', false);
   	$('#lblEmpName').text("");
 	$('#lblTaskName').text("");
@@ -182,11 +183,6 @@ $('[id^=btnModalProgram]').click(function() {
 });
 
 function checkDataProgram() {
-    var dataJsonData = {
-        programCode: $('#txtProgramCode').val(),
-        id: moduleProjectID
-    }
-
     var checkdDb = $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -195,7 +191,10 @@ function checkDataProgram() {
             Accept: "application/json"
         },
         url: contextPath + '/programs/findSizeProgramByProgramCode',
-        data : dataJsonData,
+        data : {
+            programCode: $('#txtProgramCode').val(),
+            id: moduleProjectID
+        },
         complete: function(xhr){
         },
         async: false
