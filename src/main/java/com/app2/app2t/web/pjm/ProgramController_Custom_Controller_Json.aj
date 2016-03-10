@@ -102,8 +102,7 @@ privileged aspect ProgramController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
-            List<Program> result = Program.findEditProgram(mp.get(0), programCode, programName);
+            List<Program> result = Program.findEditProgram(id, programCode, programName);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -113,13 +112,12 @@ privileged aspect ProgramController_Custom_Controller_Json {
     @RequestMapping(value = "/findDeleteProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProgramController.findDeleteProgram(
         @RequestParam(value = "id", required = false) Long id
-        ,@RequestParam(value = "programCode", required = false) String programCode
+        ,@RequestParam(value = "programId", required = false) Long programId
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
-            List<Program> result = Program.findDeleteProgram(mp.get(0), programCode);
+            List<Program> result = Program.findDeleteProgram(id, programId);
 
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -136,8 +134,7 @@ privileged aspect ProgramController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> mp = ModuleProject.findModuleProjectByModuleProjectID(id);
-            List<Program> result = Program.findSizeProgramByProgramCode(mp.get(0), programCode);
+            List<Program> result = Program.findSizeProgramByProgramCode(id, programCode);
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

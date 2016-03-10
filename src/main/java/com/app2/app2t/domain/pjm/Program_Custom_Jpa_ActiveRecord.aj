@@ -60,11 +60,11 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Program> Program.findEditProgram(ModuleProject moduleProject, String programCode, String programName) {
+    public static List<Program> Program.findEditProgram(Long id, String programCode, String programName) {
         EntityManager ent = Program.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
         criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("moduleProject", moduleProject));
+        criteria.add(Restrictions.eq("moduleProject.id", id));
         criteria.add(Restrictions.eq("programCode", programCode));
         List<Program> ep = criteria.list();
         Program edProgram = ep.get(0);
@@ -73,21 +73,23 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Program> Program.findDeleteProgram(ModuleProject moduleProject, String programCode) {
+    public static List<Program> Program.findDeleteProgram(Long id, Long programId) {
         EntityManager ent = Program.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
-        criteria.add(Restrictions.eq("programCode", programCode));
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject.id", id));
+        criteria.add(Restrictions.eq("id", programId));
         List<Program> ep = criteria.list();
         Program edProgram = ep.get(0);
         edProgram.remove();
         return criteria.list();
     }
 
-    public static List<Program> Program.findSizeProgramByProgramCode(ModuleProject moduleProject, String programCode) {
+    public static List<Program> Program.findSizeProgramByProgramCode(Long id, String programCode) {
         EntityManager ent = Program.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
         criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("moduleProject", moduleProject));
+        criteria.add(Restrictions.eq("moduleProject.id", id));
         criteria.add(Restrictions.eq("programCode", programCode));
         return criteria.list();
     }

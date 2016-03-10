@@ -171,12 +171,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List Task.findTaskCostforSum(ModuleProject moduleProject) {
+    public static List Task.findTaskCostforSum(Long id) {
         EntityManager ent = Task.entityManager();
         Criteria criteria1 = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria1.createAlias("task.program", "program");
         criteria1.createAlias("program.moduleProject", "moduleProject");
-        criteria1.add(Restrictions.eq("moduleProject.id", moduleProject.getId()));
+        criteria1.add(Restrictions.eq("moduleProject.id", id));
         criteria1.setProjection(Projections.sum("task.taskCost"));
         return criteria1.list();
     }
