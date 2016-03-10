@@ -2,7 +2,7 @@ var pagginationProgram = $.extend({},UtilPaggination);
 
 function searchDataProgram() {
     var dataJsonData = {
-        id: id
+        id: moduleProjectID
     }
 
     pagginationProgram.setOptionJsonData({
@@ -26,25 +26,21 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
 
     $('#checkboxAllProgram').prop('checked', false);
     $('#ResualtSearchProgram').empty();
-    var link = "";
-    var i = 1;
+
     var tableData = "";
+    var i = 1;
 
     jsonData.forEach(function(value){
         tableData = ''
-		+ '<tr id="trProgram' + i + '" style="background-color: #fff">'
+		+ '<tr id="trProgram' + i++ + '">'
             + '<td class="text-center">'
-            + '<input id="chkDeleteProgram' + i + '" class="checkProgram" type="checkbox" name="chkdelete" />'
+                + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" class="checkboxTableProgram" type="checkbox" />'
             + '</td>'
             + '<td class="text-center">'
-            + '<button id="btnEditProgram' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '<button onclick="openEditProgram($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalProgram" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
-            + '<td id="tdProgramCode' + i + '" class="text-center" onclick="onClickTrProgram(this)">'
-            + value.programCode
-            + '</td>'
-            + '<td id="tdProgramName' + i++ + '" class="text-center" onclick="onClickTrProgram(this)">'
-            + value.programName
-            + '</td>'
+            + '<td id="tdProgramCode" programId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.programCode + '</td>'
+            + '<td id="tdProgramName" programId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.programName + '</td>'
         + '</tr>';
 
         $('#ResualtSearchProgram').append(
@@ -53,26 +49,25 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
     });
 };
 
-var checkProgramName;
+var positionName;
 
-$('#TableProgram').on("click", "[id^=btnEditProgram]", function () {
-	chkAEProgram = 1;
-    var id = this.id.split('m')[1];
+function openEditProgram(element){
+    chkAEProgram = 1;
+    $('.modal-title').text('แก้ไขโปรแกรม');
+    $('#txtProgramCode').popover('hide'); $('#txtProgramName').popover('hide');
+    $('#txtProgramCode').val(null).attr('disabled', false); $('#txtProgramName').val(null);
     $('#btnModalProgramNext').hide();
-	$(".modal-title").text("แก้ไขโปรแกรม");
-	$('#txtProgramCode').val($('#tdProgramCode' + id).text()).attr('disabled', true);
-	checkProgramName = $('#tdProgramName' + id).text();
-	$('#txtProgramName').val($('#tdProgramName' + id).text());
-});
+    $('#txtProgramCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgramCode").text()).attr('disabled', true);
+    positionName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgramName").text();
+    $('#txtProgramName').val(positionName);
+}
 
-var ProgramCode;
-var idPC;
+var programCode;
+var programId;
 
 function onClickTrProgram(object) {
-    var id = object.id.split('e')[1];
-
-    ProgramCode = $('#tdProgramCode' + id).text();
-    searchDataTask();
+    programId = object.attributes.programid.textContent;
+    //searchDataTask();
   	$('#checkboxAllTask').prop('checked', false);
   	$('#lblEmpName').text("");
 	$('#lblTaskName').text("");
@@ -80,15 +75,21 @@ function onClickTrProgram(object) {
 	$('#lblEDate').text("");
 	$('#txtaDetail').val(null);
 
-	idPC = id;
-
 	var lengthTr = $('#TableProgram').find('tr').length;
-    for (var i = 1; i < lengthTr; i++) {
-		$('#trProgram' + i).css('background-color', '#FFF');
-	}
+    for(var i = 1; i < lengthTr; i++){
+        $('#trProgram' + i).css('background-color', '#FFF');
+    }
 
-	$('#trProgram' + id).css('background-color', '#F5F5F5');
+	$(object.parentElement).css('background-color', '#F5F5F5');
 }
+
+$('#btnAddProgram').click(function() {
+    chkAEProgram = 0;
+    $(".modal-title").text("เพิ่มโปรแกรม");
+    $('#txtProgramCode').popover('hide'); $('#txtProgramName').popover('hide');
+    $('#txtProgramCode').val(null).attr('disabled', false); $('#txtProgramName').val(null);
+    $('#btnModalProgramNext').show();
+});
 
 var chkAEProgram = 0;
 
@@ -107,10 +108,6 @@ $('[id^=btnModalProgram]').click(function() {
     var iD = this.id.split('m')[1];
     if(iD === 'Cancel'){
         $('#modalProgram').modal('hide');
-        $('#txtProgramCode').popover('hide'); $('#txtProgramName').popover('hide');
-        $('#txtProgramCode').val(null).attr('disabled', false); $('#txtProgramName').val(null);
-        $('#btnModalProgramNext').show();
-        $(".modal-title").text("เพิ่มโปรแกรม");
     }else{
         if($('#txtProgramCode').val() === ""){
             $('#txtProgramCode').attr("data-content" , "กรุณากรอกข้อมูลรหัสโปรแกรม").popover('show');
@@ -123,12 +120,11 @@ $('[id^=btnModalProgram]').click(function() {
                 var pjmProgram = {
                     programCode: $('#txtProgramCode').val(),
                     programName: $('#txtProgramName').val(),
-                    id: id
+                    id: moduleProjectID
                 };
 
                 if(chkAEProgram === 0){
-                    checkDataProgram();
-                    if(chkDbProgram === 0){
+                    if(checkDataProgram() === 0){
                         $.ajax({
                             headers: {
                                 Accept: "application/json"
@@ -155,9 +151,8 @@ $('[id^=btnModalProgram]').click(function() {
                         bootbox.alert("รหัสโปรแกรมมีแล้ว");
                     }
                 }else if(chkAEProgram === 1){
-                    if($('#txtProgramName').val() === checkProgramName){
+                    if($('#txtProgramName').val() === positionName){
                             bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
-                            $('#modalProgram').modal('hide');
                     }else{
                         $.ajax({
                             headers: {
@@ -186,11 +181,10 @@ $('[id^=btnModalProgram]').click(function() {
     }
 });
 
-var chkDbProgram;
 function checkDataProgram() {
     var dataJsonData = {
         programCode: $('#txtProgramCode').val(),
-        id: id
+        id: moduleProjectID
     }
 
     var checkdDb = $.ajax({
@@ -207,5 +201,76 @@ function checkDataProgram() {
         async: false
     });
 
-    chkDbProgram = checkdDb.responseJSON;
+    return checkdDb.responseJSON;
 }
+
+var statusProgram200 = 0;
+var statusProgram500 = 0;
+
+function deleteDataProgram() {
+    $.each($(".checkboxTableProgram:checked"),function(index,value){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: contextPath + '/programs/findDeleteProgram',
+            data : {
+                id: moduleProjectID,
+                programId: $(this).attr("id")
+            },
+            complete: function(xhr){
+                if(xhr.status === 200)
+                    statusProgram200++;
+                if(xhr.status === 500)
+                    statusProgram500++;
+            },
+            async: false
+        });
+    });
+}
+
+$('#btnDeleteProgram').click(function() {
+    if($(".checkboxTableProgram:checked").length <= 0){
+            bootbox.alert("คุณยังไม่ได้เลือกข้อมูลที่ต้องการลบ");
+            return false;
+    }else{
+        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function(result) {
+            if(result == true){
+                deleteDataProgram();
+                searchDataProgram();
+                $('#checkboxAllProgram').prop('checked', false);
+                if(statusProgram500 === 0){
+                    bootbox.alert("ลบข้อมูลสำเร็จ : " + statusProgram200 + " รายการ");
+                }else{
+                    bootbox.alert("ลบข้อมูลสำเร็จ : " + statusProgram200 + " รายการ ลบข้อมูลไม่สำเร็จ : " + statusProgram500 + " รายการ");
+                }
+
+                statusProgram200 = 0;
+                statusProgram500 = 0;
+            }
+        });
+    }
+});
+
+$("#checkboxAllProgram").click(function(){
+    $(".checkboxTableProgram").prop('checked', $(this).prop('checked'));
+    $.each($(".checkboxTableProgram[inUse=1]"),function(index, value){
+        $(this).prop("checked", false);
+    });
+});
+
+$('#TableProgram').on("click", ".checkboxTableProgram", function () {
+    if($(".checkboxTableProgram:checked").length == $(".checkboxTableProgram[inUse=0]").length){
+        $("#checkboxAllProgram").prop("checked", true);
+    }else{
+        $("#checkboxAllProgram").prop("checked", false);
+    }
+
+    if($(this).attr("inUse") > 0){
+        $(this).prop("checked", false);
+        bootbox.alert("ข้อมูลถูกเรียกใช้อยู่");
+    }
+});

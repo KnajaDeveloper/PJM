@@ -198,8 +198,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> moduleProjectes = ModuleProject.findModuleProjectByModuleProjectID(id);
-            List resultSearch = Task.findTaskCostforSum(moduleProjectes.get(0));
+            List resultSearch = Task.findTaskCostforSum(id);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);

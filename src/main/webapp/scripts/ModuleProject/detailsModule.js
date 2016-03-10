@@ -8,7 +8,7 @@ $(document).ready(function(){
 		},
 		url: contextPath + '/moduleprojects/findModuleProjectByModuleProjectID',
 		data: {
-			id: id
+			id: moduleProjectID
 		},
 		complete: function(xhr){
 		},
@@ -31,6 +31,9 @@ $(document).ready(function(){
 
 	searchDataProgram();
   	$('#checkboxAllProgram').prop('checked', false);
+
+  	$('#TableProgram').css('background-color', '#FFF');
+  	$('#TableTask').css('background-color', '#FFF');
 });
 
 function searchTaskCost(moduleCost){
@@ -43,7 +46,7 @@ function searchTaskCost(moduleCost){
 		},
 		url: contextPath + '/tasks/findTaskCostforSum',
 		data: {
-			id: id
+			id: moduleProjectID
 		},
 		complete: function(xhr){
 		},
