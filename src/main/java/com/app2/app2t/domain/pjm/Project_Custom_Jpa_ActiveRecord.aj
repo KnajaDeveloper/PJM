@@ -50,45 +50,37 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             Criteria criteria = session.createCriteria(Project.class, "project");
             //-- FormatDate--//
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            //-- Startdate Select --//
-            if (StDateBegin != "" && StDateEnd != "") {
-                Date stDatebegin = new Date(Long.parseLong(StDateBegin));
-                Date stDateend = new Date(Long.parseLong(StDateEnd));
-                stDatebegin = formatter.parse(formatter.format(stDatebegin));
-                stDateend = formatter.parse(formatter.format(stDateend));
-
-                criteria.add(Restrictions.between("dateStart", stDatebegin, stDateend));
-            } else if (StDateBegin != "" && StDateEnd == "") {
+            //-- StartDate Select --//
+            if(StDateBegin !="")
+            {
                 Date stDatebegin = new Date(Long.parseLong(StDateBegin));
                 stDatebegin = formatter.parse(formatter.format(stDatebegin));
                 criteria.add(Restrictions.ge("dateStart", stDatebegin));
-            } else if (StDateBegin == "" && StDateEnd != "") {
+            }
+            if(StDateEnd !="")
+            {
                 Date stDateend = new Date(Long.parseLong(StDateEnd));
                 stDateend = formatter.parse(formatter.format(stDateend));
                 criteria.add(Restrictions.le("dateStart", stDateend));
             }
-            //-- Enddate Select --//
-            if (FnDateBegin != "" && FnDateEnd != "") {
-                Date fnDatebegin = new Date(Long.parseLong(FnDateBegin));
-                Date fnDateend = new Date(Long.parseLong(FnDateEnd));
-                fnDatebegin = formatter.parse(formatter.format(fnDatebegin));
-                fnDateend = formatter.parse(formatter.format(fnDateend));
-                criteria.add(Restrictions.between("dateEnd", fnDatebegin, fnDateend));
-            } else if (FnDateBegin != "" && FnDateEnd == "") {
+            //-- EndDate Select --//
+            if (FnDateBegin != "" ) {
                 Date fnDatebegin = new Date(Long.parseLong(FnDateBegin));
                 fnDatebegin = formatter.parse(formatter.format(fnDatebegin));
                 criteria.add(Restrictions.ge("dateEnd", fnDatebegin));
-            } else if (FnDateBegin == "" && FnDateEnd != "") {
+            }
+            if (FnDateEnd != "" ) {
                 Date fnDateend = new Date(Long.parseLong(FnDateEnd));
                 fnDateend = formatter.parse(formatter.format(fnDateend));
                 criteria.add(Restrictions.le("dateEnd", fnDateend));
             }
             //-- Cost Select --//
-            if (costStart != null && costEnd != null) {
-                criteria.add(Restrictions.between("projectCost", costStart, costEnd));
-            } else if (costStart != null && costEnd == null) {
+            if(costStart != null)
+            {
                 criteria.add(Restrictions.ge("projectCost", costStart));
-            } else if (costStart == null && costEnd != null) {
+            }
+            if(costEnd != null)
+            {
                 criteria.add(Restrictions.le("projectCost", costEnd));
             }
             //-- SubQuery ProjectManager --//

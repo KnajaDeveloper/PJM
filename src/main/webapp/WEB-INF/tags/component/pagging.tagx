@@ -10,8 +10,8 @@
 
     <div class="form-inline">
         <div class="form-group col-sm-4">
-            <label style="margin-left:20px">${CENTRAL_LABEL_DISPLAYING}</label>
-            <span style="margin-left:-20px">
+            <label style="margin-left:35px">${CENTRAL_LABEL_DISPLAYING}</label>
+            <span style="margin-left:25px">
                 <span id="${id}StartDisplayRecords">0</span> - <span id="${id}ToDisplayRecords">0</span>&#160;${CENTRAL_LABEL_Of}&#160;<span id="${id}DisplayTotalRecord">0</span>&#160;${CENTRAL_LABEL_RECORD}
             </span>
         </div>

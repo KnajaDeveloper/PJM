@@ -105,12 +105,12 @@ $("#addProject").click(function () {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=editProject_]", function () {
     var id =  this.id.split('editProject_')[1];
-    window.location.href = contextPath + '/projects/editproject?projectid='+id;
+    window.location.href = contextPath + '/projects/editproject?projectId='+id;
 }); //-- link editProject --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=progress]", function () {
     var id =  this.id.split('progress')[1];
-    console.log(id);
+    //console.log(id);
     window.location.href = contextPath + '/projects/progressproject?projectCode='+id;
 }); //-- link Progress --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +206,7 @@ $('#data').on("click", "[id^=checkBoxDisable_]", function () {
     var id = this.id.split('checkBoxDisable_')[1];
     $("#checkBoxDisable_"+id).attr('checked', false);
 
-}); //--checkDataDelete--//
+}); //--checkDisableDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=checkBoxDelete]", function () {
 
@@ -233,14 +233,14 @@ $("#btnDelete").click(function () {
             checkedRows.push(roleCode);
         }
     });
-    console.log(checkedRows);
+    //console.log(checkedRows);
     if (checkedRows.length > 0) {
-        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function (result) {
+        bootbox.confirm(MESSAGE.REMOVE_DATA, function (result) {
             if (result === true) {
                 for (var i=0; checkedRows.length > i; i++) {
                     DeleteData(i);
                 }
-                bootbox.alert(" ลบข้อมูลสำเร็จ : " + DeSuccess + "  ลบข้อมูลไม่สำเร็จ : " + DeFail);
+                bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" " + DeSuccess +  MESSAGE.ALERT_DELETE_FAIL + DeFail);
                 DeSuccess = 0;
                 DeFail = 0;
                 checkedRows = [];
@@ -249,7 +249,7 @@ $("#btnDelete").click(function () {
             }
         });
     } else if (checkedRows.length == 0) {
-        bootbox.alert("กรุณาเลือกข้อมูลที่ต้องการลบ");
+        bootbox.alert(MESSAGE.ALERT_PLEASE_SELECT_DATA);
     }
 }); //-- deleteData--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,7 +315,7 @@ function checkIdModule(id) {
         async: false
     });
     dataModule = jQuery.parseJSON(responseResult.responseText);
-    console.log(dataModule);
+    //console.log(dataModule);
 
 } //--functionCheckID--//
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,7 +330,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
         tableData = ''
             + '<tr>'
             + '<td class="text-center">'
-            + '<button id="addTask_' + value.moduleCode + '" class="btn btn-info" type="button">A</button>'
+            + '<button id="addTask_' + value.id + '" class="btn btn-info" type="button">A</button>'
             + '</td>'
             + '<td id="moduleName_' + key + '" class="text-center" style="color: #000">'
             + value.moduleName
@@ -354,15 +354,15 @@ $('#data').on("click", "[id^=addTask_]", function () {
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $('#tableAddTask').on("click", "[id^=addTask_]", function () {
-    var moduleCode =  this.id.split('addTask_')[1];
-    console.log(moduleCode);
-    window.location.href = contextPath + '/moduleprojects/detailsModule?moduleProject='+ moduleCode;
+    var id =  this.id.split('addTask_')[1];
+    //console.log(id);
+    window.location.href = contextPath + '/moduleprojects/detailsModule?id='+ id;
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $("#close").click(function () {
-    //$("#modalAddModule").modal('hide');
-    //searchData();
+    $("#modalAddModule").modal('hide');
+    searchData();
 }); //-- closeModal --//
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $("[id^=paggingSimpleBtn]").click(function () {
