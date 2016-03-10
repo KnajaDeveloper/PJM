@@ -91,6 +91,33 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return null;
     }
 
+    public static Criteria Task.queryTaskPagging(Long id){
+        Session session = (Session) Task.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject.id", id));
+        return criteria;
+    }
+
+    public static  List<Task> Task.findTaskDataPagingData(
+        Long id
+        ,Integer firstResult
+        ,Integer maxResult
+    ){
+        Criteria criteria = Task.queryTaskPagging(id)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+
+    public static  Long Task.findTaskDataPagingSize(
+        Long id
+    ){
+        Criteria criteria = Task.queryTaskPagging(id)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
     public static Task Task.saveTask(String taskCode, String taskName, Integer taskCost,
         TypeTask typeTask, String empCode, Date dateStart, Date dateEnd, String detail,
         Integer progress, Program program) {
@@ -113,21 +140,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return task;
     }
 
-    public static List<Task> Task.findTaskByProgramCode(Program program) {
-        EntityManager ent = Task.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
-        criteria.createAlias("task.program", "program");
-        criteria.add(Restrictions.eq("program", program));
-        return criteria.list();
-    }
-
-    public static List<Task> Task.findEditTask(Program program, String taskCode,
+    public static List<Task> Task.findEditTask(Long id, String taskCode,
         String taskName, Integer taskCost, TypeTask typeTask, String empCode,
         Date dateStart, Date dateEnd, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria.createAlias("task.program", "program");
-        criteria.add(Restrictions.eq("program", program));
+        criteria.add(Restrictions.eq("program.id", id));
         criteria.add(Restrictions.eq("taskCode", taskCode));
         List<Task> et = criteria.list();
         Task edTask = et.get(0);
@@ -142,23 +161,24 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.merge();
         return criteria.list();
     }
-    public static List<Task> Task.findDeleteTask(Program program, String taskCode) {
+
+    public static List<Task> Task.findDeleteTask(Long id, Long taskID) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria.createAlias("task.program", "program");
-        criteria.add(Restrictions.eq("program", program));
-        criteria.add(Restrictions.eq("taskCode", taskCode));
+        criteria.add(Restrictions.eq("program.id", id));
+        criteria.add(Restrictions.eq("id", taskID));
         List<Task> et = criteria.list();
         Task edTask = et.get(0);
         edTask.remove();
         return criteria.list();
     }
 
-    public static List<Task> Task.findSizeTaskByTaskCode(Program program, String taskCode) {
+    public static List<Task> Task.findSizeTaskByTaskCode(Long id, String taskCode) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria.createAlias("task.program", "program");
-        criteria.add(Restrictions.eq("program", program));
+        criteria.add(Restrictions.eq("program.id", id));
         criteria.add(Restrictions.eq("taskCode", taskCode));
         return criteria.list();
     }
