@@ -22,7 +22,7 @@ pagginationProgram.setEventPaggingBtn("paggingSimpleProgram",pagginationProgram)
 pagginationProgram.loadTable = function loadTable (jsonData) {
 
     if(jsonData.length <= 0)
-       bootbox.alert("ไม่พบข้อมูลโปรแกรม");
+       bootbox.alert(Message.MSG_DATA_NOT_FOUND);
 
     $('#checkboxAllProgram').prop('checked', false);
     $('#ResualtSearchProgram').empty();
@@ -53,7 +53,7 @@ var positionName;
 
 function openEditProgram(element){
     chkAEProgram = 1;
-    $('.modal-title').text('แก้ไขโปรแกรม');
+    $('.modal-title').text(Label.LABEL_EDIT_PROGRAM);
     $('#txtProgramCode').popover('hide'); $('#txtProgramName').popover('hide');
     $('#txtProgramCode').val(null).attr('disabled', false); $('#txtProgramName').val(null);
     $('#btnModalProgramNext').hide();
@@ -86,7 +86,7 @@ function onClickTrProgram(object) {
 
 $('#btnAddProgram').click(function() {
     chkAEProgram = 0;
-    $(".modal-title").text("เพิ่มโปรแกรม");
+    $(".modal-title").text(Label.LABEL_ADD_PROGRAM);
     $('#txtProgramCode').popover('hide'); $('#txtProgramName').popover('hide');
     $('#txtProgramCode').val(null).attr('disabled', false); $('#txtProgramName').val(null);
     $('#btnModalProgramNext').show();
@@ -98,7 +98,7 @@ function checkProgramCode() {
     var elem = document.getElementById('txtProgramCode').value;
     if(!elem.match(/^([a-z0-9\_])+$/i))
     {
-        $('#txtProgramCode').attr("data-content" , "กรุณากรอกข้อมูลรหัสโปรแกรมเป็น a-Z หรือ A-Z หรือ 0-9").popover('show');
+        $('#txtProgramCode').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9).popover('show');
         return false;
     }else{
         return true;
@@ -111,10 +111,10 @@ $('[id^=btnModalProgram]').click(function() {
         $('#modalProgram').modal('hide');
     }else{
         if($('#txtProgramCode').val() === ""){
-            $('#txtProgramCode').attr("data-content" , "กรุณากรอกข้อมูลรหัสโปรแกรม").popover('show');
+            $('#txtProgramCode').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else if($('#txtProgramName').val()  === ""){
             if(checkProgramCode() === true){
-                $('#txtProgramName').attr("data-content" , "กรุณากรอกข้อมูลชื่อโปรแกรม").popover('show');
+                $('#txtProgramName').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
             }
         }else{
             if(checkProgramCode() === true){
@@ -136,24 +136,24 @@ $('[id^=btnModalProgram]').click(function() {
                             complete: function(xhr){
                                 if(xhr.status === 201){
                                     if(iD === 'Add'){
-                                        bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                                        bootbox.alert(Message.MSG_SAVE_SUCCESS);
                                         $('#modalProgram').modal('hide');
                                     }
                                     $('#txtProgramCode').val(null);
                                     $('#txtProgramName').val(null);
                                     searchDataProgram();
                                 }else if(xhr.status === 500){
-                                    bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                                    bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                 }
                             },
                             async: false
                         });
                     }else{
-                        bootbox.alert("รหัสโปรแกรมมีแล้ว");
+                        bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE);
                     }
                 }else if(chkAEProgram === 1){
                     if($('#txtProgramName').val() === positionName){
-                            bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
+                            bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
                     }else{
                         $.ajax({
                             headers: {
@@ -164,13 +164,13 @@ $('[id^=btnModalProgram]').click(function() {
                             data : pjmProgram,
                             complete: function(xhr){
                                 if(xhr.status === 200){
-                                    bootbox.alert("แก้ไขข้อมูลสำเร็จ");
+                                    bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
                                     $('#modalProgram').modal('hide');
                                     $('#txtProgramCode').val(null);
                                     $('#txtProgramName').val(null);
                                     searchDataProgram();
                                 }else if(xhr.status === 500){
-                                    bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
+                                    bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                 }
                             },
                             async: false
@@ -233,19 +233,19 @@ function deleteDataProgram() {
 
 $('#btnDeleteProgram').click(function() {
     if($(".checkboxTableProgram:checked").length <= 0){
-            bootbox.alert("คุณยังไม่ได้เลือกข้อมูลที่ต้องการลบ");
+            bootbox.alert(Message.MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED);
             return false;
     }else{
-        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function(result) {
+        bootbox.confirm(Message.MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS, function(result) {
             if(result == true){
                 deleteDataProgram();
                 searchDataProgram();
                 $('#checkboxAllProgram').prop('checked', false);
                 if(statusProgram500 === 0){
-                    bootbox.alert("ลบข้อมูลสำเร็จ : " + statusProgram200 + " รายการ");
+                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + statusProgram200 + " " + Message.MSG_LIST);
                 }else{
-                    bootbox.alert("ลบข้อมูลสำเร็จ : " + statusProgram200 + " รายการ ลบข้อมูลไม่สำเร็จ : " + statusProgram500 + " รายการ");
-                }
+                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + statusProgram200 + " " + Message.MSG_LIST + " " + Message.MSG_DELETE_FAILED + " " + statusProgram500 + " " + Message.MSG_LIST);
+                }Message.MSG_LIST
 
                 statusProgram200 = 0;
                 statusProgram500 = 0;
@@ -270,6 +270,6 @@ $('#TableProgram').on("click", ".checkboxTableProgram", function () {
 
     if($(this).attr("inUse") > 0){
         $(this).prop("checked", false);
-        bootbox.alert("ข้อมูลถูกเรียกใช้อยู่");
+        bootbox.alert(Message.MSG_DATA_IS_USE);
     }
 });

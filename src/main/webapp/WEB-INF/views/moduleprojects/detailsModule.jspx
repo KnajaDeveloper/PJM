@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
+    xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
@@ -72,27 +77,111 @@
     <input type="hidden" class="datetimepicker"/>
     <input type="hidden" class="datepicker"/>
 
+    <c:set var="LABEL_DETAILS_MODULES" scope="request"><spring:message text="L0075"/></c:set>
+    <c:set var="LABEL_MODULE_NEME" scope="request"><spring:message code="L0065"/></c:set>
+    <c:set var="LABEL_INITIAL" scope="request"><spring:message text="L0076"/></c:set>
+    <c:set var="LABEL_TOTAL_COST" scope="request"><spring:message code="L0048"/></c:set>
+    <c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0046"/></c:set>
+    <c:set var="LABEL_MANAGER" scope="request"><spring:message text="L0077"/></c:set>
+    <c:set var="LABEL_BALANCE_TOTAL_COST" scope="request"><spring:message text="L0078"/></c:set>
+    <c:set var="LABEL_END_DATE" scope="request"><spring:message text="L0079"/></c:set>
+    <c:set var="LABEL_ADD_PROGRAM" scope="request"><spring:message text="L0080"/></c:set>
+    <c:set var="LABEL_PROGRAM_CODE" scope="request"><spring:message text="L0081"/></c:set>
+    <c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message text="L0082"/></c:set>
+    <c:set var="LABEL_ADD_TASK" scope="request"><spring:message code="L0036"/></c:set>
+    <c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
+    <c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
+    <c:set var="LABEL_POINT" scope="request"><spring:message code="L0049"/></c:set>
+    <c:set var="LABEL_TYPE_TASK" scope="request"><spring:message text="L0083"/></c:set>
+    <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+    <c:set var="LABEL_ATTACHMENTS" scope="request"><spring:message text="L0084"/></c:set>
+    <c:set var="LABEL_DETAILS" scope="request"><spring:message text="L0085"/></c:set>
+    <c:set var="LABEL_EDIT" scope="request"><spring:message code="L0035"/></c:set>
+    <c:set var="LABEL_EDIT_PROGRAM" scope="request"><spring:message text="L0086"/></c:set>
+    <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message text="L0087"/></c:set>
+
+    <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message text="B0015"/></c:set>
+    <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message text="B0016"/></c:set>
+    <c:set var="BUTTON_REMOVE_SELECTED" scope="request"><spring:message code="B0004"/></c:set>
+    <c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
+    <c:set var="BUTTON_NEXT" scope="request"><spring:message code="B0008"/></c:set>
+    <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
+    <c:set var="BUTTON_SELECT_FILE" scope="request"><spring:message text="B0017"/></c:set>
+    <c:set var="BUTTON_DOWNLOAD_FILE" scope="request"><spring:message text="B0018"/></c:set>
+
+    <c:set var="MSG_DATA_NOT_FOUND" scope="request"><spring:message text="M0018"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message text="M0022"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message text="M0023"/></c:set>
+    <c:set var="MSG_PLEASE_COMPLETE_THIS_FIEID" scope="request"><spring:message code="M0002"/></c:set>
+    <c:set var="MSG_PLEASE_DELECT_THE_DATA" scope="request"><spring:message code="M0003"/></c:set>
+    <c:set var="MSG_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
+    <c:set var="MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST" scope="request"><spring:message text="M0024"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE" scope="request"><spring:message text="M0025"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_A_NEW_TASK_CODE" scope="request"><spring:message text="M0026"/></c:set>
+    <c:set var="MSG_NO_INFORMATION_CHANGED" scope="request"><spring:message text="M0012"/></c:set>
+    <c:set var="MSG_EDIT_SUCCESSFULLY" scope="request"><spring:message text="M0013"/></c:set>
+    <c:set var="MSG_EDIT_UNSUCCESSFUL" scope="request"><spring:message text="M0021"/></c:set>
+    <c:set var="MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED" scope="request"><spring:message code="M0003"/></c:set>
+    <c:set var="MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS" scope="request"><spring:message code="M0004"/></c:set>
+    <c:set var="MSG_DELETE_SUCCESS" scope="request"><spring:message code="M0005"/></c:set>
+    <c:set var="MSG_DELETE_FAILED" scope="request"><spring:message code="M0006"/></c:set>
+    <c:set var="MSG_LIST" scope="request"><spring:message text="M0027"/></c:set>
+    <c:set var="MSG_DATA_IS_USE" scope="request"><spring:message text="M0028"/></c:set>
+
+    <script type="text/javascript">
+        var Label = {};
+        var Button = {};
+        var Message = {};
+
+        Label.LABEL_EDIT_PROGRAM = '${LABEL_EDIT_PROGRAM}';
+        Label.LABEL_TYPE_TASK = '${LABEL_TYPE_TASK}';
+        Label.LABEL_EDIT_TASK = '${LABEL_EDIT_TASK}';
+        Label.LABEL_ADD_PROGRAM = '${LABEL_ADD_PROGRAM}';
+        Label.LABEL_ADD_TASK = '${LABEL_ADD_TASK}';
+
+        Button.BUTTON_OK = '${BUTTON_OK}';
+
+        Message.MSG_DATA_NOT_FOUND = '${MSG_DATA_NOT_FOUND}';
+        Message.MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9 = '${MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9}';
+        Message.MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9 = '${MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9}';
+        Message.MSG_PLEASE_COMPLETE_THIS_FIEID = '${MSG_PLEASE_COMPLETE_THIS_FIEID}';
+        Message.MSG_PLEASE_DELECT_THE_DATA = '${MSG_PLEASE_DELECT_THE_DATA}';
+        Message.MSG_SAVE_SUCCESS = '${MSG_SAVE_SUCCESS}';
+        Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST = '${MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST}';
+        Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE = '${MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE}';
+        Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE = '${MSG_PLEASE_ENTER_A_NEW_TASK_CODE}';
+        Message.MSG_NO_INFORMATION_CHANGED = '${MSG_NO_INFORMATION_CHANGED}';
+        Message.MSG_EDIT_SUCCESSFULLY = '${MSG_EDIT_SUCCESSFULLY}';
+        Message.MSG_EDIT_UNSUCCESSFUL = '${MSG_EDIT_UNSUCCESSFUL}';
+        Message.MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED = '${MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED}';
+        Message.MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS = '${MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS}';
+        Message.MSG_DELETE_SUCCESS = '${MSG_DELETE_SUCCESS}';
+        Message.MSG_DELETE_FAILED = '${MSG_DELETE_FAILED}';
+        Message.MSG_LIST = '${MSG_LIST}';
+        Message.MSG_DATA_IS_USE = '${MSG_DATA_IS_USE}';
+    </script>
+
     <div class="row">
         <div class="panel panel-primary">
-            <div class="panel-heading">รายละเอียดโมดูล</div>
+            <div class="panel-heading">${LABEL_DETAILS_MODULES}</div>
             <div class="panel-body">
                 <br/>
                 <div class="col-xs-11 col-xs-offset-1">
                     <form class="form-inline">
                         <div class="col-xs-1">
-                            <label class="control-label">ชื่อโมดูล</label>
+                            <label class="control-label">${LABEL_MODULE_NEME}</label>
                             <br/>
                             <br/>
-                            <label class="control-label">ชื่อย่อโมดูล</label>
+                            <label class="control-label">${LABEL_INITIAL}</label>
                             <br/>
                             <br/>
-                            <label class="control-label">จำนวนต้นทุน</label>
+                            <label class="control-label">${LABEL_TOTAL_COST}</label>
                             <br/>
                             <br/>
-                            <label class="control-label">วันที่เริ่ม</label>
+                            <label class="control-label">${LABEL_START_DATE}</label>
                             <br/>
                             <br/>
-                            <label class="control-label">ผู้ดูแล</label>
+                            <label class="control-label">${LABEL_MANAGER}</label>
                         </div>
                         <div class="col-xs-4">
                             <label id="lblModuleNeme" class="control-label"><jsp:text/></label>
@@ -117,10 +206,10 @@
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label class="control-label">จำนวนต้นทุนคงเหลือ</label>
+                                <label class="control-label">${LABEL_BALANCE_TOTAL_COST}</label>
                                 <br/>
                                 <br/>
-                                <label class="control-label">วันที่สิ้นสุด</label>
+                                <label class="control-label">${LABEL_END_DATE}</label>
                         </div>
                         <div class="col-xs-4">
                                 <br/>
@@ -142,10 +231,10 @@
             <form class="form-inline">
                 <div class="form-group">
                     <div class="col-xs-6">
-                        <button id="btnAddProgram" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProgram" data-backdrop="static">เพิ่มโปรแกรม</button>
+                        <button id="btnAddProgram" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProgram" data-backdrop="static">${BUTTON_ADD_PROGRAM}</button>
                     </div>
                     <div class="col-xs-6">
-                        <button id="btnDeleteProgram" type="button" class="btn btn-danger">ลบที่เลือก</button>
+                        <button id="btnDeleteProgram" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECTED}</button>
                     </div>
                 </div>
             </form>
@@ -154,10 +243,10 @@
             <form id="formADTask" class="form-inline" hidden="true">
                 <div class="form-group">
                     <div class="col-xs-5">
-                        <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">เพิ่มงาน</button>
+                        <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">${BUTTON_ADD_TASK}</button>
                     </div>
                     <div class="col-xs-5">
-                        <button id="btnDeleteTask" type="button" class="btn btn-danger">ลบที่เลือก</button>
+                        <button id="btnDeleteTask" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECTED}</button>
                     </div>
                 </div>
             </form>
@@ -166,13 +255,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title">เพิ่มโปรแกรม</h4>
+                        <h4 class="modal-title">${LABEL_ADD_PROGRAM}</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label required">รหัสโปรแกรม</label>
+                                    <label class="control-label required">${LABEL_PROGRAM_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" id="txtProgramCode" data-placement="bottom" placeholder="รหัสโปรแกรม" />
@@ -180,7 +269,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label required">ชื่อโปรแกรม</label>
+                                    <label class="control-label required">${LABEL_PROGRAM_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" id="txtProgramName" data-placement="bottom" placeholder="ชื่อโปรแกรม" />
@@ -189,9 +278,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button id="btnModalProgramAdd" type="button" class="btn btn-primary">ตกลง</button>
-                        <button id="btnModalProgramNext" type="button" class="btn btn-primary">ถัดไป</button>
-                        <button id="btnModalProgramCancel" type="button" class="btn btn-danger">ยกเลิก</button>
+                        <button id="btnModalProgramAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+                        <button id="btnModalProgramNext" type="button" class="btn btn-primary">${BUTTON_NEXT}</button>
+                        <button id="btnModalProgramCancel" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
                         <br/>
                     </div>
                 </div>
@@ -201,64 +290,64 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h4 class="modal-title">เพิ่มงาน</h4>
+                        <h4 class="modal-title">${LABEL_ADD_TASK}</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label required">รหัสงาน</label>
+                                    <label class="control-label required">${LABEL_TASK_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtTaskCode" data-placement="bottom" placeholder="รหัสงาน" />
+                                    <input type="text" class="form-control" id="txtTaskCode" data-placement="bottom" placeholder="${LABEL_TASK_CODE}" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label required">ชื่องาน</label>
+                                    <label class="control-label required">${LABEL_TASK_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtTaskName" data-placement="bottom" placeholder="ชื่องาน" />
+                                    <input type="text" class="form-control" id="txtTaskName" data-placement="bottom" placeholder="${LABEL_TASK_NAME}" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label required">จำนวนต้นทุน</label>
+                                    <label class="control-label required">${LABEL_TOTAL_COST}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="txtTaskCost" data-placement="bottom" placeholder="จำนวนต้นทุน" />
-                                        <span class="input-group-addon">Point</span>
+                                        <input type="text" class="form-control" id="txtTaskCost" data-placement="bottom" placeholder="${LABEL_TOTAL_COST}" />
+                                        <span class="input-group-addon">${LABEL_POINT}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label required">ประเภทงาน</label>
+                                    <label class="control-label required">${LABEL_TYPE_TASK}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="dropdown">
                                         <select class="dropdown-toggle" id="ddlTypeTask"
-                                        data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ประเภทงาน<span class="caret"></span>
-                                        </select>
+                                        data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><jsp:text/><span class="caret"></span>
+                                   </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label ">ผู้รับผิดชอบ</label>
+                                    <label class="control-label ">${LABEL_MANAGER}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtEmpName" placeholder="ผู้รับผิดชอบ" />
+                                    <input type="text" class="form-control" id="txtEmpName" placeholder=">${LABEL_MANAGER}" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label">วันที่เริ่ม</label>
+                                    <label class="control-label">${LABEL_START_DATE}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text"  class="form-control" id="dateStartProject" name="dateStartProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="วันที่เริ่ม" />
+                                        <input type="text"  class="form-control" id="dateStartProject" name="dateStartProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="LABEL_START_DATE}" />
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
@@ -267,11 +356,11 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label">วันที่สิ้นสุด</label>
+                                    <label class="control-label">${LABEL_END_DATE}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="dateEndProject" name="dateEndProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="วันที่สิ้นสุด" />
+                                        <input type="text" class="form-control" id="dateEndProject" name="dateEndProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="${LABEL_END_DATE}" />
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
@@ -280,18 +369,18 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label ">ความคืบหน้า</label>
+                                    <label class="control-label ">${LABEL_PROGRESS}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtProgress" placeholder="ความคืบหน้า" disabled="true"/>
+                                    <input type="text" class="form-control" id="txtProgress" placeholder="${LABEL_PROGRESS}" disabled="true"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label">แนบไฟล์</label>
+                                    <label class="control-label">${LABEL_ATTACHMENTS}</label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">เลือกไฟล์</button>
+                                    <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">${BUTTON_SELECT_FILE}</button>
                                 </div>
                                 <div class="col-xs-4">
                                     <label id="fileName" class="control-label"><jsp:text/></label>
@@ -302,7 +391,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label ">รายละเอียด</label>
+                                    <label class="control-label ">${LABEL_DETAILS}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <textarea id="txtaDescription" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
@@ -311,9 +400,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button id="btnModalTaskAdd" type="button" class="btn btn-primary">ตกลง</button>
-                        <button id="btnModalTaskNext" type="button" class="btn btn-primary">ถัดไป</button>
-                        <button id="btnModalTaskCancel" type="button" class="btn btn-danger">ยกเลิก</button>
+                        <button id="btnModalTaskAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+                        <button id="btnModalTaskNext" type="button" class="btn btn-primary">${BUTTON_NEXT}</button>
+                        <button id="btnModalTaskCancel" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
                         <br/>
                     </div>
                 </div>
@@ -331,9 +420,9 @@
                                     <th id="thChkAll" class="text-center">
                                         <input id="checkboxAllProgram" type="checkbox" name="checkdDelete" />
                                     </th>
-                                    <th id="thEditProgram" class="text-center">แก้ไข</th>
-                                    <th id="thProgramCode" class="text-center" >รหัสโปรแกรม</th>
-                                    <th id="thProgramName" class="text-center" >ชื่อโปรแกรม</th>
+                                    <th id="thEditProgram" class="text-center">${LABEL_EDIT}</th>
+                                    <th id="thProgramCode" class="text-center" >${LABEL_PROGRAM_CODE}</th>
+                                    <th id="thProgramName" class="text-center" >${LABEL_PROGRAM_NAME}</th>
                                 </tr>
                             </thead>
                             <tbody id="ResualtSearchProgram" style="cursor:pointer"></tbody>
@@ -353,11 +442,11 @@
                                     <th id="thChkAllTask" class="text-center">
                                         <input id="checkboxAllTask" type="checkbox" name="checkdDelete" />
                                     </th>
-                                    <th id="thEditTask" class="text-center">แก้ไข</th>
-                                    <th id="thTaskCode" class="text-center" >รหัสงาน</th>
-                                    <th id="thTaskName" class="text-center" >ชื่องาน</th>
-                                    <th id="thNumberCost" class="text-center" >จำนวนต้นทุน</th>
-                                    <th id="thProgress" class="text-center" >ความคืบหน้า</th>
+                                    <th id="thEditTask" class="text-center">${LABEL_EDIT}</th>
+                                    <th id="thTaskCode" class="text-center" >${LABEL_TASK_CODE}</th>
+                                    <th id="thTaskName" class="text-center" >${LABEL_TASK_NAME}</th>
+                                    <th id="thNumberCost" class="text-center" >${LABEL_TOTAL_COST}</th>
+                                    <th id="thProgress" class="text-center" >${LABEL_PROGRESS}</th>
                                 </tr>
                             </thead>
                             <tbody id="ResualtSearchTask" style="cursor:pointer"></tbody>
@@ -369,22 +458,22 @@
                         </div>
                     </div>
                     <div class="col-xs-2">
-                        <label class="control-label">ผู้รับผิดชอบ</label>
+                        <label class="control-label">${LABEL_MANAGER}</label>
                         <br/>
                         <br/>
-                        <label class="control-label">ประเภทงาน</label>
+                        <label class="control-label">${LABEL_TYPE_TASK}</label>
                         <br/>
                         <br/>
-                        <label class="control-label">วันที่เริ่ม</label>
+                        <label class="control-label">${LABEL_START_DATE}</label>
                         <br/>
                         <br/>
-                        <label class="control-label">วันที่สิ้นสุด</label>
+                        <label class="control-label">${LABEL_END_DATE}</label>
                         <br/>
                         <br/>
-                        <label class="control-label">แนบไฟล์</label>
+                        <label class="control-label">${LABEL_ATTACHMENTS}</label>
                         <br/>
                         <br/>
-                        <label class="control-label">รายละเอียด</label>
+                        <label class="control-label">${LABEL_DETAILS}</label>
                     </div>
                     <div class="col-xs-6">
                         <label id="lblEmpName" class="control-label"><jsp:text/></label>
@@ -399,7 +488,7 @@
                         <label id="lblEDate" class="control-label"><jsp:text/></label>
                         <br/>
                         <br/>
-                        <button id="" type="button" class="btn btn-primary">ดาวน์โหลดไฟล์</button>
+                        <button id="" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
                         <label id="lblFileName" class="control-label"><jsp:text/></label>
                         <br/>
                         <br/>
