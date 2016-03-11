@@ -119,8 +119,8 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     }
 
     public static Task Task.saveTask(String taskCode, String taskName, Integer taskCost,
-        TypeTask typeTask, String empCode, Date dateStart, Date dateEnd, String detail,
-        Integer progress, Program program) {
+        TypeTask typeTask, String empCode, Date dateStart, Date dateEnd, String fileName,
+        String detail, Integer progress, Program program) {
 
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
@@ -133,6 +133,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         task.setDateStart(dateStart);
         task.setDateEnd(dateEnd);
         task.setDetail(detail);
+        task.setFileName(fileName);
         task.setProgress(progress);
         task.setProgram(program);
         task.persist();
@@ -142,7 +143,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     public static List<Task> Task.findEditTask(Long id, String taskCode,
         String taskName, Integer taskCost, TypeTask typeTask, String empCode,
-        Date dateStart, Date dateEnd, String detail, Integer progress) {
+        Date dateStart, Date dateEnd, String fileName, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria.createAlias("task.program", "program");
@@ -156,6 +157,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.setEmpCode(empCode);
         edTask.setDateStart(dateStart);
         edTask.setDateEnd(dateEnd);
+        edTask.setFileName(fileName);
         edTask.setDetail(detail);
         edTask.setProgress(progress);
         edTask.merge();

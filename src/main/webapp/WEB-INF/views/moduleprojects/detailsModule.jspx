@@ -288,12 +288,15 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-offset-1 col-xs-2">
-                                    <label class="control-label ">แนบไฟล์</label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">เลือกไฟล์</button>
+                                    <label class="control-label">แนบไฟล์</label>
                                 </div>
                                 <div class="col-sm-2">
+                                    <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">เลือกไฟล์</button>
+                                </div>
+                                <div class="col-xs-4">
+                                    <label id="fileName" class="control-label"><jsp:text/></label>
+                                </div>
+                                <div class="col-sm-1">
                                     <input id="myInput" type="file" style="visibility:hidden" />
                                 </div>
                             </div>
@@ -397,6 +400,7 @@
                         <br/>
                         <br/>
                         <button id="" type="button" class="btn btn-primary">ดาวน์โหลดไฟล์</button>
+                        <label id="lblFileName" class="control-label"><jsp:text/></label>
                         <br/>
                         <br/>
                         <textarea id="txtaDetail" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>

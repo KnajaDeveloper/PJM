@@ -31,6 +31,13 @@ $(document).ready(function(){
 
 	searchDataProgram();
   	$('#checkboxAllProgram').prop('checked', false);
+
+  	$('#myInput').change(function () {
+        var file = document.getElementById("myInput").files[0];
+        if (file) {
+            $('#fileName').text(file.name);
+        }
+    });
 });
 
 function searchTaskCost(moduleCost){

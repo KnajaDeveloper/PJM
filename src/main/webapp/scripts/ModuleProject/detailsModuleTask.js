@@ -25,12 +25,13 @@ function searchDataTask() {
     pagginationTask.search(pagginationTask);
 }
 
-var dataTypeTask = []
-var dataTypeTaskName = []
-var dataEmpCode = []
-var dataDateStart = []
-var dataDateEnd = []
-var dataDetail = []
+var dataTypeTask = [];
+var dataTypeTaskName = [];
+var dataEmpCode = [];
+var dataDateStart = [];
+var dataDateEnd = [];
+var dataFileName = [];
+var dataDetail = [];
 
 pagginationTask.setEventPaggingBtn("paggingSimpleTask",pagginationTask);
 pagginationTask.loadTable = function loadTable (jsonData) {
@@ -44,6 +45,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         $('#lblTaskName').text("");
         $('#lblSDate').text("");
         $('#lblEDate').text("");
+        $('#lblFileName').text("");
         $('#txtaDetail').val(null);
     }
 
@@ -57,6 +59,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     dataEmpCode = [];
     dataDateStart = [];
     dataDateEnd = [];
+    dataFileName = [];
     dataDetail = [];
 
     jsonData.forEach(function(value){
@@ -74,6 +77,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         else
             dataDateEnd.push(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language));
 
+        dataFileName.push(value.fileName);
         dataDetail.push(value.detail);
 
         var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
@@ -135,6 +139,7 @@ var checkEmpName;
 var checkdateStart;
 var checkdateEnd;
 var checkProgress;
+var checkFileName;
 var checkDescription;
 
 function openEditProgram(element){
@@ -152,6 +157,7 @@ function openEditProgram(element){
     $('#dateStartProject').val(null);
     $('#dateEndProject').val(null);
     $('#txtProgress').val(null).attr('disabled', true);
+    $('#fileName').text("");
     $('#txtaDescription').val("");
     $('#btnModalTaskNext').hide();
 
@@ -178,6 +184,9 @@ function openEditProgram(element){
     checkProgress = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgressTask").text().split('%')[0];
     $('#txtProgress').val(checkProgress).attr('disabled', false);
 
+    checkFileName = dataFileName[id - 1];
+    $('#fileName').text(checkFileName)
+
     checkDescription = dataDetail[id - 1];
     $('#txtaDescription').val(checkDescription);
 }
@@ -188,6 +197,7 @@ function onClickTrTask(object){
     $('#lblTaskName').text(dataTypeTaskName[id - 1]);
     $('#lblSDate').text(dataDateStart[id - 1]);
     $('#lblEDate').text(dataDateEnd[id - 1]);
+    $('#lblFileName').text(dataFileName[id - 1]);
     $('#txtaDetail').val(dataDetail[id - 1]);
 
     var lengthTr = $('#TableTask').find('tr').length;
@@ -244,6 +254,7 @@ $('[id^=btnModalTask]').click(function() {
         $('#txtEmpName').val(null);
         $('#dateStartProject').val(null);
         $('#dateEndProject').val(null);
+        $('#fileName').text("");
         $('#txtaDescription').val("");
     }else{
         if($('#txtTaskCode').val() === ""){
@@ -275,6 +286,7 @@ $('[id^=btnModalTask]').click(function() {
                     empCode: $('#txtEmpName').val(),
                     dateStart: new Date(dateStart),
                     dateEnd: new Date(dateEnd),
+                    fileName: $('#fileName').text(),
                     detail: $('#txtaDescription').val(),
                     progress: $('#txtProgress').val(),
                     id: programID
@@ -304,6 +316,7 @@ $('[id^=btnModalTask]').click(function() {
                                         $('#txtEmpName').val(null);
                                         $('#dateStartProject').val(null);
                                         $('#dateEndProject').val(null);
+                                        $('#fileName').text("");
                                         $('#txtaDescription').val("");
                                         DDLData();
                                         searchDataTask();
@@ -328,6 +341,7 @@ $('[id^=btnModalTask]').click(function() {
                         $('#dateStartProject').val() == checkdateStart &&
                         $('#dateEndProject').val() == checkdateEnd &&
                         $('#txtProgress').val() == checkProgress &&
+                        $('#fileName').text() == checkFileName &&
                         $('#txtaDescription').val() == checkDescription){
                         bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
                         $('#modalTask').modal('hide');
@@ -349,6 +363,7 @@ $('[id^=btnModalTask]').click(function() {
                                     $('#txtEmpName').val(null);
                                     $('#dateStartProject').val(null);
                                     $('#dateEndProject').val(null);
+                                    $('#fileName').text("");
                                     $('#txtaDescription').val("");
                                     searchDataTask();
                                     $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
@@ -426,12 +441,13 @@ $('#btnDeleteTask').click(function() {
                 searchDataProgram();
 
                 dataTaskCode = [];
-                dataTypeTask = []
-                dataTypeTaskName = []
-                dataEmpCode = []
-                dataDateStart = []
-                dataDateEnd = []
-                dataDetail = []
+                dataTypeTask = [];
+                dataTypeTaskName = [];
+                dataEmpCode = [];
+                dataDateStart = [];
+                dataDateEnd = [];
+                dataFileName = [];
+                dataDetail = [];
 
                 $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                 $('#checkboxAllTask').prop('checked', false);
