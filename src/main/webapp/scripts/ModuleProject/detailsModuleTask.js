@@ -40,7 +40,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     $('#formTask').show();
 
     if(jsonData.length <= 0){
-       bootbox.alert("ไม่พบข้อมูลงาน");
+       bootbox.alert(Message.MSG_DATA_NOT_FOUND);
        $('#lblEmpName').text("");
         $('#lblTaskName').text("");
         $('#lblSDate').text("");
@@ -124,7 +124,7 @@ function DDLData() {
     dataTypeTaskCode = [];
     ddlData = ddlData.responseJSON;
     $('#ddlTypeTask').empty();
-    $('#ddlTypeTask').append("<option><-- ประเภทงาน --></option>");
+    $('#ddlTypeTask').append("<option><-- " + Label.LABEL_TYPE_TASK + " --></option>");
     ddlData.forEach(function(value){
         dataTypeTaskCode.push(value.typeTaskCode);
         var text = value.typeTaskName;
@@ -148,7 +148,7 @@ function openEditProgram(element){
     chkAETask = 1;
     DDLData();
 
-    $(".modal-title").text("แก้ไขงาน");
+    $(".modal-title").text(Label.LABEL_EDIT_TASK);
     $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null).attr('disabled', false);
     $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
     $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
@@ -157,6 +157,7 @@ function openEditProgram(element){
     $('#dateStartProject').val(null);
     $('#dateEndProject').val(null);
     $('#txtProgress').val(null).attr('disabled', true);
+    document.getElementById("myInput").value = "";
     $('#fileName').text("");
     $('#txtaDescription').val("");
     $('#btnModalTaskNext').hide();
@@ -210,7 +211,7 @@ function onClickTrTask(object){
 
 $('#btnAddTask').click(function() {
     chkAETask = 0;
-    $(".modal-title").text("เพิ่มงาน");
+    $(".modal-title").text(Label.LABEL_ADD_TASK);
     $('#btnModalTaskNext').show();
     DDLData();
     $('#txtTaskCode').attr('disabled', false);
@@ -231,7 +232,7 @@ function checkTaskCode() {
     var elem = document.getElementById('txtTaskCode').value;
     if(!elem.match(/^([a-z0-9\_])+$/i))
     {
-        $('#txtTaskCode').attr("data-content" , "กรุณากรอกข้อมูลรหัสงานเป็น a-Z หรือ A-Z หรือ 0-9").popover('show');
+        $('#txtTaskCode').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9).popover('show');
         return false;
     }else{
         return true;
@@ -254,22 +255,23 @@ $('[id^=btnModalTask]').click(function() {
         $('#txtEmpName').val(null);
         $('#dateStartProject').val(null);
         $('#dateEndProject').val(null);
+        document.getElementById("myInput").value = "";
         $('#fileName').text("");
         $('#txtaDescription').val("");
     }else{
         if($('#txtTaskCode').val() === ""){
-            $('#txtTaskCode').attr("data-content" , "กรุณากรอกข้อมูลรหัสงาน").popover('show');
+            $('#txtTaskCode').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else if($('#txtTaskName').val() === ""){
             if(checkTaskCode() === true){
-                $('#txtTaskName').attr("data-content" , "กรุณากรอกข้อมูลชื่องาน").popover('show');
+                $('#txtTaskName').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
             }
         }else if($('#txtTaskCost').val() === ""){
             if(checkTaskCode() === true){
-                $('#txtTaskCost').attr("data-content" , "กรุณากรอกข้อมูลจำนวนต้นทุน").popover('show');
+                $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popoverMessage.MSG_PLEASE_COMPLETE_THIS_FIEID('show');
             }
-        }else if($('#ddlTypeTask').val() === "<-- ประเภทงาน -->"){
+        }else if($('#ddlTypeTask').val() === "<-- " + Label.LABEL_TYPE_TASK + " -->"){
             if(checkTaskCode() === true){
-                $('#ddlTypeTask').attr("data-content" , "กรุณาเลือกข้อมูลประเภทงาน").popover('show');
+                $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_DELECT_THE_DATA).popover('show');
             }
         }else{
             if(checkTaskCode() == true){
@@ -295,7 +297,7 @@ $('[id^=btnModalTask]').click(function() {
                 if(chkAETask == 0){
                     if(checkDataTask() == 0){
                         if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
-                            bootbox.alert("จำนวนต้นทุนเกินต้นทุนคงเหลือ");
+                            bootbox.alert(Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST);
                         }else{
                             $.ajax({
                                 headers: {
@@ -307,7 +309,7 @@ $('[id^=btnModalTask]').click(function() {
                                 complete: function(xhr){
                                     if(xhr.status == 201){
                                         if(id == 'Add'){
-                                            bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                                            bootbox.alert(Message.MSG_SAVE_SUCCESS);
                                             $('#modalTask').modal('hide');
                                         }
                                         $('#txtTaskCode').val(null);
@@ -316,6 +318,7 @@ $('[id^=btnModalTask]').click(function() {
                                         $('#txtEmpName').val(null);
                                         $('#dateStartProject').val(null);
                                         $('#dateEndProject').val(null);
+                                        document.getElementById("myInput").value = "";
                                         $('#fileName').text("");
                                         $('#txtaDescription').val("");
                                         DDLData();
@@ -324,14 +327,14 @@ $('[id^=btnModalTask]').click(function() {
                                         $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                                         $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
                                     }else if(xhr.status == 500){
-                                        bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                                        bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                     }
                                 },
                                 async: false
                             });
                         }
                     }else{
-                        bootbox.alert("รหัสงานมีแล้ว");
+                        bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE);
                     }
                 }else if(chkAETask == 1){
                     if($('#txtTaskName').val() == checkTaskName &&
@@ -343,7 +346,7 @@ $('[id^=btnModalTask]').click(function() {
                         $('#txtProgress').val() == checkProgress &&
                         $('#fileName').text() == checkFileName &&
                         $('#txtaDescription').val() == checkDescription){
-                        bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
+                        bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
                         $('#modalTask').modal('hide');
                     }else{
                         $.ajax({
@@ -355,7 +358,7 @@ $('[id^=btnModalTask]').click(function() {
                             data : pjmTask,
                             complete: function(xhr){
                                 if(xhr.status === 200){
-                                    bootbox.alert("แก้ไขข้อมูลสำเร็จ");
+                                    bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
                                     $('#modalTask').modal('hide');
                                     $('#txtTaskCode').val(null);
                                     $('#txtTaskName').val(null);
@@ -363,12 +366,13 @@ $('[id^=btnModalTask]').click(function() {
                                     $('#txtEmpName').val(null);
                                     $('#dateStartProject').val(null);
                                     $('#dateEndProject').val(null);
+                                    document.getElementById("myInput").value = "";
                                     $('#fileName').text("");
                                     $('#txtaDescription').val("");
                                     searchDataTask();
                                     $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
                                 }else if(xhr.status === 500){
-                                    bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
+                                    bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                 }
                             },
                             async: false
@@ -431,10 +435,10 @@ function deleteDataTask() {
 
 $('#btnDeleteTask').click(function() {
     if($(".checkboxTableTask:checked").length <= 0){
-        bootbox.alert("คุณยังไม่ได้เลือกข้อมูลที่ต้องการลบ");
+        bootbox.alert(Message.MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED);
         return false;
     }else{
-        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function(result) {
+        bootbox.confirm(Message.MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS, function(result) {
             if(result == true){
                 deleteDataTask();
                 searchDataTask();
@@ -453,9 +457,9 @@ $('#btnDeleteTask').click(function() {
                 $('#checkboxAllTask').prop('checked', false);
 
                 if(chkDTaskStatus500 === 0){
-                    bootbox.alert("ลบข้อมูลสำเร็จ : " + chkDTaskStatus200 + " รายการ");
+                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + chkDTaskStatus200 + " " + Message.MSG_LIST);
                 }else{
-                    bootbox.alert("ลบข้อมูลสำเร็จ : " + chkDTaskStatus200 + " รายการ ลบข้อมูลไม่สำเร็จ : " + chkDTaskStatus500 + " รายการ");
+                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + chkDTaskStatus200 + " " + Message.MSG_LIST + " " + Message.MSG_DELETE_FAILED + " " + chkDTaskStatus500 + " " + Message.MSG_LIST);
                 }
 
                 chkDTaskStatus200 = 0;
