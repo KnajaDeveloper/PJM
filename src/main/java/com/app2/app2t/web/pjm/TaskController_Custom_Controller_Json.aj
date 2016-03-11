@@ -79,6 +79,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             @RequestParam(value = "empCode", required = false) String empCode,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "fileName", required = false) String fileName,
             @RequestParam(value = "detail", required = false) String detail,
             @RequestParam(value = "progress", required = false) Integer progress,
             @RequestParam(value = "id", required = false) long id
@@ -89,7 +90,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
             List<Program> pg = Program.findProgramByID(id);
             Task task = Task.saveTask(taskCode, taskName, taskCost, tt.get(0), empCode,
-                dateStart, dateEnd, detail, progress, pg.get(0));
+                dateStart, dateEnd, fileName, detail, progress, pg.get(0));
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -107,6 +108,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             @RequestParam(value = "empCode", required = false) String empCode,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "fileName", required = false) String fileName,
             @RequestParam(value = "detail", required = false) String detail,
             @RequestParam(value = "progress", required = false) Integer progress
     ) {
@@ -115,7 +117,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         try {
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
             List<Task> result = Task.findEditTask(id, taskCode, taskName, taskCost, tt.get(0), empCode,
-                dateStart, dateEnd, detail, progress);
+                dateStart, dateEnd, fileName, detail, progress);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
