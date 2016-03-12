@@ -1,18 +1,15 @@
-var ids = [];
 //-----Check Syntax-------------------------------------------------------------------------------
 function checkString() {
     var checkS = $("#aTypeTaskCode").val();
     if (/[^A-Za-z0-9\-\d]/.test(checkS)) {
-        $('#aTypeTaskCode').attr("data-content", "กรุณากรอกข้อมูลรหัสพนักงานเป็น a-Z หรือ A-Z หรือ 0-9").popover('show');
+        $('#aTypeTaskCode').attr("data-content", Message.Please_Input_As).popover('show');
         $("#aTypeTaskName").popover('hide');
     }
 }
 //------------------------------------------------------------------------------------
-var chk = false;
+
 
 $('#search').click(function () {
-
-    chk = true;
     searchData();
 });
 
@@ -21,56 +18,44 @@ var paggination = Object.create(UtilPaggination);
 paggination.setEventPaggingBtn("paggingSimple", paggination);
 paggination.loadTable = function loadTable(jsonData) {
     if (jsonData.length <= 0) {
-        bootbox.alert("ไม่มีข้อมูล");
+        bootbox.alert(Message.Data_not_found);
     }
 
     $('#tbody').empty();
 
-    var i = 1;
     var tableData = "";
     jsonData.forEach(function (value) {
 
-        check(value.id);
-        console.log(value.id);
-        if (ids == ""){
-            tableData = ''
-                + '<tr>'
-                + '<td class="text-center">'
-                + '<input class="check" type="checkbox" id="checkDelete' + i + '"/>'
-                + '</td>'
-                + '<td class="text-center">'
-                + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
-                + '</td>'
-                + '<td id="tdTypeTaskCode' + i + '">'
-                + value.typeTaskCode
-                + '</td>'
-                + '<td id="tdTypeTaskName' + i++ + '">'
-                + value.typeTaskName
-                + '</td>'
-                + '</tr>';
-        }else {
+        tableData = ''
+            + '<tr>'
+            + '<td class="text-center">'
+            + '<input inUse="' + value.inUse + '" id="' + value.id + '" class="checkboxTable" type="checkbox" />'
+            + '</td>'
+            + '<td class="text-center">'
+            + '<button onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+            + '</td>'
+            + '<td id="tdTypeTaskCode" class="text-center">' + value.typeTaskCode + '</td>'
+            + '<td id="tdTypeTaskName" class="text-center">' + value.typeTaskName + '</td>'
+            + '</tr>';
 
-            tableData = ''
-                + '<tr>'
-                + '<td class="text-center">'
-                + '<input class="check" type="checkbox" id="DischeckDelete' + i + '" disabled="disabled"/>'
-                + '</td>'
-                + '<td class="text-center">'
-                + '<button id="btnEdit' + i + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
-                + '</td>'
-                + '<td id="tdTypeTaskCode' + i + '">'
-                + value.typeTaskCode
-                + '</td>'
-                + '<td id="tdTypeTaskName' + i++ + '">'
-                + value.typeTaskName
-                + '</td>'
-                + '</tr>';
-        }
         $('#tbody').append(tableData);
     });
 };
 
+//------------------------------------------------------------------------------------
+
+var typeTaskName;
+
+function openModalEdit(element) {
+    $('#eTypeTaskCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskCode").text()).attr('disabled', true);
+    typeTaskName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskName").text();
+    $('#eTypeTaskName').val(typeTaskName);
+}
+
+//------------------------------------------------------------------------------------
+
 function searchData() {
+    $('#checkAll').prop('checked', false);
     var dataJsonData = {
         findTypeCode: $('#sTypeTaskCode').val(),
         findTypeName: $('#sTypeTaskName').val()
@@ -88,16 +73,6 @@ function searchData() {
 
     paggination.search(paggination);
 }
-
-//------------------------------------------------------------------------------------
-var checkEdit = "";
-
-$("#table").on("click", '[id^=btnEdit]', function () {
-    var id = this.id.split('t')[2];
-    $("#eTypeTaskCode").val($("#tdTypeTaskCode" + id).text());
-    $("#eTypeTaskName").val($("#tdTypeTaskName" + id).text());
-    checkEdit = $('#tdTypeTaskName' + id).text();
-});
 //------------------------------------------------------------------------------------
 var sizedata;
 //ส่ง ค่าเข้าไป check ข้างใน active แล้ว return กลับมาเป็นเลข แล้วเอามา check
@@ -140,7 +115,7 @@ $('[id^=btnM]').click(function () {
 
         if ($("#aTypeTaskCode").val() == "") {
 
-            $("#aTypeTaskCode").attr("data-content", "กรุณากรอกข้อมูล").popover('show');
+            $("#aTypeTaskCode").attr("data-content", Message.PLEASE_INPUT).popover('show');
 
         } else if ($("#aTypeTaskName").val() == "") {
 
@@ -178,20 +153,20 @@ $('[id^=btnM]').click(function () {
                             if (id == 'Add') {
 
                                 $('#add').modal('hide');
-                                bootbox.alert("บันทึกข้อมูลสำเร็จ");
+                                bootbox.alert(Message.Save_Success);
                             }
 
                             $('#aTypeTaskCode').val(null);
                             $('#aTypeTaskName').val(null);
                         } else if (xhr.status == 500) {
 
-                            bootbox.alert("บันทึกข้อมูลไม่สำเร็จ");
+                            bootbox.alert(Message.Save_Failed);
                         }
                     },
                     async: false /*ต้องใส่*/
                 });
             } else {
-                bootbox.alert("มีข้อมูลแล้ว");
+                bootbox.alert(Message.Data_have_already);
             }
         }
     }
@@ -200,66 +175,55 @@ $('[id^=btnM]').click(function () {
 
 //-----Delete-------------------------------------------------------------------------------
 
-var dataTypeTaskCode = [];
+
 var sendData = "";
 
 
 $('#btnDelete').click(function () {
-    if (dataTypeTaskCode.length > 0) {
-        bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function (result) {
-            if (result === true) {
-
-                for (var i = 0; i < dataTypeTaskCode.length; i++) {
-                    sendData = dataTypeTaskCode[i];
-                    deleteData();
+    if ($(".checkboxTable:checked").length <= 0) {
+        bootbox.alert(Message.Please_Select_Delete);
+        return false;
+    } else {
+        bootbox.confirm(Message.You_Want_Remove, function (result) {
+            if (result == true) {
+                deleteData();
+                searchData();
+                $('#checkAll').prop('checked', false);
+                if (fail === 0) {
+                    bootbox.alert(Message.Delete_Success+ " " + success+ " " + Message.List);
+                } else {
+                    bootbox.alert(Message.Delete_Success+ " " + success+ " " + Message.List+ " " + Message.Delete_Failed + " " + fail + " " + Message.List);
                 }
 
-                dataTypeTaskCode.splice(0, dataTypeTaskCode.length);
-                bootbox.alert("ลบข้อมูลสำเร็จ  " + success + "ลบข้อมูลไม่สำเร็จ  " + fail );
                 success = 0;
                 fail = 0;
-                if (chk = true) {
-                    searchData();
-                }
-                $('#checkAll').prop('checked', false);
             }
         });
-    } else if (dataTypeTaskCode.length == 0) {
-        bootbox.alert("กรุณาเลือกข้อมูลที่ต้องการลบ");
     }
-
-
-
 });
 
-$('#table').on("click", "[id^=checkDelete]", function () {
-    var id = this.id.split('e')[4];
-    if ($(this).prop('checked') == true) {
-        dataTypeTaskCode.push($('#tdTypeTaskCode' + id).text());
+$('#table').on("click", ".checkboxTable", function () {
+    if ($(".checkboxTable:checked").length == $(".checkboxTable").length) {
+        $("#checkAll").prop("checked", true);
+    } else {
+        $("#checkAll").prop("checked", false);
     }
-    else if ($(this).prop('checked') == false) {
-        var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + id).text());
-        dataTypeTaskCode.splice(num, 1);
+
+    if ($(this).attr("inUse") > 0) {
+        $(this).prop("checked", false);
+        bootbox.alert(Message.Data_is_use);
     }
 });
 
 $('#checkAll').click(function () {
-    $('[id^=checkDelete]').prop('checked', $(this).prop('checked'));
-    var lengthTr = $('#table').find('tr').length;
-    for (var i = 1; i < lengthTr; i++) {
-        if ($("#checkDelete" + i).prop('checked') == true) {
-            var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + i).text())
-            if (num != "") {
-                dataTypeTaskCode.push($('#tdTypeTaskCode' + i).text());
-            }
+    $(".checkboxTable").prop('checked', $(this).prop('checked'));
+
+    $.each($(".checkboxTable:checked"), function (index, value) {
+        if ($(this).attr("inUse") > 0) {
+            $(this).prop("checked", false);
+            $("#checkAll").prop("checked", false);
         }
-        else {
-            var num = dataTypeTaskCode.indexOf($('#tdTypeTaskCode' + i).text());
-            dataTypeTaskCode.splice(num, 1);
-        }
-    }
-    //
-    //console.log(dataTypeTaskCode);
+    });
 });
 
 //-----Function Delete-------------------------------------------------------------------------------
@@ -267,32 +231,27 @@ var success = 0;
 var fail = 0;
 
 function deleteData() {
-    var dataJsonData = {
-        delTypeCode: sendData
-    }
-
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/typetasks/deleteAllProject',
-        data: dataJsonData,
-        complete: function (xhr) {
-
-            if (xhr.status == 200) {
-
-                success++;
-
-
-            } else if (xhr.status == 500) {
-                fail++;
-
-            }
-        },
-        async: false
+    $.each($(".checkboxTable:checked"), function (index, value) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: contextPath + '/typetasks/deleteAllProject',
+            data: {
+                typetaskID: $(this).attr("id")
+            },
+            complete: function (xhr) {
+                if (xhr.status == 200) {
+                    success++;
+                } else if (xhr.status == 500) {
+                    fail++;
+                }
+            },
+            async: false
+        });
     });
 }
 
@@ -301,8 +260,8 @@ function deleteData() {
 
 
 $('#btnMUpdate').click(function () {
-    if ($('#eTypeTaskName').val() === checkEdit) {
-        bootbox.alert("ข้อมูลไม่มีการเปลี่ยนแปลง");
+    if ($('#eTypeTaskName').val() === typeTaskName) {
+        bootbox.alert(Message.No_information_changed);
         $('#edit').modal('hide');
     } else {
 
@@ -329,10 +288,10 @@ function editData() {
         data: dataJsonData,
         complete: function (xhr) {
             if (xhr.status === 200) {
-                bootbox.alert("แก้ไขข้อมูลสำเร็จ");
+                bootbox.alert(Message.Edit_Success);
                 searchData();
             } else if (xhr.status === 500) {
-                bootbox.alert("แก้ไขข้อมูลไม่สำเร็จ");
+                bootbox.alert(Message.Edit_Failed);
             }
         },
         async: false
@@ -366,7 +325,3 @@ function check(id) {
     console.log(ids);
 
 }
-
-
-
-
