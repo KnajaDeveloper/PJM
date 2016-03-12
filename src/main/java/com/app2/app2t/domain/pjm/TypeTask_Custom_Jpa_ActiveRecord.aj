@@ -5,6 +5,7 @@ package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,44 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
             criteria.add(Restrictions.like("typeTaskName", "%"+typeTName+"%"));
         //return กลับไป Controller
         return criteria.list();
+    }
+
+
+    public static Criteria TypeTask.findAllProjectPage(String typeTCode, String typeTName) {
+        try {
+        EntityManager ent = TypeTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
+        //เช็คเงื่อนไข
+        criteria.add(Restrictions.like("typeTaskCode", "%"+typeTCode+"%" ));
+        criteria.add(Restrictions.like("typeTaskName", "%"+typeTName+"%"));
+        //return กลับไป Controller
+        return criteria;
+        } catch (Exception e) {
+            LOGGER.error(">>>{} :" + e);
+        }
+        return null;
+    }
+
+    public static List<TypeTask> TypeTask.findTypeTaskOfDataPagingData(
+            Integer maxResult,
+            Integer firstResult,
+            String findtypecode,
+            String findtypename
+
+    ){
+        Criteria criteria = TypeTask.findAllProjectPage(findtypecode,findtypename)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+    public static  Long TypeTask.findTypeTaskOfDataPagingSize(
+            String findtypecode,
+            String findtypename
+
+    ){
+        Criteria criteria = TypeTask.findAllProjectPage(findtypecode,findtypename)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
 
     //---------Check Data---------------------------------------------------------------------------
@@ -54,14 +93,14 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
 
     //---------Delete Data---------------------------------------------------------------------------
 //check ว่าตารางนั้นมีข้อมูลไหมถ้ามีแสดงว่ามีการเรียกใช้อยู่
-    public static List<TypeTask> TypeTask.deleteAllProject(String typeTCode) {
+    public static TypeTask TypeTask.deleteAllProject(Long typetaskID) {
         EntityManager ent = TypeTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
-        criteria.add(Restrictions.eq("typeTaskCode", typeTCode));
+        criteria.add(Restrictions.eq("id", typetaskID));
         List<TypeTask> result = criteria.list();
         TypeTask deTypeTask = result.get(0);
         deTypeTask.remove();
-        return criteria.list();
+        return deTypeTask;
     }
 
     public static List<TypeTask> TypeTask.findAllTypeTask() {
@@ -75,5 +114,6 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
         criteria.add(Restrictions.eq("typeTaskCode", typeTaskCode));
         return criteria.list();
-    }
+
+       }
 }

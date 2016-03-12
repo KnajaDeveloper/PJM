@@ -6,17 +6,12 @@ package com.app2.app2t.domain.pjm;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
-import org.hibernate.sql.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.*;
 
 privileged aspect Task_Custom_Jpa_ActiveRecord {
 
@@ -215,6 +210,15 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         Criteria criteria = session.createCriteria(Task.class, "Task");
         criteria.createAlias("Task.program", "program");
         criteria.add(Restrictions.eq("program.id", id));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
+    public static Long Task.findAllTypeTaskByID(Long id) {
+        Session session = (Session) Task.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Task.class, "task");
+        criteria.createAlias("task.typeTask", "typeTask");
+        criteria.add(Restrictions.eq("typeTask.id", id));
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }

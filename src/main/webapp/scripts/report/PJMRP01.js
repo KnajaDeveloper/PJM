@@ -53,7 +53,7 @@ function sendData() {
 
         var date = new Date();
         var printDate = date.getDate() + "/" +
-            (parseInt(date.getMonth())+1) + "/" +
+            (parseInt(date.getMonth()) + 1) + "/" +
             date.getFullYear();
 
         var empCode = $("#emp").val();
@@ -61,45 +61,37 @@ function sendData() {
         var dateEnd = $("#cDateEnd").val();
         var plusYear = 0;
 
+        if (dateStart != "") {
+            dateStart = DateUtil.dataDateToDataBase(dateStart, _language);
+            dateStart = DateUtil.dataDateToFrontend(dateStart, 'EN');
+        }
 
-        if (_language == "TH"){
+        if (dateEnd != "") {
+            dateEnd = DateUtil.dataDateToDataBase(dateEnd, _language);
+            dateEnd = DateUtil.dataDateToFrontend(dateEnd, 'EN');
+        }
+
+        if (_language == "TH") {
             plusYear = 543;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
-                + '&dateStartBase=' + convertdataDate(dateStart)
-                + '&dateEndBase=' + convertdataDate(dateEnd)
+                + '&dateStartBase=' + dateStart
+                + '&dateEndBase=' + dateEnd
                 + '&dateStart=' + dateStart
                 + '&dateEnd=' + dateEnd
                 + '&printDate=' + printDate
-                + '&plusYear='+ plusYear;
+                + '&plusYear=' + plusYear;
 
 
-
-        }else if(_language == "EN" ||_language=='EN_US'){
+        } else if (_language == "EN" || _language == 'EN_US') {
             plusYear = 0;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
-                + '&dateStartBase=' + convertdataDate(dateStart)
-                + '&dateEndBase=' + convertdataDate(dateEnd)
+                + '&dateStartBase=' + dateStart
+                + '&dateEndBase=' + dateEnd
                 + '&dateStart=' + dateStart
                 + '&dateEnd=' + dateEnd
                 + '&printDate=' + printDate
-                + '&plusYear='+ plusYear;
+                + '&plusYear=' + plusYear;
         }
-
-
-
-
-    }
-    function  convertdataDate(date){
-        var splitDate =date.split('/');
-        var dateresult="";
-        if(_language=='EN'||_language=='EN_US'){
-            dateresult = splitDate[0]+"/"+splitDate[1] +"/"+ splitDate[2];
-        }else if(_language=='TH'){
-            dateresult =  splitDate[0]+"/"+ splitDate[1]+"/"+ (parseInt(splitDate[2])-543);
-        }
-
-        return dateresult;
-
     }
 }
 

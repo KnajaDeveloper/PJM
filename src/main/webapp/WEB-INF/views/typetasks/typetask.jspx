@@ -1,28 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
      xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
-     xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" version="2.0">
+     xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
+    <c:set var="L_Search_Task_Type" scope="request"><spring:message code="L0069"/></c:set>
+    <c:set var="L_Task_Type_Code" scope="request"><spring:message code="L0070"/></c:set>
+    <c:set var="L_Task_Type_Name" scope="request"><spring:message code="L0071"/></c:set>
+    <c:set var="L_Edit" scope="request"><spring:message code="L0035"/></c:set>
+    <c:set var="L_Add_Task_Type" scope="request"><spring:message code="L0072"/></c:set>
+    <c:set var="L_Edit_Task_Type" scope="request"><spring:message code="L0073"/></c:set>
+
+    <c:set var="B_Search" scope="request"><spring:message code="B0002"/></c:set>
+    <c:set var="B_Add" scope="request"><spring:message code="B0003"/></c:set>
+    <c:set var="B_Remove_Select" scope="request"><spring:message code="B0004"/></c:set>
+    <c:set var="B_Save" scope="request"><spring:message code="B0006"/></c:set>
+    <c:set var="B_Next" scope="request"><spring:message code="B0008"/></c:set>
+    <c:set var="B_Cancel" scope="request"><spring:message code="B0007"/></c:set>
+
+    <c:set var="M_Please_Input" scope="request"><spring:message code="M0002"/></c:set>
+    <c:set var="M_Please_Input_As" scope="request"><spring:message code="M0016"/></c:set>
+    <c:set var="M_Data_not_found" scope="request"><spring:message code="M0018"/></c:set>
+    <c:set var="M_Save_Success" scope="request"><spring:message code="M0001"/></c:set>
+    <c:set var="M_Edit_Success" scope="request"><spring:message code="M0013"/></c:set>
+    <c:set var="M_Save_Failed" scope="request"><spring:message code="M0019"/></c:set>
+    <c:set var="M_Edit_Failed" scope="request"><spring:message code="M0021"/></c:set>
+    <c:set var="M_Data_have_already" scope="request"><spring:message code="M0020"/></c:set>
+    <c:set var="M_You_Want_Remove" scope="request"><spring:message code="M0004"/></c:set>
+    <c:set var="M_Delete_Success" scope="request"><spring:message code="M0005"/></c:set>
+    <c:set var="M_Delete_Failed" scope="request"><spring:message code="M0006"/></c:set>
+    <c:set var="M_Please_Select_Delete" scope="request"><spring:message code="M0003"/></c:set>
+    <c:set var="M_No_information_changed" scope="request"><spring:message code="M0012"/></c:set>
+    <c:set var="M_List" scope="request"><spring:message code="M0027"/></c:set>
+    <c:set var="M_Data_is_use" scope="request"><spring:message code="M0028"/></c:set>
+
+    <script>
+        var Message = {} ;
+        Message.PLEASE_INPUT = '${M_Please_Input}';
+        Message.Please_Input_As = '${M_Please_Input_As}';
+        Message.Data_not_found = '${M_Data_not_found}';
+        Message.Save_Success = '${M_Save_Success}';
+        Message.Edit_Success = '${M_Edit_Success}';
+        Message.Save_Failed = '${M_Save_Failed}';
+        Message.Edit_Failed = '${M_Edit_Failed}';
+        Message.Data_have_already = '${M_Data_have_already}';
+        Message.You_Want_Remove = '${M_You_Want_Remove}';
+        Message.Delete_Success = '${M_Delete_Success}';
+        Message.Delete_Failed = '${M_Delete_Failed}';
+        Message.Please_Select_Delete = '${M_Please_Select_Delete}';
+        Message.No_information_changed = '${M_No_information_changed}';
+        Message.List = '${M_List}';
+        Message.Data_is_use = '${M_Data_is_use}';
+
+    </script>
 
     <div class="row">
         <div class="panel panel-primary">
-            <div class="panel-heading">ค้นหาประเภทงาน</div>
+            <div class="panel-heading">${L_Search_Task_Type}</div>
             <div class="panel-body">
                 <br/>
                 <div class="col-xs-12">
                     <form class="form-horizontal">
                         <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-3">รหัสประเภทงาน</label>
+                            <label class="control-label col-xs-3">${L_Task_Type_Code}</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control" id="sTypeTaskCode" placeholder="รหัสประเภทงาน"/>
+                                <input type="text" class="form-control" id="sTypeTaskCode" placeholder="${L_Task_Type_Code}"/>
                             </div>
                         </div>
                         <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-3">ชื่อประเภทงาน</label>
+                            <label class="control-label col-xs-4">${L_Task_Type_Name}</label>
                             <div class="col-xs-8">
-                                <input type="text" class="form-control" id="sTypeTaskName" placeholder="ชื่อประเภทงาน"/>
+                                <input type="text" class="form-control" id="sTypeTaskName" placeholder="${L_Task_Type_Name}"/>
                             </div>
                         </div>
                     </form>
@@ -32,7 +81,7 @@
                 <br/>
                 <div class="col-xs-8">
                     <div class="col-xs-offset-8 col-xs-2">
-                        <button id="search" type="button" class="btn btn-primary">ค้นหา</button>
+                        <button id="search" type="button" class="btn btn-primary">${B_Search}</button>
                     </div>
                 </div>
                 <br/>
@@ -47,12 +96,12 @@
                 <form class="form-inline">
                     <div class="form-group">
                         <div class=" col-sm-4">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add">เพิ่ม
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add">${B_Add}
                             </button>
                         </div>
                         <div class=" col-sm-4">
                             <button id="btnDelete" type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#delete">ลบที่เลือก
+                                    data-target="#delete">${B_Remove_Select}
                             </button>
                         </div>
                     </div>
@@ -68,9 +117,9 @@
                 <thead>
                     <tr>
                         <th class="text-center"><input type="checkbox" id="checkAll"/></th>
-                        <th class="text-center">แก้ไข</th>
-                        <th class="text-center">รหัสประเภทงาน</th>
-                        <th class="text-center">ชื่อประเภทงาน</th>
+                        <th class="text-center">${L_Edit}</th>
+                        <th class="text-center">${L_Task_Type_Code}</th>
+                        <th class="text-center">${L_Task_Type_Name}</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -95,31 +144,31 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">เพิ่มประเภทงาน</h4>
+                    <h4 class="modal-title">${L_Add_Task_Type}</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">รหัสประเภทงาน</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" id="aTypeTaskCode" placeholder="รหัสประเภทงาน"
+                            <label class="control-label col-xs-4 required">${L_Task_Type_Code}</label>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control" id="aTypeTaskCode" placeholder="${L_Task_Type_Code}"
                                         data-placement="bottom"/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">ชื่อประเภทงาน</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" id="aTypeTaskName" placeholder="ชื่อประเภทงาน"
-                                       data-content="กรุณากรอกข้อมูล" data-placement="bottom"/>
+                            <label class="control-label col-xs-4 required">${L_Task_Type_Name}</label>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control" id="aTypeTaskName" placeholder="${L_Task_Type_Name}"
+                                       data-content="${M_Please_Input}" data-placement="bottom"/>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnMAdd">บันทึก</button>
-                    <button type="button" class="btn btn-primary" id="btnMNext">ถัดไป</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnMCancel">ยกเลิก</button>
+                    <button type="button" class="btn btn-primary" id="btnMAdd">${B_Add}</button>
+                    <button type="button" class="btn btn-primary" id="btnMNext">${B_Next}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnMCancel">${B_Cancel}</button>
                 </div>
             </div>
         </div>
@@ -132,28 +181,28 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">แก้ไขประเภทงาน</h4>
+                    <h4 class="modal-title">${L_Edit_Task_Type}</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">รหัสประเภทงาน</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" id="eTypeTaskCode" placeholder="รหัสประเภทงาน" disabled="disabled"/>
+                            <label class="control-label col-xs-4 required">${L_Task_Type_Code}</label>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control" id="eTypeTaskCode" placeholder="${L_Task_Type_Code}" disabled="disabled"/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-xs-3 required">ชื่อประเภทงาน</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" id="eTypeTaskName" placeholder="ชื่อประเภทงาน"/>
+                            <label class="control-label col-xs-4 required">${L_Task_Type_Name}</label>
+                            <div class="col-xs-7">
+                                <input type="text" class="form-control" id="eTypeTaskName" placeholder="${L_Task_Type_Name}"/>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnMUpdate">บันทึก</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnMCancel">ยกเลิก</button>
+                    <button type="button" class="btn btn-primary" id="btnMUpdate">${B_Save}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnMCancel">${B_Cancel}</button>
                 </div>
             </div>
         </div>

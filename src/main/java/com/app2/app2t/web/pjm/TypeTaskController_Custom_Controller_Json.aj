@@ -3,12 +3,12 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.Task;
+import com.app2.app2t.domain.pjm.TypeTask;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import  com.app2.app2t.domain.pjm.TypeTask;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,13 +90,13 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/deleteAllProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.deleteAllProject(
-            @RequestParam(value = "delTypeCode", required = false) String deletetypecode
+            @RequestParam(value = "typetaskID", required = false) Long typetaskID
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<TypeTask> result = TypeTask.deleteAllProject(deletetypecode);
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            TypeTask result = TypeTask.deleteAllProject(typetaskID);
+            return  new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -117,16 +117,17 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Map<String,String>> list = new ArrayList<>();
-            List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
-            for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
-                TypeTask ty = result.get(i);
-                Map<String,String> map = new HashMap<>();
-                map.put("code",ty.getTypeTaskCode());
-                map.put("name",ty.getTypeTaskName());
+            List<Map<String,Object>> list = new ArrayList<>();
+            List<TypeTask> result = TypeTask.findTypeTaskOfDataPagingData(maxResult,firstResult,findtypecode,findtypename);
+            for(TypeTask results : result ){
+                Map<String,Object> map = new HashMap<>();
+                map.put("id", results.getId());
+                map.put("typeTaskCode",results.getTypeTaskCode());
+                map.put("typeTaskName",results.getTypeTaskName());
+                map.put("inUse", Task.findAllTypeTaskByID(results.getId()));
                 list.add(map);
             }
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -142,9 +143,9 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<TypeTask> result = TypeTask.findAllProject(findtypecode,findtypename);
+            Long result = TypeTask.findTypeTaskOfDataPagingSize(findtypecode,findtypename);
             Map data = new HashMap();
-            data.put("size", result.size());
+            data.put("size", result);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
