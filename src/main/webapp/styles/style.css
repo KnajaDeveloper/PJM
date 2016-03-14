@@ -1235,6 +1235,9 @@ body.login-page {
     margin-bottom: 20px; } }
 
 /*-------------------------------------------------- */
+.control-label {
+  text-align: right;
+}
 label.required:after {
   content: "*";
   color: red;
@@ -1260,7 +1263,10 @@ label.required:after {
 table td.text-center button {
   margin: 0;
 }
+.flat-blue .form-control{
+  height: 30px;
+}
 
-
-
-
+.flat-blue select.form-control {
+  padding: 0 12px;
+}
