@@ -89,45 +89,53 @@
                     </div>
                 </div>
             </div>        
-            <div class="row">
-              <form class="form-horizontal">
+<br/>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="card-body">
                 <div class="form-group">
-                  <div id="penaltyTableContainer" class="table-responsive">
-                    <table id="Table" class="table table-hover">
-                      <thead>
-                        <tr class="info">                              
-                          <th class="text-center" style="color: #000" width="80" >รายละเอียด</th>
-                          <th class="text-center" style="color: #000" width="250">ชื่อโมดูล</th>
-                          <th class="text-center" style="color: #000" width="250">ความคืบหน้า</th>
-                          <th class="text-center" style="color: #000">วันที่เริ่ม</th>
-                          <th class="text-center" style="color: #000">วันที่เสร็จ</th>
-                          <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
-                      </tr>
-                  </thead>
-                  <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
-              </table>
-          </div>
-      </div>
-  </form>
-</div>
-<div class="form-horizontal">
-    <div class="form-group">
-        <component:pagging id="paggingSimpleModuleProject"/>
+                    <div id="penaltyTableContainer" class="">
+                        <table id="Table" class="table table-bordered table-stripted table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="30%" >รายละเอียด</th>
+                                    <th class="text-center" width="20%">ชื่อโมดูล</th>
+                                    <th class="text-center" width="10%">ความคืบหน้า</th>
+                                    <th class="text-center" width="20%">วันที่เริ่ม</th>
+                                    <th class="text-center" width="20%">วันที่เสร็จ</th>
+                                    <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
+                                </tr>
+                            </thead>
+                            <tbody id="ResualtSearch" style="cursor:pointer">
+                                
+                            </tbody>
+                        </table>
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <component:pagging id="paggingSimpleModuleProject"/>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div> 
+</div>
+
 
 <div class="col-xs-9 col-xs-offset-3">
-                    <form class="form-inline">
-                        <div class="col-xs-2">
-                            <label class="control-label"><b>ผู้ดูแลโมดูล</b></label>
-                            
-                        </div>
-                        <div class="col-xs-4">
-                            <label id="lblModuleManager" class="control-label">...</label>
-                            
-                        </div>
-                        </form>
-                    </div>
+    <form class="form-inline">
+        <div class="col-xs-2">
+            <label class="control-label"><b>ผู้ดูแลโมดูล</b></label>
+            
+        </div>
+        <div class="col-xs-4">
+            <label id="lblModuleManager" class="control-label">...</label>
+        </div>
+    </form>
+</div>
 
 
 </div>

@@ -1270,3 +1270,17 @@ table td.text-center button {
 .flat-blue select.form-control {
   padding: 0 12px;
 }
+
+.flat-blue .input-group-addon {
+  padding: 0 12px;
+  border-left: 0;
+}
+
+.flat-blue .input-group-addon.date{
+  cursor: pointer;
+}
+
+.flat-blue .panel {
+  border: 0px;
+  margin-bottom: 0px;
+}

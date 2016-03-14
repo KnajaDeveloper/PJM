@@ -162,95 +162,185 @@
     </script>
 
     <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">${LABEL_DETAILS_MODULES}</div>
-            <div class="panel-body">
-                <br/>
-                <div class="col-xs-11 col-xs-offset-1">
-                    <form class="form-inline">
-                        <div class="col-xs-1">
-                            <label class="control-label">${LABEL_MODULE_NEME}</label>
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">${LABEL_DETAILS_MODULES}</div>
+                <div class="panel-body">
+                    <br/>
+                    <div class="col-xs-11 col-xs-offset-1">
+                        <form class="form-inline">
+                            <div class="col-xs-1">
+                                <label class="control-label">${LABEL_MODULE_NEME}</label>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_INITIAL}</label>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_TOTAL_COST}</label>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_START_DATE}</label>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_MANAGER}</label>
+                            </div>
+                            <div class="col-xs-4">
+                                <label id="lblModuleNeme" class="control-label"><jsp:text/></label>
+                                <br/>
+                                <br/>
+                                <label id="lblModuleInitial" class="control-label"><jsp:text/></label>
+                                <br/>
+                                <br/>
+                                <label id="lblModuleCost" class="control-label"><jsp:text/></label>
+                                <br/>
+                                <br/>
+                                <label id="lblModuleDateStart" class="control-label" ><jsp:text/></label>
+                                <br/>
+                                <br/>
+                                <label id="lblModuleManager" class="control-label"><jsp:text/></label>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-xs-2">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <label class="control-label">${LABEL_BALANCE_TOTAL_COST}</label>
+                                    <br/>
+                                    <br/>
+                                    <label class="control-label">${LABEL_END_DATE}</label>
+                            </div>
+                            <div class="col-xs-4">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <label id="lblModuleCostBalance" class="control-label"><jsp:text/></label>
+                                    <br/>
+                                    <br/>
+                                    <label id="lblModuleDateEnd" class="control-label"><jsp:text/></label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <button id="btnAddProgram" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProgram" data-backdrop="static">${BUTTON_ADD_PROGRAM}</button>
+                        <button id="btnDeleteProgram" type="button" class="btn btn-danger" style="margin-left: 5px;">${BUTTON_REMOVE_SELECTED}</button>
+                    </div>
+                    
+                    <div id="penaltyTableContainer" class="table-responsive">
+                        <table id="TableProgram" class="table table-bordered table-stripted table-hover">
+                            <thead>
+                                <tr class="">
+                                    <th id="thChkAll" class="text-center">
+                                        <input id="checkboxAllProgram" type="checkbox" name="checkdDelete" />
+                                    </th>
+                                    <th id="thEditProgram" class="text-center">${LABEL_EDIT}</th>
+                                    <th id="thProgramCode" class="text-center" >${LABEL_PROGRAM_CODE}</th>
+                                    <th id="thProgramName" class="text-center" >${LABEL_PROGRAM_NAME}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ResualtSearchProgram" style="cursor:pointer"></tbody>
+                        </table>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <component:pagging id="paggingSimpleProgram"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-7">
+            <div class="card">
+                <div class="card-body">
+                    <form id="formADTask" class="form-inline" hidden="true">
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">${BUTTON_ADD_TASK}</button>
+                            </div>
+                            <div class="col-xs-5">
+                                <button id="btnDeleteTask" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECTED}</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="formTask" class="col-xs-7" hidden="true">
+                        <div id="penaltyTableContainer" class="table-responsive">
+                            <table id="TableTask" class="table table-hover">
+                                <thead>
+                                    <tr class="info">
+                                        <th id="thChkAllTask" class="text-center">
+                                            <input id="checkboxAllTask" type="checkbox" name="checkdDelete" />
+                                        </th>
+                                        <th id="thEditTask" class="text-center">${LABEL_EDIT}</th>
+                                        <th id="thTaskCode" class="text-center" >${LABEL_TASK_CODE}</th>
+                                        <th id="thTaskName" class="text-center" >${LABEL_TASK_NAME}</th>
+                                        <th id="thNumberCost" class="text-center" >${LABEL_TOTAL_COST}</th>
+                                        <th id="thProgress" class="text-center" >${LABEL_PROGRESS}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ResualtSearchTask" style="cursor:pointer"></tbody>
+                            </table>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <component:pagging id="paggingSimpleTask"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <label class="control-label">${LABEL_MANAGER}</label>
                             <br/>
                             <br/>
-                            <label class="control-label">${LABEL_INITIAL}</label>
-                            <br/>
-                            <br/>
-                            <label class="control-label">${LABEL_TOTAL_COST}</label>
+                            <label class="control-label">${LABEL_TYPE_TASK}</label>
                             <br/>
                             <br/>
                             <label class="control-label">${LABEL_START_DATE}</label>
                             <br/>
                             <br/>
-                            <label class="control-label">${LABEL_MANAGER}</label>
+                            <label class="control-label">${LABEL_END_DATE}</label>
+                            <br/>
+                            <br/>
+                            <label class="control-label">${LABEL_ATTACHMENTS}</label>
+                            <br/>
+                            <br/>
+                            <label class="control-label">${LABEL_DETAILS}</label>
                         </div>
-                        <div class="col-xs-4">
-                            <label id="lblModuleNeme" class="control-label"><jsp:text/></label>
+                        <div class="col-xs-6">
+                            <label id="lblEmpName" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblModuleInitial" class="control-label"><jsp:text/></label>
+                            <label id="lblTaskName" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblModuleCost" class="control-label"><jsp:text/></label>
+                            <label id="lblSDate" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblModuleDateStart" class="control-label" ><jsp:text/></label>
+                            <label id="lblEDate" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblModuleManager" class="control-label"><jsp:text/></label>
+                            <button id="" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
+                            <label id="lblFileName" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <br/>
+                            <textarea id="txtaDetail" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
                         </div>
-                        <div class="col-xs-2">
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <label class="control-label">${LABEL_BALANCE_TOTAL_COST}</label>
-                                <br/>
-                                <br/>
-                                <label class="control-label">${LABEL_END_DATE}</label>
-                        </div>
-                        <div class="col-xs-4">
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <label id="lblModuleCostBalance" class="control-label"><jsp:text/></label>
-                                <br/>
-                                <br/>
-                                <label id="lblModuleDateEnd" class="control-label"><jsp:text/></label>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-5">
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="col-xs-6">
-                        <button id="btnAddProgram" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProgram" data-backdrop="static">${BUTTON_ADD_PROGRAM}</button>
-                    </div>
-                    <div class="col-xs-6">
-                        <button id="btnDeleteProgram" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECTED}</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-xs-7">
-            <form id="formADTask" class="form-inline" hidden="true">
-                <div class="form-group">
-                    <div class="col-xs-5">
-                        <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">${BUTTON_ADD_TASK}</button>
-                    </div>
-                    <div class="col-xs-5">
-                        <button id="btnDeleteTask" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECTED}</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+
         <div class="modal fade" id="modalProgram" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -408,95 +498,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-xs-5">
-                    <div id="penaltyTableContainer" class="table-responsive">
-                        <table id="TableProgram" class="table table-hover">
-                            <thead>
-                                <tr class="info">
-                                    <th id="thChkAll" class="text-center">
-                                        <input id="checkboxAllProgram" type="checkbox" name="checkdDelete" />
-                                    </th>
-                                    <th id="thEditProgram" class="text-center">${LABEL_EDIT}</th>
-                                    <th id="thProgramCode" class="text-center" >${LABEL_PROGRAM_CODE}</th>
-                                    <th id="thProgramName" class="text-center" >${LABEL_PROGRAM_NAME}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ResualtSearchProgram" style="cursor:pointer"></tbody>
-                        </table>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <component:pagging id="paggingSimpleProgram"/>
-                        </div>
-                    </div>
-                </div>
-                <div id="formTask" class="col-xs-7" hidden="true">
-                    <div id="penaltyTableContainer" class="table-responsive">
-                        <table id="TableTask" class="table table-hover">
-                            <thead>
-                                <tr class="info">
-                                    <th id="thChkAllTask" class="text-center">
-                                        <input id="checkboxAllTask" type="checkbox" name="checkdDelete" />
-                                    </th>
-                                    <th id="thEditTask" class="text-center">${LABEL_EDIT}</th>
-                                    <th id="thTaskCode" class="text-center" >${LABEL_TASK_CODE}</th>
-                                    <th id="thTaskName" class="text-center" >${LABEL_TASK_NAME}</th>
-                                    <th id="thNumberCost" class="text-center" >${LABEL_TOTAL_COST}</th>
-                                    <th id="thProgress" class="text-center" >${LABEL_PROGRESS}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ResualtSearchTask" style="cursor:pointer"></tbody>
-                        </table>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <component:pagging id="paggingSimpleTask"/>
-                        </div>
-                    </div>
-                    <div class="col-xs-2">
-                        <label class="control-label">${LABEL_MANAGER}</label>
-                        <br/>
-                        <br/>
-                        <label class="control-label">${LABEL_TYPE_TASK}</label>
-                        <br/>
-                        <br/>
-                        <label class="control-label">${LABEL_START_DATE}</label>
-                        <br/>
-                        <br/>
-                        <label class="control-label">${LABEL_END_DATE}</label>
-                        <br/>
-                        <br/>
-                        <label class="control-label">${LABEL_ATTACHMENTS}</label>
-                        <br/>
-                        <br/>
-                        <label class="control-label">${LABEL_DETAILS}</label>
-                    </div>
-                    <div class="col-xs-6">
-                        <label id="lblEmpName" class="control-label"><jsp:text/></label>
-                        <br/>
-                        <br/>
-                        <label id="lblTaskName" class="control-label"><jsp:text/></label>
-                        <br/>
-                        <br/>
-                        <label id="lblSDate" class="control-label"><jsp:text/></label>
-                        <br/>
-                        <br/>
-                        <label id="lblEDate" class="control-label"><jsp:text/></label>
-                        <br/>
-                        <br/>
-                        <button id="" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
-                        <label id="lblFileName" class="control-label"><jsp:text/></label>
-                        <br/>
-                        <br/>
-                        <textarea id="txtaDetail" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
 
     <script>

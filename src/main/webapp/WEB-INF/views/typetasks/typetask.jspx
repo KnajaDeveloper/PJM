@@ -56,86 +56,80 @@
     </script>
 
     <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">${L_Search_Task_Type}</div>
-            <div class="panel-body">
-                <br/>
-                <div class="col-xs-12">
-                    <form class="form-horizontal">
-                        <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-3">${L_Task_Type_Code}</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" id="sTypeTaskCode" placeholder="${L_Task_Type_Code}"/>
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">${L_Search_Task_Type}</div>
+                <div class="panel-body">
+                    <br/>
+                    <div class="col-xs-12">
+                        <form class="form-horizontal">
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-3">${L_Task_Type_Code}</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="sTypeTaskCode" placeholder="${L_Task_Type_Code}"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <label class="control-label col-xs-4">${L_Task_Type_Name}</label>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" id="sTypeTaskName" placeholder="${L_Task_Type_Name}"/>
+                            <div class="form-group col-xs-6">
+                                <label class="control-label col-xs-4">${L_Task_Type_Name}</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="sTypeTaskName" placeholder="${L_Task_Type_Name}"/>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <br/>
-                <br/>
-                <br/>
-                <div class="col-xs-8">
-                    <div class="col-xs-offset-8 col-xs-2">
-                        <button id="search" type="button" class="btn btn-primary">${B_Search}</button>
+                        </form>
                     </div>
+                    <div class="col-xs-8">
+                        <div class="col-xs-offset-8 col-xs-2">
+                            <button id="search" type="button" class="btn btn-primary">${B_Search}</button>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
                 </div>
-                <br/>
-                <br/>
             </div>
         </div>
     </div>
 
-    <div>
-        <div class="row">
-            <div class=" col-sm-12">
-                <form class="form-inline">
+    
+    <div class="row">
+        <div class=" col-xs-12">
+            <div class="card">
+                <div class="card-body">
                     <div class="form-group">
-                        <div class=" col-sm-4">
+                        <div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add">${B_Add}
                             </button>
-                        </div>
-                        <div class=" col-sm-4">
                             <button id="btnDelete" type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#delete">${B_Remove_Select}
+                                data-target="#delete" style="margin-left: 5px">${B_Remove_Select}
                             </button>
                         </div>
                     </div>
-                </form>
+                    
+                    <div>
+                        <table id="table" class="table table-bordered table-stripted table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><input type="checkbox" id="checkAll"/></th>
+                                    <th class="text-center">${L_Edit}</th>
+                                    <th class="text-center">${L_Task_Type_Code}</th>
+                                    <th class="text-center">${L_Task_Type_Name}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <component:pagging id="paggingSimple"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-
-
-    <div class="form-horizontal">
-        <div class="form-group">
-            <table id="table"  class="table table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-center"><input type="checkbox" id="checkAll"/></th>
-                        <th class="text-center">${L_Edit}</th>
-                        <th class="text-center">${L_Task_Type_Code}</th>
-                        <th class="text-center">${L_Task_Type_Name}</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-
-
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-
-    <div class="form-horizontal">
-        <div class="form-group">
-            <component:pagging id="paggingSimple"/>
-        </div>
-    </div>
+    
 
     <!-- Modal Add -->
     <div class="modal fade" id="add" role="dialog">

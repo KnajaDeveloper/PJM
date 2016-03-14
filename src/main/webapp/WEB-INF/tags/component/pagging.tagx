@@ -10,25 +10,25 @@
 
     <div class="form-inline">
         <div class="form-group col-sm-4">
-            <label style="margin-left:35px">${CENTRAL_LABEL_DISPLAYING}</label>
-            <span style="margin-left:25px">
+            <label style="margin-left:20px">${CENTRAL_LABEL_DISPLAYING}</label>
+            <span style="margin-left:10px">
                 <span id="${id}StartDisplayRecords">0</span> - <span id="${id}ToDisplayRecords">0</span>&#160;${CENTRAL_LABEL_Of}&#160;<span id="${id}DisplayTotalRecord">0</span>&#160;${CENTRAL_LABEL_RECORD}
             </span>
         </div>
 
         <div class="form-group col-sm-8">
             <div class="pull-right">
-                <button type="button" id="${id}BtnFirst" class="btn btn-default form-control">
+                <button type="button" id="${id}BtnFirst" class="btn btn-default ">
                     <span class="fa fa-backward"></span>
                 </button>
-                <button type="button" id="${id}BtnPrev" class="btn btn-default form-control">
+                <button type="button" id="${id}BtnPrev" class="btn btn-default ">
                     <span class="fa fa-caret-left fa-lg"></span>
                 </button>
                 <span style="margin:5px">${CENTRAL_LABEL_PAGE}</span>
-                <input id="${id}CurrentPage" maxlength="6" type="text" size="5" class="form-control" value="0" style="text-align: center" autocomplete="off"/>
+                <input id="${id}CurrentPage" maxlength="6" type="text" size="5" class="" value="0" style="text-align: center" autocomplete="off"/>
                 <span>&#160;&#160;${CENTRAL_LABEL_Of}&#160;&#160;<span id="${id}MaxPage">0</span>&#160;&#160;</span>
-                <button type="button" id="${id}BtnNext" class="btn btn-default form-control"><span class="fa fa-caret-right fa-lg"></span></button>
-                <button type="button" id="${id}BtnLast" class="btn btn-default form-control"><span class="fa fa-forward "></span></button>
+                <button type="button" id="${id}BtnNext" class="btn btn-default "><span class="fa fa-caret-right fa-lg"></span></button>
+                <button type="button" id="${id}BtnLast" class="btn btn-default "><span class="fa fa-forward "></span></button>
             </div>
         </div>
     </div>
