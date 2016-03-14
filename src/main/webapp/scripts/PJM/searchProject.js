@@ -103,7 +103,7 @@ $("#search").click(function () {
     searchData();
     if(json.length <= 0)
     {
-        bootbox.alert();
+        bootbox.alert(MESSAGE.ALERT_DATA_NOT_FOUND);
     }
 }); //-- searchData --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
