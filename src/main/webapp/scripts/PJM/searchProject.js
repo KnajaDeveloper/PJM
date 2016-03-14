@@ -10,6 +10,7 @@ var dataJsonData;
 var DeSuccess = 0;
 var DeFail = 0;
 var dataModule = [];
+var json = [];
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $("#StDateBegin").datepicker(dateLang);
 $("#StDateEnd").datepicker(dateLang);
@@ -55,6 +56,9 @@ $('#calendarFnTo').click(function () {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $("#search").click(function () {
 
+    if ($('#checkAll').prop('checked') == true){
+        $('#checkAll').prop('checked', false);
+    }
     if ($('#StDateBegin').val() != "") {
 
             dateStart = $('#StDateBegin').val();
@@ -97,6 +101,10 @@ $("#search").click(function () {
         costEnd: $('#costEnd').val(),
     }
     searchData();
+    if(json.length <= 0)
+    {
+        bootbox.alert();
+    }
 }); //-- searchData --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $("#addProject").click(function () {
@@ -116,7 +124,7 @@ $('#data').on("click", "[id^=progress]", function () {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 paggination.setEventPaggingBtn("paggingSimple", paggination);
 paggination.loadTable = function loadTable(jsonData) {
-
+        json = jsonData ;
     if (jsonData.length <= 0) {
 
     }
@@ -240,7 +248,7 @@ $("#btnDelete").click(function () {
                 for (var i=0; checkedRows.length > i; i++) {
                     DeleteData(i);
                 }
-                bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" " + DeSuccess +  MESSAGE.ALERT_DELETE_FAIL + DeFail);
+                bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" " + DeSuccess +" "+  MESSAGE.ALERT_DELETE_FAIL + DeFail);
                 DeSuccess = 0;
                 DeFail = 0;
                 checkedRows = [];
@@ -367,7 +375,7 @@ $("#close").click(function () {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $("[id^=paggingSimpleBtn]").click(function () {
     if ($('#checkAll').prop('checked') == true){
-        $('#checkAll').prop('checked', false);
+        $('input[type=checkbox]').prop('checked', false);
     }
 }); //--paggingSimpleBtn--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
