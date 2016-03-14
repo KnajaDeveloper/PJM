@@ -18,11 +18,11 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(TypeTask_Custom_Jpa_ActiveRecord.class);
 
     //รับ ค่าจาก Controller เก็บใน string
-    public static List<TypeTask> TypeTask.findAllProject(String typeTCode, String typeTName) {
+    public static List<TypeTask> TypeTask.findAllProject(Long typeTCode, String typeTName) {
         EntityManager ent = TypeTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
         //เช็คเงื่อนไข
-            criteria.add(Restrictions.like("typeTaskCode", "%"+typeTCode+"%" ));
+            criteria.add(Restrictions.like("id", "%"+typeTCode+"%" ));
             criteria.add(Restrictions.like("typeTaskName", "%"+typeTName+"%"));
         //return กลับไป Controller
         return criteria.list();
@@ -80,10 +80,10 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
 
     //---------Edit Data---------------------------------------------------------------------------
 
-    public static List<TypeTask> TypeTask.editAllProject(String typeTCode, String typeTName) {
+    public static List<TypeTask> TypeTask.editAllProject(Long typeTCode, String typeTName) {
         EntityManager ent = TypeTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
-        criteria.add(Restrictions.eq("typeTaskCode", typeTCode));
+        criteria.add(Restrictions.eq("id", typeTCode));
         List<TypeTask> result = criteria.list();
         TypeTask edTypeTask = result.get(0);
         edTypeTask.setTypeTaskName(typeTName);
