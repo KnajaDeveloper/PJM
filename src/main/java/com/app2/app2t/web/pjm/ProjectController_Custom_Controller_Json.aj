@@ -35,7 +35,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Project project = Project.saveOrUpdateProject(projectCode, projectName, projectCost, formatter.parse(formatter.format(dateStart)), formatter.parse(formatter.format(dateEnd)));
             ProjectManager.saveProjectManagerByProJect(project, arrPJM);
-            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(project),headers, HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
