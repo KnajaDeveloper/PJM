@@ -5,13 +5,6 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
-    <style>
-
-        .input-group-addon {
-            padding: 0 12px;
-        }
-    </style>
-
     <c:set var="BUTTON_SEARCH_PROJECT" scope="request"><spring:message code="B0010"/></c:set>
     <c:set var="BUTTON_CLOSE" scope="request"><spring:message code="B0012"/></c:set>
     <c:set var="BUTTON_SEARCH" scope="request"><spring:message code="B0002"/></c:set>
@@ -59,20 +52,19 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">${BUTTON_SEARCH_PROJECT}</div>
                 <div class="panel-body">
-                    <br></br>
+                    <br/>
                     <div class="col-sm-12">
                         <form class="form-horizontal">
 
                             <input type="hidden" class="datetimepicker"/>
                             <input type="hidden" class="datepicker"/>
 
-
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_START_DATE_FROM}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group date ">
-                                        <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy"  style="cursor:pointer; background-color:white"/>
-                                        <span id="calendarStartFrom" class="input-group-addon">
+                                    <div class="input-group">
+                                        <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy" />
+                                        <span id="calendarStartFrom" class="input-group-addon date">
                                         <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
@@ -82,9 +74,9 @@
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_START_DATE_TO}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group date ">
-                                        <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy"  style="cursor:pointer; background-color:white"/><span
-                                            id="calendarStartTo"  class="input-group-addon">
+                                    <div class="input-group">
+                                        <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy" /><span
+                                            id="calendarStartTo"  class="input-group-addon date">
                                         <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
@@ -98,11 +90,10 @@
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_COMPLETE_DATE_FROM}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group date ">
+                                    <div class="input-group">
                                         <input id="FnDateBegin" class="form-control " type="text"
-                                               placeholder="dd/mm/yyyy"
-                                               style="cursor:pointer; background-color:white"/>
-                                        <span  id="calendarFnFrom" class="input-group-addon">
+                                               placeholder="dd/mm/yyyy" />
+                                        <span  id="calendarFnFrom" class="input-group-addon date">
                                         <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
@@ -111,11 +102,10 @@
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_COMPLETE_DATE_TO}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group date ">
+                                    <div class="input-group">
                                         <input id="FnDateEnd" class="form-control " type="text"
-                                               placeholder="dd/mm/yyyy"
-                                               style="cursor:pointer; background-color:white"/>
-                                        <span id="calendarFnTo" class="input-group-addon">
+                                               placeholder="dd/mm/yyyy" />
+                                        <span id="calendarFnTo" class="input-group-addon date">
                                         <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
                                     </div>
@@ -127,18 +117,18 @@
                         <form class="form-horizontal">
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_TOTALCOST_FROM}</label>
-                                <div class="col-sm-5">
-                                    <div class="input-group date ">
+                                <div class="col-sm-7">
+                                    <div class="input-group">
                                         <input id="costStart" class="form-control" type="date" name="searchCode"
                                                placeholder="${LABEL_TOTALCOST_FROM}"/>
-                                        <span class="input-group-addon">${LABEL_POINT}</span>
+                                        <span class="input-group-addon date">${LABEL_POINT}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_TOTALCOST_TO}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-7">
                                     <div class="input-group date ">
                                         <input id="costEnd" class="form-control" type="date" name="searchName"
                                                placeholder="${LABEL_TOTALCOST_TO}"/>
@@ -152,7 +142,7 @@
                         <form class="form-horizontal">
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_PROJECT_MANAGER}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-7">
                                     <input id="projectManage" class="form-control" type="date" name="searchCode"
                                            placeholder="${LABEL_FIRST_NAME}"/>
                                 </div>
@@ -169,57 +159,54 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                </div>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="card-body">
 
-        <div class="row">
-            <div class=" col-sm-6">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <div class=" col-sm-offset-0">
-                            <button style="margin-left: 15px" id="addProject" type="button" class="btn btn-primary">${BUTTON_ADD_PROJECT}</button>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <div>
+                                <button style="" id="addProject" type="button" class="btn btn-primary">${BUTTON_ADD_PROJECT}</button>
 
-                            <button style="margin-left: 3px" id="btnDelete" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECT}</button>
+                                <button style="margin-left: 5px" id="btnDelete" type="button" class="btn btn-danger">${BUTTON_REMOVE_SELECT}</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div>
+                        <table id="data" class="table table-bordered table-stripted table-hover">
+                            <thead>
+                                <tr class="">
+                                    <th class="text-center" style="width: 30px;">
+                                        <input id="checkAll" class="check" type="checkbox"/>
+                                    </th>
+                                    <th class="text-center" style="width: 40px;">${LABEL_EDIT}</th>
+                                    <th class="text-center" style="width: 40px;">${LABEL_ADD_TASK}</th>
+                                    <th class="text-center" style="width: 40px;">${LABEL_PROGRESS}</th>
+                                    <th class="text-center" style="width: 200px;">${LABEL_PROJECT_NAMEA}</th>
+                                    <th class="text-center" style="width: 70px;">${LABEL_START_DATE}</th>
+                                    <th class="text-center" style="width: 70px;">${LABEL_COMPLETE_DATE}</th>
+                                    <th class="text-center" style="width: 70px;">${LABEL_TOTAL_COST}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+                        </table>
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <component:pagging id="paggingSimple"/>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
 
-
-    <div class="row">
-        <div class="col-sm-12">
-            <form class="form-horizontal">
-            <div class="form-group">
-                <table id="data" class="table table-hover">
-                    <thead>
-                    <tr class="info">
-                        <th class="text-center" style="width: 30px ;">
-                            <input id="checkAll" class="check" type="checkbox"/>
-                        </th>
-                        <th class="text-center" style="width: 40px ; color:#000">${LABEL_EDIT}</th>
-                        <th class="text-center" style="width: 40px ; color:#000">${LABEL_ADD_TASK}</th>
-                        <th class="text-center" style="width: 40px ; color:#000">${LABEL_PROGRESS}</th>
-                        <th class="text-center" style="width: 200px ; color:#000">${LABEL_PROJECT_NAMEA}</th>
-                        <th class="text-center" style="width: 70px ;color:#000">${LABEL_START_DATE}</th>
-                        <th class="text-center" style="width: 70px ;color:#000">${LABEL_COMPLETE_DATE}</th>
-                        <th class="text-center" style="width: 70px ;color:#000">${LABEL_TOTAL_COST}</th>
-                    </tr>
-                    </thead>
-                    <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
-                </table>
-
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <component:pagging id="paggingSimple"/>
-                    </div>
                 </div>
             </div>
-            </form>
+
         </div>
     </div>
 
