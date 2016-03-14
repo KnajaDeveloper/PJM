@@ -154,6 +154,7 @@ $('[id^=btnM]').click(function () {
 
                                 $('#add').modal('hide');
                                 bootbox.alert(Message.Save_Success);
+                                searchData();
                             }
 
                             $('#aTypeTaskCode').val(null);

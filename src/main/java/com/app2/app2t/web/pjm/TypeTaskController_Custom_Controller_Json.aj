@@ -24,7 +24,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
     @RequestMapping(value = "/findAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.findAllProject(
             //value รับค่าจาก js เก็บ string ตรงกับใน function
-            @RequestParam(value = "findTypeCode", required= false) String findtypecode,
+            @RequestParam(value = "findTypeCode", required= false) Long findtypecode,
             @RequestParam(value = "findTypeName", required= false) String findtypename) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -72,7 +72,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/editAllProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.editAllProject(
-            @RequestParam(value = "editTypeCode", required = false) String edittypecode
+            @RequestParam(value = "editTypeCode", required = false) Long edittypecode
             ,@RequestParam(value = "editTypeName", required = false) String edittypename
     ) {
         HttpHeaders headers = new HttpHeaders();
