@@ -1,3 +1,5 @@
+var dataAfterSave ;
+
 function saveProjectToDB(){
 	//var boolSameProjectCode = findSameProjectCode();
 	var arr_ProjectManager = projectManagerToArray();
@@ -15,7 +17,7 @@ function saveProjectToDB(){
 			arr_ProjectManager: arr_ProjectManager
 		};
 		var responseHeader = null;
-		$.ajax({
+		dataAfterSave = $.ajax({
 			headers: {
 				Accept: "application/json"
 			},

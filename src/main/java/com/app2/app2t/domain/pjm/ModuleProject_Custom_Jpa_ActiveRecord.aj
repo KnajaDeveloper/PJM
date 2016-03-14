@@ -145,4 +145,13 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         ModuleProject moduleProject = moduleProjectList.get(0);
         moduleProject.remove();
     }
+
+    public static List<ModuleProject> ModuleProject.findModuleByModuleCodeAndProjectId(String moduleCode,long projectId) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("project", projectId));
+        criteria.add(Restrictions.eq("moduleCode", moduleCode));
+        return criteria.list();
+    }
+
 }

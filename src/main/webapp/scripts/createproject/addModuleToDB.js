@@ -35,7 +35,7 @@ function saveModuleProjectToDB(){
 		});
 	}
 	else {
-		bootbox.alert("["+$('#txtInitialModuleName1').val()+"] has in database.");
+		bootbox.alert("["+$('#txtInitialModuleName1').val()+"] has in project.");
 		return false;
 	}
 	return true;
@@ -63,7 +63,9 @@ function ModuleMemberToArray(){
 
 function findSameModuleCode(){
 	var dataJsonData = {
-		moduleCode:$('#txtInitialModuleName1').val()
+		moduleCode:$('#txtInitialModuleName1').val(),
+		id:dataAfterSave.responseJSON.id,
+		option:"size"
     }
 
     var size = $.ajax({
@@ -73,13 +75,13 @@ function findSameModuleCode(){
 		headers: {
 			Accept: "application/json"
 		},
-		url: contextPath + '/moduleprojects/findModuleByModuleCode',
+		url: contextPath + '/moduleprojects/findModuleByModuleCodeAndProjectId',
 		data : dataJsonData,
 		complete: function(xhr){
 		},
 		async: false
 	});
-    var returnSize = jQuery.parseJSON(size.responseText);
+    var returnSize =jQuery.parseJSON(size.responseText);
     if(returnSize != 0) return false;
     return true;
 }
@@ -87,7 +89,9 @@ function findSameModuleCode(){
 function findSameModuleCodeWhenEdit(editModuleName){
 	if(editModuleName==$('#txtEditInitialModuleName1').val()) return true;
 	var dataJsonData = {
-		moduleCode:$('#txtEditInitialModuleName1').val()
+		moduleCode:$('#txtEditInitialModuleName1').val(),
+		id:dataAfterSave.responseJSON.id,
+		option:"size"
     }
 
     var size = $.ajax({
@@ -97,7 +101,7 @@ function findSameModuleCodeWhenEdit(editModuleName){
 		headers: {
 			Accept: "application/json"
 		},
-		url: contextPath + '/moduleprojects/findModuleByModuleCode',
+		url: contextPath + '/moduleprojects/findModuleByModuleCodeAndProjectId',
 		data : dataJsonData,
 		complete: function(xhr){
 		},
