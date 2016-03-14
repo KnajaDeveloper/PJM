@@ -86,7 +86,7 @@
   <spring:url value="/resources/scripts/selectize.min.js" var="selectize_min_js_url" />
   <!--<spring:url value="/resources/scripts/Util/UtilScript.js" var="util_script_js" />-->
   <!-- Menu -->
-  <!-- <spring:url value="/resources/scripts/Menu/menu.js" var="menu_js_url" /> -->
+  <spring:url value="/resources/scripts/Menu/menu.js" var="menu_js_url" />
   
   <!-- flat design -->
   <spring:url value="/resources/scripts/bootstrap-switch.min.js" var="bootstrap_switch_min_js_url" />
