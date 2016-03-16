@@ -32,21 +32,21 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             @RequestParam(value = "moduleCost", required = false) Integer moduleCost,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
-            @RequestParam(value = "projectCode", required = false) String projectCode,
+            @RequestParam(value = "projectId", required = false) long projectId,
             @RequestParam(value = "arr_moduleManager", required = false) String moduleManager,
             @RequestParam(value = "arr_moduleMember", required = false) String moduleMember
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Project> project = Project.findProjectByProjectCode(projectCode);
+            List<Project> project = Project.findProjectByIdProject(projectId);
             ModuleProject moduleProject = ModuleProject.saveModuleProject(moduleCode, moduleName, moduleCost, dateStart,
                     dateEnd, project.get(0));
             String[] arrManager = moduleManager.split("==");
             ModuleManager.saveModuleManagerByModuleProject(moduleProject,arrManager);
             String[] arrMember = moduleMember.split("==");
             ModuleMember.saveModuleMemberByModuleProject(moduleProject,arrMember);
-            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(moduleProject),headers, HttpStatus.CREATED);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -59,12 +59,13 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
     public ResponseEntity<String> ModuleProjectController.findModuleByModuleCode(
             @RequestParam(value = "moduleCode", required = false) String moduleCode,
             @RequestParam(value = "projectId", required = false) long projectId,
-            @RequestParam(value = "size", required = false) String option
+            @RequestParam(value = "option", required = false) String option
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<ModuleProject> result = ModuleProject.findModuleByModuleCodeAndProjectId(moduleCode,projectId);
+            Project project = Project.findProject(projectId);
+            List<ModuleProject> result = ModuleProject.findModuleByModuleCodeAndProjectId(moduleCode,project);
             option = option.toLowerCase();
             if(option.equals("size")) return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result.size()), headers, HttpStatus.OK);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -74,14 +75,14 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findModuleByProjectCode",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findModuleByProjectId",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode(
-            @RequestParam(value = "projectCode", required = false) String projectCode
+            @RequestParam(value = "projectId", required = false) long projectId
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Project> project = Project.findProjectByProjectCode(projectCode);
+            List<Project> project = Project.findProjectByIdProject(projectId);
             List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode(project.get(0));
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -121,9 +122,9 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/increseCostByModuleNameAndCodeProject",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/increseCostByModuleNameAndProjectId",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.increseCostByModuleNameAndCodeProject(
-            @RequestParam(value = "codeProject", required = false) String codeProject,
+            @RequestParam(value = "projectId", required = false) long projectId,
             @RequestParam(value = "codeModuleProject", required = false) String codeModuleProject,
             @RequestParam(value = "costIncrese", required = false) Integer costIncrese
     ) {
@@ -131,10 +132,10 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             String costProjectandModuleProject = "";
-            List<Project> projectList = Project.findProjectByProjectCode(codeProject);
+            List<Project> projectList = Project.findProjectByIdProject(projectId);
             int totalCostModule = ModuleProject.findAllModuleCostByProject(projectList.get(0));
-            Project project = Project.increseCostByModuleNameAndCodeProject(codeProject, costIncrese, totalCostModule);
-            int moduleCost = ModuleProject.increseCostByModuleNameAndCodeProject(project, codeModuleProject, costIncrese);
+            Project project = Project.increseCostByModuleNameAndProjectId(projectId, costIncrese, totalCostModule);
+            int moduleCost = ModuleProject.increseCostByModuleNameAndProjectId(project, codeModuleProject, costIncrese);
             costProjectandModuleProject += project.getProjectCost();
             costProjectandModuleProject += "," +moduleCost ;
             return  new ResponseEntity<String>(costProjectandModuleProject,headers, HttpStatus.OK);

@@ -2,7 +2,10 @@ $("#btnSaveProject").click(function(){
 	var checkInputProject = checkDataProject();
 	if(checkInputProject==true){
 		var bool = saveProjectToDB();
-		if(bool==true) $("#container_DataModule").show(500);
+		if(bool==true) {
+			$("#container_DataModule").show(500);
+			console.log("Project Id : "+dataAfterSave.responseJSON.id);
+		}
 	}
 });
 
