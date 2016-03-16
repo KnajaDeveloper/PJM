@@ -23,7 +23,7 @@ $(document).ready(function () {
     $('#ddlProject').append("<option>"+Message.Please_Select+"</option>");
     addData.forEach(function (value) {
         var text = value.projectName;
-        $('#ddlProject').append("<option value=" + value.projectCode + ">" + text + "</option>");
+        $('#ddlProject').append("<option value=" + value.id + ">" + text + "</option>");
     });
 
 });
@@ -35,7 +35,7 @@ $("#ddlProject").change(function () {
 
 
     var dataJsonData = {
-        projectCode: $('#ddlProject').find('option:selected').val()
+        projectId: $('#ddlProject').find('option:selected').val()
     }
 
     ddlModule = $.ajax({
@@ -45,7 +45,7 @@ $("#ddlProject").change(function () {
             Accept: "application/json"
         },
         type: "GET",
-        url: contextPath + '/moduleprojects/findModuleByProjectCode',
+        url: contextPath + '/moduleprojects/findModuleByProjectId',
         data: dataJsonData,
         complete: function (xhr) {
         },
@@ -83,7 +83,7 @@ function sendData() {
         (parseInt(date.getMonth()) + 1) + "/" +
         date.getFullYear();
 
-    var projectCode = $('#ddlProject').find('option:selected').val();
+    var projectId = $('#ddlProject').find('option:selected').val();
     var moduleCode = $('#ddlModule').find('option:selected').val();
     var moduleName = $('#ddlModule').find('option:selected').text();
     console.log(moduleCode);
@@ -97,7 +97,7 @@ function sendData() {
     console.log(moduleCode);
     console.log(moduleName);
 
-    var link = window.location.href = contextPath + '/reports/exportPJMRP02?projectCode=' + projectCode
+    var link = window.location.href = contextPath + '/reports/exportPJMRP02?projectId=' + projectId
         + '&moduleCode=' + moduleCode
         + '&moduleName=' + moduleName
         + '&printDate=' + printDate;

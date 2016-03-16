@@ -184,7 +184,7 @@ public class ReportController extends AbstractReportJasperXLS {
     @RequestMapping(value = "/exportPJMRP02", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
-            , @RequestParam(value = "projectCode", required = false) String projectCode
+            , @RequestParam(value = "projectId", required = false) String projectId
             , @RequestParam(value = "moduleCode", required = false) String moduleCode
             , @RequestParam(value = "moduleName", required = false) String moduleName
             , @RequestParam(value = "printDate", required = false) String printDate
@@ -234,9 +234,9 @@ public class ReportController extends AbstractReportJasperXLS {
 
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP02 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
         if (moduleCode.equals("NULL") ) {
-            sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTCODE = ? ");
+            sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
         }else {
-            sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTCODE = ? ");
+            sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
             sqlQuery.append(" and MODULECODE = ? ");
         }
 
@@ -248,9 +248,9 @@ public class ReportController extends AbstractReportJasperXLS {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             if (moduleCode.equals("NULL")) {
-            preparedStatement.setString(number++, projectCode);
+            preparedStatement.setString(number++, projectId);
             }else {
-                preparedStatement.setString(number++, projectCode);
+                preparedStatement.setString(number++, projectId);
             preparedStatement.setString(number++, moduleCode);
             }
 
