@@ -44,7 +44,7 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         return null;
     }
 
-    public static List<TypeTask> TypeTask.findTypeTaskOfDataPagingData(
+        public static List<TypeTask> TypeTask.findTypeTaskOfDataPagingData(
             Integer maxResult,
             Integer firstResult,
             String findtypecode,
