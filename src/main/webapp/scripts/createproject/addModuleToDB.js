@@ -1,3 +1,6 @@
+var ModuleProject = [] ;
+ModuleProject.push(null);
+
 function saveModuleProjectToDB(){
 	var boolSameModuleCode = findSameModuleCode();
 	if(boolSameModuleCode==true){
@@ -11,11 +14,11 @@ function saveModuleProjectToDB(){
 				moduleCost:parseInt($("#txtCostsModule1").val()),
 				dateStart: convertFormatDateStart ,
 				dateEnd: convertFormatDateEnd,
-				projectCode:$("#txtInitialProjectName").val() ,
+				projectId: dataAfterSave.responseJSON.id ,
 				arr_moduleManager: ModuleManagerToArray() ,
 				arr_moduleMember: ModuleMemberToArray()
 			};
-		var responseHeader = null;
+		var moduleProject =
 		$.ajax({
 			headers: {
 				Accept: "application/json"
@@ -24,8 +27,9 @@ function saveModuleProjectToDB(){
 			url: contextPath + '/moduleprojects/saveModuleProject',
 			data : crateModuleProject,
 			complete: function(xhr){
-				if(xhr.status === 201){
+				if(xhr.status === 201 || xhr.status === 200){
 					bootbox.alert("Save Success");
+					moduleProject = xhr ;
 				}else if(xhr.status === 500){
 					bootbox.alert("Save Error");
 					return false;
@@ -33,6 +37,7 @@ function saveModuleProjectToDB(){
 			},
 			async: false
 		});
+		ModuleProject.push(moduleProject.responseJSON);
 	}
 	else {
 		bootbox.alert("["+$('#txtInitialModuleName1').val()+"] has in project.");
@@ -62,11 +67,12 @@ function ModuleMemberToArray(){
 }
 
 function findSameModuleCode(){
+	var retutnStatus = false ;
 	var dataJsonData = {
 		moduleCode:$('#txtInitialModuleName1').val(),
-		id:dataAfterSave.responseJSON.id,
+		projectId:dataAfterSave.responseJSON.id,
 		option:"size"
-    }
+    };
 
     var size = $.ajax({
 		type: "GET",
@@ -81,9 +87,10 @@ function findSameModuleCode(){
 		},
 		async: false
 	});
-    var returnSize =jQuery.parseJSON(size.responseText);
-    if(returnSize != 0) return false;
-    return true;
+    var returnSize = size.responseJSON;
+    if(returnSize > 0) retutnStatus=false;
+    else retutnStatus=true;
+	return retutnStatus;
 }
 
 function findSameModuleCodeWhenEdit(editModuleName){
@@ -108,6 +115,6 @@ function findSameModuleCodeWhenEdit(editModuleName){
 		async: false
 	});
     var returnSize = jQuery.parseJSON(size.responseText);
-    if(returnSize != 0) return false;
-    return true;
+    if(returnSize != 0) return true;
+    return false
 }

@@ -96,12 +96,12 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return null;
     }
 
-    public static Project Project.increseCostByModuleNameAndCodeProject(String projectCode,Integer increseCost,Integer totalCost) {
+    public static Project Project.increseCostByModuleNameAndProjectId(Long projectCode,Integer increseCost,Integer totalCost) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
-        criteria.add(Restrictions.eq("projectCode", projectCode));
+        criteria.add(Restrictions.eq("id", projectCode));
         List<Project> projectList = criteria.list();
-        Project project = projectList.get(0);;
+        Project project = projectList.get(0);
         int oldCost = project.getProjectCost();
         if(totalCost+increseCost>oldCost) totalCost = totalCost + increseCost ;
         else totalCost = project.getProjectCost();
@@ -200,6 +200,16 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         project.setProjectCost(projectCost);
         project.setDateStart(dateStart);
         project.setDateEnd(dateEnd);
+        project.merge();
+        return project;
+    }
+
+    public static Project Project.increseOrDecresePointByProjectId(long id,int newCost) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        List<Project> listProject = Project.findProjectByIdProject(id);
+        Project project = listProject.get(0);
+        project.setProjectCost(newCost);
         project.merge();
         return project;
     }

@@ -65,7 +65,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return moduleProject;
     }
 
-    public static int ModuleProject.increseCostByModuleNameAndCodeProject(Project project,String codeModuleProject,Integer costIncrese) {
+    public static int ModuleProject.increseCostByModuleNameAndProjectId(Project project,String codeModuleProject,Integer costIncrese) {
         int totalCost = 0 ;
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
@@ -146,10 +146,10 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         moduleProject.remove();
     }
 
-    public static List<ModuleProject> ModuleProject.findModuleByModuleCodeAndProjectId(String moduleCode,long projectId) {
+    public static List<ModuleProject> ModuleProject.findModuleByModuleCodeAndProjectId(String moduleCode,Project project) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
-        criteria.add(Restrictions.eq("project", projectId));
+        criteria.add(Restrictions.eq("project", project));
         criteria.add(Restrictions.eq("moduleCode", moduleCode));
         return criteria.list();
     }

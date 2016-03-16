@@ -29,9 +29,9 @@ $("#btnSaveModule").click(function(){
 			var html="<div class='panel panel-primary' id='subrecordsModule"+i+"'>"+
 				    	"<div class='panel-heading' role='tab' id='heading"+i+"'>"+
 				    		"<h4 class='panel-title'>"+
-					        	"<a id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
+					        	"<x id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
 					          		"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
-					        	"</a>"+
+					        	"</x>"+
 					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
 								"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
 				      		"</h4>"+
@@ -159,7 +159,7 @@ function checkCost(cost){
 		if(i!=number[1]) totalModuleCost = totalModuleCost + parseInt(arr_costModule[number[1]]);
 	}
 	if(totalModuleCost > projectCost) {
-		bootbox.alert("Total cost of module is more than project cost.");
+		bootbox.alert("Total cost of module is more than project cost.\nDo you want to add this module ?");
 		return false;
 	}
 	return true;
@@ -175,7 +175,7 @@ function checkEditCost(cost,skipId){
 		if(i!=idSkip) totalModuleCost = totalModuleCost + parseInt(arr_costModule[i]);
 	}
 	if(totalModuleCost > projectCost) {
-		bootbox.alert("Total cost of module is more than project cost.");
+		bootbox.alert("Total cost of module is more than project cost.\nDo you want to add this module ?");
 		return false;
 	}
 	return true;
@@ -344,11 +344,11 @@ function editModule(objectModule){
 	clearEditModal();
 	var changeIDbtnSave = $('[id^=btnEditSaveModule]')[0].id;
 	$('#'+changeIDbtnSave).attr('id','btnEditSaveModule'+number);
-	$("#txtEditModuleName1").val(arr_nameModule[number]);
-	$("#txtEditInitialModuleName1").val(arr_initialNameModule[number]);
-	$("#txtCostsEditModule1").val(arr_costModule[number]);
-	$("#dateStartEditModule").val(arr_startDate[number]);
-	$("#dateEndEditModule").val(arr_endDate[number]);
+	$("#txtEditModuleName1").val(ModuleProject[number].moduleName);
+	$("#txtEditInitialModuleName1").val(ModuleProject[number].moduleCode);
+	$("#txtCostsEditModule1").val(ModuleProject[number].moduleCost);
+	$("#dateStartEditModule").val(ModuleProject[number].dateStart);
+	$("#dateEndEditModule").val(ModuleProject[number].dateEnd);
 	var textModuleManager = arr_moduleManager[number];
 	var splitTextModuleManager = textModuleManager.split("<br/>");
 	$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
@@ -375,7 +375,8 @@ function editModule(objectModule){
 }
 
 function saveEditModule(object){
-	var id = object.id;	
+	var id = object.id;
+	var number = id.split("btnEditSaveModule");
 	var bool = checkEditModal();
 	var boolSameName = checkSameNameBeforeEdit();
 	var boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(),id);
@@ -386,7 +387,6 @@ function saveEditModule(object){
 			if(boolSave==true){
 				var allModuleManager = ""+getAllEditModuleManager();
 				var allModuleMember = ""+getAllEditModuleMember();
-				var number = id.split("btnEditSaveModule");
 				arr_nameModule[number[1]] = $("#txtEditModuleName1").val();
 				arr_initialNameModule[number[1]] = $("#txtEditInitialModuleName1").val();
 				arr_costModule[number[1]] = $("#txtCostsEditModule1").val();

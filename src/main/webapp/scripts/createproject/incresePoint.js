@@ -1,44 +1,61 @@
 var dataDDLByCode ;
 
+$("#btnIncresePoint").hide();
+$("#btnDecresePoint").hide();
+
 $("#btnIncresePoint").click(function(){
 	addDataToDDLModule();
 });
 
 $("#btnSaveIncreseCostModule").click(function(){
 	var bool = checkDataBeforeSave();
-	var idModuleProject = focusModuleCode($("#ddlIncreseCostModuleName").val());
-	var editCostModuleProject = {
-		codeProject: $("#txtInitialProjectName").val(),
-		codeModuleProject: idModuleProject ,
-		costIncrese: parseInt($("#txtIncreseCostModuleCost").val())
-	};
-	var responseHeader = null;
-	var textNewCost = $.ajax({
-		headers: {
-			Accept: "application/json"
-		},
-		type: "POST",
-		url: contextPath + '/moduleprojects/increseCostByModuleNameAndCodeProject',
-		data : editCostModuleProject,
-		complete: function(xhr){
-			if(xhr.status === 201 || xhr.status === 200){
-				bootbox.alert("Increse "+parseInt($("#txtIncreseCostModuleCost").val())+" point to module "+idModuleProject+".");
-				return true;
-			}else if(xhr.status === 500){
-				bootbox.alert("Can't increse "+parseInt($("#txtIncreseCostModuleCost").val())+" point to module "+idModuleProject+".");
-				return false;
-			}
-		},
-		async: false
-	});
-	changeCostLabelModule(textNewCost);
-	$("#modalIncreseCost").modal('hide')
-	return true;
+	if(bool==true) {
+		var idModuleProject = $("#ddlIncreseCostModuleName").val();
+		var editCostModuleProject = {
+			projectId: dataAfterSave.responseJSON.id,
+			codeModuleProject: idModuleProject,
+			costIncrese: parseInt($("#txtIncreseCostModuleCost").val())
+		};
+		var responseHeader = null;
+		var textNewCost = $.ajax({
+			headers: {
+				Accept: "application/json"
+			},
+			type: "POST",
+			url: contextPath + '/moduleprojects/increseCostByModuleNameAndProjectId',
+			data: editCostModuleProject,
+			complete: function (xhr) {
+				if (xhr.status === 201 || xhr.status === 200) {
+					bootbox.alert("Increse " + parseInt($("#txtIncreseCostModuleCost").val()) + " point to module " + idModuleProject + ".");
+					changeParameterIncreseOrDecresePointByModuleCode($("#ddlIncreseCostModuleName").val(),parseInt($("#txtIncreseCostModuleCost").val()));
+					return true;
+				} else if (xhr.status === 500) {
+					bootbox.alert("Can't increse " + parseInt($("#txtIncreseCostModuleCost").text()) + " point to module " + idModuleProject + ".");
+					return false;
+				}
+			},
+			async: false
+		});
+		changeCostLabelModule(textNewCost);
+		$("#modalIncreseCost").modal('hide');
+		return true;
+	}else{
+		return false;
+	}
 });
+
+function changeParameterIncreseOrDecresePointByModuleCode(moduleCode,increseCost){
+	for(var i = 1 ; i <= ModuleProject.length ; i++){
+		if(ModuleProject[i].moduleCode == moduleCode) {
+			ModuleProject[i].moduleCost += increseCost;
+			break;
+		}
+	}
+}
 
 function addDataToDDLModule(){
 	var dataJsonData = {
-		projectCode:$('#txtInitialProjectName').val()
+		projectId: dataAfterSave.responseJSON.id
     }
 
     dataDDLByCode = $.ajax({
@@ -48,7 +65,7 @@ function addDataToDDLModule(){
 		headers: {
 			Accept: "application/json"
 		},
-		url: contextPath + '/moduleprojects/findModuleByProjectCode',
+		url: contextPath + '/moduleprojects/findModuleByProjectId',
 		data : dataJsonData,
 		complete: function(xhr){
 
@@ -58,19 +75,13 @@ function addDataToDDLModule(){
     $("#ddlIncreseCostModuleName").empty();
     $("#ddlIncreseCostModuleName").append("<option>--- Module Name ---</option>");
 	dataDDLByCode = dataDDLByCode.responseJSON;
-	dataDDLByCode.forEach(function(name) {
-		var text="("+name.moduleCode+") "+name.moduleName
-    	$("#ddlIncreseCostModuleName").append("<option>"+text+"</option>");
-	});
+	if(dataDDLByCode != undefined) {
+		dataDDLByCode.forEach(function (name) {
+			var text = "(" + name.moduleCode + ") " + name.moduleName
+			$("#ddlIncreseCostModuleName").append("<option value='"+name.moduleCode+"'>" + text + "</option>");
+		});
+	}
 }
-
-
-function focusModuleCode(input){
-	var subInput = input.split(" ");
-	var str = ""+subInput[0];
-	return str.substring(1, str.length-1);
-}
-
 
 function checkDataBeforeSave(){
 	if($("#ddlIncreseCostModuleName").val() == "--- Module Name ---") {
@@ -123,7 +134,8 @@ function changeCostLabelModule(newCost){
 function findEqualName(headName,name){
 	var x = headName.split(' ');
 	var y = name.split(' ');
-	if(x[0] == y[0]) return true;
+	var head = x[0].substr(1,x[0].length-2);
+	if(head == y[0]) return true;
 	else return false ;
 }
 
@@ -131,4 +143,13 @@ function replaceCost(name,newCost){
 	var index = name.split('[');
 	index[1] = "["+newCost+"]";
 	return index[0]+index[1];
+}
+
+$("input:radio[name=project]").click(function() {
+	var value = $(this).val();
+	console.log(""+value);
+});
+
+function incresePointWhenMoreThanProjectCode(){
+
 }

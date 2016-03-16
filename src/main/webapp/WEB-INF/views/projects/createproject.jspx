@@ -26,7 +26,7 @@
 
 	<style>
 	.input-group-addon{
-		padding: 0 12px;
+		/*padding: 0 12px;*/
 	}
 	.btnAddPM{
 		margin-left: 10px;
@@ -62,11 +62,18 @@
 					<div class="col-sm-3">
 						<input type="text" class="form-control" id="txtInitialProjectName" data-placement="bottom"></input>
 					</div>
-					<label class="col-sm-1 control-label required " >${LABEL_COST}</label>
-					<div class="col-sm-2 input-group">
-						<input type="text" class="form-control marginLeft5" id="txtCostsProject" data-placement="bottom"></input>
-						<span class="input-group-addon">${LABEL_POINT}</span>
-						<span id="btnIncresePoint" type="button" class="form-control btn btn-primary text-center" data-toggle="modal" data-target="#modalIncreseCost">+</span>
+					<div class="col-sm-6">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label required " >${LABEL_COST}</label>
+							<div class="col-sm-6 input-group">
+								<input type="text" class="form-control" id="txtCostsProject" data-placement="bottom"></input>
+								<span class="input-group-addon">${LABEL_POINT}</span>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<span id="btnIncresePoint" type="button" class="btn btn-primary text-center" style="margin-top: 0px;" data-toggle="modal" data-target="#modalIncreseCost">+</span>
+							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px" data-toggle="modal" data-target="#modalIncreseCost">-</span>
+						</div>
 					</div>
 				</div>
 
@@ -74,7 +81,7 @@
 					<div class="form-inline">
 						<div class="col-sm-6">
 							<label class="col-sm-6 control-label required" >${LABEL_START_DATE}</label>
-							<div class="col-sm-5 input-group">
+							<div class="col-sm-5 input-group" style="margin-left: 10px;">
 								<input class="form-control marginLeft5" type="text" id="dateStartProject" name="dateStartProject" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar "></span>
@@ -82,9 +89,9 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<label class="col-sm-2 control-label required" >${LABEL_END_DATE}</label>
+							<label class="col-sm-3 control-label required" >${LABEL_END_DATE}</label>
 							<div class="col-sm-5  input-group">
-								<input class="form-control marginLeft5" type="text" id="dateEndProject" name="dateEndProject" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
+								<input class="form-control" type="text" id="dateEndProject" name="dateEndProject" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar "></span>
 								</span>
@@ -108,7 +115,7 @@
 
 				<div name="container_btnAddProjectManager" class="form-group">
 					<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-					<button id="btnAddPM" type="button" class="btn btn-success"> + ${LABEL_PROJECT_MANAGER}</button>
+					<button id="btnAddPM" type="button" class="btn btn-success marginLeft5"> + ${LABEL_PROJECT_MANAGER}</button>
 				</div>
 
 				<div class='text-center'>
@@ -147,7 +154,7 @@
 									<div class="form-inline">
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
-											<div class="col-sm-5 input-group">
+											<div class="col-sm-5 input-group" style="margin-left: 10px">
 												<input class="form-control marginLeft5" type="text" id="dateStartModule" name="dateStartModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
@@ -180,7 +187,7 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnAddMM1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MANAGER}</button>
+									<button id="btnAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
 								<div id="container_nameModuleMember" class="form-group">
@@ -196,7 +203,7 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnAddMMem1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MEMBER}</button>
+									<button id="btnAddMMem1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MEMBER}</button>
 								</div>		                        
 		                    </div>
 		                    <div class="modal-footer">
@@ -246,7 +253,7 @@
 											</div>
 										</div>
 										<div class="col-sm-6 ">
-											<label class="col-sm-3 control-label required" >${LABEL_END_DATE} </label>
+											<label class="col-sm-3 control-label required " style="margin-left: -45px;">${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
 												<input class="form-control marginLeft5" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white"></input>
 												<span class="input-group-addon">
@@ -305,17 +312,26 @@
 			                        <h4 class="modal-title">Increse Cost</h4>
 			                    </div>
 			                    <div class="modal-body">
+									<form class="form-horizontal">
+										<div name="container_SelectRadio" class="form-group">
+											<div class="col-sm-5"><!--Not Empty--></div>
+											<div>
+												<input type="radio" name="project" value='project' checked="checked"> Project </input>
+												<input type="radio" name="project" value='module'> Module </input>
+											</div>
+										</div>
+									</form>
 			                    	<form class="form-horizontal">
 										<div name="container_Name" class="form-group">
-											<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME} : </label>
+											<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME}</label>
 											<div class="col-sm-4">
-												<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom">
+												<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom" style="margin-left: -10px">
 													<option>--- Module Name ---</option>
 												</select>
 											</div>
 										</div>
 										<div name="container_Name" class="form-group">
-											<label class="col-sm-4 control-label required" >${LABEL_COST} : </label>
+											<label class="col-sm-4 control-label required" >${LABEL_COST}</label>
 											<div class="col-sm-3 input-group">
 												<input type="text" class="form-control marginLeft5" id="txtIncreseCostModuleCost"></input>
 												<span class="input-group-addon">${LABEL_POINT}</span>
@@ -344,8 +360,8 @@
 			</div>
 
 			<div name="container_UpDownModule" class="form-group">
-				<button id="btnUpModule" type="button" class="glyphicon glyphicon-chevron-up btn btn-primary" aria-hidden="true"></button>
-				<button id="btnDownModule" type="button" class=" glyphicon glyphicon-chevron-down btn btn-primary" aria-hidden="true" style="margin:10px;"></button>
+				<button id="btnUpModule" type="button" class="btn btn-primary" aria-hidden="true"><span class="glyphicon glyphicon-chevron-up "></span></button>
+				<button id="btnDownModule" type="button" class="btn btn-primary" aria-hidden="true" style="margin:10px;"><span class="glyphicon glyphicon-chevron-down "></span></button>
 			</div>
 		</div>
 

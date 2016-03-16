@@ -28,6 +28,13 @@ function saveProjectToDB(){
 				if(xhr.status === 201){
 					bootbox.alert("Save Success");
 					statusReturn = true;
+					$("#btnIncresePoint").show();
+					$("#btnDecresePoint").show();
+					$("#btnSaveProject").hide();
+					$("#btnResetProject").hide();
+					$("#btnAddPM").hide();
+					$("[id^=btnDeletePM]").hide();
+					lockDataProject();
 				}else{
 					bootbox.alert("Save Error");
 					statusReturn = false;
@@ -37,6 +44,15 @@ function saveProjectToDB(){
 		});
 	if(statusReturn==true) return true;
 	else return false;
+}
+
+function lockDataProject(){
+	$("#txtProjectName").attr("readonly","true");
+	$("#txtInitialProjectName").attr("readonly","true");
+	$("#txtCostsProject").attr("readonly","true");
+	//$("#dateStartProject").attr("readonly","true");
+	//$("#dateEndProject").attr("readonly","true");
+	$("[id^=txtProjectManagerName]").attr("readonly","true");
 }
 
 function projectManagerToArray(){
@@ -52,7 +68,7 @@ function projectManagerToArray(){
 function findSameProjectCode(){
 	var dataJsonData = {
 		projectCode:$('#txtInitialProjectName').val()
-    }
+    };
 
     var size = $.ajax({
 		type: "GET",
