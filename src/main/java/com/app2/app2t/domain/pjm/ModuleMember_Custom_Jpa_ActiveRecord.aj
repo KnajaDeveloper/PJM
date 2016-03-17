@@ -16,10 +16,10 @@ privileged aspect ModuleMember_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleMember_Custom_Jpa_ActiveRecord.class);
     
-    public static List<ModuleMember> ModuleMember.findModuleMemberByUserName(String userName) {
+    public static List<ModuleMember> ModuleMember.findModuleMemberByEmpCode(String empCode) {
         EntityManager ent = ModuleMember.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class);
-        criteria.add(Restrictions.eq("empCode", userName));
+        criteria.add(Restrictions.eq("empCode", empCode));
         List<ModuleMember> moduleMembers = criteria.list();
         return moduleMembers;
     }

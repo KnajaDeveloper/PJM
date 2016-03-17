@@ -88,17 +88,16 @@ $(document).ready(function () {
         url: contextPath + '/plans/findAllTaskType',
         success: function (data, status, xhr) {
             $('#grpTaskType').html('');
-            if (xhr.status === 200) {
+            if (xhr.status == 200) {
                 $.each(data, function (k, v) {
-					$('#grpTaskType').append('<div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" value="' + v.id + '"/><label for="checkOtherTask">'+v.id+'</label></div>');
+					$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" value="' + v.id + '"/>'+v.typeTaskName+'</label></div>');
                 });
             }
-			$('#grpTaskType').append('<br/><div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
+			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
 			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkOtherTask"/>'+ MESSAGE.CHECKBOX_PUBLIC_TASK +'</label></div>');
         },
         async: false
     });
-
 });
 
 // Search plan ---------------------------------------------------------------------------------------------------------
@@ -110,6 +109,7 @@ $('#txtYearSearch').keydown(function (e) {
         searchPlan();
     }
 });
+
 function searchPlan() {
     // search plan by month and year
     var month = $('#ddlMonthSearch').val();
@@ -126,7 +126,7 @@ function searchPlan() {
         $('#calendar').fullCalendar('gotoDate', moment(defaultDate).format('YYYY-MM-DD'));
 
     } else {         // not correct year format
-        $('#txtYearSearch').attr('data-content', MESSAGE.ALERT_YEAR).popover('show');
+        $('#txtYearSearch').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     }
 }
 
@@ -164,15 +164,13 @@ $('#btnSearchByModule').click(function () {
                 } else {
                     $('#lblNoResultSerchByModule').hide();
                     $.each(data, function (k, v) {
-                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == null ? 'danger' : 'success') + '" taskId="' + v.id + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
+                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') + '" taskId="' + v.id + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
                     });
                 }
             }
         },
         async: false
     });
-
-
 });
 
 // Add other plan -----------------------------------------------------------------------------------------------
@@ -184,13 +182,13 @@ $('#btnAddOtherPlan').click(function () {
     var dateEnd = $('#cPlanDateEnd').val();
     
     if (taskName.length == 0) {
-        $('#txtPlanName').attr('data-content', MESSAGE.POPOVER_TASK_NAME).popover('show');
+        $('#txtPlanName').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (taskCost.indexOf('.') > 0 || !$.isNumeric(taskCost)) {
-        $('#txtPlanCost').attr('data-content', MESSAGE.POPOVER_TASK_COST).popover('show');
+        $('#txtPlanCost').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (dateStart.length == 0) {
-        $('#cPlanDateBegin').attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
+        $('#cPlanDateBegin').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (dateEnd.length == 0) {
-        $('#cPlanDateEnd').attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
+        $('#cPlanDateEnd').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else {
         $.ajax({
             type: "POST",
@@ -208,12 +206,16 @@ $('#btnAddOtherPlan').click(function () {
             }),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
-                    bootbox.alert(MESSAGE.ALERT_SAVE_COMPLETED);
-                    //$('#mdAddToPlan').modal('hide');
-                    //$('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
+                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
                     loadAndMapPlan(_month, _year);
+
+                    $('#txtPlanName').val('');
+                    $('#txtPlanCost').val('');
+                    $('#cPlanDateBegin').val('');
+                    $('#cPlanDateEnd').val('');
+
                 } else if (xhr.status === 500) {
-                    bootbox.alert(MESSAGE.ALERT_SAVE_FAILED);
+                    bootbox.alert(MESSAGE.SAVE_FAILED);
                 }
             },
             async: false
@@ -229,6 +231,12 @@ $('.input-group-addon.date').click(function(){
 
 // Add plan ------------------------------------------------------------------------------------------------------------
 function openModalAddPlan(jobElement) {
+    if(jobElement.attributes[2].nodeValue.indexOf('danger') >= 0) {
+        $('#btnCancelTask').hide();
+    }else{
+        $('#btnCancelTask').show();
+    }
+
     var jobName = $.trim(jobElement.innerHTML.split('<span')[0]);
     var taskId = jobElement.getAttribute('taskId');
 
@@ -264,8 +272,6 @@ function openModalAddPlan(jobElement) {
 
 }
 function getFirstEmptyDate(baseId) {
-
-    // หา date field แรกที่ว่าง
     var obj = null;
     $('[id^=' + baseId + ']').each(function () {
         if (obj === null) {
@@ -281,13 +287,11 @@ function checkOverlapDate(idDateBegin, idDateEnd) {
     var xx = commonData.language == 'TH' ? '_convert' : '';
 
     $('[id^=' + idDateBegin + ']').each(function () {              // loop parent
-
         var id1 = this.id.split('_')[1];
         var dateBegin1 = date2EnStyle($('#' + idDateBegin + id1 + xx).val());
         var dateEnd1 = date2EnStyle($('#' + idDateEnd + id1 + xx).val());
 
         $('[id^=' + idDateBegin + ']').each(function () {          // loop child
-
             var id2 = this.id.split('_')[1];
             if (id2 !== id1) {   // not itself
                 var dateBegin2 = date2EnStyle($('#' + idDateBegin + id2 + xx).val());
@@ -319,39 +323,39 @@ $('#btnAddTime').click(function () {
     var b = getFirstEmptyDate('cAddDateBegin_');
     var e = getFirstEmptyDate('cAddDateEnd_');
     if (b !== null) {
-        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
+        b.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (e !== null) {
-        e.attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
+        e.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
-        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
+        bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         ++dateAddMaxId;
         $('#grpAddDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-3 required">วันที่เริ่ม </label>'
-            + '<div class="col-xs-6">'
+            + '<label class="control-label col-xs-4 required">'+LABEL.DATE_BEGIN+' </label>'
+            + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cAddDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '</div>');
 
         $('#grpAddDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-3 required">วันที่สิ้นสุด </label>'
-            + '<div class="col-xs-6">'
+            + '<label class="control-label col-xs-4 required">'+LABEL.DATE_END+' </label>'
+            + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cAddDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
-            + '<div class="col-sm-1">'
+            + '<div class="col-sm-2">'
             + '<button id="btnDeleteAddDate_'
             + dateAddMaxId
-            + '" type="button" class="btn btn-danger col-sm-12">ลบ</button>'
+            + '" type="button" class="btn btn-danger col-sm-12">'+BUTTON.DELETE+'</button>'
             + '</div>'
             + '</div>');
 
@@ -360,8 +364,8 @@ $('#btnAddTime').click(function () {
 });
 $('#grpAddDate').on('click', '[id^=btnDeleteAddDate_]', function () {
     var id = this.id.split('_')[1];
-    $('#cAddDateBegin_' + id).parent().parent().remove();
-    $('#cAddDateEnd_' + id).parent().parent().remove();
+    $('#cAddDateBegin_' + id).parent().parent().parent().remove();
+    $('#cAddDateEnd_' + id).parent().parent().parent().remove();
 });
 $('#grpAddDate').on('click', '.input-group-addon.date', function () {
     $(this).parent().children(':first').focus();
@@ -373,11 +377,11 @@ $('#btnSaveAddPlan').click(function () {
     var shiftPlan = $('#radioPostpone_add').prop('checked');
 
     if (b !== null) {
-        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
+        b.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (e !== null) {
-        e.attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
+        e.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
-        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
+        bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         var taskId = $('#taskId').val();
         var plans = [taskId, shiftPlan];
@@ -419,12 +423,12 @@ $('#btnSaveAddPlan').click(function () {
             data: JSON.stringify(plans),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
-                    bootbox.alert(MESSAGE.ALERT_SAVE_COMPLETED);
+                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
                     $('#mdAddToPlan').modal('hide');
                     $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
                     loadAndMapPlan(_month, _year);
                 } else if (xhr.status === 500) {
-                    bootbox.alert(MESSAGE.MESSAGE_ALERT_SAVE_FAILED);
+                    bootbox.alert(MESSAGE.SAVE_FAILED);
                 }
             },
             async: false
@@ -448,11 +452,11 @@ $('#btnCancelTask').click(function () {
         data: taskId,
         complete: function (xhr) {
             if (xhr.status === 201) {
-                bootbox.alert(MESSAGE.ALERT_LEAVE_COMPLETED);
+                bootbox.alert(MESSAGE.LEAVE_COMPLETED);
                 $('#mdAddToPlan').modal('hide');
                 $('[taskId=' + taskId + ']').removeClass('success').addClass('danger');
             } else if (xhr.status === 500) {
-                bootbox.alert(MESSAGE.ALERT_LEAVE_FAILED);
+                bootbox.alert(MESSAGE.LEAVE_FAILED);
             }
         },
         async: false
@@ -508,48 +512,50 @@ $('#btnAddTime_edit').click(function () {
     var e = getFirstEmptyDate('cEditDateEnd_');
 
     if (b !== null) {
-        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
+        b.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (e !== null) {
-        e.attr('data-content', MESSAGE.POPOVER_DATE_END).popover('show');
+        e.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
-        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
+        bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         ++dateAddMaxId;
         $('#grpEditDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-4 required">วันที่เริ่ม </label>'
+            + '<label class="control-label col-xs-4 required">'+LABEL.DATE_BEGIN+' </label>'
             + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cEditDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่เริ่มต้น"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '</div>');
 
         $('#grpEditDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-4 required">วันที่สิ้นสุด </label>'
+            + '<label class="control-label col-xs-4 required">'+LABEL.DATE_END+' </label>'
             + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cEditDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content="กรุณาระบุวันที่สิ้นสุด"/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
             + '<div class="col-sm-2">'
             + '<button id="btnDeleteEditDate_'
             + dateAddMaxId
-            + '" type="button" class="btn btn-danger col-sm-12">ลบ</button>'
+            + '" type="button" class="btn btn-danger col-sm-12">'+BUTTON.DELETE+'</button>'
             + '</div>'
             + '</div>');
 
         setDatePicker('cEditDateBegin_', 'cEditDateEnd_', dateAddMaxId);
     }
 });
+
 $('#grpEditDate').on('click', '.input-group-addon.date', function () {
     $(this).parent().children(':first').focus();
 });
+
 $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
     var id = this.id.split('_')[1];
     $('#cEditDateBegin_' + id).parent().parent().parent().remove();
@@ -559,29 +565,31 @@ $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
 $('#btnCancelEditPlan').click(function () {
     $('#mdEditToPlan').modal('hide');
 });
+
 $('#btnSaveEditPlan').click(function () {
     var b = getFirstEmptyDate('cEditDateBegin_');
     var e = getFirstEmptyDate('cEditDateEnd_');
     var progress = $('#txtPercentage').val();
     var shiftPlan = $('#radioPostpone_edit').prop('checked');
 
-    if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
-        $('#txtPercentage').attr('data-content', MESSAGE.POPOVER_PROGRESS).popover('show');
+    if(progress == '') {
+        $('#txtPercentage').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
+    } else if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
+        $('#txtPercentage').attr('data-content', MESSAGE.PROGRESS_FORMAT).popover('show');
     } else if (progress < 0 || progress > 100) {
-        $('#txtPercentage').attr('data-content', MESSAGE.POPOVER_PROGRESS_FORMAT).popover('show');
+        $('#txtPercentage').attr('data-content', MESSAGE.PROGRESS_FORMAT).popover('show');
     } else if (b !== null) {
-        b.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
+        b.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (e !== null) {
-        e.attr('data-content', MESSAGE.POPOVER_DATE_BEGIN).popover('show');
+        e.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
-        bootbox.alert(MESSAGE.ALERT_DATE_OVERLAY);
+        bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         var planId = $('#txtEditPlanId').val();
         var plans = [planId, shiftPlan, progress];
 
         if (_language == 'TH') {
             $('[id^=cEditDateBegin_][id$=_convert]').each(function () {
-				console.log(this.id);
                 var id = this.id.split('_')[1];
                 var dateBegin = $('#cEditDateBegin_' + id).val();
                 var dateEnd = $('#cEditDateEnd_' + id).val();
@@ -593,17 +601,16 @@ $('#btnSaveEditPlan').click(function () {
             });
         } else {
             $('[id^=cEditDateBegin_]').each(function () {
-				console.log(this.id);
                 if (this.id.indexOf('_convert') < 0) {
                     var id = this.id.split('_')[1];
-                    var dateBegin = $('#cAddEditBegin_' + id).val();
+                    var dateBegin = $('#cEditDateBegin_' + id).val();
                     var dateEnd = $('#cEditDateEnd_' + id).val();
-                }
-                plans.push({
+
+                    plans.push({
                         dateStart: DateUtil.dataDateToDataBase(dateBegin, commonData.language),
                         dateEnd: DateUtil.dataDateToDataBase(dateEnd, commonData.language)
-                    }
-                );
+                    });
+                }
             });
         }
 
@@ -618,41 +625,46 @@ $('#btnSaveEditPlan').click(function () {
             data: JSON.stringify(plans),
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
-                    bootbox.alert(MESSAGE.ALERT_SAVE_COMPLETED);
+                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
                     $('#mdEditToPlan').modal('hide');
                     loadAndMapPlan(_month, _year);
                 } else if (xhr.status === 500) {
-                    bootbox.alert(MESSAGE.ALERT_SAVE_FAILED);
+                    bootbox.alert(MESSAGE.SAVE_FAILED);
                 }
             },
             async: false
         });
     }
 });
+
 $('#btnDeleteEditPlan').click(function () {
-    // Delete process
+    
     var planId = $('#txtEditPlanId').val();
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=UTF-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/plans/deletePlan',
-        data: planId,
-        complete: function (xhr) {
-            if (xhr.status === 201) {
-                bootbox.alert(MESSAGE.ALERT_DELETE_COMPLETED);
-                $('#mdEditToPlan').modal('hide');
-                $('#calendar').fullCalendar('removeEvents', planId);
-                $('#calendar').fullCalendar("rerenderEvents");
-            } else if (xhr.status === 500) {
-                bootbox.alert(MESSAGE.ALERT_DELETE_FAILED);
-            }
-        },
-        async: false
+    bootbox.confirm(MESSAGE.CONFIRM_DELETE, function (result) {
+        if (result) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: contextPath + '/plans/deletePlan',
+                data: planId,
+                complete: function (xhr) {
+                    if (xhr.status === 201) {
+                        bootbox.alert(MESSAGE.DELETE_COMPLETED);
+                        $('#mdEditToPlan').modal('hide');
+                        $('#calendar').fullCalendar('removeEvents', planId);
+                        $('#calendar').fullCalendar("rerenderEvents");
+                    } else if (xhr.status === 500) {
+                        bootbox.alert(MESSAGE.DELETE_FAILED);
+                    }
+                },
+                async: false
+            });
+        }
     });
 });
 

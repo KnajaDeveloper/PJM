@@ -49,44 +49,45 @@
     <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
     <c:set var="BUTTON_LEAVE" scope="request"><spring:message code="B0011"/></c:set>
 
-    <c:set var="MESSAGE_POPOVER_YEAR" scope="request"><spring:message text="กรุณาปีให้ถูกต้อง"/></c:set>
-    <c:set var="MESSAGE_POPOVER_TASK_NAME" scope="request"><spring:message text="กรุณาระบุชื่องาน"/></c:set>
-    <c:set var="MESSAGE_POPOVER_TASK_COST" scope="request"><spring:message text="กรุณาระบุจำนวนแมนให้ถูกต้อง"/></c:set>
-    <c:set var="MESSAGE_POPOVER_DATE_BEGIN" scope="request"><spring:message text="กรุณาระบุวันที่เริ่มต้น"/></c:set>
-    <c:set var="MESSAGE_POPOVER_DATE_END" scope="request"><spring:message text="กรุณาระบุวันที่สิ้นสุด"/></c:set>
-    <c:set var="MESSAGE_POPOVER_PROGRESS" scope="request"><spring:message text="กรุณาความคืบหน้าให้ถูกต้อง"/></c:set>
-    <c:set var="MESSAGE_POPOVER_PROGRESS_FORMAT" scope="request"><spring:message text="กรุณาระบุความคืบหน้าในช่วง 0 ถึง 100"/></c:set>
+    <c:set var="MESSAGE_COMPLETE_THIS_FIELD" scope="request"><spring:message code="M0002"/></c:set>
+    <c:set var="MESSAGE_PROGRESS_FORMAT" scope="request"><spring:message code="M0017"/></c:set>
 
-    <c:set var="MESSAGE_ALERT_DATE_OVERLAY" scope="request"><spring:message text="เวลาทับซ้อน! กรุณาเลือกเวลาที่ไม่ทับซ้อนกัน"/></c:set>
-    <c:set var="MESSAGE_ALERT_SAVE_COMPLETED" scope="request"><spring:message text="บันทึกข้อมูล่สำเร็จ"/></c:set>
-    <c:set var="MESSAGE_ALERT_SAVE_FAILED" scope="request"><spring:message text="บันทึกข้อมูลไมสำเร็จ"/></c:set>
-    <c:set var="MESSAGE_ALERT_LEAVE_COMPLETED" scope="request"><spring:message text="ละทิ้งงานสำเร็จ"/></c:set>
-    <c:set var="MESSAGE_ALERT_LEAVE_FAILED" scope="request"><spring:message text="ละทิ้งงานไม่สำเร็จ"/></c:set>
-    <c:set var="MESSAGE_ALERT_DELETE_COMPLETED" scope="request"><spring:message text="ลบข้อมูลสำเร็จ"/></c:set>
-    <c:set var="MESSAGE_ALERT_DELETE_FAILED" scope="request"><spring:message text="ลบข้อมูลไม่สำเร็จ"/></c:set>
+    <c:set var="MESSAGE_DATE_OVERLAY" scope="request"><spring:message code="M0007"/></c:set>
+    <c:set var="MESSAGE_SAVE_COMPLETED" scope="request"><spring:message code="M0001"/></c:set>
+    <c:set var="MESSAGE_SAVE_FAILED" scope="request"><spring:message code="M0019"/></c:set>
+    <c:set var="MESSAGE_CONFIRM_LEAVE" scope="request"><spring:message text="M0030"/></c:set>
+    <c:set var="MESSAGE_LEAVE_COMPLETED" scope="request"><spring:message code="M0008"/></c:set>
+    <c:set var="MESSAGE_LEAVE_FAILED" scope="request"><spring:message code="M0009"/></c:set>
+    <c:set var="MESSAGE_CONFIRM_DELETE" scope="request"><spring:message text="M0029"/></c:set>
+    <c:set var="MESSAGE_DELETE_COMPLETED" scope="request"><spring:message code="M0014"/></c:set>
+    <c:set var="MESSAGE_DELETE_FAILED" scope="request"><spring:message code="M0015"/></c:set>
 
 
     <script>
         var MESSAGE = {};
+        var LABEL = {};
+        var BUTTON = {};
 
-        MESSAGE.POPOVER_YEAR = '${MESSAGE_POPOVER_YEAR}';
-        MESSAGE.POPOVER_TASK_NAME = '${MESSAGE_POPOVER_TASK_NAME}';
-        MESSAGE.POPOVER_TASK_COST = '${MESSAGE_POPOVER_TASK_COST}';
-        MESSAGE.POPOVER_DATE_BEGIN = '${MESSAGE_POPOVER_DATE_BEGIN}';
-        MESSAGE.POPOVER_DATE_END = '${MESSAGE_POPOVER_DATE_END}';
-        MESSAGE.POPOVER_PROGRESS = '${MESSAGE_POPOVER_PROGRESS}';
-        MESSAGE.POPOVER_PROGRESS_FORMAT = '${MESSAGE_POPOVER_PROGRESS_FORMAT}';
+        MESSAGE.COMPLETE_THIS_FIELD = '${MESSAGE_COMPLETE_THIS_FIELD}';
+        MESSAGE.PROGRESS_FORMAT = '${MESSAGE_PROGRESS_FORMAT}';
 
-        MESSAGE.ALERT_DATE_OVERLAY = '${MESSAGE_ALERT_DATE_OVERLAY}';
-        MESSAGE.ALERT_SAVE_COMPLETED = '${MESSAGE_ALERT_SAVE_COMPLETED}';
-        MESSAGE.ALERT_SAVE_FAILED = '${MESSAGE_ALERT_SAVE_FAILED}';
-        MESSAGE.ALERT_LEAVE_COMPLETED = '${MESSAGE_ALERT_LEAVE_COMPLETED}';
-        MESSAGE.ALERT_LEAVE_FAILED = '${MESSAGE_ALERT_LEAVE_FAILED}';
-        MESSAGE.ALERT_DELETE_COMPLETED = '${MESSAGE_ALERT_DELETE_COMPLETED}';
-        MESSAGE.ALERT_DELETE_FAILED = '${MESSAGE_ALERT_DELETE_FAILED}';
+        MESSAGE.DATE_OVERLAY = '${MESSAGE_DATE_OVERLAY}';
+        MESSAGE.SAVE_COMPLETED = '${MESSAGE_SAVE_COMPLETED}';
+        MESSAGE.SAVE_FAILED = '${MESSAGE_SAVE_FAILED}';
+        MESSAGE.CONFIRM_LEAVE = '${MESSAGE_CONFIRM_LEAVE}';
+        MESSAGE.LEAVE_COMPLETED = '${MESSAGE_LEAVE_COMPLETED}';
+        MESSAGE.LEAVE_FAILED = '${MESSAGE_LEAVE_FAILED}';
+        MESSAGE.CONFIRM_DELETE = '${MESSAGE_CONFIRM_DELETE}';
+        MESSAGE.DELETE_COMPLETED = '${MESSAGE_DELETE_COMPLETED}';
+        MESSAGE.DELETE_FAILED = '${MESSAGE_DELETE_FAILED}';
 
         MESSAGE.CHECKBOX_PRIVATE_TASK = '${LABEL_PRIVEATE_TASK}';
         MESSAGE.CHECKBOX_PUBLIC_TASK = '${LABEL_PUBLIC_TASK}';
+
+        LABEL.DATE_BEGIN = '${LABEL_DATE_BEGIN}';
+        LABEL.DATE_END = '${LABEL_DATE_END}';
+
+        BUTTON.DELETE = '${BUTTON_DELETE}';
     </script>
 
     <spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
@@ -351,7 +352,7 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">${LABEL_ADD_PLAN}</h4>
+                    <h5 class="modal-title">${LABEL_ADD_PLAN}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -366,7 +367,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-4 required">${LABEL_DATE_BEGIN} </label>
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-5">
                                     <div class="input-group">
                                         <input id="cAddDateBegin_0" type="text" class="form-control"
                                            data-placement="bottom" data-content=""/>
@@ -379,7 +380,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-4 required">${LABEL_DATE_END} </label>
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-5">
                                     <div class="input-group">
                                         <input id="cAddDateEnd_0" type="text" class="form-control"
                                            data-placement="bottom" data-content=""/>

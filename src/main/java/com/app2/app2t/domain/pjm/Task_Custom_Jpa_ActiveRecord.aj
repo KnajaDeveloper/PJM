@@ -20,6 +20,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     public static List<Task> Task.findTaskByModuleAndTypeTask(List<Long> listModuleId, List<Long> listTypeTaskId, boolean getMyTask, boolean getOtherTask, String userName) {
 
         DetachedCriteria subCriteria = DetachedCriteria.forClass(Plan.class);
+        subCriteria.add(Restrictions.not(Restrictions.isNull("task")));
         subCriteria.setProjection(Projections.distinct(Projections.property("task")));
 
         EntityManager ent = Task.entityManager();
@@ -39,12 +40,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         if (getMyTask && !getOtherTask) {
             criteria.add(Restrictions.eq("empCode", userName));
         } else if (!getMyTask && getOtherTask) {
-            criteria.add(Restrictions.isNull("empCode"));
+            criteria.add(Restrictions.eq("empCode", ""));
         } else {
-            criteria.add(Restrictions.or(Restrictions.isNull("empCode"), Restrictions.eq("empCode", userName)));
+            criteria.add(Restrictions.or(Restrictions.eq("empCode", ""), Restrictions.eq("empCode", userName)));
         }
 
-        criteria.addOrder(Order.asc("empCode"))
+        criteria.addOrder(Order.desc("empCode"))
                 .addOrder(Order.asc("typeTask.typeTaskName"))
                 .addOrder(Order.asc("dateStart"))
                 .addOrder(Order.asc("dateEnd"));
