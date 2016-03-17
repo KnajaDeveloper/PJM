@@ -256,20 +256,22 @@ $('#btnDeleteProgram').click(function() {
 
 $("#checkboxAllProgram").click(function(){
     $(".checkboxTableProgram").prop('checked', $(this).prop('checked'));
+    if($(".checkboxTableProgram[inUse=0]").length == 0){
+        $("#checkboxAllProgram").prop("checked", false);
+    }
     $.each($(".checkboxTableProgram[inUse=1]"),function(index, value){
         $(this).prop("checked", false);
     });
 });
 
 $('#TableProgram').on("click", ".checkboxTableProgram", function () {
-    if($(".checkboxTableProgram:checked").length == $(".checkboxTableProgram[inUse=0]").length){
-        $("#checkboxAllProgram").prop("checked", true);
-    }else{
-        $("#checkboxAllProgram").prop("checked", false);
-    }
-
     if($(this).attr("inUse") > 0){
         $(this).prop("checked", false);
         bootbox.alert(Message.MSG_DATA_IS_USE);
+    }
+    if($(".checkboxTableProgram:checked").length == $(".checkboxTableProgram[inUse=0]").length && $(".checkboxTableProgram[inUse=0]").length != 0){
+        $("#checkboxAllProgram").prop("checked", true);
+    }else{
+        $("#checkboxAllProgram").prop("checked", false);
     }
 });

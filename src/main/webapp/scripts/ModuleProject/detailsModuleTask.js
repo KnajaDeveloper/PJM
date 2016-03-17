@@ -67,12 +67,12 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         dataTypeTaskName.push(value.typeTask.typeTaskName);
         dataEmpCode.push(value.empCode);
 
-        if(DateUtil.dataDateToFrontend(value.dateStart,commonData.language) == "01/01/1970")
+        if(DateUtil.dataDateToFrontend(value.dateStart, commonData.language) == "01/01/1970")
             dataDateStart.push("");
         else
             dataDateStart.push(DateUtil.dataDateToFrontend(value.dateStart, commonData.language));
 
-        if(DateUtil.dataDateToFrontend(value.dateEnd,commonData.language) == "01/01/1970")
+        if(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language) == "01/01/1970")
             dataDateEnd.push();
         else
             dataDateEnd.push(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language));
@@ -124,7 +124,7 @@ function DDLData() {
     dataTypeTaskCode = [];
     ddlData = ddlData.responseJSON;
     $('#ddlTypeTask').empty();
-    $('#ddlTypeTask').append("<option><-- " + Label.LABEL_TYPE_TASK + " --></option>");
+    $('#ddlTypeTask').append("<option></option>");
     ddlData.forEach(function(value){
         dataTypeTaskCode.push(value.typeTaskCode);
         var text = value.typeTaskName;
@@ -259,19 +259,19 @@ $('[id^=btnModalTask]').click(function() {
         $('#fileName').text("");
         $('#txtaDescription').val("");
     }else{
-        if($('#txtTaskCode').val() === ""){
+        if($('#txtTaskCode').val() == ""){
             $('#txtTaskCode').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
-        }else if($('#txtTaskName').val() === ""){
-            if(checkTaskCode() === true){
+        }else if($('#txtTaskName').val() == ""){
+            if(checkTaskCode() == true){
                 $('#txtTaskName').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
             }
-        }else if($('#txtTaskCost').val() === ""){
-            if(checkTaskCode() === true){
-                $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popoverMessage.MSG_PLEASE_COMPLETE_THIS_FIEID('show');
+        }else if($('#txtTaskCost').val() == ""){
+            if(checkTaskCode() == true){
+                $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
             }
-        }else if($('#ddlTypeTask').val() === "<-- " + Label.LABEL_TYPE_TASK + " -->"){
-            if(checkTaskCode() === true){
-                $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_DELECT_THE_DATA).popover('show');
+        }else if($('#ddlTypeTask').val() == ""){
+            if(checkTaskCode() == true){
+                $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
             }
         }else{
             if(checkTaskCode() == true){

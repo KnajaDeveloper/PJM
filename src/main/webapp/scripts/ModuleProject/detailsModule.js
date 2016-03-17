@@ -20,8 +20,8 @@ $(document).ready(function(){
 	$("#lblModuleInitial").text(checkdDb[0].moduleProject.moduleCode);
 	$("#lblModuleCost").text(checkdDb[0].moduleProject.moduleCost);
 	$("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-	$("#lblModuleDateStart").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateStart,commonData.language));
-	$("#lblModuleDateEnd").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateEnd,commonData.language));
+	$("#lblModuleDateStart").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateStart, commonData.language));
+	$("#lblModuleDateEnd").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateEnd, commonData.language));
 
 	checkdDb.forEach(function(value){
 		$("#lblModuleManager").append(value.empCode + '<br/>');

@@ -13,5 +13,5 @@ import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 @RooWebScaffold(path = "tasks", formBackingObject = Task.class)
 @RooWebJson(jsonObject = Task.class)
 public class TaskController {
-	protected Logger LOGGER = LoggerFactory.getLogger(ProgramController.class);
+	protected Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 }
