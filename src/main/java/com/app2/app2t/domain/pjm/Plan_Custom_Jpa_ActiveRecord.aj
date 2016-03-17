@@ -36,7 +36,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         plan.persist();
     }
 
-    public static List<Plan> Plan.findPlansByMonthYear(int month, int year, String userName) {
+    public static List<Plan> Plan.findPlansByMonthYear(int month, int year, String empCode) {
 
         String datePreviousMonth = "01/01/1111";
         String dateNextMonth = "01/01/1111";
@@ -62,11 +62,11 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria2.createAlias("Plan2.otherTask", "otherTask");
 
         try {
-            criteria.add(Restrictions.eq("task.empCode", userName));
+            criteria.add(Restrictions.eq("task.empCode", empCode));
             criteria.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
             criteria.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
 
-            criteria2.add(Restrictions.eq("otherTask.empCode", userName));
+            criteria2.add(Restrictions.eq("otherTask.empCode", empCode));
             criteria2.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
             criteria2.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
         } catch (Exception e) {
@@ -79,6 +79,21 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return plans;
     }
 
+    public static List<Plan> Plan.findPlanOverlap(Date beginDate, Date endDate) {
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+
+        try {
+            criteria.add(Restrictions.ge("dateEnd", beginDate));
+            criteria.add(Restrictions.le("dateStart", endDate));
+            criteria.addOrder(Order.asc("dateStart"));
+        } catch (Exception e) {
+            
+        }
+
+        return criteria.list();
+    }
+
     public static List<Plan> Plan.findPlanEndAfter(Date beginDate) {
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
@@ -87,7 +102,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             criteria.add(Restrictions.ge("dateEnd", beginDate));
             criteria.addOrder(Order.asc("dateStart"));
         } catch (Exception e) {
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX");
+            
         }
 
         return criteria.list();

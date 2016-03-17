@@ -19,9 +19,15 @@ privileged aspect PJMMenuController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             String userName = AuthorizeUtil.getUserName();
-            List<Map> list = emRestService.getAppRoleByEMService(userName);
-            String appRoleCode = list.get(0).get("appRole").toString();
-            List<Map> listAppMenu = securityRestService.getAppMenuBySecurityService(appRoleCode);
+            List<Map> list = emRestService.getAppRoleByUserName(userName);
+            List<Map> listAppMenu = new ArrayList<>();
+
+            if(list.size() > 0) {
+                String appRoleCode = list.get(0).get("appRole").toString();
+                listAppMenu = securityRestService.getAppMenuBySecurityService(appRoleCode);
+            } else {
+                LOGGER.error("findAppMenu() -> getAppRoleByUserName() -> {}", list.size());
+            }
 
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class" ).deepSerialize(listAppMenu), headers, HttpStatus.OK);
         } catch (Exception e) {

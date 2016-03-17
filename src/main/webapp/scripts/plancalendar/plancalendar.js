@@ -88,12 +88,12 @@ $(document).ready(function () {
         url: contextPath + '/plans/findAllTaskType',
         success: function (data, status, xhr) {
             $('#grpTaskType').html('');
-            if (xhr.status === 200) {
+            if (xhr.status == 200) {
                 $.each(data, function (k, v) {
-					$('#grpTaskType').append('<div class="checkbox3 checkbox-check checkbox-light"><input type="checkbox" value="' + v.id + '"/><label for="checkOtherTask">'+v.id+'</label></div>');
+					$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" value="' + v.id + '"/>'+v.typeTaskName+'</label></div>');
                 });
             }
-			$('#grpTaskType').append('<br/><div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
+			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
 			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkOtherTask"/>'+ MESSAGE.CHECKBOX_PUBLIC_TASK +'</label></div>');
         },
         async: false
@@ -164,7 +164,7 @@ $('#btnSearchByModule').click(function () {
                 } else {
                     $('#lblNoResultSerchByModule').hide();
                     $.each(data, function (k, v) {
-                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == null ? 'danger' : 'success') + '" taskId="' + v.id + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
+                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') + '" taskId="' + v.id + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
                     });
                 }
             }
@@ -231,6 +231,12 @@ $('.input-group-addon.date').click(function(){
 
 // Add plan ------------------------------------------------------------------------------------------------------------
 function openModalAddPlan(jobElement) {
+    if(jobElement.attributes[2].nodeValue.indexOf('danger') >= 0) {
+        $('#btnCancelTask').hide();
+    }else{
+        $('#btnCancelTask').show();
+    }
+
     var jobName = $.trim(jobElement.innerHTML.split('<span')[0]);
     var taskId = jobElement.getAttribute('taskId');
 
@@ -325,8 +331,8 @@ $('#btnAddTime').click(function () {
     } else {
         ++dateAddMaxId;
         $('#grpAddDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-3 required">'+LABEL.DATE_BEGIN+' </label>'
-            + '<div class="col-xs-6">'
+            + '<label class="control-label col-xs-4 required">'+LABEL.DATE_BEGIN+' </label>'
+            + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cAddDateBegin_'
             + dateAddMaxId
@@ -337,8 +343,8 @@ $('#btnAddTime').click(function () {
             + '</div>');
 
         $('#grpAddDate').append('<div class="form-group">'
-            + '<label class="control-label col-xs-3 required">'+LABEL.DATE_END+' </label>'
-            + '<div class="col-xs-6">'
+            + '<label class="control-label col-xs-4 required">'+LABEL.DATE_END+' </label>'
+            + '<div class="col-xs-5">'
             + '<div class="input-group">'
             + '<input id="cAddDateEnd_'
             + dateAddMaxId
@@ -346,7 +352,7 @@ $('#btnAddTime').click(function () {
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
-            + '<div class="col-sm-1">'
+            + '<div class="col-sm-2">'
             + '<button id="btnDeleteAddDate_'
             + dateAddMaxId
             + '" type="button" class="btn btn-danger col-sm-12">'+BUTTON.DELETE+'</button>'
@@ -358,8 +364,8 @@ $('#btnAddTime').click(function () {
 });
 $('#grpAddDate').on('click', '[id^=btnDeleteAddDate_]', function () {
     var id = this.id.split('_')[1];
-    $('#cAddDateBegin_' + id).parent().parent().remove();
-    $('#cAddDateEnd_' + id).parent().parent().remove();
+    $('#cAddDateBegin_' + id).parent().parent().parent().remove();
+    $('#cAddDateEnd_' + id).parent().parent().parent().remove();
 });
 $('#grpAddDate').on('click', '.input-group-addon.date', function () {
     $(this).parent().children(':first').focus();

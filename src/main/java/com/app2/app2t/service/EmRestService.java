@@ -74,10 +74,27 @@ public class EmRestService extends AbstractAPP2Service {
         }
     }
 
-    public List<Map> getAppRoleByEMService(String userName) {
+    public List<Map> getAppRoleByUserName(String userName) {
         List<Map> listMap = new ArrayList<>();
         try {
             setWebServicesString("http://" + this.APP2Server + "/employees/findAppRoleByUserName?userName=" + userName);
+            if (!getResultString().equals("[{}]")) {
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
+                }
+            }
+            return listMap;
+        } catch (Exception e) {
+            LOGGER.error("Error : {}", e.getMessage());
+            return listMap;
+        }
+    }
+
+    public List<Map> getEmployeeByUserName(String userName) {
+        List<Map> listMap = new ArrayList<>();
+        try {
+            setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByUserName?userName="+ userName);
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
