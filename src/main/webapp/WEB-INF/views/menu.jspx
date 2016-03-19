@@ -14,7 +14,9 @@
                         <i class="fa fa-times icon"><jsp:text/></i>
                     </button>
                 </div>
-                <ul id="menuContainer" class="nav navbar-nav"><jsp:text/></ul>
+                <ul id="menuContainer" class="nav navbar-nav">
+                    
+                </ul>
             </div>
         </nav>
     </div>
