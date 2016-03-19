@@ -5,13 +5,10 @@ package com.app2.app2t.util;
  */
 public class AuthorizeUtil {
 
-    public static String getUserName(){
-
-      	// String userName = "user002";
-      	// String userName = "EM002";
-//        String userName = "makeData1";
-//        String userName = "leang01";
-        String userName = "MME1";
+    public static String getUserName() {
+        String userName = "em001_kittisuk";
+        // String userName = "em002_kosit";
+        // String userName = "em003_chayanut";
         return userName;
     }
 
