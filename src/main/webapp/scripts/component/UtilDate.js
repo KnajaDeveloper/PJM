@@ -108,3 +108,18 @@ DateUtil.setMaxDate = function setMaxDate(idTextEndDate,idTextStartDate) {
         $(idStartDate).val(dataEndDate);
     }
 };
+
+// Check format date by UtilForm
+function checkDateFormat(element, msgIncorrentFormat, msgEmptyInput) {
+    if(element.val() == '')
+        return false;
+    if(!FormUtil.isDateFormat(element.val())) {
+        element.attr("data-content", msgIncorrentFormat + ' "' + element.val() + '"');
+        element.attr("data-placement", "bottom");
+        element.popover("show");
+        element.val("");
+        element.attr("data-content", msgEmptyInput);
+        return false;
+    }
+    return true;
+}
