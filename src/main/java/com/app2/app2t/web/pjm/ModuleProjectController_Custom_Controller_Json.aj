@@ -174,13 +174,14 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
                 ModuleProject ta = result.get(i);
                 Map<String, Object> map = new HashMap<>();
+                map.put("id", ta.getId());
                 map.put("moduleName", ta.getModuleName());
                 map.put("dateStart", ta.getDateStart() + "");
                 map.put("dateEnd", ta.getDateEnd() + "");
                 map.put("progress", Task.findTaskProgressforAVG(ta.getId()));
                 list.add(map);
             }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -236,4 +237,20 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @RequestMapping(value = "/findModuleProjectCostforSum", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ModuleProjectController.findModuleProjectCostforSum(
+            @RequestParam(value = "id", required = false) Long id
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List resultSearch = ModuleProject.findModuleProjectCostforSum(id);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

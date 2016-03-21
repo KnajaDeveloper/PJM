@@ -2,7 +2,6 @@ var labelData;
 var ll2;
 var ll3;
 $(document).ready(function(){
- // console.log("xxxxxxxxxxxx"+projectCode );
  searchDataProgram();
  ProjectManager();
  //MuduleManager();
@@ -21,14 +20,25 @@ labelData = $.ajax({
  async: false
 });
 
+  var  CostTotal = $.ajax({
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/moduleprojects/findModuleProjectCostforSum',
+        data : {id: projectID},
+        complete: function(xhr){
+        },
+        async: false
+    });
+
 var addData = labelData.responseJSON;
 $('#lblName').text(addData.Project[0].projectName);
 $('#lblProjectCode').text(addData.Project[0].projectCode);
 $('#lblCostsPoint').text(addData.Project[0].projectCost+"  Point");
 $('#lblStartDate').text(DateUtil.dataDateToFrontend(addData.Project[0].dateStart,commonData.language));
-$('#lblBalanceCostsPoint').text(addData.Project[0].projectCost);
 $('#lbldateEnd').text(DateUtil.dataDateToFrontend(addData.Project[0].dateEnd,commonData.language));
-
+$('#lblBalanceCostsPoints').text(parseInt($('#lblCostsPoint').text()) -  CostTotal.responseJSON + "  Point");
 });
 
 var pagginationModule = Object.create(UtilPaggination);
@@ -45,20 +55,21 @@ pagginationModule.loadTable = function loadTable (jsonData) {
  var key = 1 ;
 
  jsonData.forEach(function(value){
-   text =  ''
+     var checkProgress = value.progress == "" ? '0' : value.progress;
+     text =  ''
    +'<tr id ="trData'+key++ +'">'
    +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-primary btn-xs" >V</button></td>'
    +'<td  id="tdModuleName' + key + '" class="text-center">' + value.moduleName + '</td>'
-   +'<td  id="tdProgest' + key + '" class="progressbar-center"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 50%; ">'
-   +'10%   '
-           
+   +'<td  id="tdProgest' + key + '" class="progressbar-center"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ checkProgress + '%; color:#000">'
+   + checkProgress + '%'
    +'</div>'
    +'</td>'
-   +'<td  id="tdDateStart' + key + '"class="text-center">'+DateUtil.dataDateToFrontend(value.dateStart,commonData.language)+'</td>'
+   +'<td  id="tdDateStart' + key + '"class="text-center">'+ConvertDate(value.dateStart,commonData.language)+'</td>'
 
-   +'<td id="tdDateEnd' + key + '"class="text-center">'+DateUtil.dataDateToFrontend(value.dateEnd,commonData.language)+' </td>'
+   +'<td id="tdDateEnd' + key + '"class="text-center">'+ConvertDate(value.dateEnd,commonData.language)+' </td>'
    //+'<td id="tdEmpCode' + i + '"class="text-center">'+value.empCode+'</td>'
    + '</tr>'
+
    $('#ResualtSearch').append(text);
  });
 };
@@ -139,3 +150,15 @@ $('#Table').on("click", "[id^=btnDetailModule]", function () {
     console.log(id);
     window.location.href = contextPath + '/moduleprojects/detailsModule?id='+id;
 }); //-- link Progress --//
+
+
+function ConvertDate(date,lang){
+    var dateResult = ""
+    var spritDate =  (date.split(" ")[0]).split("-");
+    if(lang=='EN' || lang=='EN_US'){
+        dateResult = spritDate[2] + "/" + spritDate[1]+"/"+spritDate[0];
+    }if(lang=='TH'){
+        dateResult =  spritDate[2] + "/" + spritDate[1]+"/"+(parseInt(spritDate[0])+ 543);
+    }
+    return dateResult ;
+}
