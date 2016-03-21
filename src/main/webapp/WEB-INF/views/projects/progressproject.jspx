@@ -12,7 +12,7 @@
     }  
     </style>
     <script>
-        var projectCode = '${projectCode}';
+        var projectID = '${projectID}';
     </script>
     <div class="container-fluid">
        <div class="row">

@@ -223,4 +223,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
+    public static List Task.findTaskProgressforAVG(Long id) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject.id", id));
+        criteria.setProjection(Projections.avg("task.progress"));
+        return criteria.list();
+    }
 }
