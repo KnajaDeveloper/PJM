@@ -65,22 +65,12 @@
                             <br/>
                             <label class="control-label"><b>วันที่สิ้นสุด</b></label>
                         </div>
-                        <!-- <div class="col-xs-5">
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <label id="lblBalanceCostsPoint" class="control-label"></label>
-                                <br/>
-                                <br/>
-                                <label id="lblBalanceCostsPoint2" class="control-label"></label>
-                            </div> -->
                             <div class="col-xs-4">
                                 <br/>
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label id="lblBalanceCostsPoints" class="control-label"></label>
+                                <label id="lblBalanceCostsPoints" class="control-label">...</label>
                                 <br/>
                                 <br/>
                                 <label id="lbldateEnd" class="control-label">...</label>
