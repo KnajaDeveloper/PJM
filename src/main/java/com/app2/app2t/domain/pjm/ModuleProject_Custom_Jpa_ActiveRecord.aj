@@ -3,12 +3,13 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.fasterxml.jackson.databind.Module;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
@@ -110,7 +111,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
             List<ModuleProject> moduleProject = criteria.list();
             for(int i=0 ; moduleProject.size() > i ;i++ ){
                 ModuleProject moduleProject1 = moduleProject.get(i);
-//                LOGGER.error(">>>>>>>>>>>><<<<<[} :" +moduleProject1);
+//                LOGGER.error(">>>>>>>>>>>><<<<<[} :" +moduleProject1);oject1);
             }
 
             return criteria.list();
@@ -154,4 +155,14 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static long ModuleProject.findModuleProjectCheckID(long projectId) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class,"moDuleProject");
+        criteria.createAlias("moDuleProject.project","project");
+        criteria.add(Restrictions.eq("project.id", projectId));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+
+
+    }
 }

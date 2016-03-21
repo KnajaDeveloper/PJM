@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +45,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
 
     public static Criteria Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage) {
 
-        try {
+
             Session session = (Session) Project.entityManager().getDelegate();
             Criteria criteria = session.createCriteria(Project.class, "project");
             //-- FormatDate--//
@@ -54,24 +54,40 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             if(StDateBegin !="")
             {
                 Date stDatebegin = new Date(Long.parseLong(StDateBegin));
-                stDatebegin = formatter.parse(formatter.format(stDatebegin));
+                try {
+                    stDatebegin = formatter.parse(formatter.format(stDatebegin));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 criteria.add(Restrictions.ge("dateStart", stDatebegin));
             }
             if(StDateEnd !="")
             {
                 Date stDateend = new Date(Long.parseLong(StDateEnd));
-                stDateend = formatter.parse(formatter.format(stDateend));
+                try {
+                    stDateend = formatter.parse(formatter.format(stDateend));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 criteria.add(Restrictions.le("dateStart", stDateend));
             }
             //-- EndDate Select --//
             if (FnDateBegin != "" ) {
                 Date fnDatebegin = new Date(Long.parseLong(FnDateBegin));
-                fnDatebegin = formatter.parse(formatter.format(fnDatebegin));
+                try {
+                    fnDatebegin = formatter.parse(formatter.format(fnDatebegin));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 criteria.add(Restrictions.ge("dateEnd", fnDatebegin));
             }
             if (FnDateEnd != "" ) {
                 Date fnDateend = new Date(Long.parseLong(FnDateEnd));
-                fnDateend = formatter.parse(formatter.format(fnDateend));
+                try {
+                    fnDateend = formatter.parse(formatter.format(fnDateend));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 criteria.add(Restrictions.le("dateEnd", fnDateend));
             }
             //-- Cost Select --//
@@ -90,10 +106,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             //----//
             criteria.add(Subqueries.propertyIn("project.id", subCriteria));
             return criteria ;
-        } catch (Exception e) {
-            LOGGER.error(">>>{} :" + e);
-        }
-        return null;
+
     }
 
     public static Project Project.increseCostByModuleNameAndProjectId(Long projectCode,Integer increseCost,Integer totalCost) {
@@ -111,8 +124,8 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
     }
 
 
-    @Transactional
-    public static List<Project> Project.findDeleteProjects(long deleteCode) {
+
+    public static List<Project> Project.deleteProjects(long deleteCode) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         criteria.add(Restrictions.eq("id", deleteCode));

@@ -63,7 +63,7 @@ $("#search").click(function () {
 
             dateStart = $('#StDateBegin').val();
             dateStart = DateUtil.dataDateToDataBase(dateStart, _language);
-
+        console.log(dateStart+"stf");
     }
     else {
         dateStart = "";
@@ -71,21 +71,21 @@ $("#search").click(function () {
 
     if ($('#StDateEnd').val() != "") {
         dateEnd = $('#StDateEnd').val();
-        dateEnd = DateUtil.dataDateToDataBase(dateEnd, _language);
+        dateEnd = DateUtil.dataDateToDataBase(dateEnd, _language); console.log(dateEnd+"stt");
     }
     else {
         dateEnd = "";
     }
     if ($('#FnDateBegin').val() != "") {
         fnDateStart = $('#FnDateBegin').val();
-        fnDateStart = DateUtil.dataDateToDataBase(fnDateStart, _language);
+        fnDateStart = DateUtil.dataDateToDataBase(fnDateStart, _language);console.log(fnDateStart+"enf");
     }
     else {
         fnDateStart = "";
     }
     if ($('#FnDateEnd').val() != "") {
         fnDateEnd = $('#FnDateEnd').val();
-        fnDateEnd = DateUtil.dataDateToDataBase(fnDateEnd, _language);
+        fnDateEnd = DateUtil.dataDateToDataBase(fnDateEnd, _language);console.log(fnDateEnd+"ent");
     }
     else {
         fnDateEnd = "";
@@ -100,6 +100,7 @@ $("#search").click(function () {
         costStart: $('#costStart').val(),
         costEnd: $('#costEnd').val(),
     }
+
     searchData();
     if(json.length <= 0)
     {
@@ -135,13 +136,10 @@ paggination.loadTable = function loadTable(jsonData) {
     var key = 1;
     jsonData.forEach(function (value) {
         dataModule =[];
-        checkIdModule(value.id);
-        if (dataModule != "") {
             tableData = ''
-
                 + '<tr  style="background-color: #fff">'
                 + '<td class="text-center">'
-                + ' <input id="checkBoxDisable_'+value.id+'" class="check" type="checkbox"  />'
+                + '<input id="' + (value.inUse > 0 ? 'checkBoxDisable_' : 'checkBoxDelete')+value.id+'" class="check" type="checkbox" '+(value.inUse > 0 ? '':'projectID="id_'+value.id+'" status="check"')+' />'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="editProject_'+value.id+'" class="btn btn-info" type="button">E</button>'
@@ -150,7 +148,7 @@ paggination.loadTable = function loadTable(jsonData) {
                 + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="progress'+value.projectCode+'" class="btn btn-info" type="button">V</button>'
+                + '<button id="progress'+value.id+'" class="btn btn-info" type="button">V</button>'
                 + '</td>'
                 + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
                 + value.projectName
@@ -168,42 +166,6 @@ paggination.loadTable = function loadTable(jsonData) {
             $('#ResualtSearch').append(
                 tableData
             );
-        }
-        else
-        {
-            tableData = ''
-
-                + '<tr  style="background-color: #fff">'
-                + '<td class="text-center">'
-                + ' <input id="checkBoxDelete'+value.id+'" class="check" projectID="id_'+value.id+'" status="check" type="checkbox"/>'
-                + '</td>'
-                + '<td class="text-center">'
-                + '<button id="editProject_'+value.id+'" class="btn btn-info" type="button">E</button>'
-                + '</td>'
-                + '<td class="text-center">'
-                + '<button id="addTask_'+value.id+'" class="btn btn-info" type="button">A</button>'
-                + '</td>'
-                + '<td class="text-center">'
-                + '<button id="progress'+value.projectCode+'" class="btn btn-info" type="button">V</button>'
-                + '</td>'
-                + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
-                + value.projectName
-                + '</td>'
-                + '<td id="dateStart' + key + '" class="text-center" style="color: #000">'
-                + DateUtil.dataDateToFrontend(value.dateStart, _language)
-                + '</td>'
-                + '<td id="dateEnd' + key + '" class="text-center" style="color: #000">'
-                + DateUtil.dataDateToFrontend(value.dateEnd, _language)
-                + '</td>'
-                + '<td id="projectCost' + key++ + '" class="text-center" style="color: #000">'
-                + value.projectCost
-                + '</td>'
-                + '</tr>';
-            $('#ResualtSearch').append(
-                tableData
-            );
-        }
-
 
     });
 
@@ -234,14 +196,14 @@ $('#data').on("click", "#checkAll", function () {
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $("#btnDelete").click(function () {
-    $('input[status^=check]:checked').each(function () {
-        if( $('input[status^=check]:checked'))
+    $('input[status=check]:checked').each(function () {
+        if( $('input[status=check]:checked'))
         {
             var roleCode = $(this).attr('projectID').split("id_")[1];
             checkedRows.push(roleCode);
         }
     });
-    //console.log(checkedRows);
+    console.log(checkedRows);
     if (checkedRows.length > 0) {
         bootbox.confirm(MESSAGE.REMOVE_DATA, function (result) {
             if (result === true) {
@@ -286,7 +248,7 @@ function DeleteData(i) {
         headers: {
             Accept: "application/json"
         },
-        url: contextPath + '/projects/findDeleteProjects',
+        url: contextPath + '/projects/deleteProjects',
         data: dataJsonData,
 
         complete: function (xhr) {
