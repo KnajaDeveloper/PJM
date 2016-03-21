@@ -80,6 +80,7 @@
         MESSAGE.CONFIRM_DELETE = '${MESSAGE_CONFIRM_DELETE}';
         MESSAGE.DELETE_COMPLETED = '${MESSAGE_DELETE_COMPLETED}';
         MESSAGE.DELETE_FAILED = '${MESSAGE_DELETE_FAILED}';
+        MESSAGE.DATE_FORMAT = 'Error date format';
 
         MESSAGE.CHECKBOX_PRIVATE_TASK = '${LABEL_PRIVEATE_TASK}';
         MESSAGE.CHECKBOX_PUBLIC_TASK = '${LABEL_PUBLIC_TASK}';
@@ -137,8 +138,6 @@
         #calendar .fc-content {
             color: #fff;
         }
-
-        
 
         #calendar .fc-toolbar {
             display: none;
@@ -251,91 +250,89 @@
                 <li><a data-toggle="tab" href="#tabFromOther">${LABEL_TASK_OTHER}</a></li>
             </ul>
             <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="tab-content">
-                        <div id="tabFromModule" class="tab-pane fade in active">
-                            <div class="form-horizontal">
-                                <select class="form-control" id="ddlJobModule" name="ddlJobModule">
-                                    <option value="0">${LABEL_ALL_MODULE}</option>
-                                </select>
-                                <div id="grpTaskType">
-                                    <br/>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" id="checkMyTask"/>${LABEL_PRIVEATE_TASK}
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" id="checkOtherTask"/>${LABEL_PUBLIC_TASK}
-                                        </label>
-                                    </div>
-                                </div>
+                <div class="tab-content">
+                    <div id="tabFromModule" class="tab-pane fade in active">
+                        <div class="form-horizontal">
+                            <select class="form-control" id="ddlJobModule" name="ddlJobModule">
+                                <option value="0">${LABEL_ALL_MODULE}</option>
+                            </select>
+                            <div id="grpTaskType">
                                 <br/>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="checkMyTask"/>${LABEL_PRIVEATE_TASK}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="checkOtherTask"/>${LABEL_PUBLIC_TASK}
+                                    </label>
+                                </div>
+                            </div>
+                            <br/>
 
-                                <div class="text-center">
-                                    <button id="btnSearchByModule" class="btn btn-primary" type="button">${BUTTON_SEARCH}</button>
-                                </div>
+                            <div class="text-center">
+                                <button id="btnSearchByModule" class="btn btn-primary" type="button">${BUTTON_SEARCH}</button>
+                            </div>
 
-                                <hr/>
-                                <div id="lblNoResultSerchByModule" style="display: none;"
-                                     class="text-center">${LABEL_NO_RESULT}
-                                </div>
-                                <div id="grpResultModuleSearch" class="list-group">
-                                    <jsp:text/>
-                                </div>
+                            <hr/>
+                            <div id="lblNoResultSerchByModule" style="display: none;"
+                                 class="text-center">${LABEL_NO_RESULT}
+                            </div>
+                            <div id="grpResultModuleSearch" class="list-group">
+                                <jsp:text/>
                             </div>
                         </div>
+                    </div>
 
-                        <div id="tabFromOther" class="tab-pane">
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input data-content="" data-placement="bottom"
-                                               class="form-control" type="text" id="txtPlanName" placeholder="${LABEL_TASK_NAME}"/>
-                                    </div>
+                    <div id="tabFromOther" class="tab-pane">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input data-content="" data-placement="bottom"
+                                           class="form-control" type="text" id="txtPlanName" placeholder="${LABEL_TASK_NAME}"/>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="input-group">
-                                            <input data-content="" data-placement="bottom"
-                                                   class="form-control" type="text" id="txtPlanCost"
-                                                   placeholder="${LABEL_TASK_COST}"/>
-                                            <span class="input-group-addon">${LABEL_POINT}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="input-group">
-                                            <input data-content="" data-placement="bottom"
-                                                   class="form-control" type="text" id="cPlanDateBegin"
-                                                   placeholder="${LABEL_DATE_BEGIN}"/>
-                                            <span class="input-group-addon date">
-                                                <span class="glyphicon glyphicon-calendar "></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="input-group">
-                                            <input data-content="" data-placement="bottom"
-                                                   class="form-control" type="text" id="cPlanDateEnd"
-                                                   placeholder="${LABEL_DATE_END}"/>
-                                            <span class="input-group-addon date">
-                                                <span class="glyphicon glyphicon-calendar "></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-
-                                <div class="text-center">
-                                    <button id="btnAddOtherPlan" class="btn btn-primary" type="button">${BUTTON_ADD}</button>
-                                </div>
-                                <br/>
                             </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input data-content="" data-placement="bottom"
+                                               class="form-control" type="text" id="txtPlanCost"
+                                               placeholder="${LABEL_TASK_COST}"/>
+                                        <span class="input-group-addon">${LABEL_POINT}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input data-content="" data-placement="bottom"
+                                               class="form-control" type="text" id="cPlanDateBegin"
+                                               placeholder="${LABEL_DATE_BEGIN}"/>
+                                        <span class="input-group-addon date">
+                                            <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <input data-content="" data-placement="bottom"
+                                               class="form-control" type="text" id="cPlanDateEnd"
+                                               placeholder="${LABEL_DATE_END}"/>
+                                        <span class="input-group-addon date">
+                                            <span class="glyphicon glyphicon-calendar "></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="text-center">
+                                <button id="btnAddOtherPlan" class="btn btn-primary" type="button">${BUTTON_ADD}</button>
+                            </div>
+                            <br/>
                         </div>
                     </div>
                 </div>
@@ -525,6 +522,9 @@
             <script src="${plancalendar_lang_th}" type="text/javascript"><!--Not Empty --></script>
         </c:when>
     </c:choose>
+
+    <spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
+    <script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
 
     <spring:url value="/resources/scripts/plancalendar/plancalendar.js" var="plancalendar"/>
     <script src="${plancalendar}" type="text/javascript"><!--Not Empty --></script>
