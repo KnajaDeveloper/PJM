@@ -204,12 +204,16 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return project;
     }
 
-    public static Project Project.increseOrDecresePointByProjectId(long id,int newCost) {
+    public static Project Project.decreseCostByModuleNameAndProjectId(Long projectCode,Integer decreseCost) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
-        List<Project> listProject = Project.findProjectByIdProject(id);
-        Project project = listProject.get(0);
-        project.setProjectCost(newCost);
+        criteria.add(Restrictions.eq("id", projectCode));
+        List<Project> projectList = criteria.list();
+        Project project = projectList.get(0);
+        int oldCost = project.getProjectCost();
+        if(oldCost+decreseCost>0) oldCost = oldCost + decreseCost ;
+        else oldCost = 0;
+        project.setProjectCost(oldCost);
         project.merge();
         return project;
     }

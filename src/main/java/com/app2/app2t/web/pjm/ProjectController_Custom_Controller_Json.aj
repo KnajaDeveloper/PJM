@@ -191,7 +191,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Project> dataProject = Project.findProjectByIdProject(projectID);
+            List<Project> dataProject = Project.findProjectByIdProject(projectID);;
             List<ProjectManager> dataProjectManager = ProjectManager.findManagerByProject(dataProject.get(0));
             List<ModuleProject> dataModuleProject = ModuleProject.findAllNameModuleByProjectCode(dataProject.get(0));
             List<List<ModuleManager>> dataModuleManager = new ArrayList<>();
@@ -210,7 +210,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
             result.put("ModuleProject",dataModuleProject);
             result.put("ModuleManager",dataModuleManager);
             result.put("ModuleMember",dataModuleMember);
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            return new ResponseEntity<String>( new JSONSerializer().exclude("*.class").deepSerialize(result) , headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -254,6 +254,29 @@ privileged aspect ProjectController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/incresePointProjectByIdProject",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.updateProjectByIdProject(
+            @RequestParam(value = "projectId", required = false) long projectId ,
+            @RequestParam(value = "increseCost", required = false) Integer increseCost
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            if(increseCost > 0){
+                List<Project> projectList = Project.findProjectByIdProject(projectId);
+                Project project = Project.increseCostByModuleNameAndProjectId(projectId,increseCost,projectList.get(0).getProjectCost());
+                return new ResponseEntity<String>((new JSONSerializer().exclude("*.class").deepSerialize(project)),headers, HttpStatus.CREATED);
+            }
+            else {
+                List<Project> projectList = Project.findProjectByIdProject(projectId);
+                Project project = Project.decreseCostByModuleNameAndProjectId(projectId,increseCost);
+                return new ResponseEntity<String>((new JSONSerializer().exclude("*.class").deepSerialize(project)),headers, HttpStatus.CREATED);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 

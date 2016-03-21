@@ -11,12 +11,41 @@ arr_startDate.push("");
 arr_endDate.push("");
 
 $("#btnSaveModule").click(function(){
+	SaveModule(null);
+});
+
+function SaveModule(cost){
 	var boolData = checkModal();
 	var boolCost ;
-	if(boolData==true) boolCost = checkCost($("#txtCostsModule1").val());
+	if(boolData==true) {
+		if(cost==null) boolCost = checkCost($("#txtCostsModule1").val());
+		else boolCost = true;
+	}
 	if(boolData==true && boolCost == true){
 		var boolSaveDB = saveModuleProjectToDB();
 		if(boolSaveDB==true){
+			if(cost!=null){
+				var editCostProject = {
+					projectId: dataAfterSave.responseJSON.id,
+					increseCost: cost
+				};
+				dataAfterSave = $.ajax({
+					headers: {
+						Accept: "application/json"
+					},
+					type: "POST",
+					url: contextPath + '/projects/incresePointProjectByIdProject',
+					data: editCostProject,
+					complete: function (xhr) {
+						if (xhr.status === 201 || xhr.status === 200) {
+							dataAfterSave=xhr;
+							$("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
+							return true;
+						}
+					},
+					async: false
+				});
+			}
 			var allModuleManager = ""+getAllModuleManager();
 			var allModuleMember = ""+getAllModuleMember();
 			arr_nameModule.push(""+$("#txtModuleName1").val());
@@ -27,54 +56,54 @@ $("#btnSaveModule").click(function(){
 			arr_startDate.push(""+$("#dateStartModule").val());
 			arr_endDate.push(""+$("#dateEndModule").val());
 			var html="<div class='panel panel-primary' id='subrecordsModule"+i+"'>"+
-				    	"<div class='panel-heading' role='tab' id='heading"+i+"'>"+
-				    		"<h4 class='panel-title'>"+
-					        	"<x id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
-					          		"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
-					        	"</x>"+
-					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
-								"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
-				      		"</h4>"+
-				    	"</div>"+
-					    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
-					    	"<div class='panel-body'>"+
-					    		"<div class='form-inline'>"+
-									"<div class='col-sm-6'>"+
-										"<label class='col-sm-6 control-label'>Start Date : </label>"+
-										"<div class='col-sm-5 input-group'>"+
-											"<label id='lbDateStartEditModule"+i+"' class='control-label'>"+$("#dateStartModule").val()+"</label>"+
-										"</div>"+
-									"</div>"+
-									"<div class='col-sm-6'>"+
-										"<label class='col-sm-3 control-label'>End Date : </label>"+
-										"<div class='col-sm-5 input-group'>"+
-											"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
-										"</div>"+
-									"</div>"+
-								"</div>"+
-								"<div class='form-inline'>"+
-									"<div class='col-sm-6'>"+
-										"<label class='col-sm-6 control-label'>Module Manager :</label>"+
-										"<div class='col-sm-5 input-group'>"+
-											"<label id='lbEditModuleManager"+i+"' class='control-label'>"+allModuleManager+"</input>"+
-										"</div>"+
-									"</div>"+
-									"<div class='col-sm-6'>"+
-										"<label class='col-sm-3 control-label'>Module Member :</label>"+
-										"<div class='col-sm-5 input-group'>"+
-											"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
-										"</div>"+
-									"</div>"+	
-								"</div>"+
-					    	"</div>"+
-					    "</div>"+
-					"</div>";
+				"<div class='panel-heading' role='tab' id='heading"+i+"'>"+
+				"<h4 class='panel-title'>"+
+				"<x id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
+				"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
+				"</x>"+
+				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
+				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+
+				"</h4>"+
+				"</div>"+
+				"<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
+				"<div class='panel-body'>"+
+				"<div class='form-inline'>"+
+				"<div class='col-sm-6'>"+
+				"<label class='col-sm-6 control-label'>Start Date : </label>"+
+				"<div class='col-sm-5 input-group'>"+
+				"<label id='lbDateStartEditModule"+i+"' class='control-label'>"+$("#dateStartModule").val()+"</label>"+
+				"</div>"+
+				"</div>"+
+				"<div class='col-sm-6'>"+
+				"<label class='col-sm-3 control-label'>End Date : </label>"+
+				"<div class='col-sm-5 input-group'>"+
+				"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
+				"</div>"+
+				"</div>"+
+				"</div>"+
+				"<div class='form-inline'>"+
+				"<div class='col-sm-6'>"+
+				"<label class='col-sm-6 control-label'>Module Manager :</label>"+
+				"<div class='col-sm-5 input-group'>"+
+				"<label id='lbEditModuleManager"+i+"' class='control-label'>"+allModuleManager+"</input>"+
+				"</div>"+
+				"</div>"+
+				"<div class='col-sm-6'>"+
+				"<label class='col-sm-3 control-label'>Module Member :</label>"+
+				"<div class='col-sm-5 input-group'>"+
+				"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
+				"</div>"+
+				"</div>"+
+				"</div>"+
+				"</div>"+
+				"</div>"+
+				"</div>";
 			$("#recordsModule").append(html);
 			i++;
 			clearModal();
 		}
 	}
-});
+}
 
 function checkModal(){
 	if($("#txtModuleName1").val() == "" || $("#txtModuleName1").val() == " ") {
@@ -159,10 +188,10 @@ function checkCost(cost){
 		if(i!=number[1]) totalModuleCost = totalModuleCost + parseInt(arr_costModule[number[1]]);
 	}
 	if(totalModuleCost > projectCost) {
-		bootbox.alert("Total cost of module is more than project cost.\nDo you want to add this module ?");
-		return false;
+		confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost) ;
+	}else{
+		return true;
 	}
-	return true;
 }
 
 function checkEditCost(cost,skipId){
@@ -175,10 +204,18 @@ function checkEditCost(cost,skipId){
 		if(i!=idSkip) totalModuleCost = totalModuleCost + parseInt(arr_costModule[i]);
 	}
 	if(totalModuleCost > projectCost) {
-		bootbox.alert("Total cost of module is more than project cost.\nDo you want to add this module ?");
-		return false;
+		confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost) ;
+	}else{
+		return true;
 	}
-	return true;
+}
+
+function confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost){
+	bootbox.confirm("Total cost of module is more than project cost.\nDo you want to add this module ?", function(result) {
+		if(result==true){
+			SaveModule(totalModuleCost-parseInt($("#txtCostsProject").val()));
+		}
+	});
 }
 
 function checkEditModal(){
