@@ -17,10 +17,12 @@ $("#spanEnd").click(function () {
 //--------------------------------------------------------------------------------
 
 $("#cDateBegin").on('change', function () {
+    checkDateFormat($(this), Message.Date_format_invalid, Message.PLEASE_SELECT_DATE);
     DateUtil.setMinDate('cDateBegin', 'cDateEnd');
 });
 
 $("#cDateEnd").on('change', function () {
+    checkDateFormat($(this), Message.Date_format_invalid, Message.PLEASE_SELECT_DATE);
     DateUtil.setMaxDate('cDateEnd', 'cDateBegin');
 });
 
@@ -94,4 +96,4 @@ function sendData() {
         }
     }
 }
-
+//--------------------------------------------------------------------------------

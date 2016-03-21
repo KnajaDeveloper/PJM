@@ -11,6 +11,7 @@
     <c:set var="Project" scope="request"><spring:message code="L0027"/></c:set>
     <c:set var="Module" scope="request"><spring:message code="L0009"/></c:set>
     <c:set var="Please_Select" scope="request"><spring:message code="L0068"/></c:set>
+    <c:set var="All" scope="request"><spring:message code="L0090"/></c:set>
 
     <c:set var="BUTTON_REPORT" scope="request"><spring:message code="B0013"/></c:set>
 
@@ -18,6 +19,7 @@
     <script>
         var Message = {} ;
         Message.Please_Select = '${Please_Select}';
+        Message.All = '${All}';
 
     </script>
 
