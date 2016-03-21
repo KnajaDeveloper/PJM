@@ -3,10 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleManager;
-import com.app2.app2t.domain.pjm.ModuleMember;
-import com.app2.app2t.domain.pjm.ModuleProject;
-import com.app2.app2t.domain.pjm.Project;
+import com.app2.app2t.domain.pjm.*;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -161,7 +158,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findModuleByProjectCode2",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
-        @RequestParam(value = "projectCode", required = false) String projectCode
+        @RequestParam(value = "projectCode", required = false) Long projectCode
         ,@RequestParam(value = "maxResult", required = false) Integer maxResult
         ,@RequestParam(value = "firstResult", required = false) Integer firstResult
     ) {
@@ -169,7 +166,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             //LOGGER.info(">>>>>>>>>>>>>>"+projectCode);
-            List<Project> project = Project.findProjectByProjectCode(projectCode);
+            List<Project> project = Project.findProjectByIdProject(projectCode);
            // LOGGER.info(">>>>>>>>>"+project.size());
             List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
             //LOGGER.info(">>>>>>Modul"+project);
@@ -180,6 +177,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
                 map.put("moduleName", ta.getModuleName());
                 map.put("dateStart", ta.getDateStart() + "");
                 map.put("dateEnd", ta.getDateEnd() + "");
+                map.put("progress", Task.findTaskProgressforAVG(ta.getId()));
                 list.add(map);
             }
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -192,12 +190,12 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
     @RequestMapping(value = "/findPaggingSizeModuleProject", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
-       @RequestParam(value = "projectCode", required = false) String projectCode
+       @RequestParam(value = "projectCode", required = false) Long projectCode
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Project> project = Project.findProjectByProjectCode(projectCode);
+            List<Project> project = Project.findProjectByIdProject(projectCode);
             List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
             Map data = new HashMap();
             data.put("size", result.size());

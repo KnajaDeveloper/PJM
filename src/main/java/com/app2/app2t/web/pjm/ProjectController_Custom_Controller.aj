@@ -42,9 +42,9 @@ privileged aspect ProjectController_Custom_Controller {
 
      @RequestMapping(value = "/progressproject", produces = "text/html")
     public String ProjectController.progressproject(Model uiModel,
-        @RequestParam(value = "projectCode", required = false) String project
+        @RequestParam(value = "id", required = false) Long projectID
     ) {
-        uiModel.addAttribute("projectCode", project);
+        uiModel.addAttribute("projectID", projectID);
         return "projects/progressproject";
     }
 

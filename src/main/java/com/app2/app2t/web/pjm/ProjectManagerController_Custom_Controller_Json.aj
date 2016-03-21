@@ -16,12 +16,12 @@ import java.util.*;
 privileged aspect ProjectManagerController_Custom_Controller_Json {
    @RequestMapping(value = "/findManagerByProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProjectManagerController.findManagerByProject(
-            @RequestParam(value = "project", required = false) String project
+            @RequestParam(value = "project", required = false) Long project
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {    
-            List<Project> projectzz = Project.findProjectByProjectCode(project);
+        try {
+            List<Project> projectzz = Project.findProjectByIdProject(project);
             List<ProjectManager> result = ProjectManager.findManagerByProject(projectzz.get(0));
    			//LOGGER.info(">>>>>>>>>>>>>>>>>>Modul"+project);           
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
