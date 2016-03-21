@@ -15,6 +15,7 @@
 
     <c:set var="PLEASE_INPUT" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="PLEASE_SELECT_DATE" scope="request"><spring:message code="M0011"/></c:set>
+    <c:set var="Date_format_invalid" scope="request"><spring:message code="M0032"/></c:set>
 
     <c:set var="BUTTON_REPORT" scope="request"><spring:message code="B0013"/></c:set>
 
@@ -22,6 +23,7 @@
         var Message = {} ;
         Message.PLEASE_INPUT = '${PLEASE_INPUT}';
         Message.PLEASE_SELECT_DATE = '${PLEASE_SELECT_DATE}';
+        Message.Date_format_invalid = '${Date_format_invalid}';
 
     </script>
 
@@ -110,6 +112,9 @@
 
     <spring:url value="/resources/scripts/report/PJMRP01.js" var="PJMRP01"/>
     <script src="${PJMRP01}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
+    <script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
 
 
     <script>

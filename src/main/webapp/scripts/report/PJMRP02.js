@@ -91,7 +91,7 @@ function sendData() {
 
     if (moduleCode ==Message.Please_Select){
         moduleCode = "NULL";
-        moduleName = "ALL";
+        moduleName = Message.All;
     }
 
     console.log(moduleCode);
