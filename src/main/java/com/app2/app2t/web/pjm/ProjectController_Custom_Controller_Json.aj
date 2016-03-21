@@ -71,10 +71,11 @@ privileged aspect ProjectController_Custom_Controller_Json {
             {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
+
         try
         {
+            List<Map<String,Object>> resultSearch = new ArrayList<>();
             List<Project> result = Project.finProjectOfDataPagingData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,maxResult,firstResult );
-            List<Map<String,Object>> list = new ArrayList<>();
             for(Project project : result) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("projectName", project.getProjectName());
@@ -83,10 +84,12 @@ privileged aspect ProjectController_Custom_Controller_Json {
                 map.put("dateEnd", project.getDateEnd());
                 map.put("id", project.getId());
                 map.put("projectCode", project.getProjectCode());
-                list.add(map);
-//            LOGGER.error(list.toString()+",.............");
+                map.put("inUse", ModuleProject.findModuleProjectCheckID(project.getId()));
+                resultSearch.add(map);
+
             }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
+//            LOGGER.error("+{}{}>>"+list.get(0));
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -118,16 +121,16 @@ privileged aspect ProjectController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findDeleteProjects",method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<String> ProjectController.findDeleteProjects(
+    @RequestMapping(value = "/deleteProjects",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> ProjectController.deleteProjects(
             @RequestParam(value="deleteCode",required=false)long deleteCode)
             {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try
         {
-            ProjectManager.findDeleteProjectManager(deleteCode);
-            List<Project> result = Project.findDeleteProjects(deleteCode);
+            ProjectManager.deleteProjectManager(deleteCode);
+            List<Project> result = Project.deleteProjects(deleteCode);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         }
         catch (Exception e)
@@ -146,6 +149,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
                 try
                 {
                     List<ModuleProject> result = ModuleProject.findProjectCheckID(projectId);
+//                    LOGGER.debug("{[test]}:"+result);
                     return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
                 }
                 catch (Exception e)

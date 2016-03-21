@@ -3,18 +3,14 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.ProjectManager;
-import java.util.List;
-
-import com.sun.xml.internal.ws.api.server.Module;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(Project_Custom_Jpa_ActiveRecord.class);
@@ -31,8 +27,8 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
     }
 
 
-    @Transactional
-    public static void ProjectManager.findDeleteProjectManager(long deleteCode) {
+
+    public static void ProjectManager.deleteProjectManager(long deleteCode) {
         EntityManager ent = ProjectManager.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class,"Pm");
         criteria.createAlias("Pm.project","project");
