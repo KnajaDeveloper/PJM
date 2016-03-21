@@ -51,6 +51,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
    +'<td  id="tdModuleName' + key + '" class="text-center">' + value.moduleName + '</td>'
    +'<td  id="tdProgest' + key + '" class="progressbar-center"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 50%; ">'
    +'10%   '
+           
    +'</div>'
    +'</td>'
    +'<td  id="tdDateStart' + key + '"class="text-center">'+DateUtil.dataDateToFrontend(value.dateStart,commonData.language)+'</td>'
