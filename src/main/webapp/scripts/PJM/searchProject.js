@@ -120,7 +120,7 @@ $('#data').on("click", "[id^=editProject_]", function () {
 $('#data').on("click", "[id^=progress]", function () {
     var id =  this.id.split('progress')[1];
     //console.log(id);
-    window.location.href = contextPath + '/projects/progressproject?projectCode='+id;
+    window.location.href = contextPath + '/projects/progressproject?id='+id;
 }); //-- link Progress --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 paggination.setEventPaggingBtn("paggingSimple", paggination);
@@ -172,7 +172,7 @@ paggination.loadTable = function loadTable(jsonData) {
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=checkBoxDisable_]", function () {
-   bootbox.alert("ไม่สามารถลบข้อมูลนี้ได้");
+   bootbox.alert(MESSAGE.ALERT_NOT_DELETE_THIS_DATA);
     var id = this.id.split('checkBoxDisable_')[1];
     $("#checkBoxDisable_"+id).attr('checked', false);
 

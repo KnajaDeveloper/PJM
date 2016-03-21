@@ -34,6 +34,7 @@
     <c:set var="LABEL_ADD_TASK_MODULE" scope="request"><spring:message code="L0064"/></c:set>
     <c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
     <c:set var="ALERT_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
+    <c:set var="ALERT_NOT_DELETE_THIS_DATA" scope="request"><spring:message code="M0010"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -44,6 +45,7 @@
         MESSAGE.REMOVE_DATA = '${ALERT_PLEASE_SELECT_DATA}';
         MESSAGE.NOT_DELETE_DATA = '${NOT_DELETE_DATA}';
         MESSAGE.ALERT_DATA_NOT_FOUND = '${ALERT_DATA_NOT_FOUND}';
+        MESSAGE.ALERT_NOT_DELETE_THIS_DATA = '${ALERT_NOT_DELETE_THIS_DATA}';
 
     </script>
 
