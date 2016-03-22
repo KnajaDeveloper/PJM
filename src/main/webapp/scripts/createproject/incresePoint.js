@@ -18,23 +18,28 @@ $("#btnDecresePoint").click(function(){
 
 function checkCostCanDecrese(){
 	if(option=="decrese") {
-		var totalUse = 0;
-		var count_Element = $("[id^=btnEditModule]").length;
-		for (var i = 0; i < count_Element; i++) {
-			var id = $('[id^=btnEditModule]')[i].id;
-			var number = parseInt(id.split("btnEditModule")[1]);
-			totalUse += ModuleProject[number].moduleCost;
-		}
-		var needDecrese = parseInt($("#txtIncreseCostModuleCost").val());
-		var canDecrese = parseInt($("#txtCostsProject").val()) - totalUse ;
-		if (canDecrese >= needDecrese) {
-			saveIncreseCost(null);
-		} else {
-			if (canDecrese > 0) {
-				confirmWhenDecresePointLessThanCanDecrese(canDecrese);
-			} else {
-				bootbox.alert(Message.Can_not_decrese_from_project);
+		if($("[value=project]").prop("checked")==true) {
+			var totalUse = 0;
+			var count_Element = $("[id^=btnEditModule]").length;
+			for (var i = 0; i < count_Element; i++) {
+				var id = $('[id^=btnEditModule]')[i].id;
+				var number = parseInt(id.split("btnEditModule")[1]);
+				totalUse += ModuleProject[number].moduleCost;
 			}
+			var needDecrese = parseInt($("#txtIncreseCostModuleCost").val());
+			var canDecrese = parseInt($("#txtCostsProject").val()) - totalUse;
+			if (canDecrese > needDecrese) {
+				saveIncreseCost(null);
+			} else {
+				if (canDecrese >= 0) {
+					confirmWhenDecresePointLessThanCanDecrese(canDecrese);
+				} else {
+					bootbox.alert(Message.Can_not_decrese_from_project);
+				}
+			}
+		}
+		else{
+			saveIncreseCost(null);
 		}
 	}
 	else{

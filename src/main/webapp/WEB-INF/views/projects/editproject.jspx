@@ -3,54 +3,106 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes"/>
 
-	<c:set var="BUTTON_OK"><spring:message javaScriptEscape="true" text="OK"/></c:set>
-	<c:set var="BUTTON_SAVE"><spring:message javaScriptEscape="true" text="Save"/></c:set>
+	<c:set var="BUTTON_OK"><spring:message javaScriptEscape="true" code="B0001"/></c:set>
+	<c:set var="BUTTON_SAVE"><spring:message javaScriptEscape="true" code="B0006"/></c:set>
 	<c:set var="BUTTON_RESET"><spring:message javaScriptEscape="true" text="Reset"/></c:set>
-	<c:set var="BUTTON_CANCLE"><spring:message javaScriptEscape="true" text="Cancle"/></c:set>
+	<c:set var="BUTTON_CANCLE"><spring:message javaScriptEscape="true" code="B0007"/></c:set>
+	<c:set var="BUTTON_DELETE"><spring:message javaScriptEscape="true" code="B0014"/></c:set>
+	<c:set var="BUTTON_EDIT"><spring:message javaScriptEscape="true" code="B0005"/></c:set>
 
 	<c:set var="LABEL_CREATE_PROJECT"><spring:message javaScriptEscape="true" text="Create Project"/></c:set>
-	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" text="Project Name"/></c:set>
-	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" text="Initial Name"/></c:set>
+	<c:set var="LABEL_EDIT_PROJECT"><spring:message javaScriptEscape="true" text="Edit Project"/></c:set>
+	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
+	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" code="L0089"/></c:set>
 	<c:set var="LABEL_COST"><spring:message javaScriptEscape="true" text="Cost"/></c:set>
-	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" text="Point"/></c:set>
-	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" text="Start Date"/></c:set>
-	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" text="End Date"/></c:set>
-	<c:set var="LABEL_PROJECT_MANAGER"><spring:message javaScriptEscape="true" text="Project Manager"/></c:set>
+	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" code="L0049"/></c:set>
+	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
+	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
+	<c:set var="LABEL_PROJECT_MANAGER"><spring:message javaScriptEscape="true" code="L0045"/></c:set>
 	<c:set var="LABEL_ADD_MODULE"><spring:message javaScriptEscape="true" text="Add Module"/></c:set>
-	<c:set var="LABEL_MODULE_NAME"><spring:message javaScriptEscape="true" text="Module Name"/></c:set>
+	<c:set var="LABEL_MODULE_NAME"><spring:message javaScriptEscape="true" code="L0065"/></c:set>
 	<c:set var="LABEL_MODULE_MANAGER"><spring:message javaScriptEscape="true" text="Module Manager"/></c:set>
 	<c:set var="LABEL_MODULE_MEMBER"><spring:message javaScriptEscape="true" text="Module Member"/></c:set>
 	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" text="Edit Module"/></c:set>
 
+	<c:set var="MESSAGE_CONFIRM_DELETE"><spring:message javaScriptEscape="true" code="M0004"/></c:set>
+	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" text="has in project."/></c:set>
+	<c:set var="MESSAGE_HAS_IN_DATABASE"><spring:message javaScriptEscape="true" text="has in database."/></c:set>
+	<c:set var="MESSAGE_IT_HAS_SAME_NAMES"><spring:message javaScriptEscape="true" text="It's has a same names."/></c:set>
+	<c:set var="MESSAGE_SAVE_SUCCESS"><spring:message javaScriptEscape="true" code="M0001"/></c:set>
+	<c:set var="MESSAGE_SAVE_ERROR"><spring:message javaScriptEscape="true" code="M0019"/></c:set>
+	<c:set var="MESSAGE_EDIT_SUCCESS"><spring:message javaScriptEscape="true" code="M0013"/></c:set>
+	<c:set var="MESSAGE_EDIT_ERROR"><spring:message javaScriptEscape="true" text="Edit error."/></c:set>
+	<c:set var="MESSAGE_DELETE_MODULE_SUCCESS"><spring:message javaScriptEscape="true" text="Delete module success."/></c:set>
+	<c:set var="MESSAGE_COST_MODULE_MORE_THAN_PROJECT"><spring:message javaScriptEscape="true" text="Total cost of module is more than project cost."/></c:set>
+	<c:set var="MESSAGE_CONFIRM_ADD_MODULE"><spring:message javaScriptEscape="true" text="Do you want to add this module ?"/></c:set>
+	<c:set var="MESSAGE_CONFIRM_EDIT_MODULE"><spring:message javaScriptEscape="true" text="Do you want to edit this module ?"/></c:set>
+	<c:set var="MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT"><spring:message javaScriptEscape="true" text="Can't decrese point from project."/></c:set>
+	<c:set var="MESSAGE_INCRESE"><spring:message javaScriptEscape="true" text="Increse"/></c:set>
+	<c:set var="MESSAGE_DECRESE"><spring:message javaScriptEscape="true" text="Decrese"/></c:set>
+	<c:set var="MESSAGE_CANT_INCRESE"><spring:message javaScriptEscape="true" text="Can't increse"/></c:set>
+	<c:set var="MESSAGE_CANT_DECRESE"><spring:message javaScriptEscape="true" text="Can't decrese"/></c:set>
+	<c:set var="MESSAGE_POINT_TO_PROJECT"><spring:message javaScriptEscape="true" text="point to project."/></c:set>
+	<c:set var="MESSAGE_POINT_FROM_PROJECT"><spring:message javaScriptEscape="true" text="point from project."/></c:set>
+	<c:set var="MESSAGE_POINT_TO_MODULE"><spring:message javaScriptEscape="true" text="point to module"/></c:set>
 
+	<c:set var="MESSAGE_CONFIRM_EDIT_PROJECT"><spring:message javaScriptEscape="true" text="Do you want to edit project ?"/></c:set>
 
 	<style>
-	.input-group-addon{
-		padding: 0 12px;
-	}
-	.btnAddPM{
-		margin-left: 10px;
-	}
-	.marginLeft5{
-		margin-left: 5px;
-	}
-	.marginRight5{
-		margin-Right: 5px;
-	}
-	.marginTop-5{
-		margin-top: -5px;
-	}
+		.input-group-addon{
+			/*padding: 0 12px;*/
+		}
+		.btnAddPM{
+			margin-left: 10px;
+		}
+		.marginLeft5{
+			margin-left: 5px;
+		}
+		.marginRight5{
+			margin-Right: 5px;
+		}
+		.marginTop-5{
+			margin-top: -5px;
+		}
 
 	</style>
+
 	<script>
-        var projectId = '${projectId}';
-    </script>
+		var projectId = '${projectId}';
+		var Message = {};
+		Message.Has_in_project = "${MESSAGE_HAS_IN_PROJECT}";
+		Message.Has_in_database = "${MESSAGE_HAS_IN_DATABASE}";
+		Message.It_has_same_names = "${MESSAGE_IT_HAS_SAME_NAMES}";
+		Message.Save_success = "${MESSAGE_SAVE_SUCCESS}";
+		Message.Save_error = "${MESSAGE_SAVE_ERROR}";
+		Message.Edit_success = '${MESSAGE_EDIT_SUCCESS}';
+		Message.Edit_error = '${MESSAGE_EDIT_ERROR}';
+		Message.Confirm_delete = '${MESSAGE_CONFIRM_DELETE}';
+		Message.Delete_module_success = '${MESSAGE_DELETE_MODULE_SUCCESS}';
+		Message.Cost_module_more_than_project = '${MESSAGE_COST_MODULE_MORE_THAN_PROJECT}';
+		Message.Confirm_add_module = '${MESSAGE_CONFIRM_ADD_MODULE}';
+		Message.Confirm_edit_module = '${MESSAGE_CONFIRM_EDIT_MODULE}';
+		Message.Confirm_edit_project = '${MESSAGE_CONFIRM_EDIT_PROJECT}';
+		Message.Can_not_decrese_from_project = '${MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT}';
+		Message.Increse = '${MESSAGE_INCRESE}';
+		Message.Decrese = '${MESSAGE_DECRESE}';
+		Message.Cant_Increse = '${MESSAGE_CANT_INCRESE}';
+		Message.Cant_Decrese = '${MESSAGE_CANT_DECRESE}';
+		Message.Point_to_project = '${MESSAGE_POINT_TO_PROJECT}';
+		Message.Point_from_project = '${MESSAGE_POINT_FROM_PROJECT}';
+		Message.Point_to_module = '${MESSAGE_POINT_TO_MODULE}';
+
+
+		var Button = {};
+		Button.Delete = '${BUTTON_DELETE}';
+		Button.Edit = '${BUTTON_EDIT}';
+	</script>
 
 	<input type="hidden" class="datetimepicker"/>
-    <input type="hidden" class="datepicker"/>
+	<input type="hidden" class="datepicker"/>
 
 	<div id='container_DataProject' class="panel panel-primary">
-		<div class="panel-heading">${LABEL_CREATE_PROJECT}</div>
+		<div class="panel-heading">${LABEL_EDIT_PROJECT}</div>
 		<div class="panel-body">
 			<form class="form-horizontal">
 				<div name="container_Name" class="form-group">
@@ -65,11 +117,18 @@
 					<div class="col-sm-3">
 						<input type="text" class="form-control" id="txtInitialProjectName" data-placement="bottom"></input>
 					</div>
-					<label class="col-sm-1 control-label required " >${LABEL_COST}</label>
-					<div class="col-sm-2 input-group">
-						<input type="text" class="form-control marginLeft5" id="txtCostsProject" data-placement="bottom" readonly="true"></input>
-						<span class="input-group-addon">${LABEL_POINT}</span>
-						<span id="btnIncresePoint" type="button" class="form-control btn btn-primary text-center" data-toggle="modal" data-target="#modalIncreseCost">+</span>
+					<div class="col-sm-6">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label required " >${LABEL_COST}</label>
+							<div class="col-sm-6 input-group">
+								<input type="text" class="form-control" id="txtCostsProject" data-placement="bottom"></input>
+								<span class="input-group-addon">${LABEL_POINT}</span>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<span id="btnIncresePoint" type="button" class="btn btn-primary text-center" style="margin-top: 0px;" data-toggle="modal" data-target="#modalIncreseCost">+</span>
+							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px" data-toggle="modal" data-target="#modalIncreseCost">-</span>
+						</div>
 					</div>
 				</div>
 
@@ -77,7 +136,7 @@
 					<div class="form-inline">
 						<div class="col-sm-6">
 							<label class="col-sm-6 control-label required" >${LABEL_START_DATE}</label>
-							<div class="col-sm-5 input-group">
+							<div class="col-sm-5 input-group" style="margin-left: 10px;">
 								<input class="form-control marginLeft5" type="text" id="dateStartProject" name="dateStartProject" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar "></span>
@@ -85,9 +144,9 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<label class="col-sm-2 control-label required" >${LABEL_END_DATE}</label>
+							<label class="col-sm-3 control-label required" >${LABEL_END_DATE}</label>
 							<div class="col-sm-5  input-group">
-								<input class="form-control marginLeft5" type="text" id="dateEndProject" name="dateEndProject" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
+								<input class="form-control" type="text" id="dateEndProject" name="dateEndProject" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar "></span>
 								</span>
@@ -97,37 +156,36 @@
 				</div>
 
 				<div id="container_nameManager" class="form-group">
-                    <div id='container_subProjectManager1'>
-                    	<div style='padding-bottom:5px;'>
-	                        <label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
-	                        <div class="col-sm-3">
-	                            <input type="text" class="form-control" id="txtProjectManagerName0" data-placement="bottom"></input>
-	                        </div>
-	                        <div class='btn'><!--Not Empty--></div>
-                    	</div>
-                        <span id="subProjectManager"><!--Not Empty--></span>
-                    </div>
+					<div id='container_subProjectManager1'>
+						<div style='padding-bottom:5px;'>
+							<label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="txtProjectManagerName1" data-placement="bottom"></input>
+							</div>
+							<div class='btn'><!--Not Empty--></div>
+						</div>
+						<span id="subProjectManager"><!--Not Empty--></span>
+					</div>
 				</div>
 
 				<div name="container_btnAddProjectManager" class="form-group">
 					<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-					<button id="btnAddPM" type="button" class="btn btn-success"> + ${LABEL_PROJECT_MANAGER}</button>
+					<button id="btnAddPM" type="button" class="btn btn-success marginLeft5"> + ${LABEL_PROJECT_MANAGER}</button>
 				</div>
 
 				<div class='text-center'>
 					<br/>
-					<button id='btnSaveEditProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
-					<!--<button id='btnResetEditProject' class='btn btn-danger btnAddPM' type='button'>${BUTTON_RESET}</button>-->
+					<button id='btnSaveProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
 				</div>
 
 				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog">
-		            <div class="modal-dialog modal-lg">
-		                <div class="modal-content">
-		                    <div class="modal-header bg-primary">
-		                        <h4 class="modal-title">${LABEL_ADD_MODULE}</h4>
-		                    </div>
-		                    <div class="modal-body">
-		                        <div name="container_Name" class="form-group">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h4 class="modal-title">${LABEL_ADD_MODULE}</h4>
+							</div>
+							<div class="modal-body">
+								<div name="container_Name" class="form-group">
 									<label class="col-sm-3 control-label required" >${LABEL_MODULE_NAME}</label>
 									<div class="col-sm-7">
 										<input type="text" class="form-control" id="txtModuleName1"></input>
@@ -150,7 +208,7 @@
 									<div class="form-inline">
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
-											<div class="col-sm-5 input-group">
+											<div class="col-sm-5 input-group" style="margin-left: 10px">
 												<input class="form-control marginLeft5" type="text" id="dateStartModule" name="dateStartModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
@@ -183,7 +241,7 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnAddMM1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MANAGER}</button>
+									<button id="btnAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
 								<div id="container_nameModuleMember" class="form-group">
@@ -194,31 +252,31 @@
 										</div>
 										<div class='btn'><!--Not Empty--></div>
 									</div>
-										<span id="subModuleMember"><!--Not Empty--></span>
+									<span id="subModuleMember"><!--Not Empty--></span>
 								</div>
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnAddMMem1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MEMBER}</button>
-								</div>		                        
-		                    </div>
-		                    <div class="modal-footer">
-		                    	<br/>
-		                        <button type="button" id="btnSaveModule1" class="btn btn-primary">${BUTTON_SAVE}</button>
-		                        <button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
-		                    </div>
-		                </div>
-		            </div>
-	        	</div>
-			
-	        	<div class="modal fade bs-example-modal-lg" id="modalEditModule" role="dialog">
-		            <div class="modal-dialog modal-lg">
-		                <div class="modal-content">
-		                    <div class="modal-header bg-primary">
-		                        <h4 class="modal-title">${LABEL_EDIT_MODULE}</h4>
-		                    </div>
-		                    <div class="modal-body">
-		                        <div name="container_Name" class="form-group">
+									<button id="btnAddMMem1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MEMBER}</button>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<br/>
+								<button type="button" id="btnSaveModule" class="btn btn-primary">${BUTTON_SAVE}</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade bs-example-modal-lg" id="modalEditModule" role="dialog">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h4 class="modal-title">${LABEL_EDIT_MODULE}</h4>
+							</div>
+							<div class="modal-body">
+								<div name="container_Name" class="form-group">
 									<label class="col-sm-3 control-label required">${LABEL_MODULE_NAME}</label>
 									<div class="col-sm-7">
 										<input type="text" class="form-control" id="txtEditModuleName1"></input>
@@ -241,15 +299,15 @@
 									<div class="form-inline">
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
-											<div class="col-sm-5 input-group">
-												<input class="form-control marginLeft5" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white"></input>
+											<div class="col-sm-5 input-group" style="margin-left: 15px;">
+												<input class="form-control" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
 												</span>
 											</div>
 										</div>
 										<div class="col-sm-6 ">
-											<label class="col-sm-3 control-label required" >${LABEL_END_DATE} </label>
+											<label class="col-sm-3 control-label required " style="margin-left: -45px;">${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
 												<input class="form-control marginLeft5" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white"></input>
 												<span class="input-group-addon">
@@ -273,7 +331,7 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnEditAddMM1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MANAGER}</button>
+									<button id="btnEditAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
 								<div id="container_nameEditModuleMember" class="form-group">
@@ -289,125 +347,108 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnEditAddMMem1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MEMBER}</button>
-								</div>		                       
-		                    </div>
-		                    <div class="modal-footer">
-		                    	<br/>
-		                        <button type="button" id="btnEditSaveModule" onclick="saveEditModule_(this)" class="btn btn-primary">${BUTTON_SAVE}</button>
-		                        <button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
-		                    </div>
-		                </div>
-		            </div>
-	        	</div>
+									<button id="btnEditAddMMem1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MEMBER}</button>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<br/>
+								<button type="button" id="btnEditSaveModule" onclick="saveEditModule(this,null)" class="btn btn-primary">${BUTTON_SAVE}</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
-	        	<div class="modal fade bs-example-modal-lg" id="modalIncreseCost" role="dialog">
-		        	<div class="modal-dialog modal-lg">
-			                <div class="modal-content">
-			                    <div class="modal-header bg-primary">
-			                        <h4 class="modal-title">Increse Cost</h4>
-			                    </div>
-			                    <div class="modal-body">
-			                    	<form class="form-horizontal">
-										<div name="container_Name" class="form-group">
-											<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME} : </label>
-											<div class="col-sm-4">
-												<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom">
-													<option>--- Module Name ---</option>
-												</select>
-											</div>
+				<div class="modal fade bs-example-modal-lg" id="modalIncreseCost" role="dialog">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h4 class="modal-title">Increse Cost</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal">
+									<div name="container_SelectRadio" class="form-group">
+										<div class="col-sm-5"><!--Not Empty--></div>
+										<div>
+											<input type="radio" name="project" value='project' checked="checked"> Project </input>
+											<input type="radio" name="project" value='module'> Module </input>
 										</div>
-										<div name="container_Name" class="form-group">
-											<label class="col-sm-4 control-label required" >${LABEL_COST} : </label>
-											<div class="col-sm-3 input-group">
-												<input type="text" class="form-control marginLeft5" id="txtIncreseCostModuleCost"></input>
-												<span class="input-group-addon">${LABEL_POINT}</span>
-											</div>
+									</div>
+								</form>
+								<form class="form-horizontal">
+									<div name="container_Name" class="form-group">
+										<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME}</label>
+										<div class="col-sm-4">
+											<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom" style="margin-left: -10px">
+												<option>--- Module Name ---</option>
+											</select>
 										</div>
-									</form>
-			                    </div>
-			                    <div class="modal-footer">
-			                    	<br/>
-			                        <button type="button" id="btnSaveIncreseCostModule" class="btn btn-primary">${BUTTON_SAVE}</button>
-			                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancle</button>
-		                    	</div>
-			                </div>
-		        	</div>
-	        	</div>
+									</div>
+									<div name="container_Name" class="form-group">
+										<label class="col-sm-4 control-label required" >${LABEL_COST}</label>
+										<div class="col-sm-3 input-group">
+											<input type="text" class="form-control marginLeft5" id="txtIncreseCostModuleCost"></input>
+											<span class="input-group-addon">${LABEL_POINT}</span>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<br/>
+								<button type="button" id="btnSaveIncreseCostModule" class="btn btn-primary">${BUTTON_SAVE}</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancle</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
-			</form> 
+			</form>
 		</div>
 	</div>
 
-	<div id='container_EditDataModule' class='panel panel-primary'>
-		<div class="panel-heading">Create Module</div>
+	<div id='container_DataModule' class='panel panel-primary'>
+		<div class="panel-heading">${LABEL_EDIT_MODULE}</div>
 		<div class="panel-body">
-		    <div name="container_AddModule" class="form-group">
-			    <button id="btnAddModule" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddModule"> + Module</button>
+			<div name="container_AddModule" class="form-group">
+				<button id="btnAddModule" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddModule"> + Module</button>
 			</div>
 
 			<div name="container_UpDownModule" class="form-group">
-				<button id="btnUpModule" type="button" class="glyphicon glyphicon-chevron-up btn btn-primary" aria-hidden="true"></button>
-				<button id="btnDownModule" type="button" class=" glyphicon glyphicon-chevron-down btn btn-primary" aria-hidden="true" style="margin:10px;"></button>
+				<button id="btnUpModule" type="button" class="btn btn-primary" aria-hidden="true"><span class="glyphicon glyphicon-chevron-up "></span></button>
+				<button id="btnDownModule" type="button" class="btn btn-primary" aria-hidden="true" style="margin:10px;"><span class="glyphicon glyphicon-chevron-down "></span></button>
 			</div>
 		</div>
 
 		<div id="container_Module" class="form-group">
 			<div class="panel-group" id="recordsModule" role="tablist" aria-multiselectable="true">
-			 	
+
 			</div>
 		</div>
 
 	</div>
 
 	<script>
-        var contextPath = '${pageContext.request.contextPath}';
-    </script>
-    
-    <!-- Data Base -->
-    <spring:url value="/resources/scripts/createproject/addProjectToDB.js" var="addProjectToDB"/>
-    <script src="${addProjectToDB}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/editProject/editproject.js" var="editproject"/>
-    <script src="${editproject}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/createproject/addModuleToDB.js" var="addModuleToDB"/>
-    <script src="${addModuleToDB}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/createproject/incresePoint.js" var="incresePoint"/>
-    <script src="${incresePoint}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/createproject/editModule.js" var="editModule"/>
-    <script src="${editModule}" type="text/javascript"><!--Not Empty--></script>
-    <!--           -->
+		var contextPath = '${pageContext.request.contextPath}';
+	</script>
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
-    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+	<script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
-    <spring:url value="/resources/scripts/common.js" var="common"/>
-    <script src="${common}" type="text/javascript"><!--Not Empty --></script>
+	<spring:url value="/resources/scripts/common.js" var="common"/>
+	<script src="${common}" type="text/javascript"><!--Not Empty --></script>
 
-	<spring:url value="/resources/scripts/createproject/scriptModule.js" var="scriptModule"/>
-    <script src="${scriptModule}" type="text/javascript"><!--Not Empty--></script>
+	<spring:url value="/resources/scripts/createproject/updownModule.js" var="updownModule"/>
+	<script src="${updownModule}" type="text/javascript"><!--Not Empty--></script>
 
-    <spring:url value="/resources/scripts/createproject/loopAddPeople.js" var="loopAddPeople"/>
-    <script src="${loopAddPeople}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/createproject/addModule.js" var="addModule"/>
-    <script src="${addModule}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/createproject/updownModule.js" var="updownModule"/>
-    <script src="${updownModule}" type="text/javascript"><!--Not Empty--></script>
-
-    <spring:url value="/resources/scripts/createproject/saveresetDataProject.js" var="saveresetDataProject"/>
-    <script src="${saveresetDataProject}" type="text/javascript"><!--Not Empty--></script>
+	<spring:url value="/resources/scripts/editProject/editproject.js" var="editproject"/>
+	<script src="${editproject}" type="text/javascript"><!--Not Empty--></script>
 
 	<!-- Script Calendar -->
 	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
-    <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
-    <script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
-    <script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
-    <spring:url value="/resources/scripts/createproject/dateTimeEvent.js" var="dateTimeEvent"/>
-    <script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>
+	<spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
+	<script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
+	<script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
+	<spring:url value="/resources/scripts/createproject/dateTimeEvent.js" var="dateTimeEvent"/>
+	<script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>
 
 </div>

@@ -236,8 +236,9 @@ privileged aspect ProjectController_Custom_Controller_Json {
         try {
             String[] arrPJM = arr_ProjectManager.split("==");
             Project project = Project.updateProjectByIdProject(projectID, projectCode, projectName, projectCost, dateStart, dateEnd);
-            ProjectManager.updateProjectManagerByProjectID(project, arrPJM);
-            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+            ProjectManager.deleteAllProjectManagerByProjectId(project);
+            ProjectManager.saveProjectManagerByProJect(project, arrPJM);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(project),headers, HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
