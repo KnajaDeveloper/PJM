@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_OtherTask" object="${othertask}" path="/othertasks" z="La/yC4MbFyJJr+/l+BMKL/EIuqQ=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_OtherTask_createdBy" object="${othertask}" z="EkBxVKEcMrc7Q9rFoZMGi6PhCQM="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_OtherTask_updatedBy" object="${othertask}" z="7nLtPMLbPF2IaBT+Tlmo+lIl/zg="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_OtherTask_status" object="${othertask}" z="4c3lHv1Y8OxjlNatk+AxeRQk6Po="/>
+        <field:display date="true" dateTimePattern="${otherTask_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_OtherTask_createdDate" object="${othertask}" z="+A+vNl3C5iY53sQC/8VUkEeJDlo="/>
+        <field:display date="true" dateTimePattern="${otherTask_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_OtherTask_updatedDate" object="${othertask}" z="ppbDBTaK5g/UIQTva4HBwb0my3U="/>
+        <field:display field="taskName" id="s_com_app2_app2t_domain_pjm_OtherTask_taskName" object="${othertask}" z="zy7cV0E4EN3L2lYPFT+KcE/8mrg="/>
+        <field:display field="taskCost" id="s_com_app2_app2t_domain_pjm_OtherTask_taskCost" object="${othertask}" z="DRGAIKsPAIXAa3QlS7yddLjbSKw="/>
+        <field:display field="empCode" id="s_com_app2_app2t_domain_pjm_OtherTask_empCode" object="${othertask}" z="H6Z0zcTwblFAlDcDrwOlYC6LqIc="/>
+        <field:display field="detail" id="s_com_app2_app2t_domain_pjm_OtherTask_detail" object="${othertask}" z="l+YKnKS2QCS69xZmmtXVUv0dZs4="/>
+        <field:display field="typeTask" id="s_com_app2_app2t_domain_pjm_OtherTask_typeTask" object="${othertask}" z="3n4HG/Wo2eZbveVFUI5awYXThbc="/>
+        <field:display field="progress" id="s_com_app2_app2t_domain_pjm_OtherTask_progress" object="${othertask}" z="HcUt+MWYkbkxzDkDeex8nNRGU8c="/>
+    </page:show>
+</div>

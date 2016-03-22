@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 @RooWebScaffold(path = "plans", formBackingObject = Plan.class)
 @RooWebJson(jsonObject = Plan.class)
 public class PlanController {
-	@Autowired
+
+    @Autowired
     EmRestService emRestService;
+
     protected static Logger LOGGER = LoggerFactory.getLogger(PlanController.class);
 }
