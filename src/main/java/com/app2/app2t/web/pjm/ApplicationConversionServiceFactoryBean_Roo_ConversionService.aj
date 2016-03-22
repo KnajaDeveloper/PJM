@@ -6,6 +6,7 @@ package com.app2.app2t.web.pjm;
 import com.app2.app2t.domain.pjm.ModuleManager;
 import com.app2.app2t.domain.pjm.ModuleMember;
 import com.app2.app2t.domain.pjm.ModuleProject;
+import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.Plan;
 import com.app2.app2t.domain.pjm.Program;
 import com.app2.app2t.domain.pjm.Project;
@@ -89,6 +90,30 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.ModuleProject>() {
             public com.app2.app2t.domain.pjm.ModuleProject convert(String id) {
                 return getObject().convert(getObject().convert(id, Long.class), ModuleProject.class);
+            }
+        };
+    }
+    
+    public Converter<OtherTask, String> ApplicationConversionServiceFactoryBean.getOtherTaskToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.OtherTask, java.lang.String>() {
+            public String convert(OtherTask otherTask) {
+                return new StringBuilder().append(otherTask.getCreatedBy()).append(' ').append(otherTask.getUpdatedBy()).append(' ').append(otherTask.getStatus()).append(' ').append(otherTask.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, OtherTask> ApplicationConversionServiceFactoryBean.getIdToOtherTaskConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.pjm.OtherTask>() {
+            public com.app2.app2t.domain.pjm.OtherTask convert(java.lang.Long id) {
+                return OtherTask.findOtherTask(id);
+            }
+        };
+    }
+    
+    public Converter<String, OtherTask> ApplicationConversionServiceFactoryBean.getStringToOtherTaskConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.OtherTask>() {
+            public com.app2.app2t.domain.pjm.OtherTask convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), OtherTask.class);
             }
         };
     }
@@ -247,6 +272,9 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         registry.addConverter(getModuleProjectToStringConverter());
         registry.addConverter(getIdToModuleProjectConverter());
         registry.addConverter(getStringToModuleProjectConverter());
+        registry.addConverter(getOtherTaskToStringConverter());
+        registry.addConverter(getIdToOtherTaskConverter());
+        registry.addConverter(getStringToOtherTaskConverter());
         registry.addConverter(getPlanToStringConverter());
         registry.addConverter(getIdToPlanConverter());
         registry.addConverter(getStringToPlanConverter());

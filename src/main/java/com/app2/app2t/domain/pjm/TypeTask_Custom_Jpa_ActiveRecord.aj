@@ -73,8 +73,6 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
         // ใน .java
         criteria.add(Restrictions.eq("typeTaskCode", typeTCode ));
-
-
         return criteria.list();
     }
 
@@ -116,4 +114,5 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
         return criteria.list();
 
        }
+
 }
