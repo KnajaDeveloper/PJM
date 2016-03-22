@@ -49,6 +49,7 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
     });
 };
 
+var programID;
 var positionName;
 
 function openEditProgram(element){
@@ -57,6 +58,7 @@ function openEditProgram(element){
     $('#txtProgramCode').popover('hide'); $('#txtProgramName').popover('hide');
     $('#txtProgramCode').val(null).attr('disabled', false); $('#txtProgramName').val(null);
     $('#btnModalProgramNext').hide();
+    programID = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgramCode").attr("programId");
     $('#txtProgramCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgramCode").text()).attr('disabled', true);
     positionName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgramName").text();
     $('#txtProgramName').val(positionName);
@@ -107,42 +109,56 @@ function checkProgramCode() {
 
 $('[id^=btnModalProgram]').click(function() {
     var iD = this.id.split('m')[1];
-    if(iD === 'Cancel'){
-        $('#modalProgram').modal('hide');
+    if(iD == 'Cancel'){
+        if(chkAEProgram == 1){
+            if($('#txtProgramName').val() == positionName){
+                $('#modalProgram').modal('hide');
+                $('#txtProgramCode').popover('hide'); $('#txtProgramCode').val(null);
+                $('#txtProgramName').popover('hide'); $('#txtProgramName').val(null);
+            }else{
+                bootbox.confirm(Message.MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT, function(result) {
+                    if(result == true){
+                        $('#modalProgram').modal('hide');
+                        $('#txtProgramCode').popover('hide'); $('#txtProgramCode').val(null);
+                        $('#txtProgramName').popover('hide'); $('#txtProgramName').val(null);
+                    }
+                });
+            }
+        }else{
+            $('#modalProgram').modal('hide');
+        }
     }else{
-        if($('#txtProgramCode').val() === ""){
+        if($('#txtProgramCode').val() == ""){
             $('#txtProgramCode').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
-        }else if($('#txtProgramName').val()  === ""){
-            if(checkProgramCode() === true){
+        }else if($('#txtProgramName').val()  == ""){
+            if(checkProgramCode() == true){
                 $('#txtProgramName').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
             }
         }else{
-            if(checkProgramCode() === true){
-                var pjmProgram = {
-                    programCode: $('#txtProgramCode').val(),
-                    programName: $('#txtProgramName').val(),
-                    id: moduleProjectID
-                };
-
-                if(chkAEProgram === 0){
-                    if(checkDataProgram() === 0){
+            if(checkProgramCode() == true){
+                if(chkAEProgram == 0){
+                    if(checkDataProgram() == 0){
                         $.ajax({
                             headers: {
                                 Accept: "application/json"
                             },
                             type: "POST",
                             url: contextPath + '/programs/saveProgram',
-                            data : pjmProgram,
+                            data : {
+                                programCode: $('#txtProgramCode').val(),
+                                programName: $('#txtProgramName').val(),
+                                id: moduleProjectID
+                            },
                             complete: function(xhr){
-                                if(xhr.status === 201){
-                                    if(iD === 'Add'){
+                                if(xhr.status == 201){
+                                    if(iD == 'Add'){
                                         bootbox.alert(Message.MSG_SAVE_SUCCESS);
                                         $('#modalProgram').modal('hide');
                                     }
                                     $('#txtProgramCode').val(null);
                                     $('#txtProgramName').val(null);
                                     searchDataProgram();
-                                }else if(xhr.status === 500){
+                                }else if(xhr.status == 500){
                                     bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                 }
                             },
@@ -151,8 +167,8 @@ $('[id^=btnModalProgram]').click(function() {
                     }else{
                         bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE);
                     }
-                }else if(chkAEProgram === 1){
-                    if($('#txtProgramName').val() === positionName){
+                }else if(chkAEProgram == 1){
+                    if($('#txtProgramName').val() == positionName){
                             bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
                     }else{
                         $.ajax({
@@ -161,15 +177,19 @@ $('[id^=btnModalProgram]').click(function() {
                             },
                             type: "GET",
                             url: contextPath + '/programs/findEditProgram',
-                            data : pjmProgram,
+                            data : {
+                                programCode: $('#txtProgramCode').val(),
+                                programName: $('#txtProgramName').val(),
+                                id: programID
+                            },
                             complete: function(xhr){
-                                if(xhr.status === 200){
+                                if(xhr.status == 200){
                                     bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
                                     $('#modalProgram').modal('hide');
                                     $('#txtProgramCode').val(null);
                                     $('#txtProgramName').val(null);
                                     searchDataProgram();
-                                }else if(xhr.status === 500){
+                                }else if(xhr.status == 500){
                                     bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                 }
                             },
@@ -221,9 +241,9 @@ function deleteDataProgram() {
                 programId: $(this).attr("id")
             },
             complete: function(xhr){
-                if(xhr.status === 200)
+                if(xhr.status == 200)
                     statusProgram200++;
-                if(xhr.status === 500)
+                if(xhr.status == 500)
                     statusProgram500++;
             },
             async: false
@@ -241,7 +261,7 @@ $('#btnDeleteProgram').click(function() {
                 deleteDataProgram();
                 searchDataProgram();
                 $('#checkboxAllProgram').prop('checked', false);
-                if(statusProgram500 === 0){
+                if(statusProgram500 == 0){
                     bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + statusProgram200 + " " + Message.MSG_LIST);
                 }else{
                     bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + statusProgram200 + " " + Message.MSG_LIST + " " + Message.MSG_DELETE_FAILED + " " + statusProgram500 + " " + Message.MSG_LIST);
@@ -256,9 +276,6 @@ $('#btnDeleteProgram').click(function() {
 
 $("#checkboxAllProgram").click(function(){
     $(".checkboxTableProgram").prop('checked', $(this).prop('checked'));
-    if($(".checkboxTableProgram[inUse=0]").length == 0){
-        $("#checkboxAllProgram").prop("checked", false);
-    }
     $.each($(".checkboxTableProgram[inUse=1]"),function(index, value){
         $(this).prop("checked", false);
     });

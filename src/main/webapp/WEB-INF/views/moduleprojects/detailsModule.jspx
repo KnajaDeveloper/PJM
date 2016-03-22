@@ -126,6 +126,7 @@
     <c:set var="MSG_DELETE_FAILED" scope="request"><spring:message code="M0006"/></c:set>
     <c:set var="MSG_LIST" scope="request"><spring:message code="M0027"/></c:set>
     <c:set var="MSG_DATA_IS_USE" scope="request"><spring:message code="M0028"/></c:set>
+    <c:set var="MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT" scope="request"><spring:message text="M0031"/></c:set>
 
     <script type="text/javascript">
         var Label = {};
@@ -157,6 +158,8 @@
         Message.MSG_DELETE_FAILED = '${MSG_DELETE_FAILED}';
         Message.MSG_LIST = '${MSG_LIST}';
         Message.MSG_DATA_IS_USE = '${MSG_DATA_IS_USE}';
+        Message.MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT = '${MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT}';
+
     </script>
 
     <div class="row">
@@ -164,10 +167,9 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">${LABEL_DETAILS_MODULES}</div>
                 <div class="panel-body">
-                    <br/>
                     <div class="col-xs-11 col-xs-offset-1">
                         <form class="form-inline">
-                            <div class="col-xs-1">
+                            <div class="col-xs-2">
                                 <label class="control-label">${LABEL_MODULE_NEME}</label>
                                 <br/>
                                 <br/>
@@ -182,7 +184,7 @@
                                 <br/>
                                 <label class="control-label">${LABEL_MANAGER}</label>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-2">
                                 <label id="lblModuleNeme" class="control-label"><jsp:text/></label>
                                 <br/>
                                 <br/>
@@ -200,26 +202,41 @@
                                 <br/>
                                 <br/>
                             </div>
+                            <div class="col-xs-1">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_POINT}</label>
+                            </div>
                             <div class="col-xs-2">
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <label class="control-label">${LABEL_BALANCE_TOTAL_COST}</label>
-                                    <br/>
-                                    <br/>
-                                    <label class="control-label">${LABEL_END_DATE}</label>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_BALANCE_TOTAL_COST}</label>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_END_DATE}</label>
                             </div>
-                            <div class="col-xs-4">
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <label id="lblModuleCostBalance" class="control-label"><jsp:text/></label>
-                                    <br/>
-                                    <br/>
-                                    <label id="lblModuleDateEnd" class="control-label"><jsp:text/></label>
+                            <div class="col-xs-2">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label id="lblModuleCostBalance" class="control-label"><jsp:text/></label>
+                                <br/>
+                                <br/>
+                                <label id="lblModuleDateEnd" class="control-label"><jsp:text/></label>
                             </div>
+                            <div class="col-xs-1">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <label class="control-label">${LABEL_POINT}</label>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -235,7 +252,6 @@
                         <button id="btnAddProgram" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProgram" data-backdrop="static">${BUTTON_ADD_PROGRAM}</button>
                         <button id="btnDeleteProgram" type="button" class="btn btn-danger" style="margin-left: 5px;">${BUTTON_REMOVE_SELECTED}</button>
                     </div>
-                    
                     <div id="penaltyTableContainer" class="table-responsive">
                         <table id="TableProgram" class="table table-bordered table-stripted table-hover">
                             <thead>
@@ -330,7 +346,7 @@
                                 </div>
                                 <div class="col-xs-10">
                                     <button id="btnDownloadFile" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
-                                    <label id="lblFileName" class="" style="margin-left: 10px;"><jsp:text/>README.txt</label>
+                                    <label id="lblFileName" class="" style="margin-left: 10px;"><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -376,7 +392,7 @@
                     <div class="modal-footer">
                         <button id="btnModalProgramAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
                         <button id="btnModalProgramNext" type="button" class="btn btn-primary">${BUTTON_NEXT}</button>
-                        <button id="btnModalProgramCancel" type="button" class="btn btn-primary">${BUTTON_CANCEL}</button>
+                        <button id="btnModalProgramCancel" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
                         <br/>
                     </div>
                 </div>
@@ -498,7 +514,7 @@
                     <div class="modal-footer">
                         <button id="btnModalTaskAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
                         <button id="btnModalTaskNext" type="button" class="btn btn-primary">${BUTTON_NEXT}</button>
-                        <button id="btnModalTaskCancel" type="button" class="btn btn-primary">${BUTTON_CANCEL}</button>
+                        <button id="btnModalTaskCancel" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
                         <br/>
                     </div>
                 </div>

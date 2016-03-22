@@ -73,7 +73,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
             dataDateStart.push(DateUtil.dataDateToFrontend(value.dateStart, commonData.language));
 
         if(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language) == "01/01/1970")
-            dataDateEnd.push();
+            dataDateEnd.push("");
         else
             dataDateEnd.push(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language));
 
@@ -88,9 +88,9 @@ pagginationTask.loadTable = function loadTable (jsonData) {
                 + '<input id="' + value.id + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
             + '</td>'
             + '<td class="text-center">'
-                + '<button onclick="openEditProgram($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '<button onclick="openEditTask($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
-            + '<td id="tdCodeTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
+            + '<td id="tdCodeTask" taskId="' + value.id + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
             + '<td id="tdNameTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
             + '<td id="tdCostTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskCost + ' Point</td>'
             + '<td id="tdProgressTask" onclick="onClickTrTask(this)">'
@@ -132,6 +132,7 @@ function DDLData() {
     });
 }
 
+var TaskID;
 var checkTaskName;
 var checkTaskCost;
 var checkTypeTask;
@@ -142,7 +143,7 @@ var checkProgress;
 var checkFileName;
 var checkDescription;
 
-function openEditProgram(element){
+function openEditTask(element){
     var id = element.parent().parent().attr("id").split('k')[1];
 
     chkAETask = 1;
@@ -161,6 +162,8 @@ function openEditProgram(element){
     $('#fileName').text("");
     $('#txtaDescription').val("");
     $('#btnModalTaskNext').hide();
+
+    TaskID = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCodeTask").attr("taskId");
 
     $('#txtTaskCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCodeTask").text()).attr('disabled', true);
 
@@ -230,8 +233,7 @@ var chkAETask = 0;
 
 function checkTaskCode() {
     var elem = document.getElementById('txtTaskCode').value;
-    if(!elem.match(/^([a-z0-9\_])+$/i))
-    {
+    if(!elem.match(/^([a-z0-9\_])+$/i)){
         $('#txtTaskCode').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9).popover('show');
         return false;
     }else{
@@ -246,18 +248,49 @@ function myFunction() {
 
 $('[id^=btnModalTask]').click(function() {
     var id = this.id.split('k')[1];
+    myFunction();
     if(id === 'Cancel'){
-        $('#modalTask').modal('hide');
-        $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null);
-        $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
-        $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
-        $('#ddlTypeTask').popover('hide');
-        $('#txtEmpName').val(null);
-        $('#dateStartProject').val(null);
-        $('#dateEndProject').val(null);
-        document.getElementById("myInput").value = "";
-        $('#fileName').text("");
-        $('#txtaDescription').val("");
+        if(chkAETask == 1){
+            if($('#txtTaskName').val() == checkTaskName &&
+                $('#txtTaskCost').val() == checkTaskCost &&
+                dataTypeTaskCode[index] == checkTypeTask &&
+                $('#txtEmpName').val() == checkEmpName &&
+                $('#dateStartProject').val() == checkdateStart &&
+                $('#dateEndProject').val() == checkdateEnd &&
+                $('#txtProgress').val() == checkProgress &&
+                $('#fileName').text() == checkFileName &&
+                $('#txtaDescription').val() == checkDescription){
+                $('#modalTask').modal('hide');
+                $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null);
+                $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
+                $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
+                $('#ddlTypeTask').popover('hide');
+                $('#txtEmpName').val(null);
+                $('#dateStartProject').val(null);
+                $('#dateEndProject').val(null);
+                document.getElementById("myInput").value = "";
+                $('#fileName').text("");
+                $('#txtaDescription').val("");
+            }else{
+                bootbox.confirm(Message.MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT, function(result) {
+                    if(result == true){
+                        $('#modalTask').modal('hide');
+                        $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null);
+                        $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
+                        $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
+                        $('#ddlTypeTask').popover('hide');
+                        $('#txtEmpName').val(null);
+                        $('#dateStartProject').val(null);
+                        $('#dateEndProject').val(null);
+                        document.getElementById("myInput").value = "";
+                        $('#fileName').text("");
+                        $('#txtaDescription').val("");
+                    }
+                });
+            }
+        }else{
+            $('#modalTask').modal('hide');
+        }
     }else{
         if($('#txtTaskCode').val() == ""){
             $('#txtTaskCode').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
@@ -275,24 +308,8 @@ $('[id^=btnModalTask]').click(function() {
             }
         }else{
             if(checkTaskCode() == true){
-                myFunction();
-
-                var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase(dateStart, commonData.language);
-                var dateEnd = $('#dateStartProject').val() == "" ? null : dataDateToDataBase(dateEnd, commonData.language);
-
-                var pjmTask = {
-                    taskCode: $('#txtTaskCode').val(),
-                    taskName: $('#txtTaskName').val(),
-                    taskCost: parseInt($('#txtTaskCost').val()),
-                    typeTask: dataTypeTaskCode[index],
-                    empCode: $('#txtEmpName').val(),
-                    dateStart: new Date(dateStart),
-                    dateEnd: new Date(dateEnd),
-                    fileName: $('#fileName').text(),
-                    detail: $('#txtaDescription').val(),
-                    progress: $('#txtProgress').val(),
-                    id: programID
-                };
+                var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase($('#dateStartProject').val(), commonData.language);
+                var dateEnd = $('#dateEndProject').val() == "" ? null : dataDateToDataBase($('#dateEndProject').val(), commonData.language);
 
                 if(chkAETask == 0){
                     if(checkDataTask() == 0){
@@ -305,7 +322,19 @@ $('[id^=btnModalTask]').click(function() {
                                 },
                                 type: "POST",
                                 url: contextPath + '/tasks/saveTask',
-                                data : pjmTask,
+                                data : {
+                                    taskCode: $('#txtTaskCode').val(),
+                                    taskName: $('#txtTaskName').val(),
+                                    taskCost: parseInt($('#txtTaskCost').val()),
+                                    typeTask: dataTypeTaskCode[index],
+                                    empCode: $('#txtEmpName').val(),
+                                    dateStart: new Date(dateStart),
+                                    dateEnd: new Date(dateEnd),
+                                    fileName: $('#fileName').text(),
+                                    detail: $('#txtaDescription').val(),
+                                    progress: $('#txtProgress').val(),
+                                    id: programID
+                                },
                                 complete: function(xhr){
                                     if(xhr.status == 201){
                                         if(id == 'Add'){
@@ -347,7 +376,6 @@ $('[id^=btnModalTask]').click(function() {
                         $('#fileName').text() == checkFileName &&
                         $('#txtaDescription').val() == checkDescription){
                         bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
-                        $('#modalTask').modal('hide');
                     }else{
                         $.ajax({
                             headers: {
@@ -355,7 +383,19 @@ $('[id^=btnModalTask]').click(function() {
                             },
                             type: "GET",
                             url: contextPath + '/tasks/findEditTask',
-                            data : pjmTask,
+                            data : {
+                                id: TaskID,
+                                taskCode: $('#txtTaskCode').val(),
+                                taskName: $('#txtTaskName').val(),
+                                taskCost: parseInt($('#txtTaskCost').val()),
+                                typeTask: dataTypeTaskCode[index],
+                                empCode: $('#txtEmpName').val(),
+                                dateStart: new Date(dateStart),
+                                dateEnd: new Date(dateEnd),
+                                fileName: $('#fileName').text(),
+                                detail: $('#txtaDescription').val(),
+                                progress: $('#txtProgress').val()
+                            },
                             complete: function(xhr){
                                 if(xhr.status === 200){
                                     bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
