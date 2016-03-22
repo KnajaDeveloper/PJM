@@ -3,26 +3,46 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes"/>
 
-	<c:set var="BUTTON_OK"><spring:message javaScriptEscape="true" text="OK"/></c:set>
-	<c:set var="BUTTON_SAVE"><spring:message javaScriptEscape="true" text="Save"/></c:set>
+	<c:set var="BUTTON_OK"><spring:message javaScriptEscape="true" code="B0001"/></c:set>
+	<c:set var="BUTTON_SAVE"><spring:message javaScriptEscape="true" code="B0006"/></c:set>
 	<c:set var="BUTTON_RESET"><spring:message javaScriptEscape="true" text="Reset"/></c:set>
-	<c:set var="BUTTON_CANCLE"><spring:message javaScriptEscape="true" text="Cancle"/></c:set>
+	<c:set var="BUTTON_CANCLE"><spring:message javaScriptEscape="true" code="B0007"/></c:set>
+	<c:set var="BUTTON_DELETE"><spring:message javaScriptEscape="true" code="B0014"/></c:set>
 
 	<c:set var="LABEL_CREATE_PROJECT"><spring:message javaScriptEscape="true" text="Create Project"/></c:set>
-	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" text="Project Name"/></c:set>
-	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" text="Initial Name"/></c:set>
+	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
+	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" code="L0089"/></c:set>
 	<c:set var="LABEL_COST"><spring:message javaScriptEscape="true" text="Cost"/></c:set>
-	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" text="Point"/></c:set>
-	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" text="Start Date"/></c:set>
-	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" text="End Date"/></c:set>
-	<c:set var="LABEL_PROJECT_MANAGER"><spring:message javaScriptEscape="true" text="Project Manager"/></c:set>
+	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" code="L0049"/></c:set>
+	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
+	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
+	<c:set var="LABEL_PROJECT_MANAGER"><spring:message javaScriptEscape="true" code="L0045"/></c:set>
 	<c:set var="LABEL_ADD_MODULE"><spring:message javaScriptEscape="true" text="Add Module"/></c:set>
-	<c:set var="LABEL_MODULE_NAME"><spring:message javaScriptEscape="true" text="Module Name"/></c:set>
+	<c:set var="LABEL_MODULE_NAME"><spring:message javaScriptEscape="true" code="L0065"/></c:set>
 	<c:set var="LABEL_MODULE_MANAGER"><spring:message javaScriptEscape="true" text="Module Manager"/></c:set>
 	<c:set var="LABEL_MODULE_MEMBER"><spring:message javaScriptEscape="true" text="Module Member"/></c:set>
 	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" text="Edit Module"/></c:set>
 
-
+	<c:set var="MESSAGE_CONFIRM_DELETE"><spring:message javaScriptEscape="true" code="M0004"/></c:set>
+	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" text="has in project."/></c:set>
+	<c:set var="MESSAGE_HAS_IN_DATABASE"><spring:message javaScriptEscape="true" text="has in database."/></c:set>
+	<c:set var="MESSAGE_IT_HAS_SAME_NAMES"><spring:message javaScriptEscape="true" text="It's has a same names."/></c:set>
+	<c:set var="MESSAGE_SAVE_SUCCESS"><spring:message javaScriptEscape="true" code="M0001"/></c:set>
+	<c:set var="MESSAGE_SAVE_ERROR"><spring:message javaScriptEscape="true" code="M0019"/></c:set>
+	<c:set var="MESSAGE_EDIT_SUCCESS"><spring:message javaScriptEscape="true" code="M0013"/></c:set>
+	<c:set var="MESSAGE_EDIT_ERROR"><spring:message javaScriptEscape="true" text="Edit error."/></c:set>
+	<c:set var="MESSAGE_DELETE_MODULE_SUCCESS"><spring:message javaScriptEscape="true" text="Delete module success."/></c:set>
+	<c:set var="MESSAGE_COST_MODULE_MORE_THAN_PROJECT"><spring:message javaScriptEscape="true" text="Total cost of module is more than project cost."/></c:set>
+	<c:set var="MESSAGE_CONFIRM_ADD_MODULE"><spring:message javaScriptEscape="true" text="Do you want to add this module ?"/></c:set>
+	<c:set var="MESSAGE_CONFIRM_EDIT_MODULE"><spring:message javaScriptEscape="true" text="Do you want to edit this module ?"/></c:set>
+	<c:set var="MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT"><spring:message javaScriptEscape="true" text="Can't decrese point from project."/></c:set>
+	<c:set var="MESSAGE_INCRESE"><spring:message javaScriptEscape="true" text="Increse"/></c:set>
+	<c:set var="MESSAGE_DECRESE"><spring:message javaScriptEscape="true" text="Decrese"/></c:set>
+	<c:set var="MESSAGE_CANT_INCRESE"><spring:message javaScriptEscape="true" text="Can't increse"/></c:set>
+	<c:set var="MESSAGE_CANT_DECRESE"><spring:message javaScriptEscape="true" text="Can't decrese"/></c:set>
+	<c:set var="MESSAGE_POINT_TO_PROJECT"><spring:message javaScriptEscape="true" text="point to project."/></c:set>
+	<c:set var="MESSAGE_POINT_FROM_PROJECT"><spring:message javaScriptEscape="true" text="point from project."/></c:set>
+	<c:set var="MESSAGE_POINT_TO_MODULE"><spring:message javaScriptEscape="true" text="point to module"/></c:set>
 
 	<style>
 	.input-group-addon{
@@ -42,6 +62,30 @@
 	}
 
 	</style>
+
+	<script>
+		var Message = {};
+		Message.Has_in_project = "${MESSAGE_HAS_IN_PROJECT}";
+		Message.Has_in_database = "${MESSAGE_HAS_IN_DATABASE}";
+		Message.It_has_same_names = "${MESSAGE_IT_HAS_SAME_NAMES}";
+		Message.Save_success = "${MESSAGE_SAVE_SUCCESS}";
+		Message.Save_error = "${MESSAGE_SAVE_ERROR}";
+		Message.Edit_success = '${MESSAGE_EDIT_SUCCESS}';
+		Message.Edit_error = '${MESSAGE_EDIT_ERROR}';
+		Message.Confirm_delete = '${MESSAGE_CONFIRM_DELETE}';
+		Message.Delete_module_success = '${MESSAGE_DELETE_MODULE_SUCCESS}';
+		Message.Cost_module_more_than_project = '${MESSAGE_COST_MODULE_MORE_THAN_PROJECT}';
+		Message.Confirm_add_module = '${MESSAGE_CONFIRM_ADD_MODULE}';
+		Message.Confirm_edit_module = '${MESSAGE_CONFIRM_EDIT_MODULE}';
+		Message.Can_not_decrese_from_project = '${MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT}';
+		Message.Increse = '${MESSAGE_INCRESE}';
+		Message.Decrese = '${MESSAGE_DECRESE}';
+		Message.Cant_Increse = '${MESSAGE_CANT_INCRESE}';
+		Message.Cant_Decrese = '${MESSAGE_CANT_DECRESE}';
+		Message.Point_to_project = '${MESSAGE_POINT_TO_PROJECT}';
+		Message.Point_from_project = '${MESSAGE_POINT_FROM_PROJECT}';
+		Message.Point_to_module = '${MESSAGE_POINT_TO_MODULE}';
+	</script>
 
 	<input type="hidden" class="datetimepicker"/>
     <input type="hidden" class="datepicker"/>
@@ -245,8 +289,8 @@
 									<div class="form-inline">
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
-											<div class="col-sm-5 input-group">
-												<input class="form-control marginLeft5" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white"></input>
+											<div class="col-sm-5 input-group" style="margin-left: 15px;">
+												<input class="form-control" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
 												</span>
@@ -277,7 +321,7 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnEditAddMM1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MANAGER}</button>
+									<button id="btnEditAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
 								<div id="container_nameEditModuleMember" class="form-group">
@@ -293,12 +337,12 @@
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
-									<button id="btnEditAddMMem1" type="button" class="btn btn-success"> + ${LABEL_MODULE_MEMBER}</button>
+									<button id="btnEditAddMMem1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MEMBER}</button>
 								</div>		                       
 		                    </div>
 		                    <div class="modal-footer">
 		                    	<br/>
-		                        <button type="button" id="btnEditSaveModule" onclick="saveEditModule(this)" class="btn btn-primary">${BUTTON_SAVE}</button>
+		                        <button type="button" id="btnEditSaveModule" onclick="saveEditModule(this,null)" class="btn btn-primary">${BUTTON_SAVE}</button>
 		                        <button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
 		                    </div>
 		                </div>

@@ -14,9 +14,77 @@ $("#btnSaveModule").click(function(){
 	SaveModule(null);
 });
 
+function saveEditModule(object,cost){
+	var id = object.id;
+	var number = id.split("btnEditSaveModule");
+	var bool = checkEditModal();
+	var boolSameName = checkSameNameBeforeEdit();
+	if(cost==null) boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(),id,object);
+	else boolCheckCost = true;
+	var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
+	if(boolSameModuleCode==true){
+		if(bool==true && boolSameName==true && boolCheckCost==true){
+			var boolSave = editDataModuleInDB(number[1],cost);
+			if(boolSave==true){
+				if(cost!=null){
+					var editCostProject = {
+						projectId: dataAfterSave.responseJSON.id,
+						increseCost: cost
+					};
+					dataAfterSave = $.ajax({
+						headers: {
+							Accept: "application/json"
+						},
+						type: "POST",
+						url: contextPath + '/projects/incresePointProjectByIdProject',
+						data: editCostProject,
+						complete: function (xhr) {
+							if (xhr.status === 201 || xhr.status === 200) {
+								dataAfterSave=xhr;
+								$("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
+								return true;
+							}
+						},
+						async: false
+					});
+				}
+				var allModuleManager = ""+getAllEditModuleManager();
+				var allModuleMember = ""+getAllEditModuleMember();
+				arr_nameModule[number[1]] = $("#txtEditModuleName1").val();
+				arr_initialNameModule[number[1]] = $("#txtEditInitialModuleName1").val();
+				arr_costModule[number[1]] = $("#txtCostsEditModule1").val();
+				ModuleProject[number[1]].moduleCost = parseInt($("#txtCostsEditModule1").val());
+				$("#headName"+number[1]).text("("+$("#txtEditInitialModuleName1").val()+")  "+$("#txtEditModuleName1").val()+"  ["+$("#txtCostsEditModule1").val()+"]");
+
+				arr_startDate[number[1]] = $("#dateStartEditModule").val();
+				$("#lbDateStartEditModule"+number[1]).text(""+$("#dateStartEditModule").val());
+
+				arr_endDate[number[1]] = $("#dateEndEditModule").val();
+				$("#lbDateEndEditModule"+number[1]).text(""+$("#dateEndEditModule").val());
+
+				arr_moduleManager[number[1]] = allModuleManager;
+				$("#lbEditModuleManager"+number[1]).empty();
+				$("#lbEditModuleManager"+number[1]).append(""+allModuleManager);
+
+				arr_moduleMember[number[1]] = allModuleMember;
+				$("#lbEditModuleMember"+number[1]).empty();
+				$("#lbEditModuleMember"+number[1]).append(""+allModuleMember);
+
+				$('#modalEditModule').modal('toggle');
+			}
+		}
+		else if(boolSameName==false){
+			bootbox.alert(""+Message.It_has_same_names)
+		}
+	}
+	else {
+		bootbox.alert("["+$('#txtEditInitialModuleName1').val()+"] "+Message.Has_in_database);
+	}
+}
+
 function SaveModule(cost){
 	var boolData = checkModal();
-	var boolCost ;
+	var boolCost = checkCost();
 	if(boolData==true) {
 		if(cost==null) boolCost = checkCost($("#txtCostsModule1").val());
 		else boolCost = true;
@@ -61,7 +129,7 @@ function SaveModule(cost){
 				"<x id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
 				"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
 				"</x>"+
-				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
+				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>${BUTTON_DELETE}</span>"+
 				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+
 				"</h4>"+
 				"</div>"+
@@ -172,7 +240,7 @@ function checkModal(){
 	}
 	var boolCheckSameName = checkSameNameBeforeSave();
 	if(boolCheckSameName==false) {
-		bootbox.alert("It's has a same name in textbox.");
+		bootbox.alert(Message.It_has_same_names);
 		return false;
 	}
 	return true;	
@@ -194,7 +262,7 @@ function checkCost(cost){
 	}
 }
 
-function checkEditCost(cost,skipId){
+function checkEditCost(cost,skipId,object){
 	var count_Element = $('[id^=btnEditModule]').length;
 	var projectCost = parseInt($('#txtCostsProject').val());
 	var totalModuleCost = parseInt(cost);
@@ -204,16 +272,24 @@ function checkEditCost(cost,skipId){
 		if(i!=idSkip) totalModuleCost = totalModuleCost + parseInt(arr_costModule[i]);
 	}
 	if(totalModuleCost > projectCost) {
-		confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost) ;
+		confirmEditModuleWhenTotalCostMoreThanProject(totalModuleCost,object) ;
 	}else{
 		return true;
 	}
 }
 
 function confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost){
-	bootbox.confirm("Total cost of module is more than project cost.\nDo you want to add this module ?", function(result) {
+	bootbox.confirm(Message.Cost_module_more_than_project+"\n"+Message.Confirm_add_module, function(result) {
 		if(result==true){
 			SaveModule(totalModuleCost-parseInt($("#txtCostsProject").val()));
+		}
+	});
+}
+
+function confirmEditModuleWhenTotalCostMoreThanProject(totalModuleCost,object){
+	bootbox.confirm(""+Message.Cost_module_more_than_project+"\n"+Message.Confirm_edit_module, function(result) {
+		if(result==true){
+			saveEditModule(object, totalModuleCost-parseInt($("#txtCostsProject").val()));
 		}
 	});
 }
@@ -286,7 +362,7 @@ function checkEditModal(){
 }
 
 function clearModal(){
-	$("#subModuleManager").empty()
+	$("#subModuleManager").empty();
 	$("#subModuleMember").empty();
 	$("#txtModuleName1").val("");
 	$("#txtInitialModuleName1").val("");
@@ -346,12 +422,13 @@ function getAllEditModuleMember(){
 
 function deleteModule(object){
 	var id = object.id.replace("btnDeleteModule","subrecordsModule");
-	bootbox.confirm("คุณต้องการลบข้อมูลที่เลือกหรือไม่", function(result) {
+	bootbox.confirm(Message.Confirm_delete, function(result) {
 			if(result == true){
 				var number = parseInt(id.split('subrecordsModule')[1]);
 				console.log(""+number);
 				var dataJsonData = {
-					moduleCode: $("#headName"+number).text().split(')')[0].split('(')[1]
+					moduleCode: $("#headName"+number).text().split(')')[0].split('(')[1],
+					projectId: dataAfterSave.responseJSON.id
 			    }
 				reciveProject = $.ajax({
 					type: "GET",
@@ -360,11 +437,12 @@ function deleteModule(object){
 					headers: {
 						Accept: "application/json"
 					},
-					url: contextPath + '/moduleprojects/deleteModuleByModuleCode',
+					url: contextPath + '/moduleprojects/deleteModuleByModuleCodeAndProjectId',
 					data : dataJsonData,
 					complete: function(xhr){
 						if(xhr.status===201 || xhr.status===200){
 							$("#"+id).remove();
+							bootbox.alert(""+Message.Delete_module_success);
 						}
 					},
 					async: false
@@ -384,15 +462,15 @@ function editModule(objectModule){
 	$("#txtEditModuleName1").val(ModuleProject[number].moduleName);
 	$("#txtEditInitialModuleName1").val(ModuleProject[number].moduleCode);
 	$("#txtCostsEditModule1").val(ModuleProject[number].moduleCost);
-	$("#dateStartEditModule").val(ModuleProject[number].dateStart);
-	$("#dateEndEditModule").val(ModuleProject[number].dateEnd);
+	$("#dateStartEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateStart, _language));
+	$("#dateEndEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateEnd, _language));
 	var textModuleManager = arr_moduleManager[number];
 	var splitTextModuleManager = textModuleManager.split("<br/>");
 	$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
 	for(var i=2 ; i< splitTextModuleManager.length ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleManagerName"+i+"'></input></div>"+
-			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>Delete</button></div>";
+			"<input type='text' class='form-control' id='txtEditModuleManagerName"+i+"' style='margin-top: 5px;'></input></div>"+
+			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>${BUTTON_DELETE}</button></div>";
 		$("#subEditModuleManager").append(html);
 		$("#txtEditModuleManagerName"+i).val(splitTextModuleManager[i-1]);
 	} 
@@ -402,57 +480,13 @@ function editModule(objectModule){
 	$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
 	for(var i=2 ; i< splitTextModuleMember.length ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleMemberName"+i+"'></input></div>"+
-			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>Delete</button></div>";
+			"<input type='text' class='form-control' id='txtEditModuleMemberName"+i+"'  style='margin-top: 5px;'></input></div>"+
+			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>${BUTTON_DELETE}</button></div>";
 		$("#subEditModuleMember").append(html);
 		$("#txtEditModuleMemberName"+i).val(splitTextModuleMember[i-1]);
 	}
 	countEditModuleManager = $("[id^=btnDeleteEditMM]").length ;
 	countEditModuleMember = $("[id^=btnDeleteEditMMem]").length ;
-}
-
-function saveEditModule(object){
-	var id = object.id;
-	var number = id.split("btnEditSaveModule");
-	var bool = checkEditModal();
-	var boolSameName = checkSameNameBeforeEdit();
-	var boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(),id);
-	var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
-	if(boolSameModuleCode==true){
-		if(bool==true && boolSameName==true && boolCheckCost==true){
-			var boolSave = editDataModuleInDB();
-			if(boolSave==true){
-				var allModuleManager = ""+getAllEditModuleManager();
-				var allModuleMember = ""+getAllEditModuleMember();
-				arr_nameModule[number[1]] = $("#txtEditModuleName1").val();
-				arr_initialNameModule[number[1]] = $("#txtEditInitialModuleName1").val();
-				arr_costModule[number[1]] = $("#txtCostsEditModule1").val();
-				$("#headName"+number[1]).text("("+$("#txtEditInitialModuleName1").val()+")  "+$("#txtEditModuleName1").val()+"  ["+$("#txtCostsEditModule1").val()+"]");
-				
-				arr_startDate[number[1]] = $("#dateStartEditModule").val();
-				$("#lbDateStartEditModule"+number[1]).text(""+$("#dateStartEditModule").val());
-
-				arr_endDate[number[1]] = $("#dateEndEditModule").val();
-				$("#lbDateEndEditModule"+number[1]).text(""+$("#dateEndEditModule").val());
-
-				arr_moduleManager[number[1]] = allModuleManager;
-				$("#lbEditModuleManager"+number[1]).empty();
-				$("#lbEditModuleManager"+number[1]).append(""+allModuleManager);
-
-				arr_moduleMember[number[1]] = allModuleMember;
-				$("#lbEditModuleMember"+number[1]).empty();
-				$("#lbEditModuleMember"+number[1]).append(""+allModuleMember);
-
-				$('#modalEditModule').modal('toggle');
-			}
-		}
-		else if(boolSameName==false){
-			bootbox.alert("It's has same name.")
-		}
-	}
-	else {
-		bootbox.alert("["+$('#txtEditInitialModuleName1').val()+"] has in database.");
-	}
 }
 
 function checkSameNameBeforeEdit(){
@@ -473,7 +507,7 @@ function checkSameNameBeforeEdit(){
 		var name = ""+$("#"+id).val();
 		if(arrMember.indexOf(""+name) < 0) arrMember.push(""+name);
 		else {
-			bootbox.alert("It's has a same name in textbox.");
+			bootbox.alert(Message.It_has_same_names);
 			return false;
 		}
 	}

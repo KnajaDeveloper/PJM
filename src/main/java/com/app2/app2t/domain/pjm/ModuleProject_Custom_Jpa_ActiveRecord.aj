@@ -50,10 +50,11 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return criteria.list();
      }
 
-    public static ModuleProject ModuleProject.editModuleProjectByModuleProjectCode(String moduleNeedEdit, String moduleCode,
-           String moduleName, Integer moduleCost, Date dateStart, Date dateEnd    ) {
+    public static ModuleProject ModuleProject.editModuleProjectByModuleProjectCodeAndProjectId(String moduleNeedEdit, String moduleCode,
+           String moduleName, Integer moduleCost, Date dateStart, Date dateEnd, Project project) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("project", project));
         criteria.add(Restrictions.eq("moduleCode", moduleNeedEdit));
         List<ModuleProject> result = criteria.list();
         ModuleProject moduleProject = result.get(0);
@@ -138,9 +139,10 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return criteria.list();
      }
 
-    public static void ModuleProject.deleteModuleByModuleCode(String moduleCode) {
+    public static void ModuleProject.deleteModuleByModuleCodeAndProjectId(String moduleCode,Project project) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria.add(Restrictions.eq("project", project));
         criteria.add(Restrictions.eq("moduleCode", moduleCode));
         List<ModuleProject> moduleProjectList = criteria.list();
         ModuleProject moduleProject = moduleProjectList.get(0);
@@ -152,7 +154,8 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria.add(Restrictions.eq("project", project));
         criteria.add(Restrictions.eq("moduleCode", moduleCode));
-        return criteria.list();
+        List<ModuleProject> result = criteria.list();
+        return result;
     }
 
     public static long ModuleProject.findModuleProjectCheckID(long projectId) {

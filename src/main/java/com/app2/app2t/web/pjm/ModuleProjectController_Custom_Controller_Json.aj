@@ -67,6 +67,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             if(option.equals("size")) return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result.size()), headers, HttpStatus.OK);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,8 +90,8 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
     }
 
 
-    @RequestMapping(value = "/editModuleProjectByModuleProjectCode",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
-    public ResponseEntity<String> ModuleProjectController.editModuleProjectByModuleProjectCode(
+    @RequestMapping(value = "/editModuleProjectByModuleProjectCodeAndProjectId",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.editModuleProjectByModuleProjectCodeAndProjectId(
             @RequestParam(value = "moduleNeedEdit", required = false) String moduleNeedEdit,
             @RequestParam(value = "moduleCode", required = false) String moduleCode,
             @RequestParam(value = "moduleName", required = false) String moduleName,
@@ -98,13 +99,15 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
             @RequestParam(value = "arr_moduleManager", required = false) String arr_moduleManager,
-            @RequestParam(value = "arr_moduleMember", required = false) String arr_moduleMember
+            @RequestParam(value = "arr_moduleMember", required = false) String arr_moduleMember,
+            @RequestParam(value = "projectId", required = false) long projectId
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            ModuleProject moduleProject = ModuleProject.editModuleProjectByModuleProjectCode(moduleNeedEdit,moduleCode,
-                    moduleName,moduleCost,dateStart,dateEnd);
+            Project project = Project.findProject(projectId);
+            ModuleProject moduleProject = ModuleProject.editModuleProjectByModuleProjectCodeAndProjectId(moduleNeedEdit,moduleCode,
+                    moduleName,moduleCost,dateStart,dateEnd,project);
             // Edit
             ModuleManager.deleteModuleManagerByModuleProject(moduleProject);
             ModuleManager.saveModuleManagerByModuleProject(moduleProject, arr_moduleManager.split("=="));
@@ -112,7 +115,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             ModuleMember.deleteModuleMemberByModuleProject(moduleProject);
             ModuleMember.saveModuleMemberByModuleProject(moduleProject, arr_moduleMember.split("=="));
 
-            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(moduleProject), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -223,14 +226,19 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/deleteModuleByModuleCode",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-    public ResponseEntity<String> ModuleProjectController.deleteModuleByModuleCode(
-            @RequestParam(value = "moduleCode", required = false) String moduleCode
+    @RequestMapping(value = "/deleteModuleByModuleCodeAndProjectId",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.deleteModuleByModuleCodeAndProjectId(
+            @RequestParam(value = "moduleCode", required = false) String moduleCode,
+            @RequestParam(value = "projectId", required = false) long projectId
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            ModuleProject.deleteModuleByModuleCode(moduleCode);
+            Project project = Project.findProject(projectId);
+            List<ModuleProject> moduleProject = ModuleProject.findModuleByModuleCodeAndProjectId(moduleCode,project);
+            ModuleManager.deleteModuleManagerByModuleProject(moduleProject.get(0));
+            ModuleMember.deleteModuleMemberByModuleProject(moduleProject.get(0));
+            ModuleProject.deleteModuleByModuleCodeAndProjectId(moduleCode,project);
             return  new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

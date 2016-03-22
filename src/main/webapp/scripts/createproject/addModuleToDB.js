@@ -28,10 +28,10 @@ function saveModuleProjectToDB(){
 			data : crateModuleProject,
 			complete: function(xhr){
 				if(xhr.status === 201 || xhr.status === 200){
-					bootbox.alert("Save Success");
+					bootbox.alert(""+Message.Save_success);
 					moduleProject = xhr ;
 				}else if(xhr.status === 500){
-					bootbox.alert("Save Error");
+					bootbox.alert(""+Message.Save_erro);
 					return false;
 				}
 			},
@@ -40,7 +40,7 @@ function saveModuleProjectToDB(){
 		ModuleProject.push(moduleProject.responseJSON);
 	}
 	else {
-		bootbox.alert("["+$('#txtInitialModuleName1').val()+"] has in project.");
+		bootbox.alert("["+$('#txtInitialModuleName1').val()+"]"+Message.Has_in_project);
 		return false;
 	}
 	return true;
