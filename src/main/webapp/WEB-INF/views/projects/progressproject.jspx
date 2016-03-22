@@ -14,16 +14,105 @@
     <script>
         var projectID = '${projectID}';
     </script>
+    <c:set var="LABEL_PROJECTOVERVIEW" scope="request"><spring:message code="L0088"/></c:set>
+
+    <c:set var="LABEL_PROJECT_NEME" scope="request"><spring:message code="L0008"/></c:set>
+    <c:set var="LABEL_INITIAL" scope="request"><spring:message code="L0076"/></c:set>
+    <c:set var="LABEL_TOTAL_COST" scope="request"><spring:message code="L0048"/></c:set>
+    <c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0046"/></c:set>
+    <c:set var="LABEL_MANAGER" scope="request"><spring:message code="L0077"/></c:set>
+    <c:set var="LABEL_BALANCE_TOTAL_COST" scope="request"><spring:message code="L0078"/></c:set>
+    <c:set var="LABEL_END_DATE" scope="request"><spring:message code="L0079"/></c:set>
+    <c:set var="LABEL_ADD_PROGRAM" scope="request"><spring:message code="L0080"/></c:set>
+    <c:set var="LABEL_PROGRAM_CODE" scope="request"><spring:message code="L0081"/></c:set>
+    <c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message code="L0082"/></c:set>
+    <c:set var="LABEL_ADD_TASK" scope="request"><spring:message code="L0036"/></c:set>
+    <c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
+    <c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
+    <c:set var="LABEL_POINT" scope="request"><spring:message code="L0049"/></c:set>
+    <c:set var="LABEL_TYPE_TASK" scope="request"><spring:message code="L0083"/></c:set>
+    <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+    <c:set var="LABEL_ATTACHMENTS" scope="request"><spring:message code="L0084"/></c:set>
+    <c:set var="LABEL_DETAILS" scope="request"><spring:message code="L0085"/></c:set>
+    <c:set var="LABEL_EDIT" scope="request"><spring:message code="L0035"/></c:set>
+    <c:set var="LABEL_EDIT_PROGRAM" scope="request"><spring:message code="L0086"/></c:set>
+    <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message code="L0087"/></c:set>
+
+    <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message code="B0015"/></c:set>
+    <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message code="B0016"/></c:set>
+    <c:set var="BUTTON_REMOVE_SELECTED" scope="request"><spring:message code="B0004"/></c:set>
+    <c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
+    <c:set var="BUTTON_NEXT" scope="request"><spring:message code="B0008"/></c:set>
+    <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
+    <c:set var="BUTTON_SELECT_FILE" scope="request"><spring:message code="B0017"/></c:set>
+    <c:set var="BUTTON_DOWNLOAD_FILE" scope="request"><spring:message code="B0018"/></c:set>
+
+    <c:set var="MSG_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message code="M0022"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message code="M0023"/></c:set>
+    <c:set var="MSG_PLEASE_COMPLETE_THIS_FIEID" scope="request"><spring:message code="M0002"/></c:set>
+    <c:set var="MSG_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
+    <c:set var="MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST" scope="request"><spring:message code="M0024"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE" scope="request"><spring:message code="M0025"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_A_NEW_TASK_CODE" scope="request"><spring:message code="M0026"/></c:set>
+    <c:set var="MSG_NO_INFORMATION_CHANGED" scope="request"><spring:message code="M0012"/></c:set>
+    <c:set var="MSG_EDIT_SUCCESSFULLY" scope="request"><spring:message code="M0013"/></c:set>
+    <c:set var="MSG_EDIT_UNSUCCESSFUL" scope="request"><spring:message code="M0021"/></c:set>
+    <c:set var="MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED" scope="request"><spring:message code="M0003"/></c:set>
+    <c:set var="MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS" scope="request"><spring:message code="M0004"/></c:set>
+    <c:set var="MSG_DELETE_SUCCESS" scope="request"><spring:message code="M0005"/></c:set>
+    <c:set var="MSG_DELETE_FAILED" scope="request"><spring:message code="M0006"/></c:set>
+    <c:set var="MSG_LIST" scope="request"><spring:message code="M0027"/></c:set>
+    <c:set var="MSG_DATA_IS_USE" scope="request"><spring:message code="M0028"/></c:set>
+
+    <script type="text/javascript">
+        var Label = {};
+        var Button = {};
+        var Message = {};
+
+        Label.LABEL_EDIT_PROGRAM = '${LABEL_EDIT_PROGRAM}';
+        Label.LABEL_TYPE_TASK = '${LABEL_TYPE_TASK}';
+        Label.LABEL_EDIT_TASK = '${LABEL_EDIT_TASK}';
+        Label.LABEL_ADD_PROGRAM = '${LABEL_ADD_PROGRAM}';
+        Label.LABEL_ADD_TASK = '${LABEL_ADD_TASK}';
+
+        Button.BUTTON_OK = '${BUTTON_OK}';
+
+        Message.MSG_DATA_NOT_FOUND = '${MSG_DATA_NOT_FOUND}';
+        Message.MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9 = '${MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9}';
+        Message.MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9 = '${MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9}';
+        Message.MSG_PLEASE_COMPLETE_THIS_FIEID = '${MSG_PLEASE_COMPLETE_THIS_FIEID}';
+        Message.MSG_SAVE_SUCCESS = '${MSG_SAVE_SUCCESS}';
+        Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST = '${MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST}';
+        Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE = '${MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE}';
+        Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE = '${MSG_PLEASE_ENTER_A_NEW_TASK_CODE}';
+        Message.MSG_NO_INFORMATION_CHANGED = '${MSG_NO_INFORMATION_CHANGED}';
+        Message.MSG_EDIT_SUCCESSFULLY = '${MSG_EDIT_SUCCESSFULLY}';
+        Message.MSG_EDIT_UNSUCCESSFUL = '${MSG_EDIT_UNSUCCESSFUL}';
+        Message.MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED = '${MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED}';
+        Message.MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS = '${MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS}';
+        Message.MSG_DELETE_SUCCESS = '${MSG_DELETE_SUCCESS}';
+        Message.MSG_DELETE_FAILED = '${MSG_DELETE_FAILED}';
+        Message.MSG_LIST = '${MSG_LIST}';
+        Message.MSG_DATA_IS_USE = '${MSG_DATA_IS_USE}';
+    </script>
+
+
+
+
+
+
+
     <div class="container-fluid">
        <div class="row">
         <div class="panel panel-primary">
-            <div class="panel-heading">ภาพรวมโปรเจค</div>
+            <div class="panel-heading">${LABEL_PROJECTOVERVIEW}</div>
             <div class="panel-body">
                 <br/>
                 <div class="col-xs-11 col-xs-offset-1">
                     <form class="form-inline">
                         <div class="col-xs-2">
-                            <label class="control-label"><b>ชื่อโปรเจค</b></label>
+                            <label class="control-label"><b>${LABEL_PROJECT_NEME}</b></label>
                             <br/>
                             <br/>
                             <label class="control-label"><b>ชื่อย่อโปรเจค</b></label>
@@ -37,25 +126,25 @@
                             <br/>
                             <label class="control-label"><b>ผู้ดูแลโปรเจค</b></label>
                         </div>
-                        <div class="col-xs-4">
-                            <label id="lblName" class="control-label">...</label>
+                        <div class="col-xs-2">
+                            <label id="lblName" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblProjectCode" class="control-label">...</label>
+                            <label id="lblProjectCode" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblCostsPoint" class="control-label">...</label>
+                            <label id="lblCostsPoint" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblStartDate" class="control-label" >...</label>
+                            <label id="lblStartDate" class="control-label" ><jsp:text/></label>
                             <br/>
                             <br/>
-                            <label id="lblCaretakerName" class="control-label">...</label>
+                            <label id="lblCaretakerName" class="control-label"><jsp:text/></label>
                             <br/>
                             <br/>
                             <br/>
                         </div>
-                        <div class="col-xs-2">
+                        <div class="col-xs-3">
                             <br/>
                             <br/>
                             <br/>
@@ -65,15 +154,15 @@
                             <br/>
                             <label class="control-label"><b>วันที่สิ้นสุด</b></label>
                         </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-2">
                                 <br/>
                                 <br/>
                                 <br/>
                                 <br/>
-                                <label id="lblBalanceCostsPoints" class="control-label">...</label>
+                                <label id="lblBalanceCostsPoints" class="control-label"><jsp:text/></label>
                                 <br/>
                                 <br/>
-                                <label id="lbldateEnd" class="control-label">...</label>
+                                <label id="lbldateEnd" class="control-label"><jsp:text/></label>
                             </div>
                         </form>
                     </div>
@@ -86,14 +175,15 @@
             <div class="card-body">
                 <div class="form-group">
                     <div id="penaltyTableContainer" class="">
+
                         <table id="Table" class="table table-bordered table-stripted table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center" width="30%" >รายละเอียด</th>
+                                    <th class="text-center" width="10%" >รายละเอียด</th>
                                     <th class="text-center" width="20%">ชื่อโมดูล</th>
                                     <th class="text-center" width="10%">ความคืบหน้า</th>
-                                    <th class="text-center" width="20%">วันที่เริ่ม</th>
-                                    <th class="text-center" width="20%">วันที่เสร็จ</th>
+                                    <th class="text-center" width="15%">วันที่เริ่ม</th>
+                                    <th class="text-center" width="15%">วันที่เสร็จ</th>
                                     <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
                                 </tr>
                             </thead>
@@ -102,11 +192,28 @@
                             </tbody>
                         </table>
 
+
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <component:pagging id="paggingSimpleModuleProject"/>
                             </div>
-                        </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-9">
+                                <form class="form-inline">
+                                    <div class="col-xs-5">
+                                        <label id="lblNameManager" class="control-label"><b><jsp:text/></b></label>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <label id="lblModuleManager" class="control-label"><jsp:text/></label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
@@ -115,17 +222,7 @@
 </div>
 
 
-<div class="col-xs-9 col-xs-offset-3">
-    <form class="form-inline">
-        <div class="col-xs-2">
-            <label class="control-label"><b>ผู้ดูแลโมดูล</b></label>
-            
-        </div>
-        <div class="col-xs-4">
-            <label id="lblModuleManager" class="control-label">...</label>
-        </div>
-    </form>
-</div>
+
 
 
 </div>
@@ -140,6 +237,4 @@ var contextPath = '${pageContext.request.contextPath}';
 <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
 <spring:url value="/resources/scripts/projects/progressproject.js" var="progressproject" />
 <script src="${progressproject}" type="text/javascript"><!--Not Empty --></script>
-
-
 </div>
