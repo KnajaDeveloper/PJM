@@ -141,9 +141,8 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         String taskName, Integer taskCost, TypeTask typeTask, String empCode,
         Date dateStart, Date dateEnd, String fileName, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
-        criteria.createAlias("task.program", "program");
-        criteria.add(Restrictions.eq("program.id", id));
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("taskCode", taskCode));
         List<Task> et = criteria.list();
         Task edTask = et.get(0);
@@ -191,13 +190,14 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     public static List Task.findTaskCostforSum(Long id) {
         EntityManager ent = Task.entityManager();
-        Criteria criteria1 = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
-        criteria1.createAlias("task.program", "program");
-        criteria1.createAlias("program.moduleProject", "moduleProject");
-        criteria1.add(Restrictions.eq("moduleProject.id", id));
-        criteria1.setProjection(Projections.sum("task.taskCost"));
-        return criteria1.list();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
+        criteria.createAlias("task.program", "program");
+        criteria.createAlias("program.moduleProject", "moduleProject");
+        criteria.add(Restrictions.eq("moduleProject.id", id));
+        criteria.setProjection(Projections.sum("task.taskCost"));
+        return criteria.list();
     }
+
     public static List<Task> Task.findTaskProgestByProgram(Program program) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "taskProgest");

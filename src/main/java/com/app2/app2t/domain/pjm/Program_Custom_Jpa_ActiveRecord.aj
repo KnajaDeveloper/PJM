@@ -68,9 +68,8 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
 
     public static List<Program> Program.findEditProgram(Long id, String programCode, String programName) {
         EntityManager ent = Program.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class, "program");
-        criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("moduleProject.id", id));
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Program.class);
+        criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("programCode", programCode));
         List<Program> ep = criteria.list();
         Program edProgram = ep.get(0);
