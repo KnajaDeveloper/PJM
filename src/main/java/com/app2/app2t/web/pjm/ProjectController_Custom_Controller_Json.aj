@@ -123,14 +123,14 @@ privileged aspect ProjectController_Custom_Controller_Json {
 
     @RequestMapping(value = "/deleteProjects",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> ProjectController.deleteProjects(
-            @RequestParam(value="deleteCode",required=false)long deleteCode)
+            @RequestParam(value="projectId",required=false)long projectId)
             {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try
         {
-            ProjectManager.deleteProjectManager(deleteCode);
-            List<Project> result = Project.deleteProjects(deleteCode);
+            ProjectManager.deleteProjectManager(projectId);
+            List<Project> result = Project.deleteProjects(projectId);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         }
         catch (Exception e)

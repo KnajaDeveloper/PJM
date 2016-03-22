@@ -123,3 +123,4 @@ function checkDateFormat(element, msgIncorrentFormat, msgEmptyInput) {
     }
     return true;
 }
+
