@@ -125,10 +125,10 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
 
 
 
-    public static List<Project> Project.deleteProjects(long deleteCode) {
+    public static List<Project> Project.deleteProjects(long projectId) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
-        criteria.add(Restrictions.eq("id", deleteCode));
+        criteria.add(Restrictions.eq("id", projectId));
         List<Project> projects = criteria.list();
         Project project = projects.get(0);
         project.remove();
