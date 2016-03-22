@@ -57,22 +57,34 @@ pagginationModule.loadTable = function loadTable (jsonData) {
  jsonData.forEach(function(value){
      var checkProgress = value.progress == "" ? '0' : value.progress;
      text =  ''
-   +'<tr id ="trData'+key++ +'">'
+   +'<tr id ="trData' + key++ + '">'
    +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-primary btn-xs" >V</button></td>'
-   +'<td  id="tdModuleName' + key + '" class="text-center">' + value.moduleName + '</td>'
-   +'<td  id="tdProgest' + key + '" class="progressbar-center"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ checkProgress + '%; color:#000">'
+   +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
+   +'<td  id="tdProgest" moduleId="' + value.id + '" class="progressbar-center" onclick="onClickTrProgram(this)"> <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ checkProgress + '%; color:#000">'
    + checkProgress + '%'
    +'</div>'
    +'</td>'
-   +'<td  id="tdDateStart' + key + '"class="text-center">'+ConvertDate(value.dateStart,commonData.language)+'</td>'
+   +'<td  id="tdDateStart" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateStart,commonData.language)+'</td>'
 
-   +'<td id="tdDateEnd' + key + '"class="text-center">'+ConvertDate(value.dateEnd,commonData.language)+' </td>'
+   +'<td id="tdDateEnd" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateEnd,commonData.language)+' </td>'
    //+'<td id="tdEmpCode' + i + '"class="text-center">'+value.empCode+'</td>'
    + '</tr>'
 
    $('#ResualtSearch').append(text);
  });
 };
+function onClickTrProgram(object) {
+    MuduleManager (object.attributes.moduleId.textContent);
+    $('#lblNameManager').text("ผู้ดูแลโมดูล")
+    var lengthTr = $('#Table').find('tr').length;
+    for(var i = 1; i < lengthTr; i++){
+        $('#trData' + i).css('background-color', '#FFF');
+    }
+
+    $(object.parentElement).css('background-color', '#F5F5F5');
+
+
+}
 function searchDataProgram() {
  var dataJsonData = {
   projectCode: projectID
@@ -117,34 +129,34 @@ addData.forEach(function(value){
 $('#lblCaretakerName').append(Managers);
 
 }
-//
-//function MuduleManager(){
-//  var dataJsonData = {
-//
-//  moduleProject : "d.d"
-//}
-//ll3 = $.ajax({
-//  headers: {
-//   Accept: "application/json"
-// },
-// type: "GET",
-// url: contextPath + '/modulemanagers/findModuleManagerByModuleProject',
-// data : dataJsonData,
-// complete: function(xhr){
-// },
-// async: false
-//});
-//$('#lblModuleManager').empty();
-//var addData2 = ll3.responseJSON;
-//var Managers1 = "";
-//addData2.forEach(function(value){
-//  Managers1 += value.empCode +"<br/>";
-//});
-//
-//$('#lblModuleManager').append(Managers1);
-//
-//}
-//
+
+function MuduleManager(moduleProjectID){
+  var dataJsonData = {
+
+      id: moduleProjectID
+}
+ll3 = $.ajax({
+  headers: {
+   Accept: "application/json"
+ },
+ type: "GET",
+ url: contextPath + '/moduleprojects/findModuleProjectByModuleProjectID',
+ data : dataJsonData,
+ complete: function(xhr){
+ },
+ async: false
+});
+$('#lblModuleManager').empty();
+var addData2 = ll3.responseJSON;
+var Managers1 = "";
+addData2.forEach(function(value){
+  Managers1 += value.empCode +"<br/>";
+});
+
+$('#lblModuleManager').append(Managers1);
+
+}
+
 $('#Table').on("click", "[id^=btnDetailModule]", function () {
     var id =  this.id.split('btnDetailModule')[1];
     console.log(id);
