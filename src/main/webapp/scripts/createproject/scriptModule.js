@@ -129,8 +129,8 @@ function SaveModule(cost){
 				"<x id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
 				"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
 				"</x>"+
-				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>${BUTTON_DELETE}</span>"+
-				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+
+				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>"+Button.Delete+"</span>"+
+				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>"+Button.Edit+"</span>"+
 				"</h4>"+
 				"</div>"+
 				"<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
@@ -470,7 +470,7 @@ function editModule(objectModule){
 	for(var i=2 ; i< splitTextModuleManager.length ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleManagerName"+i+"' style='margin-top: 5px;'></input></div>"+
-			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>${BUTTON_DELETE}</button></div>";
+			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>"+Button.Delete+"</button></div>";
 		$("#subEditModuleManager").append(html);
 		$("#txtEditModuleManagerName"+i).val(splitTextModuleManager[i-1]);
 	} 
@@ -481,7 +481,7 @@ function editModule(objectModule){
 	for(var i=2 ; i< splitTextModuleMember.length ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleMemberName"+i+"'  style='margin-top: 5px;'></input></div>"+
-			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>${BUTTON_DELETE}</button></div>";
+			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>"+Button.Delete+"</button></div>";
 		$("#subEditModuleMember").append(html);
 		$("#txtEditModuleMemberName"+i).val(splitTextModuleMember[i-1]);
 	}
