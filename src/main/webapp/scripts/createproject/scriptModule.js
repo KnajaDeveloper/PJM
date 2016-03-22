@@ -376,7 +376,7 @@ function clearModal(){
 }
 
 function clearEditModal(){
-	$("#subEditModuleManager").empty()
+	$("#subEditModuleManager").empty();
 	$("#subEditModuleMember").empty();
 }
 

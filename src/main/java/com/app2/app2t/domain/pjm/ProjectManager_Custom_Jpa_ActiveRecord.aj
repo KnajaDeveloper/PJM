@@ -61,6 +61,18 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
         }
     }
 
+    public static void ProjectManager.deleteAllProjectManagerByProjectId(Project project){
+        EntityManager ent = ProjectManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class);
+        criteria.add(Restrictions.eq("project", project));
+        List<ProjectManager> projectManagers = criteria.list();
+        for(int i= 0; projectManagers.size() >i ; i++)
+        {
+            ProjectManager projectManager = projectManagers.get(i);
+            projectManager.remove();
+        }
+    }
+
 
 
 }

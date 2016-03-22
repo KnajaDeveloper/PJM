@@ -46,6 +46,8 @@
 	<c:set var="MESSAGE_POINT_FROM_PROJECT"><spring:message javaScriptEscape="true" text="point from project."/></c:set>
 	<c:set var="MESSAGE_POINT_TO_MODULE"><spring:message javaScriptEscape="true" text="point to module"/></c:set>
 
+	<c:set var="MESSAGE_CONFIRM_EDIT_PROJECT"><spring:message javaScriptEscape="true" text="Do you want to edit project ?"/></c:set>
+
 	<style>
 		.input-group-addon{
 			/*padding: 0 12px;*/
@@ -80,6 +82,7 @@
 		Message.Cost_module_more_than_project = '${MESSAGE_COST_MODULE_MORE_THAN_PROJECT}';
 		Message.Confirm_add_module = '${MESSAGE_CONFIRM_ADD_MODULE}';
 		Message.Confirm_edit_module = '${MESSAGE_CONFIRM_EDIT_MODULE}';
+		Message.Confirm_edit_project = '${MESSAGE_CONFIRM_EDIT_PROJECT}';
 		Message.Can_not_decrese_from_project = '${MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT}';
 		Message.Increse = '${MESSAGE_INCRESE}';
 		Message.Decrese = '${MESSAGE_DECRESE}';
@@ -88,6 +91,7 @@
 		Message.Point_to_project = '${MESSAGE_POINT_TO_PROJECT}';
 		Message.Point_from_project = '${MESSAGE_POINT_FROM_PROJECT}';
 		Message.Point_to_module = '${MESSAGE_POINT_TO_MODULE}';
+
 
 		var Button = {};
 		Button.Delete = '${BUTTON_DELETE}';
@@ -172,7 +176,6 @@
 				<div class='text-center'>
 					<br/>
 					<button id='btnSaveProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
-					<button id='btnResetProject' class='btn btn-danger btnAddPM' type='button'>${BUTTON_RESET}</button>
 				</div>
 
 				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog">
