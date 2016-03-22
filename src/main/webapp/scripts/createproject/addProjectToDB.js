@@ -26,7 +26,7 @@ function saveProjectToDB(){
 			data : crateProject,
 			complete: function(xhr){
 				if(xhr.status === 201){
-					bootbox.alert("Save Success");
+					bootbox.alert(""+Message.Save_success);
 					statusReturn = true;
 					$("#btnIncresePoint").show();
 					$("#btnDecresePoint").show();
@@ -36,7 +36,7 @@ function saveProjectToDB(){
 					$("[id^=btnDeletePM]").hide();
 					lockDataProject();
 				}else{
-					bootbox.alert("Save Error");
+					bootbox.alert(""+Message.Save_error);
 					statusReturn = false;
 				}
 			},

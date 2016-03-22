@@ -70,7 +70,7 @@ function loopAddPM(){
 	var count_elements = countProjectManager;
 	var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtProjectManagerName"+[count_elements+1]+"'></input></div>"+
-			"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>Delete</button></div>";
+			"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>${BUTTON_DELETE}</button></div>";
 	$("#subProjectManager").append(html);
 	countProjectManager++;
 }
@@ -90,7 +90,7 @@ function loopAddModule(i,indexJSON){
 					        	"<a id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
 					          		"("+moduleCode+")  "+moduleName+"  ["+moduleCost+"]"+
 					        	"</a>"+
-					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
+					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>${BUTTON_DELETE}</span>"+
 								"<span id='btnEditModule"+i+"' onclick='editModuleEditProject(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
 				      		"</h4>"+
 				    	"</div>"+
@@ -168,7 +168,7 @@ function editModuleEditProject(object){
 	for(var i = 2 ; i < countEditModuleManager  ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleManagerName"+i+"'></input></div>"+
-			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>Delete</button></div>";
+			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>${BUTTON_DELETE}</button></div>";
 		$("#subEditModuleManager").append(html);
 		$("#txtEditModuleManagerName"+i).val(reciveProject.responseJSON.ModuleManager[number-1][i-1].empCode);
 	}
@@ -177,7 +177,7 @@ function editModuleEditProject(object){
 	for(var i = 2 ; i < countEditModuleMember  ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleMemberName"+i+"'></input></div>"+
-			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>Delete</button></div>";
+			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>${BUTTON_DELETE}</button></div>";
 		$("#subEditModuleMember").append(html);
 		$("#txtEditModuleMemberName"+i).val(reciveProject.responseJSON.ModuleMember[number-1][i-1].empCode);
 	}
@@ -216,7 +216,7 @@ $("#btnSaveModule1").click(function(){
 					        	"<a id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
 					          		"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
 					        	"</a>"+
-					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>Delete</span>"+
+					        	"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>${BUTTON_DELETE}</span>"+
 								"<span id='btnEditModule"+i+"' onclick='editModuleNotInDB(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>Edit</span>"+	     	
 				      		"</h4>"+
 				    	"</div>"+
@@ -281,7 +281,7 @@ function editModuleNotInDB(object){
 	for(var i=2 ; i< splitTextModuleManager.length ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleManagerName"+i+"'></input></div>"+
-			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>Delete</button></div>";
+			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>${BUTTON_DELETE}</button></div>";
 		$("#subEditModuleManager").append(html);
 		$("#txtEditModuleManagerName"+i).val(splitTextModuleManager[i-1]);
 	} 
@@ -292,7 +292,7 @@ function editModuleNotInDB(object){
 	for(var i=2 ; i< splitTextModuleMember.length ; i++){
 		var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleMemberName"+i+"'></input></div>"+
-			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>Delete</button></div>";
+			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>${BUTTON_DELETE}</button></div>";
 		$("#subEditModuleMember").append(html);
 		$("#txtEditModuleMemberName"+i).val(splitTextModuleMember[i-1]);
 	}
@@ -307,7 +307,7 @@ function saveEditModule_(object){
 	var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
 	if(boolSameModuleCode==true){
 		if(bool==true && boolSameName==true && boolCheckCost==true){
-			var boolSave = editDataModuleInDB();
+			var boolSave = editDataModuleInDB(null);
 			if(boolSave==true){
 				var allModuleManager = ""+getAllEditModuleManager();
 				var allModuleMember = ""+getAllEditModuleMember();
@@ -335,11 +335,11 @@ function saveEditModule_(object){
 			}
 		}
 		else if(boolSameName==false){
-			bootbox.alert("It's has same name.")
+			bootbox.alert(""+Message.It_has_same_names);
 		}
 	}
 	else {
-		bootbox.alert("["+$('#txtEditInitialModuleName1').val()+"] has in database.");
+		bootbox.alert("["+$('#txtEditInitialModuleName1').val()+"] "+Message.Has_in_database);
 	}
 }
 
@@ -393,10 +393,10 @@ function updateProjectByIdProject(){
 			data : crateProject,
 			complete: function(xhr){
 				if(xhr.status === 201 || xhr.status === 200){
-					bootbox.alert("Edit Success");
+					bootbox.alert(""+Message.Edit_success);
 					statusReturn = true;
 				}else{
-					bootbox.alert("Edit Error");
+					bootbox.alert(""+Message.Edit_error);
 					statusReturn = false;
 				}
 			},
@@ -404,7 +404,7 @@ function updateProjectByIdProject(){
 		});
 	}
 	else {
-		bootbox.alert("["+$('#txtInitialProjectName').val()+"] has in database.");
+		bootbox.alert("["+$('#txtInitialProjectName').val()+"] "+Message.Has_in_database);
 		return false;
 	}
 	if(statusReturn==true) return true;
