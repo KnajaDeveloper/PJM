@@ -1,4 +1,4 @@
-package ManualTest;
+package com.app2.app2t.manualTest;
 
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
@@ -8,6 +8,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -144,6 +145,10 @@ public class SearchProject {
         insertDataTodateBase("1457456400000","1459357200000","PM3","PT03","ProjectTest3",20);//date 09/03/2016 - 31/03/2016
         insertDataTodateBase("1457456400000","1458061200000","PM4","PT04","ProjectTest4",30);//date 09/03/2016 - 16/03/2016
         insertDataTodateBase("1457456400000","1459357200000","PM5","PT05","ProjectTest5",25);//date 09/03/2016 - 31/03/2016
+    }
+    @After
+    public void logger()throws Exception{
+        LOGGER.debug("****************************************************************************************************");
     }
     public void selectProjectReturnLong(long dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
         dateTest(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
