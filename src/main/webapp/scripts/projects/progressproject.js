@@ -56,18 +56,18 @@ pagginationModule.loadTable = function loadTable (jsonData) {
 
  jsonData.forEach(function(value){
      var checkProgress = value.progress == "" ? '0' : value.progress;
+     var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
      text =  ''
    +'<tr id ="trData' + key++ + '">'
    +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-primary btn-xs" >V</button></td>'
    +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
-   +'<td  id="tdProgest" moduleId="' + value.id + '" class="progressbar-center" onclick="onClickTrProgram(this)"> <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ checkProgress + '%; color:#000">'
-   + checkProgress + '%'
+   +'<td  id="tdProgest" moduleId="' + value.id + '"onclick="onClickTrProgram(this)"> <div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ parseFloat(checkProgress).toFixed(2) + '%; color:#000">'
+   + parseFloat(checkProgress).toFixed(2) + '%'
    +'</div>'
    +'</td>'
    +'<td  id="tdDateStart" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateStart,commonData.language)+'</td>'
 
    +'<td id="tdDateEnd" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateEnd,commonData.language)+' </td>'
-   //+'<td id="tdEmpCode' + i + '"class="text-center">'+value.empCode+'</td>'
    + '</tr>'
 
    $('#ResualtSearch').append(text);
