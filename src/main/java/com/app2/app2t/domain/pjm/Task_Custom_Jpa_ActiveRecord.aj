@@ -61,9 +61,9 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
             criteria.add(Restrictions.eq("typeTask.id", typeCode));
             List<Task> emEmployees = criteria.list();
             Task emEmployee = emEmployees.get(0);
-            System.out.print(emEmployee.getId());
+
         } catch (IndexOutOfBoundsException e) {
-            System.out.print(e);
+
             return criteria.list();
         }
         return criteria.list();
