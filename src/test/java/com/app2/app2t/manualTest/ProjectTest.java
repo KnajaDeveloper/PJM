@@ -1,4 +1,4 @@
-package com.app2.app2t.manualTest;
+package com.app2.app2t.manualtest;
 
 import org.junit.Before;
 import org.junit.Test;
