@@ -184,7 +184,7 @@
                     </form>
 
                     <div>
-                        <table id="data" class="table table-bordered table-stripted table-hover">
+                        <table id="data" class="table table-bordered table-stripted ">
                             <thead>
                                 <tr class="">
                                     <th class="text-center" style="width: 30px;">
@@ -228,9 +228,9 @@
                     <br></br>
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <table id="tableAddTask" class="table table-hover">
+                            <table id="tableAddTask" class="table table-bordered table-stripted ">
                                 <thead>
-                                <tr class="info">
+                                <tr class="">
 
                                     <th class="text-center" style="width: 40px ;color:#000">${LABEL_ADD_TASK}</th>
                                     <th class="text-center" style="width: 200px ;color:#000">${LABEL_MODULE_NAME}</th>
