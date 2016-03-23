@@ -3,9 +3,10 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.OtherTask;
-import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
 
@@ -20,6 +21,16 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         otherTask.persist();
 
         return  otherTask;
+    }
+
+
+    public static Long OtherTask.findAllTypeTaskByID(Long id) {
+        Session session = (Session) OtherTask.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(OtherTask.class, "OtherTask");
+        criteria.createAlias("OtherTask.typeTask", "typeTask");
+        criteria.add(Restrictions.eq("typeTask.id", id));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
     
 }

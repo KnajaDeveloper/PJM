@@ -30,7 +30,7 @@ paggination.loadTable = function loadTable(jsonData) {
         tableData = ''
             + '<tr>'
             + '<td class="text-center">'
-            + '<input inUse="' + value.inUse + '" id="' + value.id + '" class="checkboxTable" type="checkbox" />'
+            + '<input inUseTask="' + value.inUseTask + '" inUseOtherTask="' + value.inUseOtherTask + '" id="' + value.id + '" class="checkboxTable" type="checkbox" />'
             + '</td>'
             + '<td class="text-center">'
             + '<button onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
@@ -213,7 +213,12 @@ $('#table').on("click", ".checkboxTable", function () {
         $("#checkAll").prop("checked", false);
     }
 
-    if ($(this).attr("inUse") > 0) {
+    if ($(this).attr("inUseTask") > 0) {
+        $(this).prop("checked", false);
+        bootbox.alert(Message.Data_is_use);
+    }
+
+    if ($(this).attr("inUseOtherTask") > 0) {
         $(this).prop("checked", false);
         bootbox.alert(Message.Data_is_use);
     }
@@ -223,7 +228,12 @@ $('#checkAll').click(function () {
     $(".checkboxTable").prop('checked', $(this).prop('checked'));
 
     $.each($(".checkboxTable:checked"), function (index, value) {
-        if ($(this).attr("inUse") > 0) {
+        if ($(this).attr("inUseTask") > 0) {
+            $(this).prop("checked", false);
+            $("#checkAll").prop("checked", false);
+        }
+
+        if ($(this).attr("inUseOtherTask") > 0) {
             $(this).prop("checked", false);
             $("#checkAll").prop("checked", false);
         }
@@ -304,13 +314,14 @@ function editData() {
 
 
 function check(id) {
-    var responsResult = null;
+    var responsResultTask = null;
+    //var responsResultOtherTask = null;
+
     var dataJsonData = {
         typeTask: id
-
     };
 
-    responsResult = $.ajax({
+    responsResultTask = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
@@ -325,7 +336,27 @@ function check(id) {
         async: false
     });
 
-    ids = jQuery.parseJSON(responsResult.responseText);
+    ids = jQuery.parseJSON(responsResultTask.responseText);
     console.log(ids);
+
+   //----------------------------------------
+   //
+   // responsResultOtherTask = $.ajax({
+   //     contentType: "application/json; charset=utf-8",
+   //     dataType: "json",
+   //     headers: {
+   //         Accept: "application/json"
+   //     },
+   //     type: "GET",
+   //     url: contextPath + '/othertasks/findTypeTaskByCodeTypeTask',
+   //     data: dataJsonData,
+   //     complete: function (xhr) {
+   //
+   //     },
+   //     async: false
+   // });
+   //
+   // idss = jQuery.parseJSON(responsResultOtherTask.responseText);
+   // console.log(idss);
 
 }
