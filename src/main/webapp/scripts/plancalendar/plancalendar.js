@@ -6,6 +6,8 @@ var dateLang = checkLanguageDatePicker(_language);
 var _month;
 var _year;
 
+var _eventDate = {};
+
 // Ready page ----------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
     // Load and map plan
@@ -29,12 +31,12 @@ $(document).ready(function () {
     $("#cPlanDateEnd").datepicker(dateLang);
 
     $("#cPlanDateBegin").on('change', function () {
-        DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
     });
     $("#cPlanDateEnd").on('change', function () {
-        DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
     });
 
     // Date picker for first time in add modal
@@ -42,12 +44,12 @@ $(document).ready(function () {
     $("#cAddDateEnd_0").datepicker(dateLang);
 
     $("#cAddDateBegin_0").on('change', function () {
-        DateUtil.setMinDate('cAddDateBegin_0', 'cAddDateEnd_0');
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMinDate('cAddDateBegin_0', 'cAddDateEnd_0');
     });
     $("#cAddDateEnd_0").on('change', function () {
-        DateUtil.setMaxDate('cAddDateEnd_0', 'cAddDateBegin_0');
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMaxDate('cAddDateEnd_0', 'cAddDateBegin_0');
     });
 
     // Date picker for edit modal
@@ -55,55 +57,17 @@ $(document).ready(function () {
     $("#cEditDateEnd_0").datepicker(dateLang);
 
     $("#cEditDateBegin_0").on('change', function () {
-        DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
     });
     $("#cEditDateEnd_0").on('change', function () {
-        DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
     });
 
 
-    // Load and map all module
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=UTF-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/plans/findAllModule',
-        success: function (data, status, xhr) {
-            if (xhr.status === 200) {
-                $.each(data, function (k, v) {
-                    $('#ddlJobModule').append('<option value="' + v.id + '">' + v.moduleName + '</option>');
-                });
-            }
-        },
-        async: false
-    });
-
-    // Load and map all task type
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=UTF-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/plans/findAllTaskType',
-        success: function (data, status, xhr) {
-            $('#grpTaskType').html('');
-            if (xhr.status == 200) {
-                $.each(data, function (k, v) {
-					$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" value="' + v.id + '"/>'+v.typeTaskName+'</label></div>');
-                });
-            }
-			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
-			$('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkOtherTask"/>'+ MESSAGE.CHECKBOX_PUBLIC_TASK +'</label></div>');
-        },
-        async: false
-    });
+    loadAndMapAllModule();
+    loadAndMapAllTaskType();
 });
 
 // Search plan ---------------------------------------------------------------------------------------------------------
@@ -138,11 +102,8 @@ function searchPlan() {
 
 // Search job [module]-----------------------------------------------------------------------------------------------
 $('#btnSearchByModule').click(function () {
-
-    // clear result list
     $('#grpResultModuleSearch').empty();
 
-    // Load and map task by condition
     var moduleCode = $('#ddlJobModule').val();
     var arrTypeTask = [];
 
@@ -219,6 +180,9 @@ $('#btnAddOtherPlan').click(function () {
                     $('#txtPlanCost').val('');
                     $('#cPlanDateBegin').val('');
                     $('#cPlanDateEnd').val('');
+                    
+                    $('#cPlanDateBegin').change();
+                    $('#cPlanDateEnd').change();
 
                 } else if (xhr.status === 500) {
                     bootbox.alert(MESSAGE.SAVE_FAILED);
@@ -318,12 +282,12 @@ function setDatePicker(idDateBegin, idDateEnd, id) {
     $("#" + idDateEnd + id).datepicker(dateLang);
 
     $("#" + idDateBegin + id).on('change', function () {
-        DateUtil.setMinDate(idDateBegin + id, idDateEnd + id);
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMinDate(idDateBegin + id, idDateEnd + id);
     });
     $("#" + idDateEnd + id).on('change', function () {
-        DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
+        DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
     });
 }
 
@@ -448,31 +412,36 @@ $('#btnCancelAddPlan').click(function () {
 });
 $('#btnCancelTask').click(function () {
     var taskId = $('#taskId').val();
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=UTF-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/plans/cancelTask',
-        data: taskId,
-        complete: function (xhr) {
-            if (xhr.status === 201) {
-                bootbox.alert(MESSAGE.LEAVE_COMPLETED);
-                $('#mdAddToPlan').modal('hide');
-                $('[taskId=' + taskId + ']').removeClass('success').addClass('danger');
-            } else if (xhr.status === 500) {
-                bootbox.alert(MESSAGE.LEAVE_FAILED);
-            }
-        },
-        async: false
+    bootbox.confirm(MESSAGE.CONFIRM_LEAVE, function (result) {
+        if (result) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: contextPath + '/plans/cancelTask',
+                data: taskId,
+                complete: function (xhr) {
+                    if (xhr.status === 201) {
+                        bootbox.alert(MESSAGE.LEAVE_COMPLETED);
+                        $('#mdAddToPlan').modal('hide');
+                        $('[taskId=' + taskId + ']').removeClass('success').addClass('danger');
+                    } else if (xhr.status === 500) {
+                        bootbox.alert(MESSAGE.LEAVE_FAILED);
+                    }
+                },
+                async: false
+            });
+        }
     });
 });
 
 // Edit/Delete plan -----------------------------------------------------------------------------------------------------------
 function openModalEditPlan(event) {
+    _eventDate = event;
+
     // set name
     $('#lblEditNameWork').html(event.title);
 
@@ -571,7 +540,14 @@ $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
 });
 
 $('#btnCancelEditPlan').click(function () {
-    $('#mdEditToPlan').modal('hide');
+    if(changePlan()) {
+        bootbox.confirm(MESSAGE.CONFIRM_CANCEL, function (result) {
+            if (result) 
+                $('#mdEditToPlan').modal('hide');
+        });
+    } else {
+        $('#mdEditToPlan').modal('hide');
+    }
 });
 
 $('#btnSaveEditPlan').click(function () {
@@ -622,26 +598,32 @@ $('#btnSaveEditPlan').click(function () {
             });
         }
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=UTF-8",
-            dataType: "json",
-            headers: {
-                Accept: "application/json"
-            },
-            url: contextPath + '/plans/updatePlan',
-            data: JSON.stringify(plans),
-            success: function (data, status, xhr) {
-                if (xhr.status === 200) {
-                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
-                    $('#mdEditToPlan').modal('hide');
-                    loadAndMapPlan(_month, _year);
-                } else if (xhr.status === 500) {
-                    bootbox.alert(MESSAGE.SAVE_FAILED);
-                }
-            },
-            async: false
-        });
+        if(changePlan()) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: contextPath + '/plans/updatePlan',
+                data: JSON.stringify(plans),
+                success: function (data, status, xhr) {
+                    if (xhr.status === 200) {
+                        bootbox.alert(MESSAGE.SAVE_COMPLETED);
+                        $('#mdEditToPlan').modal('hide');
+                        loadAndMapPlan(_month, _year);
+                    } else if (xhr.status === 500) {
+                        bootbox.alert(MESSAGE.SAVE_FAILED);
+                    }
+                },
+                async: false
+            });
+        } else {
+            bootbox.alert(MESSAGE.DATA_NO_CHANGE);
+        }
+
+        
     }
 });
 
@@ -797,4 +779,78 @@ function parseDatePicker(date) {
 function parseDateToBE(date) {
     date = date.split('/');
     return date[0] + '/' + date[1] + '/' + (parseInt(date[2]) + 543);
+}
+
+function changePlan(){
+    var percentage = $('#txtPercentage').val();
+    var dateBegin = $('#cEditDateBegin_0').val();
+    var dateEnd = $('#cEditDateEnd_0').val();
+    var inputBegin = (_language == 'TH') ? $('[id^=cEditDateBegin_][id$=_convert]') : $('[id^=cEditDateBegin_]').val();
+    var isShift = $('#radioPostpone_edit').prop('checked');
+
+    if(FormUtil.isDateFormat(dateBegin)) {
+        if(_language == 'TH') {
+            dateBegin = dateBegin.split('/')[0] + '/' + dateBegin.split('/')[1] + '/' + (parseInt(dateBegin.split('/')[2]) - 543);    
+        }
+        dateBegin = parseFullCalendar(dateBegin);
+    }
+    if(FormUtil.isDateFormat(dateEnd)) {
+        if(_language == 'TH') {
+            dateEnd = dateEnd.split('/')[0] + '/' + dateEnd.split('/')[1] + '/' + (parseInt(dateEnd.split('/')[2]) - 543);  
+        }
+        dateEnd = parseFullCalendar(dateEnd);
+    }
+
+    var percentageOld = _eventDate.progress;
+    var dateBeginOld = _eventDate.start._i.split('T')[0];
+    var dateEndOld = _eventDate.end._i.split('T')[0];
+    
+    var noChangeDate = (inputBegin.length == 1) ? (dateBeginOld == dateBegin && dateEndOld == dateEnd): false;
+    if(percentageOld != percentage || !noChangeDate || isShift) {
+        return true;
+    }
+    return false;
+}
+
+function loadAndMapAllModule(){
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/findAllModule',
+        success: function (data, status, xhr) {
+            if (xhr.status === 200) {
+                $.each(data, function (k, v) {
+                    $('#ddlJobModule').append('<option value="' + v.id + '">' + v.moduleName + '</option>');
+                });
+            }
+        },
+        async: false
+    });
+}
+
+function loadAndMapAllTaskType(){
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/findAllTaskType',
+        success: function (data, status, xhr) {
+            $('#grpTaskType').html('');
+            if (xhr.status == 200) {
+                $.each(data, function (k, v) {
+                    $('#grpTaskType').append('<div class="checkbox"><label><input name="checkTypeTask" type="checkbox" value="' + v.id + '"/>'+v.typeTaskName+'</label></div>');
+                });
+            }
+            $('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
+            $('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkOtherTask"/>'+ MESSAGE.CHECKBOX_PUBLIC_TASK +'</label></div>');
+        },
+        async: false
+    });
 }

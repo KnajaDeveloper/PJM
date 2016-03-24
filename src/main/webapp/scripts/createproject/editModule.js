@@ -1,8 +1,8 @@
 var editModuleName = "";
 
 function editDataModuleInDB(number,cost){
-	var moduleCost = 0;
-	if(cost!=null) moduleCost = cost ;
+	var moduleCost = parseInt($("#txtCostsEditModule1").val());
+	//if(cost!=null) moduleCost = cost ;
 	var returnStatus = false ;
 	var convertFormatDateStart = new Date(convertDate($('#dateStartEditModule').val()));
 	var convertFormatDateEnd = new Date(convertDate($('#dateEndEditModule').val()));
@@ -37,7 +37,7 @@ function editDataModuleInDB(number,cost){
 		async: false
 	});
 	if(number!=null){
-		ModuleProject[number] = recieve.responseJSON;
+		ModuleProject[number] = recieve.responseJSON.ModuleProject;
 	}
 	return returnStatus;
 }

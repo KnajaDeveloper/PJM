@@ -1,19 +1,16 @@
-package ManualTest;
+package com.app2.app2t.manualtest;
 
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -25,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
@@ -37,13 +33,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @Transactional
 @ContextConfiguration({"classpath:META-INF/spring/applicationContext*.xml", "file:src/main/webapp/WEB-INF/spring/webmvc-config.xml"})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class SearchProject {
 
     private Logger LOGGER = LoggerFactory.getLogger(SearchProject.class);
     @Autowired
     protected WebApplicationContext wac;
-
     protected MockMvc mockMvc;
+
     public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,int cost)throws Exception{
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date stDate = new Date(Long.parseLong(stDate_));//date = 09/03/2016
@@ -145,6 +142,10 @@ public class SearchProject {
         insertDataTodateBase("1457456400000","1458061200000","PM4","PT04","ProjectTest4",30);//date 09/03/2016 - 16/03/2016
         insertDataTodateBase("1457456400000","1459357200000","PM5","PT05","ProjectTest5",25);//date 09/03/2016 - 31/03/2016
     }
+    @After
+    public void logger()throws Exception{
+        LOGGER.debug("****************************************************************************************************");
+    }
     public void selectProjectReturnLong(long dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
         dateTest(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
     }
@@ -229,7 +230,66 @@ public class SearchProject {
     public void selectWherePm_isEmpty () throws Exception{
         selectProjectReturnEmpty("[]","$","","","","","","","PA");
     }
-    ////////////////////////////////
+    @Test
+    public void selectAllPaggingSize () throws Exception{
+        MvcResult mvcResult =this.mockMvc.perform(get("/projects/projectPaggingSize")
+                .param("StDateBegin","")
+                .param("StDateEnd","")
+                .param("FnDateBegin","")
+                .param("FnDateEnd","")
+                .param("costStart","")
+                .param("costEnd","")
+                .param("projectManage","")
+                .param("maxResult","15")
+                .param("firstResult","0")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.size",is(5)))
+                .andReturn()
+                ;
+
+    }
+    @Test
+    public void selectWherePmPaggingSize () throws Exception{
+        MvcResult mvcResult =this.mockMvc.perform(get("/projects/projectPaggingSize")
+                .param("StDateBegin","")
+                .param("StDateEnd","")
+                .param("FnDateBegin","")
+                .param("FnDateEnd","")
+                .param("costStart","")
+                .param("costEnd","")
+                .param("projectManage","PM2")
+                .param("maxResult","15")
+                .param("firstResult","0")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.size",is(1)))
+                .andReturn()
+                ;
+
+    }
+    @Test
+    public void selectWherePmPaggingSize_isEmpty () throws Exception{
+        MvcResult mvcResult =this.mockMvc.perform(get("/projects/projectPaggingSize")
+                .param("StDateBegin","")
+                .param("StDateEnd","")
+                .param("FnDateBegin","")
+                .param("FnDateEnd","")
+                .param("costStart","")
+                .param("costEnd","")
+                .param("projectManage","PM2")
+                .param("maxResult","15")
+                .param("firstResult","0")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.size",is(0)))
+                .andReturn()
+                ;
+
+    }
     @Test
     public void checkModule() throws Exception{
 
@@ -243,31 +303,42 @@ public class SearchProject {
         assertEquals(mvcResult.getResponse().getContentAsString(),"[]");
 
     }
-    ////////////////////////////////
     @Test
     public void deleteProject() throws Exception{
-        Session session = (Session) Project.entityManager().getDelegate();
-        Criteria criteria = session.createCriteria(Project.class, "project");
-        DetachedCriteria subCriteria = DetachedCriteria.forClass(ProjectManager.class, "projectManager");
-        subCriteria.add(Restrictions.like("empCode", "%" + "PM4" + "%"));
-        subCriteria.setProjection(Projections.property("project"));
-        //----//
-        criteria.add(Subqueries.propertyIn("project.id", subCriteria));
-        List<Project> projectList = criteria.list();
-        Project project = projectList.get(0);
-        String id = project.getId().toString();
-        MvcResult mvcResult = this.mockMvc.perform(get("/projects/deleteProjects")
-                .param("projectId", id)
+//        Session session = (Session) Project.entityManager().getDelegate();
+//        Criteria criteria = session.createCriteria(Project.class, "project");
+//        DetachedCriteria subCriteria = DetachedCriteria.forClass(ProjectManager.class, "projectManager");
+//        subCriteria.add(Restrictions.like("empCode", "%" + "PM4" + "%"));
+//        subCriteria.setProjection(Projections.property("project"));
+//        //----//
+//        criteria.add(Subqueries.propertyIn("project.id", subCriteria));
+//        List<Project> projectList = criteria.list();
+//        Project project = projectList.get(0);
+//        String id = project.getId().toString();
+        this.mockMvc.perform(get("/projects/deleteProjects")
+                .param("projectId", "1")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andReturn()
                 ;
+        MvcResult mvcResult =this.mockMvc.perform(get("/projects/findProjectSearchData")
+                .param("StDateBegin","")
+                .param("StDateEnd","")
+                .param("FnDateBegin","")
+                .param("FnDateEnd","")
+                .param("costStart","")
+                .param("costEnd","")
+                .param("projectManage","PM1")
+                .param("maxResult","15")
+                .param("firstResult","0")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andReturn()
+                ;
+        Assert.assertEquals(mvcResult.getResponse().getContentAsString(),"[]");
 
-        selectAll();
-    }
-    public void selectAll ()throws Exception{
-        selectProjectReturnLong(1457456400000L,"$[0].dateStart","","","","","","","");//date = 09/03/2016
     }
 
 

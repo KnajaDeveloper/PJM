@@ -170,10 +170,17 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
     }
     public static List ModuleProject.findModuleProjectCostforSum (Long id) {
         EntityManager ent = ModuleProject.entityManager();
-        Criteria criteria1 = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class, "mo");
-        criteria1.createAlias("mo.project", "project");
-        criteria1.add(Restrictions.eq("project.id", id));
-        criteria1.setProjection(Projections.sum("mo.moduleCost"));
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class, "mo");
+        criteria.createAlias("mo.project", "project");
+        criteria.add(Restrictions.eq("project.id", id));
+        criteria.setProjection(Projections.sum("mo.moduleCost"));
+        return criteria.list();
+    }
+
+    public static List ModuleProject.findAllModuleByProjectId (Project project) {
+        EntityManager ent = ModuleProject.entityManager();
+        Criteria criteria1 = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
+        criteria1.add(Restrictions.eq("project", project));
         return criteria1.list();
     }
 

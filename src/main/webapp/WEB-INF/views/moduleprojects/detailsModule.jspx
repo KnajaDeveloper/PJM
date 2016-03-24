@@ -127,6 +127,8 @@
     <c:set var="MSG_LIST" scope="request"><spring:message code="M0027"/></c:set>
     <c:set var="MSG_DATA_IS_USE" scope="request"><spring:message code="M0028"/></c:set>
     <c:set var="MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT" scope="request"><spring:message text="M0031"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_ONLY_NUMBERS" scope="request"><spring:message text="M0050"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100" scope="request"><spring:message code="M0017"/></c:set>
 
     <script type="text/javascript">
         var Label = {};
@@ -159,7 +161,9 @@
         Message.MSG_LIST = '${MSG_LIST}';
         Message.MSG_DATA_IS_USE = '${MSG_DATA_IS_USE}';
         Message.MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT = '${MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT}';
-
+        Message.MSG_PLEASE_ENTER_ONLY_NUMBERS = '${MSG_PLEASE_ENTER_ONLY_NUMBERS}';
+        Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100 = '${MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100}';
+        
     </script>
 
     <div class="row">

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_pjm_OtherTask" items="${othertasks}" z="t7+DA31gmDvzfa31cX+LxU5qZc4=">
+        <table:table data="${othertasks}" id="l_com_app2_app2t_domain_pjm_OtherTask" path="/othertasks" z="Co1yn/wXAqwVYXxlFvKDNkdtKmA=">
+            <table:column id="c_com_app2_app2t_domain_pjm_OtherTask_createdBy" property="createdBy" z="JM0856pay/vnYBLmDpJTpeLeplc="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_OtherTask_updatedBy" property="updatedBy" z="YzPiie6fHAjId2bOpvq7jE6eMmE="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_OtherTask_status" property="status" z="sxHZ4jbmU2q7sAFvJPaYkdunA2o="/>
+            <table:column date="true" dateTimePattern="${otherTask_createddate_date_format}" id="c_com_app2_app2t_domain_pjm_OtherTask_createdDate" property="createdDate" z="6M+QSjsmDFeettLxBgbeBG7Kwq8="/>
+            <table:column date="true" dateTimePattern="${otherTask_updateddate_date_format}" id="c_com_app2_app2t_domain_pjm_OtherTask_updatedDate" property="updatedDate" z="bvyWOYHbREttmZp4CJnv6l6QMCM="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_OtherTask_taskName" property="taskName" z="pYxZoE8VSZVfGI355XlJZnxVyN4="/>
+        </table:table>
+    </page:list>
+</div>

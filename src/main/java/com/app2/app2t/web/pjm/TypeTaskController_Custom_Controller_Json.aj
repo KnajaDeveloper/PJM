@@ -3,6 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TypeTask;
 import flexjson.JSONSerializer;
@@ -124,7 +125,8 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
                 map.put("id", results.getId());
                 map.put("typeTaskCode",results.getTypeTaskCode());
                 map.put("typeTaskName",results.getTypeTaskName());
-                map.put("inUse", Task.findAllTypeTaskByID(results.getId()));
+                map.put("inUseTask", Task.findAllTypeTaskByID(results.getId()));
+                map.put("inUseOtherTask", OtherTask.findAllTypeTaskByID(results.getId()));
                 list.add(map);
             }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);

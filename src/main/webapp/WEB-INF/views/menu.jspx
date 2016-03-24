@@ -7,20 +7,21 @@
             <div class="side-menu-container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
-                        <span class="icon fa fa-paper-plane"><jsp:text/></span>
+                        <span class="icon fa fa-paper-plane">
+                            <jsp:text/>
+                        </span>
                         <span class="title">PNMS</span>
                     </a>
-                    <button type="button" class="navbar-expand-toggle pull-right visible-xs">
-                        <i class="fa fa-times icon"><jsp:text/></i>
+                    <button class="navbar-expand-toggle pull-right visible-xs" type="button">
+                        <i class="fa fa-times icon">
+                            <jsp:text/>
+                        </i>
                     </button>
                 </div>
-                <ul id="menuContainer" class="nav navbar-nav">
-                    
-                </ul>
+                <ul class="nav navbar-nav" id="menuContainer"/>
             </div>
         </nav>
     </div>
-
     <script>
         var contextPath = '${pageContext.request.contextPath}';
         commonData.language = '${lang}';

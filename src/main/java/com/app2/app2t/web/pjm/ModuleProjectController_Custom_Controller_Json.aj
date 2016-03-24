@@ -43,7 +43,13 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             ModuleManager.saveModuleManagerByModuleProject(moduleProject,arrManager);
             String[] arrMember = moduleMember.split("==");
             ModuleMember.saveModuleMemberByModuleProject(moduleProject,arrMember);
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(moduleProject),headers, HttpStatus.CREATED);
+            List<ModuleManager> listManager = ModuleManager.findModuleManagerByModuleProject(moduleProject);
+            List<ModuleMember> listMember = ModuleMember.findModuleMemberByModuleProject(moduleProject);
+            Map<String,Object> maps = new HashMap<>();
+            maps.put("ModuleProject",moduleProject);
+            maps.put("ModuleManager",listManager);
+            maps.put("ModuleMember",listMember);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps),headers, HttpStatus.CREATED);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -115,7 +121,24 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             ModuleMember.deleteModuleMemberByModuleProject(moduleProject);
             ModuleMember.saveModuleMemberByModuleProject(moduleProject, arr_moduleMember.split("=="));
 
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(moduleProject), HttpStatus.OK);
+            // return value
+            List<ModuleProject> listModuleProject = ModuleProject.findAllModuleByProjectId(project);
+            List<List<ModuleManager>> dataModuleManager = new ArrayList<>();
+            List<List<ModuleMember>> dataModuleMember = new ArrayList<>();
+            for(int i = 0 ; i < listModuleProject.size() ; i++){
+                List<ModuleManager> getData = ModuleManager.findModuleManagerByModuleProject(listModuleProject.get(i));
+                dataModuleManager.add(getData);
+            }
+            for(int i = 0 ; i < listModuleProject.size() ; i++){
+                List<ModuleMember> getData = ModuleMember.findModuleMemberByModuleProject(listModuleProject.get(i));
+                dataModuleMember.add(getData);
+            }
+            Map<String,Object> maps = new HashMap<>();
+            maps.put("ModuleProject",moduleProject);
+            maps.put("ModuleManager",dataModuleManager);
+            maps.put("ModuleMember",dataModuleMember);
+
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

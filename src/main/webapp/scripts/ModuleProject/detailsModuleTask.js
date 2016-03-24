@@ -310,114 +310,124 @@ $('[id^=btnModalTask]').click(function() {
             if(checkTaskCode() == true){
                 var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase($('#dateStartProject').val(), commonData.language);
                 var dateEnd = $('#dateEndProject').val() == "" ? null : dataDateToDataBase($('#dateEndProject').val(), commonData.language);
-
-                if(chkAETask == 0){
-                    if(checkDataTask() == 0){
-                        if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
-                            bootbox.alert(Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST);
-                        }else{
-                            $.ajax({
-                                headers: {
-                                    Accept: "application/json"
-                                },
-                                type: "POST",
-                                url: contextPath + '/tasks/saveTask',
-                                data : {
-                                    taskCode: $('#txtTaskCode').val(),
-                                    taskName: $('#txtTaskName').val(),
-                                    taskCost: parseInt($('#txtTaskCost').val()),
-                                    typeTask: dataTypeTaskCode[index],
-                                    empCode: $('#txtEmpName').val(),
-                                    dateStart: new Date(dateStart),
-                                    dateEnd: new Date(dateEnd),
-                                    fileName: $('#fileName').text(),
-                                    detail: $('#txtaDescription').val(),
-                                    progress: $('#txtProgress').val(),
-                                    id: programID
-                                },
-                                complete: function(xhr){
-                                    if(xhr.status == 201){
-                                        if(id == 'Add'){
-                                            bootbox.alert(Message.MSG_SAVE_SUCCESS);
+                if($.isNumeric($('#txtTaskCost').val()) && $('#txtTaskCost').val().indexOf('.') < 0){
+                    if($.isNumeric($('#txtProgress').val()) &&
+                        $('#txtProgress').val().indexOf('.') < 0 &&
+                        parseInt($('#txtProgress').val()) >= 0 &&
+                        parseInt($('#txtProgress').val()) <= 100){
+                        if(chkAETask == 0){
+                            if(checkDataTask() == 0){
+                                if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
+                                    bootbox.alert(Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST);
+                                }else{
+                                    $.ajax({
+                                        headers: {
+                                            Accept: "application/json"
+                                        },
+                                        type: "POST",
+                                        url: contextPath + '/tasks/saveTask',
+                                        data : {
+                                            taskCode: $('#txtTaskCode').val(),
+                                            taskName: $('#txtTaskName').val(),
+                                            taskCost: parseInt($('#txtTaskCost').val()),
+                                            typeTask: dataTypeTaskCode[index],
+                                            empCode: $('#txtEmpName').val(),
+                                            dateStart: new Date(dateStart),
+                                            dateEnd: new Date(dateEnd),
+                                            fileName: $('#fileName').text(),
+                                            detail: $('#txtaDescription').val(),
+                                            progress: $('#txtProgress').val(),
+                                            id: programID
+                                        },
+                                        complete: function(xhr){
+                                            if(xhr.status == 201){
+                                                if(id == 'Add'){
+                                                    bootbox.alert(Message.MSG_SAVE_SUCCESS);
+                                                    $('#modalTask').modal('hide');
+                                                }
+                                                $('#txtTaskCode').val(null);
+                                                $('#txtTaskName').val(null);
+                                                $('#txtTaskCost').val(null);
+                                                $('#txtEmpName').val(null);
+                                                $('#dateStartProject').val(null);
+                                                $('#dateEndProject').val(null);
+                                                document.getElementById("myInput").value = "";
+                                                $('#fileName').text("");
+                                                $('#txtaDescription').val("");
+                                                DDLData();
+                                                searchDataTask();
+                                                searchDataProgram();
+                                                $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
+                                                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                                            }else if(xhr.status == 500){
+                                                bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                                            }
+                                        },
+                                        async: false
+                                    });
+                                }
+                            }else{
+                                bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE);
+                            }
+                        }else if(chkAETask == 1){
+                            if($('#txtTaskName').val() == checkTaskName &&
+                                $('#txtTaskCost').val() == checkTaskCost &&
+                                dataTypeTaskCode[index] == checkTypeTask &&
+                                $('#txtEmpName').val() == checkEmpName &&
+                                $('#dateStartProject').val() == checkdateStart &&
+                                $('#dateEndProject').val() == checkdateEnd &&
+                                $('#txtProgress').val() == checkProgress &&
+                                $('#fileName').text() == checkFileName &&
+                                $('#txtaDescription').val() == checkDescription){
+                                bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
+                            }else{
+                                $.ajax({
+                                    headers: {
+                                        Accept: "application/json"
+                                    },
+                                    type: "GET",
+                                    url: contextPath + '/tasks/findEditTask',
+                                    data : {
+                                        id: TaskID,
+                                        taskCode: $('#txtTaskCode').val(),
+                                        taskName: $('#txtTaskName').val(),
+                                        taskCost: parseInt($('#txtTaskCost').val()),
+                                        typeTask: dataTypeTaskCode[index],
+                                        empCode: $('#txtEmpName').val(),
+                                        dateStart: new Date(dateStart),
+                                        dateEnd: new Date(dateEnd),
+                                        fileName: $('#fileName').text(),
+                                        detail: $('#txtaDescription').val(),
+                                        progress: $('#txtProgress').val()
+                                    },
+                                    complete: function(xhr){
+                                        if(xhr.status === 200){
+                                            bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
                                             $('#modalTask').modal('hide');
+                                            $('#txtTaskCode').val(null);
+                                            $('#txtTaskName').val(null);
+                                            $('#txtTaskCost').val(null);
+                                            $('#txtEmpName').val(null);
+                                            $('#dateStartProject').val(null);
+                                            $('#dateEndProject').val(null);
+                                            document.getElementById("myInput").value = "";
+                                            $('#fileName').text("");
+                                            $('#txtaDescription').val("");
+                                            searchDataTask();
+                                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                                        }else if(xhr.status === 500){
+                                            bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                         }
-                                        $('#txtTaskCode').val(null);
-                                        $('#txtTaskName').val(null);
-                                        $('#txtTaskCost').val(null);
-                                        $('#txtEmpName').val(null);
-                                        $('#dateStartProject').val(null);
-                                        $('#dateEndProject').val(null);
-                                        document.getElementById("myInput").value = "";
-                                        $('#fileName').text("");
-                                        $('#txtaDescription').val("");
-                                        DDLData();
-                                        searchDataTask();
-                                        searchDataProgram();
-                                        $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
-                                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-                                    }else if(xhr.status == 500){
-                                        bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                                    }
-                                },
-                                async: false
-                            });
+                                    },
+                                    async: false
+                                });
+                            }
                         }
                     }else{
-                        bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE);
+                        bootbox.alert(Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100);
                     }
-                }else if(chkAETask == 1){
-                    if($('#txtTaskName').val() == checkTaskName &&
-                        $('#txtTaskCost').val() == checkTaskCost &&
-                        dataTypeTaskCode[index] == checkTypeTask &&
-                        $('#txtEmpName').val() == checkEmpName &&
-                        $('#dateStartProject').val() == checkdateStart &&
-                        $('#dateEndProject').val() == checkdateEnd &&
-                        $('#txtProgress').val() == checkProgress &&
-                        $('#fileName').text() == checkFileName &&
-                        $('#txtaDescription').val() == checkDescription){
-                        bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
-                    }else{
-                        $.ajax({
-                            headers: {
-                                Accept: "application/json"
-                            },
-                            type: "GET",
-                            url: contextPath + '/tasks/findEditTask',
-                            data : {
-                                id: TaskID,
-                                taskCode: $('#txtTaskCode').val(),
-                                taskName: $('#txtTaskName').val(),
-                                taskCost: parseInt($('#txtTaskCost').val()),
-                                typeTask: dataTypeTaskCode[index],
-                                empCode: $('#txtEmpName').val(),
-                                dateStart: new Date(dateStart),
-                                dateEnd: new Date(dateEnd),
-                                fileName: $('#fileName').text(),
-                                detail: $('#txtaDescription').val(),
-                                progress: $('#txtProgress').val()
-                            },
-                            complete: function(xhr){
-                                if(xhr.status === 200){
-                                    bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
-                                    $('#modalTask').modal('hide');
-                                    $('#txtTaskCode').val(null);
-                                    $('#txtTaskName').val(null);
-                                    $('#txtTaskCost').val(null);
-                                    $('#txtEmpName').val(null);
-                                    $('#dateStartProject').val(null);
-                                    $('#dateEndProject').val(null);
-                                    document.getElementById("myInput").value = "";
-                                    $('#fileName').text("");
-                                    $('#txtaDescription').val("");
-                                    searchDataTask();
-                                    $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-                                }else if(xhr.status === 500){
-                                    bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                                }
-                            },
-                            async: false
-                        });
-                    }
+                }else{
+                    bootbox.alert(Message.MSG_PLEASE_ENTER_ONLY_NUMBERS);
                 }
             }
         }

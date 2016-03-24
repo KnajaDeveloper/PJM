@@ -31,13 +31,13 @@ function saveModuleProjectToDB(){
 					bootbox.alert(""+Message.Save_success);
 					moduleProject = xhr ;
 				}else if(xhr.status === 500){
-					bootbox.alert(""+Message.Save_erro);
+					bootbox.alert(""+Message.Save_error);
 					return false;
 				}
 			},
 			async: false
 		});
-		ModuleProject.push(moduleProject.responseJSON);
+		ModuleProject.push(moduleProject.responseJSON.ModuleProject);
 	}
 	else {
 		bootbox.alert("["+$('#txtInitialModuleName1').val()+"]"+Message.Has_in_project);
