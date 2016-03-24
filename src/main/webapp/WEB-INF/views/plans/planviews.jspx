@@ -18,7 +18,7 @@
 				<form class="form-horizontal">
 					<div name="container_Year" class="form-group">
 						<label class="col-sm-4 control-label required" >Year create project </label>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<input type="text" class="form-control" id="txtYear" data-placement="bottom"></input>
 						</div>
 					</div> 
@@ -26,7 +26,7 @@
 						<label class="col-sm-4 control-label">Project</label>
 						<div class="col-sm-5">
 							<select id="ddlProject" class="form-control">
-								<option>-- Project Name --</option>
+								<option value="null">-- Project Name --</option>
 							</select>
 						</div>
 					</div>
@@ -34,7 +34,7 @@
 						<label class="col-sm-4 control-label">Module</label>
 						<div class="col-sm-5">
 							<select id="ddlModule" class="form-control">
-								<option>-- Module --</option>
+								<option value="null">-- Module --</option>
 							</select>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 						<label class="col-sm-4 control-label">Team</label>
 						<div class="col-sm-5">
 							<select id="ddlTeam" class="form-control">
-								<option>-- Team --</option>
+								<option value="null">-- Team --</option>
 							</select>
 						</div>
 					</div>
@@ -57,8 +57,8 @@
 									</span>
 								</div>
 							</div>
-							<label class="control-label required">End Date </label>
-							<div class='col-sm-2 pull-left'>
+							<label class="col-sm-1 control-label required">End Date </label>
+							<div class='col-sm-2'>
 								<div class='input-group'>
 									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="End Time" readonly="true" style="cursor:pointer"></input>
 									<span class="input-group-addon">
@@ -79,19 +79,22 @@
 		</div>
 	</div>
 	<div name="cotainerAnswer">
-		<div name="panelEmployee" class="col-md-8">
+		<div name="panelEmployee" id="panelEmployee" class="col-md-8">
 			<div class="panel panel-primary">
 				<div class="panel-heading">Employee Detail</div>
-					<div style="width: 100%; height: 100%; overflow-x: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">  
+					<div style="width: 100%; height: 100%; overflow-x: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
 						<table id="tableData" class="table table-bordered text-center">
+							<tr id="tbSevenDay">
+								<th class="text-center" style='min-width:120px;'><!--Not--></th>
+							</tr>
 							<tr id="tbDate">
-								<th class="text-center">Name</th>
+								<td class="text-center" style='min-width:120px;'>Name</td>
 							</tr> 
 						</table>
 					</div>
 			</div>
 		</div>
-		<div name="panelPlan" class="col-md-4">
+		<div name="panelPlan" id='panelPlan' class="col-md-4">
 			<div class="panel panel-primary">
 				<div class="panel-heading">Plan Detail</div>
 					<table id="tableEmpty" class="table table-bordered">

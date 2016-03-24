@@ -4,11 +4,13 @@
 package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.hibernate.type.IntegerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -230,4 +232,14 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         project.merge();
         return project;
     }
+
+    public static List<Project> Project.findProjectByYearAndProjectId(Integer year,Long projectId) {
+        EntityManager ent = Project.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
+        if(year!= null) criteria.add(Restrictions.sqlRestriction("YEAR(date_start) = ? ", year, IntegerType.INSTANCE));
+        if(projectId != null) criteria.add(Restrictions.eq("id", projectId));
+        return criteria.list();
+    }
+
+
 }
