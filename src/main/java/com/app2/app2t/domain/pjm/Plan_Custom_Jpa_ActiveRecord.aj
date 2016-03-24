@@ -45,25 +45,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         plan.persist();
     }
 
-    public static List<Plan> Plan.findPlansByMonthYear(int month, int year, String empCode) {
-
-        String datePreviousMonth = "01/01/1111";
-        String dateNextMonth = "01/01/1111";
-
-        DecimalFormat fm = new DecimalFormat("00");
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-
-        if (month == 1) {
-            datePreviousMonth = "12/15/" + (year - 1);
-            dateNextMonth = "02/15/" + year;
-        } else if (month == 12) {
-            datePreviousMonth = "11/15/" + year;
-            dateNextMonth = "01/15/" + (year + 1);
-        } else {
-            datePreviousMonth = fm.format(month - 1) + "/25/" + year;
-            dateNextMonth = fm.format(month + 1) + "/15/" + year;
-        }
-
+    public static List<Plan> Plan.findPlansByMonthYear(Date dateStart, Date dateEnd, String empCode) {
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
         Criteria criteria2 = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan2");
@@ -72,12 +54,12 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
         try {
             criteria.add(Restrictions.eq("task.empCode", empCode));
-            criteria.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
-            criteria.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
+            criteria.add(Restrictions.ge("dateStart", dateStart));
+            criteria.add(Restrictions.lt("dateStart", dateEnd));
 
             criteria2.add(Restrictions.eq("otherTask.empCode", empCode));
-            criteria2.add(Restrictions.ge("dateStart", formatter.parse(datePreviousMonth)));
-            criteria2.add(Restrictions.lt("dateStart", formatter.parse(dateNextMonth)));
+            criteria2.add(Restrictions.ge("dateStart", dateStart));
+            criteria2.add(Restrictions.lt("dateStart", dateEnd));
         } catch (Exception e) {
 
         }

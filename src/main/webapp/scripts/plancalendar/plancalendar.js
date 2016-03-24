@@ -24,7 +24,7 @@ $(document).ready(function () {
     setCurrentMonthYear();
     if(_language == 'EN')
         _year += 543;
-    loadAndMapPlan(_month, _year);
+    loadAndMapPlan(_month, _year-543);
 
     // Date picker for tab search job
     $("#cPlanDateBegin").datepicker(dateLang);
@@ -90,7 +90,7 @@ function searchPlan() {
 
         _month = month;
         _year = year;
-        loadAndMapPlan(_month, _year);
+        loadAndMapPlan(_month, _year-543);
 
         var defaultDate = (year - 543) + '-' + (month >= 10 ? month : '0' + month) + '-01';
         $('#calendar').fullCalendar('gotoDate', moment(defaultDate).format('YYYY-MM-DD'));
@@ -174,7 +174,7 @@ $('#btnAddOtherPlan').click(function () {
             success: function (data, status, xhr) {
                 if (xhr.status === 200) {
                     bootbox.alert(MESSAGE.SAVE_COMPLETED);
-                    loadAndMapPlan(_month, _year);
+                    loadAndMapPlan(_month, _year-543);
 
                     $('#txtPlanName').val('');
                     $('#txtPlanCost').val('');
@@ -398,7 +398,7 @@ $('#btnSaveAddPlan').click(function () {
                     bootbox.alert(MESSAGE.SAVE_COMPLETED);
                     $('#mdAddToPlan').modal('hide');
                     $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
-                    loadAndMapPlan(_month, _year);
+                    loadAndMapPlan(_month, _year-543);
                 } else if (xhr.status === 500) {
                     bootbox.alert(MESSAGE.SAVE_FAILED);
                 }
@@ -612,7 +612,7 @@ $('#btnSaveEditPlan').click(function () {
                     if (xhr.status === 200) {
                         bootbox.alert(MESSAGE.SAVE_COMPLETED);
                         $('#mdEditToPlan').modal('hide');
-                        loadAndMapPlan(_month, _year);
+                        loadAndMapPlan(_month, _year-543);
                     } else if (xhr.status === 500) {
                         bootbox.alert(MESSAGE.SAVE_FAILED);
                     }
@@ -785,7 +785,7 @@ function changePlan(){
     var percentage = $('#txtPercentage').val();
     var dateBegin = $('#cEditDateBegin_0').val();
     var dateEnd = $('#cEditDateEnd_0').val();
-    var inputBegin = (_language == 'TH') ? $('[id^=cEditDateBegin_][id$=_convert]') : $('[id^=cEditDateBegin_]').val();
+    var inputBegin = (_language == 'TH') ? $('[id^=cEditDateBegin_][id$=_convert]') : $('[id^=cEditDateBegin_]');
     var isShift = $('#radioPostpone_edit').prop('checked');
 
     if(FormUtil.isDateFormat(dateBegin)) {
@@ -804,7 +804,7 @@ function changePlan(){
     var percentageOld = _eventDate.progress;
     var dateBeginOld = _eventDate.start._i.split('T')[0];
     var dateEndOld = _eventDate.end._i.split('T')[0];
-    
+
     var noChangeDate = (inputBegin.length == 1) ? (dateBeginOld == dateBegin && dateEndOld == dateEnd): false;
     if(percentageOld != percentage || !noChangeDate || isShift) {
         return true;
