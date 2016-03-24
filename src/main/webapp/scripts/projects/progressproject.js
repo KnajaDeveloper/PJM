@@ -58,7 +58,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
      var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
      text =  ''
    +'<tr id ="trData' + key++ + '">'
-   +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-primary btn-xs" >V</button></td>'
+   +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></td>'
    +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
    +'<td  id="tdProgest" moduleId="' + value.id + '"onclick="onClickTrProgram(this)"> <div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ parseFloat(checkProgress).toFixed(2) + '%; color:#000">'
    + parseFloat(checkProgress).toFixed(2) + '%'
