@@ -90,20 +90,20 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     jsonData.forEach(function(value){
         dataTypeTask.push(value.typeTask.typeTaskCode);
         dataTypeTaskName.push(value.typeTask.typeTaskName);
-        dataEmpCode.push(value.empCode);
+        dataEmpCode.push(checkNullData(value.empCode));
 
-        if(DateUtil.dataDateToFrontend(value.dateStart, commonData.language) == "01/01/1970")
+        if(value.dateStart == null)
             dataDateStart.push("");
         else
             dataDateStart.push(DateUtil.dataDateToFrontend(value.dateStart, commonData.language));
 
-        if(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language) == "01/01/1970")
+        if(value.dateEnd == null)
             dataDateEnd.push("");
         else
             dataDateEnd.push(DateUtil.dataDateToFrontend(value.dateEnd, commonData.language));
 
-        dataFileName.push(value.fileName);
-        dataDetail.push(value.detail);
+        dataFileName.push(checkNullData(value.fileName));
+        dataDetail.push(checkNullData(value.detail));
 
         var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
 
@@ -310,8 +310,8 @@ function checkDateBeforeSaveData(dateEndTask, dateEndModule) {
 }
 
 function saveDateToDataBase(id) {
-    var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase($('#dateStartProject').val(), commonData.language);
-    var dateEnd = $('#dateEndProject').val() == "" ? null : dataDateToDataBase($('#dateEndProject').val(), commonData.language);
+    var dateStart = $('#dateStartProject').val() == "" ? null : parseFormatDateToString($('#dateStartProject').val(), commonData.language);
+    var dateEnd = $('#dateEndProject').val() == "" ? null : parseFormatDateToString($('#dateEndProject').val(), commonData.language);
     if(chkAETask == 0){
         if(checkDataTask() == 0){
             if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
@@ -329,8 +329,8 @@ function saveDateToDataBase(id) {
                         taskCost: parseInt($('#txtTaskCost').val()),
                         typeTask: dataTypeTaskCode[index],
                         empCode: $('#txtEmpName').val(),
-                        dateStart: new Date(dateStart),
-                        dateEnd: new Date(dateEnd),
+                        dateStart: dateStart,
+                        dateEnd: dateEnd,
                         fileName: $('#fileName').text(),
                         detail: $('#txtaDescription').val(),
                         progress: $('#txtProgress').val(),
@@ -391,8 +391,8 @@ function saveDateToDataBase(id) {
                     taskCost: parseInt($('#txtTaskCost').val()),
                     typeTask: dataTypeTaskCode[index],
                     empCode: $('#txtEmpName').val(),
-                    dateStart: new Date(dateStart),
-                    dateEnd: new Date(dateEnd),
+                    dateStart: dateStart,
+                    dateEnd: dateEnd,
                     fileName: $('#fileName').text(),
                     detail: $('#txtaDescription').val(),
                     progress: $('#txtProgress').val()
@@ -607,3 +607,11 @@ $('#TableTask').on("click", ".checkboxTableTask", function () {
         $("#checkboxAllTask").prop("checked", false);
     }
 });
+
+function checkNullData(value) {
+    if(FormUtil.isEmpty(value) || value == 'null'){
+        return "";
+    }else{
+        return value;
+    }
+}

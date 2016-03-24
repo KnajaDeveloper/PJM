@@ -23,10 +23,10 @@
             width: 10%;
         }
         #thProgramCode {
-            width: 25%;
+            width: 28%;
         }
         #thProgramName {
-            width: 58%;
+            width: 55%;
         }
         #thChkAllTask {
             width: 5%;
@@ -175,40 +175,6 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">${LABEL_DETAILS_MODULES}</div>
                 <div class="panel-body">
-                    <!-- <div class="row">
-                        <div class="col-xs-10 col-xs-offset-1">
-                            <form class="form-inline">
-                                <div class="col-xs-2">
-                                    <label class="control-label">${LABEL_MODULE_NEME}</label>
-                                    <label class="control-label">${LABEL_INITIAL}</label>
-                                    <label class="control-label">${LABEL_TOTAL_COST}</label>
-                                    <label class="control-label">${LABEL_START_DATE}</label>
-                                    <label class="control-label">${LABEL_MANAGER}</label>
-                                </div>
-                                <div class="col-xs-2">
-                                    <label id="lblModuleNeme" class="control-label"><jsp:text/></label>
-                                    <label id="lblModuleInitial" class="control-label"><jsp:text/></label>
-                                    <label id="lblModuleCost" class="control-label"><jsp:text/></label>
-                                    <label id="lblModuleDateStart" class="control-label" ><jsp:text/></label>
-                                    <label id="lblModuleManager" class="control-label"><jsp:text/></label>
-                                </div>
-                                <div class="col-xs-1">
-                                    <label class="control-label">${LABEL_POINT}</label>
-                                </div>
-                                <div class="col-xs-2">
-                                    <label class="control-label">${LABEL_BALANCE_TOTAL_COST}</label>
-                                    <label class="control-label">${LABEL_END_DATE}</label>
-                                </div>
-                                <div class="col-xs-2">
-                                    <label id="lblModuleCostBalance" class="control-label"><jsp:text/></label>
-                                    <label id="lblModuleDateEnd" class="control-label"><jsp:text/></label>
-                                </div>
-                                <div class="col-xs-1">
-                                    <label class="control-label">${LABEL_POINT}</label>
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
                     <div class="col-xs-10 col-xs-offset-1">
                         <form class="form-horizontal">
                             <div class="form-group">
@@ -305,7 +271,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-5">
             <div class="card">
@@ -345,7 +310,6 @@
                         <button id="btnAddTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTask" data-backdrop="static">${BUTTON_ADD_TASK}</button>
                         <button id="btnDeleteTask" type="button" class="btn btn-danger" style="margin-left: 5px;">${BUTTON_REMOVE_SELECTED}</button>
                     </div>
-
                     <div id="formTask" hidden="true">
                         <div id="penaltyTableContainer" class="table-responsive">
                             <table id="TableTask" class="table table-bordered table-stripted table-hover">
@@ -371,52 +335,52 @@
                         </div>
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <label class="">${LABEL_MANAGER}</label>
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-9">
                                     <label id="lblEmpName" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <label class="">${LABEL_TYPE_TASK}</label>
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-9">
                                     <label id="lblTaskName" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <label class="">${LABEL_START_DATE}</label>
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-9">
                                     <label id="lblSDate" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <label class="">${LABEL_END_DATE}</label>
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-9">
                                     <label id="lblEDate" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <label class="">${LABEL_ATTACHMENTS}</label>
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-9">
                                     <button id="btnDownloadFile" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
                                     <label id="lblFileName" class="" style="margin-left: 10px;"><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <label class="">${LABEL_DETAILS}</label>
                                 </div>
-                                <div class="col-xs-10">
-                                    <textarea id="txtaDetail" class="" rows="5" style="width: 50%; "><jsp:text/></textarea>
+                                <div class="col-xs-9">
+                                    <textarea id="txtaDetail" class="" rows="5" style="width: 80%; "><jsp:text/></textarea>
                                 </div>
                             </div>
                         </div>
@@ -434,7 +398,7 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label required">${LABEL_PROGRAM_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -442,7 +406,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label required">${LABEL_PROGRAM_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -454,7 +418,7 @@
                     <div class="modal-footer">
                         <button id="btnModalProgramAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
                         <button id="btnModalProgramNext" type="button" class="btn btn-primary">${BUTTON_NEXT}</button>
-                        <button id="btnModalProgramCancel" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                        <button id="btnModalProgramCancel" type="button" class="btn btn-primary">${BUTTON_CANCEL}</button>
                         <br/>
                     </div>
                 </div>
@@ -469,7 +433,7 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label required">${LABEL_TASK_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -477,7 +441,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label required">${LABEL_TASK_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -485,7 +449,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label required">${LABEL_TOTAL_COST}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -496,7 +460,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label required">${LABEL_TYPE_TASK}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -508,7 +472,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label ">${LABEL_MANAGER}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -516,7 +480,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label">${LABEL_START_DATE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -529,7 +493,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label">${LABEL_END_DATE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -542,15 +506,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label ">${LABEL_PROGRESS}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtProgress" placeholder="${LABEL_PROGRESS}" disabled="true"/>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtProgress" placeholder="${LABEL_PROGRESS}" disabled="true"/>
+                                        <span class="input-group-addon">%</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label">${LABEL_ATTACHMENTS}</label>
                                 </div>
                                 <div class="col-sm-2">
@@ -564,11 +531,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-2">
+                                <div class="col-xs-offset-1 col-xs-3">
                                     <label class="control-label ">${LABEL_DETAILS}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea id="txtaDescription" class="form-control" rows="5" style="width: 100%;"><jsp:text/></textarea>
+                                    <textarea id="txtaDescription" class="" rows="5" style="width: 100%;"><jsp:text/></textarea>
                                 </div>
                             </div>
                         </form>
@@ -576,7 +543,7 @@
                     <div class="modal-footer">
                         <button id="btnModalTaskAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
                         <button id="btnModalTaskNext" type="button" class="btn btn-primary">${BUTTON_NEXT}</button>
-                        <button id="btnModalTaskCancel" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                        <button id="btnModalTaskCancel" type="button" class="btn btn-primary">${BUTTON_CANCEL}</button>
                         <br/>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
 
@@ -77,8 +78,8 @@ privileged aspect TaskController_Custom_Controller_Json {
             @RequestParam(value = "taskCost", required = false) Integer taskCost,
             @RequestParam(value = "typeTask", required = false) String typeTask,
             @RequestParam(value = "empCode", required = false) String empCode,
-            @RequestParam(value = "dateStart", required = false) Date dateStart,
-            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "dateStart", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateEnd,
             @RequestParam(value = "fileName", required = false) String fileName,
             @RequestParam(value = "detail", required = false) String detail,
             @RequestParam(value = "progress", required = false) Integer progress,
@@ -106,8 +107,8 @@ privileged aspect TaskController_Custom_Controller_Json {
             @RequestParam(value = "taskCost", required = false) Integer taskCost,
             @RequestParam(value = "typeTask", required = false) String typeTask,
             @RequestParam(value = "empCode", required = false) String empCode,
-            @RequestParam(value = "dateStart", required = false) Date dateStart,
-            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "dateStart", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateEnd,
             @RequestParam(value = "fileName", required = false) String fileName,
             @RequestParam(value = "detail", required = false) String detail,
             @RequestParam(value = "progress", required = false) Integer progress
