@@ -7,6 +7,7 @@ import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
 import com.app2.app2t.web.pjm.PlanController;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -41,10 +42,30 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             String userName = AuthorizeUtil.getUserName();
-            List<Map> empList = emRestService.getEmployeeByUserName(userName);
-            String empCode = empList.get(0).get("empCode").toString();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
-            List<Plan> result = Plan.findPlansByMonthYear(month, year, empCode);
+            String dateBegin = "01/01/1111";
+            String dateEnd = "01/01/1111";
+            DecimalFormat fm = new DecimalFormat("00");
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+
+            if (month == 1) {
+                dateBegin = "12/15/" + (year - 1);
+                dateEnd = "02/15/" + year;
+            } else if (month == 12) {
+                dateBegin = "11/15/" + year;
+                dateEnd = "01/15/" + (year + 1);
+            } else {
+                dateBegin = fm.format(month - 1) + "/25/" + year;
+                dateEnd = fm.format(month + 1) + "/15/" + year;
+            }
+
+            LOGGER.debug("=====================> Date begin{}",new Date(dateBegin));
+            LOGGER.debug("=====================> Date end{}",new Date(dateEnd));
+
+            List<Plan> result = Plan.findPlansByMonthYear(new Date(dateBegin), new Date(dateEnd), empCode);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -63,8 +84,9 @@ privileged aspect PlanController_Custom_Controller_Json {
             boolean getOtherTask = jsonArray.getBoolean(3);
 
             String userName = AuthorizeUtil.getUserName();
-            List<Map> empList = emRestService.getEmployeeByUserName(userName);
-            String empCode = empList.get(0).get("empCode").toString();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             List<Long> listModuleId = new ArrayList<>();
             if (moduleId == 0) {  // all module
@@ -99,8 +121,9 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             String userName = AuthorizeUtil.getUserName();
-            List<Map> empList = emRestService.getEmployeeByUserName(userName);
-            String empCode = empList.get(0).get("empCode").toString();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByEmpCode(empCode);
             List<ModuleProject> result = new ArrayList<>();
@@ -137,8 +160,9 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             // Edit task -> update empCode for task
             String userName = AuthorizeUtil.getUserName();
-            List<Map> empList = emRestService.getEmployeeByUserName(userName);
-            String empCode = empList.get(0).get("empCode").toString();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             Task task = Task.updateEmpCode(taskId, empCode);
 
@@ -193,8 +217,9 @@ privileged aspect PlanController_Custom_Controller_Json {
             dateEnd = formatter.parse(formatter.format(dateEnd));
 
             String userName = AuthorizeUtil.getUserName();
-            List<Map> empList = emRestService.getEmployeeByUserName(userName);
-            String empCode = empList.get(0).get("empCode").toString();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             OtherTask otherTask = OtherTask.insertOtherTask(taskName, taskCost, empCode);
             Plan.insertOtherPlan(otherTask, dateStart, dateEnd);
@@ -231,8 +256,9 @@ privileged aspect PlanController_Custom_Controller_Json {
             int progress = jsonArrayPlan.getInt(2);
 
             String userName = AuthorizeUtil.getUserName();
-            List<Map> empList = emRestService.getEmployeeByUserName(userName);
-            String empCode = empList.get(0).get("empCode").toString();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Task task = null;

@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.app2.app2t.util.AuthorizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.Map;
 
 @Service
 public class EmRestService extends AbstractAPP2Service {
-
+    @Autowired
+    AuthorizeUtil authorizeUtil;
     private static Logger LOGGER = LoggerFactory.getLogger(EmRestService.class);
 
     public EmRestService() {
@@ -91,20 +94,28 @@ public class EmRestService extends AbstractAPP2Service {
         }
     }
 
-    public List<Map> getEmployeeByUserName(String userName) {
+    public Map getEmployeeByUserName(String userName) {
         List<Map> listMap = new ArrayList<>();
         try {
-            setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByUserName?userName="+ userName);
-            if (!getResultString().equals("[{}]")) {
-                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
-                for (JsonElement obj : jArray) {
-                    listMap.add(gson.fromJson(obj, Map.class));
+            Map empData = authorizeUtil.getEmpData();
+            if(empData.isEmpty()) {
+                setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByUserName?userName="+ userName);
+                if (!getResultString().equals("[{}]")) {
+                    JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                    for (JsonElement obj : jArray) {
+                        listMap.add(gson.fromJson(obj, Map.class));
+                    }
                 }
+                if(listMap.size() > 0){
+                    authorizeUtil.setEmpDate(listMap);
+                }
+            } else {
+                listMap.add(empData);
             }
-            return listMap;
+            return listMap.get(0);
         } catch (Exception e) {
             LOGGER.error("Error : {}", e.getMessage());
-            return listMap;
+            return null;
         }
     }
 

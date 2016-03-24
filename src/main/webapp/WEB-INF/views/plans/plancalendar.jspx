@@ -61,8 +61,9 @@
     <c:set var="MESSAGE_CONFIRM_DELETE" scope="request"><spring:message text="M0029"/></c:set>
     <c:set var="MESSAGE_DELETE_COMPLETED" scope="request"><spring:message code="M0014"/></c:set>
     <c:set var="MESSAGE_DELETE_FAILED" scope="request"><spring:message code="M0015"/></c:set>
-
+    
     <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>    
+    <c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -82,7 +83,7 @@
         MESSAGE.CONFIRM_CANCEL = 'Do you want to cancel without save';
         MESSAGE.DELETE_COMPLETED = '${MESSAGE_DELETE_COMPLETED}';
         MESSAGE.DELETE_FAILED = '${MESSAGE_DELETE_FAILED}';
-        MESSAGE.DATE_FORMAT = 'Error date format';
+        MESSAGE.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
 
         MESSAGE.DATA_NO_CHANGE = '${MESSAGE_DATA_NO_CHANGE}';
 
