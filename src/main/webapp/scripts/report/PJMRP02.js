@@ -84,6 +84,7 @@ function sendData() {
         date.getFullYear();
 
     var projectId = $('#ddlProject').find('option:selected').val();
+    var projectName = $('#ddlProject').find('option:selected').text();
     var moduleCode = $('#ddlModule').find('option:selected').val();
     var moduleName = $('#ddlModule').find('option:selected').text();
     console.log(moduleCode);
@@ -98,6 +99,7 @@ function sendData() {
     console.log(moduleName);
 
     var link = window.location.href = contextPath + '/reports/exportPJMRP02?projectId=' + projectId
+        + '&projectName=' + projectName
         + '&moduleCode=' + moduleCode
         + '&moduleName=' + moduleName
         + '&printDate=' + printDate;

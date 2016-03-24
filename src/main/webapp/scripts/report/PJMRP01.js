@@ -61,23 +61,26 @@ function sendData() {
         var empCode = $("#emp").val();
         var dateStart = $("#cDateBegin").val();
         var dateEnd = $("#cDateEnd").val();
+        var dateStartBase = $("#cDateBegin").val();
+        var dateEndBase = $("#cDateEnd").val();
         var plusYear = 0;
 
-        if (dateStart != "") {
-            dateStart = DateUtil.dataDateToDataBase(dateStart, _language);
-            dateStart = DateUtil.dataDateToFrontend(dateStart, 'EN');
+        if (dateStartBase != "") {
+            dateStartBase = DateUtil.dataDateToDataBase(dateStartBase, _language);
+            dateStartBase = DateUtil.dataDateToFrontend(dateStartBase, 'EN');
+
         }
 
-        if (dateEnd != "") {
-            dateEnd = DateUtil.dataDateToDataBase(dateEnd, _language);
-            dateEnd = DateUtil.dataDateToFrontend(dateEnd, 'EN');
+        if (dateEndBase != "") {
+            dateEndBase = DateUtil.dataDateToDataBase(dateEndBase, _language);
+            dateEndBase = DateUtil.dataDateToFrontend(dateEndBase, 'EN');
         }
 
         if (_language == "TH") {
             plusYear = 543;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
-                + '&dateStartBase=' + dateStart
-                + '&dateEndBase=' + dateEnd
+                + '&dateStartBase=' + dateStartBase
+                + '&dateEndBase=' + dateEndBase
                 + '&dateStart=' + dateStart
                 + '&dateEnd=' + dateEnd
                 + '&printDate=' + printDate
@@ -87,8 +90,8 @@ function sendData() {
         } else if (_language == "EN" || _language == 'EN_US') {
             plusYear = 0;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
-                + '&dateStartBase=' + dateStart
-                + '&dateEndBase=' + dateEnd
+                + '&dateStartBase=' + dateStartBase
+                + '&dateEndBase=' + dateEndBase
                 + '&dateStart=' + dateStart
                 + '&dateEnd=' + dateEnd
                 + '&printDate=' + printDate
