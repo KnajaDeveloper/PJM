@@ -518,9 +518,6 @@
         </div>
     </div>
 
-    <script>
-        var contextPath = '${pageContext.request.contextPath}';
-    </script>
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 

@@ -36,7 +36,7 @@
                                 <p>emily_hart@email.com</p>
                                 <div class="btn-group margin-bottom-2x" role="group">
                                     <button type="button" class="btn btn-default"><i class="fa fa-user"><jsp:text/></i> Profile</button>
-                                    <button type="button" class="btn btn-default"><i class="fa fa-sign-out"><jsp:text/></i> Logout</button>
+                                    <button id="btnLogout" type="button" class="btn btn-default"><i class="fa fa-sign-out"><jsp:text/></i> Logout</button>
                                 </div>
                             </div>
                         </li>
@@ -52,4 +52,10 @@
         </div>
     </nav>
 
+    <script>
+        var contextPath = '${pageContext.request.contextPath}';
+    </script>
+    
+    <spring:url value="/resources/scripts/header/header.js" var="header_js_url"/>
+    <script src="${header_js_url}" type="text/javascript"><!--Not Empty --></script>
 </div>
