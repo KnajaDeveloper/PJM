@@ -4,7 +4,6 @@ var ll3;
 $(document).ready(function(){
  searchDataProgram();
  ProjectManager();
- //MuduleManager();
  var dataJsonData = {
      projectID: projectID
 }
@@ -35,10 +34,10 @@ labelData = $.ajax({
 var addData = labelData.responseJSON;
 $('#lblName').text(addData.Project[0].projectName);
 $('#lblProjectCode').text(addData.Project[0].projectCode);
-$('#lblCostsPoint').text(addData.Project[0].projectCost+"  Point");
+$('#lblCostsPoint').text(addData.Project[0].projectCost+Message.MSG_SPACE+ Message.MSG_POINT);
 $('#lblStartDate').text(DateUtil.dataDateToFrontend(addData.Project[0].dateStart,commonData.language));
 $('#lbldateEnd').text(DateUtil.dataDateToFrontend(addData.Project[0].dateEnd,commonData.language));
-$('#lblBalanceCostsPoints').text(parseInt($('#lblCostsPoint').text()) -  CostTotal.responseJSON + "  Point");
+$('#lblBalanceCostsPoints').text(parseInt($('#lblCostsPoint').text()) -  CostTotal.responseJSON + Message.MSG_SPACE+Message.MSG_POINT);
 });
 
 var pagginationModule = Object.create(UtilPaggination);
@@ -46,7 +45,7 @@ pagginationModule.setEventPaggingBtn("paggingSimpleModuleProject",pagginationMod
 pagginationModule.loadTable = function loadTable (jsonData) {
 
   if(jsonData.length <= 0)
-   bootbox.alert("ไม่พบข้อมูล");
+   bootbox.alert(Message.MSG_DATA_NOT_FOUND);
 
  $('#ResualtSearchProgram').empty();
  var link = "";
@@ -75,7 +74,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
 };
 function onClickTrProgram(object) {
     MuduleManager (object.attributes.moduleId.textContent);
-    $('#lblNameManager').text("ผู้ดูแลโมดูล")
+    $('#lblNameManager').text(Label.LABEL_LABEL_MODULE_MANAGER)
     var lengthTr = $('#Table').find('tr').length;
     for(var i = 1; i < lengthTr; i++){
         $('#trData' + i).css('background-color', '#FFF');

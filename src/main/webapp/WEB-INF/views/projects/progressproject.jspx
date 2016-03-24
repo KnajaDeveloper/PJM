@@ -15,41 +15,23 @@
         var projectID = '${projectID}';
     </script>
     <c:set var="LABEL_PROJECTOVERVIEW" scope="request"><spring:message code="L0088"/></c:set>
-
     <c:set var="LABEL_PROJECT_NEME" scope="request"><spring:message code="L0008"/></c:set>
-    <c:set var="LABEL_INITIAL" scope="request"><spring:message code="L0076"/></c:set>
-    <c:set var="LABEL_TOTAL_COST" scope="request"><spring:message code="L0048"/></c:set>
+    <c:set var="LABEL_INITIALS_PROJECT" scope="request"><spring:message code="L0089"/></c:set>
     <c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0046"/></c:set>
-    <c:set var="LABEL_MANAGER" scope="request"><spring:message code="L0077"/></c:set>
+    <c:set var="LABEL_ROJECT_MANAGER" scope="request"><spring:message code="L0045"/></c:set>
     <c:set var="LABEL_BALANCE_TOTAL_COST" scope="request"><spring:message code="L0078"/></c:set>
     <c:set var="LABEL_END_DATE" scope="request"><spring:message code="L0079"/></c:set>
-    <c:set var="LABEL_ADD_PROGRAM" scope="request"><spring:message code="L0080"/></c:set>
-    <c:set var="LABEL_PROGRAM_CODE" scope="request"><spring:message code="L0081"/></c:set>
-    <c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message code="L0082"/></c:set>
-    <c:set var="LABEL_ADD_TASK" scope="request"><spring:message code="L0036"/></c:set>
-    <c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
-    <c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
-    <c:set var="LABEL_POINT" scope="request"><spring:message code="L0049"/></c:set>
-    <c:set var="LABEL_TYPE_TASK" scope="request"><spring:message code="L0083"/></c:set>
-    <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
-    <c:set var="LABEL_ATTACHMENTS" scope="request"><spring:message code="L0084"/></c:set>
     <c:set var="LABEL_DETAILS" scope="request"><spring:message code="L0085"/></c:set>
-    <c:set var="LABEL_EDIT" scope="request"><spring:message code="L0035"/></c:set>
-    <c:set var="LABEL_EDIT_PROGRAM" scope="request"><spring:message code="L0086"/></c:set>
-    <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message code="L0087"/></c:set>
+    <c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
+    <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+    <c:set var="LABEL_POINT" scope="request"><spring:message code="L0049"/></c:set>
+    <c:set var="LABEL_NO_RESULT" scope="request"><spring:message code="L0057"/></c:set>
+    <c:set var="LABEL_MODULE_MANAGER" scope="request"><spring:message code="L0029"/></c:set>
+    <c:set var="LABEL_PROJECT_COST" scope="request"><spring:message code="L0098"/></c:set>
 
-    <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message code="B0015"/></c:set>
-    <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message code="B0016"/></c:set>
-    <c:set var="BUTTON_REMOVE_SELECTED" scope="request"><spring:message code="B0004"/></c:set>
-    <c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
-    <c:set var="BUTTON_NEXT" scope="request"><spring:message code="B0008"/></c:set>
-    <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
-    <c:set var="BUTTON_SELECT_FILE" scope="request"><spring:message code="B0017"/></c:set>
-    <c:set var="BUTTON_DOWNLOAD_FILE" scope="request"><spring:message code="B0018"/></c:set>
 
     <c:set var="MSG_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
-    <c:set var="MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message code="M0022"/></c:set>
-    <c:set var="MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message code="M0023"/></c:set>
+    <c:set var="MSG_POINT" scope="request"><spring:message code="L0049"/></c:set>
     <c:set var="MSG_PLEASE_COMPLETE_THIS_FIEID" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="MSG_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
     <c:set var="MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST" scope="request"><spring:message code="M0024"/></c:set>
@@ -64,17 +46,15 @@
     <c:set var="MSG_DELETE_FAILED" scope="request"><spring:message code="M0006"/></c:set>
     <c:set var="MSG_LIST" scope="request"><spring:message code="M0027"/></c:set>
     <c:set var="MSG_DATA_IS_USE" scope="request"><spring:message code="M0028"/></c:set>
-
+    <c:set var="MSG_PROJECT_CODE" scope="request"><spring:message code="L0098"/></c:set>
+    <c:set var="MSG_SPACE" scope="request">&#160;</c:set>
     <script type="text/javascript">
         var Label = {};
         var Button = {};
         var Message = {};
 
-        Label.LABEL_EDIT_PROGRAM = '${LABEL_EDIT_PROGRAM}';
-        Label.LABEL_TYPE_TASK = '${LABEL_TYPE_TASK}';
-        Label.LABEL_EDIT_TASK = '${LABEL_EDIT_TASK}';
-        Label.LABEL_ADD_PROGRAM = '${LABEL_ADD_PROGRAM}';
-        Label.LABEL_ADD_TASK = '${LABEL_ADD_TASK}';
+        Label.LABEL_POINT = '${LABEL_POINT}';
+        Label.LABEL_LABEL_MODULE_MANAGER = '${LABEL_MODULE_MANAGER}';
 
         Button.BUTTON_OK = '${BUTTON_OK}';
 
@@ -95,13 +75,10 @@
         Message.MSG_DELETE_FAILED = '${MSG_DELETE_FAILED}';
         Message.MSG_LIST = '${MSG_LIST}';
         Message.MSG_DATA_IS_USE = '${MSG_DATA_IS_USE}';
+//        Message.MSG_PROJECT_CODE = '${MSG_PROJECT_CODE}';
+        Message.MSG_POINT = '${MSG_POINT}';
+        Message.MSG_SPACE = '${MSG_SPACE}';
     </script>
-
-
-
-
-
-
 
     <div class="container-fluid">
        <div class="row">
@@ -115,16 +92,16 @@
                             <label class="control-label"><b>${LABEL_PROJECT_NEME}</b></label>
                             <br/>
                             <br/>
-                            <label class="control-label"><b>ชื่อย่อโปรเจค</b></label>
+                            <label class="control-label"><b>${LABEL_INITIALS_PROJECT}</b></label>
                             <br/>
                             <br/>
-                            <label class="control-label"><b>ต้นทุนโปรเจค</b></label>
+                            <label class="control-label"><b>${LABEL_PROJECT_COST}</b></label>
                             <br/>
                             <br/>
-                            <label class="control-label"><b>วันที่เริ่ม</b></label>
+                            <label class="control-label"><b>${LABEL_START_DATE}</b></label>
                             <br/>
                             <br/>
-                            <label class="control-label"><b>ผู้ดูแลโปรเจค</b></label>
+                            <label class="control-label"><b>${LABEL_ROJECT_MANAGER}</b></label>
                         </div>
                         <div class="col-xs-2">
                             <label id="lblName" class="control-label"><jsp:text/></label>
@@ -149,10 +126,10 @@
                             <br/>
                             <br/>
                             <br/>
-                            <label class="control-label"><b>ต้นทุนคงเหลือ</b></label>
+                            <label class="control-label"><b>${LABEL_BALANCE_TOTAL_COST}</b></label>
                             <br/>
                             <br/>
-                            <label class="control-label"><b>วันที่สิ้นสุด</b></label>
+                            <label class="control-label"><b>${LABEL_END_DATE}</b></label>
                         </div>
                             <div class="col-xs-2">
                                 <br/>
@@ -179,11 +156,11 @@
                         <table id="Table" class="table table-bordered table-stripted table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center" width="10%" >รายละเอียด</th>
-                                    <th class="text-center" width="20%">ชื่อโมดูล</th>
-                                    <th class="text-center" width="10%">ความคืบหน้า</th>
-                                    <th class="text-center" width="15%">วันที่เริ่ม</th>
-                                    <th class="text-center" width="15%">วันที่เสร็จ</th>
+                                    <th class="text-center" width="10%" >${LABEL_DETAILS}</th>
+                                    <th class="text-center" width="20%">${LABEL_MODULE_NAME}</th>
+                                    <th class="text-center" width="10%">${LABEL_PROGRESS}</th>
+                                    <th class="text-center" width="15%">${LABEL_START_DATE}</th>
+                                    <th class="text-center" width="15%">${LABEL_END_DATE}</th>
                                     <!-- <th class="text-center" style="color: #000">ผู้รับดูแล</th> -->
                                 </tr>
                             </thead>
