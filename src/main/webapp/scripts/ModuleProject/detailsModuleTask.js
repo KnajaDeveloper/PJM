@@ -17,6 +17,14 @@ $(document).ready(function () {
         DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
         checkDateFormat($(this), Message.MSG_DATE_INCOLLECT,  Message.MSG_PLEASE_COMPLETE_THIS_FIEID);
     });
+
+    $("#dateStartSpan").click(function () {
+        $("#dateStartProject").focus();
+    });
+    
+    $("#dateEndSpan").click(function () {
+        $("#dateEndProject").focus();
+    });
 });
 
 function paramProgramId(programId, trProgramNumber){
@@ -172,10 +180,11 @@ function openEditTask(element){
     $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
     $('#ddlTypeTask').popover('hide');
     $('#txtEmpName').val(null);
-    $('#dateStartProject').val(null);
-    $('#dateEndProject').val(null);
+    $('#dateStartProject').val(null).popover('hide');;
+    $('#dateEndProject').val(null).popover('hide');;
     $("#dateStartProject").change();
     $("#dateEndProject").change();
+
     $('#txtProgress').val(null).attr('disabled', true);
     document.getElementById("myInput").value = "";
     $('#fileName').text("");
@@ -200,9 +209,11 @@ function openEditTask(element){
 
     checkdateStart = dataDateStart[id - 1];
     $('#dateStartProject').val(checkdateStart);
+    DateUtil.setMinDate('dateStartProject', 'dateEndProject');
 
     checkdateEnd = dataDateEnd[id - 1];
     $('#dateEndProject').val(checkdateEnd);
+    DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
 
     checkProgress = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgressTask").text().split('%')[0];
     $('#txtProgress').val(checkProgress).attr('disabled', false);
@@ -242,8 +253,8 @@ $('#btnAddTask').click(function() {
     $('#txtTaskName').val(null);
     $('#txtTaskCost').val(null);
     $('#txtEmpName').val(null);
-    $('#dateStartProject').val(null);
-    $('#dateEndProject').val(null);
+    $('#dateStartProject').val(null).popover('hide');;
+    $('#dateEndProject').val(null).popover('hide');;
     $("#dateStartProject").change();
     $("#dateEndProject").change();
     $('#txtProgress').val("0");
