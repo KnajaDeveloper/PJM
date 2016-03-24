@@ -221,4 +221,22 @@ privileged aspect TaskController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/findEmptyTask", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> TaskController.findEmptyTask() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            Map<String,Object> result = new HashMap<>();
+            List<Task> tasks = Task.findEmptyTask();
+            List<OtherTask> otherTasks = OtherTask.findEmptyOtherTask();
+            result.put("Task",tasks);
+            result.put("OtherTask",otherTasks);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,13 +1,21 @@
+// Parameter Schedule
 var date=15;
 var names=["Tony","Robert","Net","Pakinson"];
 var works=["Employee,Employee===Project,Employee===Project,Project,Project,Security,Security,Security,Security,Security,Security,Service,Service,Service,5===6","Project===Security===Employee,Project===Security===Employee,Project,Project,0,0,Employee,Employee","0,0,0,Employee,Employee,Project,Employee","Employee,0,0,Employee,Employee,Employee,Employee,Project"];
 var backColor = ["success","warning","danger","info"];
-var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"] ;
-var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Oct","Nov","Dec"] ;
+var days = [Label.Sun,Label.Mon,Label.Tue,Label.Wed,Label.Thu,Label.Fri,Label.Sat] ;
+var months = [Label.Jan,Label.Feb,Label.Mar,Label.Apr,Label.May,Label.Jun,Label.Jul,Label.Aug,Label.Oct,Label.Nov,Label.Dec] ;
 var recieveWork ;
 
-$("#panelEmployee").hide();
-$("#panelPlan").hide();
+// Parameter Empty Plan
+var nameProject = ["Project 1","Project 2","Project 3"];
+var moduleProject = ["Employee","Plan","Project"];
+var typeProject = ["Developer","Analysis","Developer"];
+var resultEmptyTask;
+
+//$("#panelEmployee").hide();
+//$("#panelPlan").hide();
+addEmptyTask();
 
 function addDate(dateStart,dateEnd){
 	var diff = dateEnd.getTime() - dateStart.getTime();
@@ -16,9 +24,9 @@ function addDate(dateStart,dateEnd){
 	numDate.setDate(dateStart.getDate()-1);
 	for(var i=0; i <= diffDays ; i++) {
 		numDate.setDate(dateStart.getDate()+1);
-		$("#tbSevenDay").append("<th class='text-center' style='min-width:90px; height:10px; padding: 0px;'>"+days[numDate.getDay()]+"</th>");
+		$("#tbSevenDay").append("<th class='text-center' style='min-width:100px; height:10px; padding: 0px;'>"+days[numDate.getDay()]+"</th>");
 		var dateMonth = ""+months[numDate.getMonth()]+" "+numDate.getDate()+", "+numDate.getFullYear();
-		$("#tbDate").append("<td class='text-center' style='min-width:90px;'><font size='2'>"+dateMonth+"</font></td>");
+		$("#tbDate").append("<td class='text-center' style='min-width:100px;'><font size='2'>"+dateMonth+"</font></td>");
 	}
 }
 
@@ -95,6 +103,49 @@ function addWork() {
 			$("#" + names[i] + j).append(html);
 		}
 	}
+}
+
+function addEmptyTask(){
+	resultEmptyTask = $.ajax({
+		headers: {
+			Accept: "application/json"
+		},
+		type: "GET",
+		url: contextPath + '/tasks/findEmptyTask',
+		complete: function(xhr){
+			if(xhr.status === 201 || xhr.status === 200){
+
+			}else if(xhr.status === 500){
+
+			}
+		},
+		async: false
+	});
+
+	for(var i = 0 ; i < resultEmptyTask.responseJSON.Task.length ; i++){
+		var html = "";
+		html+="<tr class='text-center'>" +
+			"<td>"+resultEmptyTask.responseJSON.Task[i].taskName+"</td>" +
+			"<td>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</td>" +
+			"<td>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</td>" +
+			"</tr>";
+		$("#tableEmpty").append(html);
+	}
+	for(var i = 0 ; i < resultEmptyTask.responseJSON.OtherTask.length ; i++){
+		var html = "";
+		html+="<tr class='text-center'>" +
+			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].taskName+"</td>" +
+			"<td>"+" "+"</td>" +
+			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].typeTask.typeTaskName+"</td>" +
+			"</tr>";
+		$("#tableEmpty").append(html);
+	}
+
+	//for(var i = 0 ; i < nameProject.length ; i++){
+	//	var html = "";
+	//	html+="<tr class='text-center'><td>"+nameProject[i]+"</td><td>"+moduleProject[i]+"</td><td>"+typeProject[i]+"</td></tr>";
+	//	$("#tableEmpty").append(html);
+	//}
 }
 
 function changeRowToString(input){

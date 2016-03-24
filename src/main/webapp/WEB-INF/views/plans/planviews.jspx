@@ -1,7 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <jsp:output omit-xml-declaration="yes"/>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
+	<c:set var="LABEL_MODULE"><spring:message javaScriptEscape="true" code="L0009"/></c:set>
+	<c:set var="LABEL_TEAM"><spring:message javaScriptEscape="true" code="L0031"/></c:set>
+	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
+	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
+	<c:set var="LABEL_EMPLOYEE_NAME"><spring:message javaScriptEscape="true" code="L0003"/></c:set>
+	<c:set var="LABEL_TASK_NAME"><spring:message javaScriptEscape="true" code="L0034"/></c:set>
+	<c:set var="LABEL_TASK_TYPE_NAME"><spring:message javaScriptEscape="true" code="L0071"/></c:set>
+
+	<c:set var="BUTTON_SEARCH"><spring:message javaScriptEscape="true" code="B0002"/></c:set>
+
+	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
+	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
+
+	<c:set var="LABEL_VIEW_PLAN"><spring:message javaScriptEscape="true" text="View plan"/></c:set>
+	<c:set var="LABEL_EMPLOYEE_SCHEDULE"><spring:message javaScriptEscape="true" text="Employee schedule"/></c:set>
+	<c:set var="LABEL_EMPTY_TASK"><spring:message javaScriptEscape="true" text="Empty task"/></c:set>
+	<c:set var="LABEL_YEAR_CREATE_PROJECT"><spring:message javaScriptEscape="true" text="Year create project"/></c:set>
+	<c:set var="MESSAGE_NUMBER_ONLY"><spring:message javaScriptEscape="true" text="Please enter number only."/></c:set>
+	<c:set var="LABEL_SUN"><spring:message javaScriptEscape="true" text="Sun"/></c:set>
+	<c:set var="LABEL_MON"><spring:message javaScriptEscape="true" text="Mon"/></c:set>
+	<c:set var="LABEL_TUE"><spring:message javaScriptEscape="true" text="Tue"/></c:set>
+	<c:set var="LABEL_WED"><spring:message javaScriptEscape="true" text="Wed"/></c:set>
+	<c:set var="LABEL_THU"><spring:message javaScriptEscape="true" text="Thu"/></c:set>
+	<c:set var="LABEL_FRI"><spring:message javaScriptEscape="true" text="Fri"/></c:set>
+	<c:set var="LABEL_SAT"><spring:message javaScriptEscape="true" text="Sat"/></c:set>
+	<c:set var="LABEL_JAN"><spring:message javaScriptEscape="true" text="Jan"/></c:set>
+	<c:set var="LABEL_FEB"><spring:message javaScriptEscape="true" text="Feb"/></c:set>
+	<c:set var="LABEL_MAR"><spring:message javaScriptEscape="true" text="Mar"/></c:set>
+	<c:set var="LABEL_APR"><spring:message javaScriptEscape="true" text="Apr"/></c:set>
+	<c:set var="LABEL_MAY"><spring:message javaScriptEscape="true" text="May"/></c:set>
+	<c:set var="LABEL_JUN"><spring:message javaScriptEscape="true" text="Jun"/></c:set>
+	<c:set var="LABEL_JUL"><spring:message javaScriptEscape="true" text="Jul"/></c:set>
+	<c:set var="LABEL_AUG"><spring:message javaScriptEscape="true" text="Aug"/></c:set>
+	<c:set var="LABEL_SEP"><spring:message javaScriptEscape="true" text="Sep"/></c:set>
+	<c:set var="LABEL_OCT"><spring:message javaScriptEscape="true" text="Oct"/></c:set>
+	<c:set var="LABEL_NOV"><spring:message javaScriptEscape="true" text="Nov"/></c:set>
+	<c:set var="LABEL_DEC"><spring:message javaScriptEscape="true" text="Dec"/></c:set>
+
+	<script>
+		var Label = {};
+		Label.Project_name = '${LABEL_PROJECT_NAME}';
+		Label.Module = '${LABEL_MODULE}';
+		Label.Sun = '${LABEL_SUN}';
+		Label.Mon = '${LABEL_MON}';
+		Label.Tue = '${LABEL_TUE}';
+		Label.Wed = '${LABEL_WED}';
+		Label.Thu = '${LABEL_THU}';
+		Label.Fri = '${LABEL_FRI}';
+		Label.Sat = '${LABEL_SAT}';
+		Label.Jan = '${LABEL_JAN}';
+		Label.Feb = '${LABEL_FEB}';
+		Label.Mar = '${LABEL_MAR}';
+		Label.Apr = '${LABEL_APR}';
+		Label.May = '${LABEL_MAY}';
+		Label.Jun = '${LABEL_JUN}';
+		Label.Jul = '${LABEL_JUL}';
+		Label.Aug = '${LABEL_AUG}';
+		Label.Sep = '${LABEL_SEP}';
+		Label.Oct = '${LABEL_OCT}';
+		Label.Nov = '${LABEL_NOV}';
+		Label.Dec = '${LABEL_DEC}';
+		var Message = {};
+		Message.Complete_this_feld = "${MESSAGE_COMPLETE_THIS_FIELD}";
+		Message.Number_only = '${MESSAGE_NUMBER_ONLY}';
+		Message.MESSAGE_COMPLETE_DATE = '${MESSAGE_COMPLETE_DATE}';
+	</script>
 
 	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
     <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
@@ -13,65 +81,64 @@
 
 	<div name="cotainerData" class="col-md-12">
 		<div class="panel panel-primary">
-			<div class="panel-heading">View Plan</div><br/>
+			<div class="panel-heading">${LABEL_VIEW_PLAN}</div><br/>
 			<div class="panel-body">
 				<form class="form-horizontal">
 					<div name="container_Year" class="form-group">
-						<label class="col-sm-4 control-label required" >Year create project </label>
+						<label class="col-sm-4 control-label required" >${LABEL_YEAR_CREATE_PROJECT}</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="txtYear" data-placement="bottom"></input>
 						</div>
 					</div> 
 					<div name="container_Project" class="form-group ">
-						<label class="col-sm-4 control-label">Project</label>
+						<label class="col-sm-4 control-label">${LABEL_PROJECT_NAME}</label>
 						<div class="col-sm-5">
 							<select id="ddlProject" class="form-control">
-								<option value="null">-- Project Name --</option>
+								<option value="null">-- ${LABEL_PROJECT_NAME} --</option>
 							</select>
 						</div>
 					</div>
 					<div name="container_Module" class="form-group">
-						<label class="col-sm-4 control-label">Module</label>
+						<label class="col-sm-4 control-label">${LABEL_MODULE}</label>
 						<div class="col-sm-5">
 							<select id="ddlModule" class="form-control">
-								<option value="null">-- Module --</option>
+								<option value="null">-- ${LABEL_MODULE} --</option>
 							</select>
 						</div>
 					</div>
 					<div name="container_Team" class="form-group">
-						<label class="col-sm-4 control-label">Team</label>
+						<label class="col-sm-4 control-label">${LABEL_TEAM}</label>
 						<div class="col-sm-5">
 							<select id="ddlTeam" class="form-control">
-								<option value="null">-- Team --</option>
+								<option value="null">-- ${LABEL_TEAM} --</option>
 							</select>
 						</div>
 					</div>
 					<div name="container_Date" class="form-group">
 						<div class="form-inline">
-							<label class="col-sm-4 control-label required">Start Date </label>
+							<label class="col-sm-4 control-label required">${LABEL_START_DATE}</label>
 							<div class='col-sm-2'>
 								<div class='input-group'>
-									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="Start Time" readonly="true" style="cursor:pointer"></input>
+									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer"></input>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar "></span>
 									</span>
 								</div>
 							</div>
-							<label class="col-sm-1 control-label required">End Date </label>
+							<label class="col-sm-1 control-label required">${LABEL_END_DATE}</label>
 							<div class='col-sm-2'>
 								<div class='input-group'>
-									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="End Time" readonly="true" style="cursor:pointer"></input>
+									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer"></input>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
 								</div>
 							</div>
 						</div>
-					</div>		
-					
+					</div>
 					<div name="btnSearchAndReset" class="form-group">
 						<div class="col-sm-6"><!--Not Empty --></div>
-						<button id="btnSearch" type="button" class="btn btn-primary">Search</button>
+						<button id="btnSearch" type="button" class="btn btn-primary">${BUTTON_SEARCH}</button>
 						<button id="btnReset" type="button" class="btn btn-danger" style='margin:10px'>Reset</button>
 					</div>			
 				</form>
@@ -81,14 +148,14 @@
 	<div name="cotainerAnswer">
 		<div name="panelEmployee" id="panelEmployee" class="col-md-8">
 			<div class="panel panel-primary">
-				<div class="panel-heading">Employee Detail</div>
+				<div class="panel-heading">${LABEL_EMPLOYEE_SCHEDULE}</div>
 					<div style="width: 100%; height: 100%; overflow-x: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
 						<table id="tableData" class="table table-bordered text-center">
 							<tr id="tbSevenDay">
 								<th class="text-center" style='min-width:120px;'><!--Not--></th>
 							</tr>
 							<tr id="tbDate">
-								<td class="text-center" style='min-width:120px;'>Name</td>
+								<td class="text-center" style='min-width:120px;'>${LABEL_EMPLOYEE_NAME}</td>
 							</tr> 
 						</table>
 					</div>
@@ -96,12 +163,12 @@
 		</div>
 		<div name="panelPlan" id='panelPlan' class="col-md-4">
 			<div class="panel panel-primary">
-				<div class="panel-heading">Plan Detail</div>
+				<div class="panel-heading">${LABEL_EMPTY_TASK}</div>
 					<table id="tableEmpty" class="table table-bordered">
 					  	<tr>
-							<th class="text-center">Name</th>
-							<th class="text-center">Module</th>
-							<th class="text-center">Type</th>
+							<th class="text-center">${LABEL_TASK_NAME}</th>
+							<th class="text-center">${LABEL_MODULE}</th>
+							<th class="text-center">${LABEL_TASK_TYPE_NAME}</th>
 						</tr> 
 					</table>
 			</div>
@@ -109,10 +176,7 @@
 	</div>
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
-    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
-
-	<spring:url value="/resources/scripts/Plan/emptyPlan.js" var="emptyPlan"/>
-	<script src="${emptyPlan}" type="text/javascript"><!--Not Empty--></script>	
+    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>>
 
 	<spring:url value="/resources/scripts/Plan/schedulePlan.js" var="schedulePlan"/>
 	<script src="${schedulePlan}" type="text/javascript"><!--Not Empty--></script>	

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.Module;
+import org.apache.derby.vti.Restriction;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
@@ -259,6 +260,30 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
         List<ProjectManager> listManager = criteria.list();
         return listManager;
+    }
+
+    public static List<Plan> Plan.findPlansByEmpCode (String empCode) throws Exception {
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        Date dStart = new Date(Long.parseLong(startProject));
+//        try {
+//            dStart = formatter.parse(formatter.format(dStart));
+//        }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+//
+//        Date dEnd = new Date(Long.parseLong(endProject));
+//        try {
+//            dEnd = formatter.parse(formatter.format(dEnd));
+//        }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class , "plan");
+        criteria.createAlias("plan.task", "Task", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or((Restrictions.eq("Task.empCode", empCode)),(Restrictions.eq("otherTask.empCode", empCode))));
+        List<Plan> listPlan = criteria.list();
+        return listPlan;
     }
 
 }

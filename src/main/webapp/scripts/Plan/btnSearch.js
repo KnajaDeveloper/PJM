@@ -35,14 +35,14 @@ $("#ddlProject").change(function(){
 function checkYear(){
 	var textYear = ""+$("#txtYear").val();
 	if(textYear=="" || textYear==" ") {
-		$('#txtYear').attr("data-content","Please enter year.");
+		$('#txtYear').attr("data-content",Message.Complete_this_feld);
 		$('#txtYear').popover('show');
 		return false;
 	}
 	var checkKey = textYear.split('');
 	for(var i=0;i<checkKey.length;i++){
 		if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
-			$('#txtYear').attr("data-content","Please enter only [0 - 9].");
+			$('#txtYear').attr("data-content",""+Message.Number_only);
 			$('#txtYear').popover('show');
 			return false;
 		}
@@ -52,12 +52,12 @@ function checkYear(){
 
 function checkDate(){
 	if($("#dateStart").val() == "" || $("#dateStart").val() == " ") {
-		$('#dateStart').attr("data-content","Please Complete this field.");
+		$('#dateStart').attr("data-content",Message.MESSAGE_COMPLETE_DATE);
 		$('#dateStart').popover('show');
 		return false;
 	}
 	if($("#dateEnd").val() == "" || $("#dateEnd").val() == " ") {
-		$('#dateEnd').attr("data-content","Please Complete this field.");
+		$('#dateEnd').attr("data-content",Message.MESSAGE_COMPLETE_DATE);
 		$('#dateEnd').popover('show');
 		return false;
 	}
@@ -112,7 +112,7 @@ function searchModuleProjectByProjectId(projectId){
 
 function addDDLToProjectDDL(project){
 	$("#ddlProject").empty();
-	$("#ddlProject").append("<option value=null>-- Project Name --</option>");
+	$("#ddlProject").append("<option value=null>-- "+Label.Project_name+" --</option>");
 	for(var i = 0 ; i < project.length ; i++){
 		$("#ddlProject").append("<option value='"+project[i].id+"'>"+project[i].projectName+"</option>");
 	}
@@ -120,7 +120,7 @@ function addDDLToProjectDDL(project){
 
 function addDDLToModuleDDL(module){
 	$("#ddlModule").empty();
-	$("#ddlModule").append("<option value=null>-- Module --</option>");
+	$("#ddlModule").append("<option value=null>-- "+Label.Module+" --</option>");
 	for(var i = 0 ; i < module.length ; i++){
 		$("#ddlModule").append("<option value='"+module[i].id+"'>"+module[i].moduleName+"</option>");
 	}
