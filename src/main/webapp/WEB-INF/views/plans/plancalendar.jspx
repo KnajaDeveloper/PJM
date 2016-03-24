@@ -62,6 +62,7 @@
     <c:set var="MESSAGE_DELETE_COMPLETED" scope="request"><spring:message code="M0014"/></c:set>
     <c:set var="MESSAGE_DELETE_FAILED" scope="request"><spring:message code="M0015"/></c:set>
 
+    <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>    
 
     <script>
         var MESSAGE = {};
@@ -78,9 +79,12 @@
         MESSAGE.LEAVE_COMPLETED = '${MESSAGE_LEAVE_COMPLETED}';
         MESSAGE.LEAVE_FAILED = '${MESSAGE_LEAVE_FAILED}';
         MESSAGE.CONFIRM_DELETE = '${MESSAGE_CONFIRM_DELETE}';
+        MESSAGE.CONFIRM_CANCEL = 'Do you want to cancel without save';
         MESSAGE.DELETE_COMPLETED = '${MESSAGE_DELETE_COMPLETED}';
         MESSAGE.DELETE_FAILED = '${MESSAGE_DELETE_FAILED}';
         MESSAGE.DATE_FORMAT = 'Error date format';
+
+        MESSAGE.DATA_NO_CHANGE = '${MESSAGE_DATA_NO_CHANGE}';
 
         MESSAGE.CHECKBOX_PRIVATE_TASK = '${LABEL_PRIVEATE_TASK}';
         MESSAGE.CHECKBOX_PUBLIC_TASK = '${LABEL_PUBLIC_TASK}';
@@ -154,6 +158,10 @@
         #calendar .fc-day-number.fc-other-month {
             opacity: 1;
             color: rgba(0, 0, 0, 0.3);
+        }
+
+        #calendar .fc-event-container{
+            cursor: pointer;
         }
 
         .full-label {
@@ -419,7 +427,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btnSaveAddPlan" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
-                    <button id="btnCancelAddPlan" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                    <button id="btnCancelAddPlan" type="button" class="btn btn-primary">${BUTTON_CANCEL}</button>
                     <button id="btnCancelTask" type="button" class="btn btn-danger">${BUTTON_LEAVE}</button>
                 </div>
             </div>
@@ -503,16 +511,13 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btnSaveEditPlan" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
-                    <button id="btnCancelEditPlan" type="button" class="btn btn-danger">${BUTTON_CANCEL}</button>
+                    <button id="btnCancelEditPlan" type="button" class="btn btn-primary">${BUTTON_CANCEL}</button>
                     <button id="btnDeleteEditPlan" type="button" class="btn btn-danger">${BUTTON_DELETE}</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        var contextPath = '${pageContext.request.contextPath}';
-    </script>
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 

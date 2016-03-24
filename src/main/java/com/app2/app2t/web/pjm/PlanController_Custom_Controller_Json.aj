@@ -55,38 +55,34 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArray = new JSONArray(json);
-            Long moduleId = Long.parseLong(jsonArray.get(0).toString());
+            Long moduleId = jsonArray.getLong(0);
             JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(1);
-            boolean getMyTask = Boolean.parseBoolean(jsonArray.get(2).toString());
-            boolean getOtherTask = Boolean.parseBoolean(jsonArray.get(3).toString());
+            boolean getMyTask = jsonArray.getBoolean(2);
+            boolean getOtherTask = jsonArray.getBoolean(3);
 
-            // find my module
+            String userName = AuthorizeUtil.getUserName();
+            List<Map> empList = emRestService.getEmployeeByUserName(userName);
+            String empCode = empList.get(0).get("empCode").toString();
+
             List<Long> listModuleId = new ArrayList<>();
-            if (moduleId == 0) {
-                String userName = AuthorizeUtil.getUserName();
-                List<Map> empList = emRestService.getEmployeeByUserName(userName);
-                String empCode = empList.get(0).get("empCode").toString();
-
+            if (moduleId == 0) {  // all module
                 List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByEmpCode(empCode);
-                LOGGER.debug("List module members {}", moduleMembers);
-
                 for (ModuleMember moduleMember : moduleMembers) {
                     listModuleId.add(moduleMember.getModuleProject().getId());
                 }
-            } else {
+            } else {    // some module
                 listModuleId.add(moduleId);
             }
 
             List<Long> listTypeTaskId = new ArrayList<>();
             for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
-                listTypeTaskId.add(Long.parseLong(jsonArrayTypeTask.get(i).toString()));
+                listTypeTaskId.add(jsonArrayTypeTask.getLong(i));
             }
-
-            LOGGER.debug("List module id {}", listModuleId);
+            LOGGER.debug("=================> List module id {}", listModuleId);
 
             List<Task> result = null;
             if (listModuleId.size() > 0) {
-                result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, AuthorizeUtil.getUserName());
+                result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, empCode);
             }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -105,9 +101,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             String empCode = empList.get(0).get("empCode").toString();
 
             List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByEmpCode(empCode);
-
             List<ModuleProject> result = new ArrayList<>();
-
             for (ModuleMember moduleMember : moduleMembers) {
                 result.add(ModuleProject.findModuleProject(moduleMember.getModuleProject().getId()));
             }
@@ -136,31 +130,30 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArrayPlan = new JSONArray(json);
-            Long taskId = Long.parseLong(jsonArrayPlan.get(0).toString());
-            boolean shiftPlan = Boolean.parseBoolean(jsonArrayPlan.get(1).toString());
+            Long taskId = jsonArrayPlan.getLong(0);
+            boolean shiftPlan = jsonArrayPlan.getBoolean(1);
 
             // Edit task -> update empCode for task
             String userName = AuthorizeUtil.getUserName();
             List<Map> empList = emRestService.getEmployeeByUserName(userName);
             String empCode = empList.get(0).get("empCode").toString();
+
             Task task = Task.updateEmpCode(taskId, empCode);
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
             for (int i = 2; i < jsonArrayPlan.length(); i++) {
                 JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
-                Date dateStart = new Date(Long.valueOf(jsonPlan.getLong("dateStart")));
-                Date dateEnd = new Date(Long.valueOf(jsonPlan.getLong("dateEnd")));
+                Date dateStart = new Date(jsonPlan.getLong("dateStart"));
+                Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
                 dateStart = formatter.parse(formatter.format(dateStart));
                 dateEnd = formatter.parse(formatter.format(dateEnd));
 
                 if (shiftPlan) {                                                        // ถ้าต้องเลื่อนแผนงาน
-                    List<Plan> plansOverlap = Plan.findPlanOverlap(dateStart, dateEnd);
+                    List<Plan> plansOverlap = Plan.findPlanOverlap(dateStart, dateEnd, null, empCode);
                     if(plansOverlap.size() > 0) {
-                        List<Plan> plans = Plan.findPlanEndAfter(dateStart);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่                        
+                        List<Plan> plans = Plan.findPlanEndAfter(dateStart, null, empCode);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
                         long diffInMillies = dateEnd.getTime() - plans.get(0).getDateStart().getTime();
                         int shiftDate = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1;
-                        LOGGER.debug("-------" + shiftDate);
 
                         for (int j = 0; j < plans.size(); j++) {
                             Plan plan = plans.get(j);
@@ -171,7 +164,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                     }
                 }
 
-                Plan.insertPlan(task, dateStart, dateEnd);                          // เพิ่มแผนงานใหม่
+                Plan.insertPlan(task, dateStart, dateEnd);
             }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
@@ -188,10 +181,10 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONObject jsonPlan = new JSONObject(json);
-            String taskName = jsonPlan.get("taskName").toString();
-            int taskCost = Integer.parseInt(jsonPlan.get("taskCost").toString());
-            Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
-            Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
+            String taskName = jsonPlan.getString("taskName");
+            int taskCost = jsonPlan.getInt("taskCost");
+            Date dateStart = new Date(jsonPlan.getLong("dateStart"));
+            Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             dateStart = formatter.parse(formatter.format(dateStart));
@@ -231,29 +224,30 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArrayPlan = new JSONArray(json);
-            Long planId = Long.parseLong(jsonArrayPlan.get(0).toString());
-            boolean shiftPlan = Boolean.parseBoolean(jsonArrayPlan.get(1).toString());
-            int progress = Integer.parseInt(jsonArrayPlan.get(2).toString());
+            Long planId = jsonArrayPlan.getLong(0);
+            boolean shiftPlan = jsonArrayPlan.getBoolean(1);
+            int progress = jsonArrayPlan.getInt(2);
+
+            String userName = AuthorizeUtil.getUserName();
+            List<Map> empList = emRestService.getEmployeeByUserName(userName);
+            String empCode = empList.get(0).get("empCode").toString();
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
             Task task = null;
             OtherTask otherTask = null;
             for (int i = 3; i < jsonArrayPlan.length(); i++) {
                 JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
-                Date dateStart = new Date(Long.valueOf(jsonPlan.get("dateStart").toString()));
-                Date dateEnd = new Date(Long.valueOf(jsonPlan.get("dateEnd").toString()));
+                Date dateStart = new Date(jsonPlan.getLong("dateStart"));
+                Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
                 dateStart = formatter.parse(formatter.format(dateStart));
                 dateEnd = formatter.parse(formatter.format(dateEnd));
 
                 if (shiftPlan) {                                                    // ถ้าต้องเลื่อนแผนงาน
-                    List<Plan> plansOverlap = Plan.findPlanOverlap(dateStart, dateEnd);
+                    List<Plan> plansOverlap = Plan.findPlanOverlap(dateStart, dateEnd, planId, empCode);
                     if(plansOverlap.size() > 0) {
-                        List<Plan> plans = Plan.findPlanEndAfter(dateStart);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
-
+                        List<Plan> plans = Plan.findPlanEndAfter(dateStart, planId, empCode);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
                         long diffInMillies = dateEnd.getTime() - plans.get(0).getDateStart().getTime();
                         int shiftDate = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1;
-
                         for (int j = 0; j < plans.size(); j++) {
                             Plan plan = plans.get(j);
                             plan.setDateStart(DateUtils.addDays(plan.getDateStart(), shiftDate));

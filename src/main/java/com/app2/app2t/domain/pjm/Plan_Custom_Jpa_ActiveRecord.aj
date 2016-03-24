@@ -79,14 +79,30 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return plans;
     }
 
-    public static List<Plan> Plan.findPlanOverlap(Date beginDate, Date endDate) {
+    public static List<Plan> Plan.findPlanOverlap(Date beginDate, Date endDate, Long planId, String empCode) {
         EntityManager ent = Plan.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
+        Criteria criteria2 = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan2");
+        criteria.createAlias("Plan.task", "task");
+        criteria2.createAlias("Plan2.otherTask", "otherTask");
 
         try {
+            criteria.add(Restrictions.eq("task.empCode", empCode));
             criteria.add(Restrictions.ge("dateEnd", beginDate));
             criteria.add(Restrictions.le("dateStart", endDate));
-            criteria.addOrder(Order.asc("dateStart"));
+            if(planId != null)
+                criteria.add(Restrictions.ne("id", planId));
+
+            criteria2.add(Restrictions.eq("otherTask.empCode", empCode));
+            criteria2.add(Restrictions.ge("dateEnd", beginDate));
+            criteria2.add(Restrictions.le("dateStart", endDate));
+            if(planId != null)
+                criteria2.add(Restrictions.ne("id", planId));
+
+            List<Plan> plans = new ArrayList<>(criteria.list());
+            plans.addAll(criteria2.list());
+            return plans;
+
         } catch (Exception e) {
             
         }
@@ -94,12 +110,14 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Plan> Plan.findPlanEndAfter(Date beginDate) {
+    public static List<Plan> Plan.findPlanEndAfter(Date beginDate, Long planId, String empCode) {
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
 
         try {
             criteria.add(Restrictions.ge("dateEnd", beginDate));
+            if(planId != null) 
+                criteria.add(Restrictions.ne("id", planId));
             criteria.addOrder(Order.asc("dateStart"));
         } catch (Exception e) {
             

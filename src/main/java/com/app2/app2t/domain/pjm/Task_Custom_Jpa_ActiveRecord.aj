@@ -17,20 +17,19 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Task_Custom_Jpa_ActiveRecord.class);
 
-    public static List<Task> Task.findTaskByModuleAndTypeTask(List<Long> listModuleId, List<Long> listTypeTaskId, boolean getMyTask, boolean getOtherTask, String userName) {
+    public static List<Task> Task.findTaskByModuleAndTypeTask(List<Long> listModuleId, List<Long> listTypeTaskId, boolean getMyTask, boolean getOtherTask, String empCode) {
 
         DetachedCriteria subCriteria = DetachedCriteria.forClass(Plan.class);
         subCriteria.add(Restrictions.not(Restrictions.isNull("task")));
         subCriteria.setProjection(Projections.distinct(Projections.property("task")));
 
         EntityManager ent = Task.entityManager();
-
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "Task");
         criteria.add(Restrictions.lt("progress", 100));
         criteria.createAlias("Task.typeTask", "typeTask");
         criteria.createAlias("Task.program", "program");
         criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.in("moduleProject.id", listModuleId));                    // in my module
+        criteria.add(Restrictions.in("moduleProject.id", listModuleId));                    // where in my module
         criteria.add(Subqueries.propertyNotIn("Task.id", subCriteria));                     // not in my plan
 
         if (listTypeTaskId.size() > 0) {
@@ -38,11 +37,11 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         }
 
         if (getMyTask && !getOtherTask) {
-            criteria.add(Restrictions.eq("empCode", userName));
+            criteria.add(Restrictions.eq("empCode", empCode));
         } else if (!getMyTask && getOtherTask) {
             criteria.add(Restrictions.eq("empCode", ""));
         } else {
-            criteria.add(Restrictions.or(Restrictions.eq("empCode", ""), Restrictions.eq("empCode", userName)));
+            criteria.add(Restrictions.or(Restrictions.eq("empCode", ""), Restrictions.eq("empCode", empCode)));
         }
 
         criteria.addOrder(Order.desc("empCode"))
