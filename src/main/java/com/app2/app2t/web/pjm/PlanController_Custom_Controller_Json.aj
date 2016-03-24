@@ -8,12 +8,10 @@ import com.app2.app2t.util.AuthorizeUtil;
 import com.app2.app2t.web.pjm.PlanController;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import com.sun.corba.se.spi.ior.ObjectKey;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import flexjson.JSONSerializer;
 import org.apache.commons.lang3.time.DateUtils;
@@ -21,6 +19,8 @@ import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +29,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import sun.rmi.runtime.Log;
 
 privileged aspect PlanController_Custom_Controller_Json {
+
+    protected static Logger LOGGER = LoggerFactory.getLogger(PlanController_Custom_Controller_Json.class);
 
     @RequestMapping(value = "/findPlanByMonth", method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> PlanController.findPlanByMonth(
@@ -294,6 +296,44 @@ privileged aspect PlanController_Custom_Controller_Json {
             long planId = Long.parseLong(json.toString());
             Plan.deleteById(planId);
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findDataByYearAndProjectAndModuleProjectAndTeam", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.findDataByYearAndProjectAndModuleProjectAndTeam(
+            @RequestParam(value = "statProject", required = false) String statProject ,
+            @RequestParam(value = "endProject", required = false) String endProject ,
+            @RequestParam(value = "projectId", required = false) String projectId ,
+            @RequestParam(value = "moduleProjectId", required = false) String moduleProjectId ,
+            @RequestParam(value = "teamId", required = false) String teamId
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            Map<String,Object> maps = new HashMap<>();
+            List<List<Plan>> listPlan = new ArrayList<>();
+            List<ModuleMember> listMember = Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
+            List<ModuleManager> listManager = Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
+            List<ProjectManager> listProjectManager = Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam(statProject,endProject,projectId,teamId);
+            List<String> listEmpCode = new ArrayList<>();
+            for(int i = 0 ; i < listMember.size() ; i++){
+                if(listEmpCode.indexOf(listMember.get(i).getEmpCode())==-1) listEmpCode.add(listMember.get(i).getEmpCode());
+            }
+            for(int i = 0 ; i < listManager.size() ; i++){
+                if(listEmpCode.indexOf(listManager.get(i).getEmpCode())==-1) listEmpCode.add(listManager.get(i).getEmpCode());
+            }
+            for(int i = 0 ; i < listProjectManager.size() ; i++){
+                if(listEmpCode.indexOf(listProjectManager.get(i).getEmpCode())==-1) listEmpCode.add(listProjectManager.get(i).getEmpCode());
+            }
+            maps.put("Name",listEmpCode);
+            for(int i = 0 ; i < listEmpCode.size() ; i++){
+                List<Plan> plan = Plan.findPlansByEmpCode(listEmpCode.get(i));
+                listPlan.add(plan);
+            }
+            maps.put("Plan",listPlan);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps),headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }

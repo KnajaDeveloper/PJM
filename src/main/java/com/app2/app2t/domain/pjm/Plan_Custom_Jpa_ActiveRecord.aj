@@ -6,19 +6,28 @@ package com.app2.app2t.domain.pjm;
 import com.app2.app2t.domain.pjm.Plan;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.Module;
+import org.apache.derby.vti.Restriction;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
+import org.hibernate.type.IntegerType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 privileged aspect Plan_Custom_Jpa_ActiveRecord {
+
+    protected static Logger LOGGER = LoggerFactory.getLogger(Plan_Custom_Jpa_ActiveRecord.class);
 
     public static void Plan.insertPlan(Task task, Date dateStart, Date dateEnd) {
         Plan plan = new Plan();
@@ -157,4 +166,124 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
         }
     }
+
+    public static List<ModuleMember> Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam (String startProject,String endProject,String projectId,String moduleProjectId,String teamId) throws Exception {
+//        EntityManager ent1 = Plan.entityManager();
+//        Criteria criteria1 = ((Session) ent1.getDelegate()).createCriteria(ModuleMember.class , "ModuleMember");
+//        criteria1.createAlias("ModuleMember.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
+//        criteria1.createAlias("moduleProject.project", "Project", JoinType.LEFT_OUTER_JOIN);
+//        List<ModuleMember> listMember1 = criteria1.list();
+//        listMember1.size();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date dStart = new Date(Long.parseLong(startProject));
+        try {
+            dStart = formatter.parse(formatter.format(dStart));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        Date dEnd = new Date(Long.parseLong(endProject));
+        try {
+            dEnd = formatter.parse(formatter.format(dEnd));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        LOGGER.debug("{}",dStart);
+        LOGGER.debug("{}",dEnd);
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class , "ModuleMember");
+        criteria.createAlias("ModuleMember.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("moduleProject.project", "Project", JoinType.LEFT_OUTER_JOIN);
+//        criteria.add(Restrictions.ge("Project.dateStart", dStart));
+//        criteria.add(Restrictions.le("Project.dateStart", dEnd));
+        if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
+        if(moduleProjectId!="") criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleProjectId)));
+        List<ModuleMember> listMember = criteria.list();
+        return listMember;
+    }
+
+    public static List<ModuleManager> Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam (String startProject,String endProject,String projectId,String moduleProjectId,String teamId) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date dStart = new Date(Long.parseLong(startProject));
+        try {
+            dStart = formatter.parse(formatter.format(dStart));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        Date dEnd = new Date(Long.parseLong(endProject));
+        try {
+            dEnd = formatter.parse(formatter.format(dEnd));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        LOGGER.debug("{}",dStart);
+        LOGGER.debug("{}",dEnd);
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class , "ModuleManager");
+        criteria.createAlias("ModuleManager.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("moduleProject.project", "Project", JoinType.LEFT_OUTER_JOIN);
+//        criteria.add(Restrictions.ge("Project.dateStart", dStart));
+//        criteria.add(Restrictions.le("Project.dateStart", dEnd));
+        if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
+        if(moduleProjectId!="") criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleProjectId)));
+        List<ModuleManager> listManager = criteria.list();
+        return listManager;
+    }
+
+    public static List<ProjectManager> Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam (String startProject,String endProject,String projectId,String teamId) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date dStart = new Date(Long.parseLong(startProject));
+        try {
+            dStart = formatter.parse(formatter.format(dStart));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        Date dEnd = new Date(Long.parseLong(endProject));
+        try {
+            dEnd = formatter.parse(formatter.format(dEnd));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        LOGGER.debug("{}",dStart);
+        LOGGER.debug("{}",dEnd);
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class , "projectManager");
+        criteria.createAlias("projectManager.project", "Project", JoinType.LEFT_OUTER_JOIN);
+//        criteria.add(Restrictions.ge("Project.dateStart", dStart));
+//        criteria.add(Restrictions.le("Project.dateStart", dEnd));
+        if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
+        List<ProjectManager> listManager = criteria.list();
+        return listManager;
+    }
+
+    public static List<Plan> Plan.findPlansByEmpCode (String empCode) throws Exception {
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        Date dStart = new Date(Long.parseLong(startProject));
+//        try {
+//            dStart = formatter.parse(formatter.format(dStart));
+//        }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+//
+//        Date dEnd = new Date(Long.parseLong(endProject));
+//        try {
+//            dEnd = formatter.parse(formatter.format(dEnd));
+//        }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class , "plan");
+        criteria.createAlias("plan.task", "Task", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or((Restrictions.eq("Task.empCode", empCode)),(Restrictions.eq("otherTask.empCode", empCode))));
+        List<Plan> listPlan = criteria.list();
+        return listPlan;
+    }
+
 }

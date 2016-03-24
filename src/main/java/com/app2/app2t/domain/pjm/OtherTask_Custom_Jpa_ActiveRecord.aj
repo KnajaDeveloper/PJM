@@ -8,6 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import javax.persistence.EntityManager;
+import java.util.List;
+
 privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
 
     public static OtherTask OtherTask.insertOtherTask(String taskName, int taskCost, String userName) {
@@ -31,6 +34,13 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("typeTask.id", id));
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
+    }
+
+    public static List<OtherTask> OtherTask.findEmptyOtherTask() {
+        EntityManager ent = OtherTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(OtherTask.class, "otherTask");
+        criteria.add(Restrictions.eq("otherTask.empCode",""));
+        return criteria.list();
     }
     
 }
