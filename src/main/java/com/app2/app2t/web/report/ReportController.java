@@ -185,6 +185,7 @@ public class ReportController extends AbstractReportJasperXLS {
     @ResponseBody
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
             , @RequestParam(value = "projectId", required = false) String projectId
+            , @RequestParam(value = "projectName", required = false) String projectName
             , @RequestParam(value = "moduleCode", required = false) String moduleCode
             , @RequestParam(value = "moduleName", required = false) String moduleName
             , @RequestParam(value = "printDate", required = false) String printDate
@@ -225,6 +226,7 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("fTaskCode",getLabelFromPropertiesFile("L0033"));
         params.put("fTaskName",getLabelFromPropertiesFile("L0034"));
         params.put("tPoint",getLabelFromPropertiesFile("L0030"));
+        params.put("projectName",projectName);
         params.put("moduleName",moduleName);
         params.put("printDate",printDate);
         params.put("printFName", UFname);
@@ -239,8 +241,6 @@ public class ReportController extends AbstractReportJasperXLS {
             sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
             sqlQuery.append(" and MODULECODE = ? ");
         }
-
-
 
 
         //       LOGGER.error("sql >> {}",sqlQuery.toString());

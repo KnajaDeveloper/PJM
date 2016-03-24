@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP02" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
 	<property name="ireport.zoom" value="0.9330147604194858"/>
-	<property name="ireport.x" value="62"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -75,7 +75,7 @@
 		<groupExpression><![CDATA[$F{MODULENAME}]]></groupExpression>
 		<groupHeader>
 			<band height="27">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement uuid="e4bde487-b207-4b8d-90b0-b0db37eb171d" x="0" y="0" width="802" height="27"/>
 					<box>
 						<pen lineWidth="0.75"/>
@@ -184,7 +184,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement uuid="d1b8e154-d314-445a-82c6-7db88854713e" x="684" y="0" width="118" height="25"/>
 					<box>
 						<pen lineWidth="0.75"/>
@@ -196,7 +196,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{sumPoint}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{sumPoint}==null?0:$V{sumPoint}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -280,19 +280,19 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fModuleName}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="381c8009-c113-4103-bb89-ce5f52f2a990" x="203" y="0" width="192" height="21"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{PROJECTNAME}]]></textFieldExpression>
-			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="f691ce37-82fe-478f-971d-8c6c2e971246" x="203" y="21" width="192" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{moduleName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="af4641f7-8eea-404b-b7f5-c9c92e5c1cf1" x="203" y="0" width="192" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{projectName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -360,7 +360,7 @@
 					<pen lineWidth="0.75"/>
 				</graphicElement>
 			</rectangle>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="4f67e882-007f-4104-a279-bac5ecc3c8fd" x="684" y="0" width="118" height="26"/>
 				<box>
 					<pen lineWidth="0.75"/>
