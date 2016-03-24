@@ -129,6 +129,8 @@
     <c:set var="MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT" scope="request"><spring:message text="M0031"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_ONLY_NUMBERS" scope="request"><spring:message text="M0050"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100" scope="request"><spring:message code="M0017"/></c:set>
+    <c:set var="MSG_DATE_INCOLLECT" scope="request"><spring:message code="M0032"/></c:set>
+    <c:set var="MSG_YOU_WANT_TO_SAVE_DATA" scope="request"><spring:message text="M0051"/></c:set>
 
     <script type="text/javascript">
         var Label = {};
@@ -163,6 +165,8 @@
         Message.MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT = '${MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT}';
         Message.MSG_PLEASE_ENTER_ONLY_NUMBERS = '${MSG_PLEASE_ENTER_ONLY_NUMBERS}';
         Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100 = '${MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100}';
+        Message.MSG_DATE_INCOLLECT = '${MSG_DATE_INCOLLECT}';
+        Message.MSG_YOU_WANT_TO_SAVE_DATA = '${MSG_YOU_WANT_TO_SAVE_DATA}';
         
     </script>
 
@@ -240,7 +244,6 @@
                                 <br/>
                                 <label class="control-label">${LABEL_POINT}</label>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -463,9 +466,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text"  class="form-control" id="dateStartProject" name="dateStartProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="${LABEL_START_DATE}" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar "></span>
+                                        <input data-placement="bottom" type="text"  class="form-control" id="dateStartProject" placeholder="dd/mm/yyyy" />
+                                        <span class="input-group-addon" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-calendar" ></span>
                                         </span>
                                     </div>
                                 </div>
@@ -476,9 +479,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="dateEndProject" name="dateEndProject" readonly="true" style="cursor:pointer; background-color:white;" placeholder="${LABEL_END_DATE}" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar "></span>
+                                        <input data-placement="bottom" type="text" class="form-control" id="dateEndProject" placeholder="dd/mm/yyyy" />
+                                        <span class="input-group-addon" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-calendar" ></span>
                                         </span>
                                     </div>
                                 </div>
@@ -536,6 +539,9 @@
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
+    <spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
+    <script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
+
     <spring:url value="/resources/scripts/ModuleProject/detailsModule.js" var="detailsModule" />
     <script src="${detailsModule}" type="text/javascript"><!--Not Empty --></script>
 
@@ -556,6 +562,4 @@
     <spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
     <script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
     <script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
-    <spring:url value="/resources/scripts/ModuleProject/dateTimeEvent.js" var="dateTimeEvent"/>
-    <script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>
 </div>

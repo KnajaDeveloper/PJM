@@ -1,6 +1,23 @@
 var pagginationTask = $.extend({},UtilPaggination);
+var _language = commonData.language;
+var dateLang = checkLanguageDatePicker(_language);
 var programID;
 var trProgramNum;
+
+$(document).ready(function () {
+    $("#dateStartProject").datepicker(dateLang);
+    $("#dateEndProject").datepicker(dateLang);
+
+    $("#dateStartProject").on('change', function () {
+        DateUtil.setMinDate('dateStartProject', 'dateEndProject');
+        checkDateFormat($(this), Message.MSG_DATE_INCOLLECT,  Message.MSG_PLEASE_COMPLETE_THIS_FIEID);
+    });
+    
+    $("#dateEndProject").on('change', function () {
+        DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
+        checkDateFormat($(this), Message.MSG_DATE_INCOLLECT,  Message.MSG_PLEASE_COMPLETE_THIS_FIEID);
+    });
+});
 
 function paramProgramId(programId, trProgramNumber){
     programID = programId;
@@ -157,6 +174,8 @@ function openEditTask(element){
     $('#txtEmpName').val(null);
     $('#dateStartProject').val(null);
     $('#dateEndProject').val(null);
+    $("#dateStartProject").change();
+    $("#dateEndProject").change();
     $('#txtProgress').val(null).attr('disabled', true);
     document.getElementById("myInput").value = "";
     $('#fileName').text("");
@@ -225,6 +244,8 @@ $('#btnAddTask').click(function() {
     $('#txtEmpName').val(null);
     $('#dateStartProject').val(null);
     $('#dateEndProject').val(null);
+    $("#dateStartProject").change();
+    $("#dateEndProject").change();
     $('#txtProgress').val("0");
     $('#txtaDescription').val("");
 });
@@ -244,6 +265,150 @@ function checkTaskCode() {
 var index;
 function myFunction() {
     index = (document.getElementById("ddlTypeTask").selectedIndex) - 1;
+}
+
+function checkDateBeforeSaveData(dateEndTask, dateEndModule) {
+    var dateTask = dateEndTask.split('/');
+    var dateModule = dateEndModule.split('/');
+
+    var ddTask = dateTask[0];
+    var mmTask = dateTask[1];
+    var yyyyTask =  dateTask[2];
+
+    var ddModule = dateModule[0];
+    var mmModule = dateModule[1];
+    var yyyyModule =  dateModule[2];
+
+    if(yyyyTask > yyyyModule){
+        return false;
+    }else if(yyyyTask == yyyyModule){
+        if(mmTask > mmModule){
+            return false;
+        }else if(mmTask == mmModule){
+            if(ddTask > ddModule){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }else{
+        return true;
+    }
+}
+
+function saveDateToDataBase(id) {
+    var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase($('#dateStartProject').val(), commonData.language);
+    var dateEnd = $('#dateEndProject').val() == "" ? null : dataDateToDataBase($('#dateEndProject').val(), commonData.language);
+    if(chkAETask == 0){
+        if(checkDataTask() == 0){
+            if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
+                bootbox.alert(Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST);
+            }else{
+                $.ajax({
+                    headers: {
+                        Accept: "application/json"
+                    },
+                    type: "POST",
+                    url: contextPath + '/tasks/saveTask',
+                    data : {
+                        taskCode: $('#txtTaskCode').val(),
+                        taskName: $('#txtTaskName').val(),
+                        taskCost: parseInt($('#txtTaskCost').val()),
+                        typeTask: dataTypeTaskCode[index],
+                        empCode: $('#txtEmpName').val(),
+                        dateStart: new Date(dateStart),
+                        dateEnd: new Date(dateEnd),
+                        fileName: $('#fileName').text(),
+                        detail: $('#txtaDescription').val(),
+                        progress: $('#txtProgress').val(),
+                        id: programID
+                    },
+                    complete: function(xhr){
+                        if(xhr.status == 201){
+                            if(id == 'Add'){
+                                bootbox.alert(Message.MSG_SAVE_SUCCESS);
+                                $('#modalTask').modal('hide');
+                            }
+                            $('#txtTaskCode').val(null);
+                            $('#txtTaskName').val(null);
+                            $('#txtTaskCost').val(null);
+                            $('#txtEmpName').val(null);
+                            $('#dateStartProject').val(null);
+                            $('#dateEndProject').val(null);
+                            document.getElementById("myInput").value = "";
+                            $('#fileName').text("");
+                            $('#txtaDescription').val("");
+                            DDLData();
+                            searchDataTask();
+                            searchDataProgram();
+                            $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
+                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                        }else if(xhr.status == 500){
+                            bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                        }
+                    },
+                    async: false
+                });
+            }
+        }else{
+            bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE);
+        }
+    }else if(chkAETask == 1){
+        if($('#txtTaskName').val() == checkTaskName &&
+            $('#txtTaskCost').val() == checkTaskCost &&
+            dataTypeTaskCode[index] == checkTypeTask &&
+            $('#txtEmpName').val() == checkEmpName &&
+            $('#dateStartProject').val() == checkdateStart &&
+            $('#dateEndProject').val() == checkdateEnd &&
+            $('#txtProgress').val() == checkProgress &&
+            $('#fileName').text() == checkFileName &&
+            $('#txtaDescription').val() == checkDescription){
+            bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
+        }else{
+            $.ajax({
+                headers: {
+                    Accept: "application/json"
+                },
+                type: "GET",
+                url: contextPath + '/tasks/findEditTask',
+                data : {
+                    id: TaskID,
+                    taskCode: $('#txtTaskCode').val(),
+                    taskName: $('#txtTaskName').val(),
+                    taskCost: parseInt($('#txtTaskCost').val()),
+                    typeTask: dataTypeTaskCode[index],
+                    empCode: $('#txtEmpName').val(),
+                    dateStart: new Date(dateStart),
+                    dateEnd: new Date(dateEnd),
+                    fileName: $('#fileName').text(),
+                    detail: $('#txtaDescription').val(),
+                    progress: $('#txtProgress').val()
+                },
+                complete: function(xhr){
+                    if(xhr.status === 200){
+                        bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                        $('#modalTask').modal('hide');
+                        $('#txtTaskCode').val(null);
+                        $('#txtTaskName').val(null);
+                        $('#txtTaskCost').val(null);
+                        $('#txtEmpName').val(null);
+                        $('#dateStartProject').val(null);
+                        $('#dateEndProject').val(null);
+                        document.getElementById("myInput").value = "";
+                        $('#fileName').text("");
+                        $('#txtaDescription').val("");
+                        searchDataTask();
+                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                    }else if(xhr.status === 500){
+                        bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                    }
+                },
+                async: false
+            });
+        }
+    }
 }
 
 $('[id^=btnModalTask]').click(function() {
@@ -308,120 +473,19 @@ $('[id^=btnModalTask]').click(function() {
             }
         }else{
             if(checkTaskCode() == true){
-                var dateStart = $('#dateStartProject').val() == "" ? null : dataDateToDataBase($('#dateStartProject').val(), commonData.language);
-                var dateEnd = $('#dateEndProject').val() == "" ? null : dataDateToDataBase($('#dateEndProject').val(), commonData.language);
                 if($.isNumeric($('#txtTaskCost').val()) && $('#txtTaskCost').val().indexOf('.') < 0){
                     if($.isNumeric($('#txtProgress').val()) &&
                         $('#txtProgress').val().indexOf('.') < 0 &&
                         parseInt($('#txtProgress').val()) >= 0 &&
                         parseInt($('#txtProgress').val()) <= 100){
-                        if(chkAETask == 0){
-                            if(checkDataTask() == 0){
-                                if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
-                                    bootbox.alert(Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST);
-                                }else{
-                                    $.ajax({
-                                        headers: {
-                                            Accept: "application/json"
-                                        },
-                                        type: "POST",
-                                        url: contextPath + '/tasks/saveTask',
-                                        data : {
-                                            taskCode: $('#txtTaskCode').val(),
-                                            taskName: $('#txtTaskName').val(),
-                                            taskCost: parseInt($('#txtTaskCost').val()),
-                                            typeTask: dataTypeTaskCode[index],
-                                            empCode: $('#txtEmpName').val(),
-                                            dateStart: new Date(dateStart),
-                                            dateEnd: new Date(dateEnd),
-                                            fileName: $('#fileName').text(),
-                                            detail: $('#txtaDescription').val(),
-                                            progress: $('#txtProgress').val(),
-                                            id: programID
-                                        },
-                                        complete: function(xhr){
-                                            if(xhr.status == 201){
-                                                if(id == 'Add'){
-                                                    bootbox.alert(Message.MSG_SAVE_SUCCESS);
-                                                    $('#modalTask').modal('hide');
-                                                }
-                                                $('#txtTaskCode').val(null);
-                                                $('#txtTaskName').val(null);
-                                                $('#txtTaskCost').val(null);
-                                                $('#txtEmpName').val(null);
-                                                $('#dateStartProject').val(null);
-                                                $('#dateEndProject').val(null);
-                                                document.getElementById("myInput").value = "";
-                                                $('#fileName').text("");
-                                                $('#txtaDescription').val("");
-                                                DDLData();
-                                                searchDataTask();
-                                                searchDataProgram();
-                                                $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
-                                                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-                                            }else if(xhr.status == 500){
-                                                bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                                            }
-                                        },
-                                        async: false
-                                    });
+                        if(checkDateBeforeSaveData($('#dateEndProject').val(), $('#lblModuleDateEnd').text())){
+                            saveDateToDataBase(id);
+                        }else{
+                            bootbox.confirm(Message.MSG_YOU_WANT_TO_SAVE_DATA, function(result) {
+                                if(result == true){
+                                    saveDateToDataBase(id);
                                 }
-                            }else{
-                                bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE);
-                            }
-                        }else if(chkAETask == 1){
-                            if($('#txtTaskName').val() == checkTaskName &&
-                                $('#txtTaskCost').val() == checkTaskCost &&
-                                dataTypeTaskCode[index] == checkTypeTask &&
-                                $('#txtEmpName').val() == checkEmpName &&
-                                $('#dateStartProject').val() == checkdateStart &&
-                                $('#dateEndProject').val() == checkdateEnd &&
-                                $('#txtProgress').val() == checkProgress &&
-                                $('#fileName').text() == checkFileName &&
-                                $('#txtaDescription').val() == checkDescription){
-                                bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
-                            }else{
-                                $.ajax({
-                                    headers: {
-                                        Accept: "application/json"
-                                    },
-                                    type: "GET",
-                                    url: contextPath + '/tasks/findEditTask',
-                                    data : {
-                                        id: TaskID,
-                                        taskCode: $('#txtTaskCode').val(),
-                                        taskName: $('#txtTaskName').val(),
-                                        taskCost: parseInt($('#txtTaskCost').val()),
-                                        typeTask: dataTypeTaskCode[index],
-                                        empCode: $('#txtEmpName').val(),
-                                        dateStart: new Date(dateStart),
-                                        dateEnd: new Date(dateEnd),
-                                        fileName: $('#fileName').text(),
-                                        detail: $('#txtaDescription').val(),
-                                        progress: $('#txtProgress').val()
-                                    },
-                                    complete: function(xhr){
-                                        if(xhr.status === 200){
-                                            bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
-                                            $('#modalTask').modal('hide');
-                                            $('#txtTaskCode').val(null);
-                                            $('#txtTaskName').val(null);
-                                            $('#txtTaskCost').val(null);
-                                            $('#txtEmpName').val(null);
-                                            $('#dateStartProject').val(null);
-                                            $('#dateEndProject').val(null);
-                                            document.getElementById("myInput").value = "";
-                                            $('#fileName').text("");
-                                            $('#txtaDescription').val("");
-                                            searchDataTask();
-                                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
-                                        }else if(xhr.status === 500){
-                                            bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                                        }
-                                    },
-                                    async: false
-                                });
-                            }
+                            });
                         }
                     }else{
                         bootbox.alert(Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100);
