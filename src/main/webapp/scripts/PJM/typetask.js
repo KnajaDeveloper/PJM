@@ -30,7 +30,7 @@ paggination.loadTable = function loadTable(jsonData) {
         tableData = ''
             + '<tr>'
             + '<td class="text-center">'
-            + '<input inUseTask="' + value.inUseTask + '" inUseOtherTask="' + value.inUseOtherTask + '" id="' + value.id + '" class="checkboxTable" type="checkbox" />'
+            + '<input '+ (value.inUseTask > 0 || value.inUseOtherTask > 0 ?' inUseTask="' + value.inUseTask + '" inUseOtherTask="' + value.inUseOtherTask + '" ': 'status="check" ') + '  id="' + value.id + '"  class="checkboxTable" type="checkbox" />'
             + '</td>'
             + '<td class="text-center">'
             + '<button onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
@@ -115,7 +115,6 @@ $('[id^=btnM]').click(function () {
         $('#aTypeTaskCode').val(null);
         $('#aTypeTaskName').val(null);
 
-
     } else {
 
         if ($("#aTypeTaskCode").val() == "") {
@@ -156,11 +155,12 @@ $('[id^=btnM]').click(function () {
 
                                 $('#add').modal('hide');
                                 bootbox.alert(Message.Save_Success);
-                                searchData();
+
                             }
 
                             $('#aTypeTaskCode').val(null);
                             $('#aTypeTaskName').val(null);
+                            searchData();
 
                         } else if (xhr.status == 500) {
 
@@ -208,7 +208,10 @@ $('#btnDelete').click(function () {
 });
 
 $('#table').on("click", ".checkboxTable", function () {
-    if ($(".checkboxTable:checked").length == $(".checkboxTable").length) {
+    var checkNum = $('input[status=check]').length;
+    var checkBoxCheck =  $('input[status=check]:checked').length;
+
+    if (checkNum == checkBoxCheck ) {
         $("#checkAll").prop("checked", true);
     } else {
         $("#checkAll").prop("checked", false);
@@ -227,12 +230,12 @@ $('#checkAll').click(function () {
     $.each($(".checkboxTable:checked"), function (index, value) {
         if ($(this).attr("inUseTask") > 0) {
             $(this).prop("checked", false);
-            $("#checkAll").prop("checked", false);
+            $("#checkAll").prop("checked", true);
         }
 
         if ($(this).attr("inUseOtherTask") > 0) {
             $(this).prop("checked", false);
-            $("#checkAll").prop("checked", false);
+            $("#checkAll").prop("checked", true);
         }
     });
 });
@@ -336,7 +339,24 @@ function check(id) {
 
     ids = jQuery.parseJSON(responsResultTask.responseText);
     console.log(ids);
-
-
-
 }
+
+$("#btnECancel").click(function(){
+    if ($('#eTypeTaskName').val() === typeTaskName) {
+        $('#edit').modal('hide');
+        $('#eTypeTaskCode').popover('hide');
+        $('#eTypeTaskName').popover('hide');
+
+    }else {
+        bootbox.confirm(Message.Want_to_cancel, function (result) {
+
+            if (result === true) {
+                $('#edit').modal('hide');
+                $('#eTypeTaskCode').popover('hide');
+                $('#eTypeTaskName').popover('hide');
+
+
+            }
+        });
+    }
+});
