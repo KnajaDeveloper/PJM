@@ -54,9 +54,7 @@ function sendData() {
         //ตรงกับ RequestParam value
 
         var date = new Date();
-        var printDate = date.getDate() + "/" +
-            (parseInt(date.getMonth()) + 1) + "/" +
-            date.getFullYear();
+
 
         var empCode = $("#emp").val();
         var dateStart = $("#cDateBegin").val();
@@ -77,6 +75,9 @@ function sendData() {
         }
 
         if (_language == "TH") {
+            var printDate = date.getDate() + "/" +
+                (parseInt(date.getMonth()) + 1) + "/" +
+                (parseInt(date.getFullYear()) + 543 );
             plusYear = 543;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
                 + '&dateStartBase=' + dateStartBase
@@ -88,6 +89,9 @@ function sendData() {
 
 
         } else if (_language == "EN" || _language == 'EN_US') {
+            var printDate = date.getDate() + "/" +
+                (parseInt(date.getMonth()) + 1) + "/" +
+                (parseInt(date.getFullYear()) + 0 );
             plusYear = 0;
             window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
                 + '&dateStartBase=' + dateStartBase

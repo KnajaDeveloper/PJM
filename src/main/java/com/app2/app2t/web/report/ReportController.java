@@ -189,7 +189,7 @@ public class ReportController extends AbstractReportJasperXLS {
             , @RequestParam(value = "moduleCode", required = false) String moduleCode
             , @RequestParam(value = "moduleName", required = false) String moduleName
             , @RequestParam(value = "printDate", required = false) String printDate
-
+            , @RequestParam(value = "plusYear", required = false) Integer plusYear
 
     ) throws ParseException{
 
@@ -229,6 +229,7 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("projectName",projectName);
         params.put("moduleName",moduleName);
         params.put("printDate",printDate);
+        params.put("PlusYear", plusYear);
         params.put("printFName", UFname);
         params.put("printLName", ULname);
 
