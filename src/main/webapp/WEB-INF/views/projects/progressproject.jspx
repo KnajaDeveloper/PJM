@@ -75,7 +75,6 @@
         Message.MSG_DELETE_FAILED = '${MSG_DELETE_FAILED}';
         Message.MSG_LIST = '${MSG_LIST}';
         Message.MSG_DATA_IS_USE = '${MSG_DATA_IS_USE}';
-//        Message.MSG_PROJECT_CODE = '${MSG_PROJECT_CODE}';
         Message.MSG_POINT = '${MSG_POINT}';
         Message.MSG_SPACE = '${MSG_SPACE}';
     </script>

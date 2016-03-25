@@ -1,6 +1,7 @@
 var labelData;
 var ll2;
 var ll3;
+
 $(document).ready(function(){
  searchDataProgram();
  ProjectManager();
@@ -40,38 +41,7 @@ $('#lbldateEnd').text(DateUtil.dataDateToFrontend(addData.Project[0].dateEnd,com
 $('#lblBalanceCostsPoints').text(parseInt($('#lblCostsPoint').text()) -  CostTotal.responseJSON + Message.MSG_SPACE+Message.MSG_POINT);
 });
 
-var pagginationModule = Object.create(UtilPaggination);
-pagginationModule.setEventPaggingBtn("paggingSimpleModuleProject",pagginationModule);
-pagginationModule.loadTable = function loadTable (jsonData) {
 
-  if(jsonData.length <= 0)
-   bootbox.alert(Message.MSG_DATA_NOT_FOUND);
-
- $('#ResualtSearchProgram').empty();
- var link = "";
- var i = 1;
- var tableData = "";
- var key = 1 ;
-
- jsonData.forEach(function(value){
-     var checkProgress = value.progress == "" ? '0' : value.progress;
-     var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
-     text =  ''
-   +'<tr id ="trData' + key++ + '">'
-   +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></td>'
-   +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
-   +'<td  id="tdProgest" moduleId="' + value.id + '"onclick="onClickTrProgram(this)"> <div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ parseFloat(checkProgress).toFixed(2) + '%; color:#000">'
-   + parseFloat(checkProgress).toFixed(2) + '%'
-   +'</div>'
-   +'</td>'
-   +'<td  id="tdDateStart" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateStart,commonData.language)+'</td>'
-
-   +'<td id="tdDateEnd" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateEnd,commonData.language)+' </td>'
-   + '</tr>'
-
-   $('#ResualtSearch').append(text);
- });
-};
 function onClickTrProgram(object) {
     MuduleManager (object.attributes.moduleId.textContent);
     $('#lblNameManager').text(Label.LABEL_LABEL_MODULE_MANAGER)
@@ -84,20 +54,56 @@ function onClickTrProgram(object) {
 
 
 }
+var pagginationModule = $.extend({},UtilPaggination);
 function searchDataProgram() {
  var dataJsonData = {
-  projectCode: projectID
+     id : projectID
 }
+
 pagginationModule.setOptionJsonData({
- url:contextPath + "/moduleprojects/findModuleByProjectCode2",
+ url:contextPath + "/moduleprojects/findPaggingData",
  data:dataJsonData
 });
 pagginationModule.setOptionJsonSize({
-  url:contextPath + "/moduleprojects/findPaggingSizeModuleProject",
+  url:contextPath + "/moduleprojects/findPaggingSize",
   data:dataJsonData
 });
 pagginationModule.search(pagginationModule);
 }
+//var pagginationModule = Object.create(UtilPaggination);
+pagginationModule.setEventPaggingBtn("paggingSimpleModuleProject",pagginationModule);
+pagginationModule.loadTable = function loadTable (jsonData) {
+
+    if(jsonData.length <= 0)
+        bootbox.alert(Message.MSG_DATA_NOT_FOUND);
+
+    $('#ResualtSearch').empty();
+    var link = "";
+    var i = 1;
+    var tableData = "";
+    var key = 1 ;
+
+    jsonData.forEach(function(value){
+        var checkProgress = value.progress == "" ? '0' : value.progress;
+        var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
+        text =  ''
+            +'<tr id ="trData' + key++ + '">'
+            +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-info btn-xs" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></td>'
+            +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
+            +'<td  id="tdProgest" moduleId="' + value.id + '"onclick="onClickTrProgram(this)"> <div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ parseFloat(checkProgress).toFixed(2) + '%; color:#000">'
+            + parseFloat(checkProgress).toFixed(2) + '%'
+            +'</div>'
+            +'</td>'
+            +'<td  id="tdDateStart" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateStart,commonData.language)+'</td>'
+
+            +'<td id="tdDateEnd" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">'+ConvertDate(value.dateEnd,commonData.language)+' </td>'
+            + '</tr>'
+
+        $('#ResualtSearch').append(
+            text
+        );
+    });
+};
 
 
 
