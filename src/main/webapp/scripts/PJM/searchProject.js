@@ -141,18 +141,18 @@ paggination.loadTable = function loadTable(jsonData) {
     jsonData.forEach(function (value) {
         dataModule =[];
             tableData = ''
-                + '<tr  style="background-color: #fff">'
+                + '<tr>'
                 + '<td class="text-center">'
                 + '<input id="' + (value.inUse > 0 ? 'checkBoxDisable_' : 'checkBoxDelete')+value.id+'" class="check" type="checkbox" '+(value.inUse > 0 ? '':'projectID="id_'+value.id+'" status="check"')+' />'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="editProject_'+value.id+'" class="btn btn-info btn-sm" type="button"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '<button id="editProject_'+value.id+'" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="addTask_'+value.id+'" class="btn btn-info btn-sm" type="button"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
+                + '<button id="addTask_'+value.id+'" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
                 + '</td>'
                 + '<td class="text-center">'
-                + '<button id="progress'+value.id+'" class="btn btn-info btn-sm" type="button"><span name="editClick" class="glyphicon glyphicon-align-left" aria-hidden="true" ></span></button>'
+                + '<button id="progress'+value.id+'" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-align-left" aria-hidden="true" ></span></button>'
                 + '</td>'
                 + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
                 + value.projectName
@@ -305,7 +305,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
         tableData = ''
             + '<tr>'
             + '<td class="text-center">'
-            + '<button id="addTask_' + value.id + '" class="btn btn-info btn-sm" type="button"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
+            + '<button id="addTask_' + value.id + '" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="moduleName_' + key + '" class="text-center" style="color: #000">'
             + value.moduleName
