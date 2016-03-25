@@ -44,7 +44,7 @@
         MESSAGE.ALERT_DELETE_SUCCESS = '${ALERT_DELETE_SUCCESS}';
         MESSAGE.ALERT_DELETE_FAIL = '${ALERT_DELETE_FAIL}';
         MESSAGE.ALERT_PLEASE_SELECT_DATA = '${ALERT_PLEASE_SELECT_DATA}';
-        MESSAGE.REMOVE_DATA = '${ALERT_PLEASE_SELECT_DATA}';
+        MESSAGE.REMOVE_DATA = '${REMOVE_DATA}';
         MESSAGE.NOT_DELETE_DATA = '${NOT_DELETE_DATA}';
         MESSAGE.ALERT_DATA_NOT_FOUND = '${ALERT_DATA_NOT_FOUND}';
         MESSAGE.ALERT_NOT_DELETE_THIS_DATA = '${ALERT_NOT_DELETE_THIS_DATA}';
@@ -124,7 +124,7 @@
                                 <label class="control-label col-sm-4">${LABEL_TOTALCOST_FROM}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        <input id="costStart" class="form-control" type="date" name="searchCode"
+                                        <input id="costStart" class="form-control" type="text" name="searchCode"
                                                placeholder="${LABEL_TOTALCOST_FROM}"/>
                                         <span class="input-group-addon date">${LABEL_POINT}</span>
                                     </div>
@@ -135,7 +135,7 @@
                                 <label class="control-label col-sm-4">${LABEL_TOTALCOST_TO}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group date ">
-                                        <input id="costEnd" class="form-control" type="date" name="searchName"
+                                        <input id="costEnd" class="form-control" type="text" name="searchName"
                                                placeholder="${LABEL_TOTALCOST_TO}"/>
                                         <span class="input-group-addon">${LABEL_POINT}</span>
                                     </div>
@@ -148,7 +148,7 @@
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${LABEL_PROJECT_MANAGER}</label>
                                 <div class="col-sm-7">
-                                    <input id="projectManage" class="form-control" type="date" name="searchCode"
+                                    <input id="projectManage" class="form-control" type="text" name="searchCode"
                                            placeholder="${LABEL_FIRST_NAME}"/>
                                 </div>
                             </div>
@@ -183,8 +183,8 @@
                         </div>
                     </form>
 
-                    <div>
-                        <table id="data" class="table table-bordered table-stripted ">
+                    <div ><div class="table-stripted table-responsive">
+                        <table id="data" class="table table-bordered ">
                             <thead>
                                 <tr class="">
                                     <th class="text-center" style="width: 30px;">
@@ -201,7 +201,7 @@
                             </thead>
                             <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
                         </table>
-
+                    </div>
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <component:pagging id="paggingSimple"/>

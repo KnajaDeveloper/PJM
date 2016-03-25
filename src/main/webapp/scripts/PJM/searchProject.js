@@ -200,6 +200,7 @@ $('#data').on("click", "#checkAll", function () {
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $("#btnDelete").click(function () {
+    checkedRows = [];
     $('input[status=check]:checked').each(function () {
         if( $('input[status=check]:checked'))
         {
@@ -207,14 +208,14 @@ $("#btnDelete").click(function () {
             checkedRows.push(roleCode);
         }
     });
-    console.log(checkedRows);
+    //console.log(checkedRows);
     if (checkedRows.length > 0) {
         bootbox.confirm(MESSAGE.REMOVE_DATA, function (result) {
             if (result === true) {
                 for (var i=0; checkedRows.length > i; i++) {
                     DeleteData(i);
                 }
-                bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" " + DeSuccess +" "+  MESSAGE.ALERT_DELETE_FAIL + DeFail);
+                bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" : " + DeSuccess +" "+  MESSAGE.ALERT_DELETE_FAIL +" : "+ DeFail);
                 DeSuccess = 0;
                 DeFail = 0;
                 checkedRows = [];
