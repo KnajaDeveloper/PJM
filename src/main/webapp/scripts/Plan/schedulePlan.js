@@ -16,8 +16,8 @@ var moduleProject = ["Employee","Plan","Project"];
 var typeProject = ["Developer","Analysis","Developer"];
 var resultEmptyTask;
 
-//$("#panelEmployee").hide();
-//$("#panelPlan").hide();
+$("#panelEmployee").hide();
+$("#panelPlan").hide();
 addEmptyTask();
 
 function addDate(dateStart,dateEnd){
