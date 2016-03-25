@@ -154,10 +154,16 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.setTaskName(taskName);
         edTask.setTaskCost(taskCost);
         edTask.setTypeTask(typeTask);
+        if(empCode == "")
+            empCode = null;
         edTask.setEmpCode(empCode);
         edTask.setDateStart(dateStart);
         edTask.setDateEnd(dateEnd);
+        if(fileName == "")
+            fileName = null;
         edTask.setFileName(fileName);
+        if(detail == "")
+            detail = null;
         edTask.setDetail(detail);
         edTask.setProgress(progress);
         edTask.merge();
