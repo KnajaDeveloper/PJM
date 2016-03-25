@@ -32,7 +32,7 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
 
     jsonData.forEach(function(value){
         tableData = ''
-		+ '<tr id="trProgram' + i++ + '" style="background-color: #fff">'
+		+ '<tr id="trProgram' + i++ + '">'
             + '<td class="text-center">'
                 + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" class="checkboxTableProgram" type="checkbox" />'
             + '</td>'

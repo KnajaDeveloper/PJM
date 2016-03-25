@@ -38,10 +38,10 @@
             width: 15%;
         }
         #thTaskName {
-            width: 35%;
+            width: 33%;
         }
         #thNumberCost {
-            width: 13%;
+            width: 15%;
         }
         #thProgress {
             width: 25%;
@@ -142,6 +142,7 @@
         Label.LABEL_EDIT_TASK = '${LABEL_EDIT_TASK}';
         Label.LABEL_ADD_PROGRAM = '${LABEL_ADD_PROGRAM}';
         Label.LABEL_ADD_TASK = '${LABEL_ADD_TASK}';
+        Label.LABEL_POINT = '${LABEL_POINT}';
 
         Button.BUTTON_OK = '${BUTTON_OK}';
 
@@ -210,22 +211,16 @@
                                     <div class="col-sm-4 col-sm-offset-1">
                                         <label class="">${LABEL_TOTAL_COST}</label>
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleCost" class=""><jsp:text/></label>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="">${LABEL_POINT}</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-5 col-sm-offset-1">
                                     <div class="col-sm-5">
                                         <label class="">${LABEL_BALANCE_TOTAL_COST}</label>
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleCostBalance" class=""><jsp:text/></label>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="">${LABEL_POINT}</label>
                                     </div>
                                 </div>  
                             </div>
@@ -299,6 +294,33 @@
                             <component:pagging id="paggingSimpleProgram"/>
                         </div>
                     </div>
+
+                    <!-- Test Test Test Test Test Test Test Test Test Test Test Test -->
+
+                    <!-- <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">${LABEL_ATTACHMENTS}</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <button id="btnTestSelectFile" type="button" class="btn btn-primary" onclick="$('#testMyInput').click();">${BUTTON_SELECT_FILE}</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button id="btnTestSaveFile" type="button" class="btn btn-primary" >TestSaveFile</button>
+                            </div>
+                            <div class="col-sm-1">
+                                <input id="testMyInput" type="file" style="visibility:hidden" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-4">
+                                <label id="testFileName" class=""><jsp:text/></label>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- Test Test Test Test Test Test Test Test Test Test Test Test -->
+                    
                 </div>
             </div>
         </div>
