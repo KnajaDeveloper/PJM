@@ -5,8 +5,7 @@ package com.app2.app2t.domain.pjm;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,13 +123,13 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
 
     }
 
-    public static List<ModuleProject> ModuleProject.findAllNameModuleByProjectCode2(Project project) {
-        EntityManager ent = ModuleProject.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class, "modul");
-        criteria.createAlias("modul.project", "project");
-        criteria.add(Restrictions.eq("project", project));
-        return criteria.list();
-    }
+//    public static List<ModuleProject> ModuleProject.findAllNameModuleByProjectCode2(Project project) {
+//        EntityManager ent = ModuleProject.entityManager();
+//        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class, "modul");
+//        criteria.createAlias("modul.project", "project");
+//        criteria.add(Restrictions.eq("project", project));
+//        return criteria.list();
+//    }
 
     public static List<ModuleProject> ModuleProject.findModuleProjectByModuleProjectID(Long id) {
         EntityManager ent = ModuleProject.entityManager();
@@ -182,6 +181,35 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         Criteria criteria1 = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria1.add(Restrictions.eq("project", project));
         return criteria1.list();
+    }
+
+
+
+    public static Criteria ModuleProject.queryModuleprojectPagging(Long id){
+        Session session = (Session) ModuleProject.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(ModuleProject.class, "moduleproject");
+        criteria.createAlias("moduleproject.project", "project");
+        criteria.add(Restrictions.eq("project.id", id));
+        return criteria;
+    }
+
+    public static  List<ModuleProject> ModuleProject.findModuleprojectDataPagingData(
+            Long id
+            ,Integer firstResult
+            ,Integer maxResult
+    ){
+        Criteria criteria = ModuleProject.queryModuleprojectPagging(id)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+
+    public static  Long ModuleProject.findModuleProjectDataPagingSize(
+            Long id
+    ){
+        Criteria criteria = ModuleProject.queryModuleprojectPagging(id)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
 
 }

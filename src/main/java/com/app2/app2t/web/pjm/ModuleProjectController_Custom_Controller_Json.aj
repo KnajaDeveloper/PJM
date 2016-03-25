@@ -182,56 +182,56 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findModuleByProjectCode2",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-    public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
-        @RequestParam(value = "projectCode", required = false) Long projectCode
-        ,@RequestParam(value = "maxResult", required = false) Integer maxResult
-        ,@RequestParam(value = "firstResult", required = false) Integer firstResult
-    ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            //LOGGER.info(">>>>>>>>>>>>>>"+projectCode);
-            List<Project> project = Project.findProjectByIdProject(projectCode);
-           // LOGGER.info(">>>>>>>>>"+project.size());
-            List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
-            //LOGGER.info(">>>>>>Modul"+project);
-            List<Map<String, Object>> list = new ArrayList<>();
-            for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
-                ModuleProject ta = result.get(i);
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", ta.getId());
-                map.put("moduleName", ta.getModuleName());
-                map.put("dateStart", ta.getDateStart() + "");
-                map.put("dateEnd", ta.getDateEnd() + "");
-                map.put("progress", Task.findTaskProgressforAVG(ta.getId()));
-                list.add(map);
-            }
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/findPaggingSizeModuleProject", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-    @ResponseBody
-    public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
-       @RequestParam(value = "projectCode", required = false) Long projectCode
-    ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<Project> project = Project.findProjectByIdProject(projectCode);
-            List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
-            Map data = new HashMap();
-            data.put("size", result.size());
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error("findEvaPeriodTime :{}", e);
-            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @RequestMapping(value = "/findModuleByProjectCode2",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+//    public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
+//        @RequestParam(value = "projectCode", required = false) Long projectCode
+//        ,@RequestParam(value = "maxResult", required = false) Integer maxResult
+//        ,@RequestParam(value = "firstResult", required = false) Integer firstResult
+//    ) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/json;charset=UTF-8");
+//        try {
+//            //LOGGER.info(">>>>>>>>>>>>>>"+projectCode);
+//            List<Project> project = Project.findProjectByIdProject(projectCode);
+//           // LOGGER.info(">>>>>>>>>"+project.size());
+//            List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
+//            //LOGGER.info(">>>>>>Modul"+project);
+//            List<Map<String, Object>> list = new ArrayList<>();
+//            for(int i=firstResult;i<maxResult + firstResult && i < result.size();i++){
+//                ModuleProject ta = result.get(i);
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("id", ta.getId());
+//                map.put("moduleName", ta.getModuleName());
+//                map.put("dateStart", ta.getDateStart() + "");
+//                map.put("dateEnd", ta.getDateEnd() + "");
+//                map.put("progress", Task.findTaskProgressforAVG(ta.getId()));
+//                list.add(map);
+//            }
+//            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
+//        } catch (Exception e) {
+//            LOGGER.error(e.getMessage(), e);
+//            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    @RequestMapping(value = "/findPaggingSizeModuleProject", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+//    @ResponseBody
+//    public ResponseEntity<String> ModuleProjectController.findAllNameModuleByProjectCode2(
+//       @RequestParam(value = "projectCode", required = false) Long projectCode
+//    ) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/json;charset=UTF-8");
+//        try {
+//            List<Project> project = Project.findProjectByIdProject(projectCode);
+//            List<ModuleProject> result = ModuleProject.findAllNameModuleByProjectCode2(project.get(0));
+//            Map data = new HashMap();
+//            data.put("size", result.size());
+//            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(data), headers, HttpStatus.OK);
+//        } catch (Exception e) {
+//            LOGGER.error("findEvaPeriodTime :{}", e);
+//            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @RequestMapping(value = "/findModuleProjectByModuleProjectID",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.findModuleProjectByModuleProjectID(
@@ -278,6 +278,52 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         try {
             List resultSearch = ModuleProject.findModuleProjectCostforSum(id);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @RequestMapping(value = "/findPaggingData", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ModuleProjectController.findPaggingData(
+            @RequestParam(value = "id", required = false) Long id
+            ,@RequestParam(value = "firstResult", required = false) Integer firstResult
+            ,@RequestParam(value = "maxResult", required = false) Integer maxResult
+
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Map<String,Object>> resultSearch = new ArrayList<>();
+            List<ModuleProject> moduleProjects = ModuleProject.findModuleprojectDataPagingData(id, firstResult, maxResult);
+            for (ModuleProject moduleProject: moduleProjects) {
+                Map<String,Object> buffer = new HashMap<>();
+                buffer.put("id", moduleProject.getId());
+                buffer.put("moduleName", moduleProject.getModuleName());
+                buffer.put("dateStart", moduleProject.getDateStart() + "");
+                buffer.put("dateEnd", moduleProject.getDateEnd() + "");
+                buffer.put("progress", Task.findTaskProgressforAVG(moduleProject.getId()));
+                resultSearch.add(buffer);
+            }
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findPaggingSize", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ModuleProjectController.findPaggingSize(
+            @RequestParam(value = "id", required = false) Long id
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            Long size = ModuleProject.findModuleProjectDataPagingSize(id);
+            Map dataSendToFront = new HashMap();
+            dataSendToFront.put("size",size);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
