@@ -171,96 +171,96 @@
     </script>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-sm-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">${LABEL_DETAILS_MODULES}</div>
                 <div class="panel-body">
-                    <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-sm-10 col-sm-offset-1">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-5">
-                                    <div class="col-xs-4 col-xs-offset-1">
+                                <div class="col-sm-5">
+                                    <div class="col-sm-4 col-sm-offset-1">
                                         <label class="">${LABEL_MODULE_NEME}</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleNeme" class=""><jsp:text/></label>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-sm-10 col-sm-offset-1">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-5">
-                                    <div class="col-xs-4 col-xs-offset-1">
+                                <div class="col-sm-5">
+                                    <div class="col-sm-4 col-sm-offset-1">
                                         <label class="">${LABEL_INITIAL}</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleInitial" class=""><jsp:text/></label>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-sm-10 col-sm-offset-1">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-5">
-                                    <div class="col-xs-4 col-xs-offset-1">
+                                <div class="col-sm-5">
+                                    <div class="col-sm-4 col-sm-offset-1">
                                         <label class="">${LABEL_TOTAL_COST}</label>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div class="col-sm-1">
                                         <label id="lblModuleCost" class=""><jsp:text/></label>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div class="col-sm-3">
                                         <label class="">${LABEL_POINT}</label>
                                     </div>
                                 </div>
-                                <div class="col-xs-5 col-xs-offset-1">
-                                    <div class="col-xs-5">
+                                <div class="col-sm-5 col-sm-offset-1">
+                                    <div class="col-sm-5">
                                         <label class="">${LABEL_BALANCE_TOTAL_COST}</label>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div class="col-sm-1">
                                         <label id="lblModuleCostBalance" class=""><jsp:text/></label>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div class="col-sm-3">
                                         <label class="">${LABEL_POINT}</label>
                                     </div>
                                 </div>  
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-sm-10 col-sm-offset-1">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-5">
-                                    <div class="col-xs-4 col-xs-offset-1">
+                                <div class="col-sm-5">
+                                    <div class="col-sm-4 col-sm-offset-1">
                                         <label class="">${LABEL_START_DATE}</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleDateStart" class=""><jsp:text/></label>
                                     </div>
                                 </div>
-                                <div class="col-xs-5 col-xs-offset-1">
-                                    <div class="col-xs-5">
+                                <div class="col-sm-5 col-sm-offset-1">
+                                    <div class="col-sm-5">
                                         <label class="">${LABEL_END_DATE}</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleDateEnd" class=""><jsp:text/></label>
                                     </div>
                                 </div> 
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-10 col-xs-offset-1">
+                    <div class="col-sm-10 col-sm-offset-1">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-5">
-                                    <div class="col-xs-4 col-xs-offset-1">
+                                <div class="col-sm-5">
+                                    <div class="col-sm-4 col-sm-offset-1">
                                         <label class="">${LABEL_MANAGER}</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-sm-6">
                                         <label id="lblModuleManager" class=""><jsp:text/></label>
                                     </div>
                                 </div>
@@ -272,7 +272,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-sm-5">
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
@@ -303,7 +303,7 @@
             </div>
         </div>
 
-        <div class="col-xs-7">
+        <div class="col-sm-7">
             <div class="card">
                 <div class="card-body">
                     <div id="formADTask" class="form-group" hidden="true">
@@ -335,51 +335,51 @@
                         </div>
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_MANAGER}</label>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-sm-9">
                                     <label id="lblEmpName" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_TYPE_TASK}</label>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-sm-9">
                                     <label id="lblTaskName" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_START_DATE}</label>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-sm-9">
                                     <label id="lblSDate" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_END_DATE}</label>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-sm-9">
                                     <label id="lblEDate" class=""><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_ATTACHMENTS}</label>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-sm-9">
                                     <button id="btnDownloadFile" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
                                     <label id="lblFileName" class="" style="margin-left: 10px;"><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-3">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_DETAILS}</label>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-sm-9">
                                     <textarea id="txtaDetail" class="" rows="5" style="width: 80%; "><jsp:text/></textarea>
                                 </div>
                             </div>
@@ -398,7 +398,7 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_PROGRAM_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -406,7 +406,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_PROGRAM_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -433,7 +433,7 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_TASK_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -441,7 +441,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_TASK_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -449,7 +449,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_TOTAL_COST}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -460,7 +460,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_TYPE_TASK}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -472,7 +472,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label ">${LABEL_MANAGER}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -480,7 +480,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label">${LABEL_START_DATE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -493,7 +493,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label">${LABEL_END_DATE}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -506,7 +506,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label ">${LABEL_PROGRESS}</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -517,13 +517,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label">${LABEL_ATTACHMENTS}</label>
                                 </div>
                                 <div class="col-sm-2">
                                     <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">${BUTTON_SELECT_FILE}</button>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-sm-4">
                                     <label id="fileName" class="control-label"><jsp:text/></label>
                                 </div>
                                 <div class="col-sm-1">
@@ -531,7 +531,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-offset-1 col-xs-3">
+                                <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label ">${LABEL_DETAILS}</label>
                                 </div>
                                 <div class="col-sm-6">

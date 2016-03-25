@@ -257,248 +257,248 @@ public class DetailsModuleTest {
             .andReturn();
     }
 
-    // @Test
-    // public void dateTestFindModuleProject ()throws Exception{
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/moduleprojects/findModuleProjectByModuleProjectID")
-    //         .param("id", "1")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[0].moduleProject.moduleCode", is("MO1")))
-    //         .andExpect(jsonPath("$[0].moduleProject.moduleName", is("MO1")))
-    //         .andExpect(jsonPath("$[0].moduleProject.moduleCost", is(30)))
-    //         .andExpect(jsonPath("$[0].moduleProject.dateStart", is(1457456400000L)))
-    //         .andExpect(jsonPath("$[0].moduleProject.dateEnd", is(1459357200000L)))
-    //         .andExpect(jsonPath("$[0].empCode", is("EM001")))
-    //         .andReturn();
-    // }
+    @Test
+    public void dateTestFindModuleProject ()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/moduleprojects/findModuleProjectByModuleProjectID")
+            .param("id", "1")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[0].moduleProject.moduleCode", is("MO1")))
+            .andExpect(jsonPath("$[0].moduleProject.moduleName", is("MO1")))
+            .andExpect(jsonPath("$[0].moduleProject.moduleCost", is(30)))
+            .andExpect(jsonPath("$[0].moduleProject.dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[0].moduleProject.dateEnd", is(1459357200000L)))
+            .andExpect(jsonPath("$[0].empCode", is("EM001")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void dateTestFindModuleProject ()throws Exception{
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findTaskCostforSum")
-    //         .param("id", "1")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andReturn();
+    @Test
+    public void dateTestFindTaskCostforSum ()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findTaskCostforSum")
+            .param("id", "1")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andReturn();
 
-    //     assertEquals(mvcResult.getResponse().getContentAsString(), "[12]");
-    // }
+        assertEquals(mvcResult.getResponse().getContentAsString(), "[12]");
+    }
 
-    // @Test
-    // public void dateTestFindPaggingDataProgram ()throws Exception{
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[0].inUse", is(4)))
-    //         .andExpect(jsonPath("$[0].programCode", is("PG001")))
-    //         .andExpect(jsonPath("$[0].programName", is("Plus")))
-    //         .andReturn();
-    // }
+    @Test
+    public void dateTestFindPaggingDataProgram ()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[0].inUse", is(4)))
+            .andExpect(jsonPath("$[0].programCode", is("PG001")))
+            .andExpect(jsonPath("$[0].programName", is("Plus")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void dateTestFindPaggingSizeProgram ()throws Exception{
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingSize")
-    //         .param("id", "1")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("size", is(1)))
-    //         .andReturn();
-    // }
+    @Test
+    public void dateTestFindPaggingSizeProgram ()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingSize")
+            .param("id", "1")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("size", is(1)))
+            .andReturn();
+    }
 
-    // @Test
-    // public void insert_Into_PROGRAM_Values_Equal () throws Exception{
-    //     insertDataTodateBaseProgram2("P0001", "PN 01");
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[1].inUse", is(0)))
-    //         .andExpect(jsonPath("$[1].programCode", is("P0001")))
-    //         .andExpect(jsonPath("$[1].programName", is("PN 01")))
-    //         .andReturn();
-    // }
+    @Test
+    public void insert_Into_PROGRAM_Values_Equal () throws Exception{
+        insertDataTodateBaseProgram2("P0001", "PN 01");
+        MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[1].inUse", is(0)))
+            .andExpect(jsonPath("$[1].programCode", is("P0001")))
+            .andExpect(jsonPath("$[1].programName", is("PN 01")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void update_From_PROGRAM_set_ProgramName_Equal_Where_ProgramCode_Equal () throws Exception{
-    //     editDataTodateBaseProgram("PG001", "Plusing");
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[0].inUse", is(4)))
-    //         .andExpect(jsonPath("$[0].programCode", is("PG001")))
-    //         .andExpect(jsonPath("$[0].programName", is("Plusing")))
-    //         .andReturn();
-    // }
+    @Test
+    public void update_From_PROGRAM_set_ProgramName_Equal_Where_ProgramCode_Equal () throws Exception{
+        editDataTodateBaseProgram("PG001", "Plusing");
+        MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[0].inUse", is(4)))
+            .andExpect(jsonPath("$[0].programCode", is("PG001")))
+            .andExpect(jsonPath("$[0].programName", is("Plusing")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void delete_From_PROGRAM_Where_ProgramCode_Equal () throws Exception{
-    //     insertDataTodateBaseProgram2("P0001", "PN 01");
-    //     deleteDataTodateBaseProgram("3");
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andReturn();
-    // }
+    @Test
+    public void delete_From_PROGRAM_Where_ProgramCode_Equal () throws Exception{
+        insertDataTodateBaseProgram2("P0001", "PN 01");
+        deleteDataTodateBaseProgram("3");
+        MvcResult mvcResult = this.mockMvc.perform(get("/programs/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andReturn();
+    }
 
-    // @Test
-    // public void select_Count_ProgramCode_PROGRAM_Where_ProgramCode_Equal () throws Exception{
-    //     dateTestfindSizeProgramByProgramCode("PG001");
-    // }
+    @Test
+    public void select_Count_ProgramCode_PROGRAM_Where_ProgramCode_Equal () throws Exception{
+        dateTestfindSizeProgramByProgramCode("PG001");
+    }
 
-    // @Test
-    // public void dateTestFindPaggingDataTask ()throws Exception{
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[0].taskCode", is("T001")))
-    //         .andExpect(jsonPath("$[1].taskCode", is("T002")))
-    //         .andExpect(jsonPath("$[2].taskCode", is("T003")))
-    //         .andExpect(jsonPath("$[3].taskCode", is("T004")))
+    @Test
+    public void dateTestFindPaggingDataTask ()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[0].taskCode", is("T001")))
+            .andExpect(jsonPath("$[1].taskCode", is("T002")))
+            .andExpect(jsonPath("$[2].taskCode", is("T003")))
+            .andExpect(jsonPath("$[3].taskCode", is("T004")))
 
-    //         .andExpect(jsonPath("$[0].taskName", is("Fix Bug for General")))
-    //         .andExpect(jsonPath("$[1].taskName", is("Add image for EM001")))
-    //         .andExpect(jsonPath("$[2].taskName", is("Edit Alert for EM002")))
-    //         .andExpect(jsonPath("$[3].taskName", is("Edit Alert for EM003")))
+            .andExpect(jsonPath("$[0].taskName", is("Fix Bug for General")))
+            .andExpect(jsonPath("$[1].taskName", is("Add image for EM001")))
+            .andExpect(jsonPath("$[2].taskName", is("Edit Alert for EM002")))
+            .andExpect(jsonPath("$[3].taskName", is("Edit Alert for EM003")))
 
-    //         .andExpect(jsonPath("$[0].taskCost", is(3)))
-    //         .andExpect(jsonPath("$[1].taskCost", is(3)))
-    //         .andExpect(jsonPath("$[2].taskCost", is(3)))
-    //         .andExpect(jsonPath("$[3].taskCost", is(3)))
+            .andExpect(jsonPath("$[0].taskCost", is(3)))
+            .andExpect(jsonPath("$[1].taskCost", is(3)))
+            .andExpect(jsonPath("$[2].taskCost", is(3)))
+            .andExpect(jsonPath("$[3].taskCost", is(3)))
 
-    //         .andExpect(jsonPath("$[0].typeTask.typeTaskName", is("DEV")))
-    //         .andExpect(jsonPath("$[1].typeTask.typeTaskName", is("DEV")))
-    //         .andExpect(jsonPath("$[2].typeTask.typeTaskName", is("DESIGN")))
-    //         .andExpect(jsonPath("$[3].typeTask.typeTaskName", is("DESIGN")))
+            .andExpect(jsonPath("$[0].typeTask.typeTaskName", is("DEV")))
+            .andExpect(jsonPath("$[1].typeTask.typeTaskName", is("DEV")))
+            .andExpect(jsonPath("$[2].typeTask.typeTaskName", is("DESIGN")))
+            .andExpect(jsonPath("$[3].typeTask.typeTaskName", is("DESIGN")))
 
-    //         .andExpect(jsonPath("$[0].empCode", is("EM001")))
-    //         .andExpect(jsonPath("$[1].empCode", is("EM002")))
-    //         .andExpect(jsonPath("$[2].empCode", is("EM003")))
-    //         .andExpect(jsonPath("$[3].empCode", is("EM004")))
+            .andExpect(jsonPath("$[0].empCode", is("EM001")))
+            .andExpect(jsonPath("$[1].empCode", is("EM002")))
+            .andExpect(jsonPath("$[2].empCode", is("EM003")))
+            .andExpect(jsonPath("$[3].empCode", is("EM004")))
 
-    //         .andExpect(jsonPath("$[0].dateStart", is(1457456400000L)))
-    //         .andExpect(jsonPath("$[1].dateStart", is(1457456400000L)))
-    //         .andExpect(jsonPath("$[2].dateStart", is(1457456400000L)))
-    //         .andExpect(jsonPath("$[3].dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[0].dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[1].dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[2].dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[3].dateStart", is(1457456400000L)))
 
-    //         .andExpect(jsonPath("$[0].dateEnd", is(1459357200000L)))
-    //         .andExpect(jsonPath("$[1].dateEnd", is(1458061200000L)))
-    //         .andExpect(jsonPath("$[2].dateEnd", is(1459357200000L)))
-    //         .andExpect(jsonPath("$[3].dateEnd", is(1458061200000L)))
+            .andExpect(jsonPath("$[0].dateEnd", is(1459357200000L)))
+            .andExpect(jsonPath("$[1].dateEnd", is(1458061200000L)))
+            .andExpect(jsonPath("$[2].dateEnd", is(1459357200000L)))
+            .andExpect(jsonPath("$[3].dateEnd", is(1458061200000L)))
 
-    //         .andExpect(jsonPath("$[0].progress", is(20)))
-    //         .andExpect(jsonPath("$[1].progress", is(50)))
-    //         .andExpect(jsonPath("$[2].progress", is(80)))
-    //         .andExpect(jsonPath("$[3].progress", is(100)))
+            .andExpect(jsonPath("$[0].progress", is(20)))
+            .andExpect(jsonPath("$[1].progress", is(50)))
+            .andExpect(jsonPath("$[2].progress", is(80)))
+            .andExpect(jsonPath("$[3].progress", is(100)))
 
-    //         .andExpect(jsonPath("$[0].fileName", is("README1.txt")))
-    //         .andExpect(jsonPath("$[1].fileName", is("README2.txt")))
-    //         .andExpect(jsonPath("$[2].fileName", is("README3.txt")))
-    //         .andExpect(jsonPath("$[3].fileName", is("README4.txt")))
+            .andExpect(jsonPath("$[0].fileName", is("README1.txt")))
+            .andExpect(jsonPath("$[1].fileName", is("README2.txt")))
+            .andExpect(jsonPath("$[2].fileName", is("README3.txt")))
+            .andExpect(jsonPath("$[3].fileName", is("README4.txt")))
 
-    //         .andExpect(jsonPath("$[0].detail", is("detail1")))
-    //         .andExpect(jsonPath("$[1].detail", is("detail2")))
-    //         .andExpect(jsonPath("$[2].detail", is("detail3")))
-    //         .andExpect(jsonPath("$[3].detail", is("detail4")))
-    //         .andReturn();
-    // }
+            .andExpect(jsonPath("$[0].detail", is("detail1")))
+            .andExpect(jsonPath("$[1].detail", is("detail2")))
+            .andExpect(jsonPath("$[2].detail", is("detail3")))
+            .andExpect(jsonPath("$[3].detail", is("detail4")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void dateTestFindPaggingSizeTask ()throws Exception{
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingSize")
-    //         .param("id", "1")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("size", is(4)))
-    //         .andReturn();
-    // }
+    @Test
+    public void dateTestFindPaggingSizeTask ()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingSize")
+            .param("id", "1")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("size", is(4)))
+            .andReturn();
+    }
 
-    // @Test
-    // public void insert_Into_TASK_Values_Equal () throws Exception{
-    //     insertDataTodateBaseTask2("T005", "Edit Alert for EM005", "3", "TT003", "EM005", "09/03/2016", "6/03/2016", "README5.txt", "detail5", "0");
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[4].taskCode", is("T005")))
-    //         .andExpect(jsonPath("$[4].taskName", is("Edit Alert for EM005")))
-    //         .andExpect(jsonPath("$[4].taskCost", is(3)))
-    //         .andExpect(jsonPath("$[4].typeTask.typeTaskName", is("Maintenance")))
-    //         .andExpect(jsonPath("$[4].empCode", is("EM005")))
-    //         .andExpect(jsonPath("$[4].dateStart", is(1451667600000L)))
-    //         .andExpect(jsonPath("$[4].dateEnd", is(1451667600000L)))
-    //         .andExpect(jsonPath("$[4].progress", is(0)))
-    //         .andExpect(jsonPath("$[4].fileName", is("README5.txt")))
-    //         .andExpect(jsonPath("$[4].detail", is("detail5")))
-    //         .andReturn();
-    // }
+    @Test
+    public void insert_Into_TASK_Values_Equal () throws Exception{
+        insertDataTodateBaseTask2("T005", "Edit Alert for EM005", "3", "TT003", "EM005", "09/03/2016", "6/03/2016", "README5.txt", "detail5", "0");
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[4].taskCode", is("T005")))
+            .andExpect(jsonPath("$[4].taskName", is("Edit Alert for EM005")))
+            .andExpect(jsonPath("$[4].taskCost", is(3)))
+            .andExpect(jsonPath("$[4].typeTask.typeTaskName", is("Maintenance")))
+            .andExpect(jsonPath("$[4].empCode", is("EM005")))
+            .andExpect(jsonPath("$[4].dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[4].dateEnd", is(1457197200000L)))
+            .andExpect(jsonPath("$[4].progress", is(0)))
+            .andExpect(jsonPath("$[4].fileName", is("README5.txt")))
+            .andExpect(jsonPath("$[4].detail", is("detail5")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void update_From_TASK_set_TaskName_Equal_Where_TaskCode_Equal () throws Exception{
-    //     editDataTodateBaseTask("4", "T004", "Edit Alert for EM004", "3", "TT002", "EM004", "09/03/2016", "16/03/2016", "README4.txt", "detail4", "0");
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andExpect(jsonPath("$[3].taskCode", is("T004")))
-    //         .andExpect(jsonPath("$[3].taskName", is("Edit Alert for EM004")))
-    //         .andExpect(jsonPath("$[3].taskCost", is(3)))
-    //         .andExpect(jsonPath("$[3].typeTask.typeTaskName", is("DESIGN")))
-    //         .andExpect(jsonPath("$[3].empCode", is("EM004")))
-    //         .andExpect(jsonPath("$[3].dateStart", is(1472835600000L)))
-    //         .andExpect(jsonPath("$[3].dateEnd", is(1491152400000L)))
-    //         .andExpect(jsonPath("$[3].progress", is(0)))
-    //         .andExpect(jsonPath("$[3].fileName", is("README4.txt")))
-    //         .andExpect(jsonPath("$[3].detail", is("detail4")))
-    //         .andReturn();
-    // }
+    @Test
+    public void update_From_TASK_set_TaskName_Equal_Where_TaskCode_Equal () throws Exception{
+        editDataTodateBaseTask("4", "T004", "Edit Alert for EM004", "3", "TT002", "EM004", "09/03/2016", "16/03/2016", "README4.txt", "detail4", "0");
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect(jsonPath("$[3].taskCode", is("T004")))
+            .andExpect(jsonPath("$[3].taskName", is("Edit Alert for EM004")))
+            .andExpect(jsonPath("$[3].taskCost", is(3)))
+            .andExpect(jsonPath("$[3].typeTask.typeTaskName", is("DESIGN")))
+            .andExpect(jsonPath("$[3].empCode", is("EM004")))
+            .andExpect(jsonPath("$[3].dateStart", is(1457456400000L)))
+            .andExpect(jsonPath("$[3].dateEnd", is(1458061200000L)))
+            .andExpect(jsonPath("$[3].progress", is(0)))
+            .andExpect(jsonPath("$[3].fileName", is("README4.txt")))
+            .andExpect(jsonPath("$[3].detail", is("detail4")))
+            .andReturn();
+    }
 
-    // @Test
-    // public void delete_From_PROGRAM_Where_ProgramCode_Equal () throws Exception{
-    //     for(int i = 1; i <= 4; i++)
-    //         deleteDataTodateBaseTask(i + "");
+    @Test
+    public void delete_From_TASK () throws Exception{
+        for(int i = 1; i <= 4; i++)
+            deleteDataTodateBaseTask(i + "");
 
-    //     MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
-    //         .param("id", "1")
-    //         .param("firstResult","0")
-    //         .param("maxResult","15")
-    //     ).andDo(print())
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType("application/json;charset=UTF-8"))
-    //         .andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findPaggingData")
+            .param("id", "1")
+            .param("firstResult","0")
+            .param("maxResult","15")
+        ).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andReturn();
 
-    //     assertEquals(mvcResult.getResponse().getContentAsString(), "[]");
-    // }
+        assertEquals(mvcResult.getResponse().getContentAsString(), "[]");
+    }
 
-    // @Test
-    // public void select_Count_TaskCode_PROGRAM_Where_TaskCode_Equal () throws Exception{
-    //     dateTestfindSizeTaskByTaskCode("T001");
-    // }
+    @Test
+    public void select_Count_TaskCode_PROGRAM_Where_TaskCode_Equal () throws Exception{
+        dateTestfindSizeTaskByTaskCode("T001");
+    }
 }
