@@ -244,7 +244,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return listManager;
     }
 
-    public static List<Plan> Plan.findPlansByEmpCode (String empCode) throws Exception {
+    public static Map<String,Object> Plan.findPlansByEmpCode (String empCode) throws Exception {
 //        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 //        Date dStart = new Date(Long.parseLong(startProject));
 //        try {
@@ -261,11 +261,19 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 //        }
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class , "plan");
-        criteria.createAlias("plan.task", "Task", JoinType.LEFT_OUTER_JOIN);
-        criteria.createAlias("plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.or((Restrictions.eq("Task.empCode", empCode)),(Restrictions.eq("otherTask.empCode", empCode))));
-        List<Plan> listPlan = criteria.list();
-        return listPlan;
+        criteria.createAlias("plan.task", "Task");
+        criteria.add(Restrictions.eq("Task.empCode", empCode));
+        List<Plan> listTask = criteria.list();
+
+        EntityManager ent1 = Plan.entityManager();
+        Criteria criteria1 = ((Session) ent1.getDelegate()).createCriteria(Plan.class , "plan");
+        criteria1.createAlias("plan.otherTask", "otherTask");
+        criteria1.add(Restrictions.eq("otherTask.empCode", empCode));
+        List<Plan> listOtherTask = criteria1.list();
+        Map<String,Object> maps = new HashMap<>();
+        maps.put("Task",listTask);
+        maps.put("OtherTask",listOtherTask);
+        return maps;
     }
 
 }

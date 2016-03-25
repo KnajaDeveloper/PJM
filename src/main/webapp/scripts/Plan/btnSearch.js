@@ -133,5 +133,5 @@ function showPlan(){
 	$("#panelPlan").show(500);
 	addDate(dateStart,dateEnd);
 	addName();
-	//addWork();
+	addWork();
 }

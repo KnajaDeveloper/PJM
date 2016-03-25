@@ -339,11 +339,12 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             Map<String,Object> maps = new HashMap<>();
-            List<List<Plan>> listPlan = new ArrayList<>();
+            List<Map<String,Object>> listPlan = new ArrayList<>();
             List<ModuleMember> listMember = Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
             List<ModuleManager> listManager = Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
             List<ProjectManager> listProjectManager = Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam(statProject,endProject,projectId,teamId);
             List<String> listEmpCode = new ArrayList<>();
+            List<String> listWork = new ArrayList<>();
             for(int i = 0 ; i < listMember.size() ; i++){
                 if(listEmpCode.indexOf(listMember.get(i).getEmpCode())==-1) listEmpCode.add(listMember.get(i).getEmpCode());
             }
@@ -355,9 +356,26 @@ privileged aspect PlanController_Custom_Controller_Json {
             }
             maps.put("Name",listEmpCode);
             for(int i = 0 ; i < listEmpCode.size() ; i++){
-                List<Plan> plan = Plan.findPlansByEmpCode(listEmpCode.get(i));
+                Map<String,Object> plan = Plan.findPlansByEmpCode(listEmpCode.get(i));
                 listPlan.add(plan);
             }
+//            for(int i = 0 ; i < listPlan.size() ; i++){
+//                Map<String,Object> map = listPlan.get(i);
+//                List<Plan> listOtherTask = (List<Plan>) map.get("OtherTask");
+//                List<Plan> listTask = (List<Plan>) map.get("Task");
+//                String work = "";
+//                for(int j = 0 ; j < listOtherTask.size() ; j++){
+//                    work += listOtherTask.get(j).getTask().getTaskName();
+//                    work += "===";
+//                }
+//                for(int k = 0 ; k < listTask.size() ; k++){
+//                    work += listTask.get(k).getTask().getTaskName();
+//                    work += "===";
+//                }
+//                if(work=="") work = "0";
+//                listWork.add(work);
+//            }
+//            maps.put("Plan",listWork);
             maps.put("Plan",listPlan);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps),headers, HttpStatus.OK);
         } catch (Exception e) {
