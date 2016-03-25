@@ -54,6 +54,8 @@
 
     <script>
         var contextPath = '${pageContext.request.contextPath}';
+        commonData.language = '${lang}';
+        console.log(commonData.language);
     </script>
     
     <spring:url value="/resources/scripts/header/header.js" var="header_js_url"/>
