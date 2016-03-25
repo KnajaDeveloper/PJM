@@ -36,5 +36,24 @@ privileged aspect PJMMenuController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/findEmployeeDetail", method = RequestMethod.GET)
+    public ResponseEntity<String> PJMMenuController.findEmployeeDetail() {
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+
+            Map map = new HashMap();
+            map.put("email", employee.get("email"));
+            map.put("empFirstName", employee.get("empFirstName"));
+            map.put("empLastName", employee.get("empLastName"));
+
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class" ).deepSerialize(map), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -4,6 +4,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -11,8 +13,9 @@ import java.util.HashMap;
 @Component
 @Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthorizeUtil {
-	
-	Map empData = new HashMap();
+    
+    Map empData = new HashMap();
+    List<Map> listMenu = new ArrayList<>();
 
     public static String getUserName() {
        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -20,9 +23,16 @@ public class AuthorizeUtil {
     }
 
     public Map getEmpData() {
-    	return empData;
+        return empData;
     }
     public void setEmpDate(List<Map> empDataList) {
-    	empData = empDataList.get(0);	// get first if more than 1 record
+        empData = empDataList.get(0);   // get first if more than 1 record
+    }
+
+    public List<Map> getMenuList(){
+        return listMenu;
+    }
+    public void setMenuList(List<Map> menuList){
+        listMenu = menuList;
     }
 }

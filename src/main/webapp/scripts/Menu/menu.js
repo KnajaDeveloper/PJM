@@ -58,4 +58,22 @@ $(document).ready(function () {
         },
         async: false
     });
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/menus/findEmployeeDetail',
+        success: function (data, status, xhr) {
+            if (xhr.status === 200) {
+                $('#loginNameDropdown').html(data.empFirstName + ' ' + data.empLastName + ' <span class="caret">');
+                $('#loginName').html(data.empFirstName + ' ' + data.empLastName);
+                $('#loginEmail').html(data.email);
+            }
+        },
+        async: false
+    });
 });

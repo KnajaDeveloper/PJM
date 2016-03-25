@@ -7,27 +7,17 @@
             <div class="side-menu-container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
-                        <span class="icon fa fa-paper-plane">
-                            <jsp:text/>
-                        </span>
-                        <span class="title">PNMS</span>
+                        <span class="icon fa fa-paper-plane"><jsp:text/></span>
+                        <span class="title">PPMS</span>
                     </a>
-                    <button class="navbar-expand-toggle pull-right visible-xs" type="button">
-                        <i class="fa fa-times icon">
-                            <jsp:text/>
-                        </i>
+                    <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-times icon"><jsp:text/></i>
                     </button>
                 </div>
-                <ul class="nav navbar-nav" id="menuContainer"/>
+                <ul id="menuContainer" class="nav navbar-nav">
+                    
+                </ul>
             </div>
         </nav>
     </div>
-    <script>
-        var contextPath = '${pageContext.request.contextPath}';
-        commonData.language = '${lang}';
-        if(commonData.language == 'TH_TH') {
-            commonData.language = 'TH';
-        }
-    </script>
-
 </div>
