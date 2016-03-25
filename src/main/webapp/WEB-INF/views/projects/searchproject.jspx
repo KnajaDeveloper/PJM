@@ -183,23 +183,23 @@
                         </div>
                     </form>
 
-                    <div ><div class="table-stripted table-responsive">
-                        <table id="data" class="table table-bordered ">
+                    <div ><div class=" table-responsive">
+                        <table id="data" class="table table-bordered table-stripted  table-hover ">
                             <thead>
-                                <tr class="">
+                            <tr class="">
                                     <th class="text-center" style="width: 30px;">
                                         <input id="checkAll" class="check" type="checkbox"/>
                                     </th>
-                                    <th class="text-center" style="width: 40px;">${LABEL_EDIT}</th>
-                                    <th class="text-center" style="width: 40px;">${LABEL_ADD_TASK}</th>
-                                    <th class="text-center" style="width: 40px;">${LABEL_PROGRESS}</th>
-                                    <th class="text-center" style="width: 200px;">${LABEL_PROJECT_NAMEA}</th>
-                                    <th class="text-center" style="width: 70px;">${LABEL_START_DATE}</th>
-                                    <th class="text-center" style="width: 70px;">${LABEL_COMPLETE_DATE}</th>
-                                    <th class="text-center" style="width: 70px;">${LABEL_TOTAL_COST}</th>
+                                    <th class="text-center" style="width: 40px;color:#000">${LABEL_EDIT}</th>
+                                    <th class="text-center" style="width: 40px;color:#000">${LABEL_ADD_TASK}</th>
+                                    <th class="text-center" style="width: 40px;color:#000">${LABEL_PROGRESS}</th>
+                                    <th class="text-center" style="width: 200px;color:#000">${LABEL_PROJECT_NAME}</th>
+                                    <th class="text-center" style="width: 70px;color:#000">${LABEL_START_DATE}</th>
+                                    <th class="text-center" style="width: 70px;color:#000">${LABEL_COMPLETE_DATE}</th>
+                                    <th class="text-center" style="width: 70px;color:#000">${LABEL_TOTAL_COST}</th>
                                 </tr>
                             </thead>
-                            <tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+                            <tbody id="ResualtSearch" ></tbody>
                         </table>
                     </div>
                         <div class="form-horizontal">
@@ -228,7 +228,7 @@
                     <br></br>
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <table id="tableAddTask" class="table table-bordered table-stripted ">
+                            <table id="tableAddTask" class="table table-bordered table-stripted  table-hover ">
                                 <thead>
                                 <tr class="">
 
