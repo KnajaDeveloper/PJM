@@ -17,30 +17,30 @@
 	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
 
-	<c:set var="LABEL_VIEW_PLAN"><spring:message javaScriptEscape="true" text="View plan"/></c:set>
-	<c:set var="LABEL_EMPLOYEE_SCHEDULE"><spring:message javaScriptEscape="true" text="Employee schedule"/></c:set>
-	<c:set var="LABEL_EMPTY_TASK"><spring:message javaScriptEscape="true" text="Empty task"/></c:set>
-	<c:set var="LABEL_YEAR_CREATE_PROJECT"><spring:message javaScriptEscape="true" text="Year create project"/></c:set>
-	<c:set var="MESSAGE_NUMBER_ONLY"><spring:message javaScriptEscape="true" text="Please enter number only."/></c:set>
-	<c:set var="LABEL_SUN"><spring:message javaScriptEscape="true" text="Sun"/></c:set>
-	<c:set var="LABEL_MON"><spring:message javaScriptEscape="true" text="Mon"/></c:set>
-	<c:set var="LABEL_TUE"><spring:message javaScriptEscape="true" text="Tue"/></c:set>
-	<c:set var="LABEL_WED"><spring:message javaScriptEscape="true" text="Wed"/></c:set>
-	<c:set var="LABEL_THU"><spring:message javaScriptEscape="true" text="Thu"/></c:set>
-	<c:set var="LABEL_FRI"><spring:message javaScriptEscape="true" text="Fri"/></c:set>
-	<c:set var="LABEL_SAT"><spring:message javaScriptEscape="true" text="Sat"/></c:set>
-	<c:set var="LABEL_JAN"><spring:message javaScriptEscape="true" text="Jan"/></c:set>
-	<c:set var="LABEL_FEB"><spring:message javaScriptEscape="true" text="Feb"/></c:set>
-	<c:set var="LABEL_MAR"><spring:message javaScriptEscape="true" text="Mar"/></c:set>
-	<c:set var="LABEL_APR"><spring:message javaScriptEscape="true" text="Apr"/></c:set>
-	<c:set var="LABEL_MAY"><spring:message javaScriptEscape="true" text="May"/></c:set>
-	<c:set var="LABEL_JUN"><spring:message javaScriptEscape="true" text="Jun"/></c:set>
-	<c:set var="LABEL_JUL"><spring:message javaScriptEscape="true" text="Jul"/></c:set>
-	<c:set var="LABEL_AUG"><spring:message javaScriptEscape="true" text="Aug"/></c:set>
-	<c:set var="LABEL_SEP"><spring:message javaScriptEscape="true" text="Sep"/></c:set>
-	<c:set var="LABEL_OCT"><spring:message javaScriptEscape="true" text="Oct"/></c:set>
-	<c:set var="LABEL_NOV"><spring:message javaScriptEscape="true" text="Nov"/></c:set>
-	<c:set var="LABEL_DEC"><spring:message javaScriptEscape="true" text="Dec"/></c:set>
+	<c:set var="LABEL_VIEW_PLAN"><spring:message javaScriptEscape="true" code="L0099"/></c:set>
+	<c:set var="LABEL_EMPLOYEE_SCHEDULE"><spring:message javaScriptEscape="true" code="L0100"/></c:set>
+	<c:set var="LABEL_EMPTY_TASK"><spring:message javaScriptEscape="true" code="L0101"/></c:set>
+	<c:set var="LABEL_YEAR_CREATE_PROJECT"><spring:message javaScriptEscape="true" code="L0102"/></c:set>
+	<c:set var="MESSAGE_NUMBER_ONLY"><spring:message javaScriptEscape="true" code="L0103"/></c:set>
+	<c:set var="LABEL_SUN"><spring:message javaScriptEscape="true" code="L0104"/></c:set>
+	<c:set var="LABEL_MON"><spring:message javaScriptEscape="true" code="L0105"/></c:set>
+	<c:set var="LABEL_TUE"><spring:message javaScriptEscape="true" code="L0106"/></c:set>
+	<c:set var="LABEL_WED"><spring:message javaScriptEscape="true" code="L0107"/></c:set>
+	<c:set var="LABEL_THU"><spring:message javaScriptEscape="true" code="L0108"/></c:set>
+	<c:set var="LABEL_FRI"><spring:message javaScriptEscape="true" code="L0109"/></c:set>
+	<c:set var="LABEL_SAT"><spring:message javaScriptEscape="true" code="L0110"/></c:set>
+	<c:set var="LABEL_JAN"><spring:message javaScriptEscape="true" code="L0111"/></c:set>
+	<c:set var="LABEL_FEB"><spring:message javaScriptEscape="true" code="L0112"/></c:set>
+	<c:set var="LABEL_MAR"><spring:message javaScriptEscape="true" code="L0113"/></c:set>
+	<c:set var="LABEL_APR"><spring:message javaScriptEscape="true" code="L0114"/></c:set>
+	<c:set var="LABEL_MAY"><spring:message javaScriptEscape="true" code="L0115"/></c:set>
+	<c:set var="LABEL_JUN"><spring:message javaScriptEscape="true" code="L0116"/></c:set>
+	<c:set var="LABEL_JUL"><spring:message javaScriptEscape="true" code="L0117"/></c:set>
+	<c:set var="LABEL_AUG"><spring:message javaScriptEscape="true" code="L0118"/></c:set>
+	<c:set var="LABEL_SEP"><spring:message javaScriptEscape="true" code="L0119"/></c:set>
+	<c:set var="LABEL_OCT"><spring:message javaScriptEscape="true" code="L0120"/></c:set>
+	<c:set var="LABEL_NOV"><spring:message javaScriptEscape="true" code="L0121"/></c:set>
+	<c:set var="LABEL_DEC"><spring:message javaScriptEscape="true" code="L0122"/></c:set>
 
 	<script>
 		var Label = {};
