@@ -73,14 +73,14 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/editAllProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.editAllProject(
-            @RequestParam(value = "editTypeCode", required = false) Long edittypecode
+            @RequestParam(value = "editTypeID", required = false) Long edittypeID
             ,@RequestParam(value = "editTypeName", required = false) String edittypename
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<TypeTask> result = TypeTask.editAllProject(edittypecode, edittypename);
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+            TypeTask result = TypeTask.editAllProject(edittypeID, edittypename);
+            return  new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

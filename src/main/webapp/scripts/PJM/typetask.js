@@ -35,7 +35,7 @@ paggination.loadTable = function loadTable(jsonData) {
             + '<td class="text-center">'
             + '<button onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
-            + '<td id="tdTypeTaskCode" class="text-center">' + value.typeTaskCode + '</td>'
+            + '<td id="tdTypeTaskCode" typeTaskID=" ' + value.id + ' " class="text-center">' + value.typeTaskCode + '</td>'
             + '<td id="tdTypeTaskName" class="text-center">' + value.typeTaskName + '</td>'
             + '</tr>';
 
@@ -44,11 +44,12 @@ paggination.loadTable = function loadTable(jsonData) {
 };
 
 //------------------------------------------------------------------------------------
-
+var typeTaskID;
 var typeTaskName;
 
 function openModalEdit(element) {
     $('#eTypeTaskCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskCode").text()).attr('disabled', true);
+    typeTaskID = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskCode").attr("typeTaskID");
     typeTaskName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskName").text();
     $('#eTypeTaskName').val(typeTaskName);
 }
@@ -213,15 +214,11 @@ $('#table').on("click", ".checkboxTable", function () {
         $("#checkAll").prop("checked", false);
     }
 
-    if ($(this).attr("inUseTask") > 0) {
+    if ($(this).attr("inUseTask") > 0 || $(this).attr("inUseOtherTask") > 0) {
         $(this).prop("checked", false);
         bootbox.alert(Message.Data_is_use);
     }
 
-    if ($(this).attr("inUseOtherTask") > 0) {
-        $(this).prop("checked", false);
-        bootbox.alert(Message.Data_is_use);
-    }
 });
 
 $('#checkAll').click(function () {
@@ -276,7 +273,7 @@ function deleteData() {
 $('#btnMUpdate').click(function () {
     if ($('#eTypeTaskName').val() === typeTaskName) {
         bootbox.alert(Message.No_information_changed);
-        $('#edit').modal('hide');
+
     } else {
 
         editData();
@@ -287,7 +284,7 @@ $('#btnMUpdate').click(function () {
 
 function editData() {
     var dataJsonData = {
-        editTypeCode: $('#eTypeTaskCode').val(),
+        editTypeID: typeTaskID,
         editTypeName: $('#eTypeTaskName').val()
     };
 
@@ -303,6 +300,7 @@ function editData() {
         complete: function (xhr) {
             if (xhr.status === 200) {
                 bootbox.alert(Message.Edit_Success);
+                $('#edit').modal('hide');
                 searchData();
             } else if (xhr.status === 500) {
                 bootbox.alert(Message.Edit_Failed);
@@ -339,24 +337,6 @@ function check(id) {
     ids = jQuery.parseJSON(responsResultTask.responseText);
     console.log(ids);
 
-   //----------------------------------------
-   //
-   // responsResultOtherTask = $.ajax({
-   //     contentType: "application/json; charset=utf-8",
-   //     dataType: "json",
-   //     headers: {
-   //         Accept: "application/json"
-   //     },
-   //     type: "GET",
-   //     url: contextPath + '/othertasks/findTypeTaskByCodeTypeTask',
-   //     data: dataJsonData,
-   //     complete: function (xhr) {
-   //
-   //     },
-   //     async: false
-   // });
-   //
-   // idss = jQuery.parseJSON(responsResultOtherTask.responseText);
-   // console.log(idss);
+
 
 }

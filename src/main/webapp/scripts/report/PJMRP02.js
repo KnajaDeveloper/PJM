@@ -79,14 +79,12 @@ function sendData() {
 
     var date = new Date();
 
-    var printDate = date.getDate() + "/" +
-        (parseInt(date.getMonth()) + 1) + "/" +
-        date.getFullYear();
 
     var projectId = $('#ddlProject').find('option:selected').val();
     var projectName = $('#ddlProject').find('option:selected').text();
     var moduleCode = $('#ddlModule').find('option:selected').val();
     var moduleName = $('#ddlModule').find('option:selected').text();
+    var plusYear = 0;
     console.log(moduleCode);
     console.log(moduleName);
 
@@ -98,11 +96,34 @@ function sendData() {
     console.log(moduleCode);
     console.log(moduleName);
 
-    var link = window.location.href = contextPath + '/reports/exportPJMRP02?projectId=' + projectId
-        + '&projectName=' + projectName
-        + '&moduleCode=' + moduleCode
-        + '&moduleName=' + moduleName
-        + '&printDate=' + printDate;
+        if (_language == "TH") {
+
+            var printDate = date.getDate() + "/" +
+                (parseInt(date.getMonth()) + 1) + "/" +
+                (parseInt(date.getFullYear()) + 543 );
+            plusYear = 543;
+
+            window.location.href = contextPath + '/reports/exportPJMRP02?projectId=' + projectId
+                + '&projectName=' + projectName
+                + '&moduleCode=' + moduleCode
+                + '&moduleName=' + moduleName
+                + '&printDate=' + printDate
+                + '&plusYear=' + plusYear;
+
+        }else if (_language == "EN" || _language == 'EN_US') {
+
+            var printDate = date.getDate() + "/" +
+                (parseInt(date.getMonth()) + 1) + "/" +
+                (parseInt(date.getFullYear()) + 0 );
+            plusYear = 0;
+
+            window.location.href = contextPath + '/reports/exportPJMRP02?projectId=' + projectId
+                + '&projectName=' + projectName
+                + '&moduleCode=' + moduleCode
+                + '&moduleName=' + moduleName
+                + '&printDate=' + printDate
+                + '&plusYear=' + plusYear;
+        }
 
     }
 
