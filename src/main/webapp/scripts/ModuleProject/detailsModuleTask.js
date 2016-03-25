@@ -108,7 +108,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
 
         tableData = ''
-        + '<tr id="trTask' + i++ + '" style="background-color: #fff">'
+        + '<tr id="trTask' + i++ + '">'
             + '<td class="text-center">'
                 + '<input id="' + value.id + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
             + '</td>'
@@ -348,6 +348,8 @@ function saveDateToDataBase(id) {
                             $('#txtEmpName').val(null);
                             $('#dateStartProject').val(null);
                             $('#dateEndProject').val(null);
+                            $("#dateStartProject").change();
+                            $("#dateEndProject").change();
                             document.getElementById("myInput").value = "";
                             $('#fileName').text("");
                             $('#txtaDescription').val("");
@@ -355,7 +357,7 @@ function saveDateToDataBase(id) {
                             searchDataTask();
                             searchDataProgram();
                             $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
-                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
                         }else if(xhr.status == 500){
                             bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                         }
@@ -411,7 +413,7 @@ function saveDateToDataBase(id) {
                         $('#fileName').text("");
                         $('#txtaDescription').val("");
                         searchDataTask();
-                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
                     }else if(xhr.status === 500){
                         bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                     }
@@ -590,7 +592,7 @@ $('#btnDeleteTask').click(function() {
                 chkDTaskStatus200 = 0;
                 chkDTaskStatus500 = 0;
 
-                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()));
+                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
             }
         });
     }
@@ -615,3 +617,34 @@ function checkNullData(value) {
         return value;
     }
 }
+
+// Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test 
+
+// $('#btnTestSaveFile').click(function() {
+//     var formData = new FormData();
+//     formData.append("testMyInput", testMyInput.files[0]);
+//     $.ajax({
+//          type: "POST",
+//          headers: {
+//              Accept: 'application/json',
+//          },
+//          contentType: "application/json; charset=utf-8",
+//          dataType: "json",
+//          url: contextPath + '/tasks/uploadFileAndInsertDataFile',
+//          processData: false,
+//          contentType: false,
+//          data: formData,
+//          complete: function (xhr) {
+//              if (xhr.readyState == 4) {
+//                 if (xhr.status == 201) {
+//                     alert("Okay");    
+//                 } else {
+//                 }
+//              } else {
+//              }
+//          },
+//          async: false,
+//      });
+// });
+
+// Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test 
