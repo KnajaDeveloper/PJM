@@ -3,6 +3,7 @@ var countModuleManager = 1 ;
 var countEditModuleManager = 1 ;
 var countModuleMember = 1 ;
 var countEditModuleMember = 1 ;
+var resultEmployee;
 
 ////////////////// Module Manager //////////////////
 
@@ -79,6 +80,23 @@ function loopAddPM(){
 	var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' style='margin-top:5px;' id='txtProjectManagerName"+[count_elements+1]+"'></input></div>"+
 			"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>"+Button.Delete+"</button></div>";
+	//var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'>" +
+	//	"<div class='col-sm-9'>"+
+	//		"<div id='LOVEmployee"+[count_elements+1]+"'>"+
+	//			"<div class='input-group'>"+
+	//				"<input class='form-control' id='txtProjectManagerName"+[count_elements+1]+"' type='text' onkeypress='runScript(event)' empCode=' >"+
+	//				"<span class='input-group-addon' style='background: white; cursor:pointer;' onclick='searchLovEmployee($('#'+txtId).val())'>"+
+	//					"<span class='fa fa-search'>"+
+	//						"<jsp:text/>"+
+	//					"</span>"+
+	//				"</span>"+
+	//				"</input>"+
+	//			"</div>"+
+	//			"<div id='resultSearch' class='front' style='position: absolute; z-index: 3;'>"+
+	//			"</div>"+
+	//		"</div>"+
+	//	"</div>"+
+	//	"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>"+Button.Delete+"</button></div>";
 	$("#subProjectManager").append(html);
 	countProjectManager++;
 }
@@ -89,8 +107,3 @@ function btnDeleteProjectManager(id) {
 }
 
 //////////////////////////////////////////////////////
-
-// var arr = [];
-// for(var i=0;i<3;i++) arr.push(""+i);
-// arr.splice(1,1);
-// alert(""+arr);	

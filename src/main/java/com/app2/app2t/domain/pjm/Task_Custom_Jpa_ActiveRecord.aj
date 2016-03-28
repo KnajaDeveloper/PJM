@@ -249,7 +249,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria.createAlias("task.program", "program");
         criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("task.empCode",""));
+        criteria.add(Restrictions.isNull("task.empCode"));
         return criteria.list();
     }
 }

@@ -39,7 +39,7 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
     public static List<OtherTask> OtherTask.findEmptyOtherTask() {
         EntityManager ent = OtherTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(OtherTask.class, "otherTask");
-        criteria.add(Restrictions.eq("otherTask.empCode",""));
+        criteria.add(Restrictions.isNull("otherTask.empCode"));
         return criteria.list();
     }
     
