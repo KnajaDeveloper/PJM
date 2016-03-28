@@ -55,7 +55,8 @@
     <script>
         var contextPath = '${pageContext.request.contextPath}';
         commonData.language = '${lang}';
-        console.log(commonData.language);
+        if(commonData.language == 'TH_TH')
+            commonData.language = 'TH';
     </script>
     
     <spring:url value="/resources/scripts/header/header.js" var="header_js_url"/>

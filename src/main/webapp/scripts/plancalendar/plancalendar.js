@@ -131,7 +131,14 @@ $('#btnSearchByModule').click(function () {
                 } else {
                     $('#lblNoResultSerchByModule').hide();
                     $.each(data, function (k, v) {
-                        $('#grpResultModuleSearch').append('<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') + '" taskId="' + v.id + '" onclick="openModalAddPlan(this)">' + v.taskName + ' <span class="pull-right">' + v.typeTask.typeTaskName + '</span> </a>');
+                        $('#grpResultModuleSearch').append(
+                            '<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') +
+                            '" taskId="' + v.id + 
+                            '" taskBegin="' + (v.dateStart != null ? v.dateStart : '') + 
+                            '" taskEnd="' + (v.dateEnd != null ? v.dateEnd : '') + 
+                            '" onclick="openModalAddPlan(this)">' + v.taskName + 
+                            ' <span class="pull-right">' + v.typeTask.typeTaskName + 
+                            '</span> </a>');
                     });
                 }
             }
@@ -209,6 +216,8 @@ function openModalAddPlan(jobElement) {
 
     var jobName = $.trim(jobElement.innerHTML.split('<span')[0]);
     var taskId = jobElement.getAttribute('taskId');
+    var taskBegin = jobElement.getAttribute('taskBegin');
+    var taskEnd = jobElement.getAttribute('taskEnd');
 
     // set name
     $('#lblAddNameWork').html(jobName);
@@ -240,6 +249,8 @@ function openModalAddPlan(jobElement) {
     // set hidden
     $('#taskId').val(taskId);
 
+    $('#mdAddToPlan').attr('taskBegin', taskBegin);
+    $('#mdAddToPlan').attr('taskEnd', taskEnd);
 }
 function getFirstEmptyDate(baseId) {
     var obj = null;
@@ -384,32 +395,65 @@ $('#btnSaveAddPlan').click(function () {
             });
         }
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=UTF-8",
-            dataType: "json",
-            headers: {
-                Accept: "application/json"
-            },
-            url: contextPath + '/plans/insertPlan',
-            data: JSON.stringify(plans),
-            success: function (data, status, xhr) {
-                if (xhr.status === 200) {
-                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
-                    $('#mdAddToPlan').modal('hide');
-                    $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
-                    loadAndMapPlan(_month, _year-543);
-                } else if (xhr.status === 500) {
-                    bootbox.alert(MESSAGE.SAVE_FAILED);
+        var taskBegin = $('#mdAddToPlan').attr('taskBegin');
+        var taskEnd = $('#mdAddToPlan').attr('taskEnd');
+
+        if(taskEnd != '' && isExpiredDate(plans.slice(2), taskEnd)){
+            bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=UTF-8",
+                        dataType: "json",
+                        headers: {
+                            Accept: "application/json"
+                        },
+                        url: contextPath + '/plans/insertPlan',
+                        data: JSON.stringify(plans),
+                        success: function (data, status, xhr) {
+                            if (xhr.status === 200) {
+                                bootbox.alert(MESSAGE.SAVE_COMPLETED);
+                                $('#mdAddToPlan').modal('hide');
+                                $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
+                                loadAndMapPlan(_month, _year-543);
+                            } else if (xhr.status === 500) {
+                                bootbox.alert(MESSAGE.SAVE_FAILED);
+                            }
+                        },
+                        async: false
+                    });
                 }
-            },
-            async: false
-        });
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: contextPath + '/plans/insertPlan',
+                data: JSON.stringify(plans),
+                success: function (data, status, xhr) {
+                    if (xhr.status === 200) {
+                        bootbox.alert(MESSAGE.SAVE_COMPLETED);
+                        $('#mdAddToPlan').modal('hide');
+                        $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
+                        loadAndMapPlan(_month, _year-543);
+                    } else if (xhr.status === 500) {
+                        bootbox.alert(MESSAGE.SAVE_FAILED);
+                    }
+                },
+                async: false
+            });
+        }
     }
 });
+
 $('#btnCancelAddPlan').click(function () {
     $('#mdAddToPlan').modal('hide');
 });
+
 $('#btnCancelTask').click(function () {
     var taskId = $('#taskId').val();
     bootbox.confirm(MESSAGE.CONFIRM_LEAVE, function (result) {
@@ -451,6 +495,9 @@ function openModalEditPlan(event) {
     // set begin/end date picker
     var startDate = event.start._i.split('T')[0];
     var endDate = event.end._i.split('T')[0];
+
+    $('#mdEditToPlan').attr('taskBegin', event.taskBegin);
+    $('#mdEditToPlan').attr('taskEnd', event.taskEnd);
 
     if (commonData.language == 'TH') {
         $('#cEditDateBegin_0').val(parseDateToBE(parseDatePicker(startDate)));
@@ -599,26 +646,57 @@ $('#btnSaveEditPlan').click(function () {
         }
 
         if(changePlan()) {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=UTF-8",
-                dataType: "json",
-                headers: {
-                    Accept: "application/json"
-                },
-                url: contextPath + '/plans/updatePlan',
-                data: JSON.stringify(plans),
-                success: function (data, status, xhr) {
-                    if (xhr.status === 200) {
-                        bootbox.alert(MESSAGE.SAVE_COMPLETED);
-                        $('#mdEditToPlan').modal('hide');
-                        loadAndMapPlan(_month, _year-543);
-                    } else if (xhr.status === 500) {
-                        bootbox.alert(MESSAGE.SAVE_FAILED);
+
+            var taskBegin = $('#mdEditToPlan').attr('taskBegin');
+            var taskEnd = $('#mdEditToPlan').attr('taskEnd');
+
+            if(taskEnd != '' && isExpiredDate(plans.slice(3), taskEnd)){
+                bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json; charset=UTF-8",
+                            dataType: "json",
+                            headers: {
+                                Accept: "application/json"
+                            },
+                            url: contextPath + '/plans/updatePlan',
+                            data: JSON.stringify(plans),
+                            success: function (data, status, xhr) {
+                                if (xhr.status === 200) {
+                                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
+                                    $('#mdEditToPlan').modal('hide');
+                                    loadAndMapPlan(_month, _year-543);
+                                } else if (xhr.status === 500) {
+                                    bootbox.alert(MESSAGE.SAVE_FAILED);
+                                }
+                            },
+                            async: false
+                        });
                     }
-                },
-                async: false
-            });
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=UTF-8",
+                    dataType: "json",
+                    headers: {
+                        Accept: "application/json"
+                    },
+                    url: contextPath + '/plans/updatePlan',
+                    data: JSON.stringify(plans),
+                    success: function (data, status, xhr) {
+                        if (xhr.status === 200) {
+                            bootbox.alert(MESSAGE.SAVE_COMPLETED);
+                            $('#mdEditToPlan').modal('hide');
+                            loadAndMapPlan(_month, _year-543);
+                        } else if (xhr.status === 500) {
+                            bootbox.alert(MESSAGE.SAVE_FAILED);
+                        }
+                    },
+                    async: false
+                });
+            }
         } else {
             bootbox.alert(MESSAGE.DATA_NO_CHANGE);
         }
@@ -740,16 +818,28 @@ function loadAndMapPlan(month, year) {
                 startDate = parseFullCalendar(parseFormatDateToString(startDate, commonData.language)) + 'T00:00:00';
                 endDate = parseFullCalendar(parseFormatDateToString(endDate, commonData.language)) + 'T24:00:00';
 
+                var bgColor = '#337ab7';
+                if(v.task != null) {
+                    if(v.task.dateEnd != null && v.dateEnd > v.task.dateEnd) {
+                        bgColor = '#f22613';
+                    }
+                } else {
+                    bgColor = '#6c7a89';
+                }
+
                 var event = {
                     _id: v.id,
                     title: v.task != null ? v.task.taskName : v.otherTask.taskName,
                     start: startDate,
                     end: endDate,
                     taskId: v.task != null ? v.task.id : null,
+                    taskBegin: v.task != null ? (v.task.dateStart != null ? v.task.dateStart:'') : '',
+                    taskEnd: v.task != null ? (v.task.dateEnd != null ? v.task.dateEnd:'') : '',
                     otherTaskId: v.otherTask != null ? v.otherTask.id : null,
                     planId: v.id,
                     note: v.note,
                     progress: v.task != null ? v.task.progress : v.otherTask.progress,
+                    backgroundColor: bgColor
                 };
                 events.push(event);
             });
@@ -853,4 +943,21 @@ function loadAndMapAllTaskType(){
         },
         async: false
     });
+}
+
+
+Date.prototype.withoutTime = function () {
+    var d = new Date(this);
+    d.setHours(0, 0, 0, 0, 0);
+    return d
+}
+
+function isExpiredDate(dates, dateEnd) {
+    var expired = false;
+    dateEnd = new Date(parseFloat(dateEnd));
+    $.each(dates, function(k, v){
+        if(new Date(v.dateEnd).withoutTime() > dateEnd)
+            expired = true;
+    });
+    return expired;
 }

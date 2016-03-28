@@ -62,8 +62,8 @@ privileged aspect PlanController_Custom_Controller_Json {
                 dateEnd = fm.format(month + 1) + "/15/" + year;
             }
 
-            LOGGER.debug("=====================> Date begin{}",new Date(dateBegin));
-            LOGGER.debug("=====================> Date end{}",new Date(dateEnd));
+            LOGGER.debug("=====================> Date begin {}",new Date(dateBegin));
+            LOGGER.debug("=====================> Date end {}",new Date(dateEnd));
 
             List<Plan> result = Plan.findPlansByMonthYear(new Date(dateBegin), new Date(dateEnd), empCode);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -238,7 +238,7 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             long taskId = Long.parseLong(json.toString());
-            Task.updateEmpCode(taskId, "");
+            Task.updateEmpCode(taskId, null);
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

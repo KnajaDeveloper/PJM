@@ -39,12 +39,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         if (getMyTask && !getOtherTask) {
             criteria.add(Restrictions.eq("empCode", empCode));
         } else if (!getMyTask && getOtherTask) {
-            criteria.add(Restrictions.eq("empCode", ""));
+            criteria.add(Restrictions.isNull("empCode"));
         } else {
-            criteria.add(Restrictions.or(Restrictions.eq("empCode", ""), Restrictions.eq("empCode", empCode)));
+            criteria.add(Restrictions.or(Restrictions.isNull("empCode"), Restrictions.eq("empCode", empCode)));
         }
 
-        criteria.addOrder(Order.desc("empCode"))
+        criteria.addOrder(Order.asc("empCode"))
                 .addOrder(Order.asc("typeTask.typeTaskName"))
                 .addOrder(Order.asc("dateStart"))
                 .addOrder(Order.asc("dateEnd"));
