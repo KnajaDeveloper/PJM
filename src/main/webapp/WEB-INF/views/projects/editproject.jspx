@@ -9,6 +9,7 @@
 	<c:set var="BUTTON_CANCLE"><spring:message javaScriptEscape="true" code="B0007"/></c:set>
 	<c:set var="BUTTON_DELETE"><spring:message javaScriptEscape="true" code="B0014"/></c:set>
 	<c:set var="BUTTON_EDIT"><spring:message javaScriptEscape="true" code="B0005"/></c:set>
+	<c:set var="BUTTON_ADD_MODULE"><spring:message javaScriptEscape="true" code="B0020"/></c:set>
 
 	<c:set var="LABEL_CREATE_PROJECT"><spring:message javaScriptEscape="true" code="L0091"/></c:set>
 	<c:set var="LABEL_CREATE_MODULE"><spring:message javaScriptEscape="true" code="L0097"/></c:set>
@@ -82,6 +83,10 @@
 		var projectId = '${projectId}';
 		var Label = {};
 		Label.Point = '${LABEL_POINT}';
+		Label.Start_Date = '${LABEL_START_DATE}';
+		Label.End_Date = '${LABEL_END_DATE}';
+		Label.Module_manager = '${LABEL_MODULE_MANAGER}';
+		Label.Module_member = '${LABEL_MODULE_MEMBER}';
 		var Message = {};
 		Message.Has_in_project = "${MESSAGE_HAS_IN_PROJECT}";
 		Message.Has_in_database = "${MESSAGE_HAS_IN_DATABASE}";
@@ -254,7 +259,7 @@
 									<div style='padding-bottom:5px;'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER}</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control" id="txtModuleManagerName1"></input>
+											<input type="text" class="form-control" id="txtModuleManagerName1" onchange="moduleManagerChange(this)"></input>
 										</div>
 										<div class='btn'><!--Not Empty--></div>
 									</div>
@@ -345,7 +350,7 @@
 									<div style='padding-bottom:5px;'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER} </label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control" id="txtEditModuleManagerName1"></input>
+											<input type="text" class="form-control" id="txtEditModuleManagerName1" onchange='editModuleManagerChange(this)'></input>
 										</div>
 										<div class='btn'><!--Not Empty--></div>
 									</div>
@@ -429,19 +434,24 @@
 		</div>
 	</div>
 
-	<div id='container_DataModule' class='panel panel-primary'>
+	<div id='container_DataModule' class='panel panel-primary' style="margin-top: 15px;">
 		<div class="panel-heading">
 			<h4 class='panel-title'>
 				${LABEL_EDIT_MODULE}
 				<span>
-					<button id="btnAddModule" type="button" class="btn btn-success marginTop-5 pull-right"> + ${LABEL_MODULE}</button>
+					<!--<button id="btnAddModule" type="button" class="btn btn-success marginTop-5 pull-right"> + ${LABEL_MODULE}</button>-->
 				</span>
 			</h4>
 		</div>
 		<div class="panel-body">
-			<div name="container_UpDownModule" class="form-group">
-				<button id="btnUpModule" type="button" class="btn btn-primary" aria-hidden="true"><span class="glyphicon glyphicon-chevron-up "></span></button>
-				<button id="btnDownModule" type="button" class="btn btn-primary" aria-hidden="true" style="margin:10px;"><span class="glyphicon glyphicon-chevron-down "></span></button>
+			<div class="form-group" name="container_UpDownModule">
+				<button aria-hidden="true" class="btn btn-primary" type="button" id="btnUpModule">
+					<span class="glyphicon glyphicon-chevron-up "></span>
+				</button>
+				<button style="margin:5px;" class="btn btn-primary" type="button" id="btnAddModule"> ${BUTTON_ADD_MODULE} </button>
+				<button style="margin:0px;" aria-hidden="true" class="btn btn-primary" type="button" id="btnDownModule">
+					<span class="glyphicon glyphicon-chevron-down "></span>
+				</button>
 			</div>
 		</div>
 

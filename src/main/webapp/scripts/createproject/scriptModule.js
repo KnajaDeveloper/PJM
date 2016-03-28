@@ -10,17 +10,72 @@ arr_costModule.push("");
 arr_startDate.push("");
 arr_endDate.push("");
 
+
 $("#btnSaveModule").click(function(){
 	SaveModule(null);
 });
 
 $("#btnAddModule").click(function(){
+	$("#subModuleMember").empty();
 	if(compareData()==true){
 		$('#modalAddModule').modal('show');
+		var namePM = getAllProjectManager().split("===");
+		$("#txtModuleMemberName1").val(""+namePM[0]);
+		$("#txtModuleMemberName1").disableSelection();
+		for(var i = 1 ; i < namePM.length - 1 ; i++) {
+			var count_elements = countModuleMember+1;
+			var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='project'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+				"<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+				"<div class='btn'>&nbsp</div></div>";
+			$("#subModuleMember").append(html);
+			$("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
+			$("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
+			countModuleMember++;
+		}
 	}else{
 		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
 	}
 });
+
+function moduleManagerChange(obj){
+	$("[from=modulemanager]").remove();
+	var count = $("[id^=txtModuleManagerName]").length;
+	for(var i = 0 ; i < count  ; i++) {
+		var count_elements = countModuleMember+1;
+		var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+			"<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+			"<div class='btn'>&nbsp</div></div>";
+		$("#subModuleMember").append(html);
+		$("#txtModuleMemberName"+[count_elements + 1]).val(""+$("[id^=txtModuleManagerName]")[i].value);
+		$("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
+		countModuleMember++;
+	}
+}
+
+function editModuleManagerChange(obj){
+	$("[from=modulemanager]").remove();
+	var count = $("[id^=txtEditModuleManagerName]").length;
+	for(var i = 0 ; i < count  ; i++) {
+		var count_elements = countEditModuleMember+1;
+		var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+			"<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+			"<div class='btn'>&nbsp</div></div>";
+		$("#subEditModuleMember").append(html);
+		$("#txtEditModuleMemberName"+[count_elements + 1]).val(""+$("[id^=txtEditModuleManagerName]")[i].value);
+		$("#txtEditModuleMemberName"+[count_elements + 1]).disableSelection();
+		countEditModuleMember++;
+	}
+}
+
+function getAllProjectManager(){
+	var allNameProjectManager = "";
+	var count_Element = $("[id^=txtProjectManagerName]").length;
+	for(var i = 0 ; i < count_Element ; i++){
+		var id = $("[id^=txtProjectManagerName]")[i].id;
+		allNameProjectManager += ""+$("#"+id).val()+"===";
+	}
+	return allNameProjectManager;
+}
 
 function saveEditModule(object,cost){
 	var id = object.id;
@@ -141,17 +196,17 @@ function SaveModule(cost){
 				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' class='btn btn-warning marginTop-5 marginRight5 pull-right'>"+Button.Edit+"</span>"+
 				"</h4>"+
 				"</div>"+
-				"<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
+				"<div id='collapse"+i+"' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
 				"<div class='panel-body'>"+
 				"<div class='form-inline'>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>Start Date : </label>"+
+				"<label class='col-sm-6 control-label'>"+Label.Start_Date+" : </label>"+
 				"<div class='col-sm-5 input-group'>"+
 				"<label id='lbDateStartEditModule"+i+"' class='control-label'>"+$("#dateStartModule").val()+"</label>"+
 				"</div>"+
 				"</div>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>End Date : </label>"+
+				"<label class='col-sm-6 control-label'>"+Label.End_Date+" : </label>"+
 				"<div class='col-sm-5 input-group'>"+
 				"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
 				"</div>"+
@@ -159,13 +214,13 @@ function SaveModule(cost){
 				"</div>"+
 				"<div class='form-inline'>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>Module Manager :</label>"+
+				"<label class='col-sm-6 control-label'>"+Label.Module_manager+" :</label>"+
 				"<div class='col-sm-5 input-group'>"+
 				"<label id='lbEditModuleManager"+i+"' class='control-label'>"+allModuleManager+"</input>"+
 				"</div>"+
 				"</div>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>Module Member :</label>"+
+				"<label class='col-sm-6 control-label'>"+Label.Module_member+" :</label>"+
 				"<div class='col-sm-5 input-group'>"+
 				"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
 				"</div>"+
@@ -346,6 +401,7 @@ function checkEditModal(){
 		return false;
 	}
 	var count_Element = $("[id^=txtEditModuleManagerName").length ;
+
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtEditModuleManagerName")[i].id;
 		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
@@ -483,7 +539,7 @@ function editModule(objectModule){
 		$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
 		for (var i = 2; i < splitTextModuleManager.length; i++) {
 			var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-				"<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;'></input></div>" +
+				"<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;' onchange='editModuleManagerChange(this)'></input></div>" +
 				"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
 			$("#subEditModuleManager").append(html);
 			$("#txtEditModuleManagerName" + i).val(splitTextModuleManager[i - 1]);
@@ -492,17 +548,54 @@ function editModule(objectModule){
 		var textModuleMember = arr_moduleMember[number];
 		var splitTextModuleMember = textModuleMember.split("<br/>");
 		$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
+		$("#txtEditModuleMemberName1").disableSelection();
 		for (var i = 2; i < splitTextModuleMember.length; i++) {
+			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
 			var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-				"<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>" +
-				"<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button></div>";
+				"<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>";
+			if(same == "nosame")
+				html += "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button>";
+			else
+				html += "<div class='btn'>&nbsp</div>";
+			html+= "</div>";
 			$("#subEditModuleMember").append(html);
 			$("#txtEditModuleMemberName" + i).val(splitTextModuleMember[i - 1]);
+			if(same!="nosame"){
+				if(same=="module") $("#container_subEditModuleMember" + i).attr("from","modulemanager");
+				else $("#container_subEditModuleMember" + i).attr("from","project");
+				$("#txtEditModuleMemberName" + i).disableSelection();
+			}
 		}
 		countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
-		countEditModuleMember = $("[id^=btnDeleteEditMMem]").length;
+		countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
 	}else{
 		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
+	}
+}
+
+function findSameModuleManagerOrProjectManager(needKnow){
+	var count_Element = $("[id^=txtEditModuleManagerName").length;
+	var arrManager = [];
+	for(var i=0;i<count_Element;i++){
+		var id = $("[id^=txtEditModuleManagerName")[i].id;
+		var name = ""+$("#"+id).val();
+		arrManager.push(""+name);
+	}
+	count_Element = $("[id^=txtProjectManagerName").length;
+	var arrProjectManager = [];
+	for(var i=0;i<count_Element;i++){
+		var id = $("[id^=txtProjectManagerName")[i].id;
+		var name = ""+$("#"+id).val();
+		arrProjectManager.push(""+name);
+	}
+	if(arrManager.indexOf(""+needKnow) >= 0){
+		return "module";
+	}
+	else if(arrProjectManager.indexOf(""+needKnow) >= 0){
+		return "project";
+	}
+	else{
+		return "nosame";
 	}
 }
 
@@ -567,6 +660,3 @@ function compareData(){
 	return true;
 }
 
-function test01(ob){
-	alert("adasd");
-}

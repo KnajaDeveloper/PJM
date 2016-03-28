@@ -1,7 +1,9 @@
 $('#txtYear').focusout(function(){
 	var bool = checkYear();
 	if(bool == true) {
-		searchProjectByYear(parseInt($("#txtYear").val()));
+		var yearSearch = parseInt($("#txtYear").val());
+		if (commonData.language == "TH") yearSearch -= 543;
+		searchProjectByYear(yearSearch);
 	}
 });
 

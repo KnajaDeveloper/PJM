@@ -1,6 +1,7 @@
 var dataAfterSave ;
 var oldData = [];
 var newData = [];
+var numOfProjectManager = 0 ;
 
 function saveProjectToDB(){
 	//var boolSameProjectCode = findSameProjectCode();
@@ -32,10 +33,7 @@ function saveProjectToDB(){
 					statusReturn = true;
 					$("#btnIncresePoint").show();
 					$("#btnDecresePoint").show();
-					//$("#btnSaveProject").hide();
 					$("#btnResetProject").hide();
-					//$("#btnAddPM").hide();
-					//$("[id^=btnDeletePM]").hide();
 					saveDataProject();
 				}else{
 					bootbox.alert(""+Message.Save_error);
@@ -91,12 +89,33 @@ function updateProjectToDB(){
 }
 
 function saveDataProject(){
+	var numOfProjectManagerOld = numOfProjectManager;
 	oldData[0] = $("#txtProjectName").val();
 	oldData[1] = $("#txtInitialProjectName").val();
 	oldData[2] = $("#txtCostsProject").val();
 	oldData[3] = $("#dateStartProject").val();
 	oldData[4] = $("#dateEndProject").val();
 	oldData[5] = projectManagerToArray();
+	numOfProjectManager = oldData[5].split('==').length;
+	changeArrModuleMember(numOfProjectManagerOld);
+}
+
+function changeArrModuleMember(num){
+	var count = arr_moduleMember.length;
+	for(var i = 1 ; i < count ; i++){
+		var newArr = "";
+		var x = projectManagerToArray();
+		x = x.split("==");
+		for(var j = 0 ; j < x.length ; j++)
+			newArr += x[j]+"<br/>";
+		for(var k = num ; k < arr_moduleMember[i].split('<br/>').length ;k++) {
+			newArr += arr_moduleMember[i].split('<br/>')[k];
+			if(k!=arr_moduleMember[i].split('<br/>').length - 1) newArr += "<br/>";
+		}
+		arr_moduleMember[i] = newArr;
+		$("#lbEditModuleMember"+i).empty();
+		$("#lbEditModuleMember"+i).append(arr_moduleMember[i]);
+	}
 }
 
 function projectManagerToArray(){

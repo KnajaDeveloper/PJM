@@ -10,7 +10,7 @@ var resultEmployee;
 $("#btnAddMM1").click(function(){
 	var count_elements = countModuleManager;
 	var html="<div style='padding-top: 5px;' id='container_subModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleManagerName"+[count_elements+1]+"'></input></div>"+
+			"<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleManagerName"+[count_elements+1]+"' onchange='moduleManagerChange(this)'></input></div>"+
 			"<button id='btnDeleteMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteModuleManager(this.id)'>"+Button.Delete+"</button></div>";
 	$("#subModuleManager").append(html);
 	countModuleManager++;
@@ -19,12 +19,13 @@ $("#btnAddMM1").click(function(){
 function btnDeleteModuleManager(id) {
 	id = id.replace("btnDeleteMM","container_subModuleManager");
 	$("#"+id).remove();
+	moduleManagerChange(null);
 }
 
 $("#btnEditAddMM1").click(function(){
 	var count_elements = countEditModuleManager+1;
 	var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleManagerName"+[count_elements+1]+"' style='margin-top:5px;'></input></div>"+
+			"<input type='text' class='form-control' id='txtEditModuleManagerName"+[count_elements+1]+"' style='margin-top:5px;' onchange='editModuleManagerChange(this)'></input></div>"+
 			"<button id='btnDeleteEditMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>"+Button.Delete+"</button></div>";
 	$("#subEditModuleManager").append(html);
 	countEditModuleManager++;
@@ -33,6 +34,7 @@ $("#btnEditAddMM1").click(function(){
 function btnDeleteEditModuleManager(id) {
 	id = id.replace("btnDeleteEditMM","container_subEditModuleManager");
 	$("#"+id).remove();
+	editModuleManagerChange(null);
 }
 
 //////////////////////////////////////////////////////

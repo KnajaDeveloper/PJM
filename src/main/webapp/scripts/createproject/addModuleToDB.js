@@ -30,6 +30,7 @@ function saveModuleProjectToDB(){
 				if(xhr.status === 201 || xhr.status === 200){
 					bootbox.alert(""+Message.Save_success);
 					moduleProject = xhr ;
+					$("#modalAddModule").modal('hide');
 				}else if(xhr.status === 500){
 					bootbox.alert(""+Message.Save_error);
 					return false;

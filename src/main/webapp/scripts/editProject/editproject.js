@@ -10,6 +10,9 @@ var countModuleManager = 1;
 var countModuleMember = 1;
 var dataDDLByCode;
 var option = "";
+var numOfProjectManager = 0 ;
+var first = true ;
+var _language = commonData.language;
 
 findData(projectId);
 
@@ -46,8 +49,22 @@ $("#btnEditAddMMem1").click(function () {
 });
 
 $("#btnAddModule").click(function () {
-    if (compareData() == true) {
+    $("#subModuleMember").empty();
+    if(compareData()==true){
         $('#modalAddModule').modal('show');
+        var namePM = getAllProjectManager().split("<br/>");
+        $("#txtModuleMemberName1").val(""+namePM[0]);
+        $("#txtModuleMemberName1").disableSelection();
+        for(var i = 1 ; i < namePM.length - 1 ; i++) {
+            var count_elements = countModuleMember+1;
+            var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='project'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+                "<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+                "<div class='btn'>&nbsp</div></div>";
+            $("#subModuleMember").append(html);
+            $("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
+            $("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
+            countModuleMember++;
+        }
     } else {
         bootbox.alert(Message.Cant_make_any_action + "\n" + Message.Confirm_editing_data);
     }
@@ -65,7 +82,7 @@ $("#btnAddPM").click(function () {
 $("#btnAddMM1").click(function () {
     var count_elements = countModuleManager;
     var html="<div style='padding-top: 5px;' id='container_subModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-        "<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleManagerName"+[count_elements+1]+"'></input></div>"+
+        "<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleManagerName"+[count_elements+1]+"' onchange='moduleManagerChange(this)'></input></div>"+
         "<button id='btnDeleteMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteModuleManager(this.id)'>"+Button.Delete+"</button></div>";
     $("#subModuleManager").append(html);
     countModuleManager++;
@@ -108,6 +125,7 @@ function EditProjectByProjectId() {
                 bootbox.alert("" + Message.Edit_success);
                 statusReturn = true;
                 keepDataForCheckChange("project","oldDataProject");
+
             } else {
                 bootbox.alert("" + Message.Edit_error);
                 statusReturn = false;
@@ -183,8 +201,8 @@ function editDataModuleInDB(number, cost) {
     var moduleCost = parseInt($("#txtCostsEditModule1").val());
     //if(cost!=null) moduleCost += cost ;
     var returnStatus = false;
-    var convertFormatDateStart = DateUtil.dataDateToFrontend($('#dateStartEditModule').val(), _language);
-    var convertFormatDateEnd = DateUtil.dataDateToFrontend($('#dateEndEditModule').val(), _language);
+    var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase($('#dateStartEditModule').val(), _language));
+    var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase($('#dateEndEditModule').val(), _language));
     var crateModuleProject = {
         moduleNeedEdit: editModuleName,
         moduleCode: $("#txtEditInitialModuleName1").val(),
@@ -418,13 +436,13 @@ function SaveModule(cost) {
                 "<div class='panel-body'>" +
                 "<div class='form-inline'>" +
                 "<div class='col-sm-6'>" +
-                "<label class='col-sm-6 control-label'>Start Date : </label>" +
+                "<label class='col-sm-6 control-label'>"+Label.Start_Date +" : </label>" +
                 "<div class='col-sm-5 input-group'>" +
                 "<label id='lbDateStartEditModule" + i + "' class='control-label'>" + $("#dateStartModule").val() + "</label>" +
                 "</div>" +
                 "</div>" +
                 "<div class='col-sm-6'>" +
-                "<label class='col-sm-6 control-label'>End Date : </label>" +
+                "<label class='col-sm-6 control-label'>"+Label.End_Date+" : </label>" +
                 "<div class='col-sm-5 input-group'>" +
                 "<label id='lbDateEndEditModule" + i + "' class='control-label'>" + $("#dateEndModule").val() + "</label>" +
                 "</div>" +
@@ -432,13 +450,13 @@ function SaveModule(cost) {
                 "</div>" +
                 "<div class='form-inline'>" +
                 "<div class='col-sm-6'>" +
-                "<label class='col-sm-6 control-label'>Module Manager :</label>" +
+                "<label class='col-sm-6 control-label'>"+Label.Module_manager+" :</label>" +
                 "<div class='col-sm-5 input-group'>" +
                 "<label id='lbEditModuleManager" + i + "' class='control-label'>" + allModuleManager + "</input>" +
                 "</div>" +
                 "</div>" +
                 "<div class='col-sm-6'>" +
-                "<label class='col-sm-6 control-label'>Module Member :</label>" +
+                "<label class='col-sm-6 control-label'>"+Label.Module_member+" :</label>" +
                 "<div class='col-sm-5 input-group'>" +
                 "<label id='lbEditModuleMember" + i + "' class='control-label'>" + allModuleMember + "</input>" +
                 "</div>" +
@@ -527,13 +545,13 @@ function setData() {
             "<div class='panel-body'>" +
             "<div class='form-inline'>" +
             "<div class='col-sm-6'>" +
-            "<label class='col-sm-6 control-label'>Start Date : </label>" +
+            "<label class='col-sm-6 control-label'>"+Label.Start_Date +" : </label>" +
             "<div class='col-sm-5 input-group'>" +
             "<label id='lbDateStartEditModule" + i + "' class='control-label'>" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[i].dateStart, commonData.language) + "</label>" +
             "</div>" +
             "</div>" +
             "<div class='col-sm-6'>" +
-            "<label class='col-sm-6 control-label'>End Date : </label>" +
+            "<label class='col-sm-6 control-label'>"+Label.End_Date+" : </label>" +
             "<div class='col-sm-5 input-group'>" +
             "<label id='lbDateEndEditModule" + i + "' class='control-label'>" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[i].dateEnd, commonData.language) + "</label>" +
             "</div>" +
@@ -541,13 +559,13 @@ function setData() {
             "</div>" +
             "<div class='form-inline'>" +
             "<div class='col-sm-6'>" +
-            "<label class='col-sm-6 control-label'>Module Manager :</label>" +
+            "<label class='col-sm-6 control-label'>"+Label.Module_manager+" :</label>" +
             "<div class='col-sm-5 input-group'>" +
             "<label id='lbEditModuleManager" + i + "' class='control-label'>" + allModuleManager + "</input>" +
             "</div>" +
             "</div>" +
             "<div class='col-sm-6'>" +
-            "<label class='col-sm-6 control-label'>Module Member :</label>" +
+            "<label class='col-sm-6 control-label'>"+Label.Module_member+" :</label>" +
             "<div class='col-sm-5 input-group'>" +
             "<label id='lbEditModuleMember" + i + "' class='control-label'>" + allModuleMember + "</input>" +
             "</div>" +
@@ -569,12 +587,16 @@ function btnDeleteProjectManager(id) {
 function keepDataForCheckChange(option, dataType) {
     if (option == "project") {
         if (dataType == "oldDataProject") {
+            var numOfProjectManagerOld = numOfProjectManager;
             oldDataProject[0] = ($("#txtProjectName").val());
             oldDataProject[1] = ($("#txtInitialProjectName").val());
             oldDataProject[2] = ($("#txtCostsProject").val());
             oldDataProject[3] = ($("#dateStartProject").val());
             oldDataProject[4] = ($("#dateEndProject").val());
             oldDataProject[5] = (getAllProjectManager());
+            numOfProjectManager = oldDataProject[5].split('<br/>').length-1;
+            if(first != true) changeArrModuleMember(numOfProjectManagerOld);
+            first = false;
         } else {
             newDataProject[0] = ($("#txtProjectName").val());
             newDataProject[1] = ($("#txtInitialProjectName").val());
@@ -643,7 +665,7 @@ function editModule(objectModule) {
         $("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
         for (var i = 2; i < splitTextModuleManager.length; i++) {
             var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-                "<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;'></input></div>" +
+                "<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;' onchange='editModuleManagerChange(this)'></input></div>" +
                 "<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
             $("#subEditModuleManager").append(html);
             $("#txtEditModuleManagerName" + i).val(splitTextModuleManager[i - 1]);
@@ -652,13 +674,26 @@ function editModule(objectModule) {
         var textModuleMember = moduleMemberToFrontEnd(number);
         var splitTextModuleMember = textModuleMember.split("<br/>");
         $("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
+        $("#txtEditModuleMemberName1").disableSelection();
         for (var i = 2; i < splitTextModuleMember.length; i++) {
+            var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
             var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-                "<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>" +
-                "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button></div>";
+                "<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>";
+            if(same == "nosame")
+                html += "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button>";
+            else
+                html += "<div class='btn'>&nbsp</div>";
+            html+= "</div>";
             $("#subEditModuleMember").append(html);
             $("#txtEditModuleMemberName" + i).val(splitTextModuleMember[i - 1]);
+            if(same!="nosame"){
+                if(same=="module") $("#container_subEditModuleMember" + i).attr("from","modulemanager");
+                else $("#container_subEditModuleMember" + i).attr("from","project");
+                $("#txtEditModuleMemberName" + i).disableSelection();
+            }
         }
+        countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
+        countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
     }else{
         bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
     }
@@ -1033,6 +1068,7 @@ function getAllEditModuleMember() {
 function btnDeleteEditModuleManager(id) {
     id = id.replace("btnDeleteEditMM", "container_subEditModuleManager");
     $("#" + id).remove();
+    editModuleManagerChange(null);
 }
 
 function btnDeleteEditModuleMember(id) {
@@ -1128,6 +1164,7 @@ function saveIncreseCost(canDecrese) {
                         else bootbox.alert("" + Message.Increse + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_project);
                         recieveProject = xhr;
                         $("#txtCostsProject").val("" + recieveProject.responseJSON.projectCost);
+                        first = true;
                         keepDataForCheckChange("project","oldDataProject");
                         return true;
                     } else if (xhr.status === 500) {
@@ -1168,6 +1205,7 @@ function saveIncreseCost(canDecrese) {
                         if (option != "decrese") bootbox.alert("" + Message.Increse + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
                         else bootbox.alert("" + Message.Decrese + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
                         changeParameterIncreseOrDecresePointByModuleCode($("#ddlIncreseCostModuleName").val(), parseInt($("#txtIncreseCostModuleCost").val()));
+                        first = true;
                         keepDataForCheckChange("project","oldDataProject");
                         return true;
                     } else if (xhr.status === 500) {
@@ -1330,4 +1368,101 @@ function btnDeleteModuleMember(id) {
 function btnDeleteModuleManager(id) {
     id = id.replace("btnDeleteMM","container_subModuleManager");
     $("#"+id).remove();
+    moduleManagerChange(null);
+}
+
+function moduleManagerChange(obj){
+    $("[from=modulemanager]").remove();
+    var count = $("[id^=txtModuleManagerName]").length;
+    for(var i = 0 ; i < count  ; i++) {
+        var count_elements = countModuleMember+1;
+        var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+            "<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+            "<div class='btn'>&nbsp</div></div>";
+        $("#subModuleMember").append(html);
+        $("#txtModuleMemberName"+[count_elements + 1]).val(""+$("[id^=txtModuleManagerName]")[i].value);
+        $("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
+        countModuleMember++;
+    }
+}
+
+function findSameModuleManagerOrProjectManager(needKnow){
+    var count_Element = $("[id^=txtEditModuleManagerName").length;
+    var arrManager = [];
+    for(var i=0;i<count_Element;i++){
+        var id = $("[id^=txtEditModuleManagerName")[i].id;
+        var name = ""+$("#"+id).val();
+        arrManager.push(""+name);
+    }
+    count_Element = $("[id^=txtProjectManagerName").length;
+    var arrProjectManager = [];
+    for(var i=0;i<count_Element;i++){
+        var id = $("[id^=txtProjectManagerName")[i].id;
+        var name = ""+$("#"+id).val();
+        arrProjectManager.push(""+name);
+    }
+    if(arrManager.indexOf(""+needKnow) >= 0){
+        return "module";
+    }
+    else if(arrProjectManager.indexOf(""+needKnow) >= 0){
+        return "project";
+    }
+    else{
+        return "nosame";
+    }
+}
+
+function editModuleManagerChange(obj){
+    $("[from=modulemanager]").remove();
+    var count = $("[id^=txtEditModuleManagerName]").length;
+    for(var i = 0 ; i < count  ; i++) {
+        var count_elements = countEditModuleMember+1;
+        var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+            "<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+            "<div class='btn'>&nbsp</div></div>";
+        $("#subEditModuleMember").append(html);
+        $("#txtEditModuleMemberName"+[count_elements + 1]).val(""+$("[id^=txtEditModuleManagerName]")[i].value);
+        $("#txtEditModuleMemberName"+[count_elements + 1]).disableSelection();
+        countEditModuleMember++;
+    }
+}
+
+function changeArrModuleMember(num){
+    var count = dataDetail.responseJSON.ModuleMember.length;
+    for(var i = 0 ; i < count ; i++){
+        var newArr = "";
+        var x = projectManagerToArray();
+        x = x.split("==");
+        for(var j = 0 ; j < x.length ; j++)
+            newArr += x[j]+"<br/>";
+        for(var k = num ; k < dataDetail.responseJSON.ModuleMember[i].length ;k++) {
+            newArr += dataDetail.responseJSON.ModuleMember[i][k].empCode ;
+            if(k!=dataDetail.responseJSON.ModuleMember[i].length - 1) newArr += "<br/>";
+        }
+        var va1 = newArr.split("<br/>").length;
+        var va2 = dataDetail.responseJSON.ModuleMember[i].length;
+        if(va2>va1) {
+            for(var l = 0 ; l < va2 ; l++){
+                if(l<va1) dataDetail.responseJSON.ModuleMember[i][l].empCode = newArr.split("<br/>")[l];
+                else  dataDetail.responseJSON.ModuleMember[i].pop();
+            }
+        }else{
+            for(var l = 0 ; l < va1 ; l++){
+                if(l<va2) dataDetail.responseJSON.ModuleMember[i][l].empCode = newArr.split("<br/>")[l];
+                else{
+                    dataDetail.responseJSON.ModuleMember[i][l] = {} ;
+                    dataDetail.responseJSON.ModuleMember[i][l].empCode = newArr.split("<br/>")[l];
+                }
+            }
+        }
+        $("#lbEditModuleMember"+i).empty();
+        $("#lbEditModuleMember"+i).append(newArr);
+        var object = {};
+        object.id = "btnEditModule"+i;
+        editModule(object);
+        object.id = "btnEditSaveModule"+i;
+        saveEditModule(object,null);
+        location.reload();
+        //bootbox.hideAll()
+    }
 }

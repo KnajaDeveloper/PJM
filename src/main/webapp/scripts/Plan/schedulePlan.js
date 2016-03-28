@@ -16,8 +16,8 @@ var moduleProject = ["Employee","Plan","Project"];
 var typeProject = ["Developer","Analysis","Developer"];
 var resultEmptyTask;
 
-//$("#panelEmployee").hide();
-//$("#panelPlan").hide();
+$("#panelEmployee").hide();
+$("#panelPlan").hide();
 addEmptyTask();
 
 function addDate(dateStart,dateEnd){
@@ -28,7 +28,9 @@ function addDate(dateStart,dateEnd){
 	for(var i=0; i <= diffDay ; i++) {
 		numDate.setDate(dateStart.getDate()+1);
 		$("#tbSevenDay").append("<th class='text-center' style='min-width:100px; height:10px; padding: 0px;'>"+days[numDate.getDay()]+"</th>");
-		var dateMonth = ""+months[numDate.getMonth()]+" "+numDate.getDate()+", "+numDate.getFullYear();
+		var langFullYear = numDate.getFullYear();
+		if(commonData.language == "TH") langFullYear+=543 ;
+		var dateMonth = ""+months[numDate.getMonth()]+" "+numDate.getDate()+", "+langFullYear;
 		$("#tbDate").append("<td class='text-center' style='min-width:100px;'><font size='2'>"+dateMonth+"</font></td>");
 	}
 }
@@ -36,6 +38,7 @@ function addDate(dateStart,dateEnd){
 function addName() {
 	recieveWork = null ;
 	var year = parseInt($("#txtYear").val()) ;
+	if(commonData.language == "TH") year-=543 ;
 	var start = "01/01/"+year;
 	var end = "31/12/"+year;
 	var projectId = $("#ddlProject").val();
