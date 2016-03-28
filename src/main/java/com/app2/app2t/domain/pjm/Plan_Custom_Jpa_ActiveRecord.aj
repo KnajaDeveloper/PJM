@@ -45,73 +45,54 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
     public static List<Plan> Plan.findPlansByMonthYear(Date dateStart, Date dateEnd, String empCode) {
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
-        Criteria criteria2 = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan2");
-        criteria.createAlias("Plan.task", "task");
-        criteria2.createAlias("Plan2.otherTask", "otherTask");
+        criteria.createAlias("Plan.task", "task", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("Plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or(
+            Restrictions.eq("task.empCode", empCode),
+            Restrictions.eq("otherTask.empCode", empCode)
+        ));
+        criteria.add(Restrictions.ge("dateStart", dateStart));
+        criteria.add(Restrictions.lt("dateStart", dateEnd));
 
-        try {
-            criteria.add(Restrictions.eq("task.empCode", empCode));
-            criteria.add(Restrictions.ge("dateStart", dateStart));
-            criteria.add(Restrictions.lt("dateStart", dateEnd));
-
-            criteria2.add(Restrictions.eq("otherTask.empCode", empCode));
-            criteria2.add(Restrictions.ge("dateStart", dateStart));
-            criteria2.add(Restrictions.lt("dateStart", dateEnd));
-        } catch (Exception e) {
-
-        }
-
-        List<Plan> plans = new ArrayList<>(criteria.list());
-        plans.addAll(criteria2.list());
-
-        return plans;
+        List<Plan> listPlan = criteria.list();
+        return listPlan;
     }
 
     public static List<Plan> Plan.findPlanOverlap(Date beginDate, Date endDate, Long planId, String empCode) {
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
-        Criteria criteria2 = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan2");
-        criteria.createAlias("Plan.task", "task");
-        criteria2.createAlias("Plan2.otherTask", "otherTask");
+        criteria.createAlias("Plan.task", "task", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("Plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or(
+            Restrictions.eq("task.empCode", empCode),
+            Restrictions.eq("otherTask.empCode", empCode)
+        ));
+        criteria.add(Restrictions.ge("dateEnd", beginDate));
+        criteria.add(Restrictions.le("dateStart", endDate));
 
-        try {
-            criteria.add(Restrictions.eq("task.empCode", empCode));
-            criteria.add(Restrictions.ge("dateEnd", beginDate));
-            criteria.add(Restrictions.le("dateStart", endDate));
-            if(planId != null)
-                criteria.add(Restrictions.ne("id", planId));
+        if(planId != null)
+            criteria.add(Restrictions.ne("id", planId));        
 
-            criteria2.add(Restrictions.eq("otherTask.empCode", empCode));
-            criteria2.add(Restrictions.ge("dateEnd", beginDate));
-            criteria2.add(Restrictions.le("dateStart", endDate));
-            if(planId != null)
-                criteria2.add(Restrictions.ne("id", planId));
-
-            List<Plan> plans = new ArrayList<>(criteria.list());
-            plans.addAll(criteria2.list());
-            return plans;
-
-        } catch (Exception e) {
-            
-        }
-
-        return criteria.list();
+        List<Plan> listPlan = criteria.list();
+        return listPlan;
     }
 
     public static List<Plan> Plan.findPlanEndAfter(Date beginDate, Long planId, String empCode) {
         EntityManager ent = Plan.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "Plan");
+        criteria.createAlias("Plan.task", "task", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("Plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or(
+            Restrictions.eq("task.empCode", empCode),
+            Restrictions.eq("otherTask.empCode", empCode)
+        ));
+        criteria.add(Restrictions.ge("dateEnd", beginDate));
+        if(planId != null) 
+            criteria.add(Restrictions.ne("id", planId));
+        criteria.addOrder(Order.asc("dateStart"));
 
-        try {
-            criteria.add(Restrictions.ge("dateEnd", beginDate));
-            if(planId != null) 
-                criteria.add(Restrictions.ne("id", planId));
-            criteria.addOrder(Order.asc("dateStart"));
-        } catch (Exception e) {
-            
-        }
-
-        return criteria.list();
+        List<Plan> listPlan = criteria.list();
+        return listPlan;
     }
 
     public static Plan Plan.updatePlan(Long planId, Date dateStart, Date dateEnd) {

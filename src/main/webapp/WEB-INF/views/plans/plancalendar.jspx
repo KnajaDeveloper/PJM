@@ -55,15 +55,17 @@
     <c:set var="MESSAGE_DATE_OVERLAY" scope="request"><spring:message code="M0007"/></c:set>
     <c:set var="MESSAGE_SAVE_COMPLETED" scope="request"><spring:message code="M0001"/></c:set>
     <c:set var="MESSAGE_SAVE_FAILED" scope="request"><spring:message code="M0019"/></c:set>
-    <c:set var="MESSAGE_CONFIRM_LEAVE" scope="request"><spring:message text="M0030"/></c:set>
+    <c:set var="MESSAGE_CONFIRM_LEAVE" scope="request"><spring:message code="M0030"/></c:set>
     <c:set var="MESSAGE_LEAVE_COMPLETED" scope="request"><spring:message code="M0008"/></c:set>
     <c:set var="MESSAGE_LEAVE_FAILED" scope="request"><spring:message code="M0009"/></c:set>
-    <c:set var="MESSAGE_CONFIRM_DELETE" scope="request"><spring:message text="M0029"/></c:set>
+    <c:set var="MESSAGE_CONFIRM_DELETE" scope="request"><spring:message code="M0029"/></c:set>
     <c:set var="MESSAGE_DELETE_COMPLETED" scope="request"><spring:message code="M0014"/></c:set>
     <c:set var="MESSAGE_DELETE_FAILED" scope="request"><spring:message code="M0015"/></c:set>
     
     <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>    
     <c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
+
+    <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message text="ADD SPRING MESSAFE"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -89,6 +91,8 @@
 
         MESSAGE.CHECKBOX_PRIVATE_TASK = '${LABEL_PRIVEATE_TASK}';
         MESSAGE.CHECKBOX_PUBLIC_TASK = '${LABEL_PUBLIC_TASK}';
+
+        MESSAGE.CONFIRM_SAVE_WITH_EXPIRED = '${MESSAGE_CONFIRM_SAVE_WITH_EXPIRED}';
 
         LABEL.DATE_BEGIN = '${LABEL_DATE_BEGIN}';
         LABEL.DATE_END = '${LABEL_DATE_END}';
