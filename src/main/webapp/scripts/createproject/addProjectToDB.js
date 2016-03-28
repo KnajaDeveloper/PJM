@@ -1,4 +1,6 @@
 var dataAfterSave ;
+var oldData = [];
+var newData = [];
 
 function saveProjectToDB(){
 	//var boolSameProjectCode = findSameProjectCode();
@@ -30,11 +32,11 @@ function saveProjectToDB(){
 					statusReturn = true;
 					$("#btnIncresePoint").show();
 					$("#btnDecresePoint").show();
-					$("#btnSaveProject").hide();
+					//$("#btnSaveProject").hide();
 					$("#btnResetProject").hide();
-					$("#btnAddPM").hide();
-					$("[id^=btnDeletePM]").hide();
-					lockDataProject();
+					//$("#btnAddPM").hide();
+					//$("[id^=btnDeletePM]").hide();
+					saveDataProject();
 				}else{
 					bootbox.alert(""+Message.Save_error);
 					statusReturn = false;
@@ -46,13 +48,55 @@ function saveProjectToDB(){
 	else return false;
 }
 
-function lockDataProject(){
-	$("#txtProjectName").attr("readonly","true");
-	$("#txtInitialProjectName").attr("readonly","true");
-	$("#txtCostsProject").attr("readonly","true");
-	//$("#dateStartProject").attr("readonly","true");
-	//$("#dateEndProject").attr("readonly","true");
-	$("[id^=txtProjectManagerName]").attr("readonly","true");
+function updateProjectToDB(){
+	//var boolSameProjectCode = findSameProjectCode();
+	var projectId = dataAfterSave.responseJSON.id ;
+	var arr_ProjectManager = projectManagerToArray();
+	var statusReturn ;
+	var textdateStart = $('#dateStartProject').val();
+	var textdateEnd = $('#dateEndProject').val();
+	var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase(textdateStart, _language));
+	var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase(textdateEnd, _language));
+	var crateProject = {
+		projectID: projectId,
+		projectCode: $('#txtInitialProjectName').val(),
+		projectName: $('#txtProjectName').val(),
+		projectCost: $('#txtCostsProject').val(),
+		dateStart: convertFormatDateStart ,
+		dateEnd:  convertFormatDateEnd,
+		arr_ProjectManager: arr_ProjectManager
+	};
+	var responseHeader = null;
+	dataAfterSave = $.ajax({
+		headers: {
+			Accept: "application/json"
+		},
+		type: "POST",
+		url: contextPath + '/projects//updateProjectByIdProject',
+		data : crateProject,
+		complete: function(xhr){
+			if(xhr.status === 201){
+				bootbox.alert(""+Message.Save_success);
+				statusReturn = true;
+				saveDataProject();
+			}else{
+				bootbox.alert(""+Message.Save_error);
+				statusReturn = false;
+			}
+		},
+		async: false
+	});
+	if(statusReturn==true) return true;
+	else return false;
+}
+
+function saveDataProject(){
+	oldData[0] = $("#txtProjectName").val();
+	oldData[1] = $("#txtInitialProjectName").val();
+	oldData[2] = $("#txtCostsProject").val();
+	oldData[3] = $("#dateStartProject").val();
+	oldData[4] = $("#dateEndProject").val();
+	oldData[5] = projectManagerToArray();
 }
 
 function projectManagerToArray(){

@@ -5,15 +5,25 @@ $("#btnIncresePoint").hide();
 $("#btnDecresePoint").hide();
 
 $("#btnIncresePoint").click(function(){
-	option = "increse";
-	addDataToDDLModule();
-	$("#ddlIncreseCostModuleName").attr("readonly","true");
+	if(compareData()==true){
+		$("#modalIncreseCost").modal('show');
+		option = "increse";
+		addDataToDDLModule();
+		$("#ddlIncreseCostModuleName").attr("readonly","true");
+	}else{
+		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
+	}
 });
 
 $("#btnDecresePoint").click(function(){
-	option = "decrese";
-	addDataToDDLModule();
-	$("#ddlIncreseCostModuleName").attr("readonly","true");
+	if(compareData()==true){
+		$("#modalIncreseCost").modal('show');
+		option = "decrese";
+		addDataToDDLModule();
+		$("#ddlIncreseCostModuleName").attr("readonly","true");
+	}else{
+		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
+	}
 });
 
 function checkCostCanDecrese(){
@@ -48,7 +58,7 @@ function checkCostCanDecrese(){
 }
 
 function confirmWhenDecresePointLessThanCanDecrese(canDecrese){
-	bootbox.confirm("You can decrese "+canDecrese+" point. Do you want to decrese "+canDecrese+" point from project ?", function(result) {
+	bootbox.confirm(Message.You_can_decrese+" "+canDecrese+" "+Label.Point+"\n"+Message.Do_you_want_to_decrese+" "+canDecrese+" "+Message.Point_from_project+" ?", function(result) {
 		if(result==true){
 			saveIncreseCost(canDecrese);
 		}
@@ -80,6 +90,7 @@ function saveIncreseCost(canDecrese){
 						else bootbox.alert(""+Message.Increse +" "+ parseInt($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_to_project);
 						recieveProject = xhr;
 						$("#txtCostsProject").val("" + recieveProject.responseJSON.projectCost);
+						saveDataProject();
 						return true;
 					} else if (xhr.status === 500) {
 						if(option=="decrese")  bootbox.alert(""+Message.Cant_Decrese+" " + parseInt($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_from_project);
@@ -116,11 +127,13 @@ function saveIncreseCost(canDecrese){
 				data: editCostModuleProject,
 				complete: function (xhr) {
 					if (xhr.status === 201 || xhr.status === 200) {
-						bootbox.alert(""+Message.Increse+" " + parseInt($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_to_module+" " + idModuleProject + ".");
+						if (option != "decrese") bootbox.alert("" + Message.Increse + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
+						else bootbox.alert("" + Message.Decrese + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
 						changeParameterIncreseOrDecresePointByModuleCode($("#ddlIncreseCostModuleName").val(), parseInt($("#txtIncreseCostModuleCost").val()));
 						return true;
 					} else if (xhr.status === 500) {
-						bootbox.alert(""+Message.Cant_Increse+" " + parseInt($("#txtIncreseCostModuleCost").text()) + " "+Message.Point_to_module+" " + idModuleProject + ".");
+						if (option != "decrese") bootbox.alert("" + Message.Cant_Increse + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
+						else bootbox.alert("" + Message.Cant_Decrese + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
 						return false;
 					}
 				},
@@ -196,7 +209,7 @@ function checkDataBeforeSave(option){
 	
 	if($("#txtIncreseCostModuleCost").val() == "" || $("#txtIncreseCostModuleCost").val() == " ") {
 		$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
-		$('#txtIncreseCostModuleCost').attr("data-content","Please Complete this field.");
+		$('#txtIncreseCostModuleCost').attr("data-content",Message.Complete_this_feld);
 		$('#txtIncreseCostModuleCost').popover('show');
 		return false;
 	}
@@ -206,7 +219,7 @@ function checkDataBeforeSave(option){
 		for(var i=0;i<checkKey.length;i++){
 			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
 				$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
-				$('#txtIncreseCostModuleCost').attr("data-content","Please enter only [0 - 9].");
+				$('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
 				$('#txtIncreseCostModuleCost').popover('show');
 				return false;
 				break;

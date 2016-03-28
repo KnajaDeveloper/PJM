@@ -1,10 +1,11 @@
 $("#btnSaveProject").click(function(){
 	var checkInputProject = checkDataProject();
 	if(checkInputProject==true){
-		var bool = saveProjectToDB();
+		var bool ;
+		if(dataAfterSave==null) bool = saveProjectToDB();
+		else bool = updateProjectToDB();
 		if(bool==true) {
 			$("#container_DataModule").show(500);
-			console.log("Project Id : "+dataAfterSave.responseJSON.id);
 		}
 	}
 });
@@ -15,17 +16,17 @@ $("#btnResetProject").click(function(){
 
 function checkDataProject(){
 	if($("#txtProjectName").val() == "" || $("#txtProjectName").val() == " ") {
-		$('#txtProjectName').attr("data-content","Please Complete this field.");
+		$('#txtProjectName').attr("data-content",Message.Complete_this_feld);
 		$('#txtProjectName').popover('show');
 		return false;
 	}
 	if($("#txtInitialProjectName").val() == "" || $("#txtInitialProjectName").val() == " ") {
-		$('#txtInitialProjectName').attr("data-content","Please Complete this field.");
+		$('#txtInitialProjectName').attr("data-content",Message.Complete_this_feld);
 		$('#txtInitialProjectName').popover('show');
 		return false;
 	}
 	if($("#txtCostsProject").val() == "" || $("#txtCostsProject").val() == " ") {
-		$('#txtCostsProject').attr("data-content","Please Complete this field.");
+		$('#txtCostsProject').attr("data-content",Message.Complete_this_feld);
 		$('#txtCostsProject').popover('show');
 		return false;
 	}
@@ -34,7 +35,7 @@ function checkDataProject(){
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
 			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
-				$('#txtCostsProject').attr("data-content","Please enter only [0 - 9].");
+				$('#txtCostsProject').attr("data-content",Message.Number_only);
 				$('#txtCostsProject').popover('show');
 				return false;
 				break;
@@ -42,17 +43,17 @@ function checkDataProject(){
 		}
 	}
 	if($("#dateStartProject").val() == "" || $("#dateStartProject").val() == " ") {
-		$('#dateStartProject').attr("data-content","Please Complete this field.");
+		$('#dateStartProject').attr("data-content",Message.Complete_this_feld);
 		$('#dateStartProject').popover('show');
 	return false;
 	}
 	if($("#dateEndProject").val() == "" || $("#dateEndProject").val() == " ") {
-		$('#dateEndProject').attr("data-content","Please Complete this field.");
+		$('#dateEndProject').attr("data-content",Message.Complete_this_feld);
 		$('#dateEndProject').popover('show');
 		return false;
 	}
 	if($("#txtProjectManagerName1").val() == "" || $("#txtProjectManagerName1").val() == " ") {
-		$('#txtProjectManagerName1').attr("data-content","Please Complete this field.");
+		$('#txtProjectManagerName1').attr("data-content",Message.Complete_this_feld);
 		$('#txtProjectManagerName1').popover('show');
 		return false;
 	}
