@@ -16,6 +16,7 @@
     <c:set var="PLEASE_INPUT" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="PLEASE_SELECT_DATE" scope="request"><spring:message code="M0011"/></c:set>
     <c:set var="Date_format_invalid" scope="request"><spring:message code="M0032"/></c:set>
+    <c:set var="Data_not_found" scope="request"><spring:message code="M0018"/></c:set>
 
     <c:set var="BUTTON_REPORT" scope="request"><spring:message code="B0013"/></c:set>
 
@@ -24,6 +25,7 @@
         Message.PLEASE_INPUT = '${PLEASE_INPUT}';
         Message.PLEASE_SELECT_DATE = '${PLEASE_SELECT_DATE}';
         Message.Date_format_invalid = '${Date_format_invalid}';
+        Message.Data_not_found = '${Data_not_found}';
 
     </script>
 

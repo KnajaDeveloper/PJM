@@ -1,12 +1,12 @@
 package com.app2.app2t.service;
 
+import com.app2.app2t.util.AuthorizeUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.app2.app2t.util.AuthorizeUtil;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,5 +118,6 @@ public class EmRestService extends AbstractAPP2Service {
             return null;
         }
     }
+
 
 }

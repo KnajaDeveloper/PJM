@@ -17,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,6 +74,7 @@ public class ReportController extends AbstractReportJasperXLS {
 //-------------------------------------------------------------------------------------
         List<Map> listMap = emRestService.getEmpNameByEmpCode(empCode);
         Map<String, String> map = listMap.get(0);
+
 
         String Fname = map.get("Fname");
         String Lname = map.get("Lname");
@@ -176,6 +175,7 @@ public class ReportController extends AbstractReportJasperXLS {
             LOGGER.error("Can't generate PJMRP01", e);
             throw new RuntimeException(e);
         }
+
     }
 
 
@@ -191,7 +191,7 @@ public class ReportController extends AbstractReportJasperXLS {
             , @RequestParam(value = "printDate", required = false) String printDate
             , @RequestParam(value = "plusYear", required = false) Integer plusYear
 
-    ) throws ParseException{
+    ) throws ParseException {
 
         //-------------------------------------------------------------------------------------
         //emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ส่งไป service
@@ -213,22 +213,22 @@ public class ReportController extends AbstractReportJasperXLS {
 
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("fTitle",getLabelFromPropertiesFile("L0026"));
-        params.put("fProjectName",getLabelFromPropertiesFile("L0008"));
-        params.put("fModuleName",getLabelFromPropertiesFile("L0009"));
-        params.put("fempName",getLabelFromPropertiesFile("L0003"));
-        params.put("fPrintName",getLabelFromPropertiesFile("L0006"));
-        params.put("fPrintDate",getLabelFromPropertiesFile("L0007"));
-        params.put("tDateStart",getLabelFromPropertiesFile("L0010"));
-        params.put("tDateEnd",getLabelFromPropertiesFile("L0011"));
-        params.put("total",getLabelFromPropertiesFile("L0067"));
-        params.put("fProjectName",getLabelFromPropertiesFile("L0027"));
-        params.put("fTaskCode",getLabelFromPropertiesFile("L0033"));
-        params.put("fTaskName",getLabelFromPropertiesFile("L0034"));
-        params.put("tPoint",getLabelFromPropertiesFile("L0030"));
-        params.put("projectName",projectName);
-        params.put("moduleName",moduleName);
-        params.put("printDate",printDate);
+        params.put("fTitle", getLabelFromPropertiesFile("L0026"));
+        params.put("fProjectName", getLabelFromPropertiesFile("L0008"));
+        params.put("fModuleName", getLabelFromPropertiesFile("L0009"));
+        params.put("fempName", getLabelFromPropertiesFile("L0003"));
+        params.put("fPrintName", getLabelFromPropertiesFile("L0006"));
+        params.put("fPrintDate", getLabelFromPropertiesFile("L0007"));
+        params.put("tDateStart", getLabelFromPropertiesFile("L0010"));
+        params.put("tDateEnd", getLabelFromPropertiesFile("L0011"));
+        params.put("total", getLabelFromPropertiesFile("L0067"));
+        params.put("fProjectName", getLabelFromPropertiesFile("L0027"));
+        params.put("fTaskCode", getLabelFromPropertiesFile("L0033"));
+        params.put("fTaskName", getLabelFromPropertiesFile("L0034"));
+        params.put("tPoint", getLabelFromPropertiesFile("L0030"));
+        params.put("projectName", projectName);
+        params.put("moduleName", moduleName);
+        params.put("printDate", printDate);
         params.put("PlusYear", plusYear);
         params.put("printFName", UFname);
         params.put("printLName", ULname);
@@ -236,23 +236,23 @@ public class ReportController extends AbstractReportJasperXLS {
         StringBuilder sqlQuery = new StringBuilder();
 
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP02 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        if (moduleCode.equals("NULL") ) {
+        if (moduleCode.equals("NULL")) {
             sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
-        }else {
+        } else {
             sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
             sqlQuery.append(" and MODULECODE = ? ");
         }
 
 
         //       LOGGER.error("sql >> {}",sqlQuery.toString());
-        try{
+        try {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             if (moduleCode.equals("NULL")) {
-            preparedStatement.setString(number++, projectId);
-            }else {
                 preparedStatement.setString(number++, projectId);
-            preparedStatement.setString(number++, moduleCode);
+            } else {
+                preparedStatement.setString(number++, projectId);
+                preparedStatement.setString(number++, moduleCode);
             }
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -265,8 +265,8 @@ public class ReportController extends AbstractReportJasperXLS {
             exportReportByResultSet(request, response, modelAndView, configure, resultSet);
             preparedStatement.close();
             c.close();
-        }catch(Exception e){
-            LOGGER.error("Can't generate PJMRP02",e);
+        } catch (Exception e) {
+            LOGGER.error("Can't generate PJMRP02", e);
             throw new RuntimeException(e);
         }
     }
