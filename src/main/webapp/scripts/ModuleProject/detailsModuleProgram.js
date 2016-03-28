@@ -96,16 +96,16 @@ $('#btnAddProgram').click(function() {
 
 var chkAEProgram = 0;
 
-function checkProgramCode() {
-    var elem = document.getElementById('txtProgramCode').value;
-    if(!elem.match(/^([a-z0-9\_])+$/i))
-    {
-        $('#txtProgramCode').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9).popover('show');
-        return false;
-    }else{
-        return true;
-    }
-};
+// function checkProgramCode() {
+//     var elem = document.getElementById('txtProgramCode').value;
+//     if(!elem.match(/^([a-z0-9\_])+$/i))
+//     {
+//         $('#txtProgramCode').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9).popover('show');
+//         return false;
+//     }else{
+//         return true;
+//     }
+// };
 
 $('[id^=btnModalProgram]').click(function() {
     var iD = this.id.split('m')[1];
@@ -131,71 +131,67 @@ $('[id^=btnModalProgram]').click(function() {
         if($('#txtProgramCode').val() == ""){
             $('#txtProgramCode').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else if($('#txtProgramName').val()  == ""){
-            if(checkProgramCode() == true){
-                $('#txtProgramName').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
-            }
+            $('#txtProgramName').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else{
-            if(checkProgramCode() == true){
-                if(chkAEProgram == 0){
-                    if(checkDataProgram() == 0){
-                        $.ajax({
-                            headers: {
-                                Accept: "application/json"
-                            },
-                            type: "POST",
-                            url: contextPath + '/programs/saveProgram',
-                            data : {
-                                programCode: $('#txtProgramCode').val(),
-                                programName: $('#txtProgramName').val(),
-                                id: moduleProjectID
-                            },
-                            complete: function(xhr){
-                                if(xhr.status == 201){
-                                    if(iD == 'Add'){
-                                        bootbox.alert(Message.MSG_SAVE_SUCCESS);
-                                        $('#modalProgram').modal('hide');
-                                    }
-                                    $('#txtProgramCode').val(null);
-                                    $('#txtProgramName').val(null);
-                                    searchDataProgram();
-                                }else if(xhr.status == 500){
-                                    bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                                }
-                            },
-                            async: false
-                        });
-                    }else{
-                        bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE);
-                    }
-                }else if(chkAEProgram == 1){
-                    if($('#txtProgramName').val() == positionName){
-                            bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
-                    }else{
-                        $.ajax({
-                            headers: {
-                                Accept: "application/json"
-                            },
-                            type: "GET",
-                            url: contextPath + '/programs/findEditProgram',
-                            data : {
-                                programCode: $('#txtProgramCode').val(),
-                                programName: $('#txtProgramName').val(),
-                                id: programID
-                            },
-                            complete: function(xhr){
-                                if(xhr.status == 200){
-                                    bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+            if(chkAEProgram == 0){
+                if(checkDataProgram() == 0){
+                    $.ajax({
+                        headers: {
+                            Accept: "application/json"
+                        },
+                        type: "POST",
+                        url: contextPath + '/programs/saveProgram',
+                        data : {
+                            programCode: $('#txtProgramCode').val(),
+                            programName: $('#txtProgramName').val(),
+                            id: moduleProjectID
+                        },
+                        complete: function(xhr){
+                            if(xhr.status == 201){
+                                if(iD == 'Add'){
+                                    bootbox.alert(Message.MSG_SAVE_SUCCESS);
                                     $('#modalProgram').modal('hide');
-                                    $('#txtProgramCode').val(null);
-                                    $('#txtProgramName').val(null);
-                                    searchDataProgram();
-                                }else if(xhr.status == 500){
-                                    bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                 }
-                            },
-                            async: false
-                        });
-                    }
+                                $('#txtProgramCode').val(null);
+                                $('#txtProgramName').val(null);
+                                searchDataProgram();
+                            }else if(xhr.status == 500){
+                                bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                            }
+                        },
+                        async: false
+                    });
+                }else{
+                    bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE);
+                }
+            }else if(chkAEProgram == 1){
+                if($('#txtProgramName').val() == positionName){
+                        bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
+                }else{
+                    $.ajax({
+                        headers: {
+                            Accept: "application/json"
+                        },
+                        type: "GET",
+                        url: contextPath + '/programs/findEditProgram',
+                        data : {
+                            programCode: $('#txtProgramCode').val(),
+                            programName: $('#txtProgramName').val(),
+                            id: programID
+                        },
+                        complete: function(xhr){
+                            if(xhr.status == 200){
+                                bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                                $('#modalProgram').modal('hide');
+                                $('#txtProgramCode').val(null);
+                                $('#txtProgramName').val(null);
+                                searchDataProgram();
+                            }else if(xhr.status == 500){
+                                bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                            }
+                        },
+                        async: false
+                    });
                 }
             }
         }
