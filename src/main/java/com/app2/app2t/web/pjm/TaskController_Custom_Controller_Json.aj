@@ -43,10 +43,26 @@ privileged aspect TaskController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Task> resultSearch = Task.findTaskDataPagingData(id, firstResult, maxResult);
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class")
-                                                        .exclude("program")
-                                                        .deepSerialize(resultSearch), headers, HttpStatus.OK);
+            List<Map<String,Object>> resultSearch = new ArrayList<>();
+            List<Task> taskes = Task.findTaskDataPagingData(id, firstResult, maxResult);
+            for (Task task: taskes) {
+                Map<String,Object> buffer = new HashMap<>();
+                buffer.put("id", task.getId());
+                buffer.put("taskCode", task.getTaskCode());
+                buffer.put("taskName", task.getTaskName());
+                buffer.put("taskCost", task.getTaskCost());
+                buffer.put("typeTaskCode", task.getTypeTask().getTypeTaskCode());
+                buffer.put("typeTaskName", task.getTypeTask().getTypeTaskName());
+                buffer.put("empCode", task.getEmpCode());
+                buffer.put("dateStart", task.getDateStart());
+                buffer.put("dateEnd", task.getDateEnd());
+                buffer.put("progress", task.getProgress());
+                buffer.put("fileName", task.getFileName());
+                buffer.put("detail", task.getDetail());
+                buffer.put("inUse", Plan.findPlanByID(task.getId()));
+                resultSearch.add(buffer);
+            }
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

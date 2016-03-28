@@ -14,15 +14,12 @@ import com.fasterxml.jackson.databind.Module;
 import org.apache.derby.vti.Restriction;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
 import org.hibernate.type.IntegerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 
 privileged aspect Plan_Custom_Jpa_ActiveRecord {
@@ -274,6 +271,15 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         maps.put("Task",listTask);
         maps.put("OtherTask",listOtherTask);
         return maps;
+    }
+
+    public static Long Plan.findPlanByID(Long id) {
+        Session session = (Session) Plan.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Plan.class, "Plan");
+        criteria.createAlias("Plan.task", "task");
+        criteria.add(Restrictions.eq("task.id", id));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
 
 }
