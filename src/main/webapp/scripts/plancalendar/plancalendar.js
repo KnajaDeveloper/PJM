@@ -160,6 +160,7 @@ $('#btnSearchByModule').click(function () {
 $('#searchTaskShow').click(function(){
     $('#searchTaskPart').slideDown();
     $('#grpResultModuleSearch').hide();
+    $('#lblNoResultSerchByModule').hide();
     $(this).hide();
 });
 

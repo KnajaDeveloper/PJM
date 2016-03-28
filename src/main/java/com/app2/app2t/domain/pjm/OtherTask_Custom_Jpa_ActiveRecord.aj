@@ -42,5 +42,9 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.isNull("otherTask.empCode"));
         return criteria.list();
     }
+
+    public static void OtherTask.deleteOtherTask(OtherTask otherTask){
+        otherTask.remove();
+    }
     
 }

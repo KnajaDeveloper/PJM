@@ -95,6 +95,13 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return listPlan;
     }
 
+    public static List<Plan> Plan.findPlanByOtherTask(OtherTask otherTask){
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+        criteria.add(Restrictions.eq("otherTask", otherTask));
+        return criteria.list();
+    }
+
     public static Plan Plan.updatePlan(Long planId, Date dateStart, Date dateEnd) {
         try {
             EntityManager ent = Plan.entityManager();
@@ -114,16 +121,18 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return null;
     }
 
-    public static void Plan.deleteById(long planId) {
+    public static OtherTask Plan.deleteById(long planId) {
         try {
             EntityManager ent = Plan.entityManager();
             Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
             criteria.add(Restrictions.eq("id", planId));
             List<Plan> plans = criteria.list();
             Plan plan = plans.get(0);
+            OtherTask otherTask = plan.getOtherTask();
             plan.remove();
+            return otherTask;
         } catch (Exception ex) {
-
+            return null;
         }
     }
 
