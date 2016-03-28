@@ -148,27 +148,6 @@ function arrObjectToFormat(data,newDay){
 	return textReturn ;
 }
 
-//function addWork() {
-//	for (var i = 0; i < names.length; i++) {
-//		var _row = findSameRow(recieveWork.responseJSON.Plan[i]);
-//		var workRow = changeRowToString(recieveWork.responseJSON.Plan[i]);
-//		for (var j = 0; j < _row; j++) {
-//			var html = "";
-//			var work = workRow[j].split(",");
-//			for (var workDate = 0; workDate < work.length; workDate++) {
-//				var same = findSameCol(workRow[j], workDate);
-//				var class_ = "progress-bar-" + backColor[i % backColor.length] + " text-center";
-//				if (work[workDate] != 0)
-//					html += "<td colspan='" + same + "' style='width:65px; padding: 0px;'><div class='" + class_ + "' style='width: 100%;'><font color='white' size='1'>" + work[workDate] + "</font></div></td>";
-//				else
-//					html += "<td colspan='" + same + "' style='width:65px; padding: 0px;'></td>";
-//				if (same != 0) workDate += same - 1;
-//			}
-//			$("#" + names[i] + j).append(html);
-//		}
-//	}
-//}
-
 function addWork() {
 	for (var i = 0; i < names.length; i++) {
 		var _row = findSameRow(works[i]);

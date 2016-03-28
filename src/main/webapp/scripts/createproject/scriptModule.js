@@ -14,6 +14,14 @@ $("#btnSaveModule").click(function(){
 	SaveModule(null);
 });
 
+$("#btnAddModule").click(function(){
+	if(compareData()==true){
+		$('#modalAddModule').modal('show');
+	}else{
+		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
+	}
+});
+
 function saveEditModule(object,cost){
 	var id = object.id;
 	var number = id.split("btnEditSaveModule");
@@ -130,7 +138,7 @@ function SaveModule(cost){
 				"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
 				"</x>"+
 				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>"+Button.Delete+"</span>"+
-				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' data-target='#modalEditModule' data-toggle='modal' class='btn btn-warning marginTop-5 marginRight5 pull-right'>"+Button.Edit+"</span>"+
+				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' class='btn btn-warning marginTop-5 marginRight5 pull-right'>"+Button.Edit+"</span>"+
 				"</h4>"+
 				"</div>"+
 				"<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
@@ -143,7 +151,7 @@ function SaveModule(cost){
 				"</div>"+
 				"</div>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-3 control-label'>End Date : </label>"+
+				"<label class='col-sm-6 control-label'>End Date : </label>"+
 				"<div class='col-sm-5 input-group'>"+
 				"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
 				"</div>"+
@@ -157,7 +165,7 @@ function SaveModule(cost){
 				"</div>"+
 				"</div>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-3 control-label'>Module Member :</label>"+
+				"<label class='col-sm-6 control-label'>Module Member :</label>"+
 				"<div class='col-sm-5 input-group'>"+
 				"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
 				"</div>"+
@@ -176,19 +184,19 @@ function SaveModule(cost){
 function checkModal(){
 	if($("#txtModuleName1").val() == "" || $("#txtModuleName1").val() == " ") {
 		$('#txtModuleName1').attr("data-placement","bottom");
-		$('#txtModuleName1').attr("data-content","Please Complete this field.");
+		$('#txtModuleName1').attr("data-content",Message.Complete_this_feld);
 		$('#txtModuleName1').popover('show');
 		return false;
 	}
 	if($("#txtInitialModuleName1").val() == "" || $("#txtInitialModuleName1").val() == " ") {
 		$('#txtInitialModuleName1').attr("data-placement","bottom");
-		$('#txtInitialModuleName1').attr("data-content","Please Complete this field.");
+		$('#txtInitialModuleName1').attr("data-content",Message.Complete_this_feld);
 		$('#txtInitialModuleName1').popover('show');
 		return false;
 	}
 	if($("#txtCostsModule1").val() == "" || $("#txtCostsModule1").val() == " ") {
 		$('#txtCostsModule1').attr("data-placement","bottom");
-		$('#txtCostsModule1').attr("data-content","Please Complete this field.");
+		$('#txtCostsModule1').attr("data-content",Message.Complete_this_feld);
 		$('#txtCostsModule1').popover('show');
 		return false;
 	}
@@ -198,7 +206,7 @@ function checkModal(){
 		for(var i=0;i<checkKey.length;i++){
 			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
 				$('#txtCostsModule1').attr("data-placement","bottom");
-				$('#txtCostsModule1').attr("data-content","Please enter only [0 - 9].");
+				$('#txtCostsModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsModule1').popover('show');
 				return false;
 				break;
@@ -207,13 +215,13 @@ function checkModal(){
 	}
 	if($("#dateStartModule").val() == "" || $("#dateStartModule").val() == " ") {
 		$('#dateStartModule').attr("data-placement","bottom");
-		$('#dateStartModule').attr("data-content","Please Complete this field.");
+		$('#dateStartModule').attr("data-content",Message.Complete_this_feld);
 		$('#dateStartModule').popover('show');
 	return false;
 	}
 	if($("#dateEndModule").val() == "" || $("#dateEndModule").val() == " ") {
 		$('#dateEndModule').attr("data-placement","bottom");
-		$('#dateEndModule').attr("data-content","Please Complete this field.");
+		$('#dateEndModule').attr("data-content",Message.Complete_this_feld);
 		$('#dateEndModule').popover('show');
 		return false;
 	}
@@ -222,7 +230,7 @@ function checkModal(){
 		var id = $("[id^=txtModuleManagerName")[i].id;
 		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
 			$("#"+id).attr("data-placement","bottom");
-			$("#"+id).attr("data-content","Please Complete this field.");
+			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
 			return false;
 		}
@@ -233,7 +241,7 @@ function checkModal(){
 		var id = $("[id^=txtModuleMemberName")[i].id;
 		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
 			$("#"+id).attr("data-placement","bottom");
-			$("#"+id).attr("data-content","Please Complete this field.");
+			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
 			return false;
 		}
@@ -297,19 +305,19 @@ function confirmEditModuleWhenTotalCostMoreThanProject(totalModuleCost,object){
 function checkEditModal(){
 	if($("#txtEditModuleName1").val() == "" || $("#txtEditModuleName1").val() == " ") {
 		$('#txtEditModuleName1').attr("data-placement","bottom");
-		$('#txtEditModuleName1').attr("data-content","Please Complete this field.");
+		$('#txtEditModuleName1').attr("data-content",Message.Complete_this_feld);
 		$('#txtEditModuleName1').popover('show');
 		return false;
 	}
 	if($("#txtEditInitialModuleName1").val() == "" || $("#txtEditInitialModuleName1").val() == " ") {
 		$('#txtEditInitialModuleName1').attr("data-placement","bottom");
-		$('#txtEditInitialModuleName1').attr("data-content","Please Complete this field.");
+		$('#txtEditInitialModuleName1').attr("data-content",Message.Complete_this_feld);
 		$('#txtEditInitialModuleName1').popover('show');
 		return false;
 	}
 	if($("#txtCostsEditModule1").val() == "" || $("#txtCostsEditModule1").val() == " ") {
 		$('#txtCostsEditModule1').attr("data-placement","bottom");
-		$('#txtCostsEditModule1').attr("data-content","Please Complete this field.");
+		$('#txtCostsEditModule1').attr("data-content",Message.Complete_this_feld);
 		$('#txtCostsEditModule1').popover('show');
 		return false;
 	}
@@ -319,7 +327,7 @@ function checkEditModal(){
 		for(var i=0;i<checkKey.length;i++){
 			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
 				$('#txtCostsEditModule1').attr("data-placement","bottom");
-				$('#txtCostsEditModule1').attr("data-content","Please enter only [0 - 9].");
+				$('#txtCostsEditModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsEditModule1').popover('show');
 				break;
 			}
@@ -327,13 +335,13 @@ function checkEditModal(){
 	}
 	if($("#dateStartEditModule").val() == "" || $("#dateStartEditModule").val() == " ") {
 		$('#dateStartEditModule').attr("data-placement","bottom");
-		$('#dateStartEditModule').attr("data-content","Please Complete this field.");
+		$('#dateStartEditModule').attr("data-content",Message.Complete_this_feld);
 		$('#dateStartEditModule').popover('show');
 	return false;
 	}
 	if($("#dateEndEditModule").val() == "" || $("#dateEndEditModule").val() == " ") {
 		$('#dateEndEditModule').attr("data-placement","bottom");
-		$('#dateEndEditModule').attr("data-content","Please Complete this field.");
+		$('#dateEndEditModule').attr("data-content",Message.Complete_this_feld);
 		$('#dateEndEditModule').popover('show');
 		return false;
 	}
@@ -342,7 +350,7 @@ function checkEditModal(){
 		var id = $("[id^=txtEditModuleManagerName")[i].id;
 		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
 			$("#"+id).attr("data-placement","bottom");
-			$("#"+id).attr("data-content","Please Complete this field.");
+			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
 			return false;
 		}
@@ -353,7 +361,7 @@ function checkEditModal(){
 		var id = $("[id^=txtEditModuleMemberName")[i].id;
 		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
 			$("#"+id).attr("data-placement","bottom");
-			$("#"+id).attr("data-content","Please Complete this field.");
+			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
 			return false;
 		}
@@ -421,15 +429,16 @@ function getAllEditModuleMember(){
 }
 
 function deleteModule(object){
-	var id = object.id.replace("btnDeleteModule","subrecordsModule");
-	bootbox.confirm(Message.Confirm_delete, function(result) {
-			if(result == true){
+	if(compareData()==true) {
+		var id = object.id.replace("btnDeleteModule", "subrecordsModule");
+		bootbox.confirm(Message.Confirm_delete, function (result) {
+			if (result == true) {
 				var number = parseInt(id.split('subrecordsModule')[1]);
-				console.log(""+number);
+				console.log("" + number);
 				var dataJsonData = {
-					moduleCode: $("#headName"+number).text().split(')')[0].split('(')[1],
+					moduleCode: $("#headName" + number).text().split(')')[0].split('(')[1],
 					projectId: dataAfterSave.responseJSON.id
-			    }
+				}
 				reciveProject = $.ajax({
 					type: "GET",
 					contentType: "application/json; charset=utf-8",
@@ -438,55 +447,63 @@ function deleteModule(object){
 						Accept: "application/json"
 					},
 					url: contextPath + '/moduleprojects/deleteModuleByModuleCodeAndProjectId',
-					data : dataJsonData,
-					complete: function(xhr){
-						if(xhr.status===201 || xhr.status===200){
-							$("#"+id).remove();
-							bootbox.alert(""+Message.Delete_module_success);
+					data: dataJsonData,
+					complete: function (xhr) {
+						if (xhr.status === 201 || xhr.status === 200) {
+							$("#" + id).remove();
+							bootbox.alert("" + Message.Delete_module_success);
 						}
 					},
 					async: false
 				});
 			}
-	});
+		});
+	}else{
+		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
+	}
 }
 
 function editModule(objectModule){
-	var id = objectModule.id;
-	var numID = id.split("btnEditModule");
-	var number = numID[1];
-	editModuleName = arr_initialNameModule[parseInt(number)];
-	clearEditModal();
-	var changeIDbtnSave = $('[id^=btnEditSaveModule]')[0].id;
-	$('#'+changeIDbtnSave).attr('id','btnEditSaveModule'+number);
-	$("#txtEditModuleName1").val(ModuleProject[number].moduleName);
-	$("#txtEditInitialModuleName1").val(ModuleProject[number].moduleCode);
-	$("#txtCostsEditModule1").val(ModuleProject[number].moduleCost);
-	$("#dateStartEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateStart, _language));
-	$("#dateEndEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateEnd, _language));
-	var textModuleManager = arr_moduleManager[number];
-	var splitTextModuleManager = textModuleManager.split("<br/>");
-	$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
-	for(var i=2 ; i< splitTextModuleManager.length ; i++){
-		var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleManagerName"+i+"' style='margin-top: 5px;'></input></div>"+
-			"<button id='btnDeleteEditMM"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>"+Button.Delete+"</button></div>";
-		$("#subEditModuleManager").append(html);
-		$("#txtEditModuleManagerName"+i).val(splitTextModuleManager[i-1]);
-	} 
+	if(compareData()==true) {
+		$("#modalEditModule").modal('show');
+		var id = objectModule.id;
+		var numID = id.split("btnEditModule");
+		var number = numID[1];
+		editModuleName = arr_initialNameModule[parseInt(number)];
+		clearEditModal();
+		var changeIDbtnSave = $('[id^=btnEditSaveModule]')[0].id;
+		$('#' + changeIDbtnSave).attr('id', 'btnEditSaveModule' + number);
+		$("#txtEditModuleName1").val(ModuleProject[number].moduleName);
+		$("#txtEditInitialModuleName1").val(ModuleProject[number].moduleCode);
+		$("#txtCostsEditModule1").val(ModuleProject[number].moduleCost);
+		$("#dateStartEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateStart, _language));
+		$("#dateEndEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateEnd, _language));
+		var textModuleManager = arr_moduleManager[number];
+		var splitTextModuleManager = textModuleManager.split("<br/>");
+		$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
+		for (var i = 2; i < splitTextModuleManager.length; i++) {
+			var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+				"<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;'></input></div>" +
+				"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
+			$("#subEditModuleManager").append(html);
+			$("#txtEditModuleManagerName" + i).val(splitTextModuleManager[i - 1]);
+		}
 
-	var textModuleMember = arr_moduleMember[number];
-	var splitTextModuleMember = textModuleMember.split("<br/>");
-	$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
-	for(var i=2 ; i< splitTextModuleMember.length ; i++){
-		var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+i+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleMemberName"+i+"'  style='margin-top: 5px;'></input></div>"+
-			"<button id='btnDeleteEditMMem"+i+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>"+Button.Delete+"</button></div>";
-		$("#subEditModuleMember").append(html);
-		$("#txtEditModuleMemberName"+i).val(splitTextModuleMember[i-1]);
+		var textModuleMember = arr_moduleMember[number];
+		var splitTextModuleMember = textModuleMember.split("<br/>");
+		$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
+		for (var i = 2; i < splitTextModuleMember.length; i++) {
+			var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+				"<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>" +
+				"<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button></div>";
+			$("#subEditModuleMember").append(html);
+			$("#txtEditModuleMemberName" + i).val(splitTextModuleMember[i - 1]);
+		}
+		countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
+		countEditModuleMember = $("[id^=btnDeleteEditMMem]").length;
+	}else{
+		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
 	}
-	countEditModuleManager = $("[id^=btnDeleteEditMM]").length ;
-	countEditModuleMember = $("[id^=btnDeleteEditMMem]").length ;
 }
 
 function checkSameNameBeforeEdit(){
@@ -536,4 +553,20 @@ function checkSameNameBeforeSave(){
 		}
 	}
 	return true;
+}
+
+function compareData(){
+	newData[0] = $("#txtProjectName").val();
+	newData[1] = $("#txtInitialProjectName").val();
+	newData[2] = $("#txtCostsProject").val();
+	newData[3] = $("#dateStartProject").val();
+	newData[4] = $("#dateEndProject").val();
+	newData[5] = projectManagerToArray();
+	for(var i = 0  ; i < 6 ; i++)
+		if(oldData[i] != newData[i]) return false;
+	return true;
+}
+
+function test01(ob){
+	alert("adasd");
 }

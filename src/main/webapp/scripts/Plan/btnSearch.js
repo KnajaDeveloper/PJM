@@ -127,6 +127,7 @@ function addDDLToModuleDDL(module){
 }
 
 function showPlan(){
+	clearPlan();
 	var dateStart = new Date(dataDateToDataBase($('#dateStart').val(), commonData.language));
 	var dateEnd = new Date(dataDateToDataBase($('#dateEnd').val(), commonData.language));
 	$("#panelEmployee").show(500);
@@ -134,4 +135,11 @@ function showPlan(){
 	addDate(dateStart,dateEnd);
 	addName();
 	addWork();
+}
+
+function clearPlan(){
+	$("#tableData").empty();
+	var html = "<tr id='tbSevenDay'><th class='text-center' style='min-width:120px;'></th></tr>"+
+		       "<tr id='tbDate'><td class='text-center' style='min-width:120px;'>"+Label.Employee_Name+"</td></tr>";
+	$("#tableData").append(html);
 }

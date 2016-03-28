@@ -45,6 +45,7 @@
 	<script>
 		var Label = {};
 		Label.Project_name = '${LABEL_PROJECT_NAME}';
+		Label.Employee_Name = '${LABEL_EMPLOYEE_NAME}';
 		Label.Module = '${LABEL_MODULE}';
 		Label.Sun = '${LABEL_SUN}';
 		Label.Mon = '${LABEL_MON}';
@@ -156,7 +157,7 @@
 							</tr>
 							<tr id="tbDate">
 								<td class="text-center" style='min-width:120px;'>${LABEL_EMPLOYEE_NAME}</td>
-							</tr> 
+							</tr>
 						</table>
 					</div>
 			</div>
@@ -176,13 +177,10 @@
 	</div>
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
-    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>>
+    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
 	<spring:url value="/resources/scripts/Plan/schedulePlan.js" var="schedulePlan"/>
 	<script src="${schedulePlan}" type="text/javascript"><!--Not Empty--></script>	
-
-	<spring:url value="/resources/scripts/Plan/addDropDownList.js" var="addDropDownList"/>
-	<script src="${addDropDownList}" type="text/javascript"><!--Not Empty--></script>
 
 	<spring:url value="/resources/scripts/Plan/btnSearch.js" var="btnSearch"/>
 	<script src="${btnSearch}" type="text/javascript"><!--Not Empty--></script>

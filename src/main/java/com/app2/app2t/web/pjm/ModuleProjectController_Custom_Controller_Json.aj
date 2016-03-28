@@ -257,12 +257,20 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+            boolean canDeleteModule = true;
             Project project = Project.findProject(projectId);
             List<ModuleProject> moduleProject = ModuleProject.findModuleByModuleCodeAndProjectId(moduleCode,project);
-            ModuleManager.deleteModuleManagerByModuleProject(moduleProject.get(0));
-            ModuleMember.deleteModuleMemberByModuleProject(moduleProject.get(0));
-            ModuleProject.deleteModuleByModuleCodeAndProjectId(moduleCode,project);
-            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+            for(ModuleProject mp:moduleProject){
+                List<Plan> listPlan = Plan.findPlanByModule(mp);
+                if(listPlan.size()!=0) canDeleteModule = false;
+            }
+            if(canDeleteModule) {
+                ModuleManager.deleteModuleManagerByModuleProject(moduleProject.get(0));
+                ModuleMember.deleteModuleMemberByModuleProject(moduleProject.get(0));
+                ModuleProject.deleteModuleByModuleCodeAndProjectId(moduleCode, project);
+                return  new ResponseEntity<String>(headers, HttpStatus.OK);
+            }
+            return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

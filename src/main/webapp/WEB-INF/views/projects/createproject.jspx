@@ -10,41 +10,51 @@
 	<c:set var="BUTTON_DELETE"><spring:message javaScriptEscape="true" code="B0014"/></c:set>
 	<c:set var="BUTTON_EDIT"><spring:message javaScriptEscape="true" code="B0005"/></c:set>
 
-	<c:set var="LABEL_CREATE_PROJECT"><spring:message javaScriptEscape="true" text="Create Project"/></c:set>
-	<c:set var="LABEL_CREATE_MODULE"><spring:message javaScriptEscape="true" text="Create Module"/></c:set>
+	<c:set var="LABEL_CREATE_PROJECT"><spring:message javaScriptEscape="true" code="L0091"/></c:set>
+	<c:set var="LABEL_CREATE_MODULE"><spring:message javaScriptEscape="true" code="L0097"/></c:set>
 	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
+	<c:set var="LABEL_PROJECT"><spring:message javaScriptEscape="true" code="L0027"/></c:set>
 	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" code="L0089"/></c:set>
-	<c:set var="LABEL_COST"><spring:message javaScriptEscape="true" text="Cost"/></c:set>
+	<c:set var="LABEL_COST"><spring:message javaScriptEscape="true" code="L0092"/></c:set>
 	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" code="L0049"/></c:set>
 	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
 	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
 	<c:set var="LABEL_PROJECT_MANAGER"><spring:message javaScriptEscape="true" code="L0045"/></c:set>
-	<c:set var="LABEL_ADD_MODULE"><spring:message javaScriptEscape="true" text="Add Module"/></c:set>
+	<c:set var="LABEL_ADD_MODULE"><spring:message javaScriptEscape="true" code="L0093"/></c:set>
+	<c:set var="LABEL_MODULE"><spring:message javaScriptEscape="true" code="L0009"/></c:set>
 	<c:set var="LABEL_MODULE_NAME"><spring:message javaScriptEscape="true" code="L0065"/></c:set>
-	<c:set var="LABEL_MODULE_MANAGER"><spring:message javaScriptEscape="true" text="Module Manager"/></c:set>
-	<c:set var="LABEL_MODULE_MEMBER"><spring:message javaScriptEscape="true" text="Module Member"/></c:set>
-	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" text="Edit Module"/></c:set>
+	<c:set var="LABEL_MODULE_MANAGER"><spring:message javaScriptEscape="true" code="L0094"/></c:set>
+	<c:set var="LABEL_MODULE_MEMBER"><spring:message javaScriptEscape="true" code="L0095"/></c:set>
+	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" code="L0096"/></c:set>
+	<c:set var="LABEL_NAME_MODAL_INCRESE_DECRESE_POINT"><spring:message javaScriptEscape="true" text="เพิ่มต้นทุน"/></c:set>t>
 
 	<c:set var="MESSAGE_CONFIRM_DELETE"><spring:message javaScriptEscape="true" code="M0004"/></c:set>
-	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" text="has in project."/></c:set>
-	<c:set var="MESSAGE_HAS_IN_DATABASE"><spring:message javaScriptEscape="true" text="has in database."/></c:set>
-	<c:set var="MESSAGE_IT_HAS_SAME_NAMES"><spring:message javaScriptEscape="true" text="It's has a same names."/></c:set>
+	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" code="M0033"/></c:set>
+	<c:set var="MESSAGE_HAS_IN_DATABASE"><spring:message javaScriptEscape="true" code="M0034"/></c:set>
+	<c:set var="MESSAGE_IT_HAS_SAME_NAMES"><spring:message javaScriptEscape="true" code="M0035"/></c:set>
 	<c:set var="MESSAGE_SAVE_SUCCESS"><spring:message javaScriptEscape="true" code="M0001"/></c:set>
 	<c:set var="MESSAGE_SAVE_ERROR"><spring:message javaScriptEscape="true" code="M0019"/></c:set>
 	<c:set var="MESSAGE_EDIT_SUCCESS"><spring:message javaScriptEscape="true" code="M0013"/></c:set>
-	<c:set var="MESSAGE_EDIT_ERROR"><spring:message javaScriptEscape="true" text="Edit error."/></c:set>
-	<c:set var="MESSAGE_DELETE_MODULE_SUCCESS"><spring:message javaScriptEscape="true" text="Delete module success."/></c:set>
-	<c:set var="MESSAGE_COST_MODULE_MORE_THAN_PROJECT"><spring:message javaScriptEscape="true" text="Total cost of module is more than project cost."/></c:set>
-	<c:set var="MESSAGE_CONFIRM_ADD_MODULE"><spring:message javaScriptEscape="true" text="Do you want to add this module ?"/></c:set>
-	<c:set var="MESSAGE_CONFIRM_EDIT_MODULE"><spring:message javaScriptEscape="true" text="Do you want to edit this module ?"/></c:set>
-	<c:set var="MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT"><spring:message javaScriptEscape="true" text="Can't decrese point from project."/></c:set>
-	<c:set var="MESSAGE_INCRESE"><spring:message javaScriptEscape="true" text="Increse"/></c:set>
-	<c:set var="MESSAGE_DECRESE"><spring:message javaScriptEscape="true" text="Decrese"/></c:set>
-	<c:set var="MESSAGE_CANT_INCRESE"><spring:message javaScriptEscape="true" text="Can't increse"/></c:set>
-	<c:set var="MESSAGE_CANT_DECRESE"><spring:message javaScriptEscape="true" text="Can't decrese"/></c:set>
-	<c:set var="MESSAGE_POINT_TO_PROJECT"><spring:message javaScriptEscape="true" text="point to project."/></c:set>
-	<c:set var="MESSAGE_POINT_FROM_PROJECT"><spring:message javaScriptEscape="true" text="point from project."/></c:set>
-	<c:set var="MESSAGE_POINT_TO_MODULE"><spring:message javaScriptEscape="true" text="point to module"/></c:set>
+	<c:set var="MESSAGE_EDIT_ERROR"><spring:message javaScriptEscape="true" code="M0036"/></c:set>
+	<c:set var="MESSAGE_DELETE_MODULE_SUCCESS"><spring:message javaScriptEscape="true" code="M0037"/></c:set>
+	<c:set var="MESSAGE_COST_MODULE_MORE_THAN_PROJECT"><spring:message javaScriptEscape="true" code="M0038"/></c:set>
+	<c:set var="MESSAGE_CONFIRM_ADD_MODULE"><spring:message javaScriptEscape="true" code="M0039"/></c:set>
+	<c:set var="MESSAGE_CONFIRM_EDIT_MODULE"><spring:message javaScriptEscape="true" code="M0040"/></c:set>
+	<c:set var="MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT"><spring:message javaScriptEscape="true" code="M0041"/></c:set>
+	<c:set var="MESSAGE_INCRESE"><spring:message javaScriptEscape="true" code="M0042"/></c:set>
+	<c:set var="MESSAGE_DECRESE"><spring:message javaScriptEscape="true" code="M0043"/></c:set>
+	<c:set var="MESSAGE_CANT_INCRESE"><spring:message javaScriptEscape="true" code="M0044"/></c:set>
+	<c:set var="MESSAGE_CANT_DECRESE"><spring:message javaScriptEscape="true" code="M0045"/></c:set>
+	<c:set var="MESSAGE_POINT_TO_PROJECT"><spring:message javaScriptEscape="true" code="M0046"/></c:set>
+	<c:set var="MESSAGE_POINT_FROM_PROJECT"><spring:message javaScriptEscape="true" code="M0047"/></c:set>
+	<c:set var="MESSAGE_POINT_TO_MODULE"><spring:message javaScriptEscape="true" code="M0048"/></c:set>
+	<c:set var="MESSAGE_NUMBER_ONLY"><spring:message javaScriptEscape="true" code="L0103"/></c:set>
+	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
+	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
+	<c:set var="MESSAGE_CANT_MAKE_ANY_ACTION"><spring:message javaScriptEscape="true" text="Can't make any action."/></c:set>
+	<c:set var="MESSAGE_COMFIRM_EDITING_DATA_PROJECT"><spring:message javaScriptEscape="true" text="Please confirm edit data project."/></c:set>
+	<c:set var="MESSAGE_YOU_CAN_DECRESE"><spring:message javaScriptEscape="true" text="You can decrese"/></c:set>
+	<c:set var="MESSAGE_DO_YOU_WANT_TO_DECRESE"><spring:message javaScriptEscape="true" text="Do you want to decrese"/></c:set>
 
 	<style>
 	.input-group-addon{
@@ -66,6 +76,8 @@
 	</style>
 
 	<script>
+		var Label = {};
+		Label.Point = '${LABEL_POINT}';
 		var Message = {};
 		var Button = {};
 		Message.Has_in_project = "${MESSAGE_HAS_IN_PROJECT}";
@@ -88,6 +100,14 @@
 		Message.Point_to_project = '${MESSAGE_POINT_TO_PROJECT}';
 		Message.Point_from_project = '${MESSAGE_POINT_FROM_PROJECT}';
 		Message.Point_to_module = '${MESSAGE_POINT_TO_MODULE}';
+		Message.Cant_make_any_action = '${MESSAGE_CANT_MAKE_ANY_ACTION}';
+		Message.Confirm_editing_data = '${MESSAGE_COMFIRM_EDITING_DATA_PROJECT}';
+		Message.Complete_this_feld = "${MESSAGE_COMPLETE_THIS_FIELD}";
+		Message.Number_only = '${MESSAGE_NUMBER_ONLY}';
+		Message.MESSAGE_COMPLETE_DATE = '${MESSAGE_COMPLETE_DATE}';
+		Message.You_can_decrese = '${MESSAGE_YOU_CAN_DECRESE}';
+		Message.Do_you_want_to_decrese = '${MESSAGE_DO_YOU_WANT_TO_DECRESE}';
+		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';
@@ -114,15 +134,15 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="col-sm-6">
-							<label class="col-sm-6 control-label required " >${LABEL_COST}</label>
-							<div class="col-sm-6 input-group">
+							<label class="col-sm-5 control-label required " >${LABEL_COST}</label>
+							<div class="col-sm-7 input-group">
 								<input type="text" class="form-control" id="txtCostsProject" data-placement="bottom"></input>
 								<span class="input-group-addon">${LABEL_POINT}</span>
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<span id="btnIncresePoint" type="button" class="btn btn-primary text-center" style="margin-top: 0px;" data-toggle="modal" data-target="#modalIncreseCost">+</span>
-							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px" data-toggle="modal" data-target="#modalIncreseCost">-</span>
+							<span id="btnIncresePoint" type="button" class="btn btn-primary text-center" style="margin-top: 0px;">+</span>
+							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px">-</span>
 						</div>
 					</div>
 				</div>
@@ -132,16 +152,16 @@
 						<div class="col-sm-6">
 							<label class="col-sm-6 control-label required" >${LABEL_START_DATE}</label>
 							<div class="col-sm-5 input-group" style="margin-left: 10px;">
-								<input class="form-control marginLeft5" type="text" id="dateStartProject" name="dateStartProject" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
+								<input class="form-control marginLeft5" type="text" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar "></span>
 								</span>
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<label class="col-sm-3 control-label required" >${LABEL_END_DATE}</label>
+							<label class="col-sm-3 control-label required" style="margin-left: -20px;">${LABEL_END_DATE}</label>
 							<div class="col-sm-5  input-group">
-								<input class="form-control" type="text" id="dateEndProject" name="dateEndProject" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
+								<input class="form-control" type="text" id="dateEndProject" name="dateEndProject" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer; background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar "></span>
 								</span>
@@ -171,7 +191,7 @@
 				<div class='text-center'>
 					<br/>
 					<button id='btnSaveProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
-					<button id='btnResetProject' class='btn btn-danger btnAddPM' type='button'>${BUTTON_RESET}</button>
+					<!--<button id='btnResetProject' class='btn btn-danger btnAddPM' type='button'>${BUTTON_RESET}</button>-->
 				</div>
 
 				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog">
@@ -193,8 +213,8 @@
 									<div class="col-sm-3">
 										<input type="text" class="form-control" id="txtInitialModuleName1"></input>
 									</div>
-									<label class="col-sm-1 control-label required " >${LABEL_COST} </label>
-									<div class="col-sm-3 input-group">
+									<label class="col-sm-2 control-label required" style="margin-left: -40px">${LABEL_COST} </label>
+									<div class="col-sm-2 input-group">
 										<input type="text" class="form-control marginLeft5" id="txtCostsModule1"></input>
 										<span class="input-group-addon">${LABEL_POINT}</span>
 									</div>
@@ -205,16 +225,16 @@
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
 											<div class="col-sm-5 input-group" style="margin-left: 10px">
-												<input class="form-control marginLeft5" type="text" id="dateStartModule" name="dateStartModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white"></input>
+												<input class="form-control marginLeft5" type="text" id="dateStartModule" name="dateStartModule" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer; background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
 												</span>
 											</div>
 										</div>
 										<div class="col-sm-6 ">
-											<label class="col-sm-3 control-label required" >${LABEL_END_DATE} </label>
+											<label class="col-sm-3 control-label required" style="margin-left: -10px" >${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
-												<input class="form-control marginLeft5" type="text" id="dateEndModule" name="dateEndModule" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white"></input>
+												<input class="form-control marginLeft5" type="text" id="dateEndModule" name="dateEndModule" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer; background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
 												</span>
@@ -284,8 +304,8 @@
 									<div class="col-sm-3">
 										<input type="text" class="form-control" id="txtEditInitialModuleName1"></input>
 									</div>
-									<label class="col-sm-1 control-label required " >${LABEL_COST} </label>
-									<div class="col-sm-3 input-group">
+									<label class="col-sm-2 control-label required" style="margin-left: -40px" >${LABEL_COST} </label>
+									<div class="col-sm-2 input-group">
 										<input type="text" class="form-control marginLeft5" id="txtCostsEditModule1"></input>
 										<span class="input-group-addon">${LABEL_POINT}</span>
 									</div>
@@ -296,16 +316,16 @@
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
 											<div class="col-sm-5 input-group" style="margin-left: 15px;">
-												<input class="form-control" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="Start Time" readonly="true" style="cursor:pointer; background-color:white;"></input>
+												<input class="form-control" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer; background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
 												</span>
 											</div>
 										</div>
 										<div class="col-sm-6 ">
-											<label class="col-sm-3 control-label required " style="margin-left: -45px;">${LABEL_END_DATE} </label>
+											<label class="col-sm-3 control-label required " style="margin-left: -10px;">${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
-												<input class="form-control marginLeft5" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="End Time" readonly="true" style="cursor:pointer; background-color:white"></input>
+												<input class="form-control marginLeft5" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer; background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar "></span>
 												</span>
@@ -359,15 +379,15 @@
 		        	<div class="modal-dialog modal-lg">
 			                <div class="modal-content">
 			                    <div class="modal-header bg-primary">
-			                        <h4 class="modal-title">Increse Cost</h4>
+			                        <h4 class="modal-title">${LABEL_NAME_MODAL_INCRESE_DECRESE_POINT}</h4>
 			                    </div>
 			                    <div class="modal-body">
 									<form class="form-horizontal">
 										<div name="container_SelectRadio" class="form-group">
 											<div class="col-sm-5"><!--Not Empty--></div>
 											<div>
-												<input type="radio" name="project" value='project' checked="checked"> Project </input>
-												<input type="radio" name="project" value='module'> Module </input>
+												<input type="radio" name="project" value='project' checked="checked"> ${LABEL_PROJECT}</input>
+												<input type="radio" name="project" value='module' style="margin-left: 10px"> ${LABEL_MODULE} </input>
 											</div>
 										</div>
 									</form>
@@ -376,7 +396,7 @@
 											<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME}</label>
 											<div class="col-sm-4">
 												<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom" style="margin-left: -10px">
-													<option>--- Module Name ---</option>
+													<option>--- ${LABEL_MODULE_NAME} ---</option>
 												</select>
 											</div>
 										</div>
@@ -392,7 +412,7 @@
 			                    <div class="modal-footer">
 			                    	<br/>
 			                        <button type="button" id="btnSaveIncreseCostModule" class="btn btn-primary">${BUTTON_SAVE}</button>
-			                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancle</button>
+			                        <button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
 		                    	</div>
 			                </div>
 		        	</div>
@@ -403,10 +423,17 @@
 	</div>
 
 	<div id='container_DataModule' class='panel panel-primary'>
-		<div class="panel-heading">${LABEL_CREATE_MODULE}</div>
+		<div class="panel-heading">
+			<h4 class='panel-title'>
+				${LABEL_CREATE_MODULE}
+				<span>
+					<button id="btnAddModule" type="button" class="btn btn-success marginTop-5 pull-right"> + ${LABEL_MODULE}</button>
+				</span>
+			</h4>
+		</div>
 		<div class="panel-body">
 		    <div name="container_AddModule" class="form-group">
-			    <button id="btnAddModule" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddModule"> + Module</button>
+
 			</div>
 
 			<div name="container_UpDownModule" class="form-group">

@@ -22,7 +22,6 @@ function btnDeleteModuleManager(id) {
 
 $("#btnEditAddMM1").click(function(){
 	var count_elements = countEditModuleManager+1;
-	alert("EditAddMM1 : "+(count_elements+1));
 	var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleManagerName"+[count_elements+1]+"' style='margin-top:5px;'></input></div>"+
 			"<button id='btnDeleteEditMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>"+Button.Delete+"</button></div>";
@@ -55,7 +54,6 @@ function btnDeleteModuleMember(id) {
 
 $("#btnEditAddMMem1").click(function(){
 	var count_elements = countEditModuleMember+1;
-	alert("EditAddMMem1 : "+(count_elements+1));
 	var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
 			"<input type='text' class='form-control' id='txtEditModuleMemberName"+[count_elements+1]+"'></input></div>"+
 			"<button id='btnDeleteEditMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>"+Button.Delete+"</button></div>";

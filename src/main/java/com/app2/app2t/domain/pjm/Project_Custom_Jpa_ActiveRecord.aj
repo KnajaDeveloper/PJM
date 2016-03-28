@@ -206,6 +206,12 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
     }
 
     public static Project Project.updateProjectByIdProject(long id,String projectCode, String projectName, Integer projectCost, Date dateStart, Date dateEnd) {
+        dateStart.setHours(0);
+        dateStart.setMinutes(0);
+        dateStart.setSeconds(0);
+        dateEnd.setHours(0);
+        dateEnd.setMinutes(0);
+        dateEnd.setSeconds(0);
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         List<Project> listProject = Project.findProjectByIdProject(id);
