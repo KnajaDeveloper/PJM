@@ -88,8 +88,8 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     dataDetail = [];
 
     jsonData.forEach(function(value){
-        dataTypeTask.push(value.typeTask.typeTaskCode);
-        dataTypeTaskName.push(value.typeTask.typeTaskName);
+        dataTypeTask.push(value.typeTaskCode);
+        dataTypeTaskName.push(value.typeTaskName);
         dataEmpCode.push(checkNullData(value.empCode));
 
         if(value.dateStart == null)
@@ -110,7 +110,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         tableData = ''
         + '<tr id="trTask' + i++ + '">'
             + '<td class="text-center">'
-                + '<input id="' + value.id + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
+                + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
             + '</td>'
             + '<td class="text-center">'
                 + '<button onclick="openEditTask($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
@@ -600,10 +600,17 @@ $('#btnDeleteTask').click(function() {
 
 $('#checkboxAllTask').click(function(){
     $(".checkboxTableTask").prop('checked', $(this).prop('checked'));
+    $.each($(".checkboxTableTask[inUse=1]"),function(index, value){
+        $(this).prop("checked", false);
+    });
 });
 
 $('#TableTask').on("click", ".checkboxTableTask", function () {
-    if($(".checkboxTableTask:checked").length == $(".checkboxTableTask").length){
+    if($(this).attr("inUse") > 0){
+        $(this).prop("checked", false);
+        bootbox.alert(Message.MSG_DATA_IS_USE);
+    }
+    if($(".checkboxTableTask:checked").length == $(".checkboxTableTask[inUse=0]").length && $(".checkboxTableTask[inUse=0]").length != 0){
         $("#checkboxAllTask").prop("checked", true);
     }else{
         $("#checkboxAllTask").prop("checked", false);

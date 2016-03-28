@@ -1,6 +1,5 @@
 package com.app2.app2t.web.pjm;
 
-
 import com.app2.app2t.domain.pjm.*;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
