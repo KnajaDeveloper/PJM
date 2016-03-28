@@ -1,12 +1,12 @@
 //-----Check Syntax-------------------------------------------------------------------------------
 
-function checkString() {
-    var checkS = $("#aTypeTaskCode").val();
-    if (/[^A-Za-z0-9\-\d]/.test(checkS)) {
-        $('#aTypeTaskCode').attr("data-content", Message.Please_Input_As).popover('show');
-        $("#aTypeTaskName").popover('hide');
-    }
-}
+//function checkString() {
+//    var checkS = $("#aTypeTaskCode").val();
+//    if (/[^A-Za-z0-9\-\d]/.test(checkS)) {
+//        $('#aTypeTaskCode').attr("data-content", Message.Please_Input_As).popover('show');
+//        $("#aTypeTaskName").popover('hide');
+//    }
+//}
 
 //------------------------------------------------------------------------------------
 
@@ -126,7 +126,7 @@ $('[id^=btnM]').click(function () {
             $("#aTypeTaskName").popover('show');
 
             if ($("#aTypeTaskCode").val() != "") {
-                checkString();
+                //checkString();
             }
 
         } else {
