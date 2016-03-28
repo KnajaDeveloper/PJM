@@ -23,6 +23,7 @@ paggination.loadTable = function loadTable(jsonData) {
     }
 
     $('#tbody').empty();
+    $("#checkAll").prop("checked", false);
 
     var tableData = "";
     jsonData.forEach(function (value) {
@@ -360,3 +361,5 @@ $("#btnECancel").click(function(){
         });
     }
 });
+
+
