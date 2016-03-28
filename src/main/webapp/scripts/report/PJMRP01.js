@@ -74,33 +74,68 @@ function sendData() {
             dateEndBase = DateUtil.dataDateToFrontend(dateEndBase, 'EN');
         }
 
-        if (_language == "TH") {
-            var printDate = date.getDate() + "/" +
-                (parseInt(date.getMonth()) + 1) + "/" +
-                (parseInt(date.getFullYear()) + 543 );
-            plusYear = 543;
-            window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
-                + '&dateStartBase=' + dateStartBase
-                + '&dateEndBase=' + dateEndBase
-                + '&dateStart=' + dateStart
-                + '&dateEnd=' + dateEnd
-                + '&printDate=' + printDate
-                + '&plusYear=' + plusYear;
+        var dataJsonData = {
+            empCode: $("#emp").val()
+        };
+
+        var responseResult = null;
+
+        responseResult = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            type: "GET",
+            url: contextPath + '/reports/getEmpNameByEmpCodeAjex',
+            data: dataJsonData,
+            complete: function (xhr) {
+                console.log(xhr);
+
+            },
+            async: false
+        });
+
+        checksize = jQuery.parseJSON(responseResult.responseText);
+
+        console.log(checksize);
+
+        if(checksize == 1){
+
+            if (_language == "TH") {
+                var printDate = date.getDate() + "/" +
+                    (parseInt(date.getMonth()) + 1) + "/" +
+                    (parseInt(date.getFullYear()) + 543 );
+                plusYear = 543;
+                window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                    + '&dateStartBase=' + dateStartBase
+                    + '&dateEndBase=' + dateEndBase
+                    + '&dateStart=' + dateStart
+                    + '&dateEnd=' + dateEnd
+                    + '&printDate=' + printDate
+                    + '&plusYear=' + plusYear;
 
 
-        } else if (_language == "EN" || _language == 'EN_US') {
-            var printDate = date.getDate() + "/" +
-                (parseInt(date.getMonth()) + 1) + "/" +
-                (parseInt(date.getFullYear()) + 0 );
-            plusYear = 0;
-            window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
-                + '&dateStartBase=' + dateStartBase
-                + '&dateEndBase=' + dateEndBase
-                + '&dateStart=' + dateStart
-                + '&dateEnd=' + dateEnd
-                + '&printDate=' + printDate
-                + '&plusYear=' + plusYear;
+            } else if (_language == "EN" || _language == 'EN_US') {
+                var printDate = date.getDate() + "/" +
+                    (parseInt(date.getMonth()) + 1) + "/" +
+                    (parseInt(date.getFullYear()) + 0 );
+                plusYear = 0;
+                window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                    + '&dateStartBase=' + dateStartBase
+                    + '&dateEndBase=' + dateEndBase
+                    + '&dateStart=' + dateStart
+                    + '&dateEnd=' + dateEnd
+                    + '&printDate=' + printDate
+                    + '&plusYear=' + plusYear;
+            }
+
+        }else if(checksize == 0){
+            bootbox.alert(Message.Data_not_found);
         }
+
+
+
     }
 }
 //--------------------------------------------------------------------------------
