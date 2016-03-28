@@ -10,8 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import com.app2.app2t.util.ApplicationConstant;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.*;
+import org.apache.commons.io.IOUtils;
+import org.springframework.util.FileCopyUtils;
+import java.text.*;
+import java.io.*;
 
 privileged aspect Task_Custom_Jpa_ActiveRecord {
 
@@ -114,7 +121,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     }
 
     public static Task Task.saveTask(String taskCode, String taskName, Integer taskCost,
-        TypeTask typeTask, String empCode, Date dateStart, Date dateEnd, String fileName,
+        TypeTask typeTask, String empCode, String dateStart, String dateEnd, String fileName,
         String detail, Integer progress, Program program) {
 
         EntityManager ent = Task.entityManager();
@@ -124,27 +131,27 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         task.setTaskName(taskName);
         task.setTaskCost(taskCost);
         task.setTypeTask(typeTask);
-        if(empCode == "")
-            empCode = null;
         task.setEmpCode(empCode);
-        task.setDateStart(dateStart);
-        task.setDateEnd(dateEnd);
-        if(detail == "")
-            detail = null;
+        if(dateStart.equals("null")){task.setDateStart(null);}
+        else{task.setDateStart(new Date(convertDate(dateStart)));}     
+        if(dateEnd.equals("null")){task.setDateEnd(null);}    
+        else{task.setDateEnd(new Date(convertDate(dateEnd)));}
         task.setDetail(detail);
-        if(fileName == "")
-            fileName = null;
         task.setFileName(fileName);
         task.setProgress(progress);
         task.setProgram(program);
         task.persist();
-
         return task;
+    }
+
+    public static String convertDate(String date){
+        String splitDate[] = date.split("-");
+        return splitDate[1] + "/" + splitDate[0] + "/" + splitDate[2];
     }
 
     public static List<Task> Task.findEditTask(Long id, String taskCode,
         String taskName, Integer taskCost, TypeTask typeTask, String empCode,
-        Date dateStart, Date dateEnd, String fileName, String detail, Integer progress) {
+        String dateStart, String dateEnd, String fileName, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
         criteria.add(Restrictions.eq("id", id));
@@ -154,16 +161,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.setTaskName(taskName);
         edTask.setTaskCost(taskCost);
         edTask.setTypeTask(typeTask);
-        if(empCode == "")
-            empCode = null;
         edTask.setEmpCode(empCode);
-        edTask.setDateStart(dateStart);
-        edTask.setDateEnd(dateEnd);
-        if(fileName == "")
-            fileName = null;
+        if(dateStart.equals("null")){edTask.setDateStart(null);}
+        else{edTask.setDateStart(new Date(convertDate(dateStart)));}     
+        if(dateEnd.equals("null")){edTask.setDateEnd(null);}    
+        else{edTask.setDateEnd(new Date(convertDate(dateEnd)));}
         edTask.setFileName(fileName);
-        if(detail == "")
-            detail = null;
         edTask.setDetail(detail);
         edTask.setProgress(progress);
         edTask.merge();
@@ -188,6 +191,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.createAlias("task.program", "program");
         criteria.add(Restrictions.eq("program.id", id));
         criteria.add(Restrictions.eq("taskCode", taskCode));
+        return criteria.list();
+    }
+
+    public static List<Task> Task.findSizeFileByFileName(String fileName) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("fileName", fileName));
         return criteria.list();
     }
 
@@ -251,5 +261,20 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.createAlias("program.moduleProject", "moduleProject");
         criteria.add(Restrictions.isNull("task.empCode"));
         return criteria.list();
+    }
+
+    @Transactional
+    public static void Task.uploadFileAndInsertDataFile(MultipartHttpServletRequest multipartHttpServletRequest) {
+        try{
+            MultipartFile multipartFile = multipartHttpServletRequest.getFile("myInput");
+            if(!multipartFile.isEmpty()){
+                byte[] bytes = multipartFile.getBytes();
+                File pathFileNew = new File(ApplicationConstant.PATH_PJM_FILE+multipartFile.getOriginalFilename());
+                FileCopyUtils.copy(bytes, new FileOutputStream(pathFileNew));
+            }
+        }catch(Exception e){
+            LOGGER.error("Error : {}", e);
+            throw new RuntimeException(e);
+        }
     }
 }

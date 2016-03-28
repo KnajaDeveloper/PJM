@@ -114,6 +114,7 @@
     <c:set var="MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message code="M0023"/></c:set>
     <c:set var="MSG_PLEASE_COMPLETE_THIS_FIEID" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="MSG_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
+    <c:set var="MSG_SAVE_FAILED" scope="request"><spring:message code="M0019"/></c:set>
     <c:set var="MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST" scope="request"><spring:message code="M0024"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE" scope="request"><spring:message code="M0025"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_A_NEW_TASK_CODE" scope="request"><spring:message code="M0026"/></c:set>
@@ -131,6 +132,7 @@
     <c:set var="MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100" scope="request"><spring:message code="M0017"/></c:set>
     <c:set var="MSG_DATE_INCOLLECT" scope="request"><spring:message code="M0032"/></c:set>
     <c:set var="MSG_YOU_WANT_TO_SAVE_DATA" scope="request"><spring:message code="M0051"/></c:set>
+    <c:set var="MSG_THIS_FILE_IS_ALREADY_TO_DAVE_THE_FILE_TO_REPEAT_IT" scope="request"><spring:message text="This file is already To save the file to repeat it?"/></c:set>
 
     <script type="text/javascript">
         var Label = {};
@@ -151,6 +153,7 @@
         Message.MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9 = '${MSG_PLEASE_ENTER_THE_TASK_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9}';
         Message.MSG_PLEASE_COMPLETE_THIS_FIEID = '${MSG_PLEASE_COMPLETE_THIS_FIEID}';
         Message.MSG_SAVE_SUCCESS = '${MSG_SAVE_SUCCESS}';
+        Message.MSG_SAVE_FAILED = '${MSG_SAVE_FAILED}';
         Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST = '${MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST}';
         Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE = '${MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE}';
         Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE = '${MSG_PLEASE_ENTER_A_NEW_TASK_CODE}';
@@ -168,6 +171,7 @@
         Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100 = '${MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100}';
         Message.MSG_DATE_INCOLLECT = '${MSG_DATE_INCOLLECT}';
         Message.MSG_YOU_WANT_TO_SAVE_DATA = '${MSG_YOU_WANT_TO_SAVE_DATA}';
+        Message.MSG_THIS_FILE_IS_ALREADY_TO_DAVE_THE_FILE_TO_REPEAT_IT = '${MSG_THIS_FILE_IS_ALREADY_TO_DAVE_THE_FILE_TO_REPEAT_IT}';
         
     </script>
 
@@ -306,14 +310,14 @@
                                 <button id="btnTestSelectFile" type="button" class="btn btn-primary" onclick="$('#testMyInput').click();">${BUTTON_SELECT_FILE}</button>
                             </div>
                             <div class="col-sm-3">
-                                <button id="btnTestSaveFile" type="button" class="btn btn-primary" >TestSaveFile</button>
+                                <button id="btnTestSaveFile" type="button" class="btn btn-primary" >TestDownloadFile</button>
                             </div>
                             <div class="col-sm-1">
                                 <input id="testMyInput" type="file" style="visibility:hidden" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-4">
+                            <div class="col-sm-offset-3 col-sm-8">
                                 <label id="testFileName" class=""><jsp:text/></label>
                             </div>
                         </div>

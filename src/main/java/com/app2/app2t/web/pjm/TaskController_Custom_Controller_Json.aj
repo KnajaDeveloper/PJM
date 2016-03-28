@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.*;
+import java.io.*;
 
 privileged aspect TaskController_Custom_Controller_Json {
 
@@ -87,23 +89,28 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/saveTask",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/saveTask/{taskCode}/{taskName}/{taskCost}/{typeTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{id}",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.saveTask(
-            @RequestParam(value = "taskCode", required = false) String taskCode,
-            @RequestParam(value = "taskName", required = false) String taskName,
-            @RequestParam(value = "taskCost", required = false) Integer taskCost,
-            @RequestParam(value = "typeTask", required = false) String typeTask,
-            @RequestParam(value = "empCode", required = false) String empCode,
-            @RequestParam(value = "dateStart", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateStart,
-            @RequestParam(value = "dateEnd", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateEnd,
-            @RequestParam(value = "fileName", required = false) String fileName,
-            @RequestParam(value = "detail", required = false) String detail,
-            @RequestParam(value = "progress", required = false) Integer progress,
-            @RequestParam(value = "id", required = false) long id
+            @PathVariable("taskCode") String taskCode,
+            @PathVariable("taskName") String taskName,
+            @PathVariable("taskCost") Integer taskCost,
+            @PathVariable("typeTask") String typeTask,
+            @PathVariable("empCode") String empCode,
+            @PathVariable("dateStart") String dateStart,
+            @PathVariable("dateEnd") String dateEnd,
+            @PathVariable("fileName") String fileName,
+            @PathVariable("detail") String detail,
+            @PathVariable("progress") Integer progress,
+            @PathVariable("id") long id,
+            MultipartHttpServletRequest multipartHttpServletRequest
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+            if(!fileName.equals("null")){
+                Task.uploadFileAndInsertDataFile(multipartHttpServletRequest);
+            }
+
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
             List<Program> pg = Program.findProgramByID(id);
             Task task = Task.saveTask(taskCode, taskName, taskCost, tt.get(0), empCode,
@@ -115,19 +122,20 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findEditTask",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findEditTask(
-            @RequestParam(value = "id", required = false) Long id,
-            @RequestParam(value = "taskCode", required = false) String taskCode,
-            @RequestParam(value = "taskName", required = false) String taskName,
-            @RequestParam(value = "taskCost", required = false) Integer taskCost,
-            @RequestParam(value = "typeTask", required = false) String typeTask,
-            @RequestParam(value = "empCode", required = false) String empCode,
-            @RequestParam(value = "dateStart", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateStart,
-            @RequestParam(value = "dateEnd", required = false) @DateTimeFormat (pattern = "dd/MM/yyyy") Date dateEnd,
-            @RequestParam(value = "fileName", required = false) String fileName,
-            @RequestParam(value = "detail", required = false) String detail,
-            @RequestParam(value = "progress", required = false) Integer progress
+            @PathVariable("id") Long id,
+            @PathVariable("taskCode") String taskCode,
+            @PathVariable("taskName") String taskName,
+            @PathVariable("taskCost") Integer taskCost,
+            @PathVariable("typeTask") String typeTask,
+            @PathVariable("empCode") String empCode,
+            @PathVariable("dateStart") String dateStart,
+            @PathVariable("dateEnd") String dateEnd,
+            @PathVariable("fileName") String fileName,
+            @PathVariable("detail") String detail,
+            @PathVariable("progress") Integer progress,
+            MultipartHttpServletRequest multipartHttpServletRequest
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -167,6 +175,21 @@ privileged aspect TaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             List<Task> result = Task.findSizeTaskByTaskCode(id, taskCode);
+            return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findSizeFileByFileName",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.findSizeFileByFileName(
+            @RequestParam(value = "fileName", required = false) String fileName
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Task> result = Task.findSizeFileByFileName(fileName);
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
