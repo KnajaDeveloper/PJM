@@ -1,3 +1,5 @@
+var checkPaggingLoad = false;
+
 //-----Check Syntax-------------------------------------------------------------------------------
 
 //function checkString() {
@@ -12,6 +14,7 @@
 
 $('#search').click(function () {
     searchData();
+    checkPaggingLoad = true;
 });
 
 var paggination = Object.create(UtilPaggination);
@@ -58,6 +61,7 @@ function openModalEdit(element) {
 //------------------------------------------------------------------------------------
 
 function searchData() {
+
     $('#checkAll').prop('checked', false);
     var dataJsonData = {
         findTypeCode: $('#sTypeTaskCode').val(),
@@ -161,7 +165,8 @@ $('[id^=btnM]').click(function () {
 
                             $('#aTypeTaskCode').val(null);
                             $('#aTypeTaskName').val(null);
-                            searchData();
+
+
 
                         } else if (xhr.status == 500) {
 
@@ -177,6 +182,10 @@ $('[id^=btnM]').click(function () {
         }
     }
 
+    if(checkPaggingLoad == true){
+        searchData();
+        console.log(checkPaggingLoad);
+    }
 });
 
 //-----Delete-------------------------------------------------------------------------------
@@ -305,7 +314,7 @@ function editData() {
             if (xhr.status === 200) {
                 bootbox.alert(Message.Edit_Success);
                 $('#edit').modal('hide');
-                searchData();
+                    searchData();
             } else if (xhr.status === 500) {
                 bootbox.alert(Message.Edit_Failed);
             }
