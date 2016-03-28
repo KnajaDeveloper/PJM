@@ -16,8 +16,8 @@ var moduleProject = ["Employee","Plan","Project"];
 var typeProject = ["Developer","Analysis","Developer"];
 var resultEmptyTask;
 
-$("#panelEmployee").hide();
-$("#panelPlan").hide();
+//$("#panelEmployee").hide();
+//$("#panelPlan").hide();
 addEmptyTask();
 
 function addDate(dateStart,dateEnd){
@@ -112,16 +112,16 @@ function sumTaskAndOtherTask(index){
 	var arr = [];
 	for(var i = 0 ; i < recieveWork.responseJSON.Plan[index].Task.length ; i++){
 		var plan = {};
-		plan.name = recieveWork.responseJSON.Plan[index].Task[i].task.taskName;
-		plan.dateStart = recieveWork.responseJSON.Plan[index].Task[i].dateStart;
-		plan.dateEnd = recieveWork.responseJSON.Plan[index].Task[i].dateEnd;
+		plan.name = recieveWork.responseJSON.Plan[index].Task[i][0];
+		plan.dateStart = recieveWork.responseJSON.Plan[index].Task[i][1];
+		plan.dateEnd = recieveWork.responseJSON.Plan[index].Task[i][2];
 		arr.push(plan);
 	}
 	for(var i = 0 ; i < recieveWork.responseJSON.Plan[index].OtherTask.length ; i++){
 		var plan = {};
-		plan.name = recieveWork.responseJSON.Plan[index].OtherTask[i].otherTask.taskName;
-		plan.dateStart = recieveWork.responseJSON.Plan[index].OtherTask[i].dateStart;
-		plan.dateEnd = recieveWork.responseJSON.Plan[index].OtherTask[i].dateEnd;
+		plan.name = recieveWork.responseJSON.Plan[index].OtherTask[i][0];
+		plan.dateStart = recieveWork.responseJSON.Plan[index].OtherTask[i][1];
+		plan.dateEnd = recieveWork.responseJSON.Plan[index].OtherTask[i][2];
 		arr.push(plan);
 	}
 	return arr ;
@@ -189,7 +189,7 @@ function addEmptyTask(){
 	for(var i = 0 ; i < resultEmptyTask.responseJSON.Task.length ; i++){
 		var html = "";
 		html+="<tr class='text-center'>" +
-			"<td>"+resultEmptyTask.responseJSON.Task[i].taskName+"</td>" +
+			"<td>"+resultEmptyTask.responseJSON.Task[i].taskCode+"</td>" +
 			"<td>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</td>" +
 			"<td>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</td>" +
 			"</tr>";
@@ -198,7 +198,7 @@ function addEmptyTask(){
 	for(var i = 0 ; i < resultEmptyTask.responseJSON.OtherTask.length ; i++){
 		var html = "";
 		html+="<tr class='text-center'>" +
-			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].taskName+"</td>" +
+			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].taskCode+"</td>" +
 			"<td>"+" "+"</td>" +
 			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].typeTask.typeTaskName+"</td>" +
 			"</tr>";

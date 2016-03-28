@@ -344,7 +344,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             List<ModuleManager> listManager = Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
             List<ProjectManager> listProjectManager = Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam(statProject,endProject,projectId,teamId);
             List<String> listEmpCode = new ArrayList<>();
-            List<String> listWork = new ArrayList<>();
             for(int i = 0 ; i < listMember.size() ; i++){
                 if(listEmpCode.indexOf(listMember.get(i).getEmpCode())==-1) listEmpCode.add(listMember.get(i).getEmpCode());
             }

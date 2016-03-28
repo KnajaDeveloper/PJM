@@ -222,6 +222,11 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.createAlias("plan.task", "Task");
         criteria.add(Restrictions.eq("Task.empCode", empCode));
         criteria.add(Restrictions.ge("plan.dateStart",dStart));
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.property("Task.taskName"))
+                .add(Projections.property("plan.dateStart"))
+                .add(Projections.property("plan.dateEnd"))
+        );
         List<Plan> listTask = criteria.list();
 
         EntityManager ent1 = Plan.entityManager();
@@ -229,6 +234,11 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria1.createAlias("plan.otherTask", "otherTask");
         criteria1.add(Restrictions.eq("otherTask.empCode", empCode));
         criteria1.add(Restrictions.ge("plan.dateStart",dStart));
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.property("otherTask.taskName"))
+                .add(Projections.property("plan.dateStart"))
+                .add(Projections.property("plan.dateEnd"))
+        );
         List<Plan> listOtherTask = criteria1.list();
         Map<String,Object> maps = new HashMap<>();
         maps.put("Task",listTask);
