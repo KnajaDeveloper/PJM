@@ -192,8 +192,9 @@
             margin-top: -1px;
         }
 
-
-
+        .task-scorebar{
+            overflow-y: scroll;
+        }
     </style>
 
     <input type="hidden" class="datetimepicker"/>
@@ -265,34 +266,39 @@
             <div class="panel panel-default">
                 <div class="tab-content">
                     <div id="tabFromModule" class="tab-pane fade in active">
+                        <div id="searchTaskShow" class="row" style="text-align: center; display: none; margin-bottom: 10px;">
+                            <button class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
                         <div class="form-horizontal">
-                            <select class="form-control" id="ddlJobModule" name="ddlJobModule">
-                                <option value="0">${LABEL_ALL_MODULE}</option>
-                            </select>
-                            <div id="grpTaskType">
+                            <div id="searchTaskPart">
+                                <select class="form-control" id="ddlJobModule" name="ddlJobModule">
+                                    <option value="0">${LABEL_ALL_MODULE}</option>
+                                </select>
+                                <div id="grpTaskType" style="height: 300px; margin-top: 5px;">
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="checkMyTask"/>${LABEL_PRIVEATE_TASK}
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="checkOtherTask"/>${LABEL_PUBLIC_TASK}
+                                        </label>
+                                    </div>
+                                </div>
                                 <br/>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="checkMyTask"/>${LABEL_PRIVEATE_TASK}
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="checkOtherTask"/>${LABEL_PUBLIC_TASK}
-                                    </label>
+                                <div class="text-center">
+                                    <button id="btnSearchByModule" class="btn btn-primary" type="button">${BUTTON_SEARCH}</button>
                                 </div>
                             </div>
-                            <br/>
 
-                            <div class="text-center">
-                                <button id="btnSearchByModule" class="btn btn-primary" type="button">${BUTTON_SEARCH}</button>
-                            </div>
 
-                            <hr/>
-                            <div id="lblNoResultSerchByModule" style="display: none;"
-                                 class="text-center">${LABEL_NO_RESULT}
+                            <div id="lblNoResultSerchByModule" style="display: none;" class="text-center">${LABEL_NO_RESULT}
                             </div>
-                            <div id="grpResultModuleSearch" class="list-group">
+                            <div id="grpResultModuleSearch" class="list-group" style="height: 520px; cursor: pointer; display: none;">
                                 <jsp:text/>
                             </div>
                         </div>
