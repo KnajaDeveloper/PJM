@@ -133,6 +133,7 @@ paggination.loadTable = function loadTable(jsonData) {
     if (jsonData.length <= 0) {
 
     }
+    $('input[type=checkbox]').prop('checked', false);
 
     $('#ResualtSearch').empty();
 
@@ -339,10 +340,10 @@ $("#close").click(function () {
     $("#modalAddModule").modal('hide');
     searchData();
 }); //-- closeModal --//
-/////////////////////////////////////////////////////////////////////////////////////////////////
-$("[id^=paggingSimpleBtn]").click(function () {
-    if ($('#checkAll').prop('checked') == true){
-        $('input[type=checkbox]').prop('checked', false);
-    }
-}); //--paggingSimpleBtn--//
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//$("[id^=paggingSimpleBtn]").click(function () {
+//    if ($('#checkAll').prop('checked') == true){
+//        $('input[type=checkbox]').prop('checked', false);
+//    }
+//}); //--paggingSimpleBtn--//
+////////////////////////////////////////////////////////////////////////////////////////////////////
