@@ -90,9 +90,9 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             List<Long> listModuleId = new ArrayList<>();
             if (moduleId == 0) {  // all module
-                List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByEmpCode(empCode);
-                for (ModuleMember moduleMember : moduleMembers) {
-                    listModuleId.add(moduleMember.getModuleProject().getId());
+                List<Long> moduleIds = ModuleMember.findDistinctModuleByEmpCode(empCode);
+                for (Long mdId : moduleIds) {
+                    listModuleId.add(mdId);
                 }
             } else {    // some module
                 listModuleId.add(moduleId);
@@ -125,10 +125,10 @@ privileged aspect PlanController_Custom_Controller_Json {
             String empCode = employee.get("empCode").toString();
             LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
-            List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByEmpCode(empCode);
+            List<Long> moduleIds = ModuleMember.findDistinctModuleByEmpCode(empCode);
             List<ModuleProject> result = new ArrayList<>();
-            for (ModuleMember moduleMember : moduleMembers) {
-                result.add(ModuleProject.findModuleProject(moduleMember.getModuleProject().getId()));
+            for (Long mdId : moduleIds) {
+                result.add(ModuleProject.findModuleProject(mdId));
             }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);

@@ -125,8 +125,12 @@ $('#btnSearchByModule').click(function () {
         data: JSON.stringify([moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
+                if(data.length > 10)
+                    $('#grpResultModuleSearch').addClass('task-scorebar');
+                else
+                    $('#grpResultModuleSearch').removeClass('task-scorebar');
+
                 if (data == null || data.length == 0) {
-                    // no result
                     $('#lblNoResultSerchByModule').show();
                 } else {
                     $('#lblNoResultSerchByModule').hide();
@@ -135,9 +139,11 @@ $('#btnSearchByModule').click(function () {
                             '<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') +
                             '" taskId="' + v.id + 
                             '" taskBegin="' + (v.dateStart != null ? v.dateStart : '') + 
-                            '" taskEnd="' + (v.dateEnd != null ? v.dateEnd : '') + 
-                            '" onclick="openModalAddPlan(this)">' + v.taskName + 
-                            ' <span class="pull-right">' + v.typeTask.typeTaskName + 
+                            '" taskEnd="' + (v.dateEnd != null ? v.dateEnd : '') +
+                            '" taskType="' + (v.empCode == null || v.empCode == '' ? 'public' : 'private') +
+                            '" taskName="' + v.taskName +
+                            '" onclick="openModalAddPlan(this)">(' + v.typeTask.typeTaskName + ')' +
+                            ' <span>' + v.taskName +
                             '</span> </a>');
                     });
                 }
@@ -145,6 +151,16 @@ $('#btnSearchByModule').click(function () {
         },
         async: false
     });
+
+    $('#searchTaskPart').slideUp();
+    $('#searchTaskShow').show();
+    $('#grpResultModuleSearch').slideDown();
+});
+
+$('#searchTaskShow').click(function(){
+    $('#searchTaskPart').slideDown();
+    $('#grpResultModuleSearch').hide();
+    $(this).hide();
 });
 
 // Add other plan -----------------------------------------------------------------------------------------------
@@ -208,19 +224,20 @@ $('.input-group-addon.date').click(function(){
 
 // Add plan ------------------------------------------------------------------------------------------------------------
 function openModalAddPlan(jobElement) {
-    if(jobElement.attributes[2].nodeValue.indexOf('danger') >= 0) {
+    var taskId = jobElement.getAttribute('taskId');
+    var taskName = jobElement.getAttribute('taskName');
+    var taskType = jobElement.getAttribute('taskType');
+    var taskBegin = jobElement.getAttribute('taskBegin');
+    var taskEnd = jobElement.getAttribute('taskEnd');
+
+    if(taskType == 'public') {
         $('#btnCancelTask').hide();
     }else{
         $('#btnCancelTask').show();
     }
 
-    var jobName = $.trim(jobElement.innerHTML.split('<span')[0]);
-    var taskId = jobElement.getAttribute('taskId');
-    var taskBegin = jobElement.getAttribute('taskBegin');
-    var taskEnd = jobElement.getAttribute('taskEnd');
-
     // set name
-    $('#lblAddNameWork').html(jobName);
+    $('#lblAddNameWork').html(taskName);
 
     // default date picker
     dateAddMaxId = 0;
@@ -932,6 +949,11 @@ function loadAndMapAllTaskType(){
         },
         url: contextPath + '/plans/findAllTaskType',
         success: function (data, status, xhr) {
+            if(data.length > 9)
+                $('#grpTaskType').addClass('task-scorebar');
+            else
+                $('#grpTaskType').removeClass('task-scorebar');
+
             $('#grpTaskType').html('');
             if (xhr.status == 200) {
                 $.each(data, function (k, v) {
