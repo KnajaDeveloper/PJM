@@ -319,8 +319,15 @@ privileged aspect PlanController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            long planId = Long.parseLong(json.toString());
-            Plan.deleteById(planId);
+            Long planId = Long.parseLong(json.toString());
+            OtherTask otherTask = Plan.deleteById(planId);
+            if(otherTask != null) {
+                List<Plan> planByOtherTask = Plan.findPlanByOtherTask(otherTask);
+                if(planByOtherTask.size() == 0) {
+                    OtherTask.deleteOtherTask(otherTask);
+                }
+            }
+
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

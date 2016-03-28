@@ -64,8 +64,9 @@
     
     <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>    
     <c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
-
-    <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message text="ADD SPRING MESSAFE"/></c:set>
+    
+    <c:set var="MESSAGE_CONFIRM_CANCLE" scope="request"><spring:message code="M0031"/></c:set>
+    <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message text="คุณต้องการบันทึกข้อมูล วันที่สิ้นสุดของแผนงาน เกินกำหนดวันที่สิ้นสุดของงานหรือไม่?"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -82,7 +83,7 @@
         MESSAGE.LEAVE_COMPLETED = '${MESSAGE_LEAVE_COMPLETED}';
         MESSAGE.LEAVE_FAILED = '${MESSAGE_LEAVE_FAILED}';
         MESSAGE.CONFIRM_DELETE = '${MESSAGE_CONFIRM_DELETE}';
-        MESSAGE.CONFIRM_CANCEL = 'Do you want to cancel without save';
+        MESSAGE.CONFIRM_CANCEL = '${MESSAGE_CONFIRM_CANCLE}';
         MESSAGE.DELETE_COMPLETED = '${MESSAGE_DELETE_COMPLETED}';
         MESSAGE.DELETE_FAILED = '${MESSAGE_DELETE_FAILED}';
         MESSAGE.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
