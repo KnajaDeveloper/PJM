@@ -201,7 +201,7 @@ function checkDataBeforeSave(option){
 	if(option=="module") {
 		if ($("#ddlIncreseCostModuleName").val() == "--- Module Name ---") {
 			$('#ddlIncreseCostModuleName').attr("data-placement", "bottom");
-			$('#ddlIncreseCostModuleName').attr("data-content", "Please select Module name.");
+			$('#ddlIncreseCostModuleName').attr("data-content", Message.Please_select.module);
 			$('#ddlIncreseCostModuleName').popover('show');
 			return false;
 		}
