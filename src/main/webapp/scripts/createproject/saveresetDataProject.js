@@ -52,10 +52,14 @@ function checkDataProject(){
 		$('#dateEndProject').popover('show');
 		return false;
 	}
-	if($("#txtProjectManagerName1").val() == "" || $("#txtProjectManagerName1").val() == " ") {
-		$('#txtProjectManagerName1').attr("data-content",Message.Complete_this_feld);
-		$('#txtProjectManagerName1').popover('show');
-		return false;
+	for(var i = 0 ; i < $("[id^=txtProjectManagerName]").length ; i++) {
+		var id = $("[id^=txtProjectManagerName]")[i].id ;
+		if ($("#"+id).val() == "" || $("#"+id).val() == " ") {
+			$("#"+id).attr("data-content", Message.Complete_this_feld);
+			$("#"+id).attr("data-placement", "bottom");
+			$("#"+id).popover('show');
+			return false;
+		}
 	}
 	return true;
 }
