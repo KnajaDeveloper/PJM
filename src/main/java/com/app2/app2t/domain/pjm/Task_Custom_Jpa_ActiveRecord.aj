@@ -131,13 +131,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         task.setTaskName(taskName);
         task.setTaskCost(taskCost);
         task.setTypeTask(typeTask);
-        task.setEmpCode(empCode);
+        task.setEmpCode(empCode.equals("null") ? null : empCode);
         if(dateStart.equals("null")){task.setDateStart(null);}
         else{task.setDateStart(new Date(convertDate(dateStart)));}     
         if(dateEnd.equals("null")){task.setDateEnd(null);}    
         else{task.setDateEnd(new Date(convertDate(dateEnd)));}
-        task.setDetail(detail);
-        task.setFileName(fileName);
+        task.setFileName(fileName.equals("null") ? null : fileName);
+        task.setDetail(detail.equals("null") ? null : detail);
         task.setProgress(progress);
         task.setProgram(program);
         task.persist();
@@ -161,13 +161,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.setTaskName(taskName);
         edTask.setTaskCost(taskCost);
         edTask.setTypeTask(typeTask);
-        edTask.setEmpCode(empCode);
+        edTask.setEmpCode(empCode.equals("null") ? null : empCode);
         if(dateStart.equals("null")){edTask.setDateStart(null);}
         else{edTask.setDateStart(new Date(convertDate(dateStart)));}     
         if(dateEnd.equals("null")){edTask.setDateEnd(null);}    
         else{edTask.setDateEnd(new Date(convertDate(dateEnd)));}
-        edTask.setFileName(fileName);
-        edTask.setDetail(detail);
+        edTask.setFileName(fileName.equals("null") ? null : fileName);
+        edTask.setDetail(detail.equals("null") ? null : detail);
         edTask.setProgress(progress);
         edTask.merge();
         return criteria.list();

@@ -132,7 +132,7 @@
     <c:set var="MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100" scope="request"><spring:message code="M0017"/></c:set>
     <c:set var="MSG_DATE_INCOLLECT" scope="request"><spring:message code="M0032"/></c:set>
     <c:set var="MSG_YOU_WANT_TO_SAVE_DATA" scope="request"><spring:message code="M0051"/></c:set>
-    <c:set var="MSG_THIS_FILE_IS_ALREADY_TO_DAVE_THE_FILE_TO_REPEAT_IT" scope="request"><spring:message text="This file is already To save the file to repeat it?"/></c:set>
+    <c:set var="MSG_THIS_FILE_IS_ALREADY_TO_DAVE_THE_FILE_TO_REPEAT_IT" scope="request"><spring:message code="M0059"/></c:set>
 
     <script type="text/javascript">
         var Label = {};
