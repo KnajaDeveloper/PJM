@@ -47,11 +47,11 @@
 
     <script>
         var txtId = '${id}';
-        $('#resultSearch').css("width",""+$("#LOVEmployee").width());
         $('#LOVEmployee').focusout(function(){
             $("#resultSearch").hide();
         });
         $('#LOVEmployee').focusin(function(){
+            $('#resultSearch').css("width",""+$("#LOVEmployee").width());
             $("#resultSearch").show();
         });
         function dataOver(object){
