@@ -187,7 +187,7 @@ function addDataToDDLModule(){
 		async: false
 	});
     $("#ddlIncreseCostModuleName").empty();
-    $("#ddlIncreseCostModuleName").append("<option>--- Module Name ---</option>");
+    $("#ddlIncreseCostModuleName").append("<option>--- "+Label.Module_name+" ---</option>");
 	dataDDLByCode = dataDDLByCode.responseJSON;
 	if(dataDDLByCode != undefined) {
 		dataDDLByCode.forEach(function (name) {
@@ -201,7 +201,7 @@ function checkDataBeforeSave(option){
 	if(option=="module") {
 		if ($("#ddlIncreseCostModuleName").val() == "--- Module Name ---") {
 			$('#ddlIncreseCostModuleName').attr("data-placement", "bottom");
-			$('#ddlIncreseCostModuleName').attr("data-content", Message.Please_select.module);
+			$('#ddlIncreseCostModuleName').attr("data-content", Message.Please_select_module);
 			$('#ddlIncreseCostModuleName').popover('show');
 			return false;
 		}
