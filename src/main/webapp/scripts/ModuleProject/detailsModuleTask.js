@@ -535,10 +535,10 @@ $('[id^=btnModalTask]').click(function() {
                         });
                     }
                 }else{
-                    bootbox.alert(Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100);
+                    $('#txtProgress').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100).popover('show');
                 }
             }else{
-                bootbox.alert(Message.MSG_PLEASE_ENTER_ONLY_NUMBERS);
+                $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_ONLY_NUMBERS).popover('show');
             }
         }
     }

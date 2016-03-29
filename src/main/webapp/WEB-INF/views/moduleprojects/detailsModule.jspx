@@ -537,7 +537,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="txtProgress" placeholder="${LABEL_PROGRESS}" disabled="true"/>
+                                        <input type="text" class="form-control" id="txtProgress" data-placement="bottom" placeholder="${LABEL_PROGRESS}" disabled="true"/>
                                         <span class="input-group-addon">%</span>
                                     </div>
                                 </div>
