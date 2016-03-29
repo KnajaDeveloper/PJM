@@ -426,14 +426,14 @@ function SaveModule(cost) {
                 });
             }
             i = dataDetail.responseJSON.ModuleProject.length - 1;
-            var html = "<div class='panel panel-primary' id='subrecordsModule" + i + "'>" +
+            var html = "<div class='panel panel-default' style='outline: 1px solid gray;' id='subrecordsModule" + i + "'>" +
                 "<div class='panel-heading' role='tab' id='heading" + i + "'>" +
                 "<h4 class='panel-title'>" +
                 "<x id='headName" + i + "' role='button' data-toggle='collapse' data-parent='#collapse" + i + "' href='#collapse" + i + "' aria-expanded='true' aria-controls='collapse" + i + "'>" +
                 "(" + $("#txtInitialModuleName1").val() + ")  " + $("#txtModuleName1").val() + "  [" + $("#txtCostsModule1").val() + "]" +
                 "</x>" +
                 "<span id='btnDeleteModule" + i + "' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>" + Button.Delete + "</span>" +
-                "<span id='btnEditModule" + i + "' onclick='editModule(this)' type='button' class='btn btn-warning marginTop-5 marginRight5 pull-right'>" + Button.Edit + "</span>" +
+                "<span id='btnEditModule" + i + "' onclick='editModule(this)' type='button' class='btn btn-info marginTop-5 marginRight5 pull-right'>" + Button.Edit + "</span>" +
                 "</h4>" +
                 "</div>" +
                 "<div id='collapse" + i + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading" + i + "' style='height: auto;'>" +
@@ -535,14 +535,14 @@ function setData() {
     for (var i = 0; i < countModule; i++) {
         var allModuleManager = moduleManagerToFrontEnd(i);
         var allModuleMember = moduleMemberToFrontEnd(i);
-        var html = "<div class='panel panel-primary' id='subrecordsModule" + i + "'>" +
+        var html = "<div class='panel panel-default' style='outline: 1px solid gray;' id='subrecordsModule" + i + "'>" +
             "<div class='panel-heading' role='tab' id='heading" + i + "'>" +
             "<h4 class='panel-title'>" +
             "<x id='headName" + i + "' role='button' data-toggle='collapse' data-parent='#collapse" + i + "' href='#collapse" + i + "' aria-expanded='true' aria-controls='collapse" + i + "'>" +
             "(" + dataDetail.responseJSON.ModuleProject[i].moduleCode + ")  " + dataDetail.responseJSON.ModuleProject[i].moduleName + "  [" + dataDetail.responseJSON.ModuleProject[i].moduleCost + "]" +
             "</x>" +
             "<span id='btnDeleteModule" + i + "' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>" + Button.Delete + "</span>" +
-            "<span id='btnEditModule" + i + "' onclick='editModule(this)' type='button' class='btn btn-warning marginTop-5 marginRight5 pull-right'>" + Button.Edit + "</span>" +
+            "<span id='btnEditModule" + i + "' onclick='editModule(this)' type='button' class='btn btn-info marginTop-5 marginRight5 pull-right'>" + Button.Edit + "</span>" +
             "</h4>" +
             "</div>" +
             "<div id='collapse" + i + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading" + i + "' style='height: auto;'>" +
@@ -878,6 +878,7 @@ function saveModuleProjectToDB() {
                     if (xhr.status === 201 || xhr.status === 200) {
                         bootbox.alert("" + Message.Save_success);
                         moduleProject = xhr;
+                        $("#modalAddModule").modal('hide');
                     } else if (xhr.status === 500) {
                         bootbox.alert("" + Message.Save_error);
                         return false;
@@ -1463,11 +1464,164 @@ function changeArrModuleMember(num){
         $("#lbEditModuleMember"+i).append(newArr);
         var object = {};
         object.id = "btnEditModule"+i;
-        editModule(object);
+        editModuleWhenEdit(object);
         object.id = "btnEditSaveModule"+i;
-        saveEditModule(object,null);
+        saveEditModuleWhenEdit(object,null);
         //location.reload();
-        bootbox.hideAll();
-        $("[class^=modal]").modal('hide');
+        //bootbox.hideAll();
+        //$("[class^=modal]").modal('hide');
     }
+}
+
+function editModuleWhenEdit(objectModule) {
+    if(compareData()==true) {
+        var id = objectModule.id;
+        var numID = id.split("btnEditModule");
+        var number = numID[1];
+        editModuleName = dataDetail.responseJSON.ModuleProject[parseInt(number)].moduleCode;
+        countEditModuleManager = dataDetail.responseJSON.ModuleManager[parseInt(number)].length;
+        countEditModuleMember = dataDetail.responseJSON.ModuleMember[parseInt(number)].length;
+        clearEditModal();
+        var changeIDbtnSave = $('[id^=btnEditSaveModule]')[0].id;
+        $('#' + changeIDbtnSave).attr('id', 'btnEditSaveModule' + number);
+        $("#txtEditModuleName1").val(dataDetail.responseJSON.ModuleProject[number].moduleName);
+        $("#txtEditInitialModuleName1").val(dataDetail.responseJSON.ModuleProject[number].moduleCode);
+        $("#txtCostsEditModule1").val(dataDetail.responseJSON.ModuleProject[number].moduleCost);
+        $("#dateStartEditModule").val(DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[number].dateStart, _language));
+        $("#dateEndEditModule").val(DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[number].dateEnd, _language));
+        var textModuleManager = moduleManagerToFrontEnd(number);
+        var splitTextModuleManager = textModuleManager.split("<br/>");
+        $("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
+        for (var i = 2; i < splitTextModuleManager.length; i++) {
+            var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+                "<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;' onchange='editModuleManagerChange(this)'></input></div>" +
+                "<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
+            $("#subEditModuleManager").append(html);
+            $("#txtEditModuleManagerName" + i).val(splitTextModuleManager[i - 1]);
+        }
+
+        var textModuleMember = moduleMemberToFrontEnd(number);
+        var splitTextModuleMember = textModuleMember.split("<br/>");
+        $("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
+        $("#txtEditModuleMemberName1").disableSelection();
+        for (var i = 2; i < splitTextModuleMember.length; i++) {
+            var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
+            var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+                "<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>";
+            if(same == "nosame")
+                html += "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button>";
+            else
+                html += "<div class='btn'>&nbsp</div>";
+            html+= "</div>";
+            $("#subEditModuleMember").append(html);
+            $("#txtEditModuleMemberName" + i).val(splitTextModuleMember[i - 1]);
+            if(same!="nosame"){
+                if(same=="module") $("#container_subEditModuleMember" + i).attr("from","modulemanager");
+                else $("#container_subEditModuleMember" + i).attr("from","project");
+                $("#txtEditModuleMemberName" + i).disableSelection();
+            }
+        }
+        countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
+        countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
+    }else{
+        bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
+    }
+}
+
+function saveEditModuleWhenEdit(object, cost) {
+    var id = object.id;
+    var number = id.split("btnEditSaveModule");
+    var bool = checkEditModal();
+    var boolSameName = checkSameNameBeforeEdit();
+    if (cost == null) boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(), id, object);
+    else boolCheckCost = true;
+    var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
+    if (boolSameModuleCode == true) {
+        if (bool == true && boolSameName == true && boolCheckCost == true) {
+            var boolSave = editDataModuleInDBWhenEdit(number[1], cost);
+            if (boolSave == true) {
+                findDataKeepToParameter(projectId);
+                if (cost != null) {
+                    var editCostProject = {
+                        projectId: projectId,
+                        increseCost: cost
+                    };
+                    var project = $.ajax({
+                        headers: {
+                            Accept: "application/json"
+                        },
+                        type: "POST",
+                        url: contextPath + '/projects/incresePointProjectByIdProject',
+                        data: editCostProject,
+                        complete: function (xhr) {
+                            if (xhr.status === 201 || xhr.status === 200) {
+                                findDataKeepToParameter(projectId);
+                                $("#txtCostsProject").val("" + dataDetail.responseJSON.Project[0].projectCost);
+                                return true;
+                            }
+                        },
+                        async: false
+                    });
+                }
+                var allModuleManager = "" + getAllEditModuleManager();
+                var allModuleMember = "" + getAllEditModuleMember();
+                $("#headName" + number[1]).text("(" + $("#txtEditInitialModuleName1").val() + ")  " + $("#txtEditModuleName1").val() + "  [" + $("#txtCostsEditModule1").val() + "]");
+                $("#lbDateStartEditModule" + number[1]).text("" + $("#dateStartEditModule").val());
+                $("#lbDateEndEditModule" + number[1]).text("" + $("#dateEndEditModule").val());
+                $("#lbEditModuleManager" + number[1]).empty();
+                $("#lbEditModuleManager" + number[1]).append("" + allModuleManager);
+                $("#lbEditModuleMember" + number[1]).empty();
+                $("#lbEditModuleMember" + number[1]).append("" + allModuleMember);
+
+                first = true ;
+                keepDataForCheckChange("project","oldDataProject");
+            }
+        }
+        else if (boolSameName == false) {
+            bootbox.alert("" + Message.It_has_same_names)
+        }
+    }
+    else {
+        bootbox.alert("[" + $('#txtEditInitialModuleName1').val() + "] " + Message.Has_in_database);
+    }
+}
+
+function editDataModuleInDBWhenEdit(number, cost) {
+    var moduleCost = parseInt($("#txtCostsEditModule1").val());
+    //if(cost!=null) moduleCost += cost ;
+    var returnStatus = false;
+    var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase($('#dateStartEditModule').val(), _language));
+    var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase($('#dateEndEditModule').val(), _language));
+    var crateModuleProject = {
+        moduleNeedEdit: editModuleName,
+        moduleCode: $("#txtEditInitialModuleName1").val(),
+        moduleName: $("#txtEditModuleName1").val(),
+        moduleCost: moduleCost,
+        dateStart: convertFormatDateStart,
+        dateEnd: convertFormatDateEnd,
+        arr_moduleManager: editModuleManagerToArray(),
+        arr_moduleMember: editModuleMemberToArray(),
+        projectId: projectId
+    };
+    var responseHeader = null;
+    var recieve = $.ajax({
+        headers: {
+            Accept: "application/json"
+        },
+        type: "POST",
+        url: contextPath + '/moduleprojects/editModuleProjectByModuleProjectCodeAndProjectId',
+        data: crateModuleProject,
+        complete: function (xhr) {
+            if (xhr.status === 201 || xhr.status === 200) {
+                returnStatus = true;
+            } else if (xhr.status === 500) {
+                returnStatus = false;
+            }
+        },
+        async: false
+    });
+    if (number != null) {
+
+    }
+    return returnStatus;
 }

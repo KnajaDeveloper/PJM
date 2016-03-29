@@ -105,6 +105,7 @@ function saveEditModule(object,cost){
 							if (xhr.status === 201 || xhr.status === 200) {
 								dataAfterSave=xhr;
 								$("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
+								saveDataProject();
 								return true;
 							}
 						},
@@ -171,9 +172,11 @@ function SaveModule(cost){
 						if (xhr.status === 201 || xhr.status === 200) {
 							dataAfterSave=xhr;
 							$("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
+							saveDataProject();
 							return true;
 						}
 					},
+
 					async: false
 				});
 			}
@@ -186,14 +189,14 @@ function SaveModule(cost){
 			arr_costModule.push(""+$("#txtCostsModule1").val());
 			arr_startDate.push(""+$("#dateStartModule").val());
 			arr_endDate.push(""+$("#dateEndModule").val());
-			var html="<div class='panel panel-primary' id='subrecordsModule"+i+"'>"+
+			var html="<div class='panel panel-default' style='outline: 1px solid gray;' id='subrecordsModule"+i+"'>"+
 				"<div class='panel-heading' role='tab' id='heading"+i+"'>"+
 				"<h4 class='panel-title'>"+
 				"<x id='headName"+i+"' role='button' data-toggle='collapse' data-parent='#collapse"+i+"' href='#collapse"+i+"' aria-expanded='true' aria-controls='collapse"+i+"'>"+
 				"("+$("#txtInitialModuleName1").val()+")  "+$("#txtModuleName1").val()+"  ["+$("#txtCostsModule1").val()+"]"+
 				"</x>"+
 				"<span id='btnDeleteModule"+i+"' onclick='deleteModule(this)' type='button' class='btn btn-danger marginTop-5 pull-right'>"+Button.Delete+"</span>"+
-				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' class='btn btn-warning marginTop-5 marginRight5 pull-right'>"+Button.Edit+"</span>"+
+				"<span id='btnEditModule"+i+"' onclick='editModule(this)' type='button' class='btn btn-info marginTop-5 marginRight5 pull-right'>"+Button.Edit+"</span>"+
 				"</h4>"+
 				"</div>"+
 				"<div id='collapse"+i+"' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+i+"' style='height: auto;'>"+
