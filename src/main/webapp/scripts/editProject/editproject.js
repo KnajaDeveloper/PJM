@@ -186,6 +186,8 @@ function saveEditModule(object, cost) {
                 $("#lbEditModuleMember" + number[1]).append("" + allModuleMember);
 
                 $('#modalEditModule').modal('toggle');
+                first = true ;
+                keepDataForCheckChange("project","oldDataProject");
             }
         }
         else if (boolSameName == false) {
@@ -415,6 +417,8 @@ function SaveModule(cost) {
                         if (xhr.status === 201 || xhr.status === 200) {
                             dataAfterSave = xhr;
                             $("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
+                            first = true;
+                            keepDataForCheckChange("project","oldDataProject");
                             return true;
                         }
                     },
@@ -1264,7 +1268,7 @@ function addDataToDDLModule() {
         async: false
     });
     $("#ddlIncreseCostModuleName").empty();
-    $("#ddlIncreseCostModuleName").append("<option>--- Module Name ---</option>");
+    $("#ddlIncreseCostModuleName").append("<option>--- "+Label.Module_name+" ---</option>");
     dataDDLByCode = dataDDLByCode.responseJSON;
     if (dataDDLByCode != undefined) {
         dataDDLByCode.forEach(function (name) {
@@ -1278,7 +1282,7 @@ function checkDataBeforeSave(option) {
     if (option == "module") {
         if ($("#ddlIncreseCostModuleName").val() == "--- Module Name ---") {
             $('#ddlIncreseCostModuleName').attr("data-placement", "bottom");
-            $('#ddlIncreseCostModuleName').attr("data-content", "Please select Module name.");
+            $('#ddlIncreseCostModuleName').attr("data-content", Message.Please_select.module);
             $('#ddlIncreseCostModuleName').popover('show');
             return false;
         }
@@ -1462,7 +1466,8 @@ function changeArrModuleMember(num){
         editModule(object);
         object.id = "btnEditSaveModule"+i;
         saveEditModule(object,null);
-        location.reload();
-        //bootbox.hideAll()
+        //location.reload();
+        bootbox.hideAll();
+        $("[class^=modal]").modal('hide');
     }
 }

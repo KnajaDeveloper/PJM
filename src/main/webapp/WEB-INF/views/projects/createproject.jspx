@@ -27,7 +27,7 @@
 	<c:set var="LABEL_MODULE_MANAGER"><spring:message javaScriptEscape="true" code="L0094"/></c:set>
 	<c:set var="LABEL_MODULE_MEMBER"><spring:message javaScriptEscape="true" code="L0095"/></c:set>
 	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" code="L0096"/></c:set>
-	<c:set var="LABEL_NAME_MODAL_INCRESE_DECRESE_POINT"><spring:message javaScriptEscape="true" text="เพิ่มต้นทุน"/></c:set>
+	<c:set var="LABEL_NAME_MODAL_INCRESE_DECRESE_POINT"><spring:message javaScriptEscape="true" code="L0123"/></c:set>
 
 	<c:set var="MESSAGE_CONFIRM_DELETE"><spring:message javaScriptEscape="true" code="M0004"/></c:set>
 	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" code="M0033"/></c:set>
@@ -52,10 +52,13 @@
 	<c:set var="MESSAGE_NUMBER_ONLY"><spring:message javaScriptEscape="true" code="L0103"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
-	<c:set var="MESSAGE_CANT_MAKE_ANY_ACTION"><spring:message javaScriptEscape="true" text="Can't make any action."/></c:set>
-	<c:set var="MESSAGE_COMFIRM_EDITING_DATA_PROJECT"><spring:message javaScriptEscape="true" text="Please confirm edit data project."/></c:set>
-	<c:set var="MESSAGE_YOU_CAN_DECRESE"><spring:message javaScriptEscape="true" text="You can decrese"/></c:set>
-	<c:set var="MESSAGE_DO_YOU_WANT_TO_DECRESE"><spring:message javaScriptEscape="true" text="Do you want to decrese"/></c:set>
+
+	<c:set var="MESSAGE_CANT_MAKE_ANY_ACTION"><spring:message javaScriptEscape="true" code="M0052"/></c:set>
+	<c:set var="MESSAGE_COMFIRM_EDITING_DATA_PROJECT"><spring:message javaScriptEscape="true" code="M0053"/></c:set>
+	<c:set var="MESSAGE_YOU_CAN_DECRESE"><spring:message javaScriptEscape="true" code="M0054"/></c:set>
+	<c:set var="MESSAGE_DO_YOU_WANT_TO_DECRESE"><spring:message javaScriptEscape="true" code="M0055"/></c:set>
+
+	<c:set var="MESSAGE_PLEASE_SELECT_MODULE"><spring:message javaScriptEscape="true" text="Please select module."/></c:set>
 
 	<style>
 	.input-group-addon{
@@ -113,6 +116,7 @@
 		Message.You_can_decrese = '${MESSAGE_YOU_CAN_DECRESE}';
 		Message.Do_you_want_to_decrese = '${MESSAGE_DO_YOU_WANT_TO_DECRESE}';
 		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
+		Message.Please_select.module = '${MESSAGE_PLEASE_SELECT_MODULE}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';

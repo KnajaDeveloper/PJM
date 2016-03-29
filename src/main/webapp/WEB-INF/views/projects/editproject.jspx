@@ -53,12 +53,13 @@
 	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
 	<c:set var="MESSAGE_CONFIRM_EDIT_PROJECT"><spring:message javaScriptEscape="true" code="M0049"/></c:set>
 
-	<c:set var="MESSAGE_CANT_MAKE_ANY_ACTION"><spring:message javaScriptEscape="true" text="Can't make any action."/></c:set>
-	<c:set var="MESSAGE_COMFIRM_EDITING_DATA_PROJECT"><spring:message javaScriptEscape="true" text="Please confirm edit data project."/></c:set>
-	<c:set var="MESSAGE_YOU_CAN_DECRESE"><spring:message javaScriptEscape="true" text="You can decrese"/></c:set>
-	<c:set var="MESSAGE_DO_YOU_WANT_TO_DECRESE"><spring:message javaScriptEscape="true" text="Do you want to decrese"/></c:set>
-	<c:set var="MESSAGE_DELETE_MODULE_FAILED"><spring:message javaScriptEscape="true" text="Delete module fail."/></c:set>
-	<c:set var="MESSAGE_POINT_FROM_MODULE"><spring:message javaScriptEscape="true" text="point from module."/></c:set>
+	<c:set var="MESSAGE_PLEASE_SELECT_MODULE"><spring:message javaScriptEscape="true" text="Please select module."/></c:set>
+	<c:set var="MESSAGE_CANT_MAKE_ANY_ACTION"><spring:message javaScriptEscape="true" code="M0052"/></c:set>
+	<c:set var="MESSAGE_COMFIRM_EDITING_DATA_PROJECT"><spring:message javaScriptEscape="true" code="M0053"/></c:set>
+	<c:set var="MESSAGE_YOU_CAN_DECRESE"><spring:message javaScriptEscape="true" code="M0054"/></c:set>
+	<c:set var="MESSAGE_DO_YOU_WANT_TO_DECRESE"><spring:message javaScriptEscape="true" code="M0055"/></c:set>
+	<c:set var="MESSAGE_DELETE_MODULE_FAILED"><spring:message javaScriptEscape="true" code="M0057"/></c:set>
+	<c:set var="MESSAGE_POINT_FROM_MODULE"><spring:message javaScriptEscape="true" code="M0058"/></c:set>
 
 	<style>
 		.input-group-addon{
@@ -87,6 +88,7 @@
 		Label.End_Date = '${LABEL_END_DATE}';
 		Label.Module_manager = '${LABEL_MODULE_MANAGER}';
 		Label.Module_member = '${LABEL_MODULE_MEMBER}';
+		Label.Module_name = '${LABEL_MODULE_NAME}';
 		var Message = {};
 		Message.Has_in_project = "${MESSAGE_HAS_IN_PROJECT}";
 		Message.Has_in_database = "${MESSAGE_HAS_IN_DATABASE}";
@@ -119,6 +121,7 @@
 		Message.Cant_make_any_action = '${MESSAGE_CANT_MAKE_ANY_ACTION}';
 		Message.Confirm_editing_data = '${MESSAGE_COMFIRM_EDITING_DATA_PROJECT}';
 		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
+		Message.Please_select.module = '${MESSAGE_PLEASE_SELECT_MODULE}';
 
 
 		var Button = {};
@@ -398,8 +401,8 @@
 									<div name="container_SelectRadio" class="form-group">
 										<div class="col-sm-5"><!--Not Empty--></div>
 										<div>
-											<input type="radio" name="project" value='project' checked="checked"> Project </input>
-											<input type="radio" name="project" value='module'> Module </input>
+											<input type="radio" name="project" value='project' checked="checked"> ${LABEL_PROJECT}</input>
+											<input type="radio" name="project" value='module' style="margin-left: 10px"> ${LABEL_MODULE} </input>
 										</div>
 									</div>
 								</form>
@@ -424,7 +427,7 @@
 							<div class="modal-footer">
 								<br/>
 								<button type="button" id="btnSaveIncreseCostModule" class="btn btn-primary">${BUTTON_SAVE}</button>
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancle</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">${BUTTON_CANCLE}</button>
 							</div>
 						</div>
 					</div>
