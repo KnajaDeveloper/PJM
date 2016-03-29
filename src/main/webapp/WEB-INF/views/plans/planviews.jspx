@@ -120,18 +120,18 @@
 							<label class="col-sm-4 control-label required">${LABEL_START_DATE}</label>
 							<div class='col-sm-2'>
 								<div class='input-group'>
-									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer"></input>
+									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="dd/mm/yyyy" data-placement="bottom"></input>
 									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar "></span>
+										<span class="glyphicon glyphicon-calendar" style="cursor:pointer" onclick="$('#dateStart').focus();"></span>
 									</span>
 								</div>
 							</div>
 							<label class="col-sm-1 control-label required">${LABEL_END_DATE}</label>
 							<div class='col-sm-2'>
 								<div class='input-group'>
-									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="dd/mm/yyyy" readonly="true" style="cursor:pointer"></input>
+									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="dd/mm/yyyy" data-placement="bottom"></input>
 									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar"></span>
+										<span class="glyphicon glyphicon-calendar" style="cursor:pointer" onclick="$('#dateEnd').focus();"></span>
 									</span>
 								</div>
 							</div>
@@ -147,7 +147,7 @@
 		</div>
 	</div>
 	<div name="cotainerAnswer">
-		<div name="panelEmployee" id="panelEmployee" class="col-md-8">
+		<div name="panelEmployee" id="panelEmployee" class="col-md-8"  style="margin-top: 15px;">
 			<div class="panel panel-primary">
 				<div class="panel-heading">${LABEL_EMPLOYEE_SCHEDULE}</div>
 					<div style="width: 100%; height: 500px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
@@ -162,16 +162,18 @@
 					</div>
 			</div>
 		</div>
-		<div name="panelPlan" id='panelPlan' class="col-md-4">
+		<div name="panelPlan" id='panelPlan' class="col-md-4"  style="margin-top: 15px;">
 			<div class="panel panel-primary">
 				<div class="panel-heading">${LABEL_EMPTY_TASK}</div>
 					<div style="width: 100%; height: 500px; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
 						<table id="tableEmpty" class="table table-bordered">
-							<tr>
-								<th class="text-center">${LABEL_TASK_NAME}</th>
-								<th class="text-center">${LABEL_MODULE}</th>
-								<th class="text-center">${LABEL_TASK_TYPE_NAME}</th>
-							</tr>
+							<thead>
+								<tr>
+									<th class="text-center" style="vertical-align: middle;">${LABEL_TASK_NAME}</th>
+									<th class="text-center" style="vertical-align: middle;">${LABEL_MODULE}</th>
+									<th class="text-center" style="vertical-align: middle;">${LABEL_TASK_TYPE_NAME}</th>
+								</tr>
+							</thead>
 						</table>
 					</div>
 			</div>

@@ -49,8 +49,8 @@ function addName() {
 	if(teamId=="null") teamId=null;
 
 	var dataJsonData = {
-		statProject: ""+DateUtil.dataDateToDataBase(start,"EN") ,
-		endProject: ""+DateUtil.dataDateToDataBase(end,"EN") ,
+		statProject: ""+DateUtil.dataDateToDataBase($("#dateStart").val(),commonData.language) ,
+		endProject: ""+DateUtil.dataDateToDataBase($("#dateEnd").val(),commonData.language) ,
 		projectId: projectId ,
 		moduleProjectId:moduleId ,
 		teamId:teamId
@@ -192,9 +192,9 @@ function addEmptyTask(){
 	for(var i = 0 ; i < resultEmptyTask.responseJSON.Task.length ; i++){
 		var html = "";
 		html+="<tr class='text-center'>" +
-			"<td>"+resultEmptyTask.responseJSON.Task[i].taskCode+"</td>" +
-			"<td>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</td>" +
-			"<td>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</td>" +
+			"<td style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].taskCode+"</font></td>" +
+			"<td style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</font></td>" +
+			"<td style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</font></td>" +
 			"</tr>";
 		$("#tableEmpty").append(html);
 	}
