@@ -66,7 +66,7 @@
     <c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
     
     <c:set var="MESSAGE_CONFIRM_CANCLE" scope="request"><spring:message code="M0031"/></c:set>
-    <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message text="คุณต้องการบันทึกข้อมูล วันที่สิ้นสุดของแผนงาน เกินกำหนดวันที่สิ้นสุดของงานหรือไม่?"/></c:set>
+    <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message code="M0056"/></c:set>
 
     <script>
         var MESSAGE = {};

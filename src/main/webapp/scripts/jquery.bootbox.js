@@ -643,6 +643,11 @@
       if (e.target === this) {
         dialog.remove();
       }
+      var dialogModal = $('.modal:visible');
+      if(dialogModal.length > 0) {
+        var topModal = dialogModal.last();
+        topModal[0].show();
+      }
     });
 
     /*
