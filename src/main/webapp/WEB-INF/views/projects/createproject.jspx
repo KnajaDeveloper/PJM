@@ -85,7 +85,7 @@
 		Label.Start_Date = '${LABEL_START_DATE}';
 		Label.End_Date = '${LABEL_END_DATE}';
 		Label.Module_manager = '${LABEL_MODULE_MANAGER}';
-		Label.Module_member = '${LABEL_MODULE_MEMBER}';
+		Label.Module_name = '${LABEL_MODULE_NAME}';
 		var Message = {};
 		var Button = {};
 		Message.Has_in_project = "${MESSAGE_HAS_IN_PROJECT}";
@@ -116,7 +116,7 @@
 		Message.You_can_decrese = '${MESSAGE_YOU_CAN_DECRESE}';
 		Message.Do_you_want_to_decrese = '${MESSAGE_DO_YOU_WANT_TO_DECRESE}';
 		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
-		Message.Please_select.module = '${MESSAGE_PLEASE_SELECT_MODULE}';
+		Message.Please_select_module = '${MESSAGE_PLEASE_SELECT_MODULE}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';

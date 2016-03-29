@@ -27,6 +27,7 @@
 	<c:set var="LABEL_MODULE_MANAGER"><spring:message javaScriptEscape="true" code="L0094"/></c:set>
 	<c:set var="LABEL_MODULE_MEMBER"><spring:message javaScriptEscape="true" code="L0095"/></c:set>
 	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" code="L0096"/></c:set>
+	<c:set var="LABEL_NAME_MODAL_INCRESE_DECRESE_POINT"><spring:message javaScriptEscape="true" code="L0123"/></c:set>
 
 	<c:set var="MESSAGE_CONFIRM_DELETE"><spring:message javaScriptEscape="true" code="M0004"/></c:set>
 	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" code="M0033"/></c:set>
@@ -121,7 +122,7 @@
 		Message.Cant_make_any_action = '${MESSAGE_CANT_MAKE_ANY_ACTION}';
 		Message.Confirm_editing_data = '${MESSAGE_COMFIRM_EDITING_DATA_PROJECT}';
 		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
-		Message.Please_select.module = '${MESSAGE_PLEASE_SELECT_MODULE}';
+		Message.Please_select_module = '${MESSAGE_PLEASE_SELECT_MODULE}';
 
 
 		var Button = {};
@@ -394,7 +395,7 @@
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
-								<h4 class="modal-title">Increse Cost</h4>
+								<h4 class="modal-title">${LABEL_NAME_MODAL_INCRESE_DECRESE_POINT}</h4>
 							</div>
 							<div class="modal-body">
 								<form class="form-horizontal">
@@ -411,7 +412,7 @@
 										<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME}</label>
 										<div class="col-sm-4">
 											<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom" style="margin-left: -10px">
-												<option>--- Module Name ---</option>
+												<option>--- ${LABEL_MODULE_NAME} ---</option>
 											</select>
 										</div>
 									</div>
