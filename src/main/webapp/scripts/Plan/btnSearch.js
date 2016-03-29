@@ -31,6 +31,9 @@ $("#ddlProject").change(function(){
 	var idProject = $("#ddlProject").val();
 	if(idProject != "null" && idProject != null){
 		searchModuleProjectByProjectId(idProject);
+	}else{
+		$("#ddlModule").empty();
+		$("#ddlModule").append("<option value=null>-- "+Label.Module+" --</option>");
 	}
 });
 
