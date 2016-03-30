@@ -136,6 +136,7 @@ public class EmRestService extends AbstractAPP2Service {
         }
     }
 
+
     public List<Map> findEMNameByEMCodeArray(String empCode) {
         String requestString = "http://" + this.APP2Server + "/employees/findEMNameByEMCodeArray?empCode="+empCode;
         setWebServicesString(requestString);
@@ -147,6 +148,44 @@ public class EmRestService extends AbstractAPP2Service {
             }
         }
         return listMap;
+
+    //----------findTeamAll------------------------------------------------------------------------
+
+    public List<Map> findTeamAll() {
+        List<Map> listMap = new ArrayList<>();
+        try {
+            setWebServicesString("http://" + this.APP2Server + "/employees/findTeamAll");
+            if (!getResultString().equals("[{}]")) {
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
+                }
+            }
+            return listMap;
+        } catch (Exception e) {
+            LOGGER.error("Error : {}", e.getMessage());
+            return listMap;
+        }
+    }
+
+    //----------GetEmpByTeamID------------------------------------------------------------------------
+
+    public List<Map> GetEmpByTeamID(String teamID) {
+        List<Map> listMap = new ArrayList<>();
+        try {
+            setWebServicesString("http://" + this.APP2Server + "/employees/GetEmpByTeamID?teamID="+ teamID);
+            if (!getResultString().equals("[{}]")) {
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
+                }
+            }
+            return listMap;
+        } catch (Exception e) {
+            LOGGER.error("Error : {}", e.getMessage());
+            return listMap;
+        }
+
     }
 
 }

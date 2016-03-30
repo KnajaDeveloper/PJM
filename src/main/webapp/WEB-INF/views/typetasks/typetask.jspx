@@ -35,6 +35,7 @@
     <c:set var="M_List" scope="request"><spring:message code="M0027"/></c:set>
     <c:set var="M_Data_is_use" scope="request"><spring:message code="M0028"/></c:set>
     <c:set var="M_Want_to_cancel" scope="request"><spring:message code="M0031"/></c:set>
+    <c:set var="M_Data_all_is_use" scope="request"><spring:message code="M0061"/></c:set>
 
     <script>
         var Message = {} ;
@@ -54,6 +55,7 @@
         Message.List = '${M_List}';
         Message.Data_is_use = '${M_Data_is_use}';
         Message.Want_to_cancel = '${M_Want_to_cancel}';
+        Message.M_Data_all_is_use = '${M_Data_all_is_use}';
 
     </script>
 

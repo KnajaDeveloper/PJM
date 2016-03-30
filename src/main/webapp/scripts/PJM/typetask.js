@@ -221,11 +221,14 @@ $('#table').on("click", ".checkboxTable", function () {
     var checkNum = $('input[status=check]').length;
     var checkBoxCheck =  $('input[status=check]:checked').length;
 
-    if (checkNum == checkBoxCheck ) {
-        $("#checkAll").prop("checked", true);
-    } else {
-        $("#checkAll").prop("checked", false);
-    }
+
+        if (checkNum == checkBoxCheck) {
+            if (checkBoxCheck > 0 ) {
+            $("#checkAll").prop("checked", true);
+            }
+        } else {
+            $("#checkAll").prop("checked", false);
+        }
 
     if ($(this).attr("inUseTask") > 0 || $(this).attr("inUseOtherTask") > 0) {
         $(this).prop("checked", false);
@@ -239,7 +242,7 @@ $('#checkAll').click(function () {
     var checkBoxCheck =  $('input[status=check]:checked').length;
 
     if (checkBoxCheck <= 0 && $("#checkAll").prop("checked") == true){
-        bootbox.alert(Message.Data_is_use);
+        bootbox.alert(Message.M_Data_all_is_use);
         $('#checkAll').prop('checked', false);
     }
 
