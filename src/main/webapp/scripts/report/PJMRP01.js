@@ -39,6 +39,34 @@ $('#cDateBegin').datepicker({
     forceParse: false
 });
 //--------------------------------------------------------------------------------
+$(document).ready(function () {
+
+    var ddlTeam;
+    ddlTeam = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/central/findTeamAll',
+        data: {},
+        complete: function (xhr) {
+        },
+        async: false
+    });
+
+    var addData = ddlTeam.responseJSON;
+    $('#ddlTeam').empty();
+    $('#ddlTeam').append("<option></option>");
+    addData.forEach(function (value) {
+        var text = value.teamName;
+        $('#ddlTeam').append("<option value=" + value.id + ">" + text + "</option>");
+    });
+
+});
+
+//--------------------------------------------------------------------------------
 
 function sendData() {
     if ($("#emp").val() == "") {

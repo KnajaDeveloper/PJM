@@ -8,10 +8,11 @@
     <jsp:output omit-xml-declaration="yes"/>
 
     <c:set var="Work_Summary_Report" scope="request"><spring:message code="L0002"/></c:set>
-    <c:set var="Employee_Code" scope="request"><spring:message code="L0001"/></c:set>
+    <c:set var="Employee_From" scope="request"><spring:message code="L0130"/></c:set>
     <c:set var="Start_Date" scope="request"><spring:message code="L0010"/></c:set>
     <c:set var="End_Date" scope="request"><spring:message code="L0011"/></c:set>
-    <c:set var="End_Date" scope="request"><spring:message code="L0011"/></c:set>
+    <c:set var="L_Employee_To" scope="request"><spring:message code="L0005"/></c:set>
+    <c:set var="L_Team" scope="request"><spring:message code="L0131"/></c:set>
 
     <c:set var="PLEASE_INPUT" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="PLEASE_SELECT_DATE" scope="request"><spring:message code="M0011"/></c:set>
@@ -45,14 +46,45 @@
                 <div class="panel-heading">${Work_Summary_Report}</div>
                 <div class="panel-body">
                     <br/>
+
                     <div class="col-sm-12">
                         <form class="form-horizontal">
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label col-sm-4">${L_Team}</label>
+
+                            <div class="col-sm-7">
+                                <select class="form-control "  id="ddlTeam" name="ddlTeam" data-placement="bottom">
+                                    <option></option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        </form>
+                    </div>
+
+                    <input type="text" class="form-control" id="emp" />
+
+
+                    <div class="col-sm-12">
+                        <form class="form-horizontal">
+
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4 required">${Employee_Code}</label>
+                                <label class="control-label col-sm-4 ">${Employee_From}</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="emp" placeholder="${Employee_Code}" data-placement="bottom"/>
+                                    <!--<input type="text" class="form-control" id="emp" placeholder="${Employee_From}" data-placement="bottom"/>-->
+                                    <component:LovEmployee id="lovEmpFrom" controller="findEmployeeByText"/>
                                 </div>
                             </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-3 ">${L_Employee_To}</label>
+                                <div class="col-sm-7">
+                                    <component:LovEmployee id="lovEmpTo" controller="findEmployeeByText"/>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
 
@@ -108,6 +140,8 @@
         </div>
     </div>
 
+    <spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
+    <script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
 
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
