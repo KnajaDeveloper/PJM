@@ -211,7 +211,7 @@
 					<button id='btnSaveProject' class='btn btn-primary' type='button'>${BUTTON_SAVE}</button>
 				</div>
 
-				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog">
+				<div class="modal fade bs-example-modal-lg" id="modalAddModule" role="dialog" data-backdrop="static">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -302,7 +302,7 @@
 					</div>
 				</div>
 
-				<div class="modal fade bs-example-modal-lg" id="modalEditModule" role="dialog">
+				<div class="modal fade bs-example-modal-lg" id="modalEditModule" role="dialog" data-backdrop="static">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -392,7 +392,7 @@
 					</div>
 				</div>
 
-				<div class="modal fade bs-example-modal-lg" id="modalIncreseCost" role="dialog">
+				<div class="modal fade bs-example-modal-lg" id="modalIncreseCost" role="dialog" data-backdrop="static">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -489,7 +489,7 @@
 	<spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
 	<script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
 	<script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
-	<spring:url value="/resources/scripts/createproject/dateTimeEvent.js" var="dateTimeEvent"/>
+	<spring:url value="/resources/scripts/editProject/dateTimeEvent.js" var="dateTimeEvent"/>
 	<script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>
 
 </div>
