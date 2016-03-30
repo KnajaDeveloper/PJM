@@ -75,11 +75,21 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
 
     public static Boolean ProjectManager.checkRoleProjects(long projectId,String  emCode) {
         EntityManager ent = ProjectManager.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class);
-        criteria.add(Restrictions.eq("project",projectId));
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class, "modul");
+         criteria.createAlias("modul.project", "project");
+        criteria.add(Restrictions.eq("project.id",projectId));
         criteria.add(Restrictions.eq("empCode",emCode));
-
-        return true;
+        List<ProjectManager> projectManagers = criteria.list();
+        Boolean result  ;
+        if(projectManagers.size() <= 0 )
+        {
+                result = false ;
+        }
+        else
+        {
+                result = true ;
+        }
+        return result;
     }
 
 

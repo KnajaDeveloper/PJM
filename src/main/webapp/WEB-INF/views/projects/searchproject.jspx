@@ -38,6 +38,8 @@
     <c:set var="DATE_FORMAT" scope="request"><spring:message code="M0032"/></c:set>
      <c:set var="LABEL_MODULE" scope="request"><spring:message code="L0009"/></c:set>
     <c:set var="LABEL_PROJECT_MANAGEMENT" scope="request"><spring:message code="L0129"/></c:set>
+    <c:set var="LABEL_MODULE_MANAGEMENT" scope="request"><spring:message code="L0029"/></c:set>
+    <c:set var="ALERT_YOU_NOT_ACCESS_RIGHTS" scope="request"><spring:message code="M0063"/></c:set>
 
 
     <script>
@@ -51,6 +53,7 @@
         MESSAGE.ALERT_DATA_NOT_FOUND = '${ALERT_DATA_NOT_FOUND}';
         MESSAGE.ALERT_NOT_DELETE_THIS_DATA = '${ALERT_NOT_DELETE_THIS_DATA}';
         MESSAGE.DATE_FORMAT = '${DATE_FORMAT}';
+        MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS = '${ALERT_YOU_NOT_ACCESS_RIGHTS}';
 
     </script>
 
@@ -145,21 +148,24 @@
                             </div>
                         </form>
                     </div>
-                    <div>                    
+                                   
                     <div class="col-sm-12">
                         <form class="form-horizontal">
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-5">${LABEL_PROJECT_MANAGER}</label>
                                 <div class="col-sm-6">
-                                    <div class="input-group ">
-                                           <component:LovEmployee id="lovPm"/>
-                                    </div>
+                                          <component:LovEmployee id="lovPm" controller="findEmployeeByText"/>
                                 </div>
                             </div>
-                          
+                          <div class="form-group col-sm-6">
+                                <label class="control-label col-sm-5">${LABEL_MODULE_MANAGEMENT}</label>
+                                <div class="col-sm-6">
+                                          <component:LovEmployee id="lovMm" controller="findEmployeeByText"/>
+                                </div>
+                            </div>
                         </form>
                     </div>
-                    </div>
+                  
 
                   <!--   <div class="col-sm-12">
                         <form class="form-horizontal"/>

@@ -1,23 +1,26 @@
-function roleProject (projectId,emCode) {
+function  roleProject (projectId,moduleProjectId) {
+
+    var responseResult = null;
 	var dataJsonData = {
         projectId: projectId,
-        emCode : emCode
+        moduleProjectId : moduleProjectId
+        
 
     }
-    $.ajax({
+    responseResult = $.ajax({
         type: "POST",
         url: contextPath + '/projectmanagers/checkRoleProjects',
         data: dataJsonData,
 
         complete: function (xhr) {
             if (xhr.status === 200) {
-                DeSuccess++;
-
+               
             } else if (xhr.status === 500) {
-                DeFail++;
-
+               
             }
         },
         async: false
     });
+  var  result = jQuery.parseJSON(responseResult.responseText);
+  return result ;
 }

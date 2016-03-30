@@ -5,6 +5,7 @@ package com.app2.app2t.web.pjm;
 
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
+import com.app2.app2t.domain.pjm.ModuleManager;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.app2.app2t.util.AuthorizeUtil;
+import com.app2.app2t.service.SecurityRestService;
 
-import java.util.List;
+import java.util.*;
 privileged aspect ProjectManagerController_Custom_Controller_Json {
    @RequestMapping(value = "/findManagerByProject",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProjectManagerController.findManagerByProject(
@@ -35,12 +38,32 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
     @RequestMapping(value = "/checkRoleProjects", method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String>ProjectManagerController.checkRoleProjects(
             @RequestParam(value = "projectId", required = false) long projectId,
-            @RequestParam(value = "emCode", required = false) String emCode
+            @RequestParam(value = "moduleProjectId", required = false) long moduleProjectId
+           
     ){
         HttpHeaders headers=new HttpHeaders();
         headers.add("Content-Type","application/json;charset=UTF-8");
         try{
-            Boolean result = ProjectManager.checkRoleProjects(projectId,emCode);
+             
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+
+            // Map map = new HashMap();
+            // map.put("email", employee.get("email"));
+            // map.put("empFirstName", employee.get("empFirstName"));
+            // map.put("empLastName", employee.get("empLastName"));
+
+            Boolean rolePm = ProjectManager.checkRoleProjects(projectId,employee.get("empCode").toString());
+            Boolean roleMd = ModuleManager.checkRoleModule(moduleProjectId,employee.get("empCode").toString());
+            Boolean result ;
+            if(rolePm || roleMd)
+            {
+                    result = true ;
+            }
+            else
+            {
+                result = false ;
+            }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result),headers,HttpStatus.OK);
         }catch(Exception e){
             LOGGER.error(e.getMessage(),e);

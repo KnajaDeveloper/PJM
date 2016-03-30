@@ -155,7 +155,7 @@ paggination.loadTable = function loadTable(jsonData) {
                 + '<td class="text-center">'
                 + '<button id="progress'+value.id+'" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-align-left" aria-hidden="true" ></span></button>'
                 + '</td>'
-                + '<td id="projectName' +key + '" class="text-center" style="color: #000">'
+                + '<td id="projectName' +key + '" class="text-left" style="color: #000">'
                 + value.projectName
                 + '</td>'
                 + '<td id="dateStart' + key + '" class="text-center" style="color: #000">'
@@ -313,7 +313,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
         tableData = ''
             + '<tr>'
             + '<td class="text-center">'
-            + '<button id="addTask_' + value.id + '" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
+            + '<button id="addTask_' + value.id + '" class="btn btn-info btn-xs" type="button" projectid="'+id+'"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="moduleName_' + key + '" class="text-center" style="color: #000">'
             + value.moduleName
@@ -337,9 +337,20 @@ $('#data').on("click", "[id^=addTask_]", function () {
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $('#tableAddTask').on("click", "[id^=addTask_]", function () {
-    var id =  this.id.split('addTask_')[1];
-    //console.log(id);
-    window.location.href = contextPath + '/moduleprojects/detailsModule?id='+ id;
+    var moduleProjectId =  this.id.split('addTask_')[1];
+    var projectId = $(this).attr("projectid");
+    // console.log(projectId);
+   var result =  roleProject(projectId,moduleProjectId);
+   // console.log(s);
+   if(result)
+   {
+    window.location.href = contextPath + '/moduleprojects/detailsModule?projectId='+ projectId +'&moduleProjectId='+moduleProjectId;
+   }
+   else
+   {
+    bootbox.alert(MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS);
+   }
+    
 
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
