@@ -236,16 +236,20 @@ $('#table').on("click", ".checkboxTable", function () {
 
 $('#checkAll').click(function () {
     $(".checkboxTable").prop('checked', $(this).prop('checked'));
+    var checkBoxCheck =  $('input[status=check]:checked').length;
+
+    if (checkBoxCheck <= 0 && $("#checkAll").prop("checked") == true){
+        bootbox.alert(Message.Data_is_use);
+        $('#checkAll').prop('checked', false);
+    }
 
     $.each($(".checkboxTable:checked"), function (index, value) {
         if ($(this).attr("inUseTask") > 0) {
             $(this).prop("checked", false);
-            $("#checkAll").prop("checked", true);
         }
 
         if ($(this).attr("inUseOtherTask") > 0) {
             $(this).prop("checked", false);
-            $("#checkAll").prop("checked", true);
         }
     });
 });
