@@ -22,7 +22,7 @@ public class SecurityRestService extends AbstractAPP2Service {
     private static Logger LOGGER = LoggerFactory.getLogger(SecurityRestService.class);
 
     public SecurityRestService() {
-        this.APP2Server  = connectProperties.getProperty("EM-APP2Server");
+        this.APP2Server  = connectProperties.getProperty("Security-APP2Server");
     }
 
     public List<Map> getAppMenuBySecurityService(String appRoleCode) {
