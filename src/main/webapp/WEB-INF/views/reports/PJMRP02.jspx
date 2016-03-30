@@ -20,7 +20,6 @@
         var Message = {} ;
         Message.Please_Select = '${Please_Select}';
         Message.All = '${All}';
-
     </script>
 
     <div class="row">
@@ -40,7 +39,7 @@
 
                                     <div class="col-sm-5">
                                         <select class="form-control "  id="ddlProject" name="ddlProject" data-placement="bottom">
-                                            <option>${Please_Select}</option>
+                                            <option></option>
                                         </select>
                                     </div>
 
@@ -54,7 +53,7 @@
                                     <label class="control-label col-sm-4">${Module}</label>
                                     <div class="col-sm-5">
                                         <select class="form-control"  id="ddlModule" name="ddlModule" >
-                                            <option>${Please_Select}</option>
+                                            <option></option>
                                         </select>
                                     </div>
                                 </div>
