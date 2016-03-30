@@ -2,7 +2,7 @@ var _language = commonData.language;
 var dateLang = checkLanguageDatePicker(_language);
 
     
-$(document).ready(function (){   
+$(document).ready(function (){
     $("#dateStart").datepicker(dateLang);
     $("#dateEnd").datepicker(dateLang);
 
