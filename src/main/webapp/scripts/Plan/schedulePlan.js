@@ -17,7 +17,7 @@ var typeProject = ["Developer","Analysis","Developer"];
 var resultEmptyTask;
 
 $("#panelEmployee").hide();
-$("#panelPlan").hide();
+//$("#panelPlan").hide();
 addEmptyTask();
 
 function addDate(dateStart,dateEnd){
@@ -74,6 +74,7 @@ function addName() {
 
 	if(recieveWork!=null){
 		names = [];
+		var empName = findEmpNameByEmpCodeArray();
 		for(var i = 0 ; i < recieveWork.responseJSON.Name.length ; i++){
 			names.push(""+recieveWork.responseJSON.Name[i]);
 			var work = "";
@@ -94,21 +95,39 @@ function addName() {
 		var _rowspan = findSameRow(works[i]);
 		var html = "";
 		for (var num = 0; num < _rowspan; num++) {
-			if (num == 0) html += "<tr id='" + names[i] + num + "' class='text-center'><td rowspan='" + _rowspan + "'  style='vertical-align: middle; padding: 0px;'>" + names[i] + "</td></tr>";
+			if (num == 0) html += "<tr id='" + names[i] + num + "' class='text-left'><td rowspan='" + _rowspan + "'  style='vertical-align: middle; padding: 0px;'>" + empName[i] + "</td></tr>";
 			else html += "<tr id='" + names[i] + num + "' class='text-center' style='padding: 0px;'></tr>";
 		}
 		$("#tableData").append(html);
 	}
+}
 
-	//for (var i = 0; i < names.length; i++) {
-	//	var _rowspan = findSameRow(works[i]);
-	//	var html = "";
-	//	for (var num = 0; num < _rowspan; num++) {
-	//		if (num == 0) html += "<tr id='" + names[i] + num + "' class='text-center'><td rowspan='" + _rowspan + "'  style='vertical-align: middle; padding: 0px;'>" + names[i] + "</td></tr>";
-	//		else html += "<tr id='" + names[i] + num + "' class='text-center' style='padding: 0px;'></tr>";
-	//	}
-	//	$("#tableData").append(html);
-	//}
+function findEmpNameByEmpCodeArray(){
+	var arrEmp = "";
+	for(var i = 0 ; i < recieveWork.responseJSON.Name.length ; i++){
+		arrEmp+= recieveWork.responseJSON.Name[i];
+		if(i!=recieveWork.responseJSON.Name.length -1 ) arrEmp+="==";
+	}
+	var dataJsonData = {
+		empCode: arrEmp
+	};
+	var empName = $.ajax({
+		headers: {
+			Accept: "application/json"
+		},
+		type: "GET",
+		url: contextPath + '/central/findEmployeeByEmpCodeArray',
+		data : dataJsonData,
+		complete: function(xhr){
+		},
+		async: false
+	});
+
+	var arrEmpName = [];
+	for(var i = 0 ; i < empName.responseJSON.length ; i++)
+		arrEmpName[i] = ""+empName.responseJSON[i].empFirstName + " "+empName.responseJSON[i].empLastName ;
+
+	return arrEmpName;
 }
 
 function sumTaskAndOtherTask(index){

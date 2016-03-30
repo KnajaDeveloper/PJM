@@ -9,6 +9,8 @@
     <script>
         var contextPath = '${pageContext.request.contextPath}';
     </script>
+
+    <component:LovEmployee id="lovemployee" controller="findEmployeeByText"/>
     
     <div class="form-horizontal">
         <div class="form-group">
@@ -40,6 +42,9 @@
 
     <spring:url value="/resources/scripts/PJM/testfic.js" var="testfic" />
     <script src="${testfic}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
+    <script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
 
     <script type="text/javascript">
         $("#btnConfirm").click(function(){
