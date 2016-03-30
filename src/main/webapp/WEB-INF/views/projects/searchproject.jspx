@@ -36,6 +36,8 @@
     <c:set var="ALERT_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
     <c:set var="ALERT_NOT_DELETE_THIS_DATA" scope="request"><spring:message code="M0010"/></c:set>
     <c:set var="DATE_FORMAT" scope="request"><spring:message code="M0032"/></c:set>
+     <c:set var="LABEL_MODULE" scope="request"><spring:message code="L0009"/></c:set>
+    <c:set var="LABEL_PROJECT_MANAGEMENT" scope="request"><spring:message code="L0129"/></c:set>
 
 
     <script>
@@ -55,7 +57,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-primary">
-                <div class="panel-heading">${BUTTON_SEARCH_PROJECT}</div>
+                <div class="panel-heading">${LABEL_PROJECT_MANAGEMENT}</div>
                 <div class="panel-body">
                     <br/>
                     <div class="col-sm-12">
@@ -65,8 +67,8 @@
                             <input type="hidden" class="datepicker"/>
 
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_START_DATE_FROM}</label>
-                                <div class="col-sm-7">
+                                <label class="control-label col-sm-5">${LABEL_START_DATE_FROM}</label>
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <input id="StDateBegin" class="form-control " type="text" placeholder="dd/mm/yyyy" />
                                         <span id="calendarStartFrom" class="input-group-addon date">
@@ -77,8 +79,8 @@
                             </div>
 
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_START_DATE_TO}</label>
-                                <div class="col-sm-7">
+                                <label class="control-label col-sm-5">${LABEL_START_DATE_TO}</label>
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <input id="StDateEnd" class="form-control " type="text" placeholder="dd/mm/yyyy" /><span
                                             id="calendarStartTo"  class="input-group-addon date">
@@ -93,8 +95,8 @@
                     <div class="col-sm-12">
                         <form class="form-horizontal">
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_COMPLETE_DATE_FROM}</label>
-                                <div class="col-sm-7">
+                                <label class="control-label col-sm-5">${LABEL_COMPLETE_DATE_FROM}</label>
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <input id="FnDateBegin" class="form-control " type="text"
                                                placeholder="dd/mm/yyyy" />
@@ -105,8 +107,8 @@
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_COMPLETE_DATE_TO}</label>
-                                <div class="col-sm-7">
+                                <label class="control-label col-sm-5">${LABEL_COMPLETE_DATE_TO}</label>
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <input id="FnDateEnd" class="form-control " type="text"
                                                placeholder="dd/mm/yyyy" />
@@ -121,8 +123,8 @@
                     <div class="col-sm-12">
                         <form class="form-horizontal">
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_TOTALCOST_FROM}</label>
-                                <div class="col-sm-7">
+                                <label class="control-label col-sm-5">${LABEL_TOTALCOST_FROM}</label>
+                                <div class="col-sm-6">
                                     <div class="input-group">
                                         <input id="costStart" class="form-control" type="text" name="searchCode"
                                                placeholder="${LABEL_TOTALCOST_FROM}"/>
@@ -132,9 +134,9 @@
                             </div>
 
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_TOTALCOST_TO}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group date ">
+                                <label class="control-label col-sm-5">${LABEL_TOTALCOST_TO}</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group ">
                                         <input id="costEnd" class="form-control" type="text" name="searchName"
                                                placeholder="${LABEL_TOTALCOST_TO}"/>
                                         <span class="input-group-addon">${LABEL_POINT}</span>
@@ -143,21 +145,25 @@
                             </div>
                         </form>
                     </div>
+                    <div>                    
                     <div class="col-sm-12">
                         <form class="form-horizontal">
                             <div class="form-group col-sm-6">
-                                <label class="control-label col-sm-4">${LABEL_PROJECT_MANAGER}</label>
-                                <div class="col-sm-7">
-                                    <input id="projectManage" class="form-control" type="text" name="searchCode"
-                                           placeholder="${LABEL_FIRST_NAME}"/>
+                                <label class="control-label col-sm-5">${LABEL_PROJECT_MANAGER}</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group ">
+                                           <component:LovEmployee id="lovPm"/>
+                                    </div>
                                 </div>
                             </div>
+                          
                         </form>
                     </div>
-
-                    <div class="col-sm-12">
-                        <form class="form-horizontal"/>
                     </div>
+
+                  <!--   <div class="col-sm-12">
+                        <form class="form-horizontal"/>
+                    </div> -->
                     <div class="col-sm-8">
                         <div class="col-sm-offset-8 col-sm-2">
                             <button id="search" class="btn btn-primary" type="button">${BUTTON_SEARCH}</button>
@@ -192,7 +198,7 @@
                                     </th>
                                     <th class="text-center" style="width: 40px;color:#000">${LABEL_EDIT}</th>
                                     <th class="text-center" style="width: 40px;color:#000">${LABEL_ADD_TASK}</th>
-                                    <th class="text-center" style="width: 40px;color:#000">${LABEL_PROGRESS}</th>
+                                    <th class="text-center" style="width: 40px;color:#000">${LABEL_MODULE}</th>
                                     <th class="text-center" style="width: 200px;color:#000">${LABEL_PROJECT_NAME}</th>
                                     <th class="text-center" style="width: 70px;color:#000">${LABEL_START_DATE}</th>
                                     <th class="text-center" style="width: 70px;color:#000">${LABEL_COMPLETE_DATE}</th>
@@ -264,6 +270,12 @@
     </script>
     <spring:url value="/resources/scripts/PJM/searchProject.js" var="searchProject"/>
     <script src="${searchProject}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
+    <script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
+
+    <spring:url value="/resources/scripts/PJM/checkRole.js" var="checkRole"/>
+    <script src="${checkRole}" type="text/javascript"><!--Not Empty --></script>
 
 
 </div>

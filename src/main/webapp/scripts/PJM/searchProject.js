@@ -96,7 +96,7 @@ $("#search").click(function () {
     }
 
     dataJsonData = {
-        projectManage: $('#projectManage').val(),
+        projectManage: $('#lovPm').val(),
         StDateBegin: dateStart,
         StDateEnd: dateEnd,
         FnDateBegin: fnDateStart,
@@ -197,7 +197,14 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
-    $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
+    // $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
+    $('[id^=chDelete]').prop('checked',true);
+    var num =  $('input[status=check]:checked').length;
+    console.log(num +"");
+    if (num <= 0){
+       $('#checkAll').prop('checked', false);
+      bootbox.alert("ข้อมูลทั้งหมดถูกใช้งานอยู่"); ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    }
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
 $("#btnDelete").click(function () {
