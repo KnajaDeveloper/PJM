@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     var addData = ddlProject.responseJSON;
     $('#ddlProject').empty();
-    $('#ddlProject').append("<option>"+Message.Please_Select+"</option>");
+    $('#ddlProject').append("<option></option>");
     addData.forEach(function (value) {
         var text = value.projectName;
         $('#ddlProject').append("<option value=" + value.id + ">" + text + "</option>");
@@ -54,7 +54,7 @@ $("#ddlProject").change(function () {
 
     var addData = ddlModule.responseJSON;
     $('#ddlModule').empty();
-    $('#ddlModule').append("<option>"+Message.Please_Select+"</option>");
+    $('#ddlModule').append("<option></option>");
     addData.forEach(function (value) {
         var text = value.moduleName;
         $('#ddlModule').append("<option value=" + value.moduleCode + ">" + text + "</option>");
@@ -72,7 +72,7 @@ $("#export").click(function () {
 //--------------------------------------------------------------------------------
 
 function sendData() {
-    if ($("#ddlProject").val() == Message.Please_Select) {
+    if ($("#ddlProject").val() == "") {
 
         $("#ddlProject").attr("data-content", Message.Please_Select).popover('show');
     }else {
@@ -88,8 +88,7 @@ function sendData() {
     console.log(moduleCode);
     console.log(moduleName);
 
-    if (moduleCode ==Message.Please_Select){
-        moduleCode = "NULL";
+    if (moduleCode == ""){
         moduleName = Message.All;
     }
 

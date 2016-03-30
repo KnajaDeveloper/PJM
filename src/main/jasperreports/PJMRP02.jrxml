@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP02" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="2.4200000000000506"/>
-	<property name="ireport.x" value="479"/>
+	<property name="ireport.zoom" value="1.6528925619835089"/>
+	<property name="ireport.x" value="533"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -53,6 +53,7 @@
 	<parameter name="fTaskCode" class="java.lang.String"/>
 	<parameter name="projectName" class="java.lang.String"/>
 	<parameter name="moduleName" class="java.lang.String"/>
+	<parameter name="totalAll" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select  * from pjmrp02]]>
 	</queryString>
@@ -338,7 +339,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{EN_TDATESTART}+(Integer.parseInt($F{EN_TYEARSTART})+$P{PlusYear})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EN_TDATESTART}!= null ?$F{EN_TDATESTART}+(Integer.parseInt($F{EN_TYEARSTART})+$P{PlusYear}) : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="282b9a24-e227-4614-b3ba-1bf8eb88700a" x="542" y="0" width="142" height="26"/>
@@ -352,7 +353,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{EN_TDATEEND}+(Integer.parseInt($F{EN_TYEAREND})+$P{PlusYear})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EN_TDATEEND} != null ? $F{EN_TDATEEND}+(Integer.parseInt($F{EN_TYEAREND})+$P{PlusYear}) :null]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement uuid="b8f2b1a3-9333-4d3b-8281-34cfab60deb4" x="684" y="0" width="118" height="26"/>
@@ -376,13 +377,108 @@
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="134" splitType="Stretch"/>
-	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="25" splitType="Stretch">
+			<crosstab>
+				<reportElement uuid="f1cad817-a6ad-43d9-863e-118c0027fe91" x="0" y="0" width="802" height="25"/>
+				<rowGroup name="totalAll" width="684" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$P{totalAll}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isBlankWhenNull="true">
+								<reportElement uuid="4611354d-887c-4023-ac77-b581720c32d3" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="684" height="25"/>
+								<box>
+									<pen lineWidth="0.75"/>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="TH Sarabun New" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalAll}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="TASKCOST" height="0" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{TASKCOST}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="TASKCOSTMeasure" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[$F{TASKCOST}]]></measureExpression>
+				</measure>
+				<crosstabCell width="0" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="totalAll">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="118" columnTotalGroup="TASKCOST">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField isBlankWhenNull="true">
+							<reportElement uuid="cacd3be0-db7b-4e7d-9f8c-afa24a4eac3d" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="118" height="25"/>
+							<box>
+								<pen lineWidth="0.75"/>
+								<topPen lineWidth="0.75"/>
+								<leftPen lineWidth="0.75"/>
+								<bottomPen lineWidth="0.75"/>
+								<rightPen lineWidth="0.75"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font fontName="TH Sarabun New" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{TASKCOSTMeasure}==null?0:$V{TASKCOSTMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="118" height="0" rowTotalGroup="totalAll" columnTotalGroup="TASKCOST">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
 	</summary>
 </jasperReport>

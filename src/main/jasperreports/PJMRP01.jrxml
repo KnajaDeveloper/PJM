@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP01" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="0.931381984588733"/>
+	<property name="ireport.zoom" value="1.239669421487604"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -48,6 +48,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="totalOT" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
 	<parameter name="dateStart" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -103,6 +104,9 @@
 	<parameter name="EmpFirstName" class="java.lang.String"/>
 	<parameter name="EmpLastName" class="java.lang.String"/>
 	<parameter name="otherTask" class="java.lang.String"/>
+	<parameter name="totalTaskAll" class="java.lang.String"/>
+	<parameter name="totalOtAll" class="java.lang.String"/>
+	<parameter name="totalAll" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select * from PJMRP01]]>
 	</queryString>
@@ -255,7 +259,7 @@ $P{Error}]]></textFieldExpression>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="50">
+			<band height="75">
 				<textField isBlankWhenNull="true">
 					<reportElement uuid="f2858849-28f7-49ae-901d-088a7ca8da80" x="690" y="0" width="112" height="25"/>
 					<box>
@@ -312,6 +316,171 @@ $P{Error}]]></textFieldExpression>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalOT}]]></textFieldExpression>
 				</textField>
+				<crosstab>
+					<reportElement uuid="054a2fd3-7957-4334-9086-24022b61949c" x="0" y="0" width="802" height="75"/>
+					<rowGroup name="total" width="70" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$P{total}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement uuid="3339eed0-1144-427e-956b-74d4dd21b5ea" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents backcolor="#BFE1FF" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement uuid="67567b88-2d6e-49da-9201-70b6241cce77" x="0" y="0" width="70" height="25"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Total total]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="T_COST" height="30" totalPosition="End">
+						<bucket class="java.lang.Integer">
+							<bucketExpression><![CDATA[$F{T_COST}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement uuid="71012d8c-41c3-4046-a515-256a56eea7fb" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$V{T_COST}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents backcolor="#005FB3" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement uuid="24a6191f-23fa-4188-b92f-7743a39d7bf0" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Total T_COST]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<columnGroup name="OT_COST" height="30" totalPosition="End">
+						<bucket class="java.lang.Integer">
+							<bucketExpression><![CDATA[$F{OT_COST}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement uuid="dd46e693-af15-47bb-a514-de6136d8b2a7" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$V{OT_COST}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents backcolor="#BFE1FF" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement uuid="a52c7c9b-5c26-4f9d-8097-5adcfcaf136f" x="0" y="0" width="50" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Total OT_COST]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="T_COSTMeasure" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{T_COST}]]></measureExpression>
+					</measure>
+					<crosstabCell width="50" height="25">
+						<cellContents>
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="302b5b68-8a31-42e0-8aa3-5c3c14f3b5bb" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell height="25" rowTotalGroup="total">
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="f83cfa57-4b2f-440b-ace8-1e56e5e0d2c5" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="50" columnTotalGroup="T_COST">
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="66a43df0-2e18-4e66-a456-533b548f4fa4" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell rowTotalGroup="total" columnTotalGroup="T_COST">
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="773e6c04-c7a4-4091-a719-7106792301aa" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="50" columnTotalGroup="OT_COST">
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="0d028d44-2ddd-42fa-8c9c-bbf2ab4275df" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell rowTotalGroup="total" columnTotalGroup="OT_COST">
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="35726d83-f97a-49be-8e58-788475308bed" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
 			</band>
 		</groupFooter>
 	</group>
@@ -505,13 +674,7 @@ $P{Error}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="134" splitType="Stretch"/>
-	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="56" splitType="Stretch"/>
 	</summary>
 </jasperReport>

@@ -142,8 +142,8 @@ public class ReportController extends AbstractReportJasperXLS {
         StringBuilder sqlQuery = new StringBuilder();
 
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP01 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE TASK_EMPCODE = ? OR OT_EMPCODE = ?  ");
-        sqlQuery.append(" and D_START >= ? and D_END <= ? ");
+        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (TASK_EMPCODE = ? OR OT_EMPCODE = ? ) ");
+        sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
         sqlQuery.append(" ORDER BY MONTH,D_END ASC");
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -226,6 +226,7 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("fTaskCode", getLabelFromPropertiesFile("L0033"));
         params.put("fTaskName", getLabelFromPropertiesFile("L0034"));
         params.put("tPoint", getLabelFromPropertiesFile("L0030"));
+        params.put("totalAll", getLabelFromPropertiesFile("L0128"));
         params.put("projectName", projectName);
         params.put("moduleName", moduleName);
         params.put("printDate", printDate);
@@ -236,7 +237,7 @@ public class ReportController extends AbstractReportJasperXLS {
         StringBuilder sqlQuery = new StringBuilder();
 
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP02 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        if (moduleCode.equals("NULL")) {
+        if (moduleCode.equals("")) {
             sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
         } else {
             sqlQuery.append(" SELECT * FROM PJMRP02 WHERE PROJECTID = ? ");
@@ -248,7 +249,7 @@ public class ReportController extends AbstractReportJasperXLS {
         try {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            if (moduleCode.equals("NULL")) {
+            if (moduleCode.equals("")) {
                 preparedStatement.setString(number++, projectId);
             } else {
                 preparedStatement.setString(number++, projectId);
