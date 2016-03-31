@@ -67,12 +67,18 @@ $(document).ready(function () {
 });
 
 //--------------------------------------------------------------------------------
+$("#ddlTeam").change(function () {
+    $("#lovEmpFrom").empty();
+    $("#lovEmpTo").empty();
+});
+//--------------------------------------------------------------------------------
 
 function sendData() {
     if ($("#lovEmpFrom").val() == "") {
 
-        $("#emp").attr("data-content", Message.PLEASE_INPUT).popover('show');
-    } else if ($("#cDateBegin").val() == "") {
+        $("#lovEmpFrom").attr("data-content", Message.PLEASE_INPUT).popover('show');
+    } else
+    if ($("#cDateBegin").val() == "") {
 
         $("#cDateBegin").attr("data-content", Message.PLEASE_SELECT_DATE).popover('show');
     } else if ($("#cDateEnd").val() == "") {
@@ -83,13 +89,16 @@ function sendData() {
 
         var date = new Date();
 
-
-        var empCode = $("#emp").val();
+        //var team = $("#ddlTeam").
+        var empCodeFrom = $("#lovEmpFrom").data("dataCode");
+        var empCodeTo = $("#lovEmpTo").data("dataCode");
         var dateStart = $("#cDateBegin").val();
         var dateEnd = $("#cDateEnd").val();
         var dateStartBase = $("#cDateBegin").val();
         var dateEndBase = $("#cDateEnd").val();
         var plusYear = 0;
+console.log(empCodeFrom);
+console.log(empCodeTo);
 
         if (dateStartBase != "") {
             dateStartBase = DateUtil.dataDateToDataBase(dateStartBase, _language);

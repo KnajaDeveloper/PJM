@@ -71,14 +71,14 @@
                                 <label class="control-label col-sm-4 ">${Employee_From}</label>
                                 <div class="col-sm-7">
                                     <!--<input type="text" class="form-control" id="emp" placeholder="${Employee_From}" data-placement="bottom"/>-->
-                                    <component:LovEmployee id="lovEmpFrom" controller="findEmployeeByText"/>
+                                    <component:LovEmployee id="lovEmpFrom" controller="GetEmpByTeamID" team="ddlTeam"/>
                                 </div>
                             </div>
 
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-3 ">${L_Employee_To}</label>
                                 <div class="col-sm-7">
-                                    <component:LovEmployee id="lovEmpTo" controller="findEmployeeByText"/>
+                                    <component:LovEmployee id="lovEmpTo" controller="GetEmpByTeamID" team="ddlTeam"/>
                                 </div>
                             </div>
 
