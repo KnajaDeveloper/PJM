@@ -3,7 +3,9 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
+import org.springframework.expression.spel.ast.LongLiteral;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.app2.app2t.domain.pjm.*;
@@ -57,8 +59,15 @@ privileged aspect ProjectController_Custom_Controller {
     public String ProjectController.editproject(Model uiModel,
         @RequestParam(value = "projectId", required = false) String projectId) 
     {
-        uiModel.addAttribute("projectId", projectId);
-        return "projects/editproject";
+        String userName =  AuthorizeUtil.getUserName();
+        Map employee = emRestService.getEmployeeByUserName(userName);
+        Boolean check = ProjectManager.checkRoleProjects(Long.parseLong(projectId),employee.get("empCode").toString());
+        if(!check){
+            return "redirect:/";
+        }else {
+            uiModel.addAttribute("projectId", projectId);
+            return "projects/editproject";
+        }
     }
 
 
