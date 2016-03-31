@@ -30,7 +30,7 @@ function addDate(dateStart,dateEnd){
 		$("#tbSevenDay").append("<th class='text-center' style='min-width:100px; height:10px; padding: 0px;'>"+days[numDate.getDay()]+"</th>");
 		var langFullYear = numDate.getFullYear();
 		if(commonData.language == "TH") langFullYear+=543 ;
-		var dateMonth = ""+months[numDate.getMonth()]+" "+numDate.getDate()+", "+langFullYear;
+		var dateMonth = ""+numDate.getDate()+" "+months[numDate.getMonth()]+" "+langFullYear;
 		$("#tbDate").append("<td class='text-center' style='min-width:100px;'><font size='2'>"+dateMonth+"</font></td>");
 	}
 }
@@ -210,19 +210,19 @@ function addEmptyTask(){
 
 	for(var i = 0 ; i < resultEmptyTask.responseJSON.Task.length ; i++){
 		var html = "";
-		html+="<tr class='text-center'>" +
-			"<td style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].taskCode+"</font></td>" +
-			"<td style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</font></td>" +
-			"<td style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</font></td>" +
+		html+="<tr>" +
+			"<td class='text-center' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].taskCode+"</font></td>" +
+			"<td class='text-left' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</font></td>" +
+			"<td class='text-left' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</font></td>" +
 			"</tr>";
 		$("#tableEmpty").append(html);
 	}
 	for(var i = 0 ; i < resultEmptyTask.responseJSON.OtherTask.length ; i++){
 		var html = "";
-		html+="<tr class='text-center'>" +
-			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].taskCode+"</td>" +
+		html+="<tr>" +
+			"<td class='text-center'>"+resultEmptyTask.responseJSON.OtherTask[i].taskCode+"</td>" +
 			"<td>"+" "+"</td>" +
-			"<td>"+resultEmptyTask.responseJSON.OtherTask[i].typeTask.typeTaskName+"</td>" +
+			"<td class='text-left'>"+resultEmptyTask.responseJSON.OtherTask[i].typeTask.typeTaskName+"</td>" +
 			"</tr>";
 		$("#tableEmpty").append(html);
 	}
