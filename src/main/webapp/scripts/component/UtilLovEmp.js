@@ -4,8 +4,11 @@ var LovEmployeeDataCode = "data-code";
 var LovEmployeeDataDescription = "data-description";
 
 UtilLov.onChangeInputLovEmp = function (input,e) {
+    var inputId = "#" + input.id;
+    $(inputId).data(LovEmployeeDataItem, "");
+    $(inputId).data(LovEmployeeDataCode, "");
+    $(inputId).data(LovEmployeeDataDescription, "");
     if (e.keyCode == 13) {
-        var inputId = "#" + input.id;
         //LovEmpAfterCheckEmpty(input);
         UtilLov.lovEmp(input);
     }
