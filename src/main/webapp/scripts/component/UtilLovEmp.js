@@ -4,6 +4,7 @@ var LovEmployeeDataCode = "data-code";
 var LovEmployeeDataDescription = "data-description";
 
 UtilLov.onChangeInputLovEmp = function (input,e) {
+    $('.popover').remove();
     var inputId = "#" + input.id;
     $(inputId).data(LovEmployeeDataItem, "");
     $(inputId).data(LovEmployeeDataCode, "");
@@ -15,6 +16,7 @@ UtilLov.onChangeInputLovEmp = function (input,e) {
 };
 
 UtilLov.lovEmp = function (btn) {
+    $('.popover').remove();
     var inputId = "#" + $("#" + btn.id).attr("target");
     LovEmpQueryEvent(inputId);
 };
