@@ -261,5 +261,15 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static List<Project> Project.findProjectByEmpCode(String empCode) {
+        EntityManager ent = ModuleMember.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class, "ModuleMember");
+        criteria.add(Restrictions.eq("empCode", empCode));
+        criteria.createAlias("ModuleMember.moduleProject", "ModuleProject");
+        criteria.add(Restrictions.eq("ModuleProject.moduleStatus", "Not Success"));
+        criteria.setProjection(Projections.distinct(Projections.property("ModuleProject.project")));
+
+        return criteria.list();
+    }
 
 }

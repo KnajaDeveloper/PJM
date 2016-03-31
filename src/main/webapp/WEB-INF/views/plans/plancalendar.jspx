@@ -21,13 +21,32 @@
     <c:set var="LABEL_NOVEMBER" scope="request"><spring:message code="L0023"/></c:set>
     <c:set var="LABEL_DECEMBER" scope="request"><spring:message code="L0024"/></c:set>
 
+    <c:set var="LABEL_JAN" scope="request"><spring:message code="L0111"/></c:set>
+    <c:set var="LABEL_FEB" scope="request"><spring:message code="L0112"/></c:set>
+    <c:set var="LABEL_MAR" scope="request"><spring:message code="L0113"/></c:set>
+    <c:set var="LABEL_APR" scope="request"><spring:message code="L0114"/></c:set>
+    <c:set var="LABEL_MAY" scope="request"><spring:message code="L0115"/></c:set>
+    <c:set var="LABEL_JUN" scope="request"><spring:message code="L0116"/></c:set>
+    <c:set var="LABEL_JUL" scope="request"><spring:message code="L0117"/></c:set>
+    <c:set var="LABEL_AUG" scope="request"><spring:message code="L0118"/></c:set>
+    <c:set var="LABEL_SEP" scope="request"><spring:message code="L0119"/></c:set>
+    <c:set var="LABEL_OCT" scope="request"><spring:message code="L0110"/></c:set>
+    <c:set var="LABEL_NOV" scope="request"><spring:message code="L0111"/></c:set>
+    <c:set var="LABEL_DEC" scope="request"><spring:message code="L0112"/></c:set>
+
     <c:set var="LABEL_TASK_FROM_MODULE" scope="request"><spring:message code="L0052"/></c:set>
     <c:set var="LABEL_TASK_OTHER" scope="request"><spring:message code="L0053"/></c:set>
+    <c:set var="LABEL_SUMMARY_PLAN" scope="request"><spring:message text="Summary Plan"/></c:set>
+    
+    <c:set var="LABEL_ALL_PROJECT" scope="request"><spring:message text="All Project"/></c:set>
     <c:set var="LABEL_ALL_MODULE" scope="request"><spring:message code="L0054"/></c:set>
     <c:set var="LABEL_PRIVEATE_TASK" scope="request"><spring:message code="L0055"/></c:set>
     <c:set var="LABEL_PUBLIC_TASK" scope="request"><spring:message code="L0056"/></c:set>
     <c:set var="LABEL_NO_RESULT" scope="request"><spring:message code="L0057"/></c:set>
 
+    <c:set var="LABEL_TASK_DETAILS" scope="request"><spring:message text="LABEL_TASK_DETAILS"/></c:set>
+    <c:set var="LABEL_PLAN" scope="request"><spring:message text="LABEL_PLAN"/></c:set>
+    <c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
     <c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
     <c:set var="LABEL_TASK_COST" scope="request"><spring:message code="L0048"/></c:set>
     <c:set var="LABEL_DATE_BEGIN" scope="request"><spring:message code="L0046"/></c:set>
@@ -35,6 +54,9 @@
     <c:set var="LABEL_POINT" scope="request"><spring:message code="L0049"/></c:set>
 
     <c:set var="LABEL_ADD_PLAN" scope="request"><spring:message code="L0074"/></c:set>
+    <c:set var="LABEL_PROJECT" scope="request"><spring:message code="L0027"/></c:set>
+    <c:set var="LABEL_MODULE" scope="request"><spring:message code="L0009"/></c:set>
+    <c:set var="LABEL_TOTAL_COST" scope="request"><spring:message code="L0048"/></c:set>
     <c:set var="LABEL_NOTE" scope="request"><spring:message code="L0058"/></c:set>
     <c:set var="LABEL_SHIFT_WHEN_OVERLAP" scope="request"><spring:message code="L0059"/></c:set>
     <c:set var="LABEL_NOT_SHIFT" scope="request"><spring:message code="L0061"/></c:set>
@@ -62,7 +84,7 @@
     <c:set var="MESSAGE_DELETE_COMPLETED" scope="request"><spring:message code="M0014"/></c:set>
     <c:set var="MESSAGE_DELETE_FAILED" scope="request"><spring:message code="M0015"/></c:set>
     
-    <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>    
+    <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>
     <c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
     
     <c:set var="MESSAGE_CONFIRM_CANCLE" scope="request"><spring:message code="M0031"/></c:set>
@@ -97,6 +119,9 @@
 
         LABEL.DATE_BEGIN = '${LABEL_DATE_BEGIN}';
         LABEL.DATE_END = '${LABEL_DATE_END}';
+        LABEL.POINT = '${LABEL_POINT}';
+        
+        LABEL.SHORT_MONTH = ['${LABEL_JAN}', '${LABEL_FEB}', '${LABEL_MAR}', '${LABEL_APR}', '${LABEL_MAY}', '${LABEL_JUN}','${LABEL_JUL}', '${LABEL_AUG}', '${LABEL_SEP}', '${LABEL_OCT}', '${LABEL_NOV}', '${LABEL_DEC}'];
 
         BUTTON.DELETE = '${BUTTON_DELETE}';
     </script>
@@ -251,18 +276,19 @@
     <!-- Content -->
     <div class="row">
         <!-- Calendar -->
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <br/>
 
-            <div id='calendar'>.</div>
+            <div id='calendar'><jsp:text/></div>
         </div>
 
         <!-- Search job -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <br/>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#tabFromModule">${LABEL_TASK_FROM_MODULE}</a></li>
                 <li><a data-toggle="tab" href="#tabFromOther">${LABEL_TASK_OTHER}</a></li>
+                <li><a data-toggle="tab" href="#tabSummaryPlan">${LABEL_SUMMARY_PLAN}</a></li>
             </ul>
             <div class="panel panel-default">
                 <div class="tab-content">
@@ -274,7 +300,10 @@
                         </div>
                         <div class="form-horizontal">
                             <div id="searchTaskPart">
-                                <select class="form-control" id="ddlJobModule" name="ddlJobModule">
+                                <select class="form-control" id="ddlProject">
+                                    <option value="0">${LABEL_ALL_PROJECT}</option>
+                                </select>
+                                <select class="form-control" id="ddlJobModule" style="margin-top: 10px;">
                                     <option value="0">${LABEL_ALL_MODULE}</option>
                                 </select>
                                 <div id="grpTaskType" style="height: 300px; margin-top: 5px;">
@@ -355,6 +384,18 @@
                             <br/>
                         </div>
                     </div>
+
+                    <div id="tabSummaryPlan" class="tab-pane">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">Total point: </label>
+                                <div class="col-xs-6">
+                                    <label id="" class="control-label text-left full-label">120</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -366,75 +407,112 @@
     <!-- Add plan modal -->
     <div class="modal fade" id="mdAddToPlan" role="dialog">
         <div class="modal-dialog ">
-            <!-- Modal content-->
+
             <div class="modal-content ">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title">${LABEL_ADD_PLAN}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="form-group">
-                            <label class="control-label col-xs-4">${LABEL_TASK_NAME} </label>
-
-                            <div class="col-xs-6">
-                                <label id="lblAddNameWork" class="control-label text-left full-label"></label>
-                            </div>
-                        </div>
-                        <div id="grpAddDate">
-                            <div class="form-group">
-                                <label class="control-label col-xs-4 required">${LABEL_DATE_BEGIN} </label>
-
-                                <div class="col-xs-5">
-                                    <div class="input-group">
-                                        <input id="cAddDateBegin_0" type="text" class="form-control"
-                                           data-placement="bottom" data-content=""/>
-                                        <span class="input-group-addon date">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
+                        <fieldset>
+                            <legend id="taskDetailHeaderAdd" style="cursor: pointer;">${LABEL_TASK_DETAILS} <span class="fa fa-angle-down"></span></legend>
+                            <div id="taskDetailPartAdd">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">${LABEL_PROJECT} </label>
+                                    <div class="col-xs-9">
+                                        <label id="lblAddTaskProject" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">${LABEL_MODULE} </label>
+                                    <div class="col-xs-9">
+                                        <label id="lblAddTaskModule" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">${LABEL_TASK_CODE} </label>
+                                    <div class="col-xs-3">
+                                        <label id="lblAddTaskCode" class="control-label text-left full-label"></label>
+                                    </div>
+                                    <label class="control-label col-xs-2">${LABEL_TASK_NAME} </label>
+                                    <div class="col-xs-4">
+                                        <label id="lblAddNameWork" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">${LABEL_DATE_BEGIN} </label>
+                                    <div class="col-xs-3">
+                                        <label id="lblAddDateBegin" class="control-label text-left full-label"></label>
+                                    </div>
+                                    <label class="control-label col-xs-2">${LABEL_DATE_END} </label>
+                                    <div class="col-xs-4">
+                                        <label id="lblAddDateEnd" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">${LABEL_TOTAL_COST} </label>
+                                    <div class="col-xs-9">
+                                        <label id="lblAddTaskCost" class="control-label text-left full-label"></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-4 required">${LABEL_DATE_END} </label>
+                        </fieldset>
+                        <br/>
+                        <fieldset>
+                            <legend>${LABEL_PLAN}</legend>
+                                <div id="grpAddDate">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 required">${LABEL_DATE_BEGIN} </label>
 
-                                <div class="col-xs-5">
-                                    <div class="input-group">
-                                        <input id="cAddDateEnd_0" type="text" class="form-control"
-                                           data-placement="bottom" data-content=""/>
-                                        <span class="input-group-addon date">
-                                            <span class="glyphicon glyphicon-calendar "></span>
-                                        </span>
+                                        <div class="col-xs-5">
+                                            <div class="input-group">
+                                                <input id="cAddDateBegin_0" type="text" class="form-control"
+                                                   data-placement="bottom" data-content=""/>
+                                                <span class="input-group-addon date">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4 required">${LABEL_DATE_END} </label>
+
+                                        <div class="col-xs-5">
+                                            <div class="input-group">
+                                                <input id="cAddDateEnd_0" type="text" class="form-control"
+                                                   data-placement="bottom" data-content=""/>
+                                                <span class="input-group-addon date">
+                                                    <span class="glyphicon glyphicon-calendar "></span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            <div class="form-group">
+                                <div class="col-sm-6 col-xs-offset-4">
+                                    <button id="btnAddTime" type="button" class="btn btn-primary">${BUTTON_ADD}</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-6 col-xs-offset-4">
-                                <button id="btnAddTime" type="button" class="btn btn-primary">${BUTTON_ADD}</button>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">${LABEL_NOTE} </label>
+
+                                <div class="col-xs-6">
+                                    <textarea id="txtAddNote" class="form-control" rows="5">.</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-4">${LABEL_NOTE} </label>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
 
-                            <div class="col-xs-6">
-                                <textarea id="txtAddNote" class="form-control" rows="5">.</textarea>
+                                <div class="col-sm-6">
+                                    <label class="radio-inline" for="radioNoPostpone_add">
+                                        <input type="radio" id="radioNoPostpone_add" name="optradio" checked=""/> ${LABEL_NOT_SHIFT}
+                                    </label>
+                                    <label class="radio-inline" for="radioPostpone_add">
+                                        <input type="radio" id="radioPostpone_add" name="optradio"/> ${LABEL_SHIFT}
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-4 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
-
-                            <div class="col-sm-6">
-                                <label class="radio-inline" for="radioNoPostpone_add">
-                                    <input type="radio" id="radioNoPostpone_add" name="optradio" checked=""/> ${LABEL_NOT_SHIFT}
-                                </label>
-                                <label class="radio-inline" for="radioPostpone_add">
-                                    <input type="radio" id="radioPostpone_add" name="optradio"/> ${LABEL_SHIFT}
-                                </label>
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="taskId"/>
-
+                        </fieldset>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -456,69 +534,98 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="form-group">
-                            <label class="control-label col-xs-4">${LABEL_TASK_NAME} </label>
-
-                            <div class="col-xs-5">
-                                <label id="lblEditNameWork" class="control-label text-left full-label"></label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-4 required">${LABEL_PROGRESS} </label>
-
-                            <div class="col-xs-5">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" id="txtPercentage" name="txtPercentage"
-                                           data-placement="bottom" data-content=""/>
-                                    <span class="input-group-addon">%</span>
+                        <fieldset>
+                            <legend>${LABEL_TASK_DETAILS}</legend>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">${LABEL_TASK_CODE} </label>
+                                <div class="col-xs-6">
+                                    <label id="lblEditTaskCode" class="control-label text-left full-label"></label>
                                 </div>
                             </div>
-                        </div>
-                        <div id="grpEditDate">
                             <div class="form-group">
-                                <label class="control-label col-xs-4 required">${LABEL_DATE_BEGIN} </label>
+                                <label class="control-label col-xs-4">${LABEL_TASK_NAME} </label>
+
+                                <div class="col-xs-5">
+                                    <label id="lblEditNameWork" class="control-label text-left full-label"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">${LABEL_TOTAL_COST} </label>
+                                <div class="col-xs-6">
+                                    <label id="lblEditTaskCost" class="control-label text-left full-label"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">${LABEL_DATE_BEGIN} </label>
+                                <div class="col-xs-6">
+                                    <label id="lblEditDateBegin" class="control-label text-left full-label"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">${LABEL_DATE_END} </label>
+                                <div class="col-xs-6">
+                                    <label id="lblEditDateEnd" class="control-label text-left full-label"></label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br/>
+                        <fieldset>
+                            <legend>${LABEL_PLAN}</legend>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4 required">${LABEL_PROGRESS} </label>
 
                                 <div class="col-xs-5">
                                     <div class="input-group">
-                                        <input id="cEditDateBegin_0" type="text" class="form-control"/>
-                                        <span class="input-group-addon date">
-                                            <span class="glyphicon glyphicon-calendar "></span>
-                                        </span>
+                                        <input class="form-control" type="text" id="txtPercentage" name="txtPercentage"
+                                               data-placement="bottom" data-content=""/>
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="grpEditDate">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-4 required">${LABEL_DATE_BEGIN} </label>
+
+                                    <div class="col-xs-5">
+                                        <div class="input-group">
+                                            <input id="cEditDateBegin_0" type="text" class="form-control"/>
+                                            <span class="input-group-addon date">
+                                                <span class="glyphicon glyphicon-calendar "></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-4 required">${LABEL_DATE_END} </label>
+
+                                    <div class="col-xs-5">
+                                        <div class="input-group">
+                                            <input id="cEditDateEnd_0" type="text" class="form-control"/>
+                                            <span class="input-group-addon date">
+                                                <span class="glyphicon glyphicon-calendar "></span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-4 required">${LABEL_DATE_END} </label>
-
-                                <div class="col-xs-5">
-                                    <div class="input-group">
-                                        <input id="cEditDateEnd_0" type="text" class="form-control"/>
-                                        <span class="input-group-addon date">
-                                            <span class="glyphicon glyphicon-calendar "></span>
-                                        </span>
-                                    </div>
+                                <div class="col-sm-6 col-xs-offset-4">
+                                    <button id="btnAddTime_edit" type="button" class="btn btn-primary">${BUTTON_ADD}
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-6 col-xs-offset-4">
-                                <button id="btnAddTime_edit" type="button" class="btn btn-primary">${BUTTON_ADD}
-                                </button>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
+                                <div class="col-sm-6">
+                                    <label class="radio-inline" for="radioNoPostpone_edit">
+                                        <input type="radio" id="radioNoPostpone_edit" name="optradio"/> ${LABEL_NOT_SHIFT}
+                                    </label>
+                                    <label class="radio-inline" for="radioPostpone_edit">
+                                        <input type="radio" id="radioPostpone_edit" name="optradio"/> ${LABEL_SHIFT}
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-4 required">${LABEL_SHIFT_WHEN_OVERLAP} </label>
-                            <div class="col-sm-6">
-                                <label class="radio-inline" for="radioNoPostpone_edit">
-                                    <input type="radio" id="radioNoPostpone_edit" name="optradio"/> ${LABEL_NOT_SHIFT}
-                                </label>
-                                <label class="radio-inline" for="radioPostpone_edit">
-                                    <input type="radio" id="radioPostpone_edit" name="optradio"/> ${LABEL_SHIFT}
-                                </label>
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="txtEditPlanId"/>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="modal-footer">
