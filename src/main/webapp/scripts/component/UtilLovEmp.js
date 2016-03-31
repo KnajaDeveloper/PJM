@@ -4,7 +4,7 @@ var LovEmployeeDataCode = "data-code";
 var LovEmployeeDataDescription = "data-description";
 
 UtilLov.onChangeInputLovEmp = function (input,e) {
-    $('.popover').remove();
+    $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + input.id;
     $(inputId).data(LovEmployeeDataItem, "");
     $(inputId).data(LovEmployeeDataCode, "");
@@ -15,8 +15,12 @@ UtilLov.onChangeInputLovEmp = function (input,e) {
     }
 };
 
+UtilLov.onFocus = function (input){
+    $("[data-toggle='popover']").popover('destroy');
+};
+
 UtilLov.lovEmp = function (btn) {
-    $('.popover').remove();
+    $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + $("#" + btn.id).attr("target");
     LovEmpQueryEvent(inputId);
 };

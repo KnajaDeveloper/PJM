@@ -9,7 +9,7 @@
     <jsp:directive.attribute name="team" type="java.lang.String" required="false" rtexprvalue="true"/>
 
     <div class="input-group">
-        <input id='${id}' onkeypress="UtilLov.onChangeInputLovEmp(this,event)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">
+        <input id='${id}' onkeypress="UtilLov.onChangeInputLovEmp(this,event)" onfocus="UtilLov.onFocus(this)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">
         <span class="input-group-addon">
             <span id="${id}Btn" onclick="UtilLov.lovEmp(this)" target="${id}" class="fa fa-search" style="cursor:pointer;">
                 <jsp:text/>
