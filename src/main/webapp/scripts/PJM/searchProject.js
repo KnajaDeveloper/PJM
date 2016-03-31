@@ -94,9 +94,10 @@ $("#search").click(function () {
     else {
         fnDateEnd = "";
     }
-
+    console.log($("#lovPm").data("dataCode"));
     dataJsonData = {
-        projectManage: $('#lovPm').val(),
+        projectManage: $("#lovPm").data("dataCode"),
+        moduleManager : $("#lovMm").data("dataCode"),
         StDateBegin: dateStart,
         StDateEnd: dateEnd,
         FnDateBegin: fnDateStart,

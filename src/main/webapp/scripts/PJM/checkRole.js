@@ -4,8 +4,6 @@ function  roleProject (projectId,moduleProjectId) {
 	var dataJsonData = {
         projectId: projectId,
         moduleProjectId : moduleProjectId
-        
-
     }
     responseResult = $.ajax({
         type: "POST",

@@ -39,20 +39,14 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
     public ResponseEntity<String>ProjectManagerController.checkRoleProjects(
             @RequestParam(value = "projectId", required = false) long projectId,
             @RequestParam(value = "moduleProjectId", required = false) long moduleProjectId
-           
+
     ){
         HttpHeaders headers=new HttpHeaders();
         headers.add("Content-Type","application/json;charset=UTF-8");
         try{
-             
+
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
-
-            // Map map = new HashMap();
-            // map.put("email", employee.get("email"));
-            // map.put("empFirstName", employee.get("empFirstName"));
-            // map.put("empLastName", employee.get("empLastName"));
-
             Boolean rolePm = ProjectManager.checkRoleProjects(projectId,employee.get("empCode").toString());
             Boolean roleMd = ModuleManager.checkRoleModule(moduleProjectId,employee.get("empCode").toString());
             Boolean result ;
@@ -70,6 +64,6 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}",headers,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-     
- 
+
+
 }

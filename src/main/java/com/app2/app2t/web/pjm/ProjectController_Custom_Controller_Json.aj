@@ -67,7 +67,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
             @RequestParam(value = "costEnd", required = false) Integer costEnd,
             @RequestParam(value = "projectManage", required = false) String projectManage,
             @RequestParam(value = "maxResult", required = false) Integer maxResult,
-            @RequestParam(value = "firstResult", required = false) Integer firstResult)
+            @RequestParam(value = "firstResult", required = false) Integer firstResult,
+            @RequestParam(value = "moduleManager", required = false) String moduleManager)
             {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -75,7 +76,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
         try
         {
             List<Map<String,Object>> resultSearch = new ArrayList<>();
-            List<Project> result = Project.finProjectOfDataPagingData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,maxResult,firstResult );
+            List<Project> result = Project.finProjectOfDataPagingData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,maxResult,firstResult,moduleManager );
             for(Project project : result) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("projectName", project.getProjectName());
@@ -105,13 +106,14 @@ privileged aspect ProjectController_Custom_Controller_Json {
             @RequestParam(value="FnDateEnd",required=false)String FnDateEnd,
             @RequestParam(value = "costStart", required = false) Integer costStart,
             @RequestParam(value = "costEnd", required = false) Integer costEnd,
-            @RequestParam(value = "projectManage", required = false) String projectManage)
+            @RequestParam(value = "projectManage", required = false) String projectManage,
+            @RequestParam(value = "moduleManager", required = false) String moduleManager)
             {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try
         {
-           Long result = Project.finProjectOfDataPagingSize( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage);
+           Long result = Project.finProjectOfDataPagingSize( StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,moduleManager);
             Map dataSendToFront = new HashMap();
             dataSendToFront.put("size",result);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
