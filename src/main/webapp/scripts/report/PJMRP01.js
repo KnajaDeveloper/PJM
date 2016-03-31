@@ -69,7 +69,7 @@ $(document).ready(function () {
 //--------------------------------------------------------------------------------
 
 function sendData() {
-    if ($("#emp").val() == "") {
+    if ($("#lovEmpFrom").val() == "") {
 
         $("#emp").attr("data-content", Message.PLEASE_INPUT).popover('show');
     } else if ($("#cDateBegin").val() == "") {
