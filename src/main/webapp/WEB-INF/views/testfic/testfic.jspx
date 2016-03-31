@@ -10,7 +10,7 @@
         var contextPath = '${pageContext.request.contextPath}';
     </script>
 
-    <component:LovEmployee id="lovemployee" controller="findEmployeeByText"/>
+    <component:LovEmployee id="lovemployee1" controller="GetEmpByTeamID" team="100001"/>
     
     <div class="form-horizontal">
         <div class="form-group">

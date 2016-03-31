@@ -6,6 +6,7 @@
     <jsp:directive.attribute name="placeholder" type="java.lang.String" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="classes" type="java.lang.Boolean" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="dataContent" type="java.lang.String" required="false" rtexprvalue="true"/>
+    <jsp:directive.attribute name="team" type="java.lang.String" required="false" rtexprvalue="true"/>
 
     <div class="input-group">
         <input id='${id}' onkeypress="UtilLov.onChangeInputLovEmp(this,event)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">
@@ -18,8 +19,13 @@
     </div>
 
     <script type="text/javascript">
-        var controller='${controller}';
-        console.log(""+controller);
+        var controller ;
+        var team='${team}';
+        if(team=="") {
+            controller = "findEmployeeByText";
+        }else{
+            controller = "GetEmpByTeamID";
+        }
         jQuery(document).ready(function() {
             UtilLov.onLoadInputLovEmp('${id}');
         });
