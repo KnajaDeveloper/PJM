@@ -64,9 +64,6 @@
                         </form>
                     </div>
 
-                    <input type="text" class="form-control" id="emp" />
-
-
                     <div class="col-sm-12">
                         <form class="form-horizontal">
 
