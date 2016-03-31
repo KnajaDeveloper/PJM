@@ -137,6 +137,40 @@ privileged aspect PlanController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/findModuleByProject", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.findModuleByProject(
+            @RequestParam(value = "id", required = false) Long projectId
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+
+            List<ModuleProject> moduleProjects = ModuleProject.findModuleByProjectAndEmpCode(projectId, empCode);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(moduleProjects), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findAllProject", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.findAllProject() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+            
+            List<Project> projects = Project.findProjectByEmpCode(empCode);
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(projects), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "/findAllTaskType", method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> PlanController.findAllTaskType() {
         HttpHeaders headers = new HttpHeaders();

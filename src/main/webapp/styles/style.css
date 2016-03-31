@@ -1284,3 +1284,10 @@ table td.text-center button {
   border: 0px;
   margin-bottom: 0px;
 }
+
+.flat-blue fieldset {
+    border: solid 1px #ddd;
+}
+
+
+

@@ -65,7 +65,7 @@ $(document).ready(function () {
         DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
     });
 
-
+    loadAndMapAllProject();
     loadAndMapAllModule();
     loadAndMapAllTaskType();
 });
@@ -99,6 +99,17 @@ function searchPlan() {
         $('#txtYearSearch').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     }
 }
+
+// Get module -----------------------------------------------------------------------------------------------
+$('#ddlProject').change(function() {
+    var projectId = $(this).val();
+    if(projectId == 0){
+        loadAndMapAllModule();
+    }else{
+        loadAndMapModule(projectId);
+    }
+});
+
 
 // Search job [module]-----------------------------------------------------------------------------------------------
 $('#btnSearchByModule').click(function () {
@@ -138,13 +149,20 @@ $('#btnSearchByModule').click(function () {
                         $('#grpResultModuleSearch').append(
                             '<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') +
                             '" taskId="' + v.id + 
-                            '" taskBegin="' + (v.dateStart != null ? v.dateStart : '') + 
-                            '" taskEnd="' + (v.dateEnd != null ? v.dateEnd : '') +
+                            '" taskBegin="' + (v.dateStart != null ? DateUtil.dataDateToFrontend(v.dateStart, _language) : '') + 
+                            '" taskEnd="' + (v.dateEnd != null ? DateUtil.dataDateToFrontend(v.dateEnd, _language) : '') +
                             '" taskType="' + (v.empCode == null || v.empCode == '' ? 'public' : 'private') +
+                            '" taskCode="' + v.taskCode +
                             '" taskName="' + v.taskName +
-                            '" onclick="openModalAddPlan(this)">(' + v.typeTask.typeTaskName + ')' +
-                            ' <span>' + v.taskName +
-                            '</span> </a>');
+                            '" taskCost="' + v.taskCost +
+                            '" taskProject="' + v.program.moduleProject.project.projectName +
+                            '" taskModule="' + v.program.moduleProject.moduleName +
+                            '" onclick="openModalAddPlan(this)">(' + v.typeTask.typeTaskName + ') ' +
+                            v.taskCode + ' ' +
+                            (v.dateStart == null ? '' : '[' + dataDateToShortDate(v.dateStart, _language, LABEL.SHORT_MONTH) + ' - ') +
+                            (v.dateEnd == null ? '' : dataDateToShortDate(v.dateEnd, _language, LABEL.SHORT_MONTH) + ']' ) +
+                            ' (' + v.taskCost + 'P)' + 
+                            '</a>');
                     });
                 }
             }
@@ -224,12 +242,30 @@ $('.input-group-addon.date').click(function(){
 
 
 // Add plan ------------------------------------------------------------------------------------------------------------
-function openModalAddPlan(jobElement) {
-    var taskId = jobElement.getAttribute('taskId');
-    var taskName = jobElement.getAttribute('taskName');
-    var taskType = jobElement.getAttribute('taskType');
-    var taskBegin = jobElement.getAttribute('taskBegin');
-    var taskEnd = jobElement.getAttribute('taskEnd');
+$('#taskDetailHeaderAdd').click(function(){
+    var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
+
+    if(isOpenCollapse){
+        $(this).children('span').removeClass('fa-angle-up');
+        $(this).children('span').addClass('fa-angle-down');
+        $('#taskDetailPartAdd').slideUp();
+    }else{
+        $(this).children('span').removeClass('fa-angle-down');
+        $(this).children('span').addClass('fa-angle-up');
+        $('#taskDetailPartAdd').slideDown();
+    }
+});
+
+function openModalAddPlan(taskElement) {
+    var taskId = taskElement.getAttribute('taskId');
+    var taskCode = taskElement.getAttribute('taskCode');
+    var taskName = taskElement.getAttribute('taskName');
+    var taskType = taskElement.getAttribute('taskType');
+    var taskCost = taskElement.getAttribute('taskCost');
+    var taskBegin = taskElement.getAttribute('taskBegin');
+    var taskEnd = taskElement.getAttribute('taskEnd');
+    var taskProject = taskElement.getAttribute('taskProject');
+    var taskModule = taskElement.getAttribute('taskModule');
 
     if(taskType == 'public') {
         $('#btnCancelTask').hide();
@@ -238,7 +274,17 @@ function openModalAddPlan(jobElement) {
     }
 
     // set name
+    $('#lblAddTaskProject').html(taskProject);
+    $('#lblAddTaskModule').html(taskModule);
+    $('#lblAddTaskCode').html(taskCode);
     $('#lblAddNameWork').html(taskName);
+    $('#lblAddTaskCost').html(taskCost + ' ' + LABEL.POINT);
+    $('#lblAddDateBegin').html(taskBegin == '' ? '-' : taskBegin);
+    $('#lblAddDateEnd').html(taskEnd == '' ? '-' : taskEnd);
+
+    $('#taskDetailPartAdd').hide();
+    $('#taskDetailHeaderAdd').children('span').removeClass('fa-angle-up');
+    $('#taskDetailHeaderAdd').children('span').addClass('fa-angle-down');
 
     // default date picker
     dateAddMaxId = 0;
@@ -255,18 +301,18 @@ function openModalAddPlan(jobElement) {
         }
     });
 
-    // default note
-    $('#txtAddNote').val('');
+    // default
+    var longDateEnd = DateUtil.dataDateToDataBase(taskEnd, _language)
+    $('#cAddDateEnd_0').val(taskEnd);
+    $('#cAddDateEnd_0_convert').val(moment(new Date(longDateEnd)).format('DD/MM/YYYY'));
+    $('#cAddDateEnd_0').change();
 
-    // default check
+    $('#txtAddNote').val('');
     $('#radioNoPostpone_add').prop('checked', true);
 
-    // show modal
     $('#mdAddToPlan').modal({backdrop: 'static'});
 
-    // set hidden
-    $('#taskId').val(taskId);
-
+    $('#mdAddToPlan').attr('taskId', taskId);
     $('#mdAddToPlan').attr('taskBegin', taskBegin);
     $('#mdAddToPlan').attr('taskEnd', taskEnd);
 }
@@ -384,7 +430,7 @@ $('#btnSaveAddPlan').click(function () {
     } else if (checkOverlapDate('cAddDateBegin_', 'cAddDateEnd_')) {
         bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
-        var taskId = $('#taskId').val();
+        var taskId = $('#mdAddToPlan').attr('taskId');
         var plans = [taskId, shiftPlan];
 
         if (_language == 'TH') {
@@ -504,10 +550,19 @@ $('#btnCancelTask').click(function () {
 function openModalEditPlan(event) {
     _eventDate = event;
 
-    // set name
+    // set data
+    if(event.taskCode != '') {
+        $('#lblEditTaskCode').html(event.taskCode).parent().parent().show();
+        $('#lblEditDateBegin').html(event.taskBegin).parent().parent().show();
+        $('#lblEditDateEnd').html(event.taskEnd).parent().parent().show();    
+    } else {
+        $('#lblEditTaskCode').parent().parent().hide();
+        $('#lblEditDateBegin').parent().parent().hide();
+        $('#lblEditDateEnd').parent().parent().hide();    
+    }
     $('#lblEditNameWork').html(event.title);
+    $('#lblEditTaskCost').html(event.taskCost);
 
-    // set complete percentage
     $('#txtPercentage').val(event.progress);
 
     // set begin/end date picker
@@ -543,7 +598,7 @@ function openModalEditPlan(event) {
     $('#radioNoPostpone_edit').prop('checked', true);
 
     // set plan id
-    $('#txtEditPlanId').val(event.planId);
+    $('#mdEditToPlan').attr('planId', event.planId);
 
     // show modal
     $('#mdEditToPlan').modal({backdrop: 'static'});
@@ -634,7 +689,7 @@ $('#btnSaveEditPlan').click(function () {
     } else if (checkOverlapDate('cEditDateBegin_', 'cEditDateEnd_')) {
         bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
-        var planId = $('#txtEditPlanId').val();
+        var planId = $('#mdEditToPlan').attr('planId');
         var plans = [planId, shiftPlan, progress];
 
         if (_language == 'TH') {
@@ -725,7 +780,7 @@ $('#btnSaveEditPlan').click(function () {
 
 $('#btnDeleteEditPlan').click(function () {
     
-    var planId = $('#txtEditPlanId').val();
+    var planId = $('#mdEditToPlan').attr('planId');
 
     bootbox.confirm(MESSAGE.CONFIRM_DELETE, function (result) {
         if (result) {
@@ -842,7 +897,7 @@ function loadAndMapPlan(month, year) {
                         bgColor = '#f22613';
                     }
                 } else {
-                    bgColor = '#6c7a89';
+                    bgColor = '#999';
                 }
 
                 var event = {
@@ -851,8 +906,10 @@ function loadAndMapPlan(month, year) {
                     start: startDate,
                     end: endDate,
                     taskId: v.task != null ? v.task.id : null,
-                    taskBegin: v.task != null ? (v.task.dateStart != null ? v.task.dateStart:'') : '',
-                    taskEnd: v.task != null ? (v.task.dateEnd != null ? v.task.dateEnd:'') : '',
+                    taskBegin: v.task != null ? (v.task.dateStart != null ? v.task.dateStart:'-') : '-',
+                    taskEnd: v.task != null ? (v.task.dateEnd != null ? v.task.dateEnd:'-') : '-',
+                    taskCode: v.task != null ? v.task.taskCode : '',
+                    taskCost: v.task != null ? v.task.taskCost : v.otherTask.taskCost,
                     otherTaskId: v.otherTask != null ? v.otherTask.id : null,
                     planId: v.id,
                     note: v.note,
@@ -920,7 +977,29 @@ function changePlan(){
     return false;
 }
 
+function loadAndMapAllProject(){
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/findAllProject',
+        success: function (data, status, xhr) {
+            if (xhr.status === 200) {
+                $.each(data, function (k, v) {
+                    $('#ddlProject').append('<option value="' + v.id + '">' + v.projectName + '</option>');
+                });
+            }
+        },
+        async: false
+    });
+}
+
 function loadAndMapAllModule(){
+    $('#ddlJobModule').children('option[value!=0]').remove();
+
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=UTF-8",
@@ -929,6 +1008,28 @@ function loadAndMapAllModule(){
             Accept: "application/json"
         },
         url: contextPath + '/plans/findAllModule',
+        success: function (data, status, xhr) {
+            if (xhr.status === 200) {
+                $.each(data, function (k, v) {
+                    $('#ddlJobModule').append('<option value="' + v.id + '">' + v.moduleName + '</option>');
+                });
+            }
+        },
+        async: false
+    });
+}
+
+function loadAndMapModule(projectId){
+    $('#ddlJobModule').children('option[value!=0]').remove();
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/findModuleByProject?id=' + projectId,
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
                 $.each(data, function (k, v) {
@@ -983,4 +1084,11 @@ function isExpiredDate(dates, dateEnd) {
             expired = true;
     });
     return expired;
+}
+
+function dataDateToShortDate(date, lang, arrShortMonths) {
+    var date = DateUtil.dataDateToFrontend(date, lang);
+    date = date.split('/');
+    var month = parseInt(date[1]) - 1;
+    return date[0] + ' ' + arrShortMonths[month];
 }
