@@ -37,8 +37,8 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
 
     @RequestMapping(value = "/checkRoleProjects", method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String>ProjectManagerController.checkRoleProjects(
-            @RequestParam(value = "projectId", required = false) long projectId,
-            @RequestParam(value = "moduleProjectId", required = false) long moduleProjectId
+            @RequestParam(value = "projectId", required = false) Long projectId,
+            @RequestParam(value = "moduleProjectId", required = false) Long moduleProjectId
 
     ){
         HttpHeaders headers=new HttpHeaders();
@@ -48,7 +48,12 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             Boolean rolePm = ProjectManager.checkRoleProjects(projectId,employee.get("empCode").toString());
-            Boolean roleMd = ModuleManager.checkRoleModule(moduleProjectId,employee.get("empCode").toString());
+            Boolean roleMd = null;
+            if(moduleProjectId == null)
+            {
+                roleMd = ModuleManager.checkRoleModule(moduleProjectId,employee.get("empCode").toString());
+            }
+
             Boolean result ;
             if(rolePm || roleMd)
             {
