@@ -95,7 +95,7 @@
 						<label class="col-sm-4 control-label">${LABEL_PROJECT_NAME}</label>
 						<div class="col-sm-5">
 							<select id="ddlProject" class="form-control">
-								<option value="null">-- ${LABEL_PROJECT_NAME} --</option>
+								<option value="null"><!-- Not Empty --></option>
 							</select>
 						</div>
 					</div>
@@ -103,7 +103,7 @@
 						<label class="col-sm-4 control-label">${LABEL_MODULE}</label>
 						<div class="col-sm-5">
 							<select id="ddlModule" class="form-control">
-								<option value="null">-- ${LABEL_MODULE} --</option>
+								<option value="null"><!--Not Empty--></option>
 							</select>
 						</div>
 					</div>
@@ -111,7 +111,7 @@
 						<label class="col-sm-4 control-label">${LABEL_TEAM}</label>
 						<div class="col-sm-5">
 							<select id="ddlTeam" class="form-control">
-								<option value="null">-- ${LABEL_TEAM} --</option>
+								<option value="null"><!--Not Empty--></option>
 							</select>
 						</div>
 					</div>

@@ -17,7 +17,7 @@ var typeProject = ["Developer","Analysis","Developer"];
 var resultEmptyTask;
 
 $("#panelEmployee").hide();
-//$("#panelPlan").hide();
+$("#panelPlan").hide();
 addEmptyTask();
 
 function addDate(dateStart,dateEnd){
