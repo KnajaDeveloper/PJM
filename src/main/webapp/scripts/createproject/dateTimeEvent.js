@@ -1,4 +1,3 @@
-var _language = commonData.language;
 var dateLang = checkLanguageDatePicker(_language);
 
 $(document).ready(function (){
@@ -20,6 +19,10 @@ $(document).ready(function (){
 
          $("#dateEndModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
          $("#dateEndEditModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
+    });
+
+    $("#dateStartModule").on('change', function () {
+        $("#dateEndModule").datepicker('option', 'minDate', $("#dateStartModule").val());
     });
 
     $("#dateStartModule").datepicker(dateLang);

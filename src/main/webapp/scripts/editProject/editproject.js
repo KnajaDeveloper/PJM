@@ -2,6 +2,10 @@ var dataDetail;
 var i = 1;
 var oldDataProject = [];
 var newDataProject = [];
+var oldDataModule = [] ;
+var newDataModule = [] ;
+var oldDataEditModule = [] ;
+var newDataEditModule = [] ;
 var editModuleName = "";
 var countEditModuleManager;
 var countEditModuleMember;
@@ -12,7 +16,7 @@ var dataDDLByCode;
 var option = "";
 var numOfProjectManager = 0 ;
 var first = true ;
-var _language = commonData.language;
+var _language = _language;
 
 findData(projectId);
 
@@ -27,6 +31,9 @@ $("#btnSaveProject").click(function () {
         if (checkInputProject == true) {
             confirmEditProject();
         }
+    }
+    else{
+        bootbox.alert(Message.Data_no_change);
     }
 });
 
@@ -64,6 +71,7 @@ $("#btnAddModule").click(function () {
             $("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
             $("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
             countModuleMember++;
+            saveDataModule();
         }
     } else {
         bootbox.alert(Message.Cant_make_any_action + "\n" + Message.Confirm_editing_data);
@@ -419,6 +427,7 @@ function SaveModule(cost) {
                             $("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
                             first = true;
                             keepDataForCheckChange("project","oldDataProject");
+                            saveDataProject();
                             return true;
                         }
                     },
@@ -520,8 +529,8 @@ function setData() {
     $("#txtProjectName").val("" + dataDetail.responseJSON.Project[0].projectName);
     $("#txtInitialProjectName").val("" + dataDetail.responseJSON.Project[0].projectCode);
     $("#txtCostsProject").val("" + dataDetail.responseJSON.Project[0].projectCost);
-    $("#dateStartProject").val("" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.Project[0].dateStart, commonData.language));
-    $("#dateEndProject").val("" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.Project[0].dateEnd, commonData.language));
+    $("#dateStartProject").val("" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.Project[0].dateStart, _language));
+    $("#dateEndProject").val("" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.Project[0].dateEnd, _language));
     var count_PM = dataDetail.responseJSON.ProjectManager.length;
     $("#txtProjectManagerName1").val("" + dataDetail.responseJSON.ProjectManager[0].empCode);
     for (var j = 1; j < count_PM; j++) {
@@ -551,13 +560,13 @@ function setData() {
             "<div class='col-sm-6'>" +
             "<label class='col-sm-6 control-label'>"+Label.Start_Date +" : </label>" +
             "<div class='col-sm-5 input-group'>" +
-            "<label id='lbDateStartEditModule" + i + "' class='control-label'>" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[i].dateStart, commonData.language) + "</label>" +
+            "<label id='lbDateStartEditModule" + i + "' class='control-label'>" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[i].dateStart, _language) + "</label>" +
             "</div>" +
             "</div>" +
             "<div class='col-sm-6'>" +
             "<label class='col-sm-6 control-label'>"+Label.End_Date+" : </label>" +
             "<div class='col-sm-5 input-group'>" +
-            "<label id='lbDateEndEditModule" + i + "' class='control-label'>" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[i].dateEnd, commonData.language) + "</label>" +
+            "<label id='lbDateEndEditModule" + i + "' class='control-label'>" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[i].dateEnd, _language) + "</label>" +
             "</div>" +
             "</div>" +
             "</div>" +
@@ -698,6 +707,7 @@ function editModule(objectModule) {
         }
         countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
         countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
+        saveDataEditModule();
     }else{
         bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
     }
@@ -1624,4 +1634,94 @@ function editDataModuleInDBWhenEdit(number, cost) {
 
     }
     return returnStatus;
+}
+
+function saveDataModule(){
+    oldDataModule[0] = $("#txtModuleName1").val();
+    oldDataModule[1] = $("#txtInitialModuleName1").val();
+    oldDataModule[2] = $("#txtCostsModule1").val();
+    oldDataModule[3] = $("#dateStartModule").val();
+    oldDataModule[4] = $("#dateEndModule").val();
+    oldDataModule[5] = ModuleManagerToArray();
+    oldDataModule[6] = ModuleMemberToArray();
+}
+
+function closeModalSaveModule(obj){
+    if(compareDataModule()==false){
+        bootbox.confirm(Message.Confirm_exit, function (result) {
+            if (result) {
+                $("#modalAddModule").modal('hide');
+                clearModal();
+            }
+        });
+    }
+    else{
+        $("#modalAddModule").modal('hide');
+        clearModal();
+    }
+}
+
+function compareDataModule(){
+    newDataModule[0] = $("#txtModuleName1").val();
+    newDataModule[1] = $("#txtInitialModuleName1").val();
+    newDataModule[2] = $("#txtCostsModule1").val();
+    newDataModule[3] = $("#dateStartModule").val();
+    newDataModule[4] = $("#dateEndModule").val();
+    newDataModule[5] = ModuleManagerToArray();
+    newDataModule[6] = ModuleMemberToArray();
+    for(var i = 0  ; i < 7 ; i++)
+        if(oldDataModule[i] != newDataModule[i]) return false;
+    return true;
+}
+
+function saveDataEditModule(){
+    oldDataEditModule[0] = $("#txtEditModuleName1").val();
+    oldDataEditModule[1] = $("#txtEditInitialModuleName1").val();
+    oldDataEditModule[2] = $("#txtCostsEditModule1").val();
+    oldDataEditModule[3] = $("#dateStartEditModule").val();
+    oldDataEditModule[4] = $("#dateEndEditModule").val();
+    oldDataEditModule[5] = getAllEditModuleManager();
+    oldDataEditModule[6] = getAllEditModuleMember();
+}
+
+function closeModalEditModule(){
+    if(compareEditData()==false){
+        bootbox.confirm(Message.Confirm_exit, function (result) {
+            if (result) {
+                $("#modalEditModule").modal('hide');
+                clearEditModal();
+            }
+        });
+    }
+    else{
+        $("#modalEditModule").modal('hide');
+        clearEditModal();
+    }
+}
+
+function compareEditData(){
+    newDataEditModule[0] = $("#txtEditModuleName1").val();
+    newDataEditModule[1] = $("#txtEditInitialModuleName1").val();
+    newDataEditModule[2] = $("#txtCostsEditModule1").val();
+    newDataEditModule[3] = $("#dateStartEditModule").val();
+    newDataEditModule[4] = $("#dateEndEditModule").val();
+    newDataEditModule[5] = getAllEditModuleManager();
+    newDataEditModule[6] = getAllEditModuleMember();
+    for(var i = 0  ; i < 7 ; i++)
+        if(oldDataEditModule[i] != newDataEditModule[i]) return false;
+    return true;
+}
+
+function closeModalIncrese(){
+    if($("#txtIncreseCostModuleCost").val() != ""){
+        bootbox.confirm(Message.Confirm_exit, function (result) {
+            if (result) {
+                $("#modalIncreseCost").modal('hide');
+                $("#txtIncreseCostModuleCost").val("");
+            }
+        });
+    }
+    else{
+        $("#modalIncreseCost").modal('hide');
+    }
 }

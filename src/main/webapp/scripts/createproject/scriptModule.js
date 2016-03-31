@@ -9,8 +9,10 @@ arr_moduleMember.push("");
 arr_costModule.push("");
 arr_startDate.push("");
 arr_endDate.push("");
-
-
+var oldDataModule = [] ;
+var newDataModule = [] ;
+var oldDataEditModule = [] ;
+var newDataEditModule = [] ;
 $("#btnSaveModule").click(function(){
 	SaveModule(null);
 });
@@ -31,11 +33,35 @@ $("#btnAddModule").click(function(){
 			$("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
 			$("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
 			countModuleMember++;
+			saveDataModule();
 		}
 	}else{
 		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
 	}
 });
+
+function saveDataModule(){
+	oldDataModule[0] = $("#txtModuleName1").val();
+	oldDataModule[1] = $("#txtInitialModuleName1").val();
+	oldDataModule[2] = $("#txtCostsModule1").val();
+	oldDataModule[3] = $("#dateStartModule").val();
+	oldDataModule[4] = $("#dateEndModule").val();
+	oldDataModule[5] = getAllModuleManager();
+	oldDataModule[6] = getAllModuleMember();
+}
+
+function compareDataModule(){
+	newDataModule[0] = $("#txtModuleName1").val();
+	newDataModule[1] = $("#txtInitialModuleName1").val();
+	newDataModule[2] = $("#txtCostsModule1").val();
+	newDataModule[3] = $("#dateStartModule").val();
+	newDataModule[4] = $("#dateEndModule").val();
+	newDataModule[5] = getAllModuleManager();
+	newDataModule[6] = getAllModuleMember();
+	for(var i = 0  ; i < 7 ; i++)
+		if(oldDataModule[i] != newDataModule[i]) return false;
+	return true;
+}
 
 function moduleManagerChange(obj){
 	$("[from=modulemanager]").remove();
@@ -571,9 +597,33 @@ function editModule(objectModule){
 		}
 		countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
 		countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
+		saveDataEditModule();
 	}else{
 		bootbox.alert(Message.Cant_make_any_action+"\n"+Message.Confirm_editing_data);
 	}
+}
+
+function saveDataEditModule(){
+	oldDataEditModule[0] = $("#txtEditModuleName1").val();
+	oldDataEditModule[1] = $("#txtEditInitialModuleName1").val();
+	oldDataEditModule[2] = $("#txtCostsEditModule1").val();
+	oldDataEditModule[3] = $("#dateStartEditModule").val();
+	oldDataEditModule[4] = $("#dateEndEditModule").val();
+	oldDataEditModule[5] = getAllEditModuleManager();
+	oldDataEditModule[6] = getAllEditModuleMember();
+}
+
+function compareEditData(){
+	newDataEditModule[0] = $("#txtEditModuleName1").val();
+	newDataEditModule[1] = $("#txtEditInitialModuleName1").val();
+	newDataEditModule[2] = $("#txtCostsEditModule1").val();
+	newDataEditModule[3] = $("#dateStartEditModule").val();
+	newDataEditModule[4] = $("#dateEndEditModule").val();
+	newDataEditModule[5] = getAllEditModuleManager();
+	newDataEditModule[6] = getAllEditModuleMember();
+	for(var i = 0  ; i < 7 ; i++)
+		if(oldDataEditModule[i] != newDataEditModule[i]) return false;
+	return true;
 }
 
 function findSameModuleManagerOrProjectManager(needKnow){
@@ -663,3 +713,46 @@ function compareData(){
 	return true;
 }
 
+function closeModalSaveModule(obj){
+	if(compareDataModule()==false){
+		bootbox.confirm(Message.Confirm_exit, function (result) {
+			if (result) {
+				$("#modalAddModule").modal('hide');
+				clearModal();
+			}
+		});
+	}
+	else{
+		$("#modalAddModule").modal('hide');
+		clearModal();
+	}
+}
+
+function closeModalEditModule(){
+	if(compareEditData()==false){
+		bootbox.confirm(Message.Confirm_exit, function (result) {
+			if (result) {
+				$("#modalEditModule").modal('hide');
+				clearEditModal();
+			}
+		});
+	}
+	else{
+		$("#modalEditModule").modal('hide');
+		clearEditModal();
+	}
+}
+
+function closeModalIncrese(){
+	if($("#txtIncreseCostModuleCost").val() != ""){
+		bootbox.confirm(Message.Confirm_exit, function (result) {
+			if (result) {
+				$("#modalIncreseCost").modal('hide');
+				$("#txtIncreseCostModuleCost").val("");
+			}
+		});
+	}
+	else{
+		$("#modalIncreseCost").modal('hide');
+	}
+}

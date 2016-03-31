@@ -52,12 +52,12 @@
 	<c:set var="MESSAGE_NUMBER_ONLY"><spring:message javaScriptEscape="true" code="L0103"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
-
 	<c:set var="MESSAGE_CANT_MAKE_ANY_ACTION"><spring:message javaScriptEscape="true" code="M0052"/></c:set>
 	<c:set var="MESSAGE_COMFIRM_EDITING_DATA_PROJECT"><spring:message javaScriptEscape="true" code="M0053"/></c:set>
 	<c:set var="MESSAGE_YOU_CAN_DECRESE"><spring:message javaScriptEscape="true" code="M0054"/></c:set>
 	<c:set var="MESSAGE_DO_YOU_WANT_TO_DECRESE"><spring:message javaScriptEscape="true" code="M0055"/></c:set>
-
+	<c:set var="MESSAGE_NO_CHANGE_DATA"><spring:message javaScriptEscape="true" code="M0012"/></c:set>
+	<c:set var="MESSAGE_COMFIRM_EXIT"><spring:message javaScriptEscape="true" code="M0031"/></c:set>
 	<c:set var="MESSAGE_PLEASE_SELECT_MODULE"><spring:message javaScriptEscape="true" text="Please select module."/></c:set>
 
 	<style>
@@ -80,6 +80,7 @@
 	</style>
 
 	<script>
+		var _language = commonData.language;
 		var Label = {};
 		Label.Point = '${LABEL_POINT}';
 		Label.Start_Date = '${LABEL_START_DATE}';
@@ -101,6 +102,7 @@
 		Message.Cost_module_more_than_project = '${MESSAGE_COST_MODULE_MORE_THAN_PROJECT}';
 		Message.Confirm_add_module = '${MESSAGE_CONFIRM_ADD_MODULE}';
 		Message.Confirm_edit_module = '${MESSAGE_CONFIRM_EDIT_MODULE}';
+		Message.Confirm_exit = '${MESSAGE_COMFIRM_EXIT}';
 		Message.Can_not_decrese_from_project = '${MESSAGE_CAN_NOT_DECRESE_FROM_PROJECT}';
 		Message.Increse = '${MESSAGE_INCRESE}';
 		Message.Decrese = '${MESSAGE_DECRESE}';
@@ -118,6 +120,7 @@
 		Message.Do_you_want_to_decrese = '${MESSAGE_DO_YOU_WANT_TO_DECRESE}';
 		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
 		Message.Please_select_module = '${MESSAGE_PLEASE_SELECT_MODULE}';
+		Message.Data_no_change = '${MESSAGE_NO_CHANGE_DATA}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';
@@ -298,7 +301,7 @@
 		                    <div class="modal-footer">
 		                    	<br/>
 		                        <button type="button" id="btnSaveModule" class="btn btn-primary">${BUTTON_SAVE}</button>
-		                        <button type="button" class="btn btn-primary" data-dismiss="modal">${BUTTON_CANCLE}</button>
+		                        <button id="btnOutModule" type="button" class="btn btn-primary" onclick="closeModalSaveModule(this)">${BUTTON_CANCLE}</button>
 		                    </div>
 		                </div>
 		            </div>
@@ -388,7 +391,7 @@
 		                    <div class="modal-footer">
 		                    	<br/>
 		                        <button type="button" id="btnEditSaveModule" onclick="saveEditModule(this,null)" class="btn btn-primary">${BUTTON_SAVE}</button>
-		                        <button type="button" class="btn btn-primary" data-dismiss="modal">${BUTTON_CANCLE}</button>
+		                        <button type="button" class="btn btn-primary" onclick="closeModalEditModule()">${BUTTON_CANCLE}</button>
 		                    </div>
 		                </div>
 		            </div>
@@ -431,7 +434,7 @@
 			                    <div class="modal-footer">
 			                    	<br/>
 			                        <button type="button" id="btnSaveIncreseCostModule" class="btn btn-primary">${BUTTON_SAVE}</button>
-			                        <button type="button" class="btn btn-primary" data-dismiss="modal">${BUTTON_CANCLE}</button>
+			                        <button type="button" class="btn btn-primary" onclick="closeModalIncrese()">${BUTTON_CANCLE}</button>
 		                    	</div>
 			                </div>
 		        	</div>
