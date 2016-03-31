@@ -19,7 +19,7 @@ public class EmRestService extends AbstractAPP2Service {
     private static Logger LOGGER = LoggerFactory.getLogger(EmRestService.class);
 
     public EmRestService() {
-        this.APP2Server  = connectProperties.getProperty("EM-APP2Server");///test/test
+        this.APP2Server = connectProperties.getProperty("EM-APP2Server");///test/test
     }
 
     public List<Map> getEmtestService() {
@@ -44,7 +44,7 @@ public class EmRestService extends AbstractAPP2Service {
     public List<Map> getEmpNameByEmpCode(String Empcode) {
         List<Map> listMap = new ArrayList<>();
         try {
-            setWebServicesString("http://" + this.APP2Server + "/employees/findEMNameByEMCode?empCode="+ Empcode);
+            setWebServicesString("http://" + this.APP2Server + "/employees/findEMNameByEMCode?empCode=" + Empcode);
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
@@ -63,7 +63,7 @@ public class EmRestService extends AbstractAPP2Service {
     public List<Map> getEmpNameByUserName(String userName) {
         List<Map> listMap = new ArrayList<>();
         try {
-            setWebServicesString("http://" + this.APP2Server + "/employees/findEMNameByUserName?userName="+ userName);
+            setWebServicesString("http://" + this.APP2Server + "/employees/findEMNameByUserName?userName=" + userName);
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
@@ -98,15 +98,15 @@ public class EmRestService extends AbstractAPP2Service {
         List<Map> listMap = new ArrayList<>();
         try {
             Map empData = authorizeUtil.getEmpData();
-            if(empData.isEmpty()) {
-                setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByUserName?userName="+ userName);
+            if (empData.isEmpty()) {
+                setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByUserName?userName=" + userName);
                 if (!getResultString().equals("[{}]")) {
                     JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                     for (JsonElement obj : jArray) {
                         listMap.add(gson.fromJson(obj, Map.class));
                     }
                 }
-                if(listMap.size() > 0){
+                if (listMap.size() > 0) {
                     authorizeUtil.setEmpDate(listMap);
                 }
             } else {
@@ -122,7 +122,7 @@ public class EmRestService extends AbstractAPP2Service {
     public List<Map> findEmployeeByTextLov(String text) {
         List<Map> listMap = new ArrayList<>();
         try {
-            setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByTextLov?text="+ text);
+            setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByTextLov?text=" + text);
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
@@ -138,7 +138,7 @@ public class EmRestService extends AbstractAPP2Service {
 
 
     public List<Map> findEMNameByEMCodeArray(String empCode) {
-        String requestString = "http://" + this.APP2Server + "/employees/findEMNameByEMCodeArray?empCode="+empCode;
+        String requestString = "http://" + this.APP2Server + "/employees/findEMNameByEMCodeArray?empCode=" + empCode;
         setWebServicesString(requestString);
         List<Map> listMap = new ArrayList<>();
         if (!getResultString().equals("[{}]")) {
@@ -148,6 +148,7 @@ public class EmRestService extends AbstractAPP2Service {
             }
         }
         return listMap;
+    }
 
     //----------findTeamAll------------------------------------------------------------------------
 
@@ -173,7 +174,7 @@ public class EmRestService extends AbstractAPP2Service {
     public List<Map> GetEmpByTeamID(String teamID) {
         List<Map> listMap = new ArrayList<>();
         try {
-            setWebServicesString("http://" + this.APP2Server + "/employees/GetEmpByTeamID?teamID="+ teamID);
+            setWebServicesString("http://" + this.APP2Server + "/employees/GetEmpByTeamID?teamID=" + teamID);
             if (!getResultString().equals("[{}]")) {
                 JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
                 for (JsonElement obj : jArray) {
@@ -187,5 +188,6 @@ public class EmRestService extends AbstractAPP2Service {
         }
 
     }
-
 }
+
+
