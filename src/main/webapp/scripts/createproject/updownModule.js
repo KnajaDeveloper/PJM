@@ -16,8 +16,8 @@ function collapseShow(status){
 	}
 	else{
 		for(var i = 1 ; i <= countCollapse ; i++){
-			$("#collapse"+i).removeClass("in");	
-			$("#collapse"+i).css("height","auto");	
+			$("#collapse"+i).removeClass("in");
+			$("#collapse"+i).css("height","auto");
 		}
 	}
 }

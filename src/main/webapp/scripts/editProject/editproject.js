@@ -534,9 +534,9 @@ function setData() {
     var count_PM = dataDetail.responseJSON.ProjectManager.length;
     $("#txtProjectManagerName1").val("" + dataDetail.responseJSON.ProjectManager[0].empCode);
     for (var j = 1; j < count_PM; j++) {
-        var html = "<div style='padding-top: 5px;' id='container_subProjectManager" + [count_PM + 1] + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+        var html = "<div style='padding-top: 5px;' id='container_subProjectManager" + (j + 1) + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
             "<input type='text' class='form-control' style='margin-top:5px;' id='txtProjectManagerName" + [j + 1] + "'></input></div>" +
-            "<button id='btnDeletePM" + [count_PM + 1] + "' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>" + Button.Delete + "</button></div>";
+            "<button id='btnDeletePM" + (j + 1) + "' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>" + Button.Delete + "</button></div>";
         $("#subProjectManager").append(html);
         $("#txtProjectManagerName" + (j + 1)).val("" + dataDetail.responseJSON.ProjectManager[j].empCode);
     }
@@ -1723,5 +1723,29 @@ function closeModalIncrese(){
     }
     else{
         $("#modalIncreseCost").modal('hide');
+    }
+}
+
+$("#btnUpModule").click(function(){
+    collapseShow(false);
+});
+
+$("#btnDownModule").click(function(){
+    collapseShow(true);
+});
+
+function collapseShow(status){
+    var countCollapse = $('[id^=collapse]').length ;
+    if(status){
+        for(var i = 0 ; i < countCollapse ; i++) {
+            $("#collapse"+i).addClass("in");
+            $("#collapse"+i).css("height","auto");
+        }
+    }
+    else{
+        for(var i = 0 ; i < countCollapse ; i++){
+            $("#collapse"+i).removeClass("in");
+            $("#collapse"+i).css("height","auto");
+        }
     }
 }

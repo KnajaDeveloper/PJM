@@ -483,9 +483,6 @@
 	<spring:url value="/resources/scripts/common.js" var="common"/>
 	<script src="${common}" type="text/javascript"><!--Not Empty --></script>
 
-	<spring:url value="/resources/scripts/createproject/updownModule.js" var="updownModule"/>
-	<script src="${updownModule}" type="text/javascript"><!--Not Empty--></script>
-
 	<spring:url value="/resources/scripts/editProject/editproject.js" var="editproject"/>
 	<script src="${editproject}" type="text/javascript"><!--Not Empty--></script>
 

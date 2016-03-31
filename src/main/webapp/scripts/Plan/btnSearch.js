@@ -33,7 +33,7 @@ $("#ddlProject").change(function(){
 		searchModuleProjectByProjectId(idProject);
 	}else{
 		$("#ddlModule").empty();
-		$("#ddlModule").append("<option value=null>-- "+Label.Module+" --</option>");
+		$("#ddlModule").append("<option value=null></option>");
 	}
 });
 
@@ -117,7 +117,7 @@ function searchModuleProjectByProjectId(projectId){
 
 function addDDLToProjectDDL(project){
 	$("#ddlProject").empty();
-	$("#ddlProject").append("<option value=null>-- "+Label.Project_name+" --</option>");
+	$("#ddlProject").append("<option value=null></option>");
 	for(var i = 0 ; i < project.length ; i++){
 		$("#ddlProject").append("<option value='"+project[i].id+"'>"+project[i].projectName+"</option>");
 	}
@@ -125,7 +125,7 @@ function addDDLToProjectDDL(project){
 
 function addDDLToModuleDDL(module){
 	$("#ddlModule").empty();
-	$("#ddlModule").append("<option value=null>-- "+Label.Module+" --</option>");
+	$("#ddlModule").append("<option value=null></option>");
 	for(var i = 0 ; i < module.length ; i++){
 		$("#ddlModule").append("<option value='"+module[i].id+"'>"+module[i].moduleName+"</option>");
 	}
