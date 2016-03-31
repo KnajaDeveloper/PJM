@@ -3,8 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
-import com.app2.app2t.domain.pjm.ModuleProject;
-import com.app2.app2t.domain.pjm.Project;
+import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.web.pjm.ModuleProjectController;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,16 +14,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
+import com.app2.app2t.util.AuthorizeUtil;
+
+import java.util.*;
 
 privileged aspect ModuleProjectController_Custom_Controller {
 
     @RequestMapping(value = "/detailsModule", produces = "text/html")
     public String ModuleProjectController.detailsModule(Model uiModel,
-        @RequestParam(value = "id", required = false) String moduleProjectID
+    	@RequestParam(value = "projectId", required = false) Long projectId,
+        @RequestParam(value = "moduleProjectId", required = false) Long moduleProjectId
     ) {
-    	uiModel.addAttribute("moduleProjectID", moduleProjectID);
-        return "moduleprojects/detailsModule";
+    	String userName = AuthorizeUtil.getUserName();
+        Map employee = emRestService.getEmployeeByUserName(userName);
+
+    	Boolean moduleManager = ModuleManager.checkRoleModule(moduleProjectId, employee.get("empCode").toString());
+    	Boolean projectManager = ProjectManager.checkRoleProjects(projectId, employee.get("empCode").toString());
+
+    	if(moduleManager == true || projectManager == true){
+    		uiModel.addAttribute("moduleProjectID", moduleProjectId);
+        	return "moduleprojects/detailsModule";
+    	} else {
+    		return "redirect:/";
+    	}
     }
 }

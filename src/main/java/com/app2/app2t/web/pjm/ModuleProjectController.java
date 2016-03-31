@@ -6,6 +6,8 @@ import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
+import com.app2.app2t.service.EmRestService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RequestMapping("/moduleprojects")
 @Controller
@@ -13,5 +15,7 @@ import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 @RooWebJson(jsonObject = ModuleProject.class)
 public class ModuleProjectController {
 
+	@Autowired
+    EmRestService emRestService;
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProjectController.class);
 }

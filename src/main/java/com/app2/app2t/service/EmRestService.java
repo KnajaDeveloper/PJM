@@ -188,6 +188,23 @@ public class EmRestService extends AbstractAPP2Service {
         }
 
     }
+
+    public Map getEmployeeByEmpCode(String empCode) {
+        List<Map> listMap = new ArrayList<>();
+        try {
+            setWebServicesString("http://" + this.APP2Server + "/employees/findEmployeeByEmpCode?empCode="+ empCode);
+            if (!getResultString().equals("[{}]")) {
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
+                }
+            }
+            return listMap.get(0);
+        } catch (Exception e) {
+            LOGGER.error("Error : {}", e.getMessage());
+            return null;
+        }
+    }
 }
 
 
