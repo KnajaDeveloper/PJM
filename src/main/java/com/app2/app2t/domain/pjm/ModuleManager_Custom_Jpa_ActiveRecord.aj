@@ -58,7 +58,7 @@ privileged aspect ModuleManager_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-     public static Boolean ModuleManager.checkRoleModule(long moduleProjectId,String  emCode) {
+     public static Boolean ModuleManager.checkRoleModule(Long moduleProjectId,String  emCode) {
         EntityManager ent = ModuleManager.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class, "modul");
         criteria.createAlias("modul.moduleProject", "moduleProject");

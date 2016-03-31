@@ -94,7 +94,7 @@ $("#search").click(function () {
     else {
         fnDateEnd = "";
     }
-    console.log($("#lovPm").data("dataCode"));
+    //console.log($("#lovPm").data("dataCode"));
     dataJsonData = {
         projectManage: $("#lovPm").data("dataCode"),
         moduleManager : $("#lovMm").data("dataCode"),
