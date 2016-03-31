@@ -3,7 +3,12 @@ $("#btnSaveProject").click(function(){
 	if(checkInputProject==true){
 		var bool ;
 		if(dataAfterSave==null) bool = saveProjectToDB();
-		else bool = updateProjectToDB();
+		else {
+			if(compareData()==false)
+				bool = updateProjectToDB();
+			else
+				bootbox.alert(Message.Data_no_change);
+		}
 		if(bool==true) {
 			$("#container_DataModule").show(500);
 		}
