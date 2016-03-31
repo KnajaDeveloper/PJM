@@ -4,6 +4,7 @@
 package com.app2.app2t.web.pjm;
 
 import com.app2.app2t.domain.pjm.*;
+import com.app2.app2t.util.ApplicationConstant;
 import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
 
@@ -14,8 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.apache.commons.io.IOUtils;
 
+import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.net.*;
 import java.io.*;
 
 privileged aspect TaskController_Custom_Controller_Json {
@@ -108,7 +114,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             if(!fileName.equals("null")){
-                Task.uploadFileAndInsertDataFile(multipartHttpServletRequest);
+                Task.uploadFileAndInsertDataFile(id, taskCode, multipartHttpServletRequest);
             }
 
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
@@ -122,7 +128,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{programID}",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findEditTask(
             @PathVariable("id") Long id,
             @PathVariable("taskCode") String taskCode,
@@ -135,11 +141,16 @@ privileged aspect TaskController_Custom_Controller_Json {
             @PathVariable("fileName") String fileName,
             @PathVariable("detail") String detail,
             @PathVariable("progress") Integer progress,
+            @PathVariable("programID") Long programID,
             MultipartHttpServletRequest multipartHttpServletRequest
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+            List<Task> taskSize = Task.findSizeFileByFileName(fileName);
+            if(!fileName.equals("null") && taskSize.size() == 0){
+                Task.uploadFileAndInsertDataFile(programID, taskCode, multipartHttpServletRequest);
+            }
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
             List<Task> result = Task.findEditTask(id, taskCode, taskName, taskCost, tt.get(0), empCode,
                 dateStart, dateEnd, fileName, detail, progress);
@@ -153,12 +164,13 @@ privileged aspect TaskController_Custom_Controller_Json {
     @RequestMapping(value = "/findDeleteTask",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findDeleteTask(
             @RequestParam(value = "id", required = false) Long id,
-            @RequestParam(value = "taskID", required = false) Long taskID
+            @RequestParam(value = "taskID", required = false) Long taskID,
+            @RequestParam(value = "taskCode", required = false) String taskCode
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Task> result = Task.findDeleteTask(id, taskID);
+            List<Task> result = Task.findDeleteTask(id, taskID, taskCode);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -277,6 +289,35 @@ privileged aspect TaskController_Custom_Controller_Json {
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/downloadFile/{programID}/{taskCode}/{fileName}", method = RequestMethod.GET)
+    public ResponseEntity<String> TaskController.downloadFile(
+            @PathVariable("programID") String programID,
+            @PathVariable("taskCode") String taskCode,
+            @PathVariable("fileName") String fileName,
+            HttpServletResponse response
+    ) throws ServletException, IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        InputStream in = null;
+        try {
+            String mimeType = new MimetypesFileTypeMap().getContentType(fileName);
+            String fileName1 = URLEncoder.encode(fileName, "UTF-8");
+            String fileName2 = URLDecoder.decode(fileName1, "ISO8859_1");
+            response.setContentType(mimeType);
+            response.addHeader("Content-Disposition", "attachment; filename=\""+fileName2+"\"");
+            String pathFile = ApplicationConstant.PATH_PJM_FILE + programID + "/" + taskCode + "/";
+            in = new FileInputStream(pathFile + fileName);
+            IOUtils.copy(in, response.getOutputStream());
+            return new ResponseEntity<String>(headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }finally{
+            IOUtils.closeQuietly(in);
         }
     }
 }

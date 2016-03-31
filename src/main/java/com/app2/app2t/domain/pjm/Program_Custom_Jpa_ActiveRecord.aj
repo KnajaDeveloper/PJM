@@ -8,7 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
-import java.util.List;
+import java.util.*;
+
+import com.app2.app2t.util.ApplicationConstant;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.*;
+import org.apache.commons.io.IOUtils;
+import  org.apache.commons.io.FileUtils;
+import org.springframework.util.FileCopyUtils;
+import java.text.*;
+import java.io.*;
 
 privileged aspect Program_Custom_Jpa_ActiveRecord {
 
@@ -84,6 +93,16 @@ privileged aspect Program_Custom_Jpa_ActiveRecord {
         criteria.createAlias("program.moduleProject", "moduleProject");
         criteria.add(Restrictions.eq("moduleProject.id", id));
         criteria.add(Restrictions.eq("id", programId));
+
+        try{
+            String pathFile = ApplicationConstant.PATH_PJM_FILE + programId + "/";
+            File path = new File(pathFile);
+            FileUtils.deleteDirectory(path);
+        }catch(Exception e){
+            LOGGER.error("Error : {}", e);
+            throw new RuntimeException(e);
+        }
+
         List<Program> ep = criteria.list();
         Program edProgram = ep.get(0);
         edProgram.remove();
