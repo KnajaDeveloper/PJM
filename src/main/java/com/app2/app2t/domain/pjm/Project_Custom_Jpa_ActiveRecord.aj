@@ -45,7 +45,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
     }
 
 
-    public static Criteria Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage) {
+    public static Criteria Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage,String moduleManager) {
 
 
             Session session = (Session) Project.entityManager().getDelegate();
@@ -103,10 +103,22 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             }
             //-- SubQuery ProjectManager --//
             DetachedCriteria subCriteria = DetachedCriteria.forClass(ProjectManager.class, "projectManager");
-            subCriteria.add(Restrictions.like("empCode", "%" + projectManage + "%"));
+            if(projectManage != "" && projectManage != null)
+            {
+            subCriteria.add(Restrictions.eq("empCode", projectManage));
+            }
             subCriteria.setProjection(Projections.property("project"));
+            //-- SubQuery ModuleManager --//
+            DetachedCriteria subCriteriaMd = DetachedCriteria.forClass(ModuleManager.class, "moduleManager");
+            subCriteriaMd.createAlias("moduleManager.moduleProject","moduleProject");
+            if(moduleManager != "" && moduleManager != null)
+            {
+                subCriteriaMd.add(Restrictions.eq("empCode", moduleManager));
+            }
+            subCriteriaMd.setProjection(Projections.property("moduleProject.project"));
             //----//
             criteria.add(Subqueries.propertyIn("project.id", subCriteria));
+            criteria.add(Subqueries.propertyIn("project.id", subCriteriaMd));
             return criteria ;
 
     }
@@ -183,10 +195,11 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
                                                                    Integer costEnd,
                                                                    String projectManage,
                                                                    Integer maxResult,
-                                                                   Integer firstResult
+                                                                   Integer firstResult,
+                                                                   String moduleManager
 
     ){
-        Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage)
+        Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,moduleManager)
                 .setFirstResult(firstResult)
                 .setMaxResults(maxResult);
         return criteria.list();
@@ -197,10 +210,11 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
                                                            String FnDateEnd,
                                                            Integer costStart,
                                                            Integer costEnd,
-                                                           String projectManage
+                                                           String projectManage,
+                                                           String moduleManager
 
     ){
-        Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage)
+        Criteria criteria = Project.findProjectSearchData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,moduleManager)
                 .setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
