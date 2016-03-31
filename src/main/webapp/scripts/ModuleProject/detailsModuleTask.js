@@ -64,17 +64,18 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     $('#formADTask').show();
     $('#formTask').show();
 
+    $('#ResualtSearchTask').empty();
+
     if(jsonData.length <= 0){
-       bootbox.alert(Message.MSG_DATA_NOT_FOUND);
        $('#lblEmpName').text("");
         $('#lblTaskName').text("");
         $('#lblSDate').text("");
         $('#lblEDate').text("");
         $('#lblFileName').text("");
         $('#txtaDetail').val(null);
-    }
 
-    $('#ResualtSearchTask').empty();
+        $('#ResualtSearchTask').append('<tr><td colspan = 6 class="text-center">' + Message.MSG_DATA_NOT_FOUND + '</td></tr>');
+    }
 
     var link = "";
     var i = 1;
@@ -110,15 +111,15 @@ pagginationTask.loadTable = function loadTable (jsonData) {
         tableData = ''
         + '<tr id="trTask' + i++ + '">'
             + '<td class="text-center">'
-                + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
+                + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" taskCode="' + value.taskCode + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
             + '</td>'
             + '<td class="text-center">'
                 + '<button onclick="openEditTask($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
-            + '<td id="tdCodeTask" taskId="' + value.id + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
-            + '<td id="tdNameTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
-            + '<td id="tdCostTask" class="text-center" onclick="onClickTrTask(this)">' + value.taskCost + ' Point</td>'
-            + '<td id="tdProgressTask" onclick="onClickTrTask(this)">'
+            + '<td id="tdCodeTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
+            + '<td id="tdNameTask" taskCode="' + value.taskCode + '" class="" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
+            + '<td id="tdCostTask" taskCode="' + value.taskCode + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCost + ' Point</td>'
+            + '<td id="tdProgressTask" taskCode="' + value.taskCode + '" onclick="onClickTrTask(this)">'
                 + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
                 + 'style="width: ' + value.progress + '%;">' + value.progress + '%</div>'
             + '</td>'
@@ -225,6 +226,8 @@ function openEditTask(element){
     $('#txtaDescription').val(checkDescription);
 }
 
+var taskCode;
+
 function onClickTrTask(object){
     var id = object.parentElement.id.split('k')[1];
     $('#lblEmpName').text(dataEmpCode[id - 1]);
@@ -233,6 +236,8 @@ function onClickTrTask(object){
     $('#lblEDate').text(dataDateEnd[id - 1]);
     $('#lblFileName').text(dataFileName[id - 1]);
     $('#txtaDetail').val(dataDetail[id - 1]);
+
+    taskCode = object.attributes.taskCode.textContent;
 
     var lengthTr = $('#TableTask').find('tr').length;
     for (var i = 1; i < lengthTr; i++) {
@@ -359,8 +364,16 @@ function saveData(id, dateStart, dateEnd){
                 $('#fileName').text("");
                 $('#txtaDescription').val("");
                 DDLData();
-                searchDataTask();
+
+                var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
                 searchDataProgram();
+                pagginationProgram.loadPage(pageNumber, pagginationProgram);
+
+                var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                searchDataTask();
+                pagginationTask.loadPage(pageNumber, pagginationTask);
+
+
                 $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                 $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
             }else if(xhr.status == 500){
@@ -426,7 +439,8 @@ function saveDataToDataBase(id) {
                                                       '/' + dateEnd +
                                                       '/' + fileName +
                                                       '/' + description +
-                                                      '/' + $('#txtProgress').val(),
+                                                      '/' + $('#txtProgress').val() +
+                                                      '/' + programID,
                 processData: false,
                 contentType: false,
                 data: formData,
@@ -443,7 +457,10 @@ function saveDataToDataBase(id) {
                         document.getElementById("myInput").value = "";
                         $('#fileName').text("");
                         $('#txtaDescription').val("");
-                        searchDataTask();
+
+                        var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                        pagginationTask.loadPage(pageNumber, pagginationTask);
+
                         $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
                     }else if(xhr.status == 500){
                         bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
@@ -600,7 +617,8 @@ function deleteDataTask() {
             url: contextPath + '/tasks/findDeleteTask',
             data : {
                 id: programID,
-                taskID: $(this).attr("id")
+                taskID: $(this).attr("id"),
+                taskCode: $(this).attr("taskCode")
             },
             complete: function(xhr){
                 if(xhr.status === 200)
@@ -631,8 +649,13 @@ $('#btnDeleteTask').click(function() {
                 dataFileName = [];
                 dataDetail = [];
 
+                var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
                 searchDataTask();
+                pagginationTask.loadPage(pageNumber, pagginationTask);
+
+                var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
                 searchDataProgram();
+                pagginationProgram.loadPage(pageNumber, pagginationProgram);
 
                 $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                 $('#checkboxAllTask').prop('checked', false);
@@ -653,6 +676,10 @@ $('#btnDeleteTask').click(function() {
 });
 
 $('#checkboxAllTask').click(function(){
+    if($(".checkboxTableTask[inUse=0]").length == 0){
+        bootbox.alert(Message.MSG_DATA_ALL_IN_USED);
+        $(this).prop("checked", false);
+    }
     $(".checkboxTableTask").prop('checked', $(this).prop('checked'));
     $.each($(".checkboxTableTask[inUse=1]"),function(index, value){
         $(this).prop("checked", false);
@@ -679,33 +706,12 @@ function checkNullData(value) {
     }
 }
 
-// Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test 
-
-// $('#btnTestSaveFile').click(function() {
-//     var formData = new FormData();
-//     formData.append("testMyInput", testMyInput.files[0]);
-//     $.ajax({
-//          type: "POST",
-//          headers: {
-//              Accept: 'application/json',
-//          },
-//          contentType: "application/json; charset=utf-8",
-//          dataType: "json",
-//          url: contextPath + '/tasks/uploadFileAndInsertDataFile',
-//          processData: false,
-//          contentType: false,
-//          data: formData,
-//          complete: function (xhr) {
-//              if (xhr.readyState == 4) {
-//                 if (xhr.status == 201) {
-//                     alert("Okay");    
-//                 } else {
-//                 }
-//              } else {
-//              }
-//          },
-//          async: false,
-//      });
-// });
-
-// Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test 
+$('#btnDownloadFile').click(function() {
+    if(checkNullData($('#lblFileName').text()) == ""){
+        bootbox.alert(Message.MSG_FILE_NOT_FOUND);
+    }else{
+        window.location.href = contextPath + '/tasks/downloadFile/' + programID + 
+                                                            '/' + taskCode +
+                                                            '/' + $('#lblFileName').text() + '/';
+    }
+});

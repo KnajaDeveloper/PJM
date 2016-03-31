@@ -38,17 +38,6 @@ $(document).ready(function(){
             $('#fileName').text(file.name);
         }
     });
-
-    // Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test 
-
-    // $('#testMyInput').change(function () {
-    //     var file = document.getElementById("testMyInput").files[0];
-    //     if (file) {
-    //         $('#testFileName').text(file.name);
-    //     }
-    // });
-
-    // Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test 
 });
 
 function searchTaskCost(moduleCost){

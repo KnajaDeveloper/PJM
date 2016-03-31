@@ -16,6 +16,7 @@ import com.app2.app2t.util.ApplicationConstant;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.*;
 import org.apache.commons.io.IOUtils;
+import  org.apache.commons.io.FileUtils;
 import org.springframework.util.FileCopyUtils;
 import java.text.*;
 import java.io.*;
@@ -173,12 +174,22 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Task> Task.findDeleteTask(Long id, Long taskID) {
+    public static List<Task> Task.findDeleteTask(Long programID, Long taskID, String taskCode) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
         criteria.createAlias("task.program", "program");
-        criteria.add(Restrictions.eq("program.id", id));
+        criteria.add(Restrictions.eq("program.id", programID));
         criteria.add(Restrictions.eq("id", taskID));
+
+        try{
+            String pathFile = ApplicationConstant.PATH_PJM_FILE + programID + "/" + taskCode + "/";
+            File path = new File(pathFile);
+            FileUtils.deleteDirectory(path);
+        }catch(Exception e){
+            LOGGER.error("Error : {}", e);
+            throw new RuntimeException(e);
+        }
+        
         List<Task> et = criteria.list();
         Task edTask = et.get(0);
         edTask.remove();
@@ -264,13 +275,25 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     }
 
     @Transactional
-    public static void Task.uploadFileAndInsertDataFile(MultipartHttpServletRequest multipartHttpServletRequest) {
+    public static void Task.uploadFileAndInsertDataFile(Long programID, String taskCode, MultipartHttpServletRequest multipartHttpServletRequest) {
         try{
             MultipartFile multipartFile = multipartHttpServletRequest.getFile("myInput");
             if(!multipartFile.isEmpty()){
                 byte[] bytes = multipartFile.getBytes();
-                File pathFileNew = new File(ApplicationConstant.PATH_PJM_FILE+multipartFile.getOriginalFilename());
-                FileCopyUtils.copy(bytes, new FileOutputStream(pathFileNew));
+                String pathFile = ApplicationConstant.PATH_PJM_FILE + programID + "/" + taskCode + "/";
+                File path = new File(pathFile);
+                boolean check = path.mkdirs();
+                if(check == true){
+                    File pathFileNew = new File(pathFile + multipartFile.getOriginalFilename());
+                    FileCopyUtils.copy(bytes, new FileOutputStream(pathFileNew));
+                }else{
+                    FileUtils.deleteDirectory(path);
+                    boolean check1 = path.mkdirs();
+                    if(check1 == true){
+                        File pathFileNew = new File(pathFile + multipartFile.getOriginalFilename());
+                        FileCopyUtils.copy(bytes, new FileOutputStream(pathFileNew));
+                    }
+                }
             }
         }catch(Exception e){
             LOGGER.error("Error : {}", e);
