@@ -82,7 +82,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
             var map = {};
             $.each(jsonData, function (i, state) {
                 first = false;
-                var key = state.empFirstName +"  "+ state.empLastName + "  (" + state.empNickName + ")";
+                var key = ""+state.empCode+" : "+state.empFirstName +"  "+ state.empLastName + "  (" + state.empNickName + ")";
                 map[key] = state;
                 states.push(key);
             });
@@ -91,7 +91,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
         },
         minLength: 0,
         items: 20,
-        menu: "<ul id=" + inputId.split("#")[1] + "_typeahead_menu class='typeahead dropdown-menu' style='width: "+$(inputId).width()+"px;'></ul>",
+        menu: "<ul id=" + inputId.split("#")[1] + "_typeahead_menu class='typeahead dropdown-menu' style='width: "+$(inputId).width()+"px; height: 200px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888'></ul>",
         updater: function (item) {
             var map = $(inputId).data('map');
             $(inputId).data(LovEmployeeDataItem,map[item]);
