@@ -105,7 +105,6 @@ $("#search").click(function () {
         costStart: $('#costStart').val(),
         costEnd: $('#costEnd').val(),
     }
-
     searchData();
     if(json.length <= 0)
     {
@@ -118,8 +117,18 @@ $("#addProject").click(function () {
 }); //-- link Addproject --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=editProject_]", function () {
-    var id =  this.id.split('editProject_')[1];
-    window.location.href = contextPath + '/projects/editproject?projectId='+id;
+    var projectId =  this.id.split('editProject_')[1];
+    var result =  roleProject(projectId,null);
+    // console.log(s);
+    if(result)
+    {
+        window.location.href = contextPath + '/projects/editproject?projectId='+projectId;
+    }
+    else
+    {
+        bootbox.alert(MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS);
+    }
+
 }); //-- link editProject --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=progress]", function () {
@@ -145,7 +154,7 @@ paggination.loadTable = function loadTable(jsonData) {
             tableData = ''
                 + '<tr>'
                 + '<td class="text-center">'
-                + '<input id="' + (value.inUse > 0 ? 'checkBoxDisable_' : 'checkBoxDelete')+value.id+'" class="check" type="checkbox" '+(value.inUse > 0 ? '':'projectID="id_'+value.id+'" status="check"')+' />'
+                + '<input id="' + (value.inUse > 0 ? 'checkBoxDisable_' : 'checkBoxDelete')+value.id+'" checkBox="check" class="check" type="checkbox" '+(value.inUse > 0 ? '':'projectID="id_'+value.id+'" status="check"')+' />'
                 + '</td>'
                 + '<td class="text-center">'
                 + '<button id="editProject_'+value.id+'" class="btn btn-info btn-xs" type="button"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
@@ -198,13 +207,13 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
-    // $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
-    $('[id^=chDelete]').prop('checked',true);
+     $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
     var num =  $('input[status=check]:checked').length;
-    console.log(num +"");
-    if (num <= 0){
+    var status =  $('input[checkBox=check]').length;
+    //console.log(status); console.log(num+"ss");
+    if (status > 0 && num <= 0 && $('#checkAll').prop('checked') == true ){
        $('#checkAll').prop('checked', false);
-      bootbox.alert("ข้อมูลทั้งหมดถูกใช้งานอยู่"); ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      bootbox.alert(MESSAGE.ALERT_DATA_ALL_IN_USE);
     }
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -75,6 +75,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
 
         try
         {
+            LOGGER.debug("MODULE++PROJECT??>>>>>>>>>>>"+moduleManager +"<>"+projectManage);
             List<Map<String,Object>> resultSearch = new ArrayList<>();
             List<Project> result = Project.finProjectOfDataPagingData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,maxResult,firstResult,moduleManager );
             for(Project project : result) {
@@ -89,7 +90,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
                 resultSearch.add(map);
 
             }
-//            LOGGER.error("+{}{}>>"+list.get(0));
+            LOGGER.debug("+{}{}>>>>>>>>>>>>>>>>" + resultSearch);
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

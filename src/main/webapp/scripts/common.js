@@ -29,7 +29,24 @@ $(document).ready(function () {
     $( ".datepicker" ).datepicker( "option", "yearRange", '1950:2050' );
 
 });
-
+function show_image() {
+    var img = document.createElement("img");
+    img.src = pathImgLoading;
+    img.width = 50;
+    img.height = 50;
+    img.style = "display:none; position:absolute;  left:49%; right: 50%; top:60%;" ;
+    img.id = "wait";
+    document.body.appendChild(img);
+}
+$( document ).ajaxStart(function() {
+        show_image();
+        $('body').css('opacity',0.5);
+        $("#wait").css("display", "block");
+});
+$(document).ajaxComplete(function(){
+        $("#wait").css("display", "none");
+        document.body.style.opacity = 1 ;
+});
 /**
  * ## Ajax Pattern ##########################################################################################
  */

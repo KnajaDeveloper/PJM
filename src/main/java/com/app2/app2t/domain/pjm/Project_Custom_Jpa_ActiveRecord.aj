@@ -103,7 +103,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             }
             //-- SubQuery ProjectManager --//
             DetachedCriteria subCriteria = DetachedCriteria.forClass(ProjectManager.class, "projectManager");
-            if(projectManage != "" && projectManage != null)
+            if(projectManage.toString() != "" && moduleManager != null)
             {
             subCriteria.add(Restrictions.eq("empCode", projectManage));
             }
@@ -114,11 +114,13 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
             if(moduleManager != "" && moduleManager != null)
             {
                 subCriteriaMd.add(Restrictions.eq("empCode", moduleManager));
+                subCriteriaMd.setProjection(Projections.property("moduleProject.project"));
+                criteria.add(Subqueries.propertyIn("project.id", subCriteriaMd));
             }
-            subCriteriaMd.setProjection(Projections.property("moduleProject.project"));
+
             //----//
             criteria.add(Subqueries.propertyIn("project.id", subCriteria));
-            criteria.add(Subqueries.propertyIn("project.id", subCriteriaMd));
+
             return criteria ;
 
     }

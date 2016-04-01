@@ -34,12 +34,13 @@
     <c:set var="LABEL_ADD_TASK_MODULE" scope="request"><spring:message code="L0064"/></c:set>
     <c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
     <c:set var="ALERT_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
-    <c:set var="ALERT_NOT_DELETE_THIS_DATA" scope="request"><spring:message code="M0010"/></c:set>
+    <c:set var="ALERT_NOT_DELETE_THIS_DATA" scope="request"><spring:message code="M0028"/></c:set>
     <c:set var="DATE_FORMAT" scope="request"><spring:message code="M0032"/></c:set>
      <c:set var="LABEL_MODULE" scope="request"><spring:message code="L0009"/></c:set>
     <c:set var="LABEL_PROJECT_MANAGEMENT" scope="request"><spring:message code="L0129"/></c:set>
     <c:set var="LABEL_MODULE_MANAGEMENT" scope="request"><spring:message code="L0029"/></c:set>
     <c:set var="ALERT_YOU_NOT_ACCESS_RIGHTS" scope="request"><spring:message code="M0063"/></c:set>
+    <c:set var="ALERT_DATA_ALL_IN_USE" scope="request"><spring:message code="M0061"/></c:set>
 
 
     <script>
@@ -54,9 +55,9 @@
         MESSAGE.ALERT_NOT_DELETE_THIS_DATA = '${ALERT_NOT_DELETE_THIS_DATA}';
         MESSAGE.DATE_FORMAT = '${DATE_FORMAT}';
         MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS = '${ALERT_YOU_NOT_ACCESS_RIGHTS}';
+        MESSAGE.ALERT_DATA_ALL_IN_USE = '${ALERT_DATA_ALL_IN_USE}';
 
     </script>
-
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-primary">
@@ -262,7 +263,6 @@
             </div>
         </div>
     </div>
-
     <spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
     <script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
 

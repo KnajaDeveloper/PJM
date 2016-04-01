@@ -44,25 +44,30 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
         HttpHeaders headers=new HttpHeaders();
         headers.add("Content-Type","application/json;charset=UTF-8");
         try{
-
+            Boolean result ;
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             Boolean rolePm = ProjectManager.checkRoleProjects(projectId,employee.get("empCode").toString());
-            Boolean roleMd = null;
-            if(moduleProjectId == null)
+            Boolean roleMd ;
+            if(moduleProjectId != null)
             {
                 roleMd = ModuleManager.checkRoleModule(moduleProjectId,employee.get("empCode").toString());
-            }
-
-            Boolean result ;
-            if(rolePm || roleMd)
-            {
+                if(rolePm || roleMd)
+                {
                     result = true ;
+                }
+                else
+                {
+                    result = false ;
+                }
             }
             else
             {
-                result = false ;
+                result = rolePm ;
             }
+
+
+
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result),headers,HttpStatus.OK);
         }catch(Exception e){
             LOGGER.error(e.getMessage(),e);
