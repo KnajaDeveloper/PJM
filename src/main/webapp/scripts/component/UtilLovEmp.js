@@ -6,6 +6,8 @@ var LovEmployeeDataDescription = "data-description";
 UtilLov.onChangeInputLovEmp = function (input,e) {
     $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + input.id;
+    $(inputId).attr("data-content","You can press enter for show employee detail.");
+    $(inputId).popover('show');
     $(inputId).data(LovEmployeeDataItem, "");
     $(inputId).data(LovEmployeeDataCode, "");
     $(inputId).data(LovEmployeeDataDescription, "");

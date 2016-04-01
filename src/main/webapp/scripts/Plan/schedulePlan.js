@@ -18,6 +18,7 @@ var resultEmptyTask;
 
 $("#panelEmployee").hide();
 $("#panelPlan").hide();
+$("#xxxx").hide();
 addEmptyTask();
 
 function addDate(dateStart,dateEnd){

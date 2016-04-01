@@ -42,6 +42,14 @@
 	<c:set var="LABEL_NOV"><spring:message javaScriptEscape="true" code="L0121"/></c:set>
 	<c:set var="LABEL_DEC"><spring:message javaScriptEscape="true" code="L0122"/></c:set>
 
+	<style>
+		.btnEmployee{
+			position:absolute;
+			top:25px;
+
+		}
+	</style>
+
 	<script>
 		var Label = {};
 		Label.Project_name = '${LABEL_PROJECT_NAME}';
@@ -70,6 +78,31 @@
 		Message.Complete_this_feld = "${MESSAGE_COMPLETE_THIS_FIELD}";
 		Message.Number_only = '${MESSAGE_NUMBER_ONLY}';
 		Message.MESSAGE_COMPLETE_DATE = '${MESSAGE_COMPLETE_DATE}';
+
+		function slidePlan(){
+			var delay = 500;
+			if($("#panelEmployee").attr("option")!="show"){
+				$("#panelEmployee").attr("option","show");
+//				$("#panelPlan").show('slide',{ direction: 'left'},500);
+				$("#panelPlan").show();
+				$("#panelPlan").animate({width: '+=33%'},delay,function(){
+//					$("#panelPlan").show();
+				});
+				$("#panelEmployee").animate({width: '-=33%'},delay);
+				$("#xxxx").removeClass("fa-rotate-90");
+				$("#xxxx").hide();
+			}
+			else{
+				$("#panelEmployee").attr("option","hide");
+				$("#panelPlan").animate({width: '-=33%'},delay,function(){
+					$("#panelPlan").hide();
+					$("#btn").show();
+				});
+				$("#panelEmployee").animate({width: '+=33%'},delay);
+				$("#xxxx").addClass("fa-rotate-90");
+				$("#xxxx").show();
+			}
+		}
 	</script>
 
 	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
@@ -80,7 +113,7 @@
     <input type="hidden" class="datepicker"/>
 	<input type="hidden" class="datetimepicker"/>
 
-	<div name="cotainerData" class="col-md-12">
+	<div id="containerData" name="cotainerData" class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">${LABEL_VIEW_PLAN}</div><br/>
 			<div class="panel-body">
@@ -146,36 +179,49 @@
 			</div>
 		</div>
 	</div>
-	<div name="cotainerAnswer">
-		<div name="panelEmployee" id="panelEmployee" class="col-md-8"  style="margin-top: 15px;">
+
+	<div class="form-horizontal col-sm-12 display:inline-block">
+		<div name="panelEmployee" id="panelEmployee" class=""  style="margin-top: 15px; display:inline-block; width: 64%;" option="show">
 			<div class="panel panel-primary">
-				<div class="panel-heading">${LABEL_EMPLOYEE_SCHEDULE}</div>
-					<div style="width: 100%; height: 500px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
-						<table id="tableData" class="table table-bordered text-center">
-							<tr id="tbSevenDay">
-								<th class="text-center" style='min-width:120px;'><!--Not--></th>
-							</tr>
-							<tr id="tbDate">
-								<td class="text-center" style='min-width:120px;'>${LABEL_EMPLOYEE_NAME}</td>
-							</tr>
-						</table>
-					</div>
+				<div class="panel-heading">
+					${LABEL_EMPLOYEE_SCHEDULE}
+				</div>
+				<div style="width: 100%; height: 500px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
+					<table id="tableData" class="table table-bordered text-center">
+						<tr id="tbSevenDay">
+							<th class="text-center" style='min-width:120px;'><!--Not--></th>
+						</tr>
+						<tr id="tbDate">
+							<td class="text-center" style='min-width:120px;'>${LABEL_EMPLOYEE_NAME}</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
-		<div name="panelPlan" id='panelPlan' class="col-md-4"  style="margin-top: 15px;">
-			<div class="panel panel-primary">
-				<div class="panel-heading">${LABEL_EMPTY_TASK}</div>
-					<div style="width: 100%; height: 500px; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
-						<table id="tableEmpty" class="table table-bordered">
-							<thead>
-								<tr>
-									<th class="text-center" style="vertical-align: middle;">${LABEL_TASK_NAME}</th>
-									<th class="text-center" style="vertical-align: middle;">${LABEL_MODULE}</th>
-									<th class="text-center" style="vertical-align: middle;">${LABEL_TASK_TYPE_NAME}</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
+		<div class="btnEmployee" style="display:inline-block; width: 2%;">
+			<span id="xxxx" class="fa fa-bars icon pull-right" style="cursor:pointer; margin-top: 5px;" onclick="slidePlan(this)">
+				<!--Not Empty-->
+			</span>
+		</div>
+		<div name="panelPlan" id='panelPlan' class="pull-right"  style="margin-top: 15px; display:inline-block; width: 33%;">
+				<div class="panel panel-primary">
+				<div class="panel-heading">
+					  ${LABEL_EMPTY_TASK}
+					<span class="fa fa-bars icon pull-left" style="cursor:pointer; margin-top: 5px;" onclick="slidePlan(this)">
+						<!--Not Empty-->
+					</span>
+				</div>
+				<div style="width: 100%; height: 500px; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
+					<table id="tableEmpty" class="table table-bordered">
+						<thead>
+						<tr>
+							<th class="text-center" style="vertical-align: middle;">${LABEL_TASK_NAME}</th>
+							<th class="text-center" style="vertical-align: middle;">${LABEL_MODULE}</th>
+							<th class="text-center" style="vertical-align: middle;">${LABEL_TASK_TYPE_NAME}</th>
+						</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
