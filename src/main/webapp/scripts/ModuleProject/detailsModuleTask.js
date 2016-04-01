@@ -127,14 +127,13 @@ pagginationTask.loadTable = function loadTable (jsonData) {
 
     findEmpNameAndEmpPositionNameByEmpCode(dataEmpCode);
     dataEmpCode = [];
-    for(var i = 0; i < empLastNameTask.length; i++){
-        if(empLastNameTask[i] == "" && empFirstNameTask[i] == "" && empPositionNameTask[i] == ""){
+    for(var i = 0; i < empFirstNameTask.length; i++){
+        if(empFirstNameTask[i] == "" && empLastNameTask[i] == "" && empPositionNameTask[i] == ""){
             dataEmpCode[i] = ""
         }else{
-            dataEmpCode[i] = empLastNameTask[i] + " " +
-            empFirstNameTask[i] + " (" + empPositionNameTask[i] + ")";
+            dataEmpCode[i] = empFirstNameTask[i] + " " +
+            empLastNameTask[i] + " (" + empPositionNameTask[i] + ")";
         }
-        console.log(dataEmpCode[i]);
     }
 };
 
@@ -332,7 +331,7 @@ function convertDate(date){
 function saveData(id, dateStart, dateEnd){
     var formData = new FormData();
     formData.append("myInput", myInput.files[0]);
-    var empName = $('#txtEmpName').val() == "" ? null : $('#txtEmpName').val()
+    var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
     var fileName = $('#fileName').text() == "" ? null : $('#fileName').text()
     var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
     $.ajax({
@@ -429,7 +428,7 @@ function saveDataToDataBase(id) {
         }else{
             var formData = new FormData();
             formData.append("myInput", myInput.files[0]);
-            var empName = $('#txtEmpName').val() == "" ? null : $('#txtEmpName').val()
+            var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
             var fileName = $('#fileName').text() == "" ? null : $('#fileName').text()
             var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
             $.ajax({

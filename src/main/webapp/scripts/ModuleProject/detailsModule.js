@@ -30,8 +30,8 @@ $(document).ready(function(){
 
 	findEmpNameAndEmpPositionNameByEmpCode(empCode);
 	for(var i = 0; i < empLastName.length; i++){
-		$("#lblModuleManager").append(empLastName[i] + " " +
-		empFirstName[i] + " (" + empPositionName[i] + ")" + '<br/>');
+		$("#lblModuleManager").append(empFirstName[i] + " " +
+		empLastName[i] + " (" + empPositionName[i] + ")" + '<br/>');
 	}
 
 	searchDataProgram();
@@ -89,22 +89,23 @@ function findEmpNameAndEmpPositionNameByEmpCode(empCode){
 		async: false
 	});
 
-	empLastName = [];
+
 	empFirstName = [];
+	empLastName = [];
 	empPositionName = [];
-	empLastNameTask = [];
 	empFirstNameTask = [];
+	empLastNameTask = [];
 	empPositionNameTask = [];
 
 	valueEmp = valueEmp.responseJSON
 	valueEmp.forEach(function(value){
 		if(!check){
-			empLastName.push(value.empLastName);
 			empFirstName.push(value.empFirstName);
+			empLastName.push(value.empLastName);
 			empPositionName.push(value.empPositionName);
 		}else{
-			empLastNameTask.push(value.empLastName);
 			empFirstNameTask.push(value.empFirstName);
+			empLastNameTask.push(value.empLastName);
 			empPositionNameTask.push(value.empPositionName);
 		}
 	});
