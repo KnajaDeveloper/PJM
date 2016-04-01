@@ -479,7 +479,6 @@
                                     <label class="control-label ">${LABEL_MANAGER}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <!-- <input type="text" class="form-control" id="txtEmpName" placeholder="${LABEL_MANAGER}" /> -->
                                     <component:LovEmployee id="txtEmpName" controller="findEmployeeByText"/>
                                 </div>
                             </div>
