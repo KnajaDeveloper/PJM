@@ -51,14 +51,15 @@
             </ul>
         </div>
     </nav>
-
+    <spring:url var="img" value="/resources/images/loader.gif" />
     <script>
         var contextPath = '${pageContext.request.contextPath}';
+        var pathImgLoading = '${img}';
         commonData.language = '${lang}';
         if(commonData.language == 'TH_TH')
             commonData.language = 'TH';
     </script>
-    
+
     <spring:url value="/resources/scripts/header/header.js" var="header_js_url"/>
     <script src="${header_js_url}" type="text/javascript"><!--Not Empty --></script>
 </div>
