@@ -57,12 +57,24 @@ function checkDataProject(){
 		$('#dateEndProject').popover('show');
 		return false;
 	}
+
 	for(var i = 0 ; i < $("[id^=txtProjectManagerName]").length ; i++) {
 		var id = $("[id^=txtProjectManagerName]")[i].id ;
 		if ($("#"+id).val() == "" || $("#"+id).val() == " ") {
 			$("#"+id).attr("data-content", Message.Complete_this_feld);
 			$("#"+id).attr("data-placement", "bottom");
 			$("#"+id).popover('show');
+			return false;
+		}
+	}
+
+	var arrManager = [];
+	for(var i=0;i<$("[id^=txtProjectManagerName]").length;i++){
+		var id = $("[id^=txtProjectManagerName]")[i].id ;
+		var name = ""+$("#"+id).val();
+		if(arrManager.indexOf(""+name) < 0) arrManager.push(""+name);
+		else {
+			bootbox.alert(Message.It_has_same_names);
 			return false;
 		}
 	}

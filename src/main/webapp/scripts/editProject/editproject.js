@@ -40,7 +40,7 @@ $("#btnSaveProject").click(function () {
 $("#btnEditAddMM1").click(function () {
     var count_elements = countEditModuleManager + 1;
     var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + [count_elements + 1] + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-        "<input type='text' class='form-control' id='txtEditModuleManagerName" + [count_elements + 1] + "' style='margin-top:5px;'></input></div>" +
+        "<input type='text' class='form-control' onchange='editModuleManagerChange(this)' id='txtEditModuleManagerName" + [count_elements + 1] + "' style='margin-top:5px;'></input></div>" +
         "<button id='btnDeleteEditMM" + [count_elements + 1] + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
     $("#subEditModuleManager").append(html);
     countEditModuleManager++;
@@ -394,6 +394,18 @@ function checkDataProject() {
         $('#txtProjectManagerName1').popover('show');
         return false;
     }
+
+    var arrManager = [];
+    for(var i=0;i<$("[id^=txtProjectManagerName]").length;i++){
+        var id = $("[id^=txtProjectManagerName]")[i].id ;
+        var name = ""+$("#"+id).val();
+        if(arrManager.indexOf(""+name) < 0) arrManager.push(""+name);
+        else {
+            bootbox.alert(Message.It_has_same_names);
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -1390,14 +1402,17 @@ function moduleManagerChange(obj){
     $("[from=modulemanager]").remove();
     var count = $("[id^=txtModuleManagerName]").length;
     for(var i = 0 ; i < count  ; i++) {
-        var count_elements = countModuleMember+1;
-        var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-            "<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input></div>" +
-            "<div class='btn'>&nbsp</div></div>";
-        $("#subModuleMember").append(html);
-        $("#txtModuleMemberName"+[count_elements + 1]).val(""+$("[id^=txtModuleManagerName]")[i].value);
-        $("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
-        countModuleMember++;
+        var checkSame = checkSameNameMember($("[id^=txtModuleManagerName]")[i].value);
+        if(checkSame) {
+            var count_elements = countModuleMember + 1;
+            var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+                "<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+                "<div class='btn'>&nbsp</div></div>";
+            $("#subModuleMember").append(html);
+            $("#txtModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtModuleManagerName]")[i].value);
+            $("#txtModuleMemberName" + [count_elements + 1]).disableSelection();
+            countModuleMember++;
+        }
     }
 }
 
@@ -1431,14 +1446,17 @@ function editModuleManagerChange(obj){
     $("[from=modulemanager]").remove();
     var count = $("[id^=txtEditModuleManagerName]").length;
     for(var i = 0 ; i < count  ; i++) {
-        var count_elements = countEditModuleMember+1;
-        var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-            "<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input></div>" +
-            "<div class='btn'>&nbsp</div></div>";
-        $("#subEditModuleMember").append(html);
-        $("#txtEditModuleMemberName"+[count_elements + 1]).val(""+$("[id^=txtEditModuleManagerName]")[i].value);
-        $("#txtEditModuleMemberName"+[count_elements + 1]).disableSelection();
-        countEditModuleMember++;
+        var checkSame = checkEditSameNameMember($("[id^=txtEditModuleManagerName]")[i].value);
+        if(checkSame) {
+            var count_elements = countEditModuleMember + 1;
+            var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+                "<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+                "<div class='btn'>&nbsp</div></div>";
+            $("#subEditModuleMember").append(html);
+            $("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
+            $("#txtEditModuleMemberName" + [count_elements + 1]).disableSelection();
+            countEditModuleMember++;
+        }
     }
 }
 
@@ -1748,4 +1766,28 @@ function collapseShow(status){
             $("#collapse"+i).css("height","auto");
         }
     }
+}
+
+function checkSameNameMember(text){
+    var count_Element2 = $("[id^=txtModuleMemberName]").length;
+    for(var i=0;i<count_Element2;i++){
+        var id = $("[id^=txtModuleMemberName]")[i].id;
+        var name = ""+$("#"+id).val();
+        if(name==text) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkEditSameNameMember(text){
+    var count_Element2 = $("[id^=txtEditModuleMemberName]").length;
+    for(var i=0;i<count_Element2;i++){
+        var id = $("[id^=txtEditModuleMemberName]")[i].id;
+        var name = ""+$("#"+id).val();
+        if(name==text) {
+            return false;
+        }
+    }
+    return true;
 }
