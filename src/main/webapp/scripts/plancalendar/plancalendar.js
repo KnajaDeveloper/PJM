@@ -242,17 +242,17 @@ $('.input-group-addon.date').click(function(){
 
 
 // Add plan ------------------------------------------------------------------------------------------------------------
-$('#taskDetailHeaderAdd').click(function(){
+$('#taskDetailHeaderAdd, #taskDetailHeaderEdit').click(function(){
     var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
 
     if(isOpenCollapse){
         $(this).children('span').removeClass('fa-angle-up');
         $(this).children('span').addClass('fa-angle-down');
-        $('#taskDetailPartAdd').slideUp();
+        $('#taskDetailPartAdd, #taskDetailPartEdit').slideUp();
     }else{
         $(this).children('span').removeClass('fa-angle-down');
         $(this).children('span').addClass('fa-angle-up');
-        $('#taskDetailPartAdd').slideDown();
+        $('#taskDetailPartAdd, #taskDetailPartEdit').slideDown();
     }
 });
 
@@ -291,7 +291,7 @@ function openModalAddPlan(taskElement) {
     $('[id^=cAddDateBegin_]').each(function () {
         var id = this.id.split('_')[1];
         if (id === '0') {
-            $('#cAddDateBegin_0, #cAddDateEnd_0').attr('value', '');
+            $('#cAddDateBegin_0, #cAddDateEnd_0').attr('value', '').popover('hide');
             $('#cAddDateBegin_0, #cAddDateEnd_0').each(function () {
                 $.datepicker._clearDate(this);
             });
@@ -316,6 +316,7 @@ function openModalAddPlan(taskElement) {
     $('#mdAddToPlan').attr('taskBegin', taskBegin);
     $('#mdAddToPlan').attr('taskEnd', taskEnd);
 }
+
 function getFirstEmptyDate(baseId) {
     var obj = null;
     $('[id^=' + baseId + ']').each(function () {
@@ -327,6 +328,7 @@ function getFirstEmptyDate(baseId) {
     });
     return obj;
 }
+
 function checkOverlapDate(idDateBegin, idDateEnd) {
     var isOverlap = false;
     var xx = commonData.language == 'TH' ? '_convert' : '';
@@ -364,6 +366,13 @@ function setDatePicker(idDateBegin, idDateEnd, id) {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
         DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
     });
+
+    $("#" + idDateBegin + id).on('focus', function () {
+        $(this).popover('hide');
+    });
+    $("#" + idDateEnd + id).on('focus', function () {
+        $(this).popover('hide');
+    });
 }
 
 $('#btnAddTime').click(function () {
@@ -383,7 +392,7 @@ $('#btnAddTime').click(function () {
             + '<div class="input-group">'
             + '<input id="cAddDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
+            + '" type="text" class="form-control" data-placement="bottom"/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
@@ -395,7 +404,7 @@ $('#btnAddTime').click(function () {
             + '<div class="input-group">'
             + '<input id="cAddDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
+            + '" type="text" class="form-control" data-placement="bottom"/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
@@ -552,18 +561,38 @@ function openModalEditPlan(event) {
 
     // set data
     if(event.taskCode != '') {
-        $('#lblEditTaskCode').html(event.taskCode).parent().parent().show();
-        $('#lblEditDateBegin').html(event.taskBegin).parent().parent().show();
-        $('#lblEditDateEnd').html(event.taskEnd).parent().parent().show();    
+        $('#lblEditTaskProject').html(event.taskProject).parent().parent().show();
+        $('#lblEditTaskModule').html(event.taskModule).parent().parent().show();
+        $('#lblTaskName').removeClass('col-sm-3').addClass('col-sm-2');
+
+        $('#lblEditTaskCode').html(event.taskCode).parent().show();
+        $('#lblEditTaskCode').parent().parent().children(':first').show();
+        $('#lblEditDateBegin').html(event.taskBegin != '-'? DateUtil.dataDateToFrontend(event.taskBegin, _language) : '-').parent().parent().show();
+        $('#lblEditDateEnd').html(event.taskEnd != '-'? DateUtil.dataDateToFrontend(event.taskEnd, _language): '-').parent().parent().show();    
     } else {
-        $('#lblEditTaskCode').parent().parent().hide();
+        $('#lblEditTaskProject').parent().parent().hide();
+        $('#lblEditTaskModule').parent().parent().hide();
+        $('#lblTaskName').removeClass('col-sm-2').addClass('col-sm-3');
+        $('#lblEditTaskCode').parent().hide();
+        $('#lblEditTaskCode').parent().parent().children(':first').hide();
         $('#lblEditDateBegin').parent().parent().hide();
         $('#lblEditDateEnd').parent().parent().hide();    
     }
     $('#lblEditNameWork').html(event.title);
-    $('#lblEditTaskCost').html(event.taskCost);
+    $('#lblEditTaskCost').html(event.taskCost + ' ' + LABEL.POINT);
 
     $('#txtPercentage').val(event.progress);
+    if(event.progress == 100) {
+        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, [name=optradio]').attr('disabled', 'disabled');
+        $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').hide();
+    }else{
+        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, [name=optradio]').removeAttr('disabled');
+        $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').show();
+    }
+
+    $('#taskDetailPartEdit').hide();
+    $('#taskDetailHeaderEdit').children('span').removeClass('fa-angle-up');
+    $('#taskDetailHeaderEdit').children('span').addClass('fa-angle-down');
 
     // set begin/end date picker
     var startDate = event.start._i.split('T')[0];
@@ -581,6 +610,8 @@ function openModalEditPlan(event) {
         $('#cEditDateBegin_0').val(parseDatePicker(startDate));
         $('#cEditDateEnd_0').val(parseDatePicker(endDate));
     }
+
+    $('#cEditDateBegin_0, #cEditDateEnd_0').popover('hide');
 
     dateAddMaxId = 0;
     $('[id^=cEditDateBegin_]').each(function () {
@@ -872,6 +903,11 @@ function setCurrentMonthYear() {
 
     $('#ddlMonthSearch').val(_month);
     $('#txtYearSearch').val(_year);
+
+    var textMonth = $('#ddlMonthSearch option:selected').text();
+
+    $('#lblTaskPlanSummaryMonth, #lblOtherTaskPlanSummaryMonth').html(textMonth);
+    $('#lblTaskPlanSummaryYear, #lblOtherTaskPlanSummaryYear').html(_year);
 }
 function loadAndMapPlan(month, year) {
     var events = [];
@@ -910,6 +946,8 @@ function loadAndMapPlan(month, year) {
                     taskEnd: v.task != null ? (v.task.dateEnd != null ? v.task.dateEnd:'-') : '-',
                     taskCode: v.task != null ? v.task.taskCode : '',
                     taskCost: v.task != null ? v.task.taskCost : v.otherTask.taskCost,
+                    taskProject: v.task != null ? v.task.program.moduleProject.project.projectName : '',
+                    taskModule: v.task != null ? v.task.program.moduleProject.moduleName : '',
                     otherTaskId: v.otherTask != null ? v.otherTask.id : null,
                     planId: v.id,
                     note: v.note,
@@ -924,6 +962,8 @@ function loadAndMapPlan(month, year) {
         },
         async: false
     });
+
+    loadAndMapSummaryPlan(month, year);
 }
 
 function date2EnStyle(date) {
@@ -1064,6 +1104,31 @@ function loadAndMapAllTaskType(){
             }
             $('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkMyTask"/>'+ MESSAGE.CHECKBOX_PRIVATE_TASK +'</label></div>');
             $('#grpTaskType').append('<div class="checkbox"><label><input type="checkbox" id="checkOtherTask"/>'+ MESSAGE.CHECKBOX_PUBLIC_TASK +'</label></div>');
+        },
+        async: false
+    });
+}
+
+function loadAndMapSummaryPlan(month, year){
+    var textMonth = $('#ddlMonthSearch option:selected').text();
+    $('#lblTaskPlanSummaryMonth, #lblOtherTaskPlanSummaryMonth').html(textMonth);
+    $('#lblTaskPlanSummaryYear, #lblOtherTaskPlanSummaryYear').html(_year);
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/getTotalPlanPoint?month=' + month + '&year=' + year,
+        success: function (data, status, xhr) {
+            if (xhr.status === 200){
+                $('#lblTaskPointInMonth').html(data.pointCompleteTaskMonth + ' ' + LABEL.POINT);
+                $('#lblTaskPointInYear').html(data.pointCompleteTaskYear + ' ' + LABEL.POINT);
+                $('#lblOtherTaskPointInMonth').html(data.pointCompleteOtherTaskMonth + ' ' + LABEL.POINT);
+                $('#lblOtherTaskPointInYear').html(data.pointCompleteOtherTaskYear + ' ' + LABEL.POINT);
+            }
         },
         async: false
     });

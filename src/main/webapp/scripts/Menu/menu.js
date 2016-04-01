@@ -69,7 +69,7 @@ $(document).ready(function () {
         url: contextPath + '/menus/findEmployeeDetail',
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
-                $('#loginNameDropdown').html(data.empFirstName + ' ' + data.empLastName + ' <span class="caret">');
+                $('#loginNameDropdown').html(data.empFirstName + ' ' + data.empLastName + ' (' + data.empRole + ') ' + ' <span class="caret">');
                 $('#loginName').html(data.empFirstName + ' ' + data.empLastName);
                 $('#loginEmail').html(data.email);
             }

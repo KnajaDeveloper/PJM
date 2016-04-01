@@ -33,6 +33,75 @@ privileged aspect PlanController_Custom_Controller_Json {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(PlanController_Custom_Controller_Json.class);
 
+    @RequestMapping(value = "/getTotalPlanPoint", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.getTotalPlanPoint(
+            @RequestParam(value = "month", required = false) Integer month
+            , @RequestParam(value = "year", required = false) Integer year
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            String empCode = employee.get("empCode").toString();
+
+            DecimalFormat fm = new DecimalFormat("00");
+            String dateYearBegin = "01/01/" + year;
+            String dateYearEnd = "12/31/" + year;
+            String dateMonthBegin = fm.format(month) + "/01/" + year;
+
+            int nextMonth = month + 1, tmpYear = year;
+            if(nextMonth == 13){
+                nextMonth = 12;
+                tmpYear += 1;
+            }
+
+            String dateNextMonthBegin = fm.format(nextMonth) + "/01/" + tmpYear;
+
+            Date dtYearBegin = new Date(dateYearBegin);
+            Date dtYearEnd = new Date(dateYearEnd);
+            Date dtMonthBegin = new Date(dateMonthBegin);
+            Date dtNextMonthBegin = new Date(dateNextMonthBegin);
+            Date dtMonthEnd = DateUtils.addDays(dtNextMonthBegin, -1);
+
+            LOGGER.debug("=====================> dtYearBegin {}", dtYearBegin);
+            LOGGER.debug("=====================> dtYearEnd {}",dtYearEnd);
+            LOGGER.debug("=====================> dtMonthBegin {}",dtMonthBegin);
+            LOGGER.debug("=====================> dtMonthEnd {}", dtMonthEnd);
+            List<Task> monthPlanTaskComplete = Plan.getPointPlanTaskComplete(dtMonthBegin, dtMonthEnd, empCode);
+            List<Task> yearPlanTaskComplete = Plan.getPointPlanTaskComplete(dtYearBegin, dtYearEnd, empCode);
+            List<OtherTask> monthPlanOtherTaskComplete = Plan.getPointPlanOtherTaskComplete(dtMonthBegin, dtMonthEnd, empCode);
+            List<OtherTask> yearPlanOtherTaskComplete = Plan.getPointPlanOtherTaskComplete(dtYearBegin, dtYearEnd, empCode);
+
+            Map<String, Integer> mapTotalPoint = new HashMap<>();
+            mapTotalPoint.put("pointCompleteTaskMonth", 0);
+            mapTotalPoint.put("pointCompleteTaskYear", 0);
+            mapTotalPoint.put("pointCompleteOtherTaskMonth", 0);
+            mapTotalPoint.put("pointCompleteOtherTaskYear", 0);
+
+            for(Task task : monthPlanTaskComplete){
+                int p = mapTotalPoint.get("pointCompleteTaskMonth") + task.getTaskCost();
+                mapTotalPoint.put("pointCompleteTaskMonth", p);
+            }
+            for(Task task : yearPlanTaskComplete){
+                int p = mapTotalPoint.get("pointCompleteTaskYear") + task.getTaskCost();
+                mapTotalPoint.put("pointCompleteTaskYear", p);
+            }
+            for(OtherTask otherTask : monthPlanOtherTaskComplete){
+                int p = mapTotalPoint.get("pointCompleteOtherTaskMonth") + otherTask.getTaskCost();
+                mapTotalPoint.put("pointCompleteOtherTaskMonth", p);
+            }
+            for(OtherTask otherTask : yearPlanOtherTaskComplete){
+                int p = mapTotalPoint.get("pointCompleteOtherTaskYear") + otherTask.getTaskCost();
+                mapTotalPoint.put("pointCompleteOtherTaskYear", p);
+            }
+
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(mapTotalPoint), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "/findPlanByMonth", method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> PlanController.findPlanByMonth(
             @RequestParam(value = "month", required = false) Integer month
