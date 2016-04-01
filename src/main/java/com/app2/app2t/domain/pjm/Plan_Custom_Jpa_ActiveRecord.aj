@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.Module;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.derby.vti.Restriction;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -48,8 +49,8 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.createAlias("Plan.task", "task", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("Plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.or(
-            Restrictions.eq("task.empCode", empCode),
-            Restrictions.eq("otherTask.empCode", empCode)
+                Restrictions.eq("task.empCode", empCode),
+                Restrictions.eq("otherTask.empCode", empCode)
         ));
         criteria.add(Restrictions.ge("dateStart", dateStart));
         criteria.add(Restrictions.lt("dateStart", dateEnd));
@@ -83,8 +84,8 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.createAlias("Plan.task", "task", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("Plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.or(
-            Restrictions.eq("task.empCode", empCode),
-            Restrictions.eq("otherTask.empCode", empCode)
+                Restrictions.eq("task.empCode", empCode),
+                Restrictions.eq("otherTask.empCode", empCode)
         ));
         criteria.add(Restrictions.ge("dateEnd", beginDate));
         if(planId != null) 
@@ -132,6 +133,80 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             plan.remove();
             return otherTask;
         } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static List<Task> Plan.getPointPlanTaskComplete(Date beginDate, Date endDate, String empCode){
+        try {
+            // find complete task begin -> end date
+            DetachedCriteria dcTaskBetweenBeginAndEnd = DetachedCriteria.forClass(Plan.class, "plan");
+            dcTaskBetweenBeginAndEnd.add(Restrictions.ge("dateEnd", beginDate));
+            dcTaskBetweenBeginAndEnd.add(Restrictions.le("dateEnd", endDate));
+            dcTaskBetweenBeginAndEnd.createAlias("plan.task", "task");
+            dcTaskBetweenBeginAndEnd.add(Restrictions.eq("task.progress", 100));
+            dcTaskBetweenBeginAndEnd.add(Restrictions.eq("task.empCode", empCode));
+            dcTaskBetweenBeginAndEnd.setProjection(Projections.distinct(Projections.property("plan.task")));
+
+            // find complete task in date more than end date
+            DetachedCriteria dcTaskMoreThanDateEndInBeginAndEnd = DetachedCriteria.forClass(Plan.class, "plan");
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.gt("dateEnd", endDate));
+            dcTaskMoreThanDateEndInBeginAndEnd.createAlias("plan.task", "task");
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("task.progress", 100));
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("task.empCode", empCode));
+            dcTaskMoreThanDateEndInBeginAndEnd.setProjection(Projections.distinct(Projections.property("plan.task")));
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Subqueries.propertyIn("plan.task", dcTaskBetweenBeginAndEnd));
+
+            EntityManager ent = Plan.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "plan");
+            criteria.add(Restrictions.ge("dateEnd", beginDate));
+            criteria.add(Restrictions.le("dateEnd", endDate));
+            criteria.createAlias("plan.task", "task");
+            criteria.add(Restrictions.eq("task.progress", 100));
+            criteria.add(Restrictions.eq("task.empCode", empCode));
+            criteria.add(Subqueries.propertyNotIn("task.id", dcTaskMoreThanDateEndInBeginAndEnd));
+            criteria.setProjection(Projections.distinct(Projections.property("plan.task")));
+
+            return criteria.list();
+        } catch (Exception ex) {
+            LOGGER.debug("{}", ex);
+            return null;
+        }
+    }
+
+    public static List<OtherTask> Plan.getPointPlanOtherTaskComplete(Date beginDate, Date endDate, String empCode){
+        try {
+            // find complete task begin -> end date
+            DetachedCriteria dcTaskBetweenBeginAndEnd = DetachedCriteria.forClass(Plan.class, "plan");
+            dcTaskBetweenBeginAndEnd.add(Restrictions.ge("dateEnd", beginDate));
+            dcTaskBetweenBeginAndEnd.add(Restrictions.le("dateEnd", endDate));
+            dcTaskBetweenBeginAndEnd.createAlias("plan.otherTask", "otherTask");
+            dcTaskBetweenBeginAndEnd.add(Restrictions.eq("otherTask.progress", 100));
+            dcTaskBetweenBeginAndEnd.add(Restrictions.eq("otherTask.empCode", empCode));
+            dcTaskBetweenBeginAndEnd.setProjection(Projections.distinct(Projections.property("plan.otherTask")));
+
+            // find complete task in date more than end date
+            DetachedCriteria dcTaskMoreThanDateEndInBeginAndEnd = DetachedCriteria.forClass(Plan.class, "plan");
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.gt("dateEnd", endDate));
+            dcTaskMoreThanDateEndInBeginAndEnd.createAlias("plan.otherTask", "otherTask");
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("otherTask.progress", 100));
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("otherTask.empCode", empCode));
+            dcTaskMoreThanDateEndInBeginAndEnd.setProjection(Projections.distinct(Projections.property("plan.otherTask")));
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Subqueries.propertyIn("plan.otherTask", dcTaskBetweenBeginAndEnd));
+
+            EntityManager ent = Plan.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class, "plan");
+            criteria.add(Restrictions.ge("dateEnd", beginDate));
+            criteria.add(Restrictions.le("dateEnd", endDate));
+            criteria.createAlias("plan.otherTask", "otherTask");
+            criteria.add(Restrictions.eq("otherTask.progress", 100));
+            criteria.add(Restrictions.eq("otherTask.empCode", empCode));
+            criteria.add(Subqueries.propertyNotIn("otherTask.id", dcTaskMoreThanDateEndInBeginAndEnd));
+            criteria.setProjection(Projections.distinct(Projections.property("plan.otherTask")));
+
+            return criteria.list();
+        } catch (Exception ex) {
+            LOGGER.debug("{}", ex);
             return null;
         }
     }
