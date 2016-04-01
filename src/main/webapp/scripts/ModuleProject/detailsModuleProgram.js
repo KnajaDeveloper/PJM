@@ -72,11 +72,12 @@ function onClickTrProgram(object) {
     paramProgramId(programId, object.parentElement.id.split('m')[1]);
     searchDataTask();
   	$('#checkboxAllTask').prop('checked', false);
-  	$('#lblEmpName').text("");
-	$('#lblTaskName').text("");
-	$('#lblSDate').text("");
-	$('#lblEDate').text("");
-	$('#txtaDetail').val(null);
+    $('#lblEmpName').text("-");
+    $('#lblTaskName').text("-");
+    $('#lblSDate').text("-");
+    $('#lblEDate').text("-");
+    $('#lblFileName').text("");
+    $('#txtaDetail').val(null);
 
 	var lengthTr = $('#TableProgram').find('tr').length;
     for(var i = 1; i < lengthTr; i++){

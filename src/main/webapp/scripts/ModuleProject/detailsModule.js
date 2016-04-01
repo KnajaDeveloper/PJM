@@ -23,11 +23,16 @@ $(document).ready(function(){
 	$("#lblModuleDateStart").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateStart, commonData.language));
 	$("#lblModuleDateEnd").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateEnd, commonData.language));
 
+	var empCode = [];
 	checkdDb.forEach(function(value){
-		$("#lblModuleManager").append(value.empCode + '<br/>');
+		empCode.push(value.empCode);
 	});
 
-	$("#lblModuleManager").append('<br/>');
+	findEmpNameAndEmpPositionNameByEmpCode(empCode);
+	for(var i = 0; i < empLastName.length; i++){
+		$("#lblModuleManager").append(empLastName[i] + " " +
+		empFirstName[i] + " (" + empPositionName[i] + ")" + '<br/>');
+	}
 
 	searchDataProgram();
   	$('#checkboxAllProgram').prop('checked', false);
@@ -59,4 +64,50 @@ function searchTaskCost(moduleCost){
 	});
 
 	return moduleCost - checkdDb.responseJSON;
+}
+
+var empLastName = [];
+var empFirstName = []; 
+var empPositionName = [];
+var empLastNameTask = [];
+var empFirstNameTask = []; 
+var empPositionNameTask = [];
+var check = false;
+
+function findEmpNameAndEmpPositionNameByEmpCode(empCode){
+	var valueEmp = $.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		headers: {
+			Accept: "application/json"
+		},
+		url: contextPath + '/moduleprojects/findEmpNameAndEmpPositionNameByEmpCode',
+		data: JSON.stringify(empCode),
+		complete: function(xhr){
+		},
+		async: false
+	});
+
+	empLastName = [];
+	empFirstName = [];
+	empPositionName = [];
+	empLastNameTask = [];
+	empFirstNameTask = [];
+	empPositionNameTask = [];
+
+	valueEmp = valueEmp.responseJSON
+	valueEmp.forEach(function(value){
+		if(!check){
+			empLastName.push(value.empLastName);
+			empFirstName.push(value.empFirstName);
+			empPositionName.push(value.empPositionName);
+		}else{
+			empLastNameTask.push(value.empLastName);
+			empFirstNameTask.push(value.empFirstName);
+			empPositionNameTask.push(value.empPositionName);
+		}
+	});
+
+	check = false;
 }

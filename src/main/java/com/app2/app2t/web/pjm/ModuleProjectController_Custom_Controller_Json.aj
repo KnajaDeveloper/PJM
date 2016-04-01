@@ -10,14 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import java.util.*;
+
 import flexjson.JSONSerializer;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.lang.*;
 
 
 privileged aspect ModuleProjectController_Custom_Controller_Json {
@@ -338,4 +340,33 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/findEmpNameAndEmpPositionNameByEmpCode",method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String> ModuleProjectController.findEmpNameAndEmpPositionNameByEmpCode(@RequestBody String empCode) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            JSONArray jsonArray = new JSONArray(empCode);
+            List<Map<String,Object>> resultSearch = new ArrayList<>();
+            for(int i = 0; i < jsonArray.length(); i++){
+                Map buffer = new HashMap();
+                if(!jsonArray.getString(i).isEmpty()){
+                    Map employee = emRestService.getEmployeeByEmpCode(jsonArray.getString(i));
+                    buffer.put("empFirstName", employee.get("empFirstName"));
+                    buffer.put("empLastName", employee.get("empLastName"));
+                    buffer.put("empPositionName", employee.get("empPositionName"));
+                }
+                else{
+                    buffer.put("empFirstName", "");
+                    buffer.put("empLastName", "");
+                    buffer.put("empPositionName", "");
+                }
+                resultSearch.add(buffer);
+            }
+            
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -67,13 +67,6 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     $('#ResualtSearchTask').empty();
 
     if(jsonData.length <= 0){
-       $('#lblEmpName').text("");
-        $('#lblTaskName').text("");
-        $('#lblSDate').text("");
-        $('#lblEDate').text("");
-        $('#lblFileName').text("");
-        $('#txtaDetail').val(null);
-
         $('#ResualtSearchTask').append('<tr><td colspan = 6 class="text-center">' + Message.MSG_DATA_NOT_FOUND + '</td></tr>');
     }
 
@@ -87,6 +80,8 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     dataDateEnd = [];
     dataFileName = [];
     dataDetail = [];
+
+    check = true;
 
     jsonData.forEach(function(value){
         dataTypeTask.push(value.typeTaskCode);
@@ -129,6 +124,18 @@ pagginationTask.loadTable = function loadTable (jsonData) {
             tableData
         );
     });
+
+    findEmpNameAndEmpPositionNameByEmpCode(dataEmpCode);
+    dataEmpCode = [];
+    for(var i = 0; i < empLastNameTask.length; i++){
+        if(empLastNameTask[i] == "" && empFirstNameTask[i] == "" && empPositionNameTask[i] == ""){
+            dataEmpCode[i] = ""
+        }else{
+            dataEmpCode[i] = empLastNameTask[i] + " " +
+            empFirstNameTask[i] + " (" + empPositionNameTask[i] + ")";
+        }
+        console.log(dataEmpCode[i]);
+    }
 };
 
 var ddlData;
@@ -186,7 +193,7 @@ function openEditTask(element){
     $("#dateStartProject").change();
     $("#dateEndProject").change();
 
-    $('#txtProgress').val(null).attr('disabled', true);
+    $('#txtProgress').val(null);
     document.getElementById("myInput").value = "";
     $('#fileName').text("");
     $('#txtaDescription').val("");
@@ -205,7 +212,11 @@ function openEditTask(element){
     checkTypeTask = dataTypeTask[id - 1];
     document.getElementById("ddlTypeTask").value = checkTypeTask;
 
-    checkEmpName = dataEmpCode[id - 1];
+    if(dataEmpCode[id - 1] != ""){
+        var empName = dataEmpCode[id - 1].split(" ");
+        checkEmpName = empName[0] + " " + empName[1];   
+    }else{ checkEmpName = dataEmpCode[id - 1]; }
+    
     $('#txtEmpName').val(checkEmpName);
 
     checkdateStart = dataDateStart[id - 1];
@@ -217,7 +228,7 @@ function openEditTask(element){
     DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
 
     checkProgress = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdProgressTask").text().split('%')[0];
-    $('#txtProgress').val(checkProgress).attr('disabled', false);
+    $('#txtProgress').val(checkProgress);
 
     checkFileName = dataFileName[id - 1];
     $('#fileName').text(checkFileName)
@@ -230,10 +241,10 @@ var taskCode;
 
 function onClickTrTask(object){
     var id = object.parentElement.id.split('k')[1];
-    $('#lblEmpName').text(dataEmpCode[id - 1]);
+    $('#lblEmpName').text(dataEmpCode[id - 1] == "" ? "-" : dataEmpCode[id - 1]);
     $('#lblTaskName').text(dataTypeTaskName[id - 1]);
-    $('#lblSDate').text(dataDateStart[id - 1]);
-    $('#lblEDate').text(dataDateEnd[id - 1]);
+    $('#lblSDate').text(dataDateStart[id - 1] == "" ? "-" : dataDateStart[id - 1]);
+    $('#lblEDate').text(dataDateEnd[id - 1] == "" ? "-" : dataDateEnd[id - 1]);
     $('#lblFileName').text(dataFileName[id - 1]);
     $('#txtaDetail').val(dataDetail[id - 1]);
 
@@ -253,7 +264,6 @@ $('#btnAddTask').click(function() {
     $('#btnModalTaskNext').show();
     DDLData();
     $('#txtTaskCode').attr('disabled', false);
-    $('#txtProgress').attr('disabled', true);
     $('#txtTaskCode').val(null);
     $('#txtTaskName').val(null);
     $('#txtTaskCost').val(null);
@@ -546,9 +556,7 @@ $('[id^=btnModalTask]').click(function() {
                         saveDataToDataBase(id);
                     }else{
                         bootbox.confirm(Message.MSG_YOU_WANT_TO_SAVE_DATA, function(result) {
-                            if(result == true){
-                                saveDataToDataBase(id);
-                            }
+                            if(result == true){ saveDataToDataBase(id); }
                         });
                     }
                 }else{
