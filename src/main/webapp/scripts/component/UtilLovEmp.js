@@ -2,12 +2,15 @@ var LovEmployeeDataId = "data-id";
 var LovEmployeeDataItem = "data-item";
 var LovEmployeeDataCode = "data-code";
 var LovEmployeeDataDescription = "data-description";
+var first = true ;
 
 UtilLov.onChangeInputLovEmp = function (input,e) {
     $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + input.id;
-    $(inputId).attr("data-content","You can press enter for show employee detail.");
-    $(inputId).popover('show');
+    if(first){
+        $(inputId).attr("data-content",Message.Can_press_enter);
+        $(inputId).popover('show');
+    }
     $(inputId).data(LovEmployeeDataItem, "");
     $(inputId).data(LovEmployeeDataCode, "");
     $(inputId).data(LovEmployeeDataDescription, "");
@@ -78,6 +81,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
             var states = [];
             var map = {};
             $.each(jsonData, function (i, state) {
+                first = false;
                 var key = state.empFirstName +"  "+ state.empLastName + "  (" + state.empNickName + ")";
                 map[key] = state;
                 states.push(key);
