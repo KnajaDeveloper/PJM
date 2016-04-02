@@ -18,13 +18,14 @@ privileged aspect ReportController_Custom_Controller_Json {
 
     @RequestMapping(value = "/getEmpNameByEmpCodeAjex",method = RequestMethod.GET)
     public ResponseEntity<String> ReportController.getEmpNameByEmpCodeAjex(
-            @RequestParam(value="empCode",required=false)String empCode
+            @RequestParam(value="empCodeFrom",required=false)String empCodeFrom,
+            @RequestParam(value="empCodeTo",required=false)String empCodeTo
     ) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Map> list = emRestService.getEmpNameByEmpCode(empCode);
+            List<Map> list = emRestService.getEmpNameByEmpCode(empCodeFrom);
             Integer size = 0;
             if(list.size() == 0 ){
                 size = 0;

@@ -68,16 +68,16 @@ $(document).ready(function () {
 
 //--------------------------------------------------------------------------------
 $("#ddlTeam").change(function () {
-    $("#lovEmpFrom").empty();
-    $("#lovEmpTo").empty();
+    $("#lovEmpFrom").val("");
+    $("#lovEmpTo").val("");
 });
 //--------------------------------------------------------------------------------
 
 function sendData() {
-    if ($("#lovEmpFrom").val() == "") {
-
-        $("#lovEmpFrom").attr("data-content", Message.PLEASE_INPUT).popover('show');
-    } else
+    //if ($("#lovEmpFrom").val() == "") {
+    //
+    //    $("#lovEmpFrom").attr("data-content", Message.PLEASE_INPUT).popover('show');
+    //} else
     if ($("#cDateBegin").val() == "") {
 
         $("#cDateBegin").attr("data-content", Message.PLEASE_SELECT_DATE).popover('show');
@@ -89,7 +89,8 @@ function sendData() {
 
         var date = new Date();
 
-        //var team = $("#ddlTeam").
+        var team = $("#ddlTeam").find('option:selected').text();
+        var teamBase = $("#ddlTeam").find('option:selected').val();
         var empCodeFrom = $("#lovEmpFrom").data("dataCode");
         var empCodeTo = $("#lovEmpTo").data("dataCode");
         var dateStart = $("#cDateBegin").val();
@@ -97,6 +98,8 @@ function sendData() {
         var dateStartBase = $("#cDateBegin").val();
         var dateEndBase = $("#cDateEnd").val();
         var plusYear = 0;
+        console.log(team);
+        console.log(teamBase);
 console.log(empCodeFrom);
 console.log(empCodeTo);
 
@@ -112,10 +115,11 @@ console.log(empCodeTo);
         }
 
         var dataJsonData = {
-            empCode: $("#emp").val()
-        };
-
+            empCodeFrom: $("#lovEmpFrom").data("dataCode"),
+            empCodeTo: $("#lovEmpTo").data("dataCode")
+        }
         var responseResult = null;
+
 
         responseResult = $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -144,7 +148,10 @@ console.log(empCodeTo);
                     (parseInt(date.getMonth()) + 1) + "/" +
                     (parseInt(date.getFullYear()) + 543 );
                 plusYear = 543;
-                window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                window.location.href = contextPath + '/reports/exportPJMRP01?empCodeFrom=' + empCodeFrom
+                    + '&empCodeTo=' + empCodeTo
+                    + '&team=' + team
+                    + '&teamBase=' + teamBase
                     + '&dateStartBase=' + dateStartBase
                     + '&dateEndBase=' + dateEndBase
                     + '&dateStart=' + dateStart
@@ -158,7 +165,10 @@ console.log(empCodeTo);
                     (parseInt(date.getMonth()) + 1) + "/" +
                     (parseInt(date.getFullYear()) + 0 );
                 plusYear = 0;
-                window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCode
+                window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCodeFrom
+                    + '&empCodeTo=' + empCodeTo
+                    + '&team=' + team
+                    + '&teamBase=' + teamBase
                     + '&dateStartBase=' + dateStartBase
                     + '&dateEndBase=' + dateEndBase
                     + '&dateStart=' + dateStart
