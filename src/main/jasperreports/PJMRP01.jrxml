@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP01" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="1.0245201830476127"/>
+	<property name="ireport.zoom" value="0.8467108950806725"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="63"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -27,7 +27,12 @@
 	<parameter name="fTitle" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fempName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="fTeam" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="Team" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="fEmpFrom" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="EmpFrom" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="fEmpTo" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="EmpTo" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="fDateStart" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="fDateEnd" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="fPrintName" class="java.lang.String" isForPrompting="false"/>
@@ -47,7 +52,7 @@
 	<parameter name="totalTask" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="totalOT" class="java.lang.String"/>
+	<parameter name="totalOT" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="dateStart" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -100,13 +105,10 @@
 	<parameter name="Error" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="fTaskName" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="PlusYear" class="java.lang.Integer" isForPrompting="false"/>
-	<parameter name="EmpFirstName" class="java.lang.String"/>
-	<parameter name="EmpLastName" class="java.lang.String"/>
-	<parameter name="otherTask" class="java.lang.String"/>
-	<parameter name="totalTaskAll" class="java.lang.String"/>
-	<parameter name="totalOtAll" class="java.lang.String"/>
-	<parameter name="totalAll" class="java.lang.String"/>
-	<parameter name="total" class="java.lang.String"/>
+	<parameter name="otherTask" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalTaskAll" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalOtAll" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalAll" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[select * from PJMRP01]]>
 	</queryString>
@@ -126,12 +128,15 @@
 	<field name="D_END" class="java.sql.Timestamp"/>
 	<field name="T_COST" class="java.lang.Integer"/>
 	<field name="OT_COST" class="java.lang.Integer"/>
-	<field name="TASK_EMPCODE" class="java.lang.String"/>
-	<field name="OT_EMPCODE" class="java.lang.String"/>
+	<field name="EMPCODE" class="java.lang.String"/>
 	<field name="T_FIRST_NAME" class="java.lang.String"/>
 	<field name="T_LAST_NAME" class="java.lang.String"/>
 	<field name="OT_FIRST_NAME" class="java.lang.String"/>
 	<field name="OT_LAST_NAME" class="java.lang.String"/>
+	<field name="T_EM_TEAM" class="java.lang.Long"/>
+	<field name="OT_EM_TEAM" class="java.lang.Long"/>
+	<field name="T_PROGRESS" class="java.lang.Integer"/>
+	<field name="OT_PROGRESS" class="java.lang.Integer"/>
 	<variable name="sumPointT" class="java.lang.Integer" resetType="Group" resetGroup="report" calculation="Sum">
 		<variableExpression><![CDATA[$F{T_COST}]]></variableExpression>
 		<initialValueExpression><![CDATA[]]></initialValueExpression>
@@ -139,54 +144,40 @@
 	<variable name="sumPointOT" class="java.lang.Integer" resetType="Group" resetGroup="report" calculation="Sum">
 		<variableExpression><![CDATA[$F{OT_COST}]]></variableExpression>
 	</variable>
-	<variable name="sumPointTOT" class="java.lang.Integer" resetType="Group" resetGroup="month">
-		<variableExpression><![CDATA[($V{sumPointOT}==null?0:$V{sumPointOT})+($V{sumPointT}==null?0:$V{sumPointT})]]></variableExpression>
+	<variable name="sumTotalTaskAll" class="java.lang.Integer" resetType="Group" resetGroup="emp" calculation="Sum">
+		<variableExpression><![CDATA[$F{T_COST}==null?0:$F{T_COST}]]></variableExpression>
 	</variable>
-	<group name="month">
-		<groupExpression><![CDATA[$F{MONTH}]]></groupExpression>
+	<variable name="sumTotalOtTaskAll" class="java.lang.Integer" resetType="Group" resetGroup="emp" calculation="Sum">
+		<variableExpression><![CDATA[$F{OT_COST}==null?0:$F{OT_COST}]]></variableExpression>
+	</variable>
+	<variable name="sumTotalAll" class="java.lang.Integer" resetType="Group" resetGroup="emp" calculation="Sum">
+		<variableExpression><![CDATA[($F{T_COST}==null?0:$F{T_COST})+($F{OT_COST}==null?0:$F{OT_COST})]]></variableExpression>
+	</variable>
+	<group name="emp">
+		<groupExpression><![CDATA[$F{EMPCODE}]]></groupExpression>
 		<groupHeader>
-			<band height="30">
+			<band height="60">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="38a1ca14-64b9-4c7c-b154-d630a1eaa014" x="69" y="0" width="89" height="30"/>
+					<reportElement uuid="6d8342d2-2ed9-4c47-98cf-90755cd112d6" mode="Opaque" x="0" y="30" width="802" height="30" backcolor="#D3D3D3"/>
 					<box>
-						<topPen lineWidth="0.75"/>
-						<bottomPen lineWidth="0.75"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
 					</box>
 					<textElement verticalAlignment="Middle">
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{T_FIRST_NAME}==null?$F{OT_FIRST_NAME}:$F{T_FIRST_NAME}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{EMPCODE}).concat(" : ")+($F{T_FIRST_NAME}==null?$F{OT_FIRST_NAME}:$F{T_FIRST_NAME}).concat("     ")+($F{T_LAST_NAME}==null?$F{OT_LAST_NAME}:$F{T_LAST_NAME})]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement uuid="d0446d9c-ede6-4959-ac67-30a8ebe8b12f" x="158" y="0" width="160" height="30"/>
-					<box>
-						<topPen lineWidth="0.75"/>
-						<bottomPen lineWidth="0.75"/>
-						<rightPen lineWidth="0.75"/>
-					</box>
-					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{T_LAST_NAME}==null?$F{OT_LAST_NAME}:$F{T_LAST_NAME}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement uuid="6d8342d2-2ed9-4c47-98cf-90755cd112d6" x="0" y="0" width="69" height="30"/>
-					<box>
-						<topPen lineWidth="0.75"/>
-						<leftPen lineWidth="0.75"/>
-						<bottomPen lineWidth="0.75"/>
-					</box>
-					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{TASK_EMPCODE}==null?$F{OT_EMPCODE}:$F{TASK_EMPCODE}]]></textFieldExpression>
-				</textField>
+				<rectangle>
+					<reportElement uuid="38a55036-2850-46b2-82e5-9aa064ed3ca8" mode="Opaque" x="0" y="0" width="802" height="30" forecolor="#FFFFFF"/>
+				</rectangle>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="25">
+			<band height="75">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="4db292e5-242c-40b4-8f26-bbf8475a0b0a" x="0" y="0" width="690" height="25"/>
+					<reportElement uuid="4db292e5-242c-40b4-8f26-bbf8475a0b0a" mode="Opaque" x="0" y="50" width="690" height="25" printWhenGroupChanges="emp" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -197,10 +188,10 @@
 					<textElement verticalAlignment="Middle">
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{totalAll}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Band" isBlankWhenNull="true">
-					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" x="690" y="0" width="112" height="25"/>
+					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" mode="Opaque" x="690" y="50" width="112" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -211,10 +202,69 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{sumPointTOT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{sumTotalAll}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="8de9f05e-159a-49f4-bc7a-e650e4b85ee5" mode="Opaque" x="0" y="0" width="690" height="25" backcolor="#D3D3D3"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{totalTaskAll}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="2bedc691-2901-4a12-8247-81e1a4416a9b" mode="Opaque" x="0" y="25" width="690" height="25" backcolor="#D3D3D3"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{totalOtAll}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="70ea69b3-1ff0-403e-b15c-228274daa98a" mode="Opaque" x="690" y="0" width="112" height="25" backcolor="#D3D3D3"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumTotalTaskAll}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="0c1e4ad6-2821-4f32-9ea7-c6f454e8bc1a" mode="Opaque" x="690" y="25" width="112" height="25" backcolor="#D3D3D3"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumTotalOtTaskAll}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
+	</group>
+	<group name="month">
+		<groupExpression><![CDATA[$F{MONTH}]]></groupExpression>
 	</group>
 	<group name="report">
 		<groupExpression><![CDATA[]]></groupExpression>
@@ -408,90 +458,111 @@ $P{Error}]]></textFieldExpression>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="57" splitType="Stretch">
+		<band height="83" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="40139f04-825d-47d8-9c96-314e2e4973f7" x="158" y="37" width="160" height="20"/>
+				<reportElement uuid="40139f04-825d-47d8-9c96-314e2e4973f7" x="158" y="63" width="160" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateEnd}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="3065e10e-9f51-409c-aeef-785ef6e5989d" x="158" y="16" width="160" height="21"/>
+				<reportElement uuid="3065e10e-9f51-409c-aeef-785ef6e5989d" x="158" y="42" width="160" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateStart}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="580" y="37" width="110" height="20"/>
+				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="580" y="63" width="110" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{printDate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="1d3ec949-2b8b-411e-ad23-2dc8b6cff28c" x="0" y="0" width="158" height="16"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{fempName}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement uuid="67da8abe-9b4f-4acc-9965-519e2cfad0c1" x="0" y="16" width="158" height="21"/>
+				<reportElement uuid="67da8abe-9b4f-4acc-9965-519e2cfad0c1" x="0" y="42" width="158" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fDateStart}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="4072ddf4-f200-4dec-85bc-3079d26c4cd1" x="0" y="37" width="158" height="20"/>
+				<reportElement uuid="4072ddf4-f200-4dec-85bc-3079d26c4cd1" x="0" y="63" width="158" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fDateEnd}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="31353aae-9acd-40cf-aa3b-009cbd415670" x="465" y="16" width="115" height="21"/>
+				<reportElement uuid="31353aae-9acd-40cf-aa3b-009cbd415670" x="465" y="42" width="115" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fPrintName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="06f70bee-a98c-45c2-856a-fe54b877c404" x="465" y="37" width="115" height="20"/>
+				<reportElement uuid="06f70bee-a98c-45c2-856a-fe54b877c404" x="465" y="63" width="115" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fPrintDate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="580" y="16" width="110" height="21"/>
+				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="580" y="42" width="110" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{printFName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="dc993c52-d871-450b-b243-f340805294a1" x="690" y="16" width="112" height="21"/>
+				<reportElement uuid="dc993c52-d871-450b-b243-f340805294a1" x="690" y="42" width="112" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{printLName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="c11546ae-0b31-48f4-9f15-c0c45fc611d8" x="158" y="0" width="160" height="16"/>
+				<reportElement uuid="a0f595c0-df49-4532-a760-b74fcfb9c649" x="0" y="21" width="158" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{EmpFirstName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fEmpFrom}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="692bc5d9-6d93-4a46-a290-5f07f66dbc0a" x="318" y="0" width="147" height="16"/>
+				<reportElement uuid="89e0d377-5180-43b4-991f-8c263c56c02d" x="158" y="21" width="93" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{EmpLastName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{EmpFrom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2695ddab-0876-4ae7-b06a-b026d0fdaaa5" x="251" y="21" width="67" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fEmpTo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="dd5cafac-1c01-4df1-a7c8-283562195570" x="318" y="21" width="147" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EmpTo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4e5770ef-887f-484f-a15e-4f9714e9e40b" x="0" y="0" width="158" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fTeam}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="771a0777-9d9b-47e6-b340-1af8c38d955a" x="158" y="0" width="160" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Team}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -584,311 +655,8 @@ $P{Error}]]></textFieldExpression>
 		</band>
 	</detail>
 	<summary>
-		<band height="75" splitType="Stretch">
+		<band height="74" splitType="Stretch">
 			<elementGroup/>
-			<crosstab>
-				<reportElement uuid="40ea064a-677a-4a6c-ba27-720577a8809b" x="0" y="0" width="802" height="25"/>
-				<rowGroup name="totalTaskAll" width="690" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$P{totalTaskAll}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField isBlankWhenNull="true">
-								<reportElement uuid="6440c541-a052-40c4-9937-ddd38e840def" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="690" height="25"/>
-								<box>
-									<pen lineWidth="0.75"/>
-									<topPen lineWidth="0.75"/>
-									<leftPen lineWidth="0.75"/>
-									<bottomPen lineWidth="0.75"/>
-									<rightPen lineWidth="0.75"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="TH Sarabun New" size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{totalTaskAll}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<columnGroup name="T_COST" height="0" totalPosition="End">
-					<bucket class="java.lang.Integer">
-						<bucketExpression><![CDATA[$F{T_COST}]]></bucketExpression>
-					</bucket>
-					<crosstabColumnHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabColumnHeader>
-					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabTotalColumnHeader>
-				</columnGroup>
-				<measure name="T_COSTMeasure" class="java.lang.Integer" calculation="Sum">
-					<measureExpression><![CDATA[$F{T_COST}]]></measureExpression>
-				</measure>
-				<crosstabCell width="0" height="25">
-					<cellContents>
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="0" height="0" rowTotalGroup="totalTaskAll">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="112" columnTotalGroup="T_COST">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField isBlankWhenNull="true">
-							<reportElement uuid="a442fc5e-7371-4d60-8361-1b61f72e15ea" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="112" height="25"/>
-							<box>
-								<pen lineWidth="0.75"/>
-								<topPen lineWidth="0.75"/>
-								<leftPen lineWidth="0.75"/>
-								<bottomPen lineWidth="0.75"/>
-								<rightPen lineWidth="0.75"/>
-							</box>
-							<textElement verticalAlignment="Middle">
-								<font fontName="TH Sarabun New" size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{T_COSTMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="112" height="0" rowTotalGroup="totalTaskAll" columnTotalGroup="T_COST">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-			</crosstab>
-			<crosstab>
-				<reportElement uuid="83ab9e2c-a37d-4802-badb-35e708e7507b" x="0" y="25" width="802" height="25"/>
-				<rowGroup name="totalOtAll" width="690" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$P{totalOtAll}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField isBlankWhenNull="true">
-								<reportElement uuid="2eb64738-fed2-4126-a545-a0557473022f" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="690" height="25"/>
-								<box>
-									<pen lineWidth="0.75"/>
-									<topPen lineWidth="0.75"/>
-									<leftPen lineWidth="0.75"/>
-									<bottomPen lineWidth="0.75"/>
-									<rightPen lineWidth="0.75"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="TH Sarabun New" size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{totalOtAll}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<columnGroup name="OT_COST" height="0" totalPosition="End">
-					<bucket class="java.lang.Integer">
-						<bucketExpression><![CDATA[$F{OT_COST}]]></bucketExpression>
-					</bucket>
-					<crosstabColumnHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabColumnHeader>
-					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabTotalColumnHeader>
-				</columnGroup>
-				<measure name="OT_COSTMeasure" class="java.lang.Integer" calculation="Sum">
-					<measureExpression><![CDATA[$F{OT_COST}]]></measureExpression>
-				</measure>
-				<crosstabCell width="0" height="25">
-					<cellContents>
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="0" height="0" rowTotalGroup="totalOtAll">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="112" columnTotalGroup="OT_COST">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField isBlankWhenNull="true">
-							<reportElement uuid="a0866e10-d298-46ff-a4bc-3d02c72167d2" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="112" height="25"/>
-							<box>
-								<pen lineWidth="0.75"/>
-								<topPen lineWidth="0.75"/>
-								<leftPen lineWidth="0.75"/>
-								<bottomPen lineWidth="0.75"/>
-								<rightPen lineWidth="0.75"/>
-							</box>
-							<textElement verticalAlignment="Middle">
-								<font fontName="TH Sarabun New" size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{OT_COSTMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="112" height="0" rowTotalGroup="totalOtAll" columnTotalGroup="OT_COST">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-			</crosstab>
-			<crosstab>
-				<reportElement uuid="321148f4-db4f-4acd-b3c8-7311bedb9bb5" x="0" y="50" width="802" height="25"/>
-				<rowGroup name="totalAll" width="690" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$P{totalAll}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField isBlankWhenNull="true">
-								<reportElement uuid="23d52bc9-cfff-4fd5-a29f-7f8f942f72c7" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="690" height="25"/>
-								<box>
-									<pen lineWidth="0.75"/>
-									<topPen lineWidth="0.75"/>
-									<leftPen lineWidth="0.75"/>
-									<bottomPen lineWidth="0.75"/>
-									<rightPen lineWidth="0.75"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="TH Sarabun New" size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{totalAll}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<columnGroup name="sumPointTOT" height="0" totalPosition="End">
-					<bucket class="java.lang.Integer">
-						<bucketExpression><![CDATA[]]></bucketExpression>
-					</bucket>
-					<crosstabColumnHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabColumnHeader>
-					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-						</cellContents>
-					</crosstabTotalColumnHeader>
-				</columnGroup>
-				<measure name="T_COSTMeasure" class="java.lang.Integer" calculation="Sum">
-					<measureExpression><![CDATA[$F{T_COST}]]></measureExpression>
-				</measure>
-				<measure name="OT_COSTMeasure" class="java.lang.Integer" calculation="Sum">
-					<measureExpression><![CDATA[$F{OT_COST}]]></measureExpression>
-				</measure>
-				<crosstabCell width="0" height="25">
-					<cellContents>
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="0" height="0" rowTotalGroup="totalAll">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="112" columnTotalGroup="sumPointTOT">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField isBlankWhenNull="true">
-							<reportElement uuid="b0f9fa99-f1eb-4f39-933d-e19b19b3aa72" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="112" height="25"/>
-							<box>
-								<pen lineWidth="0.75"/>
-								<topPen lineWidth="0.75"/>
-								<leftPen lineWidth="0.75"/>
-								<bottomPen lineWidth="0.75"/>
-								<rightPen lineWidth="0.75"/>
-							</box>
-							<textElement verticalAlignment="Middle">
-								<font fontName="TH Sarabun New" size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{T_COSTMeasure}+$V{OT_COSTMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="112" height="0" rowTotalGroup="totalAll" columnTotalGroup="sumPointTOT">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-					</cellContents>
-				</crosstabCell>
-			</crosstab>
 		</band>
 	</summary>
 </jasperReport>

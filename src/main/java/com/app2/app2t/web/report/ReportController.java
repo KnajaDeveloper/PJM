@@ -59,7 +59,10 @@ public class ReportController extends AbstractReportJasperXLS {
     @ResponseBody
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
                            //value รับค่าจาก js เก็บ string ตรงกับใน function
-            , @RequestParam(value = "empCode", required = false) String empCode
+            , @RequestParam(value = "empCodeFrom", required = false) String empCodeFrom
+            , @RequestParam(value = "empCodeTo", required = false) String empCodeTo
+            , @RequestParam(value = "team", required = false) String team
+            , @RequestParam(value = "teamBase", required = false) String teamBase
             , @RequestParam(value = "dateStartBase", required = false) String dateStartBase
             , @RequestParam(value = "dateEndBase", required = false) String dateEndBase
             , @RequestParam(value = "dateStart", required = false) String dateStart
@@ -71,16 +74,17 @@ public class ReportController extends AbstractReportJasperXLS {
     ) throws ParseException {
         LOGGER.debug(dateStartBase);
         LOGGER.debug(dateEndBase);
+        LOGGER.debug(teamBase);
 //-------------------------------------------------------------------------------------
-        List<Map> listMap = emRestService.getEmpNameByEmpCode(empCode);
-        Map<String, String> map = listMap.get(0);
-
-
-        String Fname = map.get("Fname");
-        String Lname = map.get("Lname");
-
-        LOGGER.debug(Fname);
-        LOGGER.debug(Lname);
+//        List<Map> listMap = emRestService.getEmpNameByEmpCode(empCodeFrom);
+//        Map<String, String> map = listMap.get(0);
+//
+//
+//        String Fname = map.get("Fname");
+//        String Lname = map.get("Lname");
+//
+//        LOGGER.debug(Fname);
+//        LOGGER.debug(Lname);
 
 //-------------------------------------------------------------------------------------
         //emRestService.getEmpNameByUserName(AuthorizeUtil.getUserName()) ส่งไป service
@@ -102,7 +106,9 @@ public class ReportController extends AbstractReportJasperXLS {
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("fTitle", getLabelFromPropertiesFile("L0002"));
-        params.put("fempName", getLabelFromPropertiesFile("L0003"));
+        params.put("fTeam", getLabelFromPropertiesFile("L0131"));
+        params.put("fEmpFrom", getLabelFromPropertiesFile("L0001"));
+        params.put("fEmpTo", getLabelFromPropertiesFile("L0005"));
         params.put("fDateStart", getLabelFromPropertiesFile("L0004"));
         params.put("fDateEnd", getLabelFromPropertiesFile("L0005"));
         params.put("fPrintName", getLabelFromPropertiesFile("L0006"));
@@ -132,12 +138,14 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("totalTaskAll", getLabelFromPropertiesFile("L0126"));
         params.put("totalOtAll", getLabelFromPropertiesFile("L0127"));
         params.put("totalAll", getLabelFromPropertiesFile("L0128"));
+        params.put("total", getLabelFromPropertiesFile("L0067"));
         params.put("dateStart", dateStart);
         params.put("dateEnd", dateEnd);
         params.put("printDate", printDate);
         params.put("PlusYear", plusYear);
-        params.put("EmpFirstName", Fname);
-        params.put("EmpLastName", Lname);
+        params.put("Team", team);
+        params.put("EmpFrom", empCodeFrom);
+        params.put("EmpTo", empCodeTo);
         params.put("printFName", UFname);
         params.put("printLName", ULname);
 
@@ -145,9 +153,10 @@ public class ReportController extends AbstractReportJasperXLS {
         StringBuilder sqlQuery = new StringBuilder();
 
         // where ตรงกับตอน2 สร้าง view VIEW PJMRP01 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (TASK_EMPCODE = ? OR OT_EMPCODE = ? ) ");
+        sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
+        sqlQuery.append(" and (EMPCODE  >=  ?  and EMPCODE <= ? ) ");
         sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
-        sqlQuery.append(" ORDER BY MONTH,D_END ASC");
+        sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date datestart = format.parse(dateStartBase);
@@ -158,8 +167,10 @@ public class ReportController extends AbstractReportJasperXLS {
         try {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            preparedStatement.setString(number++, empCode);
-            preparedStatement.setString(number++, empCode);
+            preparedStatement.setString(number++, teamBase);
+            preparedStatement.setString(number++, teamBase);
+            preparedStatement.setString(number++, empCodeFrom);
+            preparedStatement.setString(number++, empCodeTo);
             preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
             preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
 
