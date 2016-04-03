@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.app2.app2t</groupId>
+  <artifactId>APP2_PARENT</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>APP2_PARENT</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+    <profiles>
+
+        <profile>
+            <id>deploy-k-local</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo message="!!== deploy-k-local   ==!!"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/persistence.xml" match='&lt;property name="hibernate.hbm2ddl.auto" value="[a-zA-Z0-9.:/]+"/&gt;' replace='&lt;property name="hibernate.hbm2ddl.auto" value="update"/&gt;'/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/database-script/data.sql" match="[I|i][N|n][S|s][E|e][R|r][T|t]" replace="--INSERT"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/cas.properties" match="cas.server.host=[0-9a-zA-Z.:;@//=]+" replace="cas.server.host=softpl.us:8443"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/cas.properties" match="cas.service.host=[0-9a-zA-Z.:;@//=]+" replace="cas.service.host=localhost:8003"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.driverClassName=[a-zA-Z0-9.:/]+" replace="database.driverClassName=org.apache.derby.jdbc.ClientDriver"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.url=[a-zA-Z0-9.:;=\\/_]+" replace="database.url=jdbc:derby://localhost:1527/APP2;create=true\:derby\:APP2;create\=true"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.username[a-zA-Z0-9.:/=]+" replace="database.username=app2"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.password[a-zA-Z0-9.:/=]+" replace="database.password=app2"/>
+                                        <replaceregexp byline="true" file="src/main/resources/app2.server.properties" match="EM-APP2Server=[0-9a-zA-Z.:;@//=]+" replace="EM-APP2Server=localhost:8003/HRMSService/rest"/>
+                                        <replaceregexp byline="true" file="src/main/resources/app2.server.properties" match="Security-APP2Server=[0-9a-zA-Z.:;@//=]+" replace="Security-APP2Server=localhost:8003/HRMSService/rest"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+            <!--         <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <configuration>
+                            <server>Apache_Tomcat_7_SS_TEST</server>
+                            <url>http://softpl.us:8498/manager/text</url>
+                            <path>${module.name}</path>
+                            <username>tomcat</username>
+                            <password>p@ssw0rd</password>
+                        </configuration>
+                    </plugin> -->
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <properties>
+        <roo.version>1.3.2.RELEASE</roo.version>
+    </properties>
+</project>
