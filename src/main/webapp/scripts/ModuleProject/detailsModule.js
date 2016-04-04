@@ -18,7 +18,7 @@ $(document).ready(function(){
 	checkdDb = checkdDb.responseJSON;
 	$("#lblModuleNeme").text(checkdDb[0].moduleProject.moduleName);
 	$("#lblModuleInitial").text(checkdDb[0].moduleProject.moduleCode);
-	$("#lblModuleCost").text(parseFloat(checkdDb[0].moduleProject.moduleCost).toFixed(4)  + " " + Label.LABEL_POINT);
+	$("#lblModuleCost").text(checkdDb[0].moduleProject.moduleCost  + " " + Label.LABEL_POINT);
 	$("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
 	$("#lblModuleDateStart").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateStart, commonData.language));
 	$("#lblModuleDateEnd").text(DateUtil.dataDateToFrontend(checkdDb[0].moduleProject.dateEnd, commonData.language));
@@ -63,7 +63,7 @@ function searchTaskCost(moduleCost){
 		async: false
 	});
 
-	return parseFloat(moduleCost - checkdDb.responseJSON).toFixed(4);
+	return moduleCost - checkdDb.responseJSON;
 }
 
 var empLastName = [];

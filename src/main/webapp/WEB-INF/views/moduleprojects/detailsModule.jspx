@@ -129,9 +129,9 @@
     <c:set var="MSG_DATE_INCOLLECT" scope="request"><spring:message code="M0032"/></c:set>
     <c:set var="MSG_YOU_WANT_TO_SAVE_DATA" scope="request"><spring:message code="M0051"/></c:set>
     <c:set var="MSG_THIS_FILE_IS_ALREADY_TO_DAVE_THE_FILE_TO_REPEAT_IT" scope="request"><spring:message code="M0059"/></c:set>
-    <c:set var="MSG_FILE_NOT_FOUND" scope="request"><spring:message text="File not found"/></c:set>
-    <c:set var="MSG_DATA_ALL_IN_USED" scope="request"><spring:message text="Data All in used"/></c:set>
-    <c:set var="MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS" scope="request"><spring:message text="Please enter no more than four decimal numbers."/></c:set>
+    <c:set var="MSG_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
+    <c:set var="MSG_DATA_ALL_IN_USED" scope="request"><spring:message code="M0061"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS" scope="request"><spring:message code="M0065"/></c:set>
     
     <script type="text/javascript">
         var Label = {};
