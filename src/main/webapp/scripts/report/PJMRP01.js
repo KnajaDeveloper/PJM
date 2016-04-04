@@ -74,7 +74,7 @@ $("#ddlTeam").change(function () {
 //--------------------------------------------------------------------------------
 
 function sendData() {
-    $(".popover").hide();
+
     if ($("#lovEmpFrom").val() == "" && $("#lovEmpTo").val() != "") {
 
         $("#lovEmpFrom").attr("data-content", Message.PLEASE_INPUT).popover('show');
@@ -289,5 +289,7 @@ function sendData() {
 
 
     }
+
 }
 //--------------------------------------------------------------------------------
+
