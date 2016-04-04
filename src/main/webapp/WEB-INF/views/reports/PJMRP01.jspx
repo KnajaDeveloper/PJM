@@ -13,6 +13,7 @@
     <c:set var="End_Date" scope="request"><spring:message code="L0011"/></c:set>
     <c:set var="L_Employee_To" scope="request"><spring:message code="L0005"/></c:set>
     <c:set var="L_Team" scope="request"><spring:message code="L0131"/></c:set>
+    <c:set var="L_All" scope="request"><spring:message code="L0090"/></c:set>
 
     <c:set var="PLEASE_INPUT" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="PLEASE_SELECT_DATE" scope="request"><spring:message code="M0011"/></c:set>
@@ -27,6 +28,7 @@
         Message.PLEASE_SELECT_DATE = '${PLEASE_SELECT_DATE}';
         Message.Date_format_invalid = '${Date_format_invalid}';
         Message.Data_not_found = '${Data_not_found}';
+        Message.L_All = '${L_All}';
 
     </script>
 
