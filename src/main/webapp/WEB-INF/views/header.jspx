@@ -51,6 +51,8 @@
             </ul>
         </div>
     </nav>
+    <div id="wait" class="modal-backdrop" style="opacity: 0;">
+    </div>
     <spring:url var="img" value="/resources/images/loader.gif" />
     <script>
         var contextPath = '${pageContext.request.contextPath}';
