@@ -104,7 +104,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
 };
 
 function LovEmpKeyDownEvent(inputId) {
-    $(inputId + "_typeahead_menu").scrollTop = 0;
+    $("typeahead_menu_"+inputId).scrollTop = 0;
     $(inputId).bind("keydown", function (evt) {
         if (evt.which === 40 && $(inputId + "_typeahead_menu")[0] != undefined) {
             $(inputId + "_typeahead_menu")[0].scrollTop = (($(inputId + "_typeahead_menu li.active").index()) * 26);

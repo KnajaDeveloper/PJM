@@ -38,9 +38,23 @@ function btnDeleteModuleManager(id) {
 
 $("#btnEditAddMM1").click(function(){
 	var count_elements = countEditModuleManager+1;
-	var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleManagerName"+[count_elements+1]+"' style='margin-top:5px;' onchange='editModuleManagerChange(this)'></input></div>"+
-			"<button id='btnDeleteEditMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>"+Button.Delete+"</button></div>";
+	//var html="<div style='padding-top: 5px;' id='container_subEditModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
+	//		"<input type='text' class='form-control' id='txtEditModuleManagerName"+[count_elements+1]+"' style='margin-top:5px;' onchange='editModuleManagerChange(this)'></input></div>"+
+	//		"<button id='btnDeleteEditMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>"+Button.Delete+"</button></div>";
+	var html = "<div style='padding-top: 10px;' id='container_subEditModuleManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label>" +
+		"<div class='col-sm-4 display:inline-block''>"+
+		"<div class='input-group display:inline-block'>"+
+		"<input id='txtEditModuleManagerName"+[count_elements+1]+"' onchange='editModuleManagerChange(this)' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+		"<span class='input-group-addon'>"+
+		"<span id='BtntxtEditModuleManagerName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleManagerName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
+		"<jsp:text/>"+
+		"</span>"+
+		"</span>"+
+		"</input>"+
+		"</div>"+
+		"</div>"+
+		"<button id='btnDeleteEditMM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)' style='margin-top: -0.5px'>"+Button.Delete+"</button>" +
+		"</div>";
 	$("#subEditModuleManager").append(html);
 	countEditModuleManager++;
 });
@@ -61,7 +75,7 @@ $("#btnAddMMem1").click(function(){
 	//		"<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName"+[count_elements+1]+"'></input></div>"+
 	//		"<button id='btnDeleteMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteModuleMember(this.id)'>"+Button.Delete+"</button></div>";
 	var html = "<div style='padding-top: 10px;' id='container_subModuleMember"+[count_elements+1]+"'>" +
-		"<div style='margin-bottom:5px;'>&nbsp</div>"+
+		"<div style='margin-bottom:5px;'></div>"+
 		"<label class='col-sm-3 control-label'></label>" +
 		"<div class='col-sm-4 display:inline-block''>"+
 		"<div class='input-group display:inline-block'>"+
@@ -77,6 +91,7 @@ $("#btnAddMMem1").click(function(){
 		"<button id='btnDeleteMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteModuleMember(this.id)' style='margin-top: -0.5px'>"+Button.Delete+"</button>" +
 		"</div>";
 	$("#subModuleMember").append(html);
+	//$("#subModuleMember").append("<div style='margin-bottom:5px;'>&nbsp</div>");
 	countModuleMember++;
 });
 
@@ -87,9 +102,25 @@ function btnDeleteModuleMember(id) {
 
 $("#btnEditAddMMem1").click(function(){
 	var count_elements = countEditModuleMember+1;
-	var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' id='txtEditModuleMemberName"+[count_elements+1]+"'></input></div>"+
-			"<button id='btnDeleteEditMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>"+Button.Delete+"</button></div>";
+	//var html="<div style='padding-top: 5px;' id='container_subEditModuleMember"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
+	//		"<input type='text' class='form-control' id='txtEditModuleMemberName"+[count_elements+1]+"'></input></div>"+
+	//		"<button id='btnDeleteEditMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>"+Button.Delete+"</button></div>";
+	var html = "<div style='padding-top: 10px;' id='container_subEditModuleMember"+[count_elements+1]+"'>" +
+					"<div style='margin-bottom:5px;'></div>"+
+						"<label class='col-sm-3 control-label'></label>" +
+					"<div class='col-sm-4 display:inline-block''>"+
+						"<div class='input-group display:inline-block'>"+
+							"<input id='txtEditModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+								"<span class='input-group-addon'>"+
+									"<span id='BtntxtEditModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
+										"<jsp:text/>"+
+									"</span>"+
+								"</span>"+
+							"</input>"+
+						"</div>"+
+						"<button id='btnDeleteMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)' style='margin-top: -0.5px'>"+Button.Delete+"</button>" +
+					"</div>"+
+				"</div>";
 	$("#subEditModuleMember").append(html);
 	countEditModuleMember++;
 });

@@ -23,6 +23,7 @@ $("#btnAddModule").click(function(){
 		$('#modalAddModule').modal('show');
 		var namePM = getAllProjectManager().split("===");
 		$("#txtModuleMemberName1").val(""+namePM[0]);
+		$("#txtModuleMemberName1").data("dataCode",""+namePM[0].split(' ')[0]);
 		$("#txtModuleMemberName1").disableSelection();
 		for(var i = 1 ; i < namePM.length - 1 ; i++) {
 			var count_elements = countModuleMember+1;
@@ -38,7 +39,8 @@ $("#btnAddModule").click(function(){
 				"</input>"+
 				"</div>"+
 				"</div>"+
-				"</div>";
+				"</div>"+
+				"<div class='btn'></div>";;
 
 			$("#subModuleMember").append(html);
 			$("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
@@ -82,16 +84,8 @@ function moduleManagerChange(obj){
 		var checkSame = checkSameNameMember($("[id^=txtModuleManagerName]")[i].value);
 		if(checkSame) {
 			var count_elements = countModuleMember + 1;
-			//var html = "<div style='padding-top: 5px;' id='container_subModuleMember" + [count_elements + 1] + "' from='modulemanager'>" +
-			//	"	<label class='col-sm-3 control-label'></label>" +
-			//	"<div class='col-sm-3'>" +
-			//	"<input type='text' class='form-control' style='margin-top: 5px;' id='txtModuleMemberName" + [count_elements + 1] + "'></input>" +
-			//	"</div>" +
-			//	"<div class='btn'>&nbsp</div>" +
-			//	"</div>";
-
 			var html = "<div style='padding-top: 10px;' id='container_subModuleMember"+[count_elements+1]+"' from='modulemanager'>" +
-					"<div style='margin-bottom:5px;'>&nbsp</div>"+
+					"<div style='margin-bottom:5px;'></div>"+
 				"<label class='col-sm-3 control-label'></label>" +
 				"<div class='col-sm-4 display:inline-block''>"+
 				"<div class='input-group display:inline-block'>"+
@@ -105,11 +99,12 @@ function moduleManagerChange(obj){
 				"</div>"+
 				"</div>"+
 				"</div>"+
-				"</div>";
+				"</div>"+
+				"<div class='btn'></div>";
 
 			$("#subModuleMember").append(html);
 			$("#txtModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtModuleManagerName]")[i].value);
-			$("#txtModuleMemberName"+[count_elements + 1]).data("dataCode",""+$("[id^=txtModuleManagerName]")[i].val().split(' ')[0]);
+			$("#txtModuleMemberName"+[count_elements + 1]).data("dataCode",""+$("[id^=txtModuleManagerName]")[i].value.split(' ')[0]);
 			$("#txtModuleMemberName" + [count_elements + 1]).disableSelection();
 			countModuleMember++;
 		}
@@ -135,14 +130,32 @@ function editModuleManagerChange(obj){
 		var checkSame = checkEditSameNameMember($("[id^=txtEditModuleManagerName]")[i].value);
 		if(checkSame) {
 			var count_elements = countEditModuleMember + 1;
-			var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'>" +
+			//var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'>" +
+			//	"<label class='col-sm-3 control-label'></label>" +
+			//	"<div class='col-sm-3'>" +
+			//		"<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input>" +
+			//	"</div>" +
+			//	"<div class='btn'>&nbsp</div></div>";
+			var html = "<div style='padding-top: 10px;' id='container_subEditModuleMember"+[count_elements+1]+"' from='modulemanager'>" +
+				"<div style='margin-bottom:5px;'></div>"+
 				"<label class='col-sm-3 control-label'></label>" +
-				"<div class='col-sm-3'>" +
-					"<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input>" +
-				"</div>" +
-				"<div class='btn'>&nbsp</div></div>";
+				"<div class='col-sm-4 display:inline-block''>"+
+				"<div class='input-group display:inline-block'>"+
+				"<input id='txtEditModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+				"<span class='input-group-addon'>"+
+				"<span id='BtntxtEditModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
+				"<jsp:text/>"+
+				"</span>"+
+				"</span>"+
+				"</input>"+
+				"</div>"+
+				"</div>"+
+				"</div>"+
+				"</div>"+
+				"<div class='btn'></div>";
 			$("#subEditModuleMember").append(html);
 			$("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
+			$("#txtEditModuleMemberName" + [count_elements + 1]).data("dataCode","" + $("[id^=txtEditModuleManagerName]")[i].value.split(' ')[0]);
 			$("#txtEditModuleMemberName" + [count_elements + 1]).disableSelection();
 			countEditModuleMember++;
 		}
@@ -211,7 +224,7 @@ function saveEditModule(object,cost){
 				arr_nameModule[number[1]] = $("#txtEditModuleName1").val();
 				arr_initialNameModule[number[1]] = $("#txtEditInitialModuleName1").val();
 				arr_costModule[number[1]] = $("#txtCostsEditModule1").val();
-				ModuleProject[number[1]].moduleCost = parseInt($("#txtCostsEditModule1").val());
+				ModuleProject[number[1]].moduleCost = ($("#txtCostsEditModule1").val());
 				$("#headName"+number[1]).text("("+$("#txtEditInitialModuleName1").val()+")  "+$("#txtEditModuleName1").val()+"  ["+$("#txtCostsEditModule1").val()+"]");
 
 				arr_startDate[number[1]] = $("#dateStartEditModule").val();
@@ -232,7 +245,7 @@ function saveEditModule(object,cost){
 			}
 		}
 		else if(boolSameName==false){
-			bootbox.alert(""+Message.It_has_same_names)
+			bootbox.alert(""+Message.It_has_same_names);
 		}
 	}
 	else {
@@ -297,29 +310,29 @@ function SaveModule(cost){
 				"<div class='panel-body'>"+
 				"<div class='form-inline'>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>"+Label.Start_Date+" : </label>"+
-				"<div class='col-sm-5 input-group'>"+
-				"<label id='lbDateStartEditModule"+i+"' class='control-label'>"+$("#dateStartModule").val()+"</label>"+
+				"<label class='col-sm-5 control-label'>"+Label.Start_Date+" : </label>"+
+				"<div class='col-sm-7 input-group'>"+
+				"<label id='lbDateStartEditModule"+i+"' class='pull-left'>"+$("#dateStartModule").val()+"</label>"+
 				"</div>"+
 				"</div>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>"+Label.End_Date+" : </label>"+
-				"<div class='col-sm-5 input-group'>"+
-				"<label id='lbDateEndEditModule"+i+"' class='control-label'>"+$("#dateEndModule").val()+"</label>"+
+				"<label class='col-sm-5 control-label'>"+Label.End_Date+" : </label>"+
+				"<div class='col-sm-7 input-group'>"+
+				"<label id='lbDateEndEditModule"+i+"' class='pull-left'>"+$("#dateEndModule").val()+"</label>"+
 				"</div>"+
 				"</div>"+
 				"</div>"+
 				"<div class='form-inline'>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>"+Label.Module_manager+" :</label>"+
-				"<div class='col-sm-5 input-group'>"+
-				"<label id='lbEditModuleManager"+i+"' class='control-label'>"+allModuleManager+"</input>"+
+				"<label class='col-sm-5 control-label'>"+Label.Module_manager+" :</label>"+
+				"<div class='col-sm-7 input-group'>"+
+				"<label id='lbEditModuleManager"+i+"' class='pull-left'>"+allModuleManager+"</input>"+
 				"</div>"+
 				"</div>"+
 				"<div class='col-sm-6'>"+
-				"<label class='col-sm-6 control-label'>"+Label.Module_member+" :</label>"+
-				"<div class='col-sm-5 input-group'>"+
-				"<label id='lbEditModuleMember"+i+"' class='control-label'>"+allModuleMember+"</input>"+
+				"<label class='col-sm-5 control-label'>"+Label.Module_member+" :</label>"+
+				"<div class='col-sm-7 input-group'>"+
+				"<label id='lbEditModuleMember"+i+"' class='pull-left'>"+allModuleMember+"</input>"+
 				"</div>"+
 				"</div>"+
 				"</div>"+
@@ -356,7 +369,7 @@ function checkModal(){
 		var textCost = ""+$("#txtCostsModule1").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
+			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
 				$('#txtCostsModule1').attr("data-placement","bottom");
 				$('#txtCostsModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsModule1').popover('show');
@@ -408,12 +421,12 @@ function checkModal(){
 
 function checkCost(cost){
 	var count_Element = $('[id^=btnEditModule]').length;
-	var projectCost = parseInt($('#txtCostsProject').val());
-	var totalModuleCost = parseInt(cost);
+	var projectCost = ($('#txtCostsProject').val());
+	var totalModuleCost = (cost);
 	for(var i=0;i<count_Element;i++) {
 		var id = $('[id^=btnEditModule]')[i].id;
 		var number = id.split("btnEditModule");
-		if(i!=number[1]) totalModuleCost = totalModuleCost + parseInt(arr_costModule[number[1]]);
+		if(i!=number[1]) totalModuleCost = totalModuleCost + (arr_costModule[number[1]]);
 	}
 	if(totalModuleCost > projectCost) {
 		confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost) ;
@@ -424,12 +437,12 @@ function checkCost(cost){
 
 function checkEditCost(cost,skipId,object){
 	var count_Element = $('[id^=btnEditModule]').length;
-	var projectCost = parseInt($('#txtCostsProject').val());
-	var totalModuleCost = parseInt(cost);
+	var projectCost = ($('#txtCostsProject').val());
+	var totalModuleCost = (cost);
 	var skip = skipId.split("btnEditSaveModule");
-	var idSkip = parseInt(skip[1]);
+	var idSkip = (skip[1]);
 	for(var i=1;i<=count_Element;i++) {
-		if(i!=idSkip) totalModuleCost = totalModuleCost + parseInt(arr_costModule[i]);
+		if(i!=idSkip) totalModuleCost = totalModuleCost + (arr_costModule[i]);
 	}
 	if(totalModuleCost > projectCost) {
 		confirmEditModuleWhenTotalCostMoreThanProject(totalModuleCost,object) ;
@@ -441,7 +454,7 @@ function checkEditCost(cost,skipId,object){
 function confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost){
 	bootbox.confirm(Message.Cost_module_more_than_project+"\n"+Message.Confirm_add_module, function(result) {
 		if(result==true){
-			SaveModule(totalModuleCost-parseInt($("#txtCostsProject").val()));
+			SaveModule(totalModuleCost-($("#txtCostsProject").val()));
 		}
 	});
 }
@@ -449,7 +462,7 @@ function confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost){
 function confirmEditModuleWhenTotalCostMoreThanProject(totalModuleCost,object){
 	bootbox.confirm(""+Message.Cost_module_more_than_project+"\n"+Message.Confirm_edit_module, function(result) {
 		if(result==true){
-			saveEditModule(object, totalModuleCost-parseInt($("#txtCostsProject").val()));
+			saveEditModule(object, totalModuleCost-($("#txtCostsProject").val()));
 		}
 	});
 }
@@ -477,7 +490,7 @@ function checkEditModal(){
 		var textCost = ""+$("#txtCostsEditModule1").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
+			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
 				$('#txtCostsEditModule1').attr("data-placement","bottom");
 				$('#txtCostsEditModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsEditModule1').popover('show');
@@ -561,6 +574,26 @@ function getAllModuleMember(){
 	return allNameModuleMember;
 }
 
+function getAllModuleManagerNoCode(){
+	var allNameModuleManager = "";
+	var count_Element = $('[id^=txtModuleManagerName]').length;
+	for(var i = 0 ; i < count_Element ; i++){
+		var id = $('[id^=txtModuleManagerName]')[i].id;
+		allNameModuleManager += ""+$("#"+id).val().split(":")[1].trim()+"<br/>";
+	}
+	return allNameModuleManager;
+}
+
+function getAllModuleMemberNoCode(){
+	var allNameModuleMember = "";
+	var count_Element = $('[id^=txtModuleMemberName]').length;
+	for(var i = 0 ; i < count_Element ; i++){
+		var id = $('[id^=txtModuleMemberName]')[i].id;
+		allNameModuleMember += ""+$("#"+id).val().split(":")[1].trim()+"<br/>";
+	}
+	return allNameModuleMember;
+}
+
 function getAllEditModuleManager(){
 	var allNameModuleManager = "";
 	var count_Element = $('[id^=txtEditModuleManagerName]').length;
@@ -634,22 +667,53 @@ function editModule(objectModule){
 		var textModuleManager = arr_moduleManager[number];
 		var splitTextModuleManager = textModuleManager.split("<br/>");
 		$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
+		$("#txtEditModuleManagerName1").data("dataCode",""+splitTextModuleManager[0].split(' ')[0]);
 		for (var i = 2; i < splitTextModuleManager.length; i++) {
-			var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-				"<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;' onchange='editModuleManagerChange(this)'></input></div>" +
-				"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
+			//var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+			//	"<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;' onchange='editModuleManagerChange(this)'></input></div>" +
+			//	"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
+			var html = "<div style='padding-top: 10px;' id='container_subEditModuleManager"+ i +"'><label class='col-sm-3 control-label'></label>" +
+				"<div class='col-sm-4 display:inline-block''>"+
+				"<div class='input-group display:inline-block'>"+
+				"<input id='txtEditModuleManagerName"+i+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName"+i+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+				"<span class='input-group-addon'>"+
+				"<span id='BtntxtEditModuleManagerName"+i+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleManagerName"+i+"' class='fa fa-search' style='cursor:pointer;'>"+
+				"<jsp:text/>"+
+				"</span>"+
+				"</span>"+
+				"</input>"+
+				"</div>"+
+				"</div>"+
+				"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button>"+
+				"</div>";
 			$("#subEditModuleManager").append(html);
 			$("#txtEditModuleManagerName" + i).val(splitTextModuleManager[i - 1]);
+			$("#txtEditModuleManagerName" + i).data("dataCode",""+splitTextModuleManager[i - 1].split(' ')[0]);
 		}
 
 		var textModuleMember = arr_moduleMember[number];
 		var splitTextModuleMember = textModuleMember.split("<br/>");
 		$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
+		$("#txtEditModuleMemberName1").data("dataCode",""+splitTextModuleMember[0].split(' ')[0]);
 		$("#txtEditModuleMemberName1").disableSelection();
 		for (var i = 2; i < splitTextModuleMember.length; i++) {
 			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
-			var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-				"<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>";
+			//var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+			//	"<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>";
+			var html =
+				"<div style='padding-top: 10px;' id='container_subEditModuleMember"+ i +"'>" +
+					"<label class='col-sm-3 control-label'></label>" +
+					"<div class='col-sm-4 display:inline-block''>"+
+						"<div class='input-group display:inline-block'>"+
+							"<input id='txtEditModuleMemberName"+i+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleMemberName"+i+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+								"<span class='input-group-addon'>"+
+									"<span id='BtntxtEditModuleMemberName"+i+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleMemberName"+i+"' class='fa fa-search' style='cursor:pointer;'>"+
+										"<jsp:text/>"+
+									"</span>"+
+								"</span>"+
+							"</input>"+
+						"</div>"+
+					"</div>";
 			if(same == "nosame")
 				html += "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button>";
 			else
@@ -657,6 +721,7 @@ function editModule(objectModule){
 			html+= "</div>";
 			$("#subEditModuleMember").append(html);
 			$("#txtEditModuleMemberName" + i).val(splitTextModuleMember[i - 1]);
+			$("#txtEditModuleMemberName" + i).data("dataCode",""+splitTextModuleMember[i - 1].split(' ')[0]);
 			if(same!="nosame"){
 				if(same=="module") $("#container_subEditModuleMember" + i).attr("from","modulemanager");
 				else $("#container_subEditModuleMember" + i).attr("from","project");
@@ -695,19 +760,19 @@ function compareEditData(){
 }
 
 function findSameModuleManagerOrProjectManager(needKnow){
-	var count_Element = $("[id^=txtEditModuleManagerName").length;
+	var count_Element = $("[id^=txtEditModuleManagerName]").length;
 	var arrManager = [];
 	for(var i=0;i<count_Element;i++){
-		var id = $("[id^=txtEditModuleManagerName")[i].id;
+		var id = $("[id^=txtEditModuleManagerName]")[i].id;
 		var name = ""+$("#"+id).val();
 		arrManager.push(""+name);
 	}
-	count_Element = $("[id^=txtProjectManagerName").length;
+	count_Element = $("[id^=txtProjectManagerName]").length;
 	var arrProjectManager = [];
 	for(var i=0;i<count_Element;i++){
-		var id = $("[id^=txtProjectManagerName")[i].id;
+		var id = $("[id^=txtProjectManagerName]")[i].id;
 		var name = ""+$("#"+id).val();
-		arrProjectManager.push(""+name);
+		arrProjectManager.push(""+name.trim());
 	}
 	if(arrManager.indexOf(""+needKnow) >= 0){
 		return "module";
