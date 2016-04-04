@@ -36,8 +36,8 @@ function checkCostCanDecrese(){
 				var number = parseInt(id.split("btnEditModule")[1]);
 				totalUse += ModuleProject[number].moduleCost;
 			}
-			var needDecrese = parseInt($("#txtIncreseCostModuleCost").val());
-			var canDecrese = parseInt($("#txtCostsProject").val()) - totalUse;
+			var needDecrese = ($("#txtIncreseCostModuleCost").val());
+			var canDecrese = ($("#txtCostsProject").val()) - totalUse;
 			if (canDecrese > needDecrese) {
 				saveIncreseCost(null);
 			} else {
@@ -75,7 +75,7 @@ function saveIncreseCost(canDecrese){
 			}
 			var editCostProject = {
 				projectId: dataAfterSave.responseJSON.id,
-				increseCost: parseInt($("#txtIncreseCostModuleCost").val())
+				increseCost: $("#txtIncreseCostModuleCost").val()
 			};
 			var recieveProject = $.ajax({
 				headers: {
@@ -86,15 +86,15 @@ function saveIncreseCost(canDecrese){
 				data: editCostProject,
 				complete: function (xhr) {
 					if (xhr.status === 201 || xhr.status === 200) {
-						if(option=="decrese")  bootbox.alert(""+Message.Decrese+" " + parseInt($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_from_project);
-						else bootbox.alert(""+Message.Increse +" "+ parseInt($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_to_project);
+						if(option=="decrese")  bootbox.alert(""+Message.Decrese+" " + $("#txtIncreseCostModuleCost").val() + " "+Message.Point_from_project);
+						else bootbox.alert(""+Message.Increse +" "+ ($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_to_project);
 						recieveProject = xhr;
 						$("#txtCostsProject").val("" + recieveProject.responseJSON.projectCost);
 						saveDataProject();
 						return true;
 					} else if (xhr.status === 500) {
-						if(option=="decrese")  bootbox.alert(""+Message.Cant_Decrese+" " + parseInt($("#txtIncreseCostModuleCost").val()) + " "+Message.Point_from_project);
-						else bootbox.alert(""+Message.Cant_Increse+" " + parseInt($("#txtIncreseCostModuleCost").text()) + " "+Message.Point_to_project);
+						if(option=="decrese")  bootbox.alert(""+Message.Cant_Decrese+" " + $("#txtIncreseCostModuleCost").val() + " "+Message.Point_from_project);
+						else bootbox.alert(""+Message.Cant_Increse+" " + $("#txtIncreseCostModuleCost").text() + " "+Message.Point_to_project);
 						return false;
 					}
 				},
@@ -115,7 +115,7 @@ function saveIncreseCost(canDecrese){
 			var editCostModuleProject = {
 				projectId: dataAfterSave.responseJSON.id,
 				codeModuleProject: idModuleProject,
-				costIncrese: parseInt($("#txtIncreseCostModuleCost").val())
+				costIncrese: $("#txtIncreseCostModuleCost").val()
 			};
 			var responseHeader = null;
 			var textNewCost = $.ajax({
@@ -127,13 +127,13 @@ function saveIncreseCost(canDecrese){
 				data: editCostModuleProject,
 				complete: function (xhr) {
 					if (xhr.status === 201 || xhr.status === 200) {
-						if (option != "decrese") bootbox.alert("" + Message.Increse + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
-						else bootbox.alert("" + Message.Decrese + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
-						changeParameterIncreseOrDecresePointByModuleCode($("#ddlIncreseCostModuleName").val(), parseInt($("#txtIncreseCostModuleCost").val()));
+						if (option != "decrese") bootbox.alert("" + Message.Increse + " " + ($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
+						else bootbox.alert("" + Message.Decrese + " " + ($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
+						changeParameterIncreseOrDecresePointByModuleCode($("#ddlIncreseCostModuleName").val(), ($("#txtIncreseCostModuleCost").val()));
 						return true;
 					} else if (xhr.status === 500) {
-						if (option != "decrese") bootbox.alert("" + Message.Cant_Increse + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
-						else bootbox.alert("" + Message.Cant_Decrese + " " + parseInt($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
+						if (option != "decrese") bootbox.alert("" + Message.Cant_Increse + " " + ($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_to_module + " " + idModuleProject + ".");
+						else bootbox.alert("" + Message.Cant_Decrese + " " + ($("#txtIncreseCostModuleCost").val()) + " " + Message.Point_from_module + " " + idModuleProject + ".");
 						return false;
 					}
 				},
@@ -217,7 +217,7 @@ function checkDataBeforeSave(option){
 		var textCost = ""+$("#txtIncreseCostModuleCost").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
+			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
 				$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
 				$('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
 				$('#txtIncreseCostModuleCost').popover('show');

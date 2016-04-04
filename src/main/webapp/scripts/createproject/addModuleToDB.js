@@ -11,7 +11,7 @@ function saveModuleProjectToDB(){
 		var crateModuleProject = {
 				moduleCode:$("#txtInitialModuleName1").val() ,
 				moduleName:$("#txtModuleName1").val() ,
-				moduleCost:parseInt($("#txtCostsModule1").val()),
+				moduleCost:$("#txtCostsModule1").val(),
 				dateStart: convertFormatDateStart ,
 				dateEnd: convertFormatDateEnd,
 				projectId: dataAfterSave.responseJSON.id ,

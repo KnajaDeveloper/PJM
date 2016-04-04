@@ -1,7 +1,7 @@
 var editModuleName = "";
 
 function editDataModuleInDB(number,cost){
-	var moduleCost = parseInt($("#txtCostsEditModule1").val());
+	var moduleCost = $("#txtCostsEditModule1").val();
 	//if(cost!=null) moduleCost = cost ;
 	var returnStatus = false ;
 	var convertFormatDateStart = new Date(convertDate($('#dateStartEditModule').val()));

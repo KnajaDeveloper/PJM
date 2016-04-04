@@ -39,7 +39,7 @@ function checkDataProject(){
 		var textCost = ""+$("#txtCostsProject").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
+			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
 				$('#txtCostsProject').attr("data-content",Message.Number_only);
 				$('#txtCostsProject').popover('show');
 				return false;
