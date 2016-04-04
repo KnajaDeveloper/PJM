@@ -107,7 +107,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             @PathVariable("fileName") String fileName,
             @PathVariable("detail") String detail,
             @PathVariable("progress") Integer progress,
-            @PathVariable("id") long id,
+            @PathVariable("id") Long id,
             MultipartHttpServletRequest multipartHttpServletRequest
     ) {
         HttpHeaders headers = new HttpHeaders();

@@ -9,12 +9,16 @@ $(document).ready(function () {
     $("#dateEndProject").datepicker(dateLang);
 
     $("#dateStartProject").on('change', function () {
-        DateUtil.setMinDate('dateStartProject', 'dateEndProject');
+        if($(this).val() != '')
+            DateUtil.setMinDate('dateStartProject', 'dateEndProject');
+
         checkDateFormat($(this), Message.MSG_DATE_INCOLLECT,  Message.MSG_PLEASE_COMPLETE_THIS_FIEID);
     });
     
     $("#dateEndProject").on('change', function () {
-        DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
+        if($(this).val() != '')
+            DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
+        
         checkDateFormat($(this), Message.MSG_DATE_INCOLLECT,  Message.MSG_PLEASE_COMPLETE_THIS_FIEID);
     });
 
@@ -339,7 +343,7 @@ function saveData(id, dateStart, dateEnd){
         headers: {
             Accept: 'application/json',
         },
-        contentType: "application/json; charset=utf-8",
+        contentType: "application/json; charset=UTF-8",
         dataType: "json",
         url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
                                           '/' + $('#txtTaskName').val() +
@@ -435,7 +439,7 @@ function saveDataToDataBase(id) {
                 headers: {
                     Accept: 'application/json',
                 },
-                contentType: "application/json; charset=utf-8",
+                contentType: "application/json; charset=UTF-8",
                 dataType: "json",
                 url: contextPath + '/tasks/findEditTask/' + TaskID +
                                                       '/' + $('#txtTaskCode').val() +
