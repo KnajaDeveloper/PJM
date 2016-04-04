@@ -73,26 +73,26 @@ privileged aspect PlanController_Custom_Controller_Json {
             List<OtherTask> monthPlanOtherTaskComplete = Plan.getPointPlanOtherTaskComplete(dtMonthBegin, dtMonthEnd, empCode);
             List<OtherTask> yearPlanOtherTaskComplete = Plan.getPointPlanOtherTaskComplete(dtYearBegin, dtYearEnd, empCode);
 
-            Map<String, Integer> mapTotalPoint = new HashMap<>();
-            mapTotalPoint.put("pointCompleteTaskMonth", 0);
-            mapTotalPoint.put("pointCompleteTaskYear", 0);
-            mapTotalPoint.put("pointCompleteOtherTaskMonth", 0);
-            mapTotalPoint.put("pointCompleteOtherTaskYear", 0);
+            Map<String, Double> mapTotalPoint = new HashMap<>();
+            mapTotalPoint.put("pointCompleteTaskMonth", 0.0);
+            mapTotalPoint.put("pointCompleteTaskYear", 0.0);
+            mapTotalPoint.put("pointCompleteOtherTaskMonth", 0.0);
+            mapTotalPoint.put("pointCompleteOtherTaskYear", 0.0);
 
             for(Task task : monthPlanTaskComplete){
-                int p = mapTotalPoint.get("pointCompleteTaskMonth") + task.getTaskCost();
+                double p = mapTotalPoint.get("pointCompleteTaskMonth") + task.getTaskCost();
                 mapTotalPoint.put("pointCompleteTaskMonth", p);
             }
             for(Task task : yearPlanTaskComplete){
-                int p = mapTotalPoint.get("pointCompleteTaskYear") + task.getTaskCost();
+                double p = mapTotalPoint.get("pointCompleteTaskYear") + task.getTaskCost();
                 mapTotalPoint.put("pointCompleteTaskYear", p);
             }
             for(OtherTask otherTask : monthPlanOtherTaskComplete){
-                int p = mapTotalPoint.get("pointCompleteOtherTaskMonth") + otherTask.getTaskCost();
+                double p = mapTotalPoint.get("pointCompleteOtherTaskMonth") + otherTask.getTaskCost();
                 mapTotalPoint.put("pointCompleteOtherTaskMonth", p);
             }
             for(OtherTask otherTask : yearPlanOtherTaskComplete){
-                int p = mapTotalPoint.get("pointCompleteOtherTaskYear") + otherTask.getTaskCost();
+                double p = mapTotalPoint.get("pointCompleteOtherTaskYear") + otherTask.getTaskCost();
                 mapTotalPoint.put("pointCompleteOtherTaskYear", p);
             }
 
@@ -311,7 +311,7 @@ privileged aspect PlanController_Custom_Controller_Json {
         try {
             JSONObject jsonPlan = new JSONObject(json);
             String taskName = jsonPlan.getString("taskName");
-            int taskCost = jsonPlan.getInt("taskCost");
+            Double taskCost = jsonPlan.getDouble("taskCost");
             Date dateStart = new Date(jsonPlan.getLong("dateStart"));
             Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
 
