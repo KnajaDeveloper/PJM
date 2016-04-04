@@ -10,7 +10,7 @@
         <field:datetime dateTimePattern="${moduleProject_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_ModuleProject_updatedDate" z="bnqY5o0Sg0y56nsjou3/UjYRDF0="/>
         <field:input field="moduleCode" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleCode" z="bX7vwHHOoFfdJloQXrivnLVzdTk="/>
         <field:input field="moduleName" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleName" z="CHnVcGPvXZtkwIGnAvkyh7DtD3s="/>
-        <field:input field="moduleCost" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleCost" validationMessageCode="field_invalid_integer" z="BomFOwen6ev9pmRu43ly6YlCEh8="/>
+        <field:input field="moduleCost" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleCost" validationMessageCode="field_invalid_number" z="e6Ia8Bu0oKTQBWe8LOOGTqEAGGo="/>
         <field:datetime dateTimePattern="${moduleProject_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_ModuleProject_dateStart" z="eSURyhZWY0++ul+C2OK7qNFZUXw="/>
         <field:datetime dateTimePattern="${moduleProject_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_ModuleProject_dateEnd" z="dgJq2xauR0fqvYdkd74uG4ovk78="/>
         <field:select field="project" id="c_com_app2_app2t_domain_pjm_ModuleProject_project" itemValue="id" items="${projects}" path="/projects" z="RQoKHr1xGAMwT3+BTuVdIZt8Rzs="/>

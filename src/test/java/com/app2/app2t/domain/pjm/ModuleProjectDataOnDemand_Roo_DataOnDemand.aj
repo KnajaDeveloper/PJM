@@ -72,7 +72,7 @@ privileged aspect ModuleProjectDataOnDemand_Roo_DataOnDemand {
     }
     
     public void ModuleProjectDataOnDemand.setModuleCost(ModuleProject obj, int index) {
-        Integer moduleCost = new Integer(index);
+        Double moduleCost = new Integer(index).doubleValue();
         obj.setModuleCost(moduleCost);
     }
     

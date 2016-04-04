@@ -66,7 +66,7 @@ privileged aspect ProjectDataOnDemand_Roo_DataOnDemand {
     }
     
     public void ProjectDataOnDemand.setProjectCost(Project obj, int index) {
-        Integer projectCost = new Integer(index);
+        Double projectCost = new Integer(index).doubleValue();
         obj.setProjectCost(projectCost);
     }
     

@@ -20,7 +20,7 @@ public class OtherTask extends BaseEntity {
 
     /**
      */
-    private Integer taskCost;
+    private Double taskCost;
 
     /**
      */

@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RooWebJson(jsonObject = ModuleProject.class)
 public class ModuleProjectController {
 
-	@Autowired
+    @Autowired
     EmRestService emRestService;
+
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProjectController.class);
 }

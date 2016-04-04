@@ -28,7 +28,7 @@ public class Task extends BaseEntity {
 
     /**
      */
-    private Integer taskCost;
+    private Double taskCost;
 
     /**
      */

@@ -24,11 +24,11 @@ privileged aspect Project_Roo_JavaBean {
         this.projectName = projectName;
     }
     
-    public Integer Project.getProjectCost() {
+    public Double Project.getProjectCost() {
         return this.projectCost;
     }
     
-    public void Project.setProjectCost(Integer projectCost) {
+    public void Project.setProjectCost(Double projectCost) {
         this.projectCost = projectCost;
     }
     

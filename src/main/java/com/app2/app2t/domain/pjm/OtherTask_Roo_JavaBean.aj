@@ -16,11 +16,11 @@ privileged aspect OtherTask_Roo_JavaBean {
         this.taskName = taskName;
     }
     
-    public Integer OtherTask.getTaskCost() {
+    public Double OtherTask.getTaskCost() {
         return this.taskCost;
     }
     
-    public void OtherTask.setTaskCost(Integer taskCost) {
+    public void OtherTask.setTaskCost(Double taskCost) {
         this.taskCost = taskCost;
     }
     

@@ -32,11 +32,13 @@ $(document).ready(function () {
 
     $("#cPlanDateBegin").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
+        if($(this).val() != '')
+            DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
     });
     $("#cPlanDateEnd").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
+        if($(this).val() != '')
+            DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
     });
 
     // Date picker for first time in add modal
@@ -45,11 +47,13 @@ $(document).ready(function () {
 
     $("#cAddDateBegin_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMinDate('cAddDateBegin_0', 'cAddDateEnd_0');
+        if($(this).val() != '')
+            DateUtil.setMinDate('cAddDateBegin_0', 'cAddDateEnd_0');
     });
     $("#cAddDateEnd_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMaxDate('cAddDateEnd_0', 'cAddDateBegin_0');
+        if($(this).val() != '')
+            DateUtil.setMaxDate('cAddDateEnd_0', 'cAddDateBegin_0');
     });
 
     // Date picker for edit modal
@@ -58,11 +62,13 @@ $(document).ready(function () {
 
     $("#cEditDateBegin_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
+        if($(this).val() != '')
+            DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
     });
     $("#cEditDateEnd_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
+        if($(this).val() != '')
+            DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
     });
 
     loadAndMapAllProject();
@@ -360,11 +366,13 @@ function setDatePicker(idDateBegin, idDateEnd, id) {
 
     $("#" + idDateBegin + id).on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMinDate(idDateBegin + id, idDateEnd + id);
+        if($(this).val() != '')
+            DateUtil.setMinDate(idDateBegin + id, idDateEnd + id);
     });
     $("#" + idDateEnd + id).on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
+        if($(this).val() != '')
+            DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
     });
 
     $("#" + idDateBegin + id).on('focus', function () {

@@ -25,11 +25,11 @@ privileged aspect ModuleProject_Roo_JavaBean {
         this.moduleName = moduleName;
     }
     
-    public Integer ModuleProject.getModuleCost() {
+    public Double ModuleProject.getModuleCost() {
         return this.moduleCost;
     }
     
-    public void ModuleProject.setModuleCost(Integer moduleCost) {
+    public void ModuleProject.setModuleCost(Double moduleCost) {
         this.moduleCost = moduleCost;
     }
     

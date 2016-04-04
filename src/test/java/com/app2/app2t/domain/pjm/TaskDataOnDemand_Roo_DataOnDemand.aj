@@ -105,7 +105,7 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
     }
     
     public void TaskDataOnDemand.setTaskCost(Task obj, int index) {
-        Integer taskCost = new Integer(index);
+        Double taskCost = new Integer(index).doubleValue();
         obj.setTaskCost(taskCost);
     }
     
