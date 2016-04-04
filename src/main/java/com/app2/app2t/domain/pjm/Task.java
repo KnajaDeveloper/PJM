@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.json.RooJson;
 
@@ -28,6 +29,7 @@ public class Task extends BaseEntity {
 
     /**
      */
+    @Digits(integer = 7, fraction = 4)
     private Double taskCost;
 
     /**

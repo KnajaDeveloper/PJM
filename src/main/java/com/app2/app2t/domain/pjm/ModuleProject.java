@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
@@ -28,6 +29,7 @@ public class ModuleProject extends BaseEntity {
 
     /**
      */
+    @Digits(integer = 7, fraction = 4)
     private Double moduleCost;
 
     /**

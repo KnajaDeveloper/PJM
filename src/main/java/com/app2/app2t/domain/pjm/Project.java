@@ -6,6 +6,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.json.RooJson;
 
@@ -24,6 +25,7 @@ public class Project extends BaseEntity {
 
     /**
      */
+    @Digits(integer = 7, fraction = 4)
     private Double projectCost;
 
     /**
