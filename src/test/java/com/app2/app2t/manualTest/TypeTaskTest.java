@@ -1,4 +1,4 @@
-package com.app2.app2t.manualTest;
+package com.app2.app2t.manualtest;
 
 import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.Task;
@@ -157,7 +157,7 @@ public class TypeTaskTest {
 
         MvcResult mvcResult = this.mockMvc.perform(get("/typetasks/editAllProject")
                 //"maxResult" ตรงกับ RequestParam
-                .param("editTypeCode","001")
+                .param("editTypeID","1")
                 .param("editTypeName","1")
         ).andDo(print())
                 .andExpect(status().isOk())
