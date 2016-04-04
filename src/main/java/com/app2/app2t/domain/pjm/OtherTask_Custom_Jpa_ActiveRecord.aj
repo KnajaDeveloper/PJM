@@ -13,14 +13,12 @@ import java.util.List;
 
 privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
 
-    public static OtherTask OtherTask.insertOtherTask(String taskName, int taskCost, String userName) {
+    public static OtherTask OtherTask.insertOtherTask(String taskName, Double taskCost, String userName) {
         OtherTask otherTask = new OtherTask();
         otherTask.setTaskName(taskName);
         otherTask.setTaskCost(taskCost);
         otherTask.setProgress(0);
         otherTask.setEmpCode(userName);
-        //otherTask.setTypeTask();
-
         otherTask.persist();
 
         return  otherTask;
