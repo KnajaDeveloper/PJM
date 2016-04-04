@@ -28,7 +28,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
     public ResponseEntity<String> ModuleProjectController.saveModuleProject(
             @RequestParam(value = "moduleCode", required = false) String moduleCode,
             @RequestParam(value = "moduleName", required = false) String moduleName,
-            @RequestParam(value = "moduleCost", required = false) Integer moduleCost,
+            @RequestParam(value = "moduleCost", required = false) Double moduleCost,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
             @RequestParam(value = "projectId", required = false) long projectId,
@@ -103,7 +103,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             @RequestParam(value = "moduleNeedEdit", required = false) String moduleNeedEdit,
             @RequestParam(value = "moduleCode", required = false) String moduleCode,
             @RequestParam(value = "moduleName", required = false) String moduleName,
-            @RequestParam(value = "moduleCost", required = false) Integer moduleCost,
+            @RequestParam(value = "moduleCost", required = false) Double moduleCost,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
             @RequestParam(value = "arr_moduleManager", required = false) String arr_moduleManager,
@@ -151,16 +151,16 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
     public ResponseEntity<String> ModuleProjectController.increseCostByModuleNameAndCodeProject(
             @RequestParam(value = "projectId", required = false) long projectId,
             @RequestParam(value = "codeModuleProject", required = false) String codeModuleProject,
-            @RequestParam(value = "costIncrese", required = false) Integer costIncrese
+            @RequestParam(value = "costIncrese", required = false) Double costIncrese
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             String costProjectandModuleProject = "";
             List<Project> projectList = Project.findProjectByIdProject(projectId);
-            int totalCostModule = ModuleProject.findAllModuleCostByProject(projectList.get(0));
+            double totalCostModule = ModuleProject.findAllModuleCostByProject(projectList.get(0));
             Project project = Project.increseCostByModuleNameAndProjectId(projectId, costIncrese, totalCostModule);
-            int moduleCost = ModuleProject.increseCostByModuleNameAndProjectId(project, codeModuleProject, costIncrese);
+            double moduleCost = ModuleProject.increseCostByModuleNameAndProjectId(project, codeModuleProject, costIncrese);
             costProjectandModuleProject += project.getProjectCost();
             costProjectandModuleProject += "," +moduleCost ;
             return  new ResponseEntity<String>(costProjectandModuleProject,headers, HttpStatus.OK);

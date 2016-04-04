@@ -121,9 +121,10 @@ function changeArrModuleMember(num){
 function projectManagerToArray(){
 	var projectManager = "";
 	for(var i=0;i<$("[id^=txtProjectManagerName").length;i++) {
-		var id = $("[id^=txtProjectManagerName")[i].id
-		projectManager+=""+$("#"+id).val();
-		if(i!=$("[id^=txtProjectManagerName").length-1) projectManager+="==";
+		var id = $("[id^=txtProjectManagerName")[i].id;
+		//projectManager+=""+$("#"+id).val();
+		projectManager+=""+$("#"+id).data("dataCode");
+		if(i!=$("[id^=txtProjectManagerName]").length-1) projectManager+="==";
 	}
 	return projectManager;
 }

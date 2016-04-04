@@ -23,7 +23,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
     public ResponseEntity<String> ProjectController.saveOrUpdateProject(
         @RequestParam(value = "projectCode", required = false) String projectCode,
         @RequestParam(value = "projectName", required = false) String projectName,
-        @RequestParam(value = "projectCost", required = false) Integer projectCost,
+        @RequestParam(value = "projectCost", required = false) Double projectCost,
         @RequestParam(value = "dateStart", required = false) Date dateStart,
         @RequestParam(value = "dateEnd", required = false) Date dateEnd,
         @RequestParam(value = "arr_ProjectManager", required = false) String arr_ProjectManager
@@ -229,7 +229,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
             @RequestParam(value = "projectID", required = false) long projectID,
             @RequestParam(value = "projectCode", required = false) String projectCode,
             @RequestParam(value = "projectName", required = false) String projectName,
-            @RequestParam(value = "projectCost", required = false) Integer projectCost,
+            @RequestParam(value = "projectCost", required = false) Double projectCost,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
             @RequestParam(value = "arr_ProjectManager", required = false) String arr_ProjectManager
@@ -265,7 +265,7 @@ privileged aspect ProjectController_Custom_Controller_Json {
     @RequestMapping(value = "/incresePointProjectByIdProject",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProjectController.updateProjectByIdProject(
             @RequestParam(value = "projectId", required = false) long projectId ,
-            @RequestParam(value = "increseCost", required = false) Integer increseCost
+            @RequestParam(value = "increseCost", required = false) Double increseCost
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");

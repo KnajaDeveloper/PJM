@@ -19,7 +19,7 @@ import java.util.List;
 privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleProject_Custom_Jpa_ActiveRecord.class);
     
-    public static ModuleProject ModuleProject.saveModuleProject(String moduleCode, String moduleName, Integer moduleCost
+    public static ModuleProject ModuleProject.saveModuleProject(String moduleCode, String moduleName, Double moduleCost
             , Date dateStart, Date dateEnd, Project project) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
@@ -50,7 +50,7 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
      }
 
     public static ModuleProject ModuleProject.editModuleProjectByModuleProjectCodeAndProjectId(String moduleNeedEdit, String moduleCode,
-           String moduleName, Integer moduleCost, Date dateStart, Date dateEnd, Project project) {
+           String moduleName, Double moduleCost, Date dateStart, Date dateEnd, Project project) {
         EntityManager ent = ModuleProject.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria.add(Restrictions.eq("project", project));
@@ -66,8 +66,8 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         return moduleProject;
     }
 
-    public static int ModuleProject.increseCostByModuleNameAndProjectId(Project project,String codeModuleProject,Integer costIncrese) {
-        int totalCost = 0 ;
+    public static double ModuleProject.increseCostByModuleNameAndProjectId(Project project,String codeModuleProject,Double costIncrese) {
+        double totalCost = 0 ;
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleProject.class);
         criteria.add(Restrictions.eq("project", project));
