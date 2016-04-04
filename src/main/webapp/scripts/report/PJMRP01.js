@@ -93,29 +93,29 @@ function sendData() {
 
         var team;
         var teamCheck = "C";
-        if($("#ddlTeam").val() != ""){
+        if ($("#ddlTeam").val() != "") {
             team = $("#ddlTeam").find('option:selected').text();
-        }else {
-            team =  Message.L_All;
+        } else {
+            team = Message.L_All;
             teamCheck = "";
         }
 
         var teamBase = $("#ddlTeam").find('option:selected').val();
 
-        var empCodeFrom ;
-        var empCodeFromCheck = "C" ;
-        if( $("#lovEmpFrom").val() != "" ){
+        var empCodeFrom;
+        var empCodeFromCheck = "C";
+        if ($("#lovEmpFrom").val() != "") {
             empCodeFrom = $("#lovEmpFrom").data("dataCode");
-        }else {
-            empCodeFrom =  Message.L_All;
+        } else {
+            empCodeFrom = Message.L_All;
             empCodeFromCheck = "";
         }
 
         var empCodeTo;
         var empCodeToCheck = "C";
-        if( $("#lovEmpTo").val() != "" ){
+        if ($("#lovEmpTo").val() != "") {
             empCodeTo = $("#lovEmpTo").data("dataCode");
-        }else {
+        } else {
             empCodeTo = Message.L_All;
             empCodeToCheck = "";
         }
@@ -141,9 +141,8 @@ function sendData() {
             dateEndBase = DateUtil.dataDateToFrontend(dateEndBase, 'EN');
         }
 
-        var dataJsonData = {
-            empCodeFrom: $("#lovEmpFrom").data("dataCode"),
-            empCodeTo: $("#lovEmpTo").data("dataCode")
+        var datalovEmpFrom = {
+            empCodeFrom: $("#lovEmpFrom").data("dataCode")
         }
 
         if ($("#lovEmpFrom").val() != "") {
@@ -158,7 +157,7 @@ function sendData() {
                 },
                 type: "GET",
                 url: contextPath + '/reports/getEmpNameByEmpCodeAjex',
-                data: dataJsonData,
+                data: datalovEmpFrom,
                 complete: function (xhr) {
                     console.log(xhr);
 
@@ -213,9 +212,39 @@ function sendData() {
                 }
 
             } else if (checksize == 0) {
-                bootbox.alert(Message.Data_not_found);
+
+
+                var datalovEmpTo = {
+                    empCodeFrom: $("#lovEmpTo").data("dataCode")
+                }
+
+                if ($("#lovEmpTo").val() != "") {
+                    var responseResult = null;
+
+
+                    responseResult = $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        headers: {
+                            Accept: "application/json"
+                        },
+                        type: "GET",
+                        url: contextPath + '/reports/getEmpNameByEmpCodeAjex',
+                        data: datalovEmpTo,
+                        complete: function (xhr) {
+                            console.log(xhr);
+
+                        },
+                        async: false
+                    });
+                    if (checksize == 0) {
+                        bootbox.alert(Message.Data_not_found);
+                    }
+                }else {
+                    bootbox.alert(Message.Data_not_found);
+                }
             }
-        }else {
+        } else {
             if (_language == "TH") {
                 var printDate = date.getDate() + "/" +
                     (parseInt(date.getMonth()) + 1) + "/" +
