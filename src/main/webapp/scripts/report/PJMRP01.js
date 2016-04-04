@@ -74,12 +74,13 @@ $("#ddlTeam").change(function () {
 //--------------------------------------------------------------------------------
 
 function sendData() {
+    $(".popover").hide();
     if ($("#lovEmpFrom").val() == "" && $("#lovEmpTo").val() != "") {
 
         $("#lovEmpFrom").attr("data-content", Message.PLEASE_INPUT).popover('show');
     } else if (($("#lovEmpFrom").data("dataCode") > $("#lovEmpTo").data("dataCode")) && $("#lovEmpTo").val() != "") {
 
-        bootbox.alert("กรุณาเลือกรหัสพนักงานจากน้อยไปมาก");
+        bootbox.alert(Message.M_Please_Employee_Code_ascending);
     } else if ($("#cDateBegin").val() == "") {
 
         $("#cDateBegin").attr("data-content", Message.PLEASE_SELECT_DATE).popover('show');
