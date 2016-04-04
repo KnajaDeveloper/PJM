@@ -6,6 +6,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
@@ -20,6 +21,7 @@ public class OtherTask extends BaseEntity {
 
     /**
      */
+    @Digits(integer = 7, fraction = 4)
     private Double taskCost;
 
     /**
