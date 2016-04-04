@@ -8,7 +8,7 @@ UtilLov.onChangeInputLovEmp = function (input,e) {
     $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + input.id;
     if(first){
-        $(inputId).attr("data-content",Message.Can_press_enter);
+        $(inputId).attr("data-content",canPressEnter);
         $(inputId).popover('show');
     }
     $(inputId).data(LovEmployeeDataItem, "");

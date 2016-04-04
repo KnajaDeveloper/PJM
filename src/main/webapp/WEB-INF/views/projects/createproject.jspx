@@ -198,7 +198,7 @@
 	                        <label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
 	                        <div class="col-sm-3">
 	                            <!--<input type="text" class="form-control" id="txtProjectManagerName1" data-placement="bottom"></input>-->
-								<component:LovEmployee id="lovemployee1" controller="findEmployeeByText"/>
+								<component:LovEmployee id="txtProjectManagerName1" controller="findEmployeeByText"/>
 	                        </div>
 	                        <div class='btn'><!--Not Empty--></div>
                     	</div>

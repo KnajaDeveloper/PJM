@@ -79,26 +79,28 @@ $("#btnAddPM").click(function(){
 
 function loopAddPM(){
 	var count_elements = countProjectManager;
-	var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>"+
-			"<input type='text' class='form-control' style='margin-top:5px;' id='txtProjectManagerName"+[count_elements+1]+"'></input></div>"+
-			"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>"+Button.Delete+"</button></div>";
-	//var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'>" +
-	//	"<div class='col-sm-9'>"+
-	//		"<div id='LOVEmployee"+[count_elements+1]+"'>"+
-	//			"<div class='input-group'>"+
-	//				"<input class='form-control' id='txtProjectManagerName"+[count_elements+1]+"' type='text' onkeypress='runScript(event)' empCode=' >"+
-	//				"<span class='input-group-addon' style='background: white; cursor:pointer;' onclick='searchLovEmployee($('#'+txtId).val())'>"+
-	//					"<span class='fa fa-search'>"+
-	//						"<jsp:text/>"+
-	//					"</span>"+
-	//				"</span>"+
-	//				"</input>"+
-	//			"</div>"+
-	//			"<div id='resultSearch' class='front' style='position: absolute; z-index: 3;'>"+
-	//			"</div>"+
-	//		"</div>"+
-	//	"</div>"+
-	//	"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>"+Button.Delete+"</button></div>";
+	//var html="<div style='padding-top: 5px;' id='container_subProjectManager"+[count_elements+1]+"'>
+	// 				<label class='col-sm-3 control-label'></label>
+	// 				<div class='col-sm-3'>"+
+		//				"<input type='text' class='form-control' style='margin-top:5px;' id='txtProjectManagerName"+[count_elements+1]+"'></input>
+		// 			</div>"+
+	//				"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>"+Button.Delete+"</button>
+	// 			</div>";
+	var html = "<div style='padding-top: 10px;' id='container_subProjectManager"+[count_elements+1]+"'><label class='col-sm-3 control-label'></label>" +
+					"<div class='col-sm-3 display:inline-block''>"+
+						"<div class='input-group display:inline-block'>"+
+							"<input id='txtProjectManagerName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtProjectManagerName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+								"<span class='input-group-addon'>"+
+									"<span id='${id}Btn' onclick='UtilLov.lovEmp(this)' target='${id}' class='fa fa-search' style='cursor:pointer;'>"+
+										"<jsp:text/>"+
+									"</span>"+
+								"</span>"+
+							"</input>"+
+						"</div>"+
+					"</div>"+
+					"<button id='btnDeletePM"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)' style='margin-top: -0.5px'>"+Button.Delete+"</button>" +
+				"</div>";
+
 	$("#subProjectManager").append(html);
 	countProjectManager++;
 }

@@ -21,8 +21,7 @@
     </div>
 
     <script type="text/javascript">
-        var Message = {};
-        Message.Can_press_enter = '${MESSAGE_CAN_PRESS_ENTER}';
+        var canPressEnter = '${MESSAGE_CAN_PRESS_ENTER}';
         var controller ;
         var team='${team}';
         if(team=="") {
