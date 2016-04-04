@@ -382,7 +382,6 @@ function saveData(id, dateStart, dateEnd){
                 searchDataTask();
                 pagginationTask.loadPage(pageNumber, pagginationTask);
 
-
                 $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                 $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
             }else if(xhr.status == 500){
