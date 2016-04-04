@@ -45,7 +45,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
     }
 
 
-    public static Criteria Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Integer costStart, Integer costEnd, String projectManage,String moduleManager) {
+    public static Criteria Project.findProjectSearchData(String StDateBegin, String StDateEnd, String FnDateBegin, String FnDateEnd, Double costStart, Double costEnd, String projectManage,String moduleManager) {
 
 
             Session session = (Session) Project.entityManager().getDelegate();
@@ -193,8 +193,8 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
                                                                    String StDateEnd,
                                                                    String FnDateBegin,
                                                                    String FnDateEnd,
-                                                                   Integer costStart,
-                                                                   Integer costEnd,
+                                                                   Double costStart,
+                                                                   Double costEnd,
                                                                    String projectManage,
                                                                    Integer maxResult,
                                                                    Integer firstResult,
@@ -210,8 +210,8 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
                                                            String StDateEnd,
                                                            String FnDateBegin,
                                                            String FnDateEnd,
-                                                           Integer costStart,
-                                                           Integer costEnd,
+                                                           Double costStart,
+                                                           Double costEnd,
                                                            String projectManage,
                                                            String moduleManager
 

@@ -23,6 +23,7 @@
   <spring:url value="/resources/styles/jquery-ui.css" var="jquery_ui_css_url" />
   <spring:url value="/resources/styles/master.css" var="master_css_url" />
   <spring:url value="/resources/styles/selectize.bootstrap3.css" var="selectize_bootstrap3_css_url" />
+  <spring:url value="/resources/styles/nprogress.css" var="nprogress_css_url" />
   <!-- Fonts -->
   <!-- <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'/> -->
   <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'/> -->
@@ -52,6 +53,7 @@
   <link rel="stylesheet" type="text/css" href="${select2_css_url}" />
   <link rel="stylesheet" type="text/css" href="${site_style}" />
   <link rel="stylesheet" type="text/css" href="${theme_flat_blue}" />
+  <link rel="stylesheet" type="text/css" href="${nprogress_css_url}" />
 
   <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->
   <c:set var="userLocale">
@@ -84,6 +86,7 @@
   <spring:url value="/resources/scripts/modernizr.js" var="modernizr_js_url" />
   <spring:url value="/resources/scripts/selectize.js" var="selectize_js_url" />
   <spring:url value="/resources/scripts/selectize.min.js" var="selectize_min_js_url" />
+  <spring:url value="/resources/scripts/nprogress.js" var="nprogress_js_url" />
   <!--<spring:url value="/resources/scripts/Util/UtilScript.js" var="util_script_js" />-->
   <!-- Menu -->
   <spring:url value="/resources/scripts/Menu/menu.js" var="menu_js_url" />
@@ -112,6 +115,7 @@
   <script src="${modernizr_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${selectize_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${selectize_min_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${nprogress_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <!--<script src="${util_script_js}" type="text/javascript">&lt;!&ndash; required for FF3 and Opera &ndash;&gt;</script>-->
 
   <!-- flat design -->

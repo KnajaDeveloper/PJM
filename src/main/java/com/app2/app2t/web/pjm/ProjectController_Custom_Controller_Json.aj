@@ -63,8 +63,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
             @RequestParam(value="StDateEnd",required=false)String StDateEnd,
             @RequestParam(value="FnDateBegin",required=false)String FnDateBegin,
             @RequestParam(value="FnDateEnd",required=false)String FnDateEnd,
-            @RequestParam(value = "costStart", required = false) Integer costStart,
-            @RequestParam(value = "costEnd", required = false) Integer costEnd,
+            @RequestParam(value = "costStart", required = false) Double costStart,
+            @RequestParam(value = "costEnd", required = false) Double costEnd,
             @RequestParam(value = "projectManage", required = false) String projectManage,
             @RequestParam(value = "maxResult", required = false) Integer maxResult,
             @RequestParam(value = "firstResult", required = false) Integer firstResult,
@@ -105,8 +105,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
             @RequestParam(value="StDateEnd",required=false)String StDateEnd,
             @RequestParam(value="FnDateBegin",required=false)String FnDateBegin,
             @RequestParam(value="FnDateEnd",required=false)String FnDateEnd,
-            @RequestParam(value = "costStart", required = false) Integer costStart,
-            @RequestParam(value = "costEnd", required = false) Integer costEnd,
+            @RequestParam(value = "costStart", required = false) Double costStart,
+            @RequestParam(value = "costEnd", required = false) Double costEnd,
             @RequestParam(value = "projectManage", required = false) String projectManage,
             @RequestParam(value = "moduleManager", required = false) String moduleManager)
             {
