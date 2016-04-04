@@ -121,7 +121,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return (Long) criteria.uniqueResult();
     }
 
-    public static Task Task.saveTask(String taskCode, String taskName, Integer taskCost,
+    public static Task Task.saveTask(String taskCode, String taskName, Double taskCost,
         TypeTask typeTask, String empCode, String dateStart, String dateEnd, String fileName,
         String detail, Integer progress, Program program) {
 
@@ -151,7 +151,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     }
 
     public static List<Task> Task.findEditTask(Long id, String taskCode,
-        String taskName, Integer taskCost, TypeTask typeTask, String empCode,
+        String taskName, Double taskCost, TypeTask typeTask, String empCode,
         String dateStart, String dateEnd, String fileName, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
