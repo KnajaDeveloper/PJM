@@ -40,7 +40,7 @@ paggination.loadTable = function loadTable(jsonData) {
             + '<button onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="tdTypeTaskCode" typeTaskID=" ' + value.id + ' " class="text-center">' + value.typeTaskCode + '</td>'
-            + '<td id="tdTypeTaskName" class="text-center">' + value.typeTaskName + '</td>'
+            + '<td id="tdTypeTaskName" class="">' + value.typeTaskName + '</td>'
             + '</tr>';
 
         $('#tbody').append(tableData);
