@@ -77,7 +77,8 @@ function sendData() {
     if ($("#lovEmpFrom").val() == "" && $("#lovEmpTo").val() != "") {
 
         $("#lovEmpFrom").attr("data-content", Message.PLEASE_INPUT).popover('show');
-    } else if($("#lovEmpFrom").data("dataCode") > $("#lovEmpTo").data("dataCode")){
+    } else if (($("#lovEmpFrom").data("dataCode") > $("#lovEmpTo").data("dataCode")) && $("#lovEmpTo").val() != "") {
+
         bootbox.alert("กรุณาเลือกรหัสพนักงานจากน้อยไปมาก");
     } else if ($("#cDateBegin").val() == "") {
 
@@ -90,10 +91,35 @@ function sendData() {
 
         var date = new Date();
 
-        var team = $("#ddlTeam").find('option:selected').text();
+        var team;
+        var teamCheck = "C";
+        if($("#ddlTeam").val() != ""){
+            team = $("#ddlTeam").find('option:selected').text();
+        }else {
+            team =  Message.L_All;
+            teamCheck = "";
+        }
+
         var teamBase = $("#ddlTeam").find('option:selected').val();
-        var empCodeFrom = $("#lovEmpFrom").data("dataCode");
-        var empCodeTo = $("#lovEmpTo").data("dataCode");
+
+        var empCodeFrom ;
+        var empCodeFromCheck = "C" ;
+        if( $("#lovEmpFrom").val() != "" ){
+            empCodeFrom = $("#lovEmpFrom").data("dataCode");
+        }else {
+            empCodeFrom =  Message.L_All;
+            empCodeFromCheck = "";
+        }
+
+        var empCodeTo;
+        var empCodeToCheck = "C";
+        if( $("#lovEmpTo").val() != "" ){
+            empCodeTo = $("#lovEmpTo").data("dataCode");
+        }else {
+            empCodeTo = Message.L_All;
+            empCodeToCheck = "";
+        }
+
         var dateStart = $("#cDateBegin").val();
         var dateEnd = $("#cDateEnd").val();
         var dateStartBase = $("#cDateBegin").val();
@@ -101,8 +127,8 @@ function sendData() {
         var plusYear = 0;
         console.log(team);
         console.log(teamBase);
-console.log(empCodeFrom);
-console.log(empCodeTo);
+        console.log(empCodeFrom);
+        console.log(empCodeTo);
 
         if (dateStartBase != "") {
             dateStartBase = DateUtil.dataDateToDataBase(dateStartBase, _language);
@@ -119,39 +145,88 @@ console.log(empCodeTo);
             empCodeFrom: $("#lovEmpFrom").data("dataCode"),
             empCodeTo: $("#lovEmpTo").data("dataCode")
         }
-        var responseResult = null;
+
+        if ($("#lovEmpFrom").val() != "") {
+            var responseResult = null;
 
 
-        responseResult = $.ajax({
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                Accept: "application/json"
-            },
-            type: "GET",
-            url: contextPath + '/reports/getEmpNameByEmpCodeAjex',
-            data: dataJsonData,
-            complete: function (xhr) {
-                console.log(xhr);
+            responseResult = $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                type: "GET",
+                url: contextPath + '/reports/getEmpNameByEmpCodeAjex',
+                data: dataJsonData,
+                complete: function (xhr) {
+                    console.log(xhr);
 
-            },
-            async: false
-        });
+                },
+                async: false
+            });
 
-        checksize = jQuery.parseJSON(responseResult.responseText);
+            checksize = jQuery.parseJSON(responseResult.responseText);
 
-        console.log(checksize);
+            console.log(checksize);
 
-        if(checksize == 1){
+            if (checksize == 1) {
 
+                if (_language == "TH") {
+                    var printDate = date.getDate() + "/" +
+                        (parseInt(date.getMonth()) + 1) + "/" +
+                        (parseInt(date.getFullYear()) + 543 );
+                    plusYear = 543;
+                    window.location.href = contextPath + '/reports/exportPJMRP01?empCodeFrom=' + empCodeFrom
+                        + '&empCodeFromCheck=' + empCodeFromCheck
+                        + '&empCodeTo=' + empCodeTo
+                        + '&empCodeToCheck=' + empCodeToCheck
+                        + '&team=' + team
+                        + '&teamCheck=' + teamCheck
+                        + '&teamBase=' + teamBase
+                        + '&dateStartBase=' + dateStartBase
+                        + '&dateEndBase=' + dateEndBase
+                        + '&dateStart=' + dateStart
+                        + '&dateEnd=' + dateEnd
+                        + '&printDate=' + printDate
+                        + '&plusYear=' + plusYear;
+
+
+                } else if (_language == "EN" || _language == 'EN_US') {
+                    var printDate = date.getDate() + "/" +
+                        (parseInt(date.getMonth()) + 1) + "/" +
+                        (parseInt(date.getFullYear()) + 0 );
+                    plusYear = 0;
+                    window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCodeFrom
+                        + '&empCodeFromCheck=' + empCodeFromCheck
+                        + '&empCodeTo=' + empCodeTo
+                        + '&empCodeToCheck=' + empCodeToCheck
+                        + '&team=' + team
+                        + '&teamCheck=' + teamCheck
+                        + '&teamBase=' + teamBase
+                        + '&dateStartBase=' + dateStartBase
+                        + '&dateEndBase=' + dateEndBase
+                        + '&dateStart=' + dateStart
+                        + '&dateEnd=' + dateEnd
+                        + '&printDate=' + printDate
+                        + '&plusYear=' + plusYear;
+                }
+
+            } else if (checksize == 0) {
+                bootbox.alert(Message.Data_not_found);
+            }
+        }else {
             if (_language == "TH") {
                 var printDate = date.getDate() + "/" +
                     (parseInt(date.getMonth()) + 1) + "/" +
                     (parseInt(date.getFullYear()) + 543 );
                 plusYear = 543;
                 window.location.href = contextPath + '/reports/exportPJMRP01?empCodeFrom=' + empCodeFrom
+                    + '&empCodeFromCheck=' + empCodeFromCheck
                     + '&empCodeTo=' + empCodeTo
+                    + '&empCodeToCheck=' + empCodeToCheck
                     + '&team=' + team
+                    + '&teamCheck=' + teamCheck
                     + '&teamBase=' + teamBase
                     + '&dateStartBase=' + dateStartBase
                     + '&dateEndBase=' + dateEndBase
@@ -167,8 +242,11 @@ console.log(empCodeTo);
                     (parseInt(date.getFullYear()) + 0 );
                 plusYear = 0;
                 window.location.href = contextPath + '/reports/exportPJMRP01?empCode=' + empCodeFrom
+                    + '&empCodeFromCheck=' + empCodeFromCheck
                     + '&empCodeTo=' + empCodeTo
+                    + '&empCodeToCheck=' + empCodeToCheck
                     + '&team=' + team
+                    + '&teamCheck=' + teamCheck
                     + '&teamBase=' + teamBase
                     + '&dateStartBase=' + dateStartBase
                     + '&dateEndBase=' + dateEndBase
@@ -177,11 +255,7 @@ console.log(empCodeTo);
                     + '&printDate=' + printDate
                     + '&plusYear=' + plusYear;
             }
-
-        }else if(checksize == 0){
-            bootbox.alert(Message.Data_not_found);
         }
-
 
 
     }

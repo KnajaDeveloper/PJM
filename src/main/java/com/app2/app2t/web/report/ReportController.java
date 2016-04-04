@@ -60,8 +60,11 @@ public class ReportController extends AbstractReportJasperXLS {
     public void testExport(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView
                            //value รับค่าจาก js เก็บ string ตรงกับใน function
             , @RequestParam(value = "empCodeFrom", required = false) String empCodeFrom
+            , @RequestParam(value = "empCodeFromCheck", required = false) String empCodeFromCheck
             , @RequestParam(value = "empCodeTo", required = false) String empCodeTo
+            , @RequestParam(value = "empCodeToCheck", required = false) String empCodeToCheck
             , @RequestParam(value = "team", required = false) String team
+            , @RequestParam(value = "teamCheck", required = false) String teamCheck
             , @RequestParam(value = "teamBase", required = false) String teamBase
             , @RequestParam(value = "dateStartBase", required = false) String dateStartBase
             , @RequestParam(value = "dateEndBase", required = false) String dateEndBase
@@ -139,6 +142,7 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("totalOtAll", getLabelFromPropertiesFile("L0127"));
         params.put("totalAll", getLabelFromPropertiesFile("L0128"));
         params.put("total", getLabelFromPropertiesFile("L0067"));
+        params.put("summaryPointEmp", getLabelFromPropertiesFile("L0136"));
         params.put("dateStart", dateStart);
         params.put("dateEnd", dateEnd);
         params.put("printDate", printDate);
@@ -153,29 +157,39 @@ public class ReportController extends AbstractReportJasperXLS {
         StringBuilder sqlQuery = new StringBuilder();
 
         // where ตรงกับตอน สร้าง view VIEW PJMRP01 (TASKNAME,MODULENAME,MONTH,PROJECTNAME,DATEEND,DATESTART,PROJECTCOST) AS
-        if (teamBase.equals("")) {
-            sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (EMPCODE  >=  ?  and EMPCODE <= ? )");
-            sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
-            sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
-        }else if(empCodeFrom.equals("") && empCodeTo.equals("")){
-            sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
-            sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
-            sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
-        }else if(empCodeTo.equals("")){
-            sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
-            sqlQuery.append(" and EMPCODE  =  ?  ");
-            sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
-            sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
-        }else if(teamBase.equals("") && empCodeTo.equals("")){
-            sqlQuery.append(" SELECT * FROM PJMRP01 WHERE EMPCODE  = ? ");
-            sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
-            sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
-        }else {
-            sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
-            sqlQuery.append(" and (EMPCODE  >=  ?  and EMPCODE <= ? ) ");
-            sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
-            sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+        if (teamCheck.equals("")) {
+            if (empCodeFromCheck.equals("") && empCodeToCheck.equals("")){
+                sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (D_START >= ? and D_END <= ?) ");
+                sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+            }else if (empCodeToCheck.equals("")){
+                sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (EMPCODE  =  ? )");//from
+                sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
+                sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+            }else {
+                sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (EMPCODE  >=  ?  and EMPCODE <= ? )");
+                sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
+                sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+            }
+        }else if (teamCheck.equals("C")) {
+            if (empCodeFromCheck.equals("C")){
+                if (empCodeToCheck.equals("")){
+                    sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
+                    sqlQuery.append(" and (EMPCODE  =  ?  ) ");//from
+                    sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
+                    sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+                }else if (empCodeToCheck.equals("C")){
+                    sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
+                    sqlQuery.append(" and (EMPCODE  >=  ?  and EMPCODE <= ? ) ");
+                    sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
+                    sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+                }
+            }else if(empCodeFromCheck.equals("") && empCodeToCheck.equals("")){
+                sqlQuery.append(" SELECT * FROM PJMRP01 WHERE (T_EM_TEAM  =  ? OR OT_EM_TEAM  =  ?)");
+                sqlQuery.append(" and (D_START >= ? and D_END <= ?) ");
+                sqlQuery.append(" ORDER BY EMPCODE,MONTH,D_END ASC");
+            }
         }
+
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date datestart = format.parse(dateStartBase);
@@ -187,35 +201,43 @@ public class ReportController extends AbstractReportJasperXLS {
             Connection c = this.getConnection();
             PreparedStatement preparedStatement = c.prepareStatement(sqlQuery.toString(), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-            if (teamBase.equals("")) {
-                preparedStatement.setString(number++, empCodeFrom);
-                preparedStatement.setString(number++, empCodeTo);
-                preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
-                preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
-            }else if(empCodeFrom.equals("") && empCodeTo.equals("")){
-                preparedStatement.setString(number++, teamBase);
-                preparedStatement.setString(number++, teamBase);
-                preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
-                preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
-            }else if(empCodeTo.equals("")){
-                preparedStatement.setString(number++, teamBase);
-                preparedStatement.setString(number++, teamBase);
-                preparedStatement.setString(number++, empCodeFrom);
-                preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
-                preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
-            }else if(teamBase.equals("") && empCodeTo.equals("")){
-                preparedStatement.setString(number++, empCodeFrom);
-                preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
-                preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
-            }else {
-                preparedStatement.setString(number++, teamBase);
-                preparedStatement.setString(number++, teamBase);
-                preparedStatement.setString(number++, empCodeFrom);
-                preparedStatement.setString(number++, empCodeTo);
-                preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
-                preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+            if (teamCheck.equals("")) {
+                if (empCodeFromCheck.equals("") && empCodeToCheck.equals("")){
+                    preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
+                    preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+                }else if (empCodeToCheck.equals("")){
+                    preparedStatement.setString(number++, empCodeFrom);
+                    preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
+                    preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+                }else {
+                    preparedStatement.setString(number++, empCodeFrom);
+                    preparedStatement.setString(number++, empCodeTo);
+                    preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
+                    preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+                }
+            }else if (teamCheck.equals("C")) {
+                if (empCodeFromCheck.equals("C")){
+                    if (empCodeToCheck.equals("")){
+                        preparedStatement.setString(number++, teamBase);
+                        preparedStatement.setString(number++, teamBase);
+                        preparedStatement.setString(number++, empCodeFrom);
+                        preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
+                        preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+                    }else if (empCodeToCheck.equals("C")){
+                        preparedStatement.setString(number++, teamBase);
+                        preparedStatement.setString(number++, teamBase);
+                        preparedStatement.setString(number++, empCodeFrom);
+                        preparedStatement.setString(number++, empCodeTo);
+                        preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
+                        preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+                    }
+                }else if(empCodeFromCheck.equals("") && empCodeToCheck.equals("")){
+                    preparedStatement.setString(number++, teamBase);
+                    preparedStatement.setString(number++, teamBase);
+                    preparedStatement.setDate(number++, new java.sql.Date(datestart.getTime()));
+                    preparedStatement.setDate(number++, new java.sql.Date(dateend.getTime()));
+                }
             }
-
 
             ResultSet resultSet = preparedStatement.executeQuery();
             Map<String, Object> configure = new HashMap<>();

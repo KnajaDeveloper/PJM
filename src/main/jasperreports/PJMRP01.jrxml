@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP01" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="0.8467108950806725"/>
+	<property name="ireport.zoom" value="1.0245201830476167"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="106"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -109,6 +109,7 @@
 	<parameter name="totalTaskAll" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="totalOtAll" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="totalAll" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="summaryPointEmp" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select * from PJMRP01]]>
 	</queryString>
@@ -158,7 +159,7 @@
 		<groupHeader>
 			<band height="60">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="6d8342d2-2ed9-4c47-98cf-90755cd112d6" mode="Opaque" x="0" y="30" width="802" height="30" backcolor="#D3D3D3"/>
+					<reportElement uuid="6d8342d2-2ed9-4c47-98cf-90755cd112d6" mode="Transparent" x="0" y="30" width="802" height="30" backcolor="#D3D3D3"/>
 					<box>
 						<topPen lineWidth="0.0"/>
 						<leftPen lineWidth="0.0"/>
@@ -175,9 +176,9 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="75">
+			<band height="103">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="4db292e5-242c-40b4-8f26-bbf8475a0b0a" mode="Opaque" x="0" y="50" width="690" height="25" printWhenGroupChanges="emp" backcolor="#D3D3D3"/>
+					<reportElement uuid="4db292e5-242c-40b4-8f26-bbf8475a0b0a" mode="Transparent" x="0" y="76" width="158" height="25" printWhenGroupChanges="emp" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -191,7 +192,7 @@
 					<textFieldExpression><![CDATA[$P{totalAll}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Band" isBlankWhenNull="true">
-					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" mode="Opaque" x="690" y="50" width="112" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" mode="Transparent" x="158" y="76" width="112" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -205,7 +206,7 @@
 					<textFieldExpression><![CDATA[$V{sumTotalAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="8de9f05e-159a-49f4-bc7a-e650e4b85ee5" mode="Opaque" x="0" y="0" width="690" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="8de9f05e-159a-49f4-bc7a-e650e4b85ee5" mode="Transparent" x="0" y="26" width="158" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -219,7 +220,7 @@
 					<textFieldExpression><![CDATA[$P{totalTaskAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="2bedc691-2901-4a12-8247-81e1a4416a9b" mode="Opaque" x="0" y="25" width="690" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="2bedc691-2901-4a12-8247-81e1a4416a9b" mode="Transparent" x="0" y="51" width="158" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -233,7 +234,7 @@
 					<textFieldExpression><![CDATA[$P{totalOtAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="70ea69b3-1ff0-403e-b15c-228274daa98a" mode="Opaque" x="690" y="0" width="112" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="70ea69b3-1ff0-403e-b15c-228274daa98a" mode="Transparent" x="158" y="26" width="112" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -247,7 +248,7 @@
 					<textFieldExpression><![CDATA[$V{sumTotalTaskAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="0c1e4ad6-2821-4f32-9ea7-c6f454e8bc1a" mode="Opaque" x="690" y="25" width="112" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="0c1e4ad6-2821-4f32-9ea7-c6f454e8bc1a" mode="Transparent" x="158" y="51" width="112" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -259,6 +260,34 @@
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{sumTotalOtTaskAll}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="e699de87-ddfa-4c1a-8328-bfbcd63565d3" mode="Transparent" x="158" y="0" width="112" height="26" backcolor="#CCCCFF"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tPoint}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="1270c332-1cdf-49fa-8fc6-417cf144aaa8" x="0" y="0" width="158" height="26"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{summaryPointEmp}.concat(" : ")+$F{EMPCODE}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
