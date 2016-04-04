@@ -24,7 +24,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Project_Custom_Jpa_ActiveRecord.class);
 
-    public static Project Project.saveOrUpdateProject(String projectCode, String projectName, Integer projectCost, Date dateStart, Date dateEnd) {
+    public static Project Project.saveOrUpdateProject(String projectCode, String projectName, Double projectCost, Date dateStart, Date dateEnd) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         Project project = new Project();
@@ -125,13 +125,13 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
 
     }
 
-    public static Project Project.increseCostByModuleNameAndProjectId(Long projectCode,Integer increseCost,Integer totalCost) {
+    public static Project Project.increseCostByModuleNameAndProjectId(Long projectCode,Double increseCost,Double totalCost) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         criteria.add(Restrictions.eq("id", projectCode));
         List<Project> projectList = criteria.list();
         Project project = projectList.get(0);
-        int oldCost = project.getProjectCost();
+        double oldCost = project.getProjectCost();
         if(totalCost+increseCost>oldCost) totalCost = totalCost + increseCost ;
         else totalCost = project.getProjectCost();
         project.setProjectCost(totalCost);
@@ -221,7 +221,7 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return (Long) criteria.uniqueResult();
     }
 
-    public static Project Project.updateProjectByIdProject(long id,String projectCode, String projectName, Integer projectCost, Date dateStart, Date dateEnd) {
+    public static Project Project.updateProjectByIdProject(long id,String projectCode, String projectName, Double projectCost, Date dateStart, Date dateEnd) {
         dateStart.setHours(0);
         dateStart.setMinutes(0);
         dateStart.setSeconds(0);
@@ -241,13 +241,13 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         return project;
     }
 
-    public static Project Project.decreseCostByModuleNameAndProjectId(Long projectCode,Integer decreseCost) {
+    public static Project Project.decreseCostByModuleNameAndProjectId(Long projectCode,Double decreseCost) {
         EntityManager ent = Project.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Project.class);
         criteria.add(Restrictions.eq("id", projectCode));
         List<Project> projectList = criteria.list();
         Project project = projectList.get(0);
-        int oldCost = project.getProjectCost();
+        double oldCost = project.getProjectCost();
         if(oldCost+decreseCost>0) oldCost = oldCost + decreseCost ;
         else oldCost = 0;
         project.setProjectCost(oldCost);
