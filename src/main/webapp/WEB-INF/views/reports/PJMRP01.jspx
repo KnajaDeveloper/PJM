@@ -19,6 +19,7 @@
     <c:set var="PLEASE_SELECT_DATE" scope="request"><spring:message code="M0011"/></c:set>
     <c:set var="Date_format_invalid" scope="request"><spring:message code="M0032"/></c:set>
     <c:set var="Data_not_found" scope="request"><spring:message code="M0018"/></c:set>
+    <c:set var="M_Please_Employee_Code_ascending" scope="request"><spring:message code="M0066"/></c:set>
 
     <c:set var="BUTTON_REPORT" scope="request"><spring:message code="B0013"/></c:set>
 
@@ -29,6 +30,7 @@
         Message.Date_format_invalid = '${Date_format_invalid}';
         Message.Data_not_found = '${Data_not_found}';
         Message.L_All = '${L_All}';
+        Message.M_Please_Employee_Code_ascending = '${M_Please_Employee_Code_ascending}';
 
     </script>
 
