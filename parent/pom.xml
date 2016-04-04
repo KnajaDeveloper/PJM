@@ -36,13 +36,13 @@
                                         <replaceregexp byline="true" file="src/main/resources/META-INF/persistence.xml" match='&lt;property name="hibernate.hbm2ddl.auto" value="[a-zA-Z0-9.:/]+"/&gt;' replace='&lt;property name="hibernate.hbm2ddl.auto" value="update"/&gt;'/>
                                         <replaceregexp byline="true" file="src/main/resources/META-INF/database-script/data.sql" match="[I|i][N|n][S|s][E|e][R|r][T|t]" replace="--INSERT"/>
                                         <replaceregexp byline="true" file="src/main/resources/META-INF/spring/cas.properties" match="cas.server.host=[0-9a-zA-Z.:;@//=]+" replace="cas.server.host=softpl.us:8443"/>
-                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/cas.properties" match="cas.service.host=[0-9a-zA-Z.:;@//=]+" replace="cas.service.host=localhost:8003"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/cas.properties" match="cas.service.host=[0-9a-zA-Z.:;@//=]+" replace="cas.service.host=172.16.13.8:8003"/>
                                         <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.driverClassName=[a-zA-Z0-9.:/]+" replace="database.driverClassName=org.apache.derby.jdbc.ClientDriver"/>
-                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.url=[a-zA-Z0-9.:;=\\/_]+" replace="database.url=jdbc:derby://localhost:1527/APP2;create=true\:derby\:APP2;create\=true"/>
+                                        <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.url=[a-zA-Z0-9.:;=\\/_]+" replace="database.url=jdbc:derby://172.16.13.8:1527/APP2;create=true\:derby\:APP2;create\=true"/>
                                         <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.username[a-zA-Z0-9.:/=]+" replace="database.username=app2"/>
                                         <replaceregexp byline="true" file="src/main/resources/META-INF/spring/database.properties" match="database.password[a-zA-Z0-9.:/=]+" replace="database.password=app2"/>
-                                        <replaceregexp byline="true" file="src/main/resources/app2.server.properties" match="EM-APP2Server=[0-9a-zA-Z.:;@//=]+" replace="EM-APP2Server=localhost:8003/HRMSService/rest"/>
-                                        <replaceregexp byline="true" file="src/main/resources/app2.server.properties" match="Security-APP2Server=[0-9a-zA-Z.:;@//=]+" replace="Security-APP2Server=localhost:8003/HRMSService/rest"/>
+                                        <replaceregexp byline="true" file="src/main/resources/app2.server.properties" match="EM-APP2Server=[0-9a-zA-Z.:;@//=]+" replace="EM-APP2Server=172.16.13.8:8003/HRMSService/rest"/>
+                                        <replaceregexp byline="true" file="src/main/resources/app2.server.properties" match="Security-APP2Server=[0-9a-zA-Z.:;@//=]+" replace="Security-APP2Server=172.16.13.8:8003/HRMSService/rest"/>
                                     </target>
                                 </configuration>
                             </execution>
