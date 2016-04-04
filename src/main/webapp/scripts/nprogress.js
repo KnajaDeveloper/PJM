@@ -273,6 +273,7 @@
         removeClass(document.querySelector(Settings.parent), 'nprogress-custom-parent');
         var progress = document.getElementById('nprogress');
         progress && removeElement(progress);
+        $('#wait').hide();
     };
 
     /**

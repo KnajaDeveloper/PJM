@@ -1,4 +1,4 @@
-/*
+
 package com.app2.app2t.manualtest;
 
 import com.app2.app2t.domain.pjm.Project;
@@ -42,7 +42,7 @@ public class SearchProject {
     protected WebApplicationContext wac;
     protected MockMvc mockMvc;
 
-    public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,int cost)throws Exception{
+    public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,double cost)throws Exception{
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date stDate = new Date(Long.parseLong(stDate_));//date = 09/03/2016
         stDate = formatter.parse(formatter.format(stDate));
@@ -72,6 +72,7 @@ public class SearchProject {
                 .param("projectManage",pm)
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -79,7 +80,7 @@ public class SearchProject {
                 .andReturn()
                 ;
     }
-    public void dataTestReturnInt  (int dataJson,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
+    public void dataTestReturnInt  (double dataJson,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
         MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
                 .param("StDateBegin",stDatefrom)
                 .param("StDateEnd",stDateTo)
@@ -90,6 +91,7 @@ public class SearchProject {
                 .param("projectManage",pm)
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -108,6 +110,7 @@ public class SearchProject {
                 .param("projectManage",pm)
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -126,6 +129,7 @@ public class SearchProject {
                 .param("projectManage",pm)
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -137,11 +141,11 @@ public class SearchProject {
     public void setup()throws Exception
     {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        insertDataTodateBase("1457456400000","1459357200000","PM1","PT01","ProjectTest1",20);//date 09/03/2016 - 31/03/2016
-        insertDataTodateBase("1457456400000","1458061200000","PM2","PT02","ProjectTest2",30);//date 09/03/2016 - 16/03/2016
-        insertDataTodateBase("1457456400000","1459357200000","PM3","PT03","ProjectTest3",20);//date 09/03/2016 - 31/03/2016
-        insertDataTodateBase("1457456400000","1458061200000","PM4","PT04","ProjectTest4",30);//date 09/03/2016 - 16/03/2016
-        insertDataTodateBase("1457456400000","1459357200000","PM5","PT05","ProjectTest5",25);//date 09/03/2016 - 31/03/2016
+        insertDataTodateBase("1457456400000","1459357200000","PM1","PT01","ProjectTest1",20.0);//date 09/03/2016 - 31/03/2016
+        insertDataTodateBase("1457456400000","1458061200000","PM2","PT02","ProjectTest2",30.0);//date 09/03/2016 - 16/03/2016
+        insertDataTodateBase("1457456400000","1459357200000","PM3","PT03","ProjectTest3",20.0);//date 09/03/2016 - 31/03/2016
+        insertDataTodateBase("1457456400000","1458061200000","PM4","PT04","ProjectTest4",30.0);//date 09/03/2016 - 16/03/2016
+        insertDataTodateBase("1457456400000","1459357200000","PM5","PT05","ProjectTest5",25.0);//date 09/03/2016 - 31/03/2016
     }
     @After
     public void logger()throws Exception{
@@ -150,7 +154,7 @@ public class SearchProject {
     public void selectProjectReturnLong(long dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
         dateTest(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
     }
-    public void selectProjectReturnInt(int dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
+    public void selectProjectReturnInt(double dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
         dataTestReturnInt(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
     }
     public void selectProjectReturnString(String  data,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
@@ -201,27 +205,27 @@ public class SearchProject {
     }
     @Test
     public void selectWhereCostFrom () throws Exception{
-        selectProjectReturnInt(20,"$[0].projectCost","","","","","20","","");
+        selectProjectReturnInt(20.0,"$[0].projectCost","","","","","20","","");
     }
     @Test
     public void selectWhereCostTo () throws Exception{
-        selectProjectReturnInt(30,"$[1].projectCost","","","","","","30","");
+        selectProjectReturnInt(30.0,"$[1].projectCost","","","","","","30","");
     }
     @Test
     public void selectWhereCostFrom_CostTo () throws Exception{
-        selectProjectReturnInt(30,"$[0].projectCost","","","","","30","31","");
+        selectProjectReturnInt(30.0,"$[0].projectCost","","","","","30","31","");
     }
     @Test
     public void selectWhereStDateFrom_EnDateFrom_CostFrom () throws Exception{
-        selectProjectReturnInt(25,"$[0].projectCost","1457456400000","","1459357200000","","25","","");//stdate = 09/03/2016  endate///31/03/2016
+        selectProjectReturnInt(25.0,"$[0].projectCost","1457456400000","","1459357200000","","25","","");//stdate = 09/03/2016  endate///31/03/2016
     }
     @Test
     public void selectWherePm () throws Exception{
-        selectProjectReturnInt(30,"$[0].projectCost","","","","","","","PM2");
+        selectProjectReturnInt(30.0,"$[0].projectCost","","","","","","","PM2");
     }
     @Test
     public void selectWhereStDateFrom_EnDateFrom_CostFrom_Pm () throws Exception{
-        selectProjectReturnInt(25,"$[0].projectCost","1457456400000","","1459357200000","","25","","PM5");//stdate = 09/03/2016  endate///31/03/2016
+        selectProjectReturnInt(25.0,"$[0].projectCost","1457456400000","","1459357200000","","25","","PM5");//stdate = 09/03/2016  endate///31/03/2016
     }
     @Test
     public void selectWhereStDateFrom_EnDateFrom_CostFrom_Pm_isEmpty () throws Exception{
@@ -243,6 +247,7 @@ public class SearchProject {
                 .param("projectManage","")
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -263,6 +268,7 @@ public class SearchProject {
                 .param("projectManage","PM2")
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -278,11 +284,12 @@ public class SearchProject {
                 .param("StDateEnd","")
                 .param("FnDateBegin","")
                 .param("FnDateEnd","")
-                .param("costStart","")
+                .param("costStart","31.1")
                 .param("costEnd","")
-                .param("projectManage","PM2")
+                .param("projectManage","")
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -333,6 +340,7 @@ public class SearchProject {
                 .param("projectManage","PM1")
                 .param("maxResult","15")
                 .param("firstResult","0")
+                .param("moduleManager","")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -344,4 +352,3 @@ public class SearchProject {
 
 
 }
-*/

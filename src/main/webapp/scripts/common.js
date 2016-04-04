@@ -39,7 +39,7 @@ $( document).ajaxStart(function() {
 $(document).ajaxComplete(function(){
     NProgress.done();
     //$('#wait').hide();
-    setTimeout(function (){$('#wait').hide();},5000);
+    //setTimeout(function (){$('#wait').hide();},5000);
 
 });
 /**
