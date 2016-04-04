@@ -187,8 +187,8 @@ function openEditTask(element){
     $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
     $('#ddlTypeTask').popover('hide');
     $('#txtEmpName').val(null);
-    $('#dateStartProject').val(null).popover('hide');;
-    $('#dateEndProject').val(null).popover('hide');;
+    $('#dateStartProject').val(null).popover('hide');
+    $('#dateEndProject').val(null).popover('hide');
     $("#dateStartProject").change();
     $("#dateEndProject").change();
 
@@ -343,7 +343,7 @@ function saveData(id, dateStart, dateEnd){
         dataType: "json",
         url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
                                           '/' + $('#txtTaskName').val() +
-                                          '/' + parseInt($('#txtTaskCost').val()) +
+                                          '/' + $('#txtTaskCost').val() +
                                           '/' + dataTypeTaskCode[index] +
                                           '/' + empName +
                                           '/' + dateStart +
@@ -441,7 +441,7 @@ function saveDataToDataBase(id) {
                 url: contextPath + '/tasks/findEditTask/' + TaskID +
                                                       '/' + $('#txtTaskCode').val() +
                                                       '/' + $('#txtTaskName').val() +
-                                                      '/' + parseInt($('#txtTaskCost').val()) +
+                                                      '/' + $('#txtTaskCost').val() +
                                                       '/' + dataTypeTaskCode[index] +
                                                       '/' + empName +
                                                       '/' + dateStart +
@@ -546,20 +546,24 @@ $('[id^=btnModalTask]').click(function() {
         }else if($('#ddlTypeTask').val() == ""){
             $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else{
-            if($.isNumeric($('#txtTaskCost').val()) && $('#txtTaskCost').val().indexOf('.') < 0){
-                if($.isNumeric($('#txtProgress').val()) &&
-                    $('#txtProgress').val().indexOf('.') < 0 &&
-                    parseInt($('#txtProgress').val()) >= 0 &&
-                    parseInt($('#txtProgress').val()) <= 100){
-                    if(checkDateBeforeSaveData($('#dateEndProject').val(), $('#lblModuleDateEnd').text())){
-                        saveDataToDataBase(id);
-                    }else{
-                        bootbox.confirm(Message.MSG_YOU_WANT_TO_SAVE_DATA, function(result) {
-                            if(result == true){ saveDataToDataBase(id); }
-                        });
-                    }
+            if($.isNumeric($('#txtTaskCost').val())){
+                if(($('#txtTaskCost').val().length - 1) - $('#txtTaskCost').val().indexOf('.') > 4){
+                    $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS).popover('show');
                 }else{
-                    $('#txtProgress').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100).popover('show');
+                    if($.isNumeric($('#txtProgress').val()) &&
+                        $('#txtProgress').val().indexOf('.') < 0 &&
+                        parseInt($('#txtProgress').val()) >= 0 &&
+                        parseInt($('#txtProgress').val()) <= 100){
+                        if(checkDateBeforeSaveData($('#dateEndProject').val(), $('#lblModuleDateEnd').text())){
+                            saveDataToDataBase(id);
+                        }else{
+                            bootbox.confirm(Message.MSG_YOU_WANT_TO_SAVE_DATA, function(result) {
+                                if(result == true){ saveDataToDataBase(id); }
+                            });
+                        }
+                    }else{
+                        $('#txtProgress').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100).popover('show');
+                    }
                 }
             }else{
                 $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_ONLY_NUMBERS).popover('show');

@@ -99,7 +99,7 @@ privileged aspect TaskController_Custom_Controller_Json {
     public ResponseEntity<String> TaskController.saveTask(
             @PathVariable("taskCode") String taskCode,
             @PathVariable("taskName") String taskName,
-            @PathVariable("taskCost") Integer taskCost,
+            @PathVariable("taskCost") Double taskCost,
             @PathVariable("typeTask") String typeTask,
             @PathVariable("empCode") String empCode,
             @PathVariable("dateStart") String dateStart,
@@ -133,7 +133,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             @PathVariable("id") Long id,
             @PathVariable("taskCode") String taskCode,
             @PathVariable("taskName") String taskName,
-            @PathVariable("taskCost") Integer taskCost,
+            @PathVariable("taskCost") Double taskCost,
             @PathVariable("typeTask") String typeTask,
             @PathVariable("empCode") String empCode,
             @PathVariable("dateStart") String dateStart,

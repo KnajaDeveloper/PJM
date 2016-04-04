@@ -253,8 +253,8 @@ function deleteDataProgram() {
 
 $('#btnDeleteProgram').click(function() {
     if($(".checkboxTableProgram:checked").length <= 0){
-            bootbox.alert(Message.MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED);
-            return false;
+        bootbox.alert(Message.MSG_PLEASE_SELECT_THE_DATA_TO_BE_DELETED);
+        return false;
     }else{
         bootbox.confirm(Message.MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS, function(result) {
             if(result == true){
