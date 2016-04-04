@@ -50,9 +50,10 @@ function saveModuleProjectToDB(){
 function ModuleManagerToArray(){
 	var moduleManager = "";
 	for(var i=0;i<$("[id^=txtModuleManagerName").length;i++) {
-		var id = $("[id^=txtModuleManagerName")[i].id
-		moduleManager+=""+$("#"+id).val();
-		if(i!=$("[id^=txtModuleManagerName").length-1) moduleManager+="==";
+		var id = $("[id^=txtModuleManagerName")[i].id;
+		//moduleManager+=""+$("#"+id).val();
+		moduleManager+=""+$("#"+id).data("dataCode");
+		if(i!=$("[id^=txtModuleManagerName]").length-1) moduleManager+="==";
 	}
 	return moduleManager;
 }
@@ -60,9 +61,10 @@ function ModuleManagerToArray(){
 function ModuleMemberToArray(){
 	var moduleMember = "";
 	for(var i=0;i<$("[id^=txtModuleMemberName").length;i++) {
-		var id = $("[id^=txtModuleMemberName")[i].id
-		moduleMember+=""+$("#"+id).val();
-		if(i!=$("[id^=txtModuleMemberName").length-1) moduleMember+="==";
+		var id = $("[id^=txtModuleMemberName]")[i].id;
+		//moduleMember+=""+$("#"+id).val()
+		moduleMember+=""+$("#"+id).data("dataCode");
+		if(i!=$("[id^=txtModuleMemberName]").length-1) moduleMember+="==";
 	}
 	return moduleMember;
 }

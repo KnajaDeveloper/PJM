@@ -4,30 +4,28 @@ $(document).ready(function (){
     $("#dateStartProject").datepicker(dateLang);
     $("#dateEndProject").datepicker(dateLang);
 
-    $("#dateStartProject").on('change', function () {
-        DateUtil.setMinDate('dateStartProject', 'dateEndProject');
-        $("#dateStartModule").datepicker('option', 'minDate', $("#dateStartProject").val());
-        $("#dateStartEditModule").datepicker('option', 'minDate', $("#dateStartProject").val());
-
-        $("#dateEndModule").datepicker('option', 'minDate', $("#dateStartProject").val());
-        $("#dateEndEditModule").datepicker('option', 'minDate', $("#dateStartProject").val());
-    });
-    $("#dateEndProject").on('change', function () {
-        DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
-         $("#dateStartModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
-         $("#dateStartEditModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
-
-         $("#dateEndModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
-         $("#dateEndEditModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
-    });
-
-    $("#dateStartModule").on('change', function () {
-        $("#dateEndModule").datepicker('option', 'minDate', $("#dateStartModule").val());
-    });
-
     $("#dateStartModule").datepicker(dateLang);
     $("#dateEndModule").datepicker(dateLang);
 
     $("#dateStartEditModule").datepicker(dateLang);
     $("#dateEndEditModule").datepicker(dateLang);
+
+    $("#dateStartProject").on('change', function () {
+        DateUtil.setMinDate('dateStartProject', 'dateEndProject');
+        DateUtil.setMinDate('dateStartProject', 'dateStartModule');
+        DateUtil.setMinDate('dateStartProject', 'dateEndModule');
+        DateUtil.setMinDate('dateStartProject', 'dateStartEditModule');
+        DateUtil.setMinDate('dateStartProject', 'dateEndEditModule');
+    });
+    $("#dateEndProject").on('change', function () {
+        DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
+        DateUtil.setMaxDate('dateEndProject', 'dateStartModule');
+        DateUtil.setMaxDate('dateEndProject', 'dateEndModule');
+        DateUtil.setMaxDate('dateEndProject', 'dateStartEditModule');
+        DateUtil.setMaxDate('dateEndProject', 'dateEndEditModule');
+    });
+
+    $("#dateStartModule").on('change', function () {
+        DateUtil.setMinDate('dateStartModule', 'dateEndModule');
+    });
 });
