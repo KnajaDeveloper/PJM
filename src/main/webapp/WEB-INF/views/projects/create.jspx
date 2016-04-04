@@ -10,7 +10,7 @@
         <field:datetime dateTimePattern="${project_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Project_updatedDate" z="GOfjWxqTlocsCa/O8m7AzJA6W3g="/>
         <field:input field="projectCode" id="c_com_app2_app2t_domain_pjm_Project_projectCode" z="6TXXMzNQzcrd/V2YS548fxOdowg="/>
         <field:input field="projectName" id="c_com_app2_app2t_domain_pjm_Project_projectName" z="y16XKHdNGKmy91o5WOivGIJcXD4="/>
-        <field:input field="projectCost" id="c_com_app2_app2t_domain_pjm_Project_projectCost" validationMessageCode="field_invalid_integer" z="51CeShUCIOmxWb9VKFjnGk0Ch94="/>
+        <field:input field="projectCost" id="c_com_app2_app2t_domain_pjm_Project_projectCost" validationMessageCode="field_invalid_number" z="ZIfsriUDQNuwmPgU0Rp36VhHO1Y="/>
         <field:datetime dateTimePattern="${project_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Project_dateStart" z="G0lFVL25DHGyjD+iNt2oehmLfEs="/>
         <field:datetime dateTimePattern="${project_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Project_dateEnd" z="/fojNwi2K0dhqQHlJ7YFqcjf2QU="/>
     </form:create>

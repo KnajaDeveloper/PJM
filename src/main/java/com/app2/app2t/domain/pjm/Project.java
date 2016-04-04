@@ -24,7 +24,7 @@ public class Project extends BaseEntity {
 
     /**
      */
-    private Integer projectCost;
+    private Double projectCost;
 
     /**
      */

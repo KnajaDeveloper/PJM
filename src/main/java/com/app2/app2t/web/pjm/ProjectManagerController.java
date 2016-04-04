@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RooWebScaffold(path = "projectmanagers", formBackingObject = ProjectManager.class)
 @RooWebJson(jsonObject = ProjectManager.class)
 public class ProjectManagerController {
-	 @Autowired
+
+    @Autowired
     EmRestService emRestService;
+
     protected static Logger LOGGER = LoggerFactory.getLogger(ProjectManagerController.class);
 }

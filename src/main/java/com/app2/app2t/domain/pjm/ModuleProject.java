@@ -28,7 +28,7 @@ public class ModuleProject extends BaseEntity {
 
     /**
      */
-    private Integer moduleCost;
+    private Double moduleCost;
 
     /**
      */

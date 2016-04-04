@@ -10,7 +10,7 @@
         <field:datetime dateTimePattern="${task_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Task_updatedDate" z="3Nkjf6tfWCD/290X+ED3gHZnT3c="/>
         <field:input field="taskCode" id="c_com_app2_app2t_domain_pjm_Task_taskCode" z="FQhgaZmyOMhpcY0Bn6D7do7N330="/>
         <field:input field="taskName" id="c_com_app2_app2t_domain_pjm_Task_taskName" z="8ISAbQ4j0NuLsnuM0lskXwQbTo8="/>
-        <field:input field="taskCost" id="c_com_app2_app2t_domain_pjm_Task_taskCost" validationMessageCode="field_invalid_integer" z="8eNUu7gie1cCgOV+ICmBE+pGoFY="/>
+        <field:input field="taskCost" id="c_com_app2_app2t_domain_pjm_Task_taskCost" validationMessageCode="field_invalid_number" z="y31OfdDKmrbRswVZtHo0PJOU+64="/>
         <field:select field="typeTask" id="c_com_app2_app2t_domain_pjm_Task_typeTask" itemValue="id" items="${typetasks}" path="/typetasks" z="0KK2Tc700V4zsRLjfPHc5qhZm4k="/>
         <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_Task_empCode" z="fHpYXZ85oR++X/+qvVUid2Jv1LE="/>
         <field:input field="detail" id="c_com_app2_app2t_domain_pjm_Task_detail" z="riXRBod20R1Zp7Pn2V2FZyspbLo="/>

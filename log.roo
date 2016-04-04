@@ -139,3 +139,13 @@ web mvc all --package ~.web.pjm
 web mvc json all 
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-03-22 17:58:51
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-04-04 09:44:56
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-04-04 09:48:09
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-04-04 09:48:38
+json all 
+json all --deepSerialize 
+web mvc all --package ~.web.pjm
+web mvc json all
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-04-04 09:51:42
