@@ -255,7 +255,8 @@ function saveEditModule(object,cost){
 
 function SaveModule(cost){
 	var boolData = checkModal();
-	var boolCost = checkCost();
+	//var boolCost = checkCost();
+	var boolCost = true ;
 	if(boolData==true) {
 		if(cost==null) boolCost = checkCost($("#txtCostsModule1").val());
 		else boolCost = true;
@@ -422,11 +423,11 @@ function checkModal(){
 function checkCost(cost){
 	var count_Element = $('[id^=btnEditModule]').length;
 	var projectCost = ($('#txtCostsProject').val());
-	var totalModuleCost = (cost);
+	var totalModuleCost = parseFloat(cost);
 	for(var i=0;i<count_Element;i++) {
 		var id = $('[id^=btnEditModule]')[i].id;
 		var number = id.split("btnEditModule");
-		if(i!=number[1]) totalModuleCost = totalModuleCost + (arr_costModule[number[1]]);
+		if(i!=number[1]) totalModuleCost = totalModuleCost + parseFloat(arr_costModule[number[1]]);
 	}
 	if(totalModuleCost > projectCost) {
 		confirmAddModuleWhenTotalCostMoreThanProject(totalModuleCost) ;
@@ -438,11 +439,11 @@ function checkCost(cost){
 function checkEditCost(cost,skipId,object){
 	var count_Element = $('[id^=btnEditModule]').length;
 	var projectCost = ($('#txtCostsProject').val());
-	var totalModuleCost = (cost);
+	var totalModuleCost = parseFloat(cost);
 	var skip = skipId.split("btnEditSaveModule");
 	var idSkip = (skip[1]);
 	for(var i=1;i<=count_Element;i++) {
-		if(i!=idSkip) totalModuleCost = totalModuleCost + (arr_costModule[i]);
+		if(i!=idSkip) totalModuleCost = totalModuleCost + parseFloat(arr_costModule[i]);
 	}
 	if(totalModuleCost > projectCost) {
 		confirmEditModuleWhenTotalCostMoreThanProject(totalModuleCost,object) ;
