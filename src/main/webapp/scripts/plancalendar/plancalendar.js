@@ -198,8 +198,12 @@ $('#btnAddOtherPlan').click(function () {
     
     if (taskName.length == 0) {
         $('#txtPlanName').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
-    } else if (taskCost.indexOf('.') > 0 || !$.isNumeric(taskCost)) {
+    } else if (taskCost.length == 0) {
         $('#txtPlanCost').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
+    } else if(!$.isNumeric(taskCost)) {
+        $('#txtPlanCost').attr('data-content', 'xxx').popover('show');
+    } else if(taskCost.indexOf('.') > 0 && taskCost.split('.')[1].length > 4) {
+        $('#txtPlanCost').attr('data-content', 'more than 4').popover('show');
     } else if (dateStart.length == 0) {
         $('#cPlanDateBegin').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (dateEnd.length == 0) {
