@@ -76,4 +76,11 @@ privileged aspect ModuleManager_Custom_Jpa_ActiveRecord {
         }
         return result;
     }
+    public static List<ModuleManager> ModuleManager.findModuleManagerByEmpCode(String empCode) {
+        EntityManager ent = ModuleManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class);
+        criteria.add(Restrictions.eq("empCode", empCode));
+        return criteria.list();
+    }
+
 }

@@ -163,9 +163,8 @@ $('#lblModuleManager').append(Managers1);
 }
 
 $('#Table').on("click", "[id^=btnDetailModule]", function () {
-    var id =  this.id.split('btnDetailModule')[1];
-    console.log(id);
-    window.location.href = contextPath + '/moduleprojects/detailsModule?id='+id;
+    var moduleProjectId =  this.id.split('btnDetailModule')[1];
+    window.location.href = contextPath + '/moduleprojects/detailsModule?projectId='+ projectID +'&moduleProjectId='+moduleProjectId;
 }); //-- link Progress --//
 
 

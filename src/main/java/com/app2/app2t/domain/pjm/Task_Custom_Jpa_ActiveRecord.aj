@@ -300,4 +300,11 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
             throw new RuntimeException(e);
         }
     }
+    public static List<Task> Task.findTaskByEmpCode(String empCode) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("empCode", empCode));
+        return criteria.list();
+    }
+
 }

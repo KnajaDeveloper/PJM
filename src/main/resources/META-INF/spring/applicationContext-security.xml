@@ -15,12 +15,12 @@
 
     <http entry-point-ref="casEntryPoint">
 
-        <!-- <intercept-url pattern="/caevauserforms/findFormFormEvaOrApprove/**" access="permitAll or isAuthenticated()" />
-        <intercept-url pattern="/caevauserforms/findCaEvaUserFormByEmpCode/**" access="permitAll or isAuthenticated()" />
-        <intercept-url pattern="/caevauserforms/findCaEvaTemplateMinerByYear/**" access="permitAll or isAuthenticated()" />
-        <intercept-url pattern="/caevaformstatuses/findAllCaEvaStatus/**" access="permitAll or isAuthenticated()" />
-        <intercept-url pattern="/caevauserforms/findCaEvaUserFormById/**" access="permitAll or isAuthenticated()" />
-        <intercept-url pattern="/caevauserforms/findCaEvaUserMinorFormByCaFormId/**" access="permitAll or isAuthenticated()" /> -->
+       <intercept-url pattern="/menus/findEmcodeInAllTable/**" access="permitAll or isAuthenticated()" />
+        <!--<intercept-url pattern="/caevauserforms/findCaEvaUserFormByEmpCode/**" access="permitAll or isAuthenticated()" />-->
+        <!--<intercept-url pattern="/caevauserforms/findCaEvaTemplateMinerByYear/**" access="permitAll or isAuthenticated()" />-->
+        <!--<intercept-url pattern="/caevaformstatuses/findAllCaEvaStatus/**" access="permitAll or isAuthenticated()" />-->
+        <!--<intercept-url pattern="/caevauserforms/findCaEvaUserFormById/**" access="permitAll or isAuthenticated()" />-->
+        <!--<intercept-url pattern="/caevauserforms/findCaEvaUserMinorFormByCaFormId/**" access="permitAll or isAuthenticated()" /> &ndash;&gt;-->
         
         <!-- <intercept-url pattern="/**" access="isAuthenticated()" /> -->
         <!-- <intercept-url pattern="/appmenus/**" access="permitAll" /> -->
