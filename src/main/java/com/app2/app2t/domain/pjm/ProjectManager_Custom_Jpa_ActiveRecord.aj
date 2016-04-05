@@ -91,6 +91,12 @@ privileged aspect ProjectManager_Custom_Jpa_ActiveRecord {
         }
         return result;
     }
+    public static List<ProjectManager> ProjectManager.findProjectManagerByEmpCode(String empCode) {
+        EntityManager ent = ProjectManager.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class);
+        criteria.add(Restrictions.eq("empCode", empCode));
+        return criteria.list();
+    }
 
 
 

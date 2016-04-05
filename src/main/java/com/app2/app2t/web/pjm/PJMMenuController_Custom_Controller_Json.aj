@@ -1,5 +1,6 @@
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.service.SecurityRestService;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
@@ -52,6 +53,29 @@ privileged aspect PJMMenuController_Custom_Controller_Json {
             map.put("empRole", employee.get("roleName"));
 
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class" ).deepSerialize(map), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @RequestMapping(value = "/findEmcodeInAllTable", method = RequestMethod.GET)
+    public ResponseEntity<String> PJMMenuController.findEmcodeInAllTable(
+            @RequestParam(value = "empCode", required = false) String empCode
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<ProjectManager> projectManagers = ProjectManager.findProjectManagerByEmpCode(empCode);
+            List<ModuleManager> moduleManagers = ModuleManager.findModuleManagerByEmpCode(empCode);
+            List<ModuleMember> moduleMembers = ModuleMember.findModuleMemberByEmpCode(empCode);
+            List<OtherTask> otherTasks = OtherTask.findOtherTaskByEmpCode(empCode);
+            List<Task> tasks = Task.findTaskByEmpCode(empCode);
+
+            Boolean checkEmpCode= false;
+            if(projectManagers.size()+moduleManagers.size()+moduleMembers.size()+otherTasks.size()+tasks.size() > 0){
+                checkEmpCode = true;
+            }
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class" ).deepSerialize(checkEmpCode), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
