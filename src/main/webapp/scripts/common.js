@@ -38,7 +38,7 @@ $( document).ajaxStart(function() {
 });
 $(document).ajaxComplete(function(){
     NProgress.done();
-    //$('#wait').hide();
+    $('#wait').hide();
     //setTimeout(function (){$('#wait').hide();},5000);
 
 });
@@ -813,6 +813,52 @@ function parseFormatDateToString(date,lang){
 var AjaxUtil = {};
 var UtilLov = {};
 var MessageUtil = {};
+var BootBox = {};
+
+BootBox.alert = function alertBootBox(message,labelOk){
+     var buttons = {
+            cancel: {
+                label: "<div>"+labelOk+"</div>",
+                className: "btn-primary"
+            }
+    };
+    var defaults = {
+        closeButton: false,
+        message:"<center>" + message + "</center>",
+        className: "modal25",
+        buttons : buttons
+    }; 
+
+    return  bootbox.dialog(defaults);
+};
+
+BootBox.confirm = function alertBootBoxConfirm(message,labelOk,LabelCancle){
+    var success = {
+        label: "<div>"+labelOk+"</div>",
+        className: "btn-primary",
+        callback: "true"
+    };
+
+    var cancel = {
+        label: "<div>"+LabelCancle+"</div>",
+        className: "btn-danger",
+        callback: "false"
+    };
+
+    var buttons = {
+            success:success,
+            cancel:cancel
+    };
+
+    var defaults = {
+        closeButton: false,
+        message:"<center>" + message + "</center>",
+        className: "modal25",
+        buttons : buttons
+    }; 
+
+    return  bootbox.dialog(defaults);
+};
 
 MessageUtil.alertBootBoxMessage = function alertBootBoxMessage (options){
 

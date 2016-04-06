@@ -46,7 +46,7 @@ function editModuleManagerToArray(){
 	var moduleManager = "";
 	for(var i=0;i<$("[id^=txtEditModuleManagerName").length;i++) {
 		var id = $("[id^=txtEditModuleManagerName")[i].id
-		moduleManager+=""+$("#"+id).val();
+		moduleManager+=""+$("#"+id).data("dataCode");
 		if(i!=$("[id^=txtEditModuleManagerName").length-1) moduleManager+="==";
 	}
 	return moduleManager;
@@ -56,7 +56,7 @@ function editModuleMemberToArray(){
 	var moduleMember = "";
 	for(var i=0;i<$("[id^=txtEditModuleMemberName").length;i++) {
 		var id = $("[id^=txtEditModuleMemberName")[i].id
-		moduleMember+=""+$("#"+id).val();
+		moduleMember+=""+$("#"+id).data("dataCode");
 		if(i!=$("[id^=txtEditModuleMemberName").length-1) moduleMember+="==";
 	}
 	return moduleMember;

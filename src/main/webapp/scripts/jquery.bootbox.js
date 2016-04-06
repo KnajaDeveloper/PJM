@@ -92,7 +92,8 @@
    * @private
    */
   function _t(key) {
-    var locale = locales[defaults.locale];
+    // var locale = locales[defaults.locale];
+    var locale = locales[commonData.language];
     return locale ? locale[key] : locales.en[key];
   }
 
@@ -186,8 +187,8 @@
         } else {
           button.className = "btn-default";
         }
-        if(name=="OK") button.className = "btn-primary";
-        else if(name=="CANCEL") button.className = "btn-danger";
+        if(name=="OK"||name=="ตกลง") button.className = "btn-primary";
+        else if(name=="CANCEL"||name=="ยกเลิก") button.className = "btn-danger";
       }
     });
 
@@ -629,17 +630,7 @@
       dialog.find(".modal-footer").html(buttonStr);
     }
 
-
-    /**
-     * Bootstrap event listeners; used handle extra
-     * setup & teardown required after the underlying
-     * modal has performed certain actions
-     */
-
     dialog.on("hidden.bs.modal", function(e) {
-      // ensure we don't accidentally intercept hidden events triggered
-      // by children of the current dialog. We shouldn't anymore now BS
-      // namespaces its events; but still worth doing
       if (e.target === this) {
         dialog.remove();
       }
@@ -650,26 +641,9 @@
       }
     });
 
-    /*
-    dialog.on("show.bs.modal", function() {
-      // sadly this doesn't work; show is called *just* before
-      // the backdrop is added so we'd need a setTimeout hack or
-      // otherwise... leaving in as would be nice
-      if (options.backdrop) {
-        dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
-      }
-    });
-    */
-
     dialog.on("shown.bs.modal", function() {
       dialog.find(".btn-primary:first").focus();
     });
-
-    /**
-     * Bootbox event listeners; experimental and may not last
-     * just an attempt to decouple some behaviours from their
-     * respective triggers
-     */
 
     dialog.on("escape.close.bb", function(e) {
       if (callbacks.onEscape) {
@@ -677,16 +651,10 @@
       }
     });
 
-    /**
-     * Standard jQuery event listeners; used to handle user
-     * interaction with our dialog
-     */
-
     dialog.on("click", ".modal-footer button", function(e) {
       var callbackKey = $(this).data("bb-handler");
-
       processCallback(e, dialog, callbacks[callbackKey]);
-
+      // alert(""+callbacks[callbackKey]);
     });
 
     dialog.on("click", ".bootbox-close-button", function(e) {
@@ -726,7 +694,7 @@
 
    /*
     function BBDialog(elem) {
-      this.elem = elem;
+      this.elem = elem;s
     }
 
     BBDialog.prototype = {
@@ -763,7 +731,6 @@
     return exports;
   };
 
-
   /**
    * standard locales. Please add more according to ISO 639-1 standard. Multiple language variants are
    * unlikely to be required. If this gets too large it can be split out into separate JS files.
@@ -798,6 +765,11 @@
       OK      : "OK",
       CANCEL  : "Cancel",
       CONFIRM : "OK"
+    },
+    TH : {
+      OK      : "ตกลง",
+      CANCEL  : "ยกเลิก",
+      CONFIRM : "ตกลง"
     },
     es : {
       OK      : "OK",
