@@ -670,9 +670,6 @@ function editModule(objectModule){
 		$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
 		$("#txtEditModuleManagerName1").data("dataCode",""+splitTextModuleManager[0].split(' ')[0]);
 		for (var i = 2; i < splitTextModuleManager.length; i++) {
-			//var html = "<div style='padding-top: 5px;' id='container_subEditModuleManager" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-			//	"<input type='text' class='form-control' id='txtEditModuleManagerName" + i + "' style='margin-top: 5px;' onchange='editModuleManagerChange(this)'></input></div>" +
-			//	"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button></div>";
 			var html = "<div style='padding-top: 10px;' id='container_subEditModuleManager"+ i +"'><label class='col-sm-3 control-label'></label>" +
 				"<div class='col-sm-4 display:inline-block''>"+
 				"<div class='input-group display:inline-block'>"+
@@ -699,8 +696,6 @@ function editModule(objectModule){
 		$("#txtEditModuleMemberName1").disableSelection();
 		for (var i = 2; i < splitTextModuleMember.length; i++) {
 			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
-			//var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + i + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-			//	"<input type='text' class='form-control' id='txtEditModuleMemberName" + i + "'  style='margin-top: 5px;'></input></div>";
 			var html =
 				"<div style='padding-top: 10px;' id='container_subEditModuleMember"+ i +"'>" +
 					"<label class='col-sm-3 control-label'></label>" +
