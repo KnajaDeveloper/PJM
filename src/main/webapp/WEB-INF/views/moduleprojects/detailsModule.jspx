@@ -372,7 +372,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <button id="btnDownloadFile" type="button" class="btn btn-primary">${BUTTON_DOWNLOAD_FILE}</button>
-                                    <label id="lblFileName" class="" style="margin-left: 10px;"><jsp:text/></label>
+                                    <label id="lblFileName" class="" data-toggle="tooltip" style="margin-left: 10px; cursor:pointer;"><jsp:text/></label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -524,7 +524,7 @@
                                     <button id="btnSelectFile" type="button" class="btn btn-primary" onclick="$('#myInput').click();">${BUTTON_SELECT_FILE}</button>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label id="fileName" class="control-label"><jsp:text/></label>
+                                    <label id="fileName" class="control-label" data-toggle="tooltip" style="cursor:pointer" ><jsp:text/></label>
                                 </div>
                                 <div class="col-sm-1">
                                     <input id="myInput" type="file" style="visibility:hidden" />

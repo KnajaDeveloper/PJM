@@ -1,3 +1,5 @@
+var fileName = null;
+
 $(document).ready(function(){
     var checkdDb = $.ajax({
 		type: "GET",
@@ -37,12 +39,21 @@ $(document).ready(function(){
 	searchDataProgram();
   	$('#checkboxAllProgram').prop('checked', false);
 
+  	fileName = null;
   	$('#myInput').change(function () {
         var file = document.getElementById("myInput").files[0];
         if (file) {
-            $('#fileName').text(file.name);
+        	fileName = file.name;
+        	if((file.name).indexOf('.') > 20){
+        		$('#fileName').text((file.name).substring(0, 20) + "...").attr("title" , file.name);
+        	}else{
+        		$('#fileName').text(file.name).attr("title" , file.name);
+        	}
         }
     });
+
+    $('#fileName').tooltip();
+    $('#lblFileName').tooltip();
 });
 
 function searchTaskCost(moduleCost){

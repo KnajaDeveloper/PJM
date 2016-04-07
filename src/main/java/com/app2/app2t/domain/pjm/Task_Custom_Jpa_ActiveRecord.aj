@@ -205,13 +205,6 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Task> Task.findSizeFileByFileName(String fileName) {
-        EntityManager ent = Task.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
-        criteria.add(Restrictions.eq("fileName", fileName));
-        return criteria.list();
-    }
-
     public static List<Task> Task.findCheckProgramCode(Program program) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "task");
