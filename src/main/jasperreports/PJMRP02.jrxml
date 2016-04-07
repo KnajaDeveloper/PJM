@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP02" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="1.6528925619835089"/>
-	<property name="ireport.x" value="533"/>
+	<property name="ireport.zoom" value="1.0263162364614378"/>
+	<property name="ireport.x" value="54"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -54,6 +54,7 @@
 	<parameter name="projectName" class="java.lang.String"/>
 	<parameter name="moduleName" class="java.lang.String"/>
 	<parameter name="totalAll" class="java.lang.String"/>
+	<parameter name="summaryPointProject" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select  * from pjmrp02]]>
 	</queryString>
@@ -75,9 +76,14 @@
 	<group name="FModuleName">
 		<groupExpression><![CDATA[$F{MODULENAME}]]></groupExpression>
 		<groupHeader>
-			<band height="27">
+			<band height="57">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="e4bde487-b207-4b8d-90b0-b0db37eb171d" x="0" y="0" width="802" height="27"/>
+					<reportElement uuid="bf6d1f99-41f7-49aa-a079-2f5712ed9fd8" x="0" y="0" width="802" height="30"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="e4bde487-b207-4b8d-90b0-b0db37eb171d" x="0" y="30" width="802" height="27"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -219,7 +225,7 @@
 	<pageHeader>
 		<band height="41" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="542" y="21" width="142" height="20"/>
+				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="542" y="21" width="260" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
@@ -240,18 +246,11 @@
 				<textFieldExpression><![CDATA[$P{fPrintDate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="542" y="0" width="142" height="21"/>
+				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="542" y="0" width="260" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{printFName}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement uuid="dc993c52-d871-450b-b243-f340805294a1" x="684" y="0" width="118" height="21"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{printLName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{printFName}.concat("      ")+$P{printLName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="3f5e8313-4f82-48dd-b18a-f930a7fc3341" mode="Transparent" x="0" y="0" width="203" height="21" backcolor="#CCCCFF"/>
@@ -378,10 +377,10 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="25" splitType="Stretch">
+		<band height="80" splitType="Stretch">
 			<crosstab>
-				<reportElement uuid="f1cad817-a6ad-43d9-863e-118c0027fe91" x="0" y="0" width="802" height="25"/>
-				<rowGroup name="totalAll" width="684" totalPosition="End">
+				<reportElement uuid="f1cad817-a6ad-43d9-863e-118c0027fe91" x="0" y="55" width="395" height="25"/>
+				<rowGroup name="totalAll" width="203" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$P{totalAll}]]></bucketExpression>
 					</bucket>
@@ -391,7 +390,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField isBlankWhenNull="true">
-								<reportElement uuid="4611354d-887c-4023-ac77-b581720c32d3" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="684" height="25"/>
+								<reportElement uuid="4611354d-887c-4023-ac77-b581720c32d3" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="203" height="25"/>
 								<box>
 									<pen lineWidth="0.75"/>
 									<topPen lineWidth="0.75"/>
@@ -450,13 +449,13 @@
 						</box>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="118" columnTotalGroup="TASKCOST">
+				<crosstabCell width="192" columnTotalGroup="TASKCOST">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField isBlankWhenNull="true">
-							<reportElement uuid="cacd3be0-db7b-4e7d-9f8c-afa24a4eac3d" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="118" height="25"/>
+							<reportElement uuid="cacd3be0-db7b-4e7d-9f8c-afa24a4eac3d" style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="192" height="25"/>
 							<box>
 								<pen lineWidth="0.75"/>
 								<topPen lineWidth="0.75"/>
@@ -471,7 +470,7 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="118" height="0" rowTotalGroup="totalAll" columnTotalGroup="TASKCOST">
+				<crosstabCell width="192" height="0" rowTotalGroup="totalAll" columnTotalGroup="TASKCOST">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -479,6 +478,39 @@
 					</cellContents>
 				</crosstabCell>
 			</crosstab>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="112a0b9b-f60f-4a24-9864-ff129dda871b" x="0" y="30" width="203" height="25"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryPointProject}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3a466122-4df2-40df-ab3f-0ebc4b9ed8fc" x="203" y="30" width="192" height="25"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tPoint}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a78c9949-f262-4b4a-9b65-99fe41d86c65" x="0" y="0" width="802" height="30"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>
