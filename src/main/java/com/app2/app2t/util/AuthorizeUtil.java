@@ -18,9 +18,9 @@ public class AuthorizeUtil {
     private List<Map> listMenu = new ArrayList<>();
 
     public static String getUserName() {
-        if(userName == null){
+//        if(userName == null){
             userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        }
+//        }
         return userName;
     }
     public static void setUserName(String name){
