@@ -211,7 +211,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         }
     }
 
-    public static List<ModuleMember> Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam (String startProject,String endProject,String projectId,String moduleProjectId,String teamId) throws Exception {
+    public static List<ModuleMember> Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam (String startProject,String endProject,String projectId,String moduleProjectId,ArrayList<String> listEmp) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date dStart = new Date(Long.parseLong(startProject));
         try {
@@ -235,11 +235,12 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.le("Project.dateStart", dEnd));
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
         if(moduleProjectId!="") criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleProjectId)));
+        if(listEmp.size()!=0) criteria.add(Restrictions.in("ModuleMember.empCode", listEmp));
         List<ModuleMember> listMember = criteria.list();
         return listMember;
     }
 
-    public static List<ModuleManager> Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam (String startProject,String endProject,String projectId,String moduleProjectId,String teamId) throws Exception {
+    public static List<ModuleManager> Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam (String startProject,String endProject,String projectId,String moduleProjectId,ArrayList<String>  listEmp) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date dStart = new Date(Long.parseLong(startProject));
         try {
@@ -263,11 +264,12 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.le("Project.dateStart", dEnd));
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
         if(moduleProjectId!="") criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleProjectId)));
+        if(listEmp.size()!=0) criteria.add(Restrictions.in("ModuleManager.empCode", listEmp));
         List<ModuleManager> listManager = criteria.list();
         return listManager;
     }
 
-    public static List<ProjectManager> Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam (String startProject,String endProject,String projectId,String teamId) throws Exception {
+    public static List<ProjectManager> Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam (String startProject,String endProject,String projectId,ArrayList<String>  listEmp) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date dStart = new Date(Long.parseLong(startProject));
         try {
@@ -289,6 +291,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.ge("Project.dateStart", dStart));
         criteria.add(Restrictions.le("Project.dateStart", dEnd));
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
+        if(listEmp.size()!=0) criteria.add(Restrictions.in("projectManager.empCode", listEmp));
         List<ProjectManager> listManager = criteria.list();
         return listManager;
     }

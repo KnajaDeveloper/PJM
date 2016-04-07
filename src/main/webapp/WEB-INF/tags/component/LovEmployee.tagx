@@ -9,7 +9,7 @@
     <jsp:directive.attribute name="team" type="java.lang.String" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="func" type="java.lang.String" required="false" rtexprvalue="true"/>
 
-    <c:set var="MESSAGE_CAN_PRESS_ENTER"><spring:message javaScriptEscape="true" text="You can press enter for show employee detail."/></c:set>
+    <c:set var="MESSAGE_CAN_PRESS_ENTER"><spring:message javaScriptEscape="true" code="M0064"/></c:set>
 
     <div class="input-group">
         <input id='${id}' onkeypress="UtilLov.onChangeInputLovEmp(this,event)" onchange="${func}" onfocus="UtilLov.onFocus(this)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">

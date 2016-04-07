@@ -96,7 +96,7 @@ function addName() {
 		var _rowspan = findSameRow(works[i]);
 		var html = "";
 		for (var num = 0; num < _rowspan; num++) {
-			if (num == 0) html += "<tr id='" + names[i] + num + "' class='text-left'><td rowspan='" + _rowspan + "'  style='vertical-align: middle; padding: 0px;'>" + empName[i] + "</td></tr>";
+			if (num == 0) html += "<tr id='" + names[i] + num + "' class='text-left'><td rowspan='" + _rowspan + "'  style='vertical-align: middle; padding: 0px ;  padding-left: 5px;'>" + " "+empName[i] + "</td></tr>";
 			else html += "<tr id='" + names[i] + num + "' class='text-center' style='padding: 0px;'></tr>";
 		}
 		$("#tableData").append(html);
