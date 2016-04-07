@@ -16,6 +16,7 @@
 
 	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
+	<c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
 
 	<c:set var="LABEL_VIEW_PLAN"><spring:message javaScriptEscape="true" code="L0099"/></c:set>
 	<c:set var="LABEL_EMPLOYEE_SCHEDULE"><spring:message javaScriptEscape="true" code="L0100"/></c:set>
@@ -75,9 +76,10 @@
 		Label.Nov = '${LABEL_NOV}';
 		Label.Dec = '${LABEL_DEC}';
 		var Message = {};
-		Message.Complete_this_feld = "${MESSAGE_COMPLETE_THIS_FIELD}";
+		Message.Complete_this_feld = "${MESSAGE_COMPLETE_THIS_FIELD}"
 		Message.Number_only = '${MESSAGE_NUMBER_ONLY}';
 		Message.MESSAGE_COMPLETE_DATE = '${MESSAGE_COMPLETE_DATE}';
+		Message.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
 
 		function slidePlan(){
 			var delay = 500;
@@ -153,7 +155,7 @@
 							<label class="col-sm-4 control-label required">${LABEL_START_DATE}</label>
 							<div class='col-sm-2'>
 								<div class='input-group'>
-									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="dd/mm/yyyy" data-placement="bottom"></input>
+									<input class="form-control" type="text" id="dateStart" name="dateStart" placeholder="dd/mm/yyyy" data-placement="bottom"><!--Not Empty--></input>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar" style="cursor:pointer" onclick="$('#dateStart').focus();"></span>
 									</span>
@@ -162,7 +164,7 @@
 							<label class="col-sm-1 control-label required">${LABEL_END_DATE}</label>
 							<div class='col-sm-2'>
 								<div class='input-group'>
-									<input class="form-control" type="text" id="dateEnd" name="dateEnd" placeholder="dd/mm/yyyy" data-placement="bottom"></input>
+									<input class="form-control" type="text" id="dateEnd" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" name="dateEnd" placeholder="dd/mm/yyyy" data-placement="bottom"></input>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar" style="cursor:pointer" onclick="$('#dateEnd').focus();"></span>
 									</span>
@@ -227,7 +229,10 @@
 	</div>
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
-    <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+	<script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+
+	<spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
+	<script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
 
 	<spring:url value="/resources/scripts/Plan/schedulePlan.js" var="schedulePlan"/>
 	<script src="${schedulePlan}" type="text/javascript"><!--Not Empty--></script>	

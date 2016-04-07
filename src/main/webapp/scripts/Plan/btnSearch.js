@@ -1,3 +1,5 @@
+findTeam();
+
 $('#txtYear').focusout(function(){
 	var bool = checkYear();
 	if(bool == true) {
@@ -35,6 +37,10 @@ $("#ddlProject").change(function(){
 		$("#ddlModule").empty();
 		$("#ddlModule").append("<option value=null></option>");
 	}
+});
+
+$("#dateStart").on('change',function(){
+	checkDateFormat($(this), Message.DATE_FORMAT,'');
 });
 
 function checkYear(){
@@ -113,6 +119,34 @@ function searchModuleProjectByProjectId(projectId){
 		async: false
 	});
 	if(resultModule!=null) addDDLToModuleDDL(resultModule.responseJSON);
+}
+
+function findTeam(){
+	var resultTeam = $.ajax({
+		headers: {
+			Accept: "application/json"
+		},
+		type: "GET",
+		url: contextPath + '/central/findTeamAll',
+		complete: function(xhr){
+			if(xhr.status === 201 || xhr.status === 200){
+
+			}else if(xhr.status === 500){
+				resultTeam = null ;
+			}
+		},
+		async: false
+	});
+
+	if(resultTeam!=null) addTeamToTeamDDL(resultTeam.responseJSON);
+}
+
+function addTeamToTeamDDL(team){
+	$("#ddlTeam").empty();
+	$("#ddlTeam").append("<option value=null></option>");
+	for(var i = 0 ; i < team.length ; i++){
+		$("#ddlTeam").append("<option value='"+team[i].id+"'>"+team[i].teamName+"</option>");
+	}
 }
 
 function addDDLToProjectDDL(project){

@@ -26,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.AbstractTemplateView;
 import org.springframework.web.util.UriComponentsBuilder;
 import sun.rmi.runtime.Log;
 
@@ -448,14 +449,24 @@ privileged aspect PlanController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+            List<Map> team = new ArrayList<>();
+            if(!teamId.equals("")) team = emRestService.findAllEmployeeByTeamId(teamId);
+            ArrayList<String> listEmpByTeam = new ArrayList<>() ;
+            for(int i = 0  ; i < team.size() ; i++){
+                listEmpByTeam.add(team.get(i).get("empCode").toString());
+            }
             Map<String,Object> maps = new HashMap<>();
             List<Map<String,Object>> listPlan = new ArrayList<>();
-            List<ModuleMember> listMember = Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
-            List<ModuleManager> listManager = Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,teamId);
-            List<ProjectManager> listProjectManager = Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam(statProject,endProject,projectId,teamId);
+            List<ModuleMember> listMember = Plan.findEmpCodeInModuleMemberByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,listEmpByTeam);
+            List<ModuleManager> listManager = Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,listEmpByTeam);
+            List<ProjectManager> listProjectManager = Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam(statProject,endProject,projectId,listEmpByTeam);
             List<String> listEmpCode = new ArrayList<>();
+            String sempCode = "";
             for(int i = 0 ; i < listMember.size() ; i++){
-                if(listEmpCode.indexOf(listMember.get(i).getEmpCode())==-1) listEmpCode.add(listMember.get(i).getEmpCode());
+                if(listEmpCode.indexOf(listMember.get(i).getEmpCode())==-1) {
+                    listEmpCode.add(listMember.get(i).getEmpCode());
+                    sempCode+=""+listMember.get(i).getEmpCode()+"==";
+                }
             }
             for(int i = 0 ; i < listManager.size() ; i++){
                 if(listEmpCode.indexOf(listManager.get(i).getEmpCode())==-1) listEmpCode.add(listManager.get(i).getEmpCode());

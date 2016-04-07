@@ -59,6 +59,7 @@
 	<c:set var="MESSAGE_NO_CHANGE_DATA"><spring:message javaScriptEscape="true" code="M0012"/></c:set>
 	<c:set var="MESSAGE_COMFIRM_EXIT"><spring:message javaScriptEscape="true" code="M0031"/></c:set>
 	<c:set var="MESSAGE_PLEASE_SELECT_MODULE"><spring:message javaScriptEscape="true" text="Please select module."/></c:set>
+	<c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
 
 	<style>
 	.input-group-addon{
@@ -121,6 +122,7 @@
 		Message.Point_from_module = '${MESSAGE_POINT_FROM_MODULE}';
 		Message.Please_select_module = '${MESSAGE_PLEASE_SELECT_MODULE}';
 		Message.Data_no_change = '${MESSAGE_NO_CHANGE_DATA}';
+		Message.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';
@@ -174,7 +176,7 @@
 						<div class="col-sm-6">
 							<label class="col-sm-6 control-label required" >${LABEL_START_DATE}</label>
 							<div class="col-sm-5 input-group" style="margin-left: 10px;">
-								<input class="form-control marginLeft5" type="text" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
+								<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateStartProject').focus();"></span>
 								</span>
@@ -183,7 +185,7 @@
 						<div class="col-sm-6">
 							<label class="col-sm-3 control-label required" style="margin-left: -20px;">${LABEL_END_DATE}</label>
 							<div class="col-sm-5  input-group">
-								<input class="form-control" type="text" id="dateEndProject" name="dateEndProject" placeholder="dd/mm/yyyy" readonly="true" style="background-color:white" data-placement="bottom"></input>
+								<input class="form-control" type="text" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" id="dateEndProject" name="dateEndProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateEndProject').focus();"></span>
 								</span>
@@ -248,7 +250,7 @@
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
 											<div class="col-sm-5 input-group" style="margin-left: 10px">
-												<input class="form-control marginLeft5" type="text" id="dateStartModule" name="dateStartModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
+												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateStartModule" name="dateStartModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar " style="cursor:pointer;" onclick="$('#dateStartModule').focus();"></span>
 												</span>
@@ -257,7 +259,7 @@
 										<div class="col-sm-6 ">
 											<label class="col-sm-3 control-label required" style="margin-left: -10px" >${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
-												<input class="form-control marginLeft5" type="text" id="dateEndModule" name="dateEndModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
+												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateEndModule" name="dateEndModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar " style="cursor:pointer;" onclick="$('#dateEndModule').focus();"></span>
 												</span>
@@ -341,7 +343,7 @@
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
 											<div class="col-sm-5 input-group" style="margin-left: 15px;">
-												<input class="form-control" type="text" id="dateStartEditModule" name="dateStartEditModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
+												<input class="form-control" type="text" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" id="dateStartEditModule" name="dateStartEditModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateStartEditModule').focus();"></span>
 												</span>
@@ -350,7 +352,7 @@
 										<div class="col-sm-6 ">
 											<label class="col-sm-3 control-label required " style="margin-left: -10px;">${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
-												<input class="form-control marginLeft5" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
+												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateEndEditModule').focus();"></span>
 												</span>
@@ -527,5 +529,8 @@
 	<!-- Script Calendar -->
     <spring:url value="/resources/scripts/createproject/dateTimeEvent.js" var="dateTimeEvent"/>
     <script src="${dateTimeEvent}" type="text/javascript"><!--Not Empty--></script>
+
+	<spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
+	<script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
 
 </div>
