@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP01" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="0.8467108950806768"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="2.1961500000000296"/>
+	<property name="ireport.x" value="1080"/>
+	<property name="ireport.y" value="48"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -194,7 +194,7 @@
 					<textFieldExpression><![CDATA[$P{totalAll}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Band" isBlankWhenNull="true">
-					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" mode="Transparent" x="158" y="76" width="112" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" mode="Transparent" x="158" y="76" width="160" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -236,7 +236,7 @@
 					<textFieldExpression><![CDATA[$P{totalOtAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="70ea69b3-1ff0-403e-b15c-228274daa98a" mode="Transparent" x="158" y="26" width="112" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="70ea69b3-1ff0-403e-b15c-228274daa98a" mode="Transparent" x="158" y="26" width="160" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -250,7 +250,7 @@
 					<textFieldExpression><![CDATA[$V{sumTotalTaskAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="0c1e4ad6-2821-4f32-9ea7-c6f454e8bc1a" mode="Transparent" x="158" y="51" width="112" height="25" backcolor="#D3D3D3"/>
+					<reportElement uuid="0c1e4ad6-2821-4f32-9ea7-c6f454e8bc1a" mode="Transparent" x="158" y="51" width="160" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -264,7 +264,7 @@
 					<textFieldExpression><![CDATA[$V{sumTotalOtTaskAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="e699de87-ddfa-4c1a-8328-bfbcd63565d3" mode="Transparent" x="158" y="0" width="112" height="26" backcolor="#CCCCFF"/>
+					<reportElement uuid="e699de87-ddfa-4c1a-8328-bfbcd63565d3" mode="Transparent" x="158" y="0" width="160" height="26" backcolor="#CCCCFF"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -505,7 +505,7 @@ $P{Error}]]></textFieldExpression>
 				<textFieldExpression><![CDATA[$P{dateStart}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="580" y="63" width="110" height="20"/>
+				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="580" y="63" width="222" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
@@ -533,18 +533,11 @@ $P{Error}]]></textFieldExpression>
 				<textFieldExpression><![CDATA[$P{fPrintName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="580" y="42" width="110" height="21"/>
+				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="580" y="42" width="222" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{printFName}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement uuid="dc993c52-d871-450b-b243-f340805294a1" x="690" y="42" width="112" height="21"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{printLName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{printFName}.concat("      ")+$P{printLName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="a0f595c0-df49-4532-a760-b74fcfb9c649" x="0" y="21" width="158" height="21"/>
