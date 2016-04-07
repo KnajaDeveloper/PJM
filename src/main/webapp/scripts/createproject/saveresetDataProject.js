@@ -60,7 +60,7 @@ function checkDataProject(){
 
 	for(var i = 0 ; i < $("[id^=txtProjectManagerName]").length ; i++) {
 		var id = $("[id^=txtProjectManagerName]")[i].id ;
-		if ($("#"+id).val() == "" || $("#"+id).val() == " ") {
+		if ($("#"+id).val() == "" || $("#"+id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
 			$("#"+id).attr("data-content", Message.Complete_this_feld);
 			$("#"+id).attr("data-placement", "bottom");
 			$("#"+id).popover('show');
