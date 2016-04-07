@@ -173,7 +173,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             }
             LOGGER.debug("=================> List module id {}", listModuleId);
 
-            List<Task> result = null;
+            List<Task> result = new ArrayList<>();
             if (listModuleId.size() > 0) {
                 result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, empCode);
             }
