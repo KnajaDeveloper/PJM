@@ -51,15 +51,8 @@ privileged aspect ProjectController_Custom_Controller {
     public String ProjectController.progressproject(Model uiModel,
         @RequestParam(value = "id", required = false) Long projectID
     ) {
-         String userName = AuthorizeUtil.getUserName();
-         Map employee = emRestService.getEmployeeByUserName(userName);
-         Boolean projectManager = ProjectManager.checkRoleProjects(projectID, employee.get("empCode").toString());
-         if(projectManager == true){
              uiModel.addAttribute("projectID", projectID);
              return "projects/progressproject";
-         } else {
-             return "redirect:/";
-         }
     }
 
     @RequestMapping(value = "/editproject", produces = "text/html")

@@ -80,70 +80,101 @@
     </script>
 
     <div class="container-fluid">
-       <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">${LABEL_PROJECTOVERVIEW}</div>
-            <div class="panel-body">
-                <br/>
-                <div class="col-xs-11 col-xs-offset-1">
-                    <form class="form-inline">
-                        <div class="col-xs-2">
-                            <label class="control-label"><b>${LABEL_PROJECT_NEME}</b></label>
-                            <br/>
-                            <br/>
-                            <label class="control-label"><b>${LABEL_INITIALS_PROJECT}</b></label>
-                            <br/>
-                            <br/>
-                            <label class="control-label"><b>${LABEL_PROJECT_COST}</b></label>
-                            <br/>
-                            <br/>
-                            <label class="control-label"><b>${LABEL_START_DATE}</b></label>
-                            <br/>
-                            <br/>
-                            <label class="control-label"><b>${LABEL_ROJECT_MANAGER}</b></label>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">${LABEL_PROJECTOVERVIEW}</div>
+                    <div class="panel-body">
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <div class="col-sm-4 col-sm-offset-1">
+                                            <label class="">${LABEL_PROJECT_NEME}</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lblName" class=""><jsp:text/></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-xs-2">
-                            <label id="lblName" class="control-label"><jsp:text/></label>
-                            <br/>
-                            <br/>
-                            <label id="lblProjectCode" class="control-label"><jsp:text/></label>
-                            <br/>
-                            <br/>
-                            <label id="lblCostsPoint" class="control-label"><jsp:text/></label>
-                            <br/>
-                            <br/>
-                            <label id="lblStartDate" class="control-label" ><jsp:text/></label>
-                            <br/>
-                            <br/>
-                            <label id="lblCaretakerName" class="control-label"><jsp:text/></label>
-                            <br/>
-                            <br/>
-                            <br/>
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <div class="col-sm-4 col-sm-offset-1">
+                                            <label class="">${LABEL_INITIALS_PROJECT}</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lblProjectCode" class=""><jsp:text/></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-xs-3">
-                            <br/>
-                            <br/>
-                            <br/>
-                            <br/>
-                            <label class="control-label"><b>${LABEL_BALANCE_TOTAL_COST}</b></label>
-                            <br/>
-                            <br/>
-                            <label class="control-label"><b>${LABEL_END_DATE}</b></label>
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <div class="col-sm-4 col-sm-offset-1">
+                                            <label class="">${LABEL_PROJECT_COST}</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lblCostsPoint" class=""><jsp:text/></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-1">
+                                        <div class="col-sm-5">
+                                            <label class="">${LABEL_BALANCE_TOTAL_COST}</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lblBalanceCostsPoints" class=""><jsp:text/></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                            <div class="col-xs-2">
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <label id="lblBalanceCostsPoints" class="control-label"><jsp:text/></label>
-                                <br/>
-                                <br/>
-                                <label id="lbldateEnd" class="control-label"><jsp:text/></label>
-                            </div>
-                        </form>
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <div class="col-sm-4 col-sm-offset-1">
+                                            <label class="">${LABEL_START_DATE}</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lblStartDate" class=""><jsp:text/></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-1">
+                                        <div class="col-sm-5">
+                                            <label class="">${LABEL_END_DATE}</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lbldateEnd" class=""><jsp:text/></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <div class="col-sm-12 col-sm-offset-3">
+                                            <label class="">${LABEL_ROJECT_MANAGER}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label id="lblCaretakerName" class=""><jsp:text/></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>        
+            </div>
+        </div>
 <br/>
 <div class="row">
     <div class="col-xs-12">
@@ -174,22 +205,6 @@
                                 <component:pagging id="paggingSimpleModuleProject"/>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-9">
-                                <form class="form-inline">
-                                    <div class="col-xs-5">
-                                        <label id="lblNameManager" class="control-label"><b><jsp:text/></b></label>
-
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <label id="lblModuleManager" class="control-label"><jsp:text/></label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -197,11 +212,42 @@
     </div>
 </div>
 
+        <div class="row">
+            <!--<div class="col-xs-12">-->
+            <!--<div class="col-md-7 col-md-offset-5">-->
+                <!--<form class="form-inline">-->
+                    <!--<div class="col-xs-5">-->
+                        <!--<label id="lblNameManager" class="control-label"><b><jsp:text/></b></label>-->
 
+                    <!--</div>-->
+                    <!--<div class="col-xs-6">-->
+                        <!--<label id="lblModuleManager" class="control"><jsp:text/></label>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
+            <div class="col-md-8 col-md-offset-4">
+                <div class="card">
+                <div class="card-body">
+                <div class="form-group">
+                <div class="col-md-10 col-md-offset-4">
+                    <form class="form-inline">
+                        <div class="col-xs-4">
+                            <label id="lblNameManager" class="control-label"><b><jsp:text/></b></label>
 
-
-</div>
+                        </div>
+                        <div class="col-xs-7">
+                            <label id="lblModuleManager" class="control"><jsp:text/></label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+                </div>
+        </div>
+    </div>
 </div>
 
 <script>
