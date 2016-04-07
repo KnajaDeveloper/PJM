@@ -1,6 +1,6 @@
 package com.app2.app2t.central;
 
-
+import com.app2.app2t.domain.pjm.*;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public aspect CentralController_Custom_Controller_Json {
     @RequestMapping(value = "/findEmployeeByText", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
@@ -88,6 +90,30 @@ public aspect CentralController_Custom_Controller_Json {
         } catch (Exception e) {
             LOGGER.error("findEvaPeriodTime :{}", e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/findEmpCodeByModuleProjectId", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> CentralController.findEmpCodeByModuleProjectId(
+        @RequestParam(value = "moduleProjectId", required = false) Long moduleProjectId
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Map<String,Object>> resultSearch = new ArrayList<>();
+            List<ModuleManager> moduleManageres = ModuleManager.findEmpCodeByModuleProjectId(moduleProjectId);
+            for (ModuleManager moduleManager: moduleManageres) {
+                Map<String,Object> buffer = new HashMap<>();
+                Map employee = emRestService.getEmployeeByEmpCode(moduleManager.getEmpCode());
+                buffer.put("empCode", moduleManager.getEmpCode());
+                buffer.put("empFirstName", employee.get("empFirstName"));
+                buffer.put("empLastName", employee.get("empLastName"));
+                resultSearch.add(buffer);
+            }
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

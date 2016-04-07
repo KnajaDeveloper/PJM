@@ -147,8 +147,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            List<Task> taskSize = Task.findSizeFileByFileName(fileName);
-            if(!fileName.equals("null") && taskSize.size() == 0){
+            if(!fileName.equals("null")){
                 Task.uploadFileAndInsertDataFile(programID, taskCode, multipartHttpServletRequest);
             }
             List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
@@ -187,21 +186,6 @@ privileged aspect TaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             List<Task> result = Task.findSizeTaskByTaskCode(id, taskCode);
-            return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/findSizeFileByFileName",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
-    public ResponseEntity<String> TaskController.findSizeFileByFileName(
-            @RequestParam(value = "fileName", required = false) String fileName
-    ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<Task> result = Task.findSizeFileByFileName(fileName);
             return  new ResponseEntity<String>(result.size() + "", headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
