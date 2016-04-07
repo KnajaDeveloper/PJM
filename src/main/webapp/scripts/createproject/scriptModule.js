@@ -394,7 +394,7 @@ function checkModal(){
 	var count_Element = $("[id^=txtModuleManagerName").length ;
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtModuleManagerName")[i].id;
-		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
+		if($("#"+id).val() == "" || $("#"+id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
 			$("#"+id).attr("data-placement","bottom");
 			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
@@ -405,7 +405,7 @@ function checkModal(){
 	count_Element = $("[id^=txtModuleMemberName").length ;
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtModuleMemberName")[i].id;
-		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
+		if($("#"+id).val() == "" || $("#"+id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
 			$("#"+id).attr("data-placement","bottom");
 			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
@@ -515,7 +515,7 @@ function checkEditModal(){
 
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtEditModuleManagerName")[i].id;
-		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
+		if($("#"+id).val() == "" || $("#"+id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
 			$("#"+id).attr("data-placement","bottom");
 			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');
@@ -526,7 +526,7 @@ function checkEditModal(){
 	count_Element = $("[id^=txtEditModuleMemberName").length ;
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtEditModuleMemberName")[i].id;
-		if($("#"+id).val() == "" || $("#"+id).val() == " ") {
+		if($("#"+id).val() == "" || $("#"+id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
 			$("#"+id).attr("data-placement","bottom");
 			$("#"+id).attr("data-content",Message.Complete_this_feld);
 			$("#"+id).popover('show');

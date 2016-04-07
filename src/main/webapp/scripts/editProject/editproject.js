@@ -409,10 +409,12 @@ function checkEditModal() {
         $('#dateEndEditModule').popover('show');
         return false;
     }
+
+
     var count_Element = $("[id^=txtEditModuleManagerName").length;
     for (var i = 0; i < count_Element; i++) {
         var id = $("[id^=txtEditModuleManagerName")[i].id;
-        if ($("#" + id).val() == "" || $("#" + id).val() == " ") {
+        if ($("#" + id).val() == "" || $("#" + id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
             $("#" + id).attr("data-placement", "bottom");
             $("#" + id).attr("data-content", Message.Complete_this_feld);
             $("#" + id).popover('show');
@@ -423,7 +425,7 @@ function checkEditModal() {
     count_Element = $("[id^=txtEditModuleMemberName").length;
     for (var i = 0; i < count_Element; i++) {
         var id = $("[id^=txtEditModuleMemberName")[i].id;
-        if ($("#" + id).val() == "" || $("#" + id).val() == " ") {
+        if ($("#" + id).val() == "" || $("#" + id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
             $("#" + id).attr("data-placement", "bottom");
             $("#" + id).attr("data-content", Message.Complete_this_feld);
             $("#" + id).popover('show');
@@ -507,10 +509,15 @@ function checkDataProject() {
         $('#dateEndProject').popover('show');
         return false;
     }
-    if ($("#txtProjectManagerName1").val() == "" || $("#txtProjectManagerName1").val() == " ") {
-        $('#txtProjectManagerName1').attr("data-content", Message.Complete_this_feld);
-        $('#txtProjectManagerName1').popover('show');
-        return false;
+
+    for(var i = 0 ; i < $("[id^=txtProjectManagerName]").length ; i++) {
+        var id = $("[id^=txtProjectManagerName]")[i].id ;
+        if ($("#"+id).val() == "" || $("#"+id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
+            $("#"+id).attr("data-content", Message.Complete_this_feld);
+            $("#"+id).attr("data-placement", "bottom");
+            $("#"+id).popover('show');
+            return false;
+        }
     }
 
     var arrManager = [];
@@ -678,19 +685,17 @@ function findDataKeepToParameter(projectId) {
 }
 
 function setData() {
+    findDetailEmpByEmpCode();
     $("#txtProjectName").val("" + dataDetail.responseJSON.Project[0].projectName);
     $("#txtInitialProjectName").val("" + dataDetail.responseJSON.Project[0].projectCode);
     $("#txtCostsProject").val("" + dataDetail.responseJSON.Project[0].projectCost);
     $("#dateStartProject").val("" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.Project[0].dateStart, _language));
     $("#dateEndProject").val("" + DateUtil.dataDateToFrontend(dataDetail.responseJSON.Project[0].dateEnd, _language));
     var count_PM = dataDetail.responseJSON.ProjectManager.length;
-    $("#txtProjectManagerName1").val("" + dataDetail.responseJSON.ProjectManager[0].empCode);
+    var test1 = detailEmp[dataDetail.responseJSON.ProjectManager[0].empCode];
+    $("#txtProjectManagerName1").val("" + detailEmp[dataDetail.responseJSON.ProjectManager[0].empCode]);
     $("#txtProjectManagerName1").data("dataCode" ,""+ dataDetail.responseJSON.ProjectManager[0].empCode);
-    detailEmp = [];
-    for (var j = 1; j < count_PM; j++) {
-        //var html = "<div style='padding-top: 5px;' id='container_subProjectManager" + (j + 1) + "'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-        //    "<input type='text' class='form-control' style='margin-top:5px;' id='txtProjectManagerName" + [j + 1] + "'></input></div>" +
-        //    "<button id='btnDeletePM" + (j + 1) + "' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)'>" + Button.Delete + "</button></div>";
+    for (var j = 1; j < count_PM; j++) {;
         var html = "<div style='padding-top: 10px;' id='container_subProjectManager"+(j + 1) +"'><label class='col-sm-3 control-label'></label>" +
             "<div class='col-sm-3 display:inline-block''>"+
             "<div class='input-group display:inline-block'>"+
@@ -706,15 +711,15 @@ function setData() {
             "<button id='btnDeletePM"+(j + 1) +"' type='button' class='btn btn-danger' onclick='btnDeleteProjectManager(this.id)' style='margin-top: -0.5px'>"+Button.Delete+"</button>" +
             "</div>";
         $("#subProjectManager").append(html);
-        $("#txtProjectManagerName" + (j + 1)).val("" + dataDetail.responseJSON.ProjectManager[j].empCode);
+        $("#txtProjectManagerName" + (j + 1)).val("" + detailEmp[dataDetail.responseJSON.ProjectManager[j].empCode]);
         $("#txtProjectManagerName" + (j + 1)).data("dataCode" ,""+ dataDetail.responseJSON.ProjectManager[j].empCode);
     }
 
     var countModule = dataDetail.responseJSON.ModuleProject.length;
     for (var i = 0; i < countModule; i++) {
         ModuleProject[i] = dataDetail.responseJSON.ModuleProject[i];
-        var allModuleManager = moduleManagerToFrontEnd(i);
-        var allModuleMember = moduleMemberToFrontEnd(i);
+        var allModuleManager = moduleManagerDetailToFrontEnd(i);
+        var allModuleMember = moduleMemberDetailToFrontEnd(i);
         var html = "<div class='panel panel-default' style='outline: 1px solid gray;' id='subrecordsModule" + i + "'>" +
             "<div class='panel-heading' role='tab' id='heading" + i + "'>" +
             "<h4 class='panel-title'>" +
@@ -760,19 +765,18 @@ function setData() {
             "</div>";
         $("#recordsModule").append(html);
     }
-    findDetailEmpByEmpCode();
-    $("#txtProjectManagerName1").val(detailEmp[$("#txtProjectManagerName1").val()]);
-    for (var j = 1; j < count_PM; j++) {
-        $("#txtProjectManagerName" + (j + 1)).val(detailEmp[$("#txtProjectManagerName" + (j + 1)).val()]);
-    }
-    for (var i = 0; i < countModule; i++) {
-        var allModuleManager = moduleManagerDetailToFrontEnd(i);
-        var allModuleMember = moduleMemberDetailToFrontEnd(i);
-        $("#lbEditModuleManager" + i).empty();
-        $("#lbEditModuleMember" + i).empty();
-        $("#lbEditModuleManager" + i).append(allModuleManager);
-        $("#lbEditModuleMember" + i).append(allModuleMember);
-    }
+    //$("#txtProjectManagerName1").val(detailEmp[$("#txtProjectManagerName1").val()]);
+    //for (var j = 1; j < count_PM; j++) {
+    //    $("#txtProjectManagerName" + (j + 1)).val(detailEmp[$("#txtProjectManagerName" + (j + 1)).val()]);
+    //}
+    //for (var i = 0; i < countModule; i++) {
+    //    var allModuleManager = moduleManagerDetailToFrontEnd(i);
+    //    var allModuleMember = moduleMemberDetailToFrontEnd(i);
+    //    $("#lbEditModuleManager" + i).empty();
+    //    $("#lbEditModuleMember" + i).empty();
+    //    $("#lbEditModuleManager" + i).append(allModuleManager);
+    //    $("#lbEditModuleMember" + i).append(allModuleMember);
+    //}
     keepDataForCheckChange("project", "oldDataProject");
 }
 
@@ -785,10 +789,7 @@ function findDetailEmpByEmpCode(){
         headers: {
             Accept: "application/json"
         },
-        url: contextPath + '/central/findEmployeeByEmpCodeArray',
-        data: {
-            empCode: arrEmpCode
-        },
+        url: contextPath + '/central/findAllEmployeeByEmpCodeArray',
         complete: function (xhr) {
 
         },
@@ -1033,7 +1034,7 @@ function checkModal() {
     var count_Element = $("[id^=txtModuleManagerName").length;
     for (var i = 0; i < count_Element; i++) {
         var id = $("[id^=txtModuleManagerName")[i].id;
-        if ($("#" + id).val() == "" || $("#" + id).val() == " ") {
+        if ($("#" + id).val() == "" || $("#" + id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
             $("#" + id).attr("data-placement", "bottom");
             $("#" + id).attr("data-content", Message.Complete_this_feld);
             $("#" + id).popover('show');
@@ -1044,7 +1045,7 @@ function checkModal() {
     count_Element = $("[id^=txtModuleMemberName").length;
     for (var i = 0; i < count_Element; i++) {
         var id = $("[id^=txtModuleMemberName")[i].id;
-        if ($("#" + id).val() == "" || $("#" + id).val() == " ") {
+        if ($("#" + id).val() == "" || $("#" + id).val() == " " || $("#"+id).data("dataCode") == null || $("#"+id).data("dataCode") == "") {
             $("#" + id).attr("data-placement", "bottom");
             $("#" + id).attr("data-content", Message.Complete_this_feld);
             $("#" + id).popover('show');
@@ -1728,10 +1729,29 @@ function editModuleManagerChange(obj){
         var checkSame = checkEditSameNameMember($("[id^=txtEditModuleManagerName]")[i].value);
         if(checkSame) {
             var count_elements = countEditModuleMember + 1;
-            var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
-                "<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input></div>" +
-                "<div class='btn'>&nbsp</div></div>";
-            $("#subEditModuleMember").append(html);
+            //var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'><label class='col-sm-3 control-label'></label><div class='col-sm-3'>" +
+            //    "<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input></div>" +
+            //    "<div class='btn'>&nbsp</div></div>";
+            var html = "<div style='padding-top: 10px;' id='container_subEditModuleMember"+[count_elements+1]+"' from='modulemanager'>" +
+                "<div style='margin-bottom:5px;'></div>"+
+                "<label class='col-sm-3 control-label'></label>" +
+                "<div class='col-sm-4 display:inline-block''>"+
+                "<div class='input-group display:inline-block'>"+
+                "<input id='txtEditModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+                "<span class='input-group-addon'>"+
+                "<span id='BtntxtEditModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
+                "<jsp:text/>"+
+                "</span>"+
+                "</span>"+
+                "</input>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "<div class='btn'></div>";
+
+
+                $("#subEditModuleMember").append(html);
             $("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
             $("#txtEditModuleMemberName" + [count_elements + 1]).disableSelection();
             countEditModuleMember++;
