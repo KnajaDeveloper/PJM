@@ -42,7 +42,7 @@
     <c:set var="ALERT_YOU_NOT_ACCESS_RIGHTS" scope="request"><spring:message code="M0063"/></c:set>
     <c:set var="ALERT_DATA_ALL_IN_USE" scope="request"><spring:message code="M0061"/></c:set>
     <c:set var="ALERT_LIST" scope="request"><spring:message code="M0027"/></c:set>
-
+    <c:set var="LABEL_POINT" scope="request"><spring:message code="L0030"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -58,6 +58,7 @@
         MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS = '${ALERT_YOU_NOT_ACCESS_RIGHTS}';
         MESSAGE.ALERT_DATA_ALL_IN_USE = '${ALERT_DATA_ALL_IN_USE}';
         MESSAGE.ALERT_LIST = '${ALERT_LIST}';
+        MESSAGE.LABEL_POINT = '${LABEL_POINT}';
 
     </script>
     <div class="row">
