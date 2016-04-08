@@ -95,7 +95,7 @@
     <c:set var="LABEL_EDIT" scope="request"><spring:message code="L0035"/></c:set>
     <c:set var="LABEL_EDIT_PROGRAM" scope="request"><spring:message code="L0086"/></c:set>
     <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message code="L0087"/></c:set>
-    <c:set var="LABEL_FILE_SIZE_OF_NO_MORE_THAN_100_MB" scope="request"><spring:message text="*File size of no more than 100 MB"/></c:set>
+    <c:set var="LABEL_FILE_SIZE_OF_NO_MORE_THAN_100_MB" scope="request"><spring:message code="L0138"/></c:set>
 
     <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message code="B0015"/></c:set>
     <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message code="B0016"/></c:set>
@@ -134,7 +134,7 @@
     <c:set var="MSG_DATA_ALL_IN_USED" scope="request"><spring:message code="M0061"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS" scope="request"><spring:message code="M0065"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS" scope="request"><spring:message code="M0067"/></c:set>
-    <c:set var="MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT" scope="request"><spring:message text="You select a File size over limit."/></c:set>
+    <c:set var="MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT" scope="request"><spring:message code="M0068"/></c:set>
 
     
     <script type="text/javascript">
