@@ -179,7 +179,7 @@ paggination.loadTable = function loadTable(jsonData) {
                 + DateUtil.dataDateToFrontend(value.dateEnd, _language)
                 + '</td>'
                 + '<td id="projectCost' + key++ + '" class="text-center" style="color: #000">'
-                + value.projectCost
+                + value.projectCost + MESSAGE.LABEL_POINT +
                 + '</td>'
                 + '</tr>';
             $('#ResualtSearch').append(
