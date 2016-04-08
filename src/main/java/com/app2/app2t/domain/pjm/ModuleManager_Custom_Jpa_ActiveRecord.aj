@@ -83,12 +83,4 @@ privileged aspect ModuleManager_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("empCode", empCode));
         return criteria.list();
     }
-
-    public static List<ModuleManager> ModuleManager.findEmpCodeByModuleProjectId(Long moduleProjectId) {
-        EntityManager ent = ModuleManager.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class, "moduleManager");
-        criteria.createAlias("moduleManager.moduleProject", "moduleProject");
-        criteria.add(Restrictions.eq("moduleProject.id", moduleProjectId));
-        return criteria.list();
-    }
 }
