@@ -95,6 +95,7 @@
     <c:set var="LABEL_EDIT" scope="request"><spring:message code="L0035"/></c:set>
     <c:set var="LABEL_EDIT_PROGRAM" scope="request"><spring:message code="L0086"/></c:set>
     <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message code="L0087"/></c:set>
+    <c:set var="LABEL_FILE_SIZE_OF_NO_MORE_THAN_100_MB" scope="request"><spring:message text="*File size of no more than 100 MB"/></c:set>
 
     <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message code="B0015"/></c:set>
     <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message code="B0016"/></c:set>
@@ -132,7 +133,9 @@
     <c:set var="MSG_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
     <c:set var="MSG_DATA_ALL_IN_USED" scope="request"><spring:message code="M0061"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS" scope="request"><spring:message code="M0065"/></c:set>
-    <c:set var="MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS" scope="request"><spring:message text="Please enter a only positive integer numbers."/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS" scope="request"><spring:message code="M0067"/></c:set>
+    <c:set var="MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT" scope="request"><spring:message text="You select a File size over limit."/></c:set>
+
     
     <script type="text/javascript">
         var Label = {};
@@ -176,6 +179,7 @@
         Message.MSG_DATA_ALL_IN_USED = '${MSG_DATA_ALL_IN_USED}';
         Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS = '${MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS}';
         Message.MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS = '${MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS}';
+        Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT = '${MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT}';
     </script>
 
     <div class="row">
@@ -382,7 +386,7 @@
                                     <label class="">${LABEL_DETAILS}</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <textarea id="txtaDetail" class="" rows="5" style="width: 80%; "><jsp:text/></textarea>
+                                    <textarea id="txtaDetail" class="" rows="5" style="width: 80%;" readonly="true"><jsp:text/></textarea>
                                 </div>
                             </div>
                         </div>
@@ -542,13 +546,17 @@
                                 <div class="col-sm-1">
                                     <input id="myInput" type="file" style="visibility:hidden" />
                                 </div>
+                                <br/>
+                                <div class="col-sm-4">
+                                    <label class="control-label" style="color: #FF0000; font-size: 10px;">${LABEL_FILE_SIZE_OF_NO_MORE_THAN_100_MB}</label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label ">${LABEL_DETAILS}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea id="txtaDescription" class="" rows="5" style="width: 100%;"><jsp:text/></textarea>
+                                    <textarea id="txtaDescription" maxlength="255" class="" rows="5" style="width: 100%;" ><jsp:text/></textarea>
                                 </div>
                             </div>
                         </form>
