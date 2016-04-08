@@ -101,11 +101,11 @@ public aspect CentralController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             List<Map<String,Object>> resultSearch = new ArrayList<>();
-            List<ModuleManager> moduleManageres = ModuleManager.findEmpCodeByModuleProjectId(moduleProjectId);
-            for (ModuleManager moduleManager: moduleManageres) {
+            List<ModuleMember> moduleMemberes = ModuleMember.findEmpCodeByModuleProjectId(moduleProjectId);
+            for (ModuleMember moduleMember: moduleMemberes) {
                 Map<String,Object> buffer = new HashMap<>();
-                Map employee = emRestService.getEmployeeByEmpCode(moduleManager.getEmpCode());
-                buffer.put("empCode", moduleManager.getEmpCode());
+                Map employee = emRestService.getEmployeeByEmpCode(moduleMember.getEmpCode());
+                buffer.put("empCode", moduleMember.getEmpCode());
                 buffer.put("empFirstName", employee.get("empFirstName"));
                 buffer.put("empLastName", employee.get("empLastName"));
                 buffer.put("empNickName", employee.get("empNickName"));
