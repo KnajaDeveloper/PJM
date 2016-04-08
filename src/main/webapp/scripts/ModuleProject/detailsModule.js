@@ -1,4 +1,5 @@
 var fileName = null;
+var fileSize = null;
 
 $(document).ready(function(){
     var checkdDb = $.ajax({
@@ -44,6 +45,7 @@ $(document).ready(function(){
         var file = document.getElementById("myInput").files[0];
         if (file) {
         	fileName = file.name;
+        	fileSize = file.size;
         	if((file.name).indexOf('.') > 20){
         		$('#fileName').text((file.name).substring(0, 20) + "...").attr("title" , file.name);
         	}else{
