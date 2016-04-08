@@ -148,10 +148,11 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArray = new JSONArray(json);
-            Long moduleId = jsonArray.getLong(0);
-            JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(1);
-            boolean getMyTask = jsonArray.getBoolean(2);
-            boolean getOtherTask = jsonArray.getBoolean(3);
+            Long projectId = jsonArray.getLong(0);
+            Long moduleId = jsonArray.getLong(1);
+            JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(2);
+            boolean getMyTask = jsonArray.getBoolean(3);
+            boolean getOtherTask = jsonArray.getBoolean(4);
 
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
@@ -160,7 +161,7 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             List<Long> listModuleId = new ArrayList<>();
             if (moduleId == 0) {  // all module
-                List<Long> moduleIds = ModuleMember.findDistinctModuleByEmpCode(empCode);
+                List<Long> moduleIds = ModuleMember.findDistinctModuleByProjectAndEmpCode(projectId, empCode);
                 for (Long mdId : moduleIds) {
                     listModuleId.add(mdId);
                 }
@@ -195,7 +196,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             String empCode = employee.get("empCode").toString();
             LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
-            List<Long> moduleIds = ModuleMember.findDistinctModuleByEmpCode(empCode);
+            List<Long> moduleIds = ModuleMember.findDistinctModuleByProjectAndEmpCode(0L, empCode);
             List<ModuleProject> result = new ArrayList<>();
             for (Long mdId : moduleIds) {
                 result.add(ModuleProject.findModuleProject(mdId));
