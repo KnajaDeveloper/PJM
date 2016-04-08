@@ -422,7 +422,7 @@
 											<label class="col-sm-4 control-label required">${LABEL_MODULE_NAME}</label>
 											<div class="col-sm-4">
 												<select class="form-control" id="ddlIncreseCostModuleName" data-placement="bottom" style="margin-left: -10px">
-													<option>--- ${LABEL_MODULE_NAME} ---</option>
+													<option value=''><!--Not Empty--></option>
 												</select>
 											</div>
 										</div>
@@ -487,9 +487,6 @@
 
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
 	<script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
-
-	<spring:url value="/resources/scripts/common.js" var="common"/>
-	<script src="${common}" type="text/javascript"><!--Not Empty --></script>
 
 	<spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
 	<script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
