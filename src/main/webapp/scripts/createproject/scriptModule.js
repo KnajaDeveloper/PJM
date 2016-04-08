@@ -277,7 +277,6 @@ function SaveModule(cost){
 							return true;
 						}
 					},
-
 					async: false
 				});
 			}
@@ -871,10 +870,12 @@ function closeModalIncrese(){
 			if (result) {
 				$("#modalIncreseCost").modal('hide');
 				$("#txtIncreseCostModuleCost").val("");
+				$(".popover ").hide()
 			}
 		});
 	}
 	else{
 		$("#modalIncreseCost").modal('hide');
+		$(".popover ").hide()
 	}
 }
