@@ -286,6 +286,8 @@ $('#btnAddTask').click(function() {
     $('#txtEmpName').val(null);
     $('#dateStartProject').val(null).popover('hide').change();
     $('#dateEndProject').val(null).popover('hide').change();
+    DateUtil.setMinDate('dateStartProject', 'dateEndProject');
+    DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
     $('#txtProgress').val("0");
     $('#txtaDescription').val("");
 });
