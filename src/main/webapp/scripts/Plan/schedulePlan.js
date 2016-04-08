@@ -182,7 +182,7 @@ function addWork() {
 				var same = findSameCol(workRow[j], workDate);
 				var class_ = "progress-bar-" + backColor[i % backColor.length] + " text-center";
 				if (work[workDate] != 0)
-					html += "<td colspan='" + same + "' style='width:65px; padding: 0px;'><div class='" + class_ + "' style='width: 100%;'><font color='white' size='1'>" + work[workDate] + "</font></div></td>";
+					html += "<td colspan='" + same + "' style='width:65px; padding: 0px;'><div class='" + class_ + "' style='width: 100%;'><font color='black' class='nameTask' size='1'>" + work[workDate] + "</font></div></td>";
 				else
 					html += "<td colspan='" + same + "' style='width:65px; padding: 0px;'></td>";
 				if (same != 0) workDate += same - 1;
