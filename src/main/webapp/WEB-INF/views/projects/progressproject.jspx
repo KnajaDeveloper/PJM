@@ -88,13 +88,13 @@
                         <div class="col-sm-10 col-sm-offset-1">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <div class="col-sm-5">
-                                        <div class="col-sm-4 col-sm-offset-1">
-                                            <label class="">${LABEL_PROJECT_NEME}</label>
+                                    <div class="col-sm-2">
+                                        <div class="col-sm-12 col-sm-offset-2">
+                                            <label class="" style="margin-left: 9px">${LABEL_PROJECT_NEME}</label>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label id="lblName" class=""><jsp:text/></label>
-                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <label id="lblName" class="" style="margin-left: 10px"><jsp:text/></label>
                                     </div>
                                 </div>
                             </form>
