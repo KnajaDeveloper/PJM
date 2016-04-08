@@ -121,6 +121,7 @@ $('#ddlProject').change(function() {
 $('#btnSearchByModule').click(function () {
     $('#grpResultModuleSearch').empty();
 
+    var projectCode = $('#ddlProject').val();
     var moduleCode = $('#ddlJobModule').val();
     var arrTypeTask = [];
 
@@ -139,7 +140,7 @@ $('#btnSearchByModule').click(function () {
             Accept: "application/json"
         },
         url: contextPath + '/plans/findTaskByModuleAndTypeTask',
-        data: JSON.stringify([moduleCode, arrTypeTask, getMyTask, getOtherTask]),
+        data: JSON.stringify([projectCode, moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
                 if(data.length > 10)
@@ -540,7 +541,7 @@ $('#btnCancelAddPlan').click(function () {
 });
 
 $('#btnCancelTask').click(function () {
-    var taskId = $('#taskId').val();
+    var taskId = $('#mdAddToPlan').attr('taskid');
     bootbox.confirm(MESSAGE.CONFIRM_LEAVE, function (result) {
         if (result) {
             $.ajax({
@@ -1155,7 +1156,7 @@ Date.prototype.withoutTime = function () {
 
 function isExpiredDate(dates, dateEnd) {
     var expired = false;
-    dateEnd = new Date(parseFloat(dateEnd));
+    dateEnd = DateUtil.dataDateToDataBase(dateEnd, _language);
     $.each(dates, function(k, v){
         if(new Date(v.dateEnd).withoutTime() > dateEnd)
             expired = true;
