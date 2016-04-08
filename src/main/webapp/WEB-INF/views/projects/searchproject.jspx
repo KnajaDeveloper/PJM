@@ -41,6 +41,7 @@
     <c:set var="LABEL_MODULE_MANAGEMENT" scope="request"><spring:message code="L0029"/></c:set>
     <c:set var="ALERT_YOU_NOT_ACCESS_RIGHTS" scope="request"><spring:message code="M0063"/></c:set>
     <c:set var="ALERT_DATA_ALL_IN_USE" scope="request"><spring:message code="M0061"/></c:set>
+    <c:set var="ALERT_LIST" scope="request"><spring:message code="M0027"/></c:set>
 
 
     <script>
@@ -56,6 +57,7 @@
         MESSAGE.DATE_FORMAT = '${DATE_FORMAT}';
         MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS = '${ALERT_YOU_NOT_ACCESS_RIGHTS}';
         MESSAGE.ALERT_DATA_ALL_IN_USE = '${ALERT_DATA_ALL_IN_USE}';
+        MESSAGE.ALERT_LIST = '${ALERT_LIST}';
 
     </script>
     <div class="row">
