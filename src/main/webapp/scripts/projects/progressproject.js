@@ -125,7 +125,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
         text =  ''
             +'<tr id ="trData' + key++ + '">'
             +'<td class="text-center"><button id="btnDetailModule' + value.id + '" type="button" class="btn btn-info btn-xs" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></td>'
-            +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-center" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
+            +'<td  id="tdModuleName" moduleId="' + value.id + '" class="text-left" onclick="onClickTrProgram(this)">' + value.moduleName + '</td>'
             +'<td  id="tdProgest" moduleId="' + value.id + '"onclick="onClickTrProgram(this)"> <div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: '+ parseFloat(checkProgress).toFixed(2) + '%; color:#000">'
             + checkPercent  + '%'
             +'</div>'

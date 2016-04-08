@@ -161,12 +161,12 @@
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <div class="col-sm-12 col-sm-offset-3">
-                                            <label class="">${LABEL_ROJECT_MANAGER}</label>
+                                        <div class="col-sm-12 col-sm-offset-2">
+                                            <label class="" style="margin-left: 9px">${LABEL_ROJECT_MANAGER}</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label id="lblCaretakerName" class=""><jsp:text/></label>
+                                        <label id="lblCaretakerName" class="" style="margin-left: 10px"><jsp:text/></label>
                                     </div>
                                 </div>
                             </form>
@@ -213,33 +213,18 @@
 </div>
 
         <div class="row">
-            <!--<div class="col-xs-12">-->
-            <!--<div class="col-md-7 col-md-offset-5">-->
-                <!--<form class="form-inline">-->
-                    <!--<div class="col-xs-5">-->
-                        <!--<label id="lblNameManager" class="control-label"><b><jsp:text/></b></label>-->
-
-                    <!--</div>-->
-                    <!--<div class="col-xs-6">-->
-                        <!--<label id="lblModuleManager" class="control"><jsp:text/></label>-->
-                    <!--</div>-->
-                <!--</form>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-
             <div class="col-md-8 col-md-offset-4">
                 <div class="card">
                 <div class="card-body">
                 <div class="form-group">
                 <div class="col-md-10 col-md-offset-4">
                     <form class="form-inline">
-                        <div class="col-xs-4">
-                            <label id="lblNameManager" class="control-label"><b><jsp:text/></b></label>
+                        <div class="col-xs-2">
+                            <label id="lblNameManager" class=""><b><jsp:text/></b></label>
 
                         </div>
                         <div class="col-xs-7">
-                            <label id="lblModuleManager" class="control"><jsp:text/></label>
+                            <label id="lblModuleManager" class="" ><jsp:text/></label>
                         </div>
                     </form>
                 </div>
