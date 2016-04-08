@@ -51,20 +51,20 @@ function LovEmpQueryEvent(inputId) {
         var data = {
             teamID : $("#"+team).val()
             //teamID : 100001
-        }
+        };
         var jsonData = AjaxUtil.get({
             url: contextPath + "/central/" + controller,
             data: data
-        })
+        });
     }
     else if(moduleProject!=""){
         var data = {
             moduleProjectId : $("#"+moduleProject).val()
-        }
+        };
         var jsonData = AjaxUtil.get({
             url: contextPath + "/central/" + controller,
             data: data
-        })
+        });
     }
     else{
         var data = {
