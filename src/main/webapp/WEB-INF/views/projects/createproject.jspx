@@ -16,6 +16,7 @@
 	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
 	<c:set var="LABEL_PROJECT"><spring:message javaScriptEscape="true" code="L0027"/></c:set>
 	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" code="L0089"/></c:set>
+	<c:set var="LABEL_INITIAL_NAME_MODULE"><spring:message javaScriptEscape="true" code="L0076"/></c:set>
 	<c:set var="LABEL_COST"><spring:message javaScriptEscape="true" code="L0092"/></c:set>
 	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" code="L0049"/></c:set>
 	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
@@ -128,10 +129,6 @@
 		Button.Edit = '${BUTTON_EDIT}';
 	</script>
 
-	<!--<div class="col-sm-3">-->
-	<!--<component:LovEmployee id="lovemployee"/>-->
-	<!--</div>-->
-
 	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
 	<spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
 	<script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
@@ -165,8 +162,12 @@
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<span id="btnIncresePoint" type="button" class="btn btn-primary text-center" style="margin-top: 0px;">+</span>
-							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px">-</span>
+							<span id="btnIncresePoint" type="button" class="btn btn-success" style="margin-top: 0px;">
+								<font size="1" class="glyphicon glyphicon-plus"><!--Not Empty--></font>
+							</span>
+							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px">
+								 <font size="1" class="glyphicon glyphicon-minus"><!--Not Empty--></font>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -175,8 +176,8 @@
 					<div class="form-inline">
 						<div class="col-sm-6">
 							<label class="col-sm-6 control-label required" >${LABEL_START_DATE}</label>
-							<div class="col-sm-5 input-group" style="margin-left: 10px;">
-								<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
+							<div class="col-sm-5 input-group" style="margin-left: 15px;">
+								<input class="form-control" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateStartProject').focus();"></span>
 								</span>
@@ -196,10 +197,9 @@
 
 				<div id="container_nameManager" class="form-group">
                     <div id='container_subProjectManager1'>
-                    	<div style='padding-bottom:5px;'>
+                    	<div style='padding-bottom:8px;'>
 	                        <label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
 	                        <div class="col-sm-3">
-	                            <!--<input type="text" class="form-control" id="txtProjectManagerName1" data-placement="bottom"></input>-->
 								<component:LovEmployee id="txtProjectManagerName1" controller="findEmployeeByText"/>
 	                        </div>
 	                        <div class='btn'><!--Not Empty--></div>
@@ -234,7 +234,7 @@
 								</div>
 
 								<div name="container_initialName_costsProject" class="form-group">
-									<label class="col-sm-3 control-label required" >${LABEL_INITIAL_NAME}</label>
+									<label class="col-sm-3 control-label required" >${LABEL_INITIAL_NAME_MODULE}</label>
 									<div class="col-sm-3">
 										<input type="text" class="form-control" id="txtInitialModuleName1"></input>
 									</div>
@@ -268,16 +268,14 @@
 									</div>
 								</div>
 
-								<div id="container_nameModuleManager" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameModuleManager" class="form-horizontal">
+									<div style='' id='container_subModuleManager1' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER}</label>
 										<div class="col-sm-4">
 											<component:LovEmployee id="txtModuleManagerName1" controller="findEmployeeByText" func="moduleManagerChange(this)"/>
-											<!--<input type="text" class="form-control" id="txtModuleManagerName1" onchange="moduleManagerChange(this)"></input>-->
 										</div>
 										<div class='btn'><!--Not Empty--></div>
 									</div>
-
 									<span id="subModuleManager"><!--Not Empty--></span>
 								</div>
 
@@ -286,22 +284,22 @@
 									<button id="btnAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
-								<div id="container_nameModuleMember" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameModuleMember" class="form-horizontal">
+									<div style='' id='container_subModuleMember1' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MEMBER} </label>
 										<div class="col-sm-4">
 											<component:LovEmployee id="txtModuleMemberName1" controller="findEmployeeByText"/>
-											<!--<input type="text" class="form-control" id="txtModuleMemberName1"></input>-->
 										</div>
 										<div class='btn'><!--Not Empty--></div>
 									</div>
-										<span id="subModuleMember"><!--Not Empty--></span>
+									<span id="subModuleMember"><!--Not Empty--></span>
 								</div>
 
 								<div name="container_btnAddProjectManager" class="form-group">
 									<div class="col-sm-3 btnAddPM"> <!--Not Empty--> </div>
 									<button id="btnAddMMem1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MEMBER}</button>
-								</div>		                        
+								</div>		
+
 		                    </div>
 		                    <div class="modal-footer">
 		                    	<br/>
@@ -361,12 +359,11 @@
 									</div>
 								</div>
 
-								<div id="container_nameEditModuleManager" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameEditModuleManager" class="form-horizontal">
+									<div style='' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER} </label>
 										<div class="col-sm-4">
 											<component:LovEmployee id="txtEditModuleManagerName1" controller="findEmployeeByText" func="editModuleManagerChange(this)"/>
-											<!--<input type="text" class="form-control" id="txtEditModuleManagerName1" onchange='editModuleManagerChange(this)'></input>-->
 										</div>
 										<div class='btn'><!--Not Empty--></div>
 									</div>
@@ -378,8 +375,8 @@
 									<button id="btnEditAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
-								<div id="container_nameEditModuleMember" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameEditModuleMember" class="form-horizontal">
+									<div style='' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MEMBER} </label>
 										<div class="col-sm-4">
 											<!--<input type="text" class="form-control" id="txtEditModuleMemberName1"></input>-->
@@ -515,7 +512,7 @@
     <script src="${scriptModule}" type="text/javascript"><!--Not Empty--></script>
 
     <spring:url value="/resources/scripts/createproject/loopAddPeople.js" var="loopAddPeople"/>
-    <script src="${loopAddPeople}" type="text/javascript"><!--Not Empty--></script>WW
+    <script src="${loopAddPeople}" type="text/javascript"><!--Not Empty--></script>
 
     <spring:url value="/resources/scripts/createproject/updownModule.js" var="updownModule"/>
     <script src="${updownModule}" type="text/javascript"><!--Not Empty--></script>
