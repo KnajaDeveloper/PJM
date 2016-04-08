@@ -467,7 +467,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
-                                    <label class="control-label required">${LABEL_BALANCE_TOTAL_COST}</label>
+                                    <label class="control-label ">${LABEL_BALANCE_TOTAL_COST}</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
