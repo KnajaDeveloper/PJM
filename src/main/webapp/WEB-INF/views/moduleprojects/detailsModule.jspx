@@ -111,7 +111,7 @@
     <c:set var="MSG_PLEASE_COMPLETE_THIS_FIEID" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="MSG_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
     <c:set var="MSG_SAVE_FAILED" scope="request"><spring:message code="M0019"/></c:set>
-    <c:set var="MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST" scope="request"><spring:message code="M0024"/></c:set>
+    <c:set var="MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST" scope="request"><spring:message code="M0024"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE" scope="request"><spring:message code="M0025"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_A_NEW_TASK_CODE" scope="request"><spring:message code="M0026"/></c:set>
     <c:set var="MSG_NO_INFORMATION_CHANGED" scope="request"><spring:message code="M0012"/></c:set>
@@ -132,6 +132,7 @@
     <c:set var="MSG_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
     <c:set var="MSG_DATA_ALL_IN_USED" scope="request"><spring:message code="M0061"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS" scope="request"><spring:message code="M0065"/></c:set>
+    <c:set var="MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS" scope="request"><spring:message text="Please enter a only positive integer numbers."/></c:set>
     
     <script type="text/javascript">
         var Label = {};
@@ -153,7 +154,7 @@
         Message.MSG_PLEASE_COMPLETE_THIS_FIEID = '${MSG_PLEASE_COMPLETE_THIS_FIEID}';
         Message.MSG_SAVE_SUCCESS = '${MSG_SAVE_SUCCESS}';
         Message.MSG_SAVE_FAILED = '${MSG_SAVE_FAILED}';
-        Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST = '${MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST}';
+        Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST = '${MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST}';
         Message.MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE = '${MSG_PLEASE_ENTER_A_NEW_PROGRAM_CODE}';
         Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE = '${MSG_PLEASE_ENTER_A_NEW_TASK_CODE}';
         Message.MSG_NO_INFORMATION_CHANGED = '${MSG_NO_INFORMATION_CHANGED}';
@@ -174,6 +175,7 @@
         Message.MSG_FILE_NOT_FOUND = '${MSG_FILE_NOT_FOUND}';
         Message.MSG_DATA_ALL_IN_USED = '${MSG_DATA_ALL_IN_USED}';
         Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS = '${MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS}';
+        Message.MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS = '${MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS}';
     </script>
 
     <div class="row">
@@ -257,12 +259,12 @@
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-sm-2">
-                                    <div class="col-sm-12 col-sm-offset-3">
-                                        <label class="">${LABEL_MANAGER}</label>
+                                    <div class="col-sm-12 col-sm-offset-2">
+                                        <label class="" style="margin-left: 9px;">${LABEL_MANAGER}</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-10">
-                                    <label id="lblModuleManager" class=""><jsp:text/></label>
+                                    <label id="lblModuleManager" class="" style="margin-left: 10px;"><jsp:text/></label>
                                 </div>
                             </div>
                         </form>
@@ -460,6 +462,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="control-label required">${LABEL_BALANCE_TOTAL_COST}</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtBalancTaskCost" data-placement="bottom" readonly="true"/>
+                                        <span class="input-group-addon">${LABEL_POINT}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-sm-offset-1 col-sm-3">
                                     <label class="control-label required">${LABEL_TYPE_TASK}</label>
                                 </div>
@@ -557,9 +570,6 @@
 
     <spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
     <script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
-
-    <spring:url value="/resources/scripts/component/common.js" var="common"/>
-    <script src="${common}" type="text/javascript"><!--Not Empty --></script>
 
     <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>

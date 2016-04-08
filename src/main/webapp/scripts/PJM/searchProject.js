@@ -334,7 +334,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
             + '<td class="text-center">'
             + '<button id="addTask_' + value.id + '" class="btn btn-info btn-xs" type="button" projectid="'+id+'"><span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
             + '</td>'
-            + '<td id="moduleName_' + key + '" class="text-center" style="color: #000">'
+            + '<td id="moduleName_' + key + '" class="text-left" style="color: #000">'
             + value.moduleName
             + '</td>'
             + '<td id="dateStart' + key + '" class="text-center" style="color: #000">'
