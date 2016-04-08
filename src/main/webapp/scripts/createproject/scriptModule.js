@@ -27,7 +27,7 @@ $("#btnAddModule").click(function(){
 		$("#txtModuleMemberName1").disableSelection();
 		for(var i = 1 ; i < namePM.length - 1 ; i++) {
 			var count_elements = countModuleMember+1;
-			var html = "<div style='padding-top: 10px;' id='container_subModuleMember"+[count_elements+1]+"' from='project'><label class='col-sm-3 control-label'></label>" +
+			var html = "<div style='' id='container_subModuleMember"+[count_elements+1]+"' from='project' class='form-group'><label class='col-sm-3 control-label'></label>" +
 				"<div class='col-sm-4 display:inline-block''>"+
 				"<div class='input-group display:inline-block'>"+
 				"<input id='txtModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
@@ -39,8 +39,8 @@ $("#btnAddModule").click(function(){
 				"</input>"+
 				"</div>"+
 				"</div>"+
-				"</div>"+
-				"<div class='btn'></div>";;
+				"<div class='btn'></div>"+
+				"</div>";
 
 			$("#subModuleMember").append(html);
 			$("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
@@ -84,23 +84,22 @@ function moduleManagerChange(obj){
 		var checkSame = checkSameNameMember($("[id^=txtModuleManagerName]")[i].value);
 		if(checkSame) {
 			var count_elements = countModuleMember + 1;
-			var html = "<div style='padding-top: 10px;' id='container_subModuleMember"+[count_elements+1]+"' from='modulemanager'>" +
-					"<div style='margin-bottom:5px;'></div>"+
-				"<label class='col-sm-3 control-label'></label>" +
-				"<div class='col-sm-4 display:inline-block''>"+
-				"<div class='input-group display:inline-block'>"+
-				"<input id='txtModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
-				"<span class='input-group-addon'>"+
-				"<span id='BtntxtModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
-				"<jsp:text/>"+
-				"</span>"+
-				"</span>"+
-				"</input>"+
-				"</div>"+
-				"</div>"+
-				"</div>"+
-				"</div>"+
-				"<div class='btn'></div>";
+			var html = 
+				"<div style='' id='container_subModuleMember"+[count_elements+1]+"' from='modulemanager' class='form-group'>" +
+					"<label class='col-sm-3 control-label'></label>" +
+					"<div class='col-sm-4 display:inline-block''>"+
+						"<div class='input-group display:inline-block'>"+
+							"<input id='txtModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+								"<span class='input-group-addon'>"+
+									"<span id='BtntxtModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
+										"<jsp:text/>"+
+									"</span>"+
+								"</span>"+
+							"</input>"+
+						"</div>"+
+					"</div>"+
+				"<div class='btn'></div>"
+				"</div>";
 
 			$("#subModuleMember").append(html);
 			$("#txtModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtModuleManagerName]")[i].value);
@@ -130,29 +129,23 @@ function editModuleManagerChange(obj){
 		var checkSame = checkEditSameNameMember($("[id^=txtEditModuleManagerName]")[i].value);
 		if(checkSame) {
 			var count_elements = countEditModuleMember + 1;
-			//var html = "<div style='padding-top: 5px;' id='container_subEditModuleMember" + [count_elements + 1] + "' from='modulemanager'>" +
-			//	"<label class='col-sm-3 control-label'></label>" +
-			//	"<div class='col-sm-3'>" +
-			//		"<input type='text' class='form-control' style='margin-top: 5px;' id='txtEditModuleMemberName" + [count_elements + 1] + "'></input>" +
-			//	"</div>" +
-			//	"<div class='btn'>&nbsp</div></div>";
-			var html = "<div style='padding-top: 10px;' id='container_subEditModuleMember"+[count_elements+1]+"' from='modulemanager'>" +
-				"<div style='margin-bottom:5px;'></div>"+
-				"<label class='col-sm-3 control-label'></label>" +
-				"<div class='col-sm-4 display:inline-block''>"+
-				"<div class='input-group display:inline-block'>"+
-				"<input id='txtEditModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
-				"<span class='input-group-addon'>"+
-				"<span id='BtntxtEditModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
-				"<jsp:text/>"+
-				"</span>"+
-				"</span>"+
-				"</input>"+
-				"</div>"+
-				"</div>"+
-				"</div>"+
-				"</div>"+
-				"<div class='btn'></div>";
+			var html = 
+				"<div style='' id='container_subEditModuleMember"+[count_elements+1]+"' from='modulemanager' class='form-group'>" +
+					"<label class='col-sm-3 control-label'></label>" +
+					"<div class='col-sm-4 display:inline-block''>"+
+						"<div class='input-group display:inline-block'>"+
+							"<input id='txtEditModuleMemberName"+[count_elements+1]+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+								"<span class='input-group-addon'>"+
+									"<span id='BtntxtEditModuleMemberName"+[count_elements+1]+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleMemberName"+[count_elements+1]+"' class='fa fa-search' style='cursor:pointer;'>"+
+										"<jsp:text/>"+
+									"</span>"+
+								"</span>"+
+							"</input>"+
+						"</div>"+
+					"</div>"+
+				"<div class='btn'></div>"+
+				"</div>";
+				
 			$("#subEditModuleMember").append(html);
 			$("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
 			$("#txtEditModuleMemberName" + [count_elements + 1]).data("dataCode","" + $("[id^=txtEditModuleManagerName]")[i].value.split(' ')[0]);
@@ -670,7 +663,7 @@ function editModule(objectModule){
 		$("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);
 		$("#txtEditModuleManagerName1").data("dataCode",""+splitTextModuleManager[0].split(' ')[0]);
 		for (var i = 2; i < splitTextModuleManager.length; i++) {
-			var html = "<div style='padding-top: 10px;' id='container_subEditModuleManager"+ i +"'><label class='col-sm-3 control-label'></label>" +
+			var html = "<div style='' id='container_subEditModuleManager"+ i +"' class='form-group'><label class='col-sm-3 control-label'></label>" +
 				"<div class='col-sm-4 display:inline-block''>"+
 				"<div class='input-group display:inline-block'>"+
 				"<input id='txtEditModuleManagerName"+i+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName"+i+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
@@ -682,7 +675,7 @@ function editModule(objectModule){
 				"</input>"+
 				"</div>"+
 				"</div>"+
-				"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)'>" + Button.Delete + "</button>"+
+				"<button id='btnDeleteEditMM" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleManager(this.id)' style='margin:0px;'>" + Button.Delete + "</button>"+
 				"</div>";
 			$("#subEditModuleManager").append(html);
 			$("#txtEditModuleManagerName" + i).val(splitTextModuleManager[i - 1]);
@@ -697,7 +690,7 @@ function editModule(objectModule){
 		for (var i = 2; i < splitTextModuleMember.length; i++) {
 			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
 			var html =
-				"<div style='padding-top: 10px;' id='container_subEditModuleMember"+ i +"'>" +
+				"<div style='' id='container_subEditModuleMember"+ i +"' class='form-group'>" +
 					"<label class='col-sm-3 control-label'></label>" +
 					"<div class='col-sm-4 display:inline-block''>"+
 						"<div class='input-group display:inline-block'>"+
@@ -711,9 +704,9 @@ function editModule(objectModule){
 						"</div>"+
 					"</div>";
 			if(same == "nosame")
-				html += "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)'>" + Button.Delete + "</button>";
+				html += "<button id='btnDeleteEditMMem" + i + "' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)' style='margin:0px;'>" + Button.Delete + "</button>";
 			else
-				html += "<div class='btn'>&nbsp</div>";
+				html += "<div class='btn' style='margin:0px;'>&nbsp</div>";
 			html+= "</div>";
 			$("#subEditModuleMember").append(html);
 			$("#txtEditModuleMemberName" + i).val(splitTextModuleMember[i - 1]);

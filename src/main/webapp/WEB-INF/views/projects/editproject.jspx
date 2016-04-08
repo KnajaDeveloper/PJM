@@ -167,8 +167,12 @@
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<span id="btnIncresePoint" type="button" class="btn btn-primary text-center" style="margin-top: 0px;">+</span>
-							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px">-</span>
+							<span id="btnIncresePoint" type="button" class="btn btn-success" style="margin-top: 0px;">
+								<font size="1" class="glyphicon glyphicon-plus"><!--Not Empty--></font>
+							</span>
+							<span id="btnDecresePoint" type="button" class="btn btn-danger text-center" style="margin-top: 0px; margin-left: 10px">
+								 <font size="1" class="glyphicon glyphicon-minus"><!--Not Empty--></font>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -196,18 +200,15 @@
 					</div>
 				</div>
 
-				<div id="container_nameManager" class="form-group">
-					<div id='container_subProjectManager1'>
-						<div style='padding-bottom:5px;'>
-							<label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
-							<div class="col-sm-3">
-								<!--<input type="text" class="form-control" id="txtProjectManagerName1" data-placement="bottom"></input>-->
-								<component:LovEmployee id="txtProjectManagerName1" controller="findEmployeeByText"/>
-							</div>
-							<div class='btn'><!--Not Empty--></div>
+				<div id="container_nameManager" class="form-horizontal">
+					<div id='container_subProjectManager1' style='' class='form-group'>
+						<label class="col-sm-3 control-label required">${LABEL_PROJECT_MANAGER}</label>
+						<div class="col-sm-3">
+							<component:LovEmployee id="txtProjectManagerName1" controller="findEmployeeByText"/>
 						</div>
-						<span id="subProjectManager"><!--Not Empty--></span>
+						<div class='btn'><!--Not Empty--></div>
 					</div>
+					<span id="subProjectManager"><!--Not Empty--></span>
 				</div>
 
 				<div name="container_btnAddProjectManager" class="form-group">
@@ -269,11 +270,10 @@
 									</div>
 								</div>
 
-								<div id="container_nameModuleManager" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameModuleManager" class="form-horizontal">
+									<div style='' id='container_subModuleManager1' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER}</label>
 										<div class="col-sm-4">
-											<!--<input type="text" class="form-control" id="txtModuleManagerName1" onchange="moduleManagerChange(this)"></input>-->
 											<component:LovEmployee id="txtModuleManagerName1" controller="findEmployeeByText" func="moduleManagerChange(this)"/>
 										</div>
 										<div class='btn'><!--Not Empty--></div>
@@ -287,11 +287,10 @@
 									<button id="btnAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
-								<div id="container_nameModuleMember" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameModuleMember" class="form-horizontal">
+									<div style='' id='container_subModuleMember1' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MEMBER} </label>
 										<div class="col-sm-4">
-											<!--<input type="text" class="form-control" id="txtModuleMemberName1"></input>-->
 											<component:LovEmployee id="txtModuleMemberName1" controller="findEmployeeByText"/>
 										</div>
 										<div class='btn'><!--Not Empty--></div>
@@ -362,8 +361,8 @@
 									</div>
 								</div>
 
-								<div id="container_nameEditModuleManager" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameEditModuleManager" class="form-horizontal">
+									<div style='' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER} </label>
 										<div class="col-sm-4">
 											<!--<input type="text" class="form-control" id="txtEditModuleManagerName1" onchange='editModuleManagerChange(this)'></input>-->
@@ -379,8 +378,8 @@
 									<button id="btnEditAddMM1" type="button" class="btn btn-success" style="margin-left: 5px"> + ${LABEL_MODULE_MANAGER}</button>
 								</div>
 
-								<div id="container_nameEditModuleMember" class="form-group">
-									<div style='padding-bottom:5px;'>
+								<div id="container_nameEditModuleMember" class="form-horizontal">
+									<div style='' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MEMBER} </label>
 										<div class="col-sm-4">
 											<!--<input type="text" class="form-control" id="txtEditModuleMemberName1"></input>-->

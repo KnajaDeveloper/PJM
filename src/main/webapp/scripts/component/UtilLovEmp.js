@@ -47,9 +47,19 @@ function LovEmpAfterCheckEmpty(inputId) {
 
 function LovEmpQueryEvent(inputId) {
     var inputData = $(inputId).val();
-    if(team=="") {
+    if(team!="") {
         var data = {
-            text: LovEmpSplitSpaceAndRetrunFirstIdentity(inputData)
+            teamID : $("#"+team).val()
+            //teamID : 100001
+        }
+        var jsonData = AjaxUtil.get({
+            url: contextPath + "/central/" + controller,
+            data: data
+        })
+    }
+    else if(moduleProject!=""){
+        var data = {
+            moduleProjectId : $("#"+moduleProject).val()
         }
         var jsonData = AjaxUtil.get({
             url: contextPath + "/central/" + controller,
@@ -58,8 +68,7 @@ function LovEmpQueryEvent(inputId) {
     }
     else{
         var data = {
-            teamID : $("#"+team).val()
-            //teamID : 100001
+            text: LovEmpSplitSpaceAndRetrunFirstIdentity(inputData)
         }
         var jsonData = AjaxUtil.get({
             url: contextPath + "/central/" + controller,

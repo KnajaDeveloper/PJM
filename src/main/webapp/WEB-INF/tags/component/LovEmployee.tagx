@@ -7,6 +7,8 @@
     <jsp:directive.attribute name="classes" type="java.lang.Boolean" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="dataContent" type="java.lang.String" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="team" type="java.lang.String" required="false" rtexprvalue="true"/>
+    <jsp:directive.attribute name="moduleProject" type="java.lang.String" required="false" rtexprvalue="true"/>
+    findEmpCodeByModuleProjectId
     <jsp:directive.attribute name="func" type="java.lang.String" required="false" rtexprvalue="true"/>
 
     <c:set var="MESSAGE_CAN_PRESS_ENTER"><spring:message javaScriptEscape="true" code="M0064"/></c:set>
@@ -35,94 +37,3 @@
         });
     </script>
 </jsp:root>
-
-
-
-
-        <!--<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">-->
-        <!--<jsp:output omit-xml-declaration="yes"/>-->
-
-        <!--<jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true"/>-->
-        <!--<jsp:directive.attribute name="placeholder" type="java.lang.String" required="false" rtexprvalue="true"/>-->
-        <!--<jsp:directive.attribute name="classes" type="java.lang.Boolean" required="false" rtexprvalue="true"/>-->
-        <!--<jsp:directive.attribute name="dataContent" type="java.lang.String" required="false" rtexprvalue="true"/>-->
-
-        <!--<style>-->
-        <!--.sbdd_b {-->
-        <!--background: #fff;-->
-        <!--border: 1px solid #ccc;-->
-        <!--border-top-color: #d9d9d9;-->
-        <!--box-shadow: 0 2px 4px rgba(0,0,0,0.2);-->
-        <!-- -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);-->
-        <!--cursor: default;-->
-        <!--width: 100%;-->
-        <!--}-->
-        <!--.sbsb_c {-->
-        <!--line-height: 25px;-->
-        <!--overflow: hidden;-->
-        <!--padding: 0 10px;-->
-        <!--}-->
-        <!--.textResult{-->
-        <!--margin-left: 15px;-->
-        <!--}-->
-        <!--.mouseOnResult{-->
-        <!--cursor:pointer;-->
-        <!--background:#eee;-->
-        <!--}-->
-        <!--</style>-->
-
-        <!--<div class='input-group' id="LOVEmployee${id}">-->
-        <!--<input class="form-control" id="${id}" type="text" onkeypress="runScript(event)" empCode="" data-toggle="popover" data-placement="bottom" >-->
-        <!--<span class="input-group-addon" style="background: white; cursor:pointer;" onclick="searchLovEmployee($('#'+txtId).val())">-->
-        <!--<span class="fa fa-search">-->
-        <!--<jsp:text/>-->
-        <!--</span>-->
-        <!--</span>-->
-        <!--</input>-->
-        <!--<span id='resultSearch-${id}' class="front" style="position: absolute;">-->
-
-        <!--</span>-->
-        <!--</div>-->
-
-        <!--<script>-->
-        <!--var txtId = '${id}';-->
-        <!--$('#LOVEmployee'+txtId).focusout(function(){-->
-        <!--$('#resultSearch-'+txtId).hide();-->
-        <!--});-->
-        <!--$('#LOVEmployee'+txtId).focusin(function(){-->
-        <!--$('#resultSearch-'+txtId).css("width",""+$("#LOVEmployee"+txtId).width());-->
-        <!--$("#resultSearch-"+txtId).show();-->
-        <!--});-->
-        <!--function dataOver(object){-->
-        <!--$("#"+object.id).addClass('mouseOnResult');-->
-        <!--$("#"+txtId).val(""+$("#"+object.id).attr('showData'));-->
-        <!--$("#"+txtId).attr('empCode',$("#"+object.id).attr('empCode'));-->
-        <!--}-->
-        <!--function dataOut(){-->
-        <!--var x = "[id^=resultData"+txtId+"]";-->
-        <!--$(x).removeClass('mouseOnResult');-->
-        <!--}-->
-        <!--function clickData(object){-->
-        <!--$("#"+txtId).val(""+$("#"+object.id).attr('showData'));-->
-        <!--$("#"+txtId).attr('empCode',$("#"+object.id).attr('empCode'));-->
-        <!--removeDataResultSearch();-->
-        <!--}-->
-        <!--function runScript(e){-->
-        <!--if (e.keyCode == 13) {-->
-        <!--searchLovEmployee($("#"+txtId).val());-->
-        <!--}-->
-        <!--if(e.keyCode==38 || e.keyCode==40){-->
-        <!--if(e.keyCode==38){-->
-
-        <!--}-->
-        <!--if(e.keyCode==40){-->
-
-        <!--}-->
-        <!--}-->
-        <!--}-->
-        <!--</script>-->
-
-        <!--<spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp" />-->
-        <!--<script src="${UtilLovEmp}" type="text/javascript">&lt;!&ndash;Not Empty &ndash;&gt;</script>-->
-
-        <!--</jsp:root>-->
