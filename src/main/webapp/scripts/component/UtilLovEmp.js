@@ -59,7 +59,7 @@ function LovEmpQueryEvent(inputId) {
     }
     else if(moduleProject!=""){
         var data = {
-            moduleProjectId : $("#"+moduleProject).val()
+            moduleProjectId : moduleProject
         };
         var jsonData = AjaxUtil.get({
             url: contextPath + "/central/" + controller,

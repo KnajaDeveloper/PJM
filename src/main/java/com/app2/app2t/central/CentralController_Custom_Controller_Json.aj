@@ -108,6 +108,7 @@ public aspect CentralController_Custom_Controller_Json {
                 buffer.put("empCode", moduleManager.getEmpCode());
                 buffer.put("empFirstName", employee.get("empFirstName"));
                 buffer.put("empLastName", employee.get("empLastName"));
+                buffer.put("empNickName", employee.get("empNickName"));
                 resultSearch.add(buffer);
             }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);

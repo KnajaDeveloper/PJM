@@ -27,10 +27,13 @@
         var controller ;
         var team='${team}';
         var moduleProject = '${moduleProject}';
-        if(team=="") {
-            controller = "findEmployeeByText";
-        }else{
+        if(team!="") {
             controller = "GetEmpByTeamID";
+        }
+         else if(moduleProject!=""){
+            controller = "findEmpCodeByModuleProjectId";
+         }else{
+            controller = "findEmployeeByText";
         }
         jQuery(document).ready(function() {
             UtilLov.onLoadInputLovEmp('${id}');

@@ -493,7 +493,7 @@
                                     <label class="control-label ">${LABEL_MANAGER}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <component:LovEmployee id="txtEmpName" controller="findEmployeeByText"/>
+                                    <component:LovEmployee id="txtEmpName" controller="findEmpCodeByModuleProjectId" moduleProject="${moduleProjectID}"/>
                                 </div>
                             </div>
                             <div class="form-group">
