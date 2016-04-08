@@ -187,15 +187,13 @@ function openEditTask(element){
     DDLData();
 
     $(".modal-title").text(Label.LABEL_EDIT_TASK);
-    $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null).attr('disabled', false);
-    $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
-    $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
+    $('#txtTaskCode').val(null).popover('hide').attr('disabled', false);
+    $('#txtTaskName').val(null).popover('hide');
+    $('#txtTaskCost').val(null).popover('hide');
     $('#ddlTypeTask').popover('hide');
     $('#txtEmpName').val(null);
-    $('#dateStartProject').val(null).popover('hide');
-    $('#dateEndProject').val(null).popover('hide');
-    $("#dateStartProject").change();
-    $("#dateEndProject").change();
+    $('#dateStartProject').val(null).popover('hide').change();
+    $('#dateEndProject').val(null).popover('hide').change();
 
     $('#txtProgress').val(null);
     document.getElementById("myInput").value = "";
@@ -206,6 +204,8 @@ function openEditTask(element){
     TaskID = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCodeTask").attr("taskId");
 
     $('#txtTaskCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCodeTask").text()).attr('disabled', true);
+
+    $('#txtBalancTaskCost').val($('#lblModuleCostBalance').text().split(' ')[0]);
 
     checkTaskName = checkTaskName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdNameTask").text();
     $('#txtTaskName').val(checkTaskName).text();
@@ -222,6 +222,7 @@ function openEditTask(element){
     }else{ checkEmpName = dataEmpName[id - 1]; }
     
     $('#txtEmpName').val(checkEmpName);
+    $("#txtEmpName").data("dataCode", dataEmpCode[id - 1]);
 
     checkdateStart = dataDateStart[id - 1];
     $('#dateStartProject').val(checkdateStart);
@@ -278,15 +279,13 @@ $('#btnAddTask').click(function() {
     $(".modal-title").text(Label.LABEL_ADD_TASK);
     $('#btnModalTaskNext').show();
     DDLData();
-    $('#txtTaskCode').attr('disabled', false);
-    $('#txtTaskCode').val(null);
-    $('#txtTaskName').val(null);
-    $('#txtTaskCost').val(null);
+    $('#txtTaskCode').val(null).popover('hide').attr('disabled', false);
+    $('#txtTaskName').val(null).popover('hide');
+    $('#txtTaskCost').val(null).popover('hide');
+    $('#txtBalancTaskCost').val($('#lblModuleCostBalance').text().split(' ')[0]);
     $('#txtEmpName').val(null);
-    $('#dateStartProject').val(null).popover('hide');;
-    $('#dateEndProject').val(null).popover('hide');;
-    $("#dateStartProject").change();
-    $("#dateEndProject").change();
+    $('#dateStartProject').val(null).popover('hide').change();
+    $('#dateEndProject').val(null).popover('hide').change();
     $('#txtProgress').val("0");
     $('#txtaDescription').val("");
 });
@@ -350,7 +349,7 @@ function saveDataToDataBase(id) {
     if(chkAETask == 0){
         if(checkDataTask() == 0){
             if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
-                bootbox.alert(Message.MSG_COMPLETE_THIS_FIEID_OVER_BALANCE_TOTAL_COST);
+                bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
             }else{
                 var formData = new FormData();
                 formData.append("myInput", myInput.files[0]);
@@ -428,56 +427,60 @@ function saveDataToDataBase(id) {
             $('#txtaDescription').val() == checkDescription){
             bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
         }else{
-            var formData = new FormData();
-            formData.append("myInput", myInput.files[0]);
-            var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
-            var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
-            $.ajax({
-                type: "POST",
-                headers: {
-                    Accept: 'application/json',
-                },
-                contentType: "application/json; charset=UTF-8",
-                dataType: "json",
-                url: contextPath + '/tasks/findEditTask/' + TaskID +
-                                                      '/' + $('#txtTaskCode').val() +
-                                                      '/' + $('#txtTaskName').val() +
-                                                      '/' + $('#txtTaskCost').val() +
-                                                      '/' + dataTypeTaskCode[index] +
-                                                      '/' + empName +
-                                                      '/' + dateStart +
-                                                      '/' + dateEnd +
-                                                      '/' + fileName +
-                                                      '/' + description +
-                                                      '/' + $('#txtProgress').val() +
-                                                      '/' + programID,
-                processData: false,
-                contentType: false,
-                data: formData,
-                complete: function(xhr){
-                    if(xhr.status == 200){
-                        bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
-                        $('#modalTask').modal('hide');
-                        $('#txtTaskCode').val(null);
-                        $('#txtTaskName').val(null);
-                        $('#txtTaskCost').val(null);
-                        $('#txtEmpName').val(null);
-                        $('#dateStartProject').val(null);
-                        $('#dateEndProject').val(null);
-                        document.getElementById("myInput").value = "";
-                        $('#fileName').text("");
-                        $('#txtaDescription').val("");
+            if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
+                bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
+            }else{
+                var formData = new FormData();
+                formData.append("myInput", myInput.files[0]);
+                var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
+                var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                    contentType: "application/json; charset=UTF-8",
+                    dataType: "json",
+                    url: contextPath + '/tasks/findEditTask/' + TaskID +
+                                                          '/' + $('#txtTaskCode').val() +
+                                                          '/' + $('#txtTaskName').val() +
+                                                          '/' + $('#txtTaskCost').val() +
+                                                          '/' + dataTypeTaskCode[index] +
+                                                          '/' + empName +
+                                                          '/' + dateStart +
+                                                          '/' + dateEnd +
+                                                          '/' + fileName +
+                                                          '/' + description +
+                                                          '/' + $('#txtProgress').val() +
+                                                          '/' + programID,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    complete: function(xhr){
+                        if(xhr.status == 200){
+                            bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                            $('#modalTask').modal('hide');
+                            $('#txtTaskCode').val(null);
+                            $('#txtTaskName').val(null);
+                            $('#txtTaskCost').val(null);
+                            $('#txtEmpName').val(null);
+                            $('#dateStartProject').val(null);
+                            $('#dateEndProject').val(null);
+                            document.getElementById("myInput").value = "";
+                            $('#fileName').text("");
+                            $('#txtaDescription').val("");
 
-                        var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
-                        pagginationTask.loadPage(pageNumber, pagginationTask);
+                            var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                            pagginationTask.loadPage(pageNumber, pagginationTask);
 
-                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
-                    }else if(xhr.status == 500){
-                        bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                    }
-                },
-                async: false
-            });
+                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
+                        }else if(xhr.status == 500){
+                            bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                        }
+                    },
+                    async: false
+                });
+            }
         }
     }
 }
@@ -548,23 +551,27 @@ $('[id^=btnModalTask]').click(function() {
             $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else{
             if($.isNumeric($('#txtTaskCost').val())){
-                if(($('#txtTaskCost').val().length - 1) - $('#txtTaskCost').val().indexOf('.') > 4){
-                    $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS).popover('show');
-                }else{
-                    if($.isNumeric($('#txtProgress').val()) &&
-                        $('#txtProgress').val().indexOf('.') < 0 &&
-                        parseInt($('#txtProgress').val()) >= 0 &&
-                        parseInt($('#txtProgress').val()) <= 100){
-                        if(checkDateBeforeSaveData($('#dateEndProject').val(), $('#lblModuleDateEnd').text())){
-                            saveDataToDataBase(id);
-                        }else{
-                            bootbox.confirm(Message.MSG_YOU_WANT_TO_SAVE_DATA, function(result) {
-                                if(result == true){ saveDataToDataBase(id); }
-                            });
-                        }
+                if(parseInt($('#txtTaskCost').val()) >= 0){
+                    if(($('#txtTaskCost').val().length - 1) - $('#txtTaskCost').val().indexOf('.') > 4){
+                        $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS).popover('show');
                     }else{
-                        $('#txtProgress').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100).popover('show');
+                        if($.isNumeric($('#txtProgress').val()) &&
+                            $('#txtProgress').val().indexOf('.') < 0 &&
+                            parseInt($('#txtProgress').val()) >= 0 &&
+                            parseInt($('#txtProgress').val()) <= 100){
+                            if(checkDateBeforeSaveData($('#dateEndProject').val(), $('#lblModuleDateEnd').text())){
+                                saveDataToDataBase(id);
+                            }else{
+                                bootbox.confirm(Message.MSG_YOU_WANT_TO_SAVE_DATA, function(result) {
+                                    if(result == true){ saveDataToDataBase(id); }
+                                });
+                            }
+                        }else{
+                            $('#txtProgress').attr("data-content" , Message.MSG_PLEASE_ENTER_THE_PROGRESS_BETWEEN_0_TO_100).popover('show');
+                        }
                     }
+                }else{
+                    $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS).popover('show');
                 }
             }else{
                 $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_ONLY_NUMBERS).popover('show');
