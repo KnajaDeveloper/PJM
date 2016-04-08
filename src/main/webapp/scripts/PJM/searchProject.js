@@ -179,7 +179,7 @@ paggination.loadTable = function loadTable(jsonData) {
                 + DateUtil.dataDateToFrontend(value.dateEnd, _language)
                 + '</td>'
                 + '<td id="projectCost' + key++ + '" class="text-center" style="color: #000">'
-                + value.projectCost + MESSAGE.LABEL_POINT +
+                + value.projectCost +' '+ MESSAGE.LABEL_POINT+''
                 + '</td>'
                 + '</tr>';
             $('#ResualtSearch').append(
@@ -344,7 +344,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
             + DateUtil.dataDateToFrontend(value.dateEnd, _language)
             + '</td>'
             + '<td id="projectCost' + key++ + '" class="text-center" style="color: #000">'
-            + value.moduleCost
+            + value.moduleCost +' '+ MESSAGE.LABEL_POINT+''
             + '</td>'
             + '</tr>';
         $('#ResualtModule').append(
