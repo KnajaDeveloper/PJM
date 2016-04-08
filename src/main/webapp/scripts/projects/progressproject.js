@@ -117,7 +117,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
         var colorProgress =  value.progress == "100" ? "progress-bar-success" : "progress-bar-warning";
         var checkPercent;
         if(checkProgress.indexOf('.') == "-1"){
-            checkPercent = value.progress;
+            checkPercent = checkProgress;
         }else
         {
             checkPercent = parseFloat(checkProgress).toFixed(2);
