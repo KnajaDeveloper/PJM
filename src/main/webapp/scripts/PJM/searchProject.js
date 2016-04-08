@@ -237,7 +237,12 @@ $("#btnDelete").click(function () {
                 for (var i=0; checkedRows.length > i; i++) {
                     DeleteData(i);
                 }
-                bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" : " + DeSuccess +" "+  MESSAGE.ALERT_DELETE_FAIL +" : "+ DeFail);
+                if(DeFail === 0){
+                    bootbox.alert(MESSAGE.ALERT_DELETE_SUCCESS +" " + DeSuccess + " " + MESSAGE.ALERT_LIST);
+                }else{
+                    bootbox.alert(MESSAGE.ALERT_DELETE_SUCCESS+ " " + DeSuccess +" "+ MESSAGE.ALERT_LIST + " " + MESSAGE.ALERT_DELETE_FAIL + DeFail + " " + MESSAGE.ALERT_LIST);
+                }
+                //bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" : " + DeSuccess +" "+  MESSAGE.ALERT_DELETE_FAIL +" : "+ DeFail);
                 DeSuccess = 0;
                 DeFail = 0;
                 checkedRows = [];
