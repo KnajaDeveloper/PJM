@@ -4,6 +4,7 @@
 package com.app2.app2t.web.pjm;
 
 import com.app2.app2t.domain.pjm.*;
+import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -87,6 +88,10 @@ privileged aspect ProjectController_Custom_Controller_Json {
                 map.put("id", project.getId());
                 map.put("projectCode", project.getProjectCode());
                 map.put("inUse", ModuleProject.findModuleProjectCheckID(project.getId()));
+                String userName = AuthorizeUtil.getUserName();
+                Map employee = emRestService.getEmployeeByUserName(userName);
+                Boolean rolePm = ProjectManager.checkRoleProjects(project.getId(),employee.get("empCode").toString());
+                map.put("rolePm",rolePm);
                 resultSearch.add(map);
 
             }
