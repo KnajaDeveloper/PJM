@@ -10,6 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
+
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
@@ -20,6 +22,7 @@ public class Plan extends BaseEntity {
 
     /**
      */
+    @Size(max = 255)
     private String note;
 
     /**

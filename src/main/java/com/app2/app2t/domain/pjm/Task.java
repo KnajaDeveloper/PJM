@@ -1,17 +1,17 @@
 package com.app2.app2t.domain.pjm;
+
 import com.app2.app2t.base.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
-import org.springframework.roo.addon.tostring.RooToString;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Digits;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.json.RooJson;
+import org.springframework.roo.addon.tostring.RooToString;
+
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 @RooJavaBean
 @RooToString
@@ -21,10 +21,12 @@ public class Task extends BaseEntity {
 
     /**
      */
+    @Size(max = 15)
     private String taskCode;
 
     /**
      */
+    @Size(max = 40)
     private String taskName;
 
     /**
@@ -40,10 +42,12 @@ public class Task extends BaseEntity {
 
     /**
      */
+    @Size(max = 15)
     private String empCode;
 
     /**
      */
+    @Size(max = 255)
     private String detail;
 
     /**
@@ -60,14 +64,17 @@ public class Task extends BaseEntity {
 
     /**
      */
+    @Size(max = 100)
     private String fileName;
 
     /**
      */
+    @Size(max = 100)
     private String url;
 
     /**
      */
+    @Digits(integer= 3, fraction = 0)
     private Integer progress;
 
     /**
