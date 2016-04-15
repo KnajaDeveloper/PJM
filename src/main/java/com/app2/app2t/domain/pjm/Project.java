@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.json.RooJson;
 
@@ -17,10 +19,12 @@ import org.springframework.roo.addon.json.RooJson;
 public class Project extends BaseEntity {
     /**
      */
+    @Size(max = 15)
     private String projectCode;
 
     /**
      */
+    @Size(max = 40)
     private String projectName;
 
     /**

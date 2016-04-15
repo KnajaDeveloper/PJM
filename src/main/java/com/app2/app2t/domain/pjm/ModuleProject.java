@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
@@ -21,10 +23,12 @@ public class ModuleProject extends BaseEntity {
 
     /**
      */
+    @Size(max = 15)
     private String moduleCode;
 
     /**
      */
+    @Size(max = 40)
     private String moduleName;
 
     /**
@@ -52,6 +56,7 @@ public class ModuleProject extends BaseEntity {
 
     /**
      */
+    @Size(max = 15)
     private String moduleStatus;
     //Success
     //Not Success

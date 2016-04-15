@@ -1,13 +1,17 @@
 package com.app2.app2t.domain.pjm;
+
 import com.app2.app2t.base.BaseEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
+import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
+
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
-import org.springframework.roo.addon.json.RooJson;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
 @RooJavaBean
 @RooToString
@@ -17,6 +21,7 @@ public class OtherTask extends BaseEntity {
 
     /**
      */
+    @Size(max = 40)
     private String taskName;
 
     /**
@@ -26,10 +31,12 @@ public class OtherTask extends BaseEntity {
 
     /**
      */
+    @Size(max = 15)
     private String empCode;
 
     /**
      */
+    @Size(max = 255)
     private String detail;
 
     /**
@@ -40,5 +47,6 @@ public class OtherTask extends BaseEntity {
 
     /**
      */
+    @Digits(integer= 3, fraction = 0)
     private Integer progress;
 }

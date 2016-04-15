@@ -5,6 +5,8 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.json.RooJson;
 
+import javax.validation.constraints.Size;
+
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord(inheritanceType = "TABLE_PER_CLASS")
@@ -13,9 +15,11 @@ public class TypeTask extends BaseEntity {
 
     /**
      */
+    @Size(max = 15)
     private String typeTaskCode;
 
     /**
      */
+    @Size(max = 40)
     private String typeTaskName;
 }
