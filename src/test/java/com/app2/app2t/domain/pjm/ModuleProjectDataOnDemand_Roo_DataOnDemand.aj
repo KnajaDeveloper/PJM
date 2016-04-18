@@ -68,21 +68,33 @@ privileged aspect ModuleProjectDataOnDemand_Roo_DataOnDemand {
     
     public void ModuleProjectDataOnDemand.setModuleCode(ModuleProject obj, int index) {
         String moduleCode = "moduleCode_" + index;
+        if (moduleCode.length() > 15) {
+            moduleCode = moduleCode.substring(0, 15);
+        }
         obj.setModuleCode(moduleCode);
     }
     
     public void ModuleProjectDataOnDemand.setModuleCost(ModuleProject obj, int index) {
         Double moduleCost = new Integer(index).doubleValue();
+        if (moduleCost > 9999999.9999D) {
+            moduleCost = 9999999.9999D;
+        }
         obj.setModuleCost(moduleCost);
     }
     
     public void ModuleProjectDataOnDemand.setModuleName(ModuleProject obj, int index) {
         String moduleName = "moduleName_" + index;
+        if (moduleName.length() > 40) {
+            moduleName = moduleName.substring(0, 40);
+        }
         obj.setModuleName(moduleName);
     }
     
     public void ModuleProjectDataOnDemand.setModuleStatus(ModuleProject obj, int index) {
         String moduleStatus = "moduleStatus_" + index;
+        if (moduleStatus.length() > 15) {
+            moduleStatus = moduleStatus.substring(0, 15);
+        }
         obj.setModuleStatus(moduleStatus);
     }
     

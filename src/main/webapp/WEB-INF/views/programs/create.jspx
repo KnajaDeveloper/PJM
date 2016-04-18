@@ -8,8 +8,8 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_Program_status" z="LQUtNdxMQ5PfIpFuJ/rPAKt76O4="/>
         <field:datetime dateTimePattern="${program_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_Program_createdDate" z="l+cGuxyLC0nDY9hJLBgxP0D6A9Q="/>
         <field:datetime dateTimePattern="${program_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Program_updatedDate" z="f5ga6MbPSsIDVLZzDBoQDtZ5fwc="/>
-        <field:input field="programCode" id="c_com_app2_app2t_domain_pjm_Program_programCode" z="/a9vUYg7ABnc+TePXW06F4HjfhI="/>
-        <field:input field="programName" id="c_com_app2_app2t_domain_pjm_Program_programName" z="rIIPMfy1ZEKZV9xBj4XAYZQevoA="/>
+        <field:input field="programCode" id="c_com_app2_app2t_domain_pjm_Program_programCode" max="15" z="bWeCNfAGJuZmiNDZVJlIRCh2/r4="/>
+        <field:textarea field="programName" id="c_com_app2_app2t_domain_pjm_Program_programName" z="DjzHoKcuuB7Z9Tj7w6lYVsA7/Fs="/>
         <field:select field="moduleProject" id="c_com_app2_app2t_domain_pjm_Program_moduleProject" itemValue="id" items="${moduleprojects}" path="/moduleprojects" z="eBp1bCQSwd70JAAiPkHCQrwHel0="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_app2_app2t_domain_pjm_Program" render="${not empty dependencies}" z="40wsjAuER9SgtNBVRiNNu4JhxDY="/>

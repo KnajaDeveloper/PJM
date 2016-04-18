@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_FollowerTask" object="${followertask}" path="/followertasks" z="hBDCDXs25mtPtQbgSMtk3MQP0cg=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_FollowerTask_createdBy" object="${followertask}" z="oaZQnV59LOk1HAjG7SNEYuLO5Qk="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_FollowerTask_updatedBy" object="${followertask}" z="iveJXeeWO4bHOEn7SfSUPm1v+fQ="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_FollowerTask_status" object="${followertask}" z="0IX/vGHB3giaPOdn8jLoy0mfg/M="/>
+        <field:display date="true" dateTimePattern="${followerTask_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_FollowerTask_createdDate" object="${followertask}" z="8j/pOtrEXXhYw9CrWOmNIE9bH38="/>
+        <field:display date="true" dateTimePattern="${followerTask_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_FollowerTask_updatedDate" object="${followertask}" z="yCacDKVSqHYJp5z/K6zwT09HRVg="/>
+        <field:display field="task" id="s_com_app2_app2t_domain_pjm_FollowerTask_task" object="${followertask}" z="tAW1MDrXzq1gOMYCLKfecY0M/1E="/>
+        <field:display field="empCode" id="s_com_app2_app2t_domain_pjm_FollowerTask_empCode" object="${followertask}" z="mgGA4aTfPMbbaaug9ofED9bfvh8="/>
+    </page:show>
+</div>

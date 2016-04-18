@@ -8,7 +8,7 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_ModuleManager_status" z="9NZl93vEFMRmjjnSoGmgPjUOGmk="/>
         <field:datetime dateTimePattern="${moduleManager_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_ModuleManager_createdDate" z="GNxa3uhoa+83Giv4AljoZp5Op5s="/>
         <field:datetime dateTimePattern="${moduleManager_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_ModuleManager_updatedDate" z="brAjy9RGXkfN9zY7ExirYQ2DEXU="/>
-        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_ModuleManager_empCode" z="S1o3liS18W2YgralFa6jM+YtIFE="/>
+        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_ModuleManager_empCode" max="15" z="X4ldc2jNL08A6cWWE3Uc7XmNgi0="/>
         <field:select field="moduleProject" id="c_com_app2_app2t_domain_pjm_ModuleManager_moduleProject" itemValue="id" items="${moduleprojects}" path="/moduleprojects" z="tGyBldaEqSIviixOPN9YDdZcEUo="/>
     </form:update>
 </div>

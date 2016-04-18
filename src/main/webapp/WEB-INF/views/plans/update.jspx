@@ -8,7 +8,7 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_Plan_status" z="Ze96yupUcMwHdGLVldFk3GGgKEc="/>
         <field:datetime dateTimePattern="${plan_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_Plan_createdDate" z="pYmbScGHu4wK/SZZ6lHSk/FQ9Xg="/>
         <field:datetime dateTimePattern="${plan_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Plan_updatedDate" z="iNgSewlsgnpvZzmT9ttXMjaO7CQ="/>
-        <field:input field="note" id="c_com_app2_app2t_domain_pjm_Plan_note" z="1MSThALGSSXgNz4eMxTRas0xSk8="/>
+        <field:textarea field="note" id="c_com_app2_app2t_domain_pjm_Plan_note" z="cDu+w/IoNsI/RYCwY18R9HDJzYk="/>
         <field:datetime dateTimePattern="${plan_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Plan_dateStart" z="BGywWPNOs2iaJM+gWaDiU0bG3rs="/>
         <field:datetime dateTimePattern="${plan_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Plan_dateEnd" z="+wmcLitxXIZskI6KErpX5Mv0h+M="/>
         <field:select field="task" id="c_com_app2_app2t_domain_pjm_Plan_task" itemValue="id" items="${tasks}" path="/tasks" z="JWwrz8EqibwWTRJClSchVeJAe+Y="/>

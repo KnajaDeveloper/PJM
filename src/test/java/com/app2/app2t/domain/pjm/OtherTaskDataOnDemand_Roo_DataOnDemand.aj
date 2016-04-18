@@ -57,11 +57,17 @@ privileged aspect OtherTaskDataOnDemand_Roo_DataOnDemand {
     
     public void OtherTaskDataOnDemand.setDetail(OtherTask obj, int index) {
         String detail = "detail_" + index;
+        if (detail.length() > 255) {
+            detail = detail.substring(0, 255);
+        }
         obj.setDetail(detail);
     }
     
     public void OtherTaskDataOnDemand.setEmpCode(OtherTask obj, int index) {
         String empCode = "empCode_" + index;
+        if (empCode.length() > 15) {
+            empCode = empCode.substring(0, 15);
+        }
         obj.setEmpCode(empCode);
     }
     
@@ -77,11 +83,17 @@ privileged aspect OtherTaskDataOnDemand_Roo_DataOnDemand {
     
     public void OtherTaskDataOnDemand.setTaskCost(OtherTask obj, int index) {
         Double taskCost = new Integer(index).doubleValue();
+        if (taskCost > 9999999.9999D) {
+            taskCost = 9999999.9999D;
+        }
         obj.setTaskCost(taskCost);
     }
     
     public void OtherTaskDataOnDemand.setTaskName(OtherTask obj, int index) {
         String taskName = "taskName_" + index;
+        if (taskName.length() > 40) {
+            taskName = taskName.substring(0, 40);
+        }
         obj.setTaskName(taskName);
     }
     

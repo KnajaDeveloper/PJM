@@ -54,11 +54,17 @@ privileged aspect TypeTaskDataOnDemand_Roo_DataOnDemand {
     
     public void TypeTaskDataOnDemand.setTypeTaskCode(TypeTask obj, int index) {
         String typeTaskCode = "typeTaskCode_" + index;
+        if (typeTaskCode.length() > 15) {
+            typeTaskCode = typeTaskCode.substring(0, 15);
+        }
         obj.setTypeTaskCode(typeTaskCode);
     }
     
     public void TypeTaskDataOnDemand.setTypeTaskName(TypeTask obj, int index) {
         String typeTaskName = "typeTaskName_" + index;
+        if (typeTaskName.length() > 40) {
+            typeTaskName = typeTaskName.substring(0, 40);
+        }
         obj.setTypeTaskName(typeTaskName);
     }
     

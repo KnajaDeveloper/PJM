@@ -8,7 +8,7 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_ProjectManager_status" z="fb5OzT+E4DnT7b8yt5MCb/QPvEk="/>
         <field:datetime dateTimePattern="${projectManager_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_ProjectManager_createdDate" z="14fScFqS4+e2UpZpqrmq6BGGDd8="/>
         <field:datetime dateTimePattern="${projectManager_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_ProjectManager_updatedDate" z="4gNCbup1K/WlF9jKbiIAem5pRss="/>
-        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_ProjectManager_empCode" z="b3A0QOqyRDQQuXzoBwwFzizZvck="/>
+        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_ProjectManager_empCode" max="15" z="PxHUJo3Qp7+/+Bpk0kTCyMgi+4s="/>
         <field:select field="project" id="c_com_app2_app2t_domain_pjm_ProjectManager_project" itemValue="id" items="${projects}" path="/projects" z="AZy2V9g6u+IZjlR6SRLGNKnBtq4="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_app2_app2t_domain_pjm_ProjectManager" render="${not empty dependencies}" z="/tWLdyA7kA1RoEZ6/tHWPnXO/oE="/>

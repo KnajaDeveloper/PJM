@@ -8,18 +8,20 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_Task_status" z="7nU+PGW+RDCrOQ3QZ+7leJZ/DFI="/>
         <field:datetime dateTimePattern="${task_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_Task_createdDate" z="XXAwW7WaDkacFP7u6dDzjr98xB0="/>
         <field:datetime dateTimePattern="${task_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Task_updatedDate" z="3Nkjf6tfWCD/290X+ED3gHZnT3c="/>
-        <field:input field="taskCode" id="c_com_app2_app2t_domain_pjm_Task_taskCode" z="FQhgaZmyOMhpcY0Bn6D7do7N330="/>
-        <field:input field="taskName" id="c_com_app2_app2t_domain_pjm_Task_taskName" z="8ISAbQ4j0NuLsnuM0lskXwQbTo8="/>
+        <field:input field="taskCode" id="c_com_app2_app2t_domain_pjm_Task_taskCode" max="15" z="BPNWxmUWn7JUNxbFBCxJETsdXWs="/>
+        <field:textarea field="taskName" id="c_com_app2_app2t_domain_pjm_Task_taskName" z="o3x8PCl41TvaMqllhM1tw5ARv3A="/>
         <field:input field="taskCost" id="c_com_app2_app2t_domain_pjm_Task_taskCost" validationMessageCode="field_invalid_number" z="y31OfdDKmrbRswVZtHo0PJOU+64="/>
         <field:select field="typeTask" id="c_com_app2_app2t_domain_pjm_Task_typeTask" itemValue="id" items="${typetasks}" path="/typetasks" z="0KK2Tc700V4zsRLjfPHc5qhZm4k="/>
-        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_Task_empCode" z="fHpYXZ85oR++X/+qvVUid2Jv1LE="/>
-        <field:input field="detail" id="c_com_app2_app2t_domain_pjm_Task_detail" z="riXRBod20R1Zp7Pn2V2FZyspbLo="/>
+        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_Task_empCode" max="15" z="RGViQQ0GQX26oROJLdMp5V2xWTU="/>
+        <field:textarea field="detail" id="c_com_app2_app2t_domain_pjm_Task_detail" z="AbH1gENrJGBPcU4kw3dMj9OS7rI="/>
         <field:datetime dateTimePattern="${task_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Task_dateStart" z="AT12xNRRqZJl4ba0dU3AtJ4+I0Q="/>
         <field:datetime dateTimePattern="${task_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Task_dateEnd" z="+/Jmpha+p0Ah77nKIPqE9UqEQJo="/>
-        <field:input field="fileName" id="c_com_app2_app2t_domain_pjm_Task_fileName" z="5skkm8zQn+e8EP+WgxtbFXCqRTQ="/>
-        <field:input field="url" id="c_com_app2_app2t_domain_pjm_Task_url" z="aW24bbgCqf3tl4OhaYMPxNLNFiI="/>
+        <field:textarea field="fileName" id="c_com_app2_app2t_domain_pjm_Task_fileName" z="Zheo6zteb9KTMaj8NUIuYqNMUGw="/>
+        <field:textarea field="url" id="c_com_app2_app2t_domain_pjm_Task_url" z="fq7pqfaobOwzGyFcvs0SFtYmwds="/>
         <field:input field="progress" id="c_com_app2_app2t_domain_pjm_Task_progress" validationMessageCode="field_invalid_integer" z="RG0Pcf1sf8mY/wBsa/ktbw6pIvg="/>
         <field:select field="program" id="c_com_app2_app2t_domain_pjm_Task_program" itemValue="id" items="${programs}" path="/programs" z="l/gXTdftHn8lOjIXfImOvEqrT5A="/>
+        <field:input field="taskStatus" id="c_com_app2_app2t_domain_pjm_Task_taskStatus" max="1" z="kFQ+B6I5sF6yDpsB/KmDf3UH0QI="/>
+        <field:select field="importanceTask" id="c_com_app2_app2t_domain_pjm_Task_importanceTask" itemValue="id" items="${importancetasks}" path="/importancetasks" z="H1v8WQPB5qEwZrRpsxHP3DyC+A0="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_app2_app2t_domain_pjm_Task" render="${not empty dependencies}" z="5wtgaRI50aB6uFyrvsIzY1a4uOI="/>
 </div>

@@ -53,6 +53,9 @@ privileged aspect ModuleMemberDataOnDemand_Roo_DataOnDemand {
     
     public void ModuleMemberDataOnDemand.setEmpCode(ModuleMember obj, int index) {
         String empCode = "empCode_" + index;
+        if (empCode.length() > 15) {
+            empCode = empCode.substring(0, 15);
+        }
         obj.setEmpCode(empCode);
     }
     

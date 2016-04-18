@@ -54,11 +54,17 @@ privileged aspect ProgramDataOnDemand_Roo_DataOnDemand {
     
     public void ProgramDataOnDemand.setProgramCode(Program obj, int index) {
         String programCode = "programCode_" + index;
+        if (programCode.length() > 15) {
+            programCode = programCode.substring(0, 15);
+        }
         obj.setProgramCode(programCode);
     }
     
     public void ProgramDataOnDemand.setProgramName(Program obj, int index) {
         String programName = "programName_" + index;
+        if (programName.length() > 40) {
+            programName = programName.substring(0, 40);
+        }
         obj.setProgramName(programName);
     }
     

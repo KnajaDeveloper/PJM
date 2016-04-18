@@ -8,7 +8,7 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_ModuleMember_status" z="cAEG+8MBp5RQ8dtZBcQCvj+1uQg="/>
         <field:datetime dateTimePattern="${moduleMember_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_ModuleMember_createdDate" z="y9SI5Otr3pn+xIuGAGwEh9M94eA="/>
         <field:datetime dateTimePattern="${moduleMember_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_ModuleMember_updatedDate" z="pIagQMJ8M+537HeMpN0KQEVRukw="/>
-        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_ModuleMember_empCode" z="pY5kc/EaVKqiluqX5JtMgF+X9uo="/>
+        <field:input field="empCode" id="c_com_app2_app2t_domain_pjm_ModuleMember_empCode" max="15" z="DkQvyFGLsvssZLVxppTE2GhzOa4="/>
         <field:select field="moduleProject" id="c_com_app2_app2t_domain_pjm_ModuleMember_moduleProject" itemValue="id" items="${moduleprojects}" path="/moduleprojects" z="/Wmm9kDlA7zcs417K0pFOQ6E+yg="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_app2_app2t_domain_pjm_ModuleMember" render="${not empty dependencies}" z="oxF3sA3jIBFQ3AB0m58GEsUjTqQ="/>
