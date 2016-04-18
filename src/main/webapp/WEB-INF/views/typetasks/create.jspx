@@ -8,8 +8,8 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_TypeTask_status" z="BSm2sOI1GQXAPRreJAJwevqwot8="/>
         <field:datetime dateTimePattern="${typeTask_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_TypeTask_createdDate" z="MDRxGVQ9+aCAvYf1DYww2dDidLA="/>
         <field:datetime dateTimePattern="${typeTask_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_TypeTask_updatedDate" z="ciTR54e9l9f5hG78v+5H4NSOuCc="/>
-        <field:input field="typeTaskCode" id="c_com_app2_app2t_domain_pjm_TypeTask_typeTaskCode" z="aoScuWC4QP1I+YmnGXNZOe8PrU8="/>
-        <field:input field="typeTaskName" id="c_com_app2_app2t_domain_pjm_TypeTask_typeTaskName" z="sS4/wb5H1+amrBemUzJk1562zIU="/>
+        <field:input field="typeTaskCode" id="c_com_app2_app2t_domain_pjm_TypeTask_typeTaskCode" max="15" z="GKvNzrF3apbcNLfJf374nGpsCis="/>
+        <field:textarea field="typeTaskName" id="c_com_app2_app2t_domain_pjm_TypeTask_typeTaskName" z="llFfWCmYGS5VQMMUoNfgpRV5P+A="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_app2_app2t_domain_pjm_TypeTask" render="${not empty dependencies}" z="ilFRvoMeWFTlYJwcwnmMEBbOcEc="/>
 </div>

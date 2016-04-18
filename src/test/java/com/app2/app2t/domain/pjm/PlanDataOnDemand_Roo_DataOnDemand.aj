@@ -69,6 +69,9 @@ privileged aspect PlanDataOnDemand_Roo_DataOnDemand {
     
     public void PlanDataOnDemand.setNote(Plan obj, int index) {
         String note = "note_" + index;
+        if (note.length() > 255) {
+            note = note.substring(0, 255);
+        }
         obj.setNote(note);
     }
     

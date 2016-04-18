@@ -20,5 +20,7 @@
         <field:display field="url" id="s_com_app2_app2t_domain_pjm_Task_url" object="${task}" z="hbABs4t1bmh3Qz70UqSLmRnHZpw="/>
         <field:display field="progress" id="s_com_app2_app2t_domain_pjm_Task_progress" object="${task}" z="ffJIaSvLR8UBFIEypAETnpYiH/o="/>
         <field:display field="program" id="s_com_app2_app2t_domain_pjm_Task_program" object="${task}" z="5f2CJiSwGNn6S9wg0eMp7rGSawA="/>
+        <field:display field="taskStatus" id="s_com_app2_app2t_domain_pjm_Task_taskStatus" object="${task}" z="Y9pBSbPpWaCms4/s5vbpeWduy7I="/>
+        <field:display field="importanceTask" id="s_com_app2_app2t_domain_pjm_Task_importanceTask" object="${task}" z="VEYWfainh3g26U4biyChp201TJc="/>
     </page:show>
 </div>

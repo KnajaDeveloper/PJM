@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.domain.pjm.ImportanceTaskDataOnDemand;
 import com.app2.app2t.domain.pjm.ProgramDataOnDemand;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TaskDataOnDemand;
@@ -29,6 +30,9 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
     private List<Task> TaskDataOnDemand.data;
     
     @Autowired
+    ImportanceTaskDataOnDemand TaskDataOnDemand.importanceTaskDataOnDemand;
+    
+    @Autowired
     ProgramDataOnDemand TaskDataOnDemand.programDataOnDemand;
     
     @Autowired
@@ -48,6 +52,7 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
         setTaskCode(obj, index);
         setTaskCost(obj, index);
         setTaskName(obj, index);
+        setTaskStatus(obj, index);
         setUpdatedBy(obj, index);
         setUpdatedDate(obj, index);
         setUrl(obj, index);
@@ -76,16 +81,25 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
     
     public void TaskDataOnDemand.setDetail(Task obj, int index) {
         String detail = "detail_" + index;
+        if (detail.length() > 255) {
+            detail = detail.substring(0, 255);
+        }
         obj.setDetail(detail);
     }
     
     public void TaskDataOnDemand.setEmpCode(Task obj, int index) {
         String empCode = "empCode_" + index;
+        if (empCode.length() > 15) {
+            empCode = empCode.substring(0, 15);
+        }
         obj.setEmpCode(empCode);
     }
     
     public void TaskDataOnDemand.setFileName(Task obj, int index) {
         String fileName = "fileName_" + index;
+        if (fileName.length() > 100) {
+            fileName = fileName.substring(0, 100);
+        }
         obj.setFileName(fileName);
     }
     
@@ -101,17 +115,34 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
     
     public void TaskDataOnDemand.setTaskCode(Task obj, int index) {
         String taskCode = "taskCode_" + index;
+        if (taskCode.length() > 15) {
+            taskCode = taskCode.substring(0, 15);
+        }
         obj.setTaskCode(taskCode);
     }
     
     public void TaskDataOnDemand.setTaskCost(Task obj, int index) {
         Double taskCost = new Integer(index).doubleValue();
+        if (taskCost > 9999999.9999D) {
+            taskCost = 9999999.9999D;
+        }
         obj.setTaskCost(taskCost);
     }
     
     public void TaskDataOnDemand.setTaskName(Task obj, int index) {
         String taskName = "taskName_" + index;
+        if (taskName.length() > 40) {
+            taskName = taskName.substring(0, 40);
+        }
         obj.setTaskName(taskName);
+    }
+    
+    public void TaskDataOnDemand.setTaskStatus(Task obj, int index) {
+        String taskStatus = String.valueOf(index);
+        if (taskStatus.length() > 1) {
+            taskStatus = taskStatus.substring(0, 1);
+        }
+        obj.setTaskStatus(taskStatus);
     }
     
     public void TaskDataOnDemand.setUpdatedBy(Task obj, int index) {
@@ -126,6 +157,9 @@ privileged aspect TaskDataOnDemand_Roo_DataOnDemand {
     
     public void TaskDataOnDemand.setUrl(Task obj, int index) {
         String url = "url_" + index;
+        if (url.length() > 100) {
+            url = url.substring(0, 100);
+        }
         obj.setUrl(url);
     }
     

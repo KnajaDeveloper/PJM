@@ -8,12 +8,12 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_ModuleProject_status" z="G0HZqhws2EGNYg3GwQ9jw3s8nYA="/>
         <field:datetime dateTimePattern="${moduleProject_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_ModuleProject_createdDate" z="/jTmfQdbY+8A7GyOEIofY4Egk3E="/>
         <field:datetime dateTimePattern="${moduleProject_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_ModuleProject_updatedDate" z="bnqY5o0Sg0y56nsjou3/UjYRDF0="/>
-        <field:input field="moduleCode" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleCode" z="bX7vwHHOoFfdJloQXrivnLVzdTk="/>
-        <field:input field="moduleName" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleName" z="CHnVcGPvXZtkwIGnAvkyh7DtD3s="/>
+        <field:input field="moduleCode" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleCode" max="15" z="HBLHfdXBEPYcufhR8xPYiN/Z4PI="/>
+        <field:textarea field="moduleName" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleName" z="6ZGzy4g4IYT8sufuv9grdcaZcJo="/>
         <field:input field="moduleCost" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleCost" validationMessageCode="field_invalid_number" z="e6Ia8Bu0oKTQBWe8LOOGTqEAGGo="/>
         <field:datetime dateTimePattern="${moduleProject_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_ModuleProject_dateStart" z="eSURyhZWY0++ul+C2OK7qNFZUXw="/>
         <field:datetime dateTimePattern="${moduleProject_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_ModuleProject_dateEnd" z="dgJq2xauR0fqvYdkd74uG4ovk78="/>
         <field:select field="project" id="c_com_app2_app2t_domain_pjm_ModuleProject_project" itemValue="id" items="${projects}" path="/projects" z="RQoKHr1xGAMwT3+BTuVdIZt8Rzs="/>
-        <field:input field="moduleStatus" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleStatus" z="tYRLOr+bWECVwgKJ8p7zGrQYU7Y="/>
+        <field:input field="moduleStatus" id="c_com_app2_app2t_domain_pjm_ModuleProject_moduleStatus" max="15" z="+qcXxsydpBgjdrz70+LSmg6QhsA="/>
     </form:update>
 </div>

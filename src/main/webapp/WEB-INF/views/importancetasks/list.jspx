@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_pjm_ImportanceTask" items="${importancetasks}" z="/piZwGJQNiKBWMN72aSwiIBrErQ=">
+        <table:table data="${importancetasks}" id="l_com_app2_app2t_domain_pjm_ImportanceTask" path="/importancetasks" z="dX+n8IuVXmVxj8DxJw5tHjW+LtE=">
+            <table:column id="c_com_app2_app2t_domain_pjm_ImportanceTask_createdBy" property="createdBy" z="8GXuBw7hcaxKB+rMcu0oOTRFnGA="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_ImportanceTask_updatedBy" property="updatedBy" z="xo823wONycuMYX23bGZl8Fw494k="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_ImportanceTask_status" property="status" z="Y4UOTn+fWDhvUwd2/ccbPOu7l2w="/>
+            <table:column date="true" dateTimePattern="${importanceTask_createddate_date_format}" id="c_com_app2_app2t_domain_pjm_ImportanceTask_createdDate" property="createdDate" z="rxdjtQSWLt4F5uGVd52ZjCIwLy4="/>
+            <table:column date="true" dateTimePattern="${importanceTask_updateddate_date_format}" id="c_com_app2_app2t_domain_pjm_ImportanceTask_updatedDate" property="updatedDate" z="S2p26W3OeM+RIWND0tvR3nb9qDw="/>
+            <table:column id="c_com_app2_app2t_domain_pjm_ImportanceTask_importanceTaskCode" property="importanceTaskCode" z="rNylmGo/KDAnJEZuEXPV7Nxk+QQ="/>
+        </table:table>
+    </page:list>
+</div>

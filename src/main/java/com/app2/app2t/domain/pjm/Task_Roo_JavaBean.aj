@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.domain.pjm.ImportanceTask;
 import com.app2.app2t.domain.pjm.Program;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TypeTask;
@@ -104,6 +105,22 @@ privileged aspect Task_Roo_JavaBean {
     
     public void Task.setProgram(Program program) {
         this.program = program;
+    }
+    
+    public String Task.getTaskStatus() {
+        return this.taskStatus;
+    }
+    
+    public void Task.setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+    
+    public ImportanceTask Task.getImportanceTask() {
+        return this.importanceTask;
+    }
+    
+    public void Task.setImportanceTask(ImportanceTask importanceTask) {
+        this.importanceTask = importanceTask;
     }
     
 }

@@ -8,8 +8,8 @@
         <field:input field="status" id="c_com_app2_app2t_domain_pjm_Project_status" z="NQ6zWk6ALZ9R0ZE7bu77MRiefIQ="/>
         <field:datetime dateTimePattern="${project_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_pjm_Project_createdDate" z="/HqCF3Bpi2buzKCwtV4ZQt39Afw="/>
         <field:datetime dateTimePattern="${project_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_pjm_Project_updatedDate" z="GOfjWxqTlocsCa/O8m7AzJA6W3g="/>
-        <field:input field="projectCode" id="c_com_app2_app2t_domain_pjm_Project_projectCode" z="6TXXMzNQzcrd/V2YS548fxOdowg="/>
-        <field:input field="projectName" id="c_com_app2_app2t_domain_pjm_Project_projectName" z="y16XKHdNGKmy91o5WOivGIJcXD4="/>
+        <field:input field="projectCode" id="c_com_app2_app2t_domain_pjm_Project_projectCode" max="15" z="qrsIDhy5h/ai3h2N86VHAQnb+nI="/>
+        <field:textarea field="projectName" id="c_com_app2_app2t_domain_pjm_Project_projectName" z="/WhfgejCm9R19q/RSUJMBAZrX1k="/>
         <field:input field="projectCost" id="c_com_app2_app2t_domain_pjm_Project_projectCost" validationMessageCode="field_invalid_number" z="ZIfsriUDQNuwmPgU0Rp36VhHO1Y="/>
         <field:datetime dateTimePattern="${project_datestart_date_format}" field="dateStart" id="c_com_app2_app2t_domain_pjm_Project_dateStart" z="G0lFVL25DHGyjD+iNt2oehmLfEs="/>
         <field:datetime dateTimePattern="${project_dateend_date_format}" field="dateEnd" id="c_com_app2_app2t_domain_pjm_Project_dateEnd" z="/fojNwi2K0dhqQHlJ7YFqcjf2QU="/>

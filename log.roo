@@ -149,3 +149,42 @@ web mvc all --package ~.web.pjm
 web mvc json all
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-04-04 09:51:42
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-04-18 09:09:14
+focus --class ~.domain.pjm.Task
+field string taskStatus
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 09:14:01
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-04-18 09:14:07
+json all 
+json all --deepSerialize 
+web mvc all --package ~.web.pjm
+web mvc json all 
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 09:15:59
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-04-18 09:56:44
+entity jpa --class ~.domain.pjm.followerTask --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field reference --fieldName task --type ~.domain.pjm.Task --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName task
+field string empCode
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 10:01:44
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-04-18 10:01:49
+entity jpa --class ~.domain.pjm.importanceTask --extends ~.base.BaseEntity --testAutomatically --inheritanceType TABLE_PER_CLASS
+field string importanceTaskCode
+field string importanceTaskName
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 10:07:14
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-04-18 10:07:19
+focus --class ~.domain.pjm.Task
+field reference --fieldName importanceTask --type ~.domain.pjm.importanceTask --cardinality MANY_TO_ONE --fetch LAZY --joinColumnName importanceTask
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 10:12:42
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2016-04-18 10:12:49
+json all 
+json all --deepSerialize 
+web mvc all --package ~.web.pjm
+json all 
+json all --deepSerialize 
+web mvc all --package ~.web.pjm
+web mvc json all 
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 10:31:26

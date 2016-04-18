@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_pjm_ImportanceTask" object="${importancetask}" path="/importancetasks" z="JpvQLKh8uSo0WjF56nBtaMdLYiE=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_pjm_ImportanceTask_createdBy" object="${importancetask}" z="JipFBCcJzZO4JeZuf+CAiQCkQYU="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_pjm_ImportanceTask_updatedBy" object="${importancetask}" z="wPhXtFQ4QyLs9NyE5RP1gpHh67k="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_pjm_ImportanceTask_status" object="${importancetask}" z="SNHjj/77YbqeiBynWsVUaG5BzZM="/>
+        <field:display date="true" dateTimePattern="${importanceTask_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_pjm_ImportanceTask_createdDate" object="${importancetask}" z="fuXhXpp1vQtYB/jet6lT4it9gTI="/>
+        <field:display date="true" dateTimePattern="${importanceTask_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_pjm_ImportanceTask_updatedDate" object="${importancetask}" z="n4tHvVlXEspkTUKJhVeyH4ZjX5Q="/>
+        <field:display field="importanceTaskCode" id="s_com_app2_app2t_domain_pjm_ImportanceTask_importanceTaskCode" object="${importancetask}" z="WJMjQzHGF5x4ZCAzWF5yjkrlhH8="/>
+        <field:display field="importanceTaskName" id="s_com_app2_app2t_domain_pjm_ImportanceTask_importanceTaskName" object="${importancetask}" z="gD9XoyUDb50L4024t3h14tQT4t4="/>
+    </page:show>
+</div>

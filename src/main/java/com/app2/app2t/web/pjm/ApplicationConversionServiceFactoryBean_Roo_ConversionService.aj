@@ -3,6 +3,8 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.FollowerTask;
+import com.app2.app2t.domain.pjm.ImportanceTask;
 import com.app2.app2t.domain.pjm.ModuleManager;
 import com.app2.app2t.domain.pjm.ModuleMember;
 import com.app2.app2t.domain.pjm.ModuleProject;
@@ -21,6 +23,54 @@ import org.springframework.format.FormatterRegistry;
 privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService {
     
     declare @type: ApplicationConversionServiceFactoryBean: @Configurable;
+    
+    public Converter<FollowerTask, String> ApplicationConversionServiceFactoryBean.getFollowerTaskToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.FollowerTask, java.lang.String>() {
+            public String convert(FollowerTask followerTask) {
+                return new StringBuilder().append(followerTask.getCreatedBy()).append(' ').append(followerTask.getUpdatedBy()).append(' ').append(followerTask.getStatus()).append(' ').append(followerTask.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, FollowerTask> ApplicationConversionServiceFactoryBean.getIdToFollowerTaskConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.pjm.FollowerTask>() {
+            public com.app2.app2t.domain.pjm.FollowerTask convert(java.lang.Long id) {
+                return FollowerTask.findFollowerTask(id);
+            }
+        };
+    }
+    
+    public Converter<String, FollowerTask> ApplicationConversionServiceFactoryBean.getStringToFollowerTaskConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.FollowerTask>() {
+            public com.app2.app2t.domain.pjm.FollowerTask convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), FollowerTask.class);
+            }
+        };
+    }
+    
+    public Converter<ImportanceTask, String> ApplicationConversionServiceFactoryBean.getImportanceTaskToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.ImportanceTask, java.lang.String>() {
+            public String convert(ImportanceTask importanceTask) {
+                return new StringBuilder().append(importanceTask.getCreatedBy()).append(' ').append(importanceTask.getUpdatedBy()).append(' ').append(importanceTask.getStatus()).append(' ').append(importanceTask.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, ImportanceTask> ApplicationConversionServiceFactoryBean.getIdToImportanceTaskConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.pjm.ImportanceTask>() {
+            public com.app2.app2t.domain.pjm.ImportanceTask convert(java.lang.Long id) {
+                return ImportanceTask.findImportanceTask(id);
+            }
+        };
+    }
+    
+    public Converter<String, ImportanceTask> ApplicationConversionServiceFactoryBean.getStringToImportanceTaskConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.pjm.ImportanceTask>() {
+            public com.app2.app2t.domain.pjm.ImportanceTask convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), ImportanceTask.class);
+            }
+        };
+    }
     
     public Converter<ModuleManager, String> ApplicationConversionServiceFactoryBean.getModuleManagerToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.ModuleManager, java.lang.String>() {
@@ -263,6 +313,12 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     }
     
     public void ApplicationConversionServiceFactoryBean.installLabelConverters(FormatterRegistry registry) {
+        registry.addConverter(getFollowerTaskToStringConverter());
+        registry.addConverter(getIdToFollowerTaskConverter());
+        registry.addConverter(getStringToFollowerTaskConverter());
+        registry.addConverter(getImportanceTaskToStringConverter());
+        registry.addConverter(getIdToImportanceTaskConverter());
+        registry.addConverter(getStringToImportanceTaskConverter());
         registry.addConverter(getModuleManagerToStringConverter());
         registry.addConverter(getIdToModuleManagerConverter());
         registry.addConverter(getStringToModuleManagerConverter());

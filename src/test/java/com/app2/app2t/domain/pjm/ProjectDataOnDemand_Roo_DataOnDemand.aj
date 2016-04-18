@@ -62,16 +62,25 @@ privileged aspect ProjectDataOnDemand_Roo_DataOnDemand {
     
     public void ProjectDataOnDemand.setProjectCode(Project obj, int index) {
         String projectCode = "projectCode_" + index;
+        if (projectCode.length() > 15) {
+            projectCode = projectCode.substring(0, 15);
+        }
         obj.setProjectCode(projectCode);
     }
     
     public void ProjectDataOnDemand.setProjectCost(Project obj, int index) {
         Double projectCost = new Integer(index).doubleValue();
+        if (projectCost > 9999999.9999D) {
+            projectCost = 9999999.9999D;
+        }
         obj.setProjectCost(projectCost);
     }
     
     public void ProjectDataOnDemand.setProjectName(Project obj, int index) {
         String projectName = "projectName_" + index;
+        if (projectName.length() > 40) {
+            projectName = projectName.substring(0, 40);
+        }
         obj.setProjectName(projectName);
     }
     
