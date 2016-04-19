@@ -43,6 +43,8 @@
     <c:set var="ALERT_DATA_ALL_IN_USE" scope="request"><spring:message code="M0061"/></c:set>
     <c:set var="ALERT_LIST" scope="request"><spring:message code="M0027"/></c:set>
     <c:set var="LABEL_POINT" scope="request"><spring:message code="L0030"/></c:set>
+    <c:set var="ALERT_INUSE_OR_NOT_REMOVE" scope="request"><spring:message code="M0069"/></c:set>
+    <c:set var="ALERT_YOU_NOT_REMOVE" scope="request"><spring:message code="M0070"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -59,6 +61,8 @@
         MESSAGE.ALERT_DATA_ALL_IN_USE = '${ALERT_DATA_ALL_IN_USE}';
         MESSAGE.ALERT_LIST = '${ALERT_LIST}';
         MESSAGE.LABEL_POINT = '${LABEL_POINT}';
+        MESSAGE.ALERT_INUSE_OR_NOT_REMOVE = '${ALERT_INUSE_OR_NOT_REMOVE}';
+        MESSAGE.ALERT_YOU_NOT_REMOVE = '${ALERT_YOU_NOT_REMOVE}';
 
     </script>
     <div class="row">

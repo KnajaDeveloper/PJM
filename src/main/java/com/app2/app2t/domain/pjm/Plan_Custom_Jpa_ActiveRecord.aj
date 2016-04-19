@@ -3,24 +3,17 @@
 
 package com.app2.app2t.domain.pjm;
 
-import com.app2.app2t.domain.pjm.Plan;
-
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.fasterxml.jackson.databind.Module;
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.derby.vti.Restriction;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
-import org.hibernate.type.IntegerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 
 privileged aspect Plan_Custom_Jpa_ActiveRecord {
@@ -350,5 +343,74 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("Program.moduleProject", moduleProject));
         List<Plan> listPlan = criteria.list();
         return listPlan;
+    }
+
+    public static Criteria Plan.selectPlanTofirstPage(String empCode) {
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class,"plan");
+
+        Date currentDate = new Date();
+        String modifiedDate= new SimpleDateFormat("MM/dd/yyyy").format(currentDate);
+//        Date date = new Date(modifiedDate);
+//        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date2);
+        Date date = new Date ("03/01/2016");
+        criteria.add(Restrictions.le("plan.dateStart",date));
+        criteria.add(Restrictions.ge("plan.dateEnd",date));
+
+        criteria.createAlias("plan.task","task");
+        criteria.add(Restrictions.eq("task.empCode", empCode));
+        return criteria;
+    }
+
+    public static List<Plan> Plan.findtaskTodayPagingData(String empCode,
+                                                                   Integer maxResult,
+                                                                   Integer firstResult
+
+    ){
+        Criteria criteria = Plan.selectPlanTofirstPage(empCode)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+    public static  Long Plan.findtaskTodayPagingSize(String empCode
+
+    ){
+        Criteria criteria = Plan.selectPlanTofirstPage(empCode)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
+    public static Criteria Plan.selectPlanBaclLogTofirstPage(String empCode) {
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class,"plan");
+
+        Date currentDate = new Date();
+        String modifiedDate= new SimpleDateFormat("MM/dd/yyyy").format(currentDate);
+//        Date date = new Date(modifiedDate);
+//        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date2);
+        Date date = new Date ("03/01/2016");
+        criteria.add(Restrictions.gt("plan.dateStart",date));
+
+        criteria.createAlias("plan.task","task");
+        criteria.add(Restrictions.eq("task.empCode", empCode));
+        return criteria;
+    }
+
+    public static List<Plan> Plan.findtaskBackLogPagingData(String empCode,
+                                                          Integer maxResult,
+                                                          Integer firstResult
+
+    ){
+        Criteria criteria = Plan.selectPlanBaclLogTofirstPage(empCode)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResult);
+        return criteria.list();
+    }
+    public static  Long Plan.findtaskBackLogPagingSize(String empCode
+
+    ){
+        Criteria criteria = Plan.selectPlanBaclLogTofirstPage(empCode)
+                .setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
 }

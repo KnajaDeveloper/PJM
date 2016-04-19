@@ -194,7 +194,7 @@ paggination.loadTable = function loadTable(jsonData) {
 $('#data').on("click", "[id^=checkBoxDisable_]", function () {
     var id = this.id.split('checkBoxDisable_')[1];
     if($("#checkBoxDisable_"+id).attr('rolePm') == 'false'){
-        bootbox.alert("ไม่มีสิทธิลบน่ะจร่ะ");
+        bootbox.alert( MESSAGE.ALERT_YOU_NOT_REMOVE);
     }
     if($("#checkBoxDisable_"+id).attr('rolePm') == 'true'){
         bootbox.alert(MESSAGE.ALERT_NOT_DELETE_THIS_DATA);
@@ -206,11 +206,11 @@ $('#data').on("click", "[id^=checkBoxDisable_]", function () {
 $('#data').on("click", "[id^=checkBoxDelete]", function () {
     var id = this.id.split('checkBoxDelete')[1];
     if($("#checkBoxDelete"+id).attr('rolePm') == 'false'){
-        bootbox.alert("ไม่มีสิทธิลบน่ะจร่ะ");
+        bootbox.alert( MESSAGE.ALERT_YOU_NOT_REMOVE);
         $("#checkBoxDelete"+id).prop('checked', false);
     }
-    var checkNum = $('input[status=check]').length;
-    var checkBoxCheck =  $('input[status=check]:checked').length;
+    var checkNum = $('input[rolePm=true][status=check]').length;
+    var checkBoxCheck =  $('input[rolePm=true][status=check]:checked').length;
     if (checkBoxCheck == checkNum){
         $('#checkAll').prop('checked', true);
     }
@@ -221,15 +221,14 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
 }); //--checkDataDelete--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "#checkAll", function () {
-    if($('[id^=checkBoxDelete]').attr('rolePm') == 'true'){
-        $('[id^=checkBoxDelete]').prop('checked', $(this).prop('checked'));
-    }
-    var num =  $('input[status=check]:checked').length;
-    var status =  $('input[checkBox=check]').length;
+
+        $('input[rolePm=true][status=check]').prop('checked', $(this).prop('checked'));
+    var num =  $('input[rolePm=true]:checked ').length;
+    var status =  $('input[rolePm=true]').length;
     //console.log(status); console.log(num+"ss");
     if (status > 0 && num <= 0 && $('#checkAll').prop('checked') == true ){
        $('#checkAll').prop('checked', false);
-      bootbox.alert("ข้อมูลทั้งหมดถูกใช้งานอยู่หรือคุณไม่มีสิทธิลบ");
+      bootbox.alert(MESSAGE.ALERT_INUSE_OR_NOT_REMOVE);
     }
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
