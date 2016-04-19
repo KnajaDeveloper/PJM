@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
+	<c:set var="LABEL_MODULE"><spring:message javaScriptEscape="true" code="L0009"/></c:set>
+	<c:set var="LABEL_TEAM"><spring:message javaScriptEscape="true" code="L0031"/></c:set>
+	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
+	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
+	<c:set var="LABEL_EMPLOYEE_NAME"><spring:message javaScriptEscape="true" code="L0003"/></c:set>
+	<c:set var="LABEL_TASK_NAME"><spring:message javaScriptEscape="true" code="L0033"/></c:set>
+	<c:set var="LABEL_TASK_TYPE_NAME"><spring:message javaScriptEscape="true" code="L0071"/></c:set>
+
+	<c:set var="BUTTON_SEARCH"><spring:message javaScriptEscape="true" code="B0002"/></c:set>
+
+	<div id="containerData" name="cotainerData" class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">ค้นหางาน</div><br/>
+			<div class="panel-body">
+				<form class="form-horizontal">
+					<div name="container_Project" class="form-group ">
+						<div class="col-sm-1"><!--Not--></div>
+						<div class="col-sm-8">
+						<label class="col-sm-5 control-label">โปรเจค</label>
+							<div class="col-sm-7">
+								<select id="ddlProject" class="form-control">
+									<option value="null"><!-- Not Empty --></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2"><!--Not--></div>
+					</div>
+					<div name="container_Module" class="form-group">
+						<div class="col-sm-1"><!--Not--></div>
+						<div class="col-sm-8">
+							<label class="col-sm-5 control-label">โมดูล</label>
+							<div class="col-sm-7">
+								<select id="ddlModule" class="form-control">
+									<option value="null"><!--Not Empty--></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2"><!--Not--></div>
+					</div>
+					<div name="container_Team" class="form-group">
+						<div class="col-sm-1"><!--Not--></div>
+						<div class="col-sm-8">
+							<label class="col-sm-5 control-label">ชื่อผู้ติดตาม</label>
+							<div class="col-sm-5">
+								<select id="ddlTeam" class="form-control">
+									<option value="null"><!--Not Empty--></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2"><!--Not--></div>
+					</div>
+					<div name="container_TypeTask" class="form-group">
+						<div class="col-sm-1"><!--Not--></div>
+						<div class="col-sm-8">
+							<label class="col-sm-5 control-label">ประเภทงาน</label>
+							<div class="col-sm-4">
+								<select id="ddlTypeTask" class="form-control">
+									<option value="null"><!--Not Empty--></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2"><!--Not--></div>
+					</div>
+					<div name="container_StatuseTask" class="form-group">
+						<div class="col-sm-1"><!--Not--></div>
+						<div class="col-sm-8">
+							<label class="col-sm-5 control-label">สถานะงาน</label>
+							<div class="col-sm-4">
+								<select id="ddlStatusTask" class="form-control">
+									<option value="null"><!--Not Empty--></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2"><!--Not--></div>
+					</div>
+					<div name="btnSearchAndReset" class="form-group">
+						<div class="col-sm-6"><!--Not Empty --></div>
+						<button id="btnSearch" type="button" class="btn btn-primary">ค้นหา</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="containerResult" name="containerResult" class="col-md-12" style="padding-top: 20px">
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="table-stripted table-responsive">
+						<table id="Table" class="table table-bordered table-stripted ">
+							<tdead>
+								<tr>
+									<th class="text-center"  width="5%">ผลการตรวจสอบ</th>
+									<th class="text-center"  width="5%">โปรเจค</th>
+									<th class="text-center"  width="5%">โมดูล</th>
+									<th class="text-center"  width="5%">โปรแกรม</th>
+									<th class="text-center"  width="5%">งาน</th>
+									<th class="text-center"  width="5%">เปอร์เซ็น</th>
+								</tr>
+							</tdead>
+							<tbody id="ResualtSearch" style="cursor:pointer"></tbody>
+						</table>
+					</div>
+					<div class="form-horizontal">
+						<div class="form-group">
+							<component:pagging id="paggingSimple"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var contextPath = '${pageContext.request.contextPath}';
+	</script>
+
+	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
+	<script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
+
+	<spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
+	<script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
+
+	<!-- Script Calendar -->
+	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>
+	<spring:url value="/resources/scripts/fullcalendar/fullcalendar.min.js" var="fullcalendar_js"/>
+	<script src="${moment_js}" type="text/javascript"><!--Not Empty --></script>
+	<script src="${fullcalendar_js}" type="text/javascript"><!--Not Empty --></script>
+
+	<spring:url value="/resources/scripts/component/UtilForm.js" var="UtilForm"/>
+	<script src="${UtilForm}" type="text/javascript"><!--Not Empty --></script>
+
+</div>
