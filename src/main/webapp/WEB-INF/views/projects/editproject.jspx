@@ -64,6 +64,8 @@
 	<c:set var="MESSAGE_DELETE_MODULE_FAILED"><spring:message javaScriptEscape="true" code="M0057"/></c:set>
 	<c:set var="MESSAGE_POINT_FROM_MODULE"><spring:message javaScriptEscape="true" code="M0058"/></c:set>
 	<c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
+	<c:set var="MESSAGE_NO_ROLE" scope="request"><spring:message code="M0063"/></c:set>
+
 
 
 
@@ -90,6 +92,7 @@
 		var _language = commonData.language;
 		var dateLang = checkLanguageDatePicker(_language);
 		var projectId = '${projectId}';
+		var role = '${role}';
 		var Label = {};
 		Label.Point = '${LABEL_POINT}';
 		Label.Start_Date = '${LABEL_START_DATE}';
@@ -133,6 +136,7 @@
 		Message.Confirm_exit = '${MESSAGE_COMFIRM_EXIT}';
 		Message.Data_no_change = '${MESSAGE_NO_CHANGE_DATA}';
 		Message.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
+		Message.No_role = '${MESSAGE_NO_ROLE}';
 
 		var Button = {};
 		Button.Delete = '${BUTTON_DELETE}';
@@ -477,7 +481,6 @@
 
 			</div>
 		</div>
-
 	</div>
 
 	<script>
