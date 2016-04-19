@@ -188,3 +188,29 @@ web mvc all --package ~.web.pjm
 web mvc json all 
 exit
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2016-04-18 10:31:26
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-04-19 10:13:14
+entity jpa --class ~.domain.AppParameter --extends ~.base.BaseEntity --inheritanceType TABLE_PER_CLASS --testAutomatically 
+field string code --unique --notNull
+field string parameterDescription
+entity jpa --class ~.domain.ParameterDetail --extends ~.base.BaseEntity --inheritanceType TABLE_PER_CLASS --testAutomatically 
+field string code --unique --notNull
+field string parameterDescription
+field string parameterValue1
+field string parameterValue2
+field string parameterValue3
+field string parameterValue4
+field string parameterValue5
+field string parameterValue6
+field string parameterValue7
+field string parameterValue8
+field string parameterValue9
+field string parameterValue10
+field reference --fieldName appParameter --type ~.domain.AppParameter --cardinality MANY_TO_ONE --fetch EAGER --joinColumnName appParameter
+focus --class ~.domain.AppParameter
+field set --fieldName parameterDetails --type ~.domain.ParameterDetail --fetch EAGER --cardinality ONE_TO_MANY --mappedBy appParameter
+json all
+json all --deepSerialize
+web mvc all --package ~.web.pjm
+web mvc json all
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-04-19 10:14:07

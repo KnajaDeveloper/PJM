@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_ParameterDetail" object="${parameterdetail}" path="/parameterdetails" z="KObZPnbsHUrD654zmPEbLxhbnCY=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_ParameterDetail_createdBy" object="${parameterdetail}" z="5vbxf8NxN2MzP5lwnjcGkbZfrZw="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_ParameterDetail_updatedBy" object="${parameterdetail}" z="u8REZR3gsncIhZTnEWeZRw/Ud8g="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_ParameterDetail_status" object="${parameterdetail}" z="uaUa9bdMEzV+cbi3AsQ7ZWvKgTQ="/>
+        <field:display date="true" dateTimePattern="${parameterDetail_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_ParameterDetail_createdDate" object="${parameterdetail}" z="v2Jit1f6RxMKp6UQlB3MXDBU7aQ="/>
+        <field:display date="true" dateTimePattern="${parameterDetail_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_ParameterDetail_updatedDate" object="${parameterdetail}" z="JhZKEsFOaNTDGNb9l3DulCgQzY8="/>
+        <field:display field="code" id="s_com_app2_app2t_domain_ParameterDetail_code" object="${parameterdetail}" z="oN0CVM9tUrtebjDekTb/wcUeHfw="/>
+        <field:display field="parameterDescription" id="s_com_app2_app2t_domain_ParameterDetail_parameterDescription" object="${parameterdetail}" z="4dMcCi45Fpv88UAL9czqQHOT8No="/>
+        <field:display field="parameterValue1" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue1" object="${parameterdetail}" z="4dgpxVN1yrRrXK0cRjiz5j8FHSo="/>
+        <field:display field="parameterValue2" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue2" object="${parameterdetail}" z="SdQ4p4PZk62scvPRxpf9RWm6HD8="/>
+        <field:display field="parameterValue3" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue3" object="${parameterdetail}" z="7b8gQSFa0+1VqUrsj6MktmoqqDE="/>
+        <field:display field="parameterValue4" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue4" object="${parameterdetail}" z="AgTWUeU5qaJsZAbWXGEkXlZOA+E="/>
+        <field:display field="parameterValue5" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue5" object="${parameterdetail}" z="n6T+W77P/PpmCwvFOS/BXPkt4nY="/>
+        <field:display field="parameterValue6" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue6" object="${parameterdetail}" z="kotUWRG8LXJIUnH6MsNMIcSlZSI="/>
+        <field:display field="parameterValue7" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue7" object="${parameterdetail}" z="ycl7a/MwQ6za5fxd4qEsZum8hyE="/>
+        <field:display field="parameterValue8" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue8" object="${parameterdetail}" z="S7DdCVRBOzzNI8gBlrtuw8E2iVA="/>
+        <field:display field="parameterValue9" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue9" object="${parameterdetail}" z="Q227eG7Av9pVTbauHXQI3r/ZPOg="/>
+        <field:display field="parameterValue10" id="s_com_app2_app2t_domain_ParameterDetail_parameterValue10" object="${parameterdetail}" z="v1Nc2gsS8sugE0e8z6+Oy98oNSA="/>
+        <field:display field="appParameter" id="s_com_app2_app2t_domain_ParameterDetail_appParameter" object="${parameterdetail}" z="2em0VX4hMUucUukc6bzjzAVlMaI="/>
+    </page:show>
+</div>

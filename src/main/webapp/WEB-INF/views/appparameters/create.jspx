@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_com_app2_app2t_domain_AppParameter" modelAttribute="appParameter" path="/appparameters" render="${empty dependencies}" z="+qVU+ioAHCt3FC3zo9VtPt8SPNY=">
+        <field:input field="createdBy" id="c_com_app2_app2t_domain_AppParameter_createdBy" z="TzrwbbhzqWH6YHYPUMRrxt106Ls="/>
+        <field:input field="updatedBy" id="c_com_app2_app2t_domain_AppParameter_updatedBy" z="lff1U0apX16LBtcGkhPOy9LB5wc="/>
+        <field:input field="status" id="c_com_app2_app2t_domain_AppParameter_status" z="EIJYIeuxNhlO502BOIHfRI8Hmek="/>
+        <field:datetime dateTimePattern="${appParameter_createddate_date_format}" field="createdDate" id="c_com_app2_app2t_domain_AppParameter_createdDate" z="pgoK5poTuUtHK/xAyy98PbI5KO8="/>
+        <field:datetime dateTimePattern="${appParameter_updateddate_date_format}" field="updatedDate" id="c_com_app2_app2t_domain_AppParameter_updatedDate" z="CoHbVdV/ZYv7BKK1Xg14kePEOHE="/>
+        <field:input field="code" id="c_com_app2_app2t_domain_AppParameter_code" required="true" z="V89+6rSPeWS5Mwo0OWY8zt6Ysak="/>
+        <field:input field="parameterDescription" id="c_com_app2_app2t_domain_AppParameter_parameterDescription" z="ZQKTVcx4S14VqHZPQ9EnnPqgkzI="/>
+        <field:simple field="parameterDetails" id="c_com_app2_app2t_domain_AppParameter_parameterDetails" messageCode="entity_reference_not_managed" messageCodeAttribute="Parameter Detail" z="UqxkZrNlriJuT4/dFfnPlh2PcOM="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_app2_app2t_domain_AppParameter" render="${not empty dependencies}" z="AEl6hW+s67ClDhufWK1A+2PKd2E="/>
+</div>

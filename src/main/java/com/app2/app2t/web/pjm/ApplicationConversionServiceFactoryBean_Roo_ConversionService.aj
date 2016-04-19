@@ -3,6 +3,8 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.AppParameter;
+import com.app2.app2t.domain.ParameterDetail;
 import com.app2.app2t.domain.pjm.FollowerTask;
 import com.app2.app2t.domain.pjm.ImportanceTask;
 import com.app2.app2t.domain.pjm.ModuleManager;
@@ -23,6 +25,54 @@ import org.springframework.format.FormatterRegistry;
 privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService {
     
     declare @type: ApplicationConversionServiceFactoryBean: @Configurable;
+    
+    public Converter<AppParameter, String> ApplicationConversionServiceFactoryBean.getAppParameterToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.AppParameter, java.lang.String>() {
+            public String convert(AppParameter appParameter) {
+                return new StringBuilder().append(appParameter.getCreatedBy()).append(' ').append(appParameter.getUpdatedBy()).append(' ').append(appParameter.getStatus()).append(' ').append(appParameter.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, AppParameter> ApplicationConversionServiceFactoryBean.getIdToAppParameterConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.AppParameter>() {
+            public com.app2.app2t.domain.AppParameter convert(java.lang.Long id) {
+                return AppParameter.findAppParameter(id);
+            }
+        };
+    }
+    
+    public Converter<String, AppParameter> ApplicationConversionServiceFactoryBean.getStringToAppParameterConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.AppParameter>() {
+            public com.app2.app2t.domain.AppParameter convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), AppParameter.class);
+            }
+        };
+    }
+    
+    public Converter<ParameterDetail, String> ApplicationConversionServiceFactoryBean.getParameterDetailToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.ParameterDetail, java.lang.String>() {
+            public String convert(ParameterDetail parameterDetail) {
+                return new StringBuilder().append(parameterDetail.getCreatedBy()).append(' ').append(parameterDetail.getUpdatedBy()).append(' ').append(parameterDetail.getStatus()).append(' ').append(parameterDetail.getCreatedDate()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, ParameterDetail> ApplicationConversionServiceFactoryBean.getIdToParameterDetailConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.app2.app2t.domain.ParameterDetail>() {
+            public com.app2.app2t.domain.ParameterDetail convert(java.lang.Long id) {
+                return ParameterDetail.findParameterDetail(id);
+            }
+        };
+    }
+    
+    public Converter<String, ParameterDetail> ApplicationConversionServiceFactoryBean.getStringToParameterDetailConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, com.app2.app2t.domain.ParameterDetail>() {
+            public com.app2.app2t.domain.ParameterDetail convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), ParameterDetail.class);
+            }
+        };
+    }
     
     public Converter<FollowerTask, String> ApplicationConversionServiceFactoryBean.getFollowerTaskToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.app2.app2t.domain.pjm.FollowerTask, java.lang.String>() {
@@ -313,6 +363,12 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     }
     
     public void ApplicationConversionServiceFactoryBean.installLabelConverters(FormatterRegistry registry) {
+        registry.addConverter(getAppParameterToStringConverter());
+        registry.addConverter(getIdToAppParameterConverter());
+        registry.addConverter(getStringToAppParameterConverter());
+        registry.addConverter(getParameterDetailToStringConverter());
+        registry.addConverter(getIdToParameterDetailConverter());
+        registry.addConverter(getStringToParameterDetailConverter());
         registry.addConverter(getFollowerTaskToStringConverter());
         registry.addConverter(getIdToFollowerTaskConverter());
         registry.addConverter(getStringToFollowerTaskConverter());
