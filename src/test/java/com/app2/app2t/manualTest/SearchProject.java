@@ -41,7 +41,9 @@ public class SearchProject {
     @Autowired
     protected WebApplicationContext wac;
     protected MockMvc mockMvc;
-
+    ///--------------------------------------------------------------------------------------------------------------------///
+    ///----------Run  J unit Test ของ SearchProject  ให้แก้ userName ที่ AuthorizeUtil เป็น admin หรือ ที่มีใน Data base ----------///
+    ///-------------------------------------------------------------------------------------------------------------------///
     public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,double cost)throws Exception{
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date stDate = new Date(Long.parseLong(stDate_));//date = 09/03/2016
@@ -141,11 +143,11 @@ public class SearchProject {
     public void setup()throws Exception
     {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        insertDataTodateBase("1457456400000","1459357200000","PM1","PT01","ProjectTest1",20.0);//date 09/03/2016 - 31/03/2016
-        insertDataTodateBase("1457456400000","1458061200000","PM2","PT02","ProjectTest2",30.0);//date 09/03/2016 - 16/03/2016
-        insertDataTodateBase("1457456400000","1459357200000","PM3","PT03","ProjectTest3",20.0);//date 09/03/2016 - 31/03/2016
-        insertDataTodateBase("1457456400000","1458061200000","PM4","PT04","ProjectTest4",30.0);//date 09/03/2016 - 16/03/2016
-        insertDataTodateBase("1457456400000","1459357200000","PM5","PT05","ProjectTest5",25.0);//date 09/03/2016 - 31/03/2016
+        insertDataTodateBase("1457456400000","1459357200000","EM001","PT01","ProjectTest1",20.0);//date 09/03/2016 - 31/03/2016
+        insertDataTodateBase("1457456400000","1458061200000","EM002","PT02","ProjectTest2",30.0);//date 09/03/2016 - 16/03/2016
+        insertDataTodateBase("1457456400000","1459357200000","EM003","PT03","ProjectTest3",20.0);//date 09/03/2016 - 31/03/2016
+        insertDataTodateBase("1457456400000","1458061200000","EM004","PT04","ProjectTest4",30.0);//date 09/03/2016 - 16/03/2016
+        insertDataTodateBase("1457456400000","1459357200000","EM005","PT05","ProjectTest5",25.0);//date 09/03/2016 - 31/03/2016
     }
     @After
     public void logger()throws Exception{
@@ -173,7 +175,7 @@ public class SearchProject {
     }
     @Test
     public void selectWhereStDateFrom_StDateTo_EnDateFrom_EnDateTo_CostFrom_Pm () throws Exception{
-        selectProjectReturnString("ProjectTest4","$[0].projectName","1457456400000","1458061200000","1458061200000","1458061200000","30","","PM4");//Stdate = 09/03/2016-16/03/2016 Endate 16/03/2016-16/03/2016
+        selectProjectReturnString("ProjectTest4","$[0].projectName","1457456400000","1458061200000","1458061200000","1458061200000","30","","EM004");//Stdate = 09/03/2016-16/03/2016 Endate 16/03/2016-16/03/2016
     }
     @Test
     public void selectWhereStDateFrom () throws Exception{
@@ -221,15 +223,15 @@ public class SearchProject {
     }
     @Test
     public void selectWherePm () throws Exception{
-        selectProjectReturnInt(30.0,"$[0].projectCost","","","","","","","PM2");
+        selectProjectReturnInt(30.0,"$[0].projectCost","","","","","","","EM002");
     }
     @Test
     public void selectWhereStDateFrom_EnDateFrom_CostFrom_Pm () throws Exception{
-        selectProjectReturnInt(25.0,"$[0].projectCost","1457456400000","","1459357200000","","25","","PM5");//stdate = 09/03/2016  endate///31/03/2016
+        selectProjectReturnInt(25.0,"$[0].projectCost","1457456400000","","1459357200000","","25","","EM005");//stdate = 09/03/2016  endate///31/03/2016
     }
     @Test
     public void selectWhereStDateFrom_EnDateFrom_CostFrom_Pm_isEmpty () throws Exception{
-        selectProjectReturnEmpty("[]","$","1457456400000","","1459357200000","","25","","PM3");//stdate = 09/03/2016  endate///31/03/2016
+        selectProjectReturnEmpty("[]","$","1457456400000","","1459357200000","","25","","EM003");//stdate = 09/03/2016  endate///31/03/2016
     }
     @Test
     public void selectWherePm_isEmpty () throws Exception{
@@ -265,7 +267,7 @@ public class SearchProject {
                 .param("FnDateEnd","")
                 .param("costStart","")
                 .param("costEnd","")
-                .param("projectManage","PM2")
+                .param("projectManage","EM002")
                 .param("maxResult","15")
                 .param("firstResult","0")
                 .param("moduleManager","")
@@ -316,7 +318,7 @@ public class SearchProject {
 //        Session session = (Session) Project.entityManager().getDelegate();
 //        Criteria criteria = session.createCriteria(Project.class, "project");
 //        DetachedCriteria subCriteria = DetachedCriteria.forClass(ProjectManager.class, "projectManager");
-//        subCriteria.add(Restrictions.like("empCode", "%" + "PM4" + "%"));
+//        subCriteria.add(Restrictions.like("empCode", "%" + "EM004" + "%"));
 //        subCriteria.setProjection(Projections.property("project"));
 //        //----//
 //        criteria.add(Subqueries.propertyIn("project.id", subCriteria));
@@ -337,7 +339,7 @@ public class SearchProject {
                 .param("FnDateEnd","")
                 .param("costStart","")
                 .param("costEnd","")
-                .param("projectManage","PM1")
+                .param("projectManage","EM001")
                 .param("maxResult","15")
                 .param("firstResult","0")
                 .param("moduleManager","")

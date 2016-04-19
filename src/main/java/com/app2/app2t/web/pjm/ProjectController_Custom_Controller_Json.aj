@@ -78,6 +78,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
         {
 //            LOGGER.debug("MODULE++PROJECT??>>>>>>>>>>>"+moduleManager +"<>"+projectManage);
             List<Map<String,Object>> resultSearch = new ArrayList<>();
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
             List<Project> result = Project.finProjectOfDataPagingData(StDateBegin,StDateEnd,FnDateBegin,FnDateEnd,costStart,costEnd,projectManage,maxResult,firstResult,moduleManager );
             for(Project project : result) {
                 Map<String, Object> map = new HashMap<>();
@@ -88,8 +90,6 @@ privileged aspect ProjectController_Custom_Controller_Json {
                 map.put("id", project.getId());
                 map.put("projectCode", project.getProjectCode());
                 map.put("inUse", ModuleProject.findModuleProjectCheckID(project.getId()));
-                String userName = AuthorizeUtil.getUserName();
-                Map employee = emRestService.getEmployeeByUserName(userName);
                 Boolean rolePm = ProjectManager.checkRoleProjects(project.getId(),employee.get("empCode").toString());
                 map.put("rolePm",rolePm);
                 resultSearch.add(map);

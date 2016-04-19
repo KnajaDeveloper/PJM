@@ -20,6 +20,9 @@ public class AuthorizeUtil {
     public static String getUserName() {
 //        if(userName == null){
             userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        ///---------- ใช้ตอนรัน J unit Test ของ SearchProject ----------///
+//            userName = "admin";
+        ///---------- ใช้ตอนรัน J unit Test ของ SearchProject ----------///
 //        }
         return userName;
     }

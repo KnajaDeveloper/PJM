@@ -488,4 +488,113 @@ privileged aspect PlanController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/selectPlanTofirstPage",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.selectPlanTofirstPage(
+            @RequestParam(value = "maxResult", required = false) Integer maxResult,
+            @RequestParam(value = "firstResult", required = false) Integer firstResult
+            )
+            {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", "application/json;charset=UTF-8");
+
+                try
+                {
+                    List<Map<String,Object>> resultSearch = new ArrayList<>();
+                    String userName = AuthorizeUtil.getUserName();
+                    Map employee = emRestService.getEmployeeByUserName(userName);
+                    List<Plan> result = Plan.findtaskTodayPagingData(employee.get("empCode").toString(),maxResult,firstResult);
+                    for(Plan plan : result) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("stDate", plan.getDateStart());
+                        map.put("enDate", plan.getDateEnd());
+                        map.put("note", plan.getNote());
+                        map.put("taskCode", plan.getTask().getTaskCode());
+                        map.put("id", plan.getId());
+                        map.put("taskName", plan.getTask().getTaskName());
+                        resultSearch.add(map);
+
+                    }
+                    return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+                } catch (Exception e) {
+                    LOGGER.error(e.getMessage(), e);
+                    return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+
+    @RequestMapping(value = "/planPaggingSize", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> PlanController.projectPaggingSize(
+            )
+            {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", "application/json;charset=UTF-8");
+                try
+                {
+                    String userName = AuthorizeUtil.getUserName();
+                    Map employee = emRestService.getEmployeeByUserName(userName);
+                    Long result = Plan.findtaskTodayPagingSize(employee.get("empCode").toString());
+                    Map dataSendToFront = new HashMap();
+                    dataSendToFront.put("size",result);
+                    return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
+                } catch (Exception e) {
+                    LOGGER.error("findEvaPeriodTime :{}", e);
+                    return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+
+    @RequestMapping(value = "/selectPlanBaclLogTofirstPage",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> PlanController.selectPlanBaclLogTofirstPage(
+            @RequestParam(value = "maxResult", required = false) Integer maxResult,
+            @RequestParam(value = "firstResult", required = false) Integer firstResult
+    )
+            {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", "application/json;charset=UTF-8");
+
+                try
+                {
+                    List<Map<String,Object>> resultSearch = new ArrayList<>();
+                    String userName = AuthorizeUtil.getUserName();
+                    Map employee = emRestService.getEmployeeByUserName(userName);
+                    List<Plan> result = Plan.findtaskBackLogPagingData(employee.get("empCode").toString(),maxResult,firstResult);
+                    for(Plan plan : result) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("stDate", plan.getDateStart());
+                        map.put("enDate", plan.getDateEnd());
+                        map.put("note", plan.getNote());
+                        map.put("taskCode", plan.getTask().getTaskCode());
+                        map.put("id", plan.getId());
+                        map.put("taskName", plan.getTask().getTaskName());
+                        resultSearch.add(map);
+
+                    }
+                    return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+                } catch (Exception e) {
+                    LOGGER.error(e.getMessage(), e);
+                    return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+
+    @RequestMapping(value = "/planPaggingSizeTaskBackLog", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> PlanController.planPaggingSizeTaskBackLog(
+    )
+            {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", "application/json;charset=UTF-8");
+                try
+                {
+                    String userName = AuthorizeUtil.getUserName();
+                    Map employee = emRestService.getEmployeeByUserName(userName);
+                    Long result = Plan.findtaskBackLogPagingSize(employee.get("empCode").toString());
+                    Map dataSendToFront = new HashMap();
+                    dataSendToFront.put("size",result);
+                    return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
+                } catch (Exception e) {
+                    LOGGER.error("findEvaPeriodTime :{}", e);
+                    return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+
 }
+
