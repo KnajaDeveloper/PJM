@@ -65,7 +65,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.le("dateStart", endDate));
 
         if(planId != null)
-            criteria.add(Restrictions.ne("id", planId));        
+            criteria.add(Restrictions.ne("id", planId));
 
         List<Plan> listPlan = criteria.list();
         return listPlan;

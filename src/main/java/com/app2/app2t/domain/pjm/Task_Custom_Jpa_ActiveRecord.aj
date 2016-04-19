@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import java.util.*;
 
 import com.app2.app2t.util.ApplicationConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.*;
 import org.apache.commons.io.IOUtils;
@@ -22,18 +24,16 @@ import java.text.*;
 import java.io.*;
 
 privileged aspect Task_Custom_Jpa_ActiveRecord {
-
     protected static Logger LOGGER = LoggerFactory.getLogger(Task_Custom_Jpa_ActiveRecord.class);
 
     public static List<Task> Task.findTaskByModuleAndTypeTask(List<Long> listModuleId, List<Long> listTypeTaskId, boolean getMyTask, boolean getOtherTask, String empCode) {
-
         DetachedCriteria subCriteria = DetachedCriteria.forClass(Plan.class);
         subCriteria.add(Restrictions.not(Restrictions.isNull("task")));
         subCriteria.setProjection(Projections.distinct(Projections.property("task")));
 
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class, "Task");
-        criteria.add(Restrictions.lt("progress", 100));
+        criteria.add(Restrictions.eq("taskStatus", ConstantApplication.getTaskStatusNew()));
         criteria.createAlias("Task.typeTask", "typeTask");
         criteria.createAlias("Task.program", "program");
         criteria.createAlias("program.moduleProject", "moduleProject");
