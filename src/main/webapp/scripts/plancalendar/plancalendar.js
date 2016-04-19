@@ -143,6 +143,7 @@ $('#btnSearchByModule').click(function () {
         data: JSON.stringify([projectCode, moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
+
                 if(data.length > 10)
                     $('#grpResultModuleSearch').addClass('task-scorebar');
                 else
@@ -155,15 +156,18 @@ $('#btnSearchByModule').click(function () {
                     $.each(data, function (k, v) {
                         $('#grpResultModuleSearch').append(
                             '<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') +
-                            '" taskId="' + v.id + 
+                            '" taskId="' + v.id +
                             '" taskBegin="' + (v.dateStart != null ? DateUtil.dataDateToFrontend(v.dateStart, _language) : '') + 
                             '" taskEnd="' + (v.dateEnd != null ? DateUtil.dataDateToFrontend(v.dateEnd, _language) : '') +
                             '" taskType="' + (v.empCode == null || v.empCode == '' ? 'public' : 'private') +
                             '" taskCode="' + v.taskCode +
                             '" taskName="' + v.taskName +
                             '" taskCost="' + v.taskCost +
+                            '" taskProgramId="' + v.program.id +
                             '" taskProject="' + v.program.moduleProject.project.projectName +
                             '" taskModule="' + v.program.moduleProject.moduleName +
+                            '" taskDetail="' + (v.detail == null ? '' : v.detail) +
+                            '" taskFile="' + (v.fileName == null ? '' : v.fileName) +
                             '" onclick="openModalAddPlan(this)">(' + v.typeTask.typeTaskName + ') ' +
                             v.taskCode + ' ' +
                             (v.dateStart == null ? '' : '[' + dataDateToShortDate(v.dateStart, _language, LABEL.SHORT_MONTH) + ' - ') +
@@ -196,15 +200,15 @@ $('#btnAddOtherPlan').click(function () {
     var taskCost = $('#txtPlanCost').val();
     var dateStart = $('#cPlanDateBegin').val();
     var dateEnd = $('#cPlanDateEnd').val();
-    
+
     if (taskName.length == 0) {
         $('#txtPlanName').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (taskCost.length == 0) {
         $('#txtPlanCost').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if(!$.isNumeric(taskCost)) {
-        $('#txtPlanCost').attr('data-content', 'xxx').popover('show');
+        $('#txtPlanCost').attr('data-content', MESSAGE.COST_FORMAT).popover('show');
     } else if(taskCost.indexOf('.') > 0 && taskCost.split('.')[1].length > 4) {
-        $('#txtPlanCost').attr('data-content', 'more than 4').popover('show');
+        $('#txtPlanCost').attr('data-content', MESSAGE.COST_DECIMAL_FORMAT).popover('show');
     } else if (dateStart.length == 0) {
         $('#cPlanDateBegin').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (dateEnd.length == 0) {
@@ -277,6 +281,9 @@ function openModalAddPlan(taskElement) {
     var taskEnd = taskElement.getAttribute('taskEnd');
     var taskProject = taskElement.getAttribute('taskProject');
     var taskModule = taskElement.getAttribute('taskModule');
+    var taskDetail = taskElement.getAttribute('taskDetail');
+    var taskProgramId = taskElement.getAttribute('taskProgramId');
+    var taskFile = taskElement.getAttribute('taskFile');
 
     if(taskType == 'public') {
         $('#btnCancelTask').hide();
@@ -284,7 +291,7 @@ function openModalAddPlan(taskElement) {
         $('#btnCancelTask').show();
     }
 
-    // set name
+    // set task detail
     $('#lblAddTaskProject').html(taskProject);
     $('#lblAddTaskModule').html(taskModule);
     $('#lblAddTaskCode').html(taskCode);
@@ -292,10 +299,15 @@ function openModalAddPlan(taskElement) {
     $('#lblAddTaskCost').html(taskCost + ' ' + LABEL.POINT);
     $('#lblAddDateBegin').html(taskBegin == '' ? '-' : taskBegin);
     $('#lblAddDateEnd').html(taskEnd == '' ? '-' : taskEnd);
+    $('#txtAddTaskDetail').html(taskDetail);
 
-    $('#taskDetailPartAdd').hide();
-    $('#taskDetailHeaderAdd').children('span').removeClass('fa-angle-up');
-    $('#taskDetailHeaderAdd').children('span').addClass('fa-angle-down');
+    $('#lblAddDownloadFile').html(taskFile);
+    $('#btnAddDownloadFile').attr('onclick', 'downloadFile("' + taskProgramId + '", "' + taskCode + '", "' + taskFile + '")');
+
+    $('#taskDetailPartAdd').show();
+    $('#taskDetailHeaderAdd').children('span')
+                            .addClass('fa-angle-up')
+                            .removeClass('fa-angle-down');
 
     // default date picker
     dateAddMaxId = 0;
@@ -573,7 +585,7 @@ function openModalEditPlan(event) {
     _eventDate = event;
 
     // set data
-    if(event.taskCode != '') {
+    if(event.taskCode != '') {     // Task
         $('#lblEditTaskProject').html(event.taskProject).parent().parent().show();
         $('#lblEditTaskModule').html(event.taskModule).parent().parent().show();
         $('#lblTaskName').removeClass('col-sm-3').addClass('col-sm-2');
@@ -581,15 +593,20 @@ function openModalEditPlan(event) {
         $('#lblEditTaskCode').html(event.taskCode).parent().show();
         $('#lblEditTaskCode').parent().parent().children(':first').show();
         $('#lblEditDateBegin').html(event.taskBegin != '-'? DateUtil.dataDateToFrontend(event.taskBegin, _language) : '-').parent().parent().show();
-        $('#lblEditDateEnd').html(event.taskEnd != '-'? DateUtil.dataDateToFrontend(event.taskEnd, _language): '-').parent().parent().show();    
-    } else {
+        $('#lblEditDateEnd').html(event.taskEnd != '-'? DateUtil.dataDateToFrontend(event.taskEnd, _language): '-').parent().parent().show();
+        $('#lblEditDownloadFile').html(event.taskFile).parent().parent().show();
+        $('#btnEditDownloadFile').attr('onclick', 'downloadFile("'+ event.taskProgramId +'", "' + event.taskCode + '", "' + event.taskFile + '")');
+        $('#txtEditTaskDetail').html(event.taskDetail).parent().parent().show();
+    } else {    // Other task
         $('#lblEditTaskProject').parent().parent().hide();
         $('#lblEditTaskModule').parent().parent().hide();
         $('#lblTaskName').removeClass('col-sm-2').addClass('col-sm-3');
         $('#lblEditTaskCode').parent().hide();
         $('#lblEditTaskCode').parent().parent().children(':first').hide();
         $('#lblEditDateBegin').parent().parent().hide();
-        $('#lblEditDateEnd').parent().parent().hide();    
+        $('#lblEditDateEnd').parent().parent().hide();
+        $('#lblEditDownloadFile').parent().parent().hide();
+        $('#txtEditTaskDetail').parent().parent().hide();
     }
     $('#lblEditNameWork').html(event.title);
     $('#lblEditTaskCost').html(event.taskCost + ' ' + LABEL.POINT);
@@ -603,9 +620,10 @@ function openModalEditPlan(event) {
         $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').show();
     }
 
-    $('#taskDetailPartEdit').hide();
-    $('#taskDetailHeaderEdit').children('span').removeClass('fa-angle-up');
-    $('#taskDetailHeaderEdit').children('span').addClass('fa-angle-down');
+    $('#taskDetailPartEdit').show();
+    $('#taskDetailHeaderEdit').children('span')
+                            .addClass('fa-angle-up')
+                            .removeClass('fa-angle-down');
 
     // set begin/end date picker
     var startDate = event.start._i.split('T')[0];
@@ -959,6 +977,9 @@ function loadAndMapPlan(month, year) {
                     taskEnd: v.task != null ? (v.task.dateEnd != null ? v.task.dateEnd:'-') : '-',
                     taskCode: v.task != null ? v.task.taskCode : '',
                     taskCost: v.task != null ? v.task.taskCost : v.otherTask.taskCost,
+                    taskDetail: v.task != null ? (v.task.detail != null ? v.task.detail : '') : '',
+                    taskFile: v.task != null ? (v.task.fileName != null ? v.task.fileName : '') : '',
+                    taskProgramId: v.task != null ? v.task.program.id : '',
                     taskProject: v.task != null ? v.task.program.moduleProject.project.projectName : '',
                     taskModule: v.task != null ? v.task.program.moduleProject.moduleName : '',
                     otherTaskId: v.otherTask != null ? v.otherTask.id : null,
@@ -1169,4 +1190,12 @@ function dataDateToShortDate(date, lang, arrShortMonths) {
     date = date.split('/');
     var month = parseInt(date[1]) - 1;
     return date[0] + ' ' + arrShortMonths[month];
+}
+
+function downloadFile(taskProgramId, taskCode, fileName){
+    if(fileName != '') {
+        window.location.href = contextPath + '/tasks/downloadFile/' + taskProgramId + '/' + taskCode + '/' + fileName + '/';
+    } else {
+        bootbox.alert(MESSAGE.FILE_NOT_FOUND);
+    }
 }

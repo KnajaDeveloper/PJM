@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_app2_app2t_domain_AppParameter" object="${appparameter}" path="/appparameters" z="nWf2ZLez9RYmlCXmdIpiTig/yzw=">
+        <field:display field="createdBy" id="s_com_app2_app2t_domain_AppParameter_createdBy" object="${appparameter}" z="ngLbfV+NPgD70eFFm8KMGgHB1Sk="/>
+        <field:display field="updatedBy" id="s_com_app2_app2t_domain_AppParameter_updatedBy" object="${appparameter}" z="fLaJNSIOx6AqhE1LQEW+w+N2q38="/>
+        <field:display field="status" id="s_com_app2_app2t_domain_AppParameter_status" object="${appparameter}" z="gMdqa8dKhA24etyYDK0lduOX0ks="/>
+        <field:display date="true" dateTimePattern="${appParameter_createddate_date_format}" field="createdDate" id="s_com_app2_app2t_domain_AppParameter_createdDate" object="${appparameter}" z="tJtbZ6qErXTAhOEQePqzu8CyzUI="/>
+        <field:display date="true" dateTimePattern="${appParameter_updateddate_date_format}" field="updatedDate" id="s_com_app2_app2t_domain_AppParameter_updatedDate" object="${appparameter}" z="ZDItz/azNiy2YF4EV9Nz9WytuXk="/>
+        <field:display field="code" id="s_com_app2_app2t_domain_AppParameter_code" object="${appparameter}" z="8vn6+WiBkc2xmFc9Aw1RThAHw38="/>
+        <field:display field="parameterDescription" id="s_com_app2_app2t_domain_AppParameter_parameterDescription" object="${appparameter}" z="rj5BB8DYwSxmanYRDEDqJr8vdlM="/>
+    </page:show>
+</div>

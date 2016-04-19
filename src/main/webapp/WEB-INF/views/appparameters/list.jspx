@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_app2_app2t_domain_AppParameter" items="${appparameters}" z="6/00ObIjkc552tyOxRLjE+6V4Yo=">
+        <table:table data="${appparameters}" id="l_com_app2_app2t_domain_AppParameter" path="/appparameters" z="u3ycRGMb/GuKxTpDFmKgCFFOYbY=">
+            <table:column id="c_com_app2_app2t_domain_AppParameter_createdBy" property="createdBy" z="BqD/vLX0Njt07tQ2zHSJaDFYyQc="/>
+            <table:column id="c_com_app2_app2t_domain_AppParameter_updatedBy" property="updatedBy" z="6C3JKQCvZlia+UdhGAMkcfxHO+o="/>
+            <table:column id="c_com_app2_app2t_domain_AppParameter_status" property="status" z="AhOycsVGpWl7wqRXyVjG56H7epA="/>
+            <table:column date="true" dateTimePattern="${appParameter_createddate_date_format}" id="c_com_app2_app2t_domain_AppParameter_createdDate" property="createdDate" z="QFecNX7s83s4EzPW4Nmw/2R89I4="/>
+            <table:column date="true" dateTimePattern="${appParameter_updateddate_date_format}" id="c_com_app2_app2t_domain_AppParameter_updatedDate" property="updatedDate" z="HIHlCHYB1bAKIqE0hb6VqBFZg3Y="/>
+            <table:column id="c_com_app2_app2t_domain_AppParameter_code" property="code" z="BS7NGhSgY5iROCKyTOSbrZDZJKk="/>
+        </table:table>
+    </page:list>
+</div>

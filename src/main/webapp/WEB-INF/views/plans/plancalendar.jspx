@@ -37,7 +37,7 @@
     <c:set var="LABEL_TASK_FROM_MODULE" scope="request"><spring:message code="L0052"/></c:set>
     <c:set var="LABEL_TASK_OTHER" scope="request"><spring:message code="L0053"/></c:set>
     <c:set var="LABEL_SUMMARY_PLAN" scope="request"><spring:message code="L0133"/></c:set>
-    
+
     <c:set var="LABEL_ALL_PROJECT" scope="request"><spring:message code="L0134"/></c:set>
     <c:set var="LABEL_ALL_MODULE" scope="request"><spring:message code="L0054"/></c:set>
     <c:set var="LABEL_PRIVEATE_TASK" scope="request"><spring:message code="L0055"/></c:set>
@@ -64,16 +64,20 @@
 
     <c:set var="LABEL_EDIT_PLAN" scope="request"><spring:message code="L0062"/></c:set>
     <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+    <c:set var="LABEL_DETAILS" scope="request"><spring:message code="L0085"/></c:set>
+    <c:set var="LABEL_ATTACHMENTS" scope="request"><spring:message code="L0084"/></c:set>
 
     <c:set var="BUTTON_ADD" scope="request"><spring:message code="B0003"/></c:set>
     <c:set var="BUTTON_DELETE" scope="request"><spring:message code="B0014"/></c:set>
     <c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
     <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
     <c:set var="BUTTON_LEAVE" scope="request"><spring:message code="B0011"/></c:set>
+    <c:set var="BUTTON_DOWNLOAD_FILE" scope="request"><spring:message code="B0018"/></c:set>
 
     <c:set var="MESSAGE_COMPLETE_THIS_FIELD" scope="request"><spring:message code="M0002"/></c:set>
     <c:set var="MESSAGE_PROGRESS_FORMAT" scope="request"><spring:message code="M0017"/></c:set>
-
+    <c:set var="MESSAGE_COST_FORMAT" scope="request"><spring:message code="M0050"/></c:set>
+    <c:set var="MESSAGE_COST_DECIMAL_FORMAT" scope="request"><spring:message code="M0065"/></c:set>
     <c:set var="MESSAGE_DATE_OVERLAY" scope="request"><spring:message code="M0007"/></c:set>
     <c:set var="MESSAGE_SAVE_COMPLETED" scope="request"><spring:message code="M0001"/></c:set>
     <c:set var="MESSAGE_SAVE_FAILED" scope="request"><spring:message code="M0019"/></c:set>
@@ -83,12 +87,14 @@
     <c:set var="MESSAGE_CONFIRM_DELETE" scope="request"><spring:message code="M0029"/></c:set>
     <c:set var="MESSAGE_DELETE_COMPLETED" scope="request"><spring:message code="M0014"/></c:set>
     <c:set var="MESSAGE_DELETE_FAILED" scope="request"><spring:message code="M0015"/></c:set>
-    
+
     <c:set var="MESSAGE_DATA_NO_CHANGE" scope="request"><spring:message code="M0012"/></c:set>
     <c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
-    
+
     <c:set var="MESSAGE_CONFIRM_CANCLE" scope="request"><spring:message code="M0031"/></c:set>
     <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message code="M0056"/></c:set>
+
+    <c:set var="MESSAGE_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
 
     <script>
         var MESSAGE = {};
@@ -106,6 +112,8 @@
         MESSAGE.LEAVE_FAILED = '${MESSAGE_LEAVE_FAILED}';
         MESSAGE.CONFIRM_DELETE = '${MESSAGE_CONFIRM_DELETE}';
         MESSAGE.CONFIRM_CANCEL = '${MESSAGE_CONFIRM_CANCLE}';
+        MESSAGE.COST_FORMAT = '${MESSAGE_COST_FORMAT}';
+        MESSAGE.COST_DECIMAL_FORMAT = '${MESSAGE_COST_DECIMAL_FORMAT}';
         MESSAGE.DELETE_COMPLETED = '${MESSAGE_DELETE_COMPLETED}';
         MESSAGE.DELETE_FAILED = '${MESSAGE_DELETE_FAILED}';
         MESSAGE.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
@@ -114,13 +122,14 @@
 
         MESSAGE.CHECKBOX_PRIVATE_TASK = '${LABEL_PRIVEATE_TASK}';
         MESSAGE.CHECKBOX_PUBLIC_TASK = '${LABEL_PUBLIC_TASK}';
+        MESSAGE.FILE_NOT_FOUND = '${MESSAGE_FILE_NOT_FOUND}';
 
         MESSAGE.CONFIRM_SAVE_WITH_EXPIRED = '${MESSAGE_CONFIRM_SAVE_WITH_EXPIRED}';
 
         LABEL.DATE_BEGIN = '${LABEL_DATE_BEGIN}';
         LABEL.DATE_END = '${LABEL_DATE_END}';
         LABEL.POINT = '${LABEL_POINT}';
-        
+
         LABEL.SHORT_MONTH = ['${LABEL_JAN}', '${LABEL_FEB}', '${LABEL_MAR}', '${LABEL_APR}', '${LABEL_MA}', '${LABEL_JUN}','${LABEL_JUL}', '${LABEL_AUG}', '${LABEL_SEP}', '${LABEL_OCT}', '${LABEL_NOV}', '${LABEL_DEC}'];
 
         BUTTON.DELETE = '${BUTTON_DELETE}';
@@ -477,6 +486,21 @@
                                         <label id="lblAddTaskCost" class="control-label text-left full-label"></label>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_ATTACHMENTS} </label>
+                                    <div class="col-sm-9">
+                                        <button id="btnAddDownloadFile" class="btn btn-primary" onclick="downloadFile('')">${BUTTON_DOWNLOAD_FILE} </button>
+                                        <label id="lblAddDownloadFile" class="control-label" style="font-weight: normal; margin-left: 5px;"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_DETAILS} </label>
+                                    <div class="col-sm-8">
+                                        <textarea id="txtAddTaskDetail" class="control-label text-left full-label" disabled="disabled">
+                                            <jsp:text/>
+                                        </textarea>
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
                         <br/>
@@ -595,6 +619,21 @@
                                     <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
                                     <div class="col-sm-9">
                                         <label id="lblEditTaskCost" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_ATTACHMENTS} </label>
+                                    <div class="col-sm-9">
+                                        <button id="btnEditDownloadFile" class="btn btn-primary" onclick="downloadFile('')">${BUTTON_DOWNLOAD_FILE} </button>
+                                        <label id="lblEditDownloadFile" class="control-label" style="font-weight: normal; margin-left: 5px;"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_DETAILS} </label>
+                                    <div class="col-sm-8">
+                                        <textarea id="txtEditTaskDetail" class="control-label text-left full-label" disabled="disabled">
+                                            <jsp:text/>
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
