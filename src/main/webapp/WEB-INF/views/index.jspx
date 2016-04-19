@@ -1,104 +1,146 @@
 <div xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
-     xmlns:jsp="http://java.sun.com/JSP/Page"  xmlns:component="urn:jsptagdir:/WEB-INF/tags/component" version="2.0">
+     xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component"
+     xmlns:form="http://www.springframework.org/tags/form" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <!--<spring:message var="app_name" code="application_name" htmlEscape="false" />-->
   <!--<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />-->
   <!--<util:panel id="title" title="${title}">-->
-    <!--<h3>-->
-      <!--<spring:message code="welcome_h3" arguments="${app_name}" />-->
-    <!--</h3>-->
-    <!--<p>-->
-      <!--<spring:message code="welcome_text" />-->
-    <!--</p>-->
+  <!--<h3>-->
+  <!--<spring:message code="welcome_h3" arguments="${app_name}" />-->
+  <!--</h3>-->
+  <!--<p>-->
+  <!--<spring:message code="welcome_text" />-->
+  <!--</p>-->
   <!--</util:panel>-->
 
   <!--<input id="checkAll" class="check" type="checkbox"/>-->
 
   <div class="row">
     <div class="col-sm-12">
-        <div class="panel-group" id="accordion">
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a id="texf" data-toggle="collapse" data-parent="#accordion" href="#collapse1">งานวันนี้</a>
-              </h4>
-            </div>
-            <div id="collapse1" class="panel-collapse collapse in">
-              <div class="panel-body">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse">งานวันนี้</a>
+            </h4>
+          </div>
+          <div id="collapse1" class="">
+            <div class="panel-body">
 
-                <div class=" table-responsive">
-                  <table id="taskToday" class="table table-bordered table-stripted  table-hover ">
-                    <thead>
-                    <tr class="">
-                      <th class="text-center" >Task Code</th>
-                      <th class="text-left" >Task Name</th>
-                      <th class="text-center" >Start Date</th>
-                      <th class="text-center" >End Date</th>
-                    </tr>
-                    </thead>
-                    <tbody id="ResualtSearchTaskToday" ></tbody>
-                  </table>
-                </div>
-                   <div class="form-horizontal">
-                  <div class="form-group">
-                    <component:pagging id="paggingSimple"/>
-                  </div>
+              <div class=" table-responsive">
+                <table id="taskToday" class="table table-bordered table-stripted  table-hover ">
+                  <thead>
+                  <tr class="">
+                    <th class="text-center" style="width: 15px ;color:#000" >Task Code</th>
+                    <th class="text-center" style="width: 200px ;color:#000">Task Name</th>
+                    <th class="text-center" style="width: 40px ;color:#000">Start Date</th>
+                    <th class="text-center" style="width: 40px ;color:#000">End Date</th>
+                  </tr>
+                  </thead>
+                  <tbody id="ResualtSearchTaskToday" ></tbody>
+                </table>
+              </div>
+              <div class="form-horizontal">
+                <div class="form-group">
+                  <component:pagging id="paggingSimple"/>
                 </div>
               </div>
             </div>
           </div>
         </div>
-<br></br>
-        <div class="panel-group" id="accordion">
-          <div class="panel panel-danger">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">งานค้าง</a>
-              </h4>
-            </div>
-            <div id="collapse2" class="panel-collapse collapse">
-              <div class="panel-body">
+      </div>
+      <br></br>
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse">งานค้าง</a>
+            </h4>
+          </div>
+          <div id="collapse2" class="">
+            <div class="panel-body">
 
-                <div class=" table-responsive">
-                  <table id="taskBacklog" class="table table-bordered table-stripted  table-hover ">
-                    <thead>
-                    <tr class="">
-                      <th class="text-center" >Task Code</th>
-                      <th class="text-left"   >Task Name</th>
-                      <th class="text-center" >Start Date</th>
-                      <th class="text-center" >End Date</th>
-                    </tr>
-                    </thead>
-                    <tbody id="ResualtSearchTaskBackLog" ></tbody>
-                  </table>
-                </div>
-                <div class="form-horizontal">
-                  <div class="form-group">
-                    <component:pagging id="paggingSimple2"/>
-                  </div>
+              <div class=" table-responsive">
+                <table id="taskBacklog" class="table table-bordered table-stripted  table-hover ">
+                  <thead>
+                  <tr class="">
+                    <th class="text-center" style="width: 15px ;color:#000">Task Code</th>
+                    <th class="text-center" style="width: 200px ;color:#000">Task Name</th>
+                    <th class="text-center" style="width: 40px ;color:#000">Start Date</th>
+                    <th class="text-center" style="width: 40px ;color:#000">End Date</th>
+                  </tr>
+                  </thead>
+                  <tbody id="ResualtSearchTaskBackLog" ></tbody>
+                </table>
+              </div>
+              <div class="form-horizontal">
+                <div class="form-group">
+                  <component:pagging id="paggingSimple2"/>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div></div>
 
   <div class="panel-group" id="accordion">
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">งานที่ติดตาม</a>
+          <a data-toggle="collapse">งานที่ติดตาม</a>
         </h4>
       </div>
-      <div id="collapse3" class="panel-collapse collapse">
+      <div id="collapse3" class="">
         <div class="panel-body">
 
+          <div class=" table-responsive">
+            <table id="taskFollow" class="table table-bordered table-stripted  table-hover ">
+              <thead>
+              <tr class="">
+                <th class="text-center" style="width: 20px ;color:#000">Check Task</th>
+                <th class="text-center" style="width: 200px ;color:#000">Project Name</th>
+                <th class="text-center" style="width: 200px ;color:#000">Module Name</th>
+                <th class="text-center" style="width: 100px ;color:#000">Program Name</th>
+                <th class="text-center" style="width: 100px ;color:#000">Task Name</th>
+                <th class="text-center" style="width: 20px ;color:#000">Progress</th>
+              </tr>
+              </thead>
+              <tbody id="ResualtSearchTaskFollow" ></tbody>
+            </table>
+          </div>
+          <div class="form-horizontal">
+            <div class="form-group">
+              <component:pagging id="paggingSimple3"/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="modal fade" id="modalFollowTask" role="dialog" data-backdrop="static">
+    <div class="modal-dialog ">
+
+      <!-- Modal content-->
+      <div class="modal-content ">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title">ตรวจสอบงาน</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div id="label_modal" class="">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer ">
+          <button id="btnModalTaskAdd" type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
@@ -115,6 +157,12 @@
 
   <spring:url value="/resources/scripts/Plan/taskBackLog.js" var="taskBackLog"/>
   <script src="${taskBackLog}" type="text/javascript"><!--Not Empty --></script>
+
+  <spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+  <script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
+
+  <spring:url value="/resources/scripts/Plan/taskFollow.js" var="taskFollow"/>
+  <script src="${taskFollow}" type="text/javascript"><!--Not Empty --></script>
 
   <script>
     var contextPath = '${pageContext.request.contextPath}';

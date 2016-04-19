@@ -42,8 +42,8 @@ public class PersistAspect {
         BaseEntity entity = (BaseEntity) joinPoint.getThis();
         entity.setCreatedBy(AuthorizeUtil.getUserName());
         entity.setCreatedDate(today);
-        entity.setUpdatedBy(AuthorizeUtil.getUserName());
-        entity.setUpdatedDate(today);
+//        entity.setUpdatedBy(AuthorizeUtil.getUserName());
+//        entity.setUpdatedDate(today);
     }
 
     @Before("executeMergePointCut()")

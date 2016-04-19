@@ -228,7 +228,7 @@ privileged aspect PlanController_Custom_Controller_Json {
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             String empCode = employee.get("empCode").toString();
-            
+
             List<Project> projects = Project.findProjectByEmpCode(empCode);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(projects), headers, HttpStatus.OK);
         } catch (Exception e) {
@@ -486,7 +486,7 @@ privileged aspect PlanController_Custom_Controller_Json {
     public ResponseEntity<String> PlanController.selectPlanTofirstPage(
             @RequestParam(value = "maxResult", required = false) Integer maxResult,
             @RequestParam(value = "firstResult", required = false) Integer firstResult
-            )
+    )
             {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -518,7 +518,7 @@ privileged aspect PlanController_Custom_Controller_Json {
     @RequestMapping(value = "/planPaggingSize", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> PlanController.projectPaggingSize(
-            )
+    )
             {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -589,6 +589,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                     return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
+
 
 }
 
