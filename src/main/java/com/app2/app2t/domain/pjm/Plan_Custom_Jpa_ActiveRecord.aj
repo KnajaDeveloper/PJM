@@ -58,8 +58,8 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.createAlias("Plan.task", "task", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("Plan.otherTask", "otherTask", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.or(
-            Restrictions.eq("task.empCode", empCode),
-            Restrictions.eq("otherTask.empCode", empCode)
+                Restrictions.eq("task.empCode", empCode),
+                Restrictions.eq("otherTask.empCode", empCode)
         ));
         criteria.add(Restrictions.ge("dateEnd", beginDate));
         criteria.add(Restrictions.le("dateStart", endDate));
@@ -81,7 +81,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
                 Restrictions.eq("otherTask.empCode", empCode)
         ));
         criteria.add(Restrictions.ge("dateEnd", beginDate));
-        if(planId != null) 
+        if(planId != null)
             criteria.add(Restrictions.ne("id", planId));
         criteria.addOrder(Order.asc("dateStart"));
 
@@ -351,9 +351,9 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
         Date currentDate = new Date();
         String modifiedDate= new SimpleDateFormat("MM/dd/yyyy").format(currentDate);
-//        Date date = new Date(modifiedDate);
+        Date date = new Date(modifiedDate);
 //        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date2);
-        Date date = new Date ("03/01/2016");
+//        Date date = new Date ("03/01/2016");
         criteria.add(Restrictions.le("plan.dateStart",date));
         criteria.add(Restrictions.ge("plan.dateEnd",date));
 
@@ -363,8 +363,8 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
     }
 
     public static List<Plan> Plan.findtaskTodayPagingData(String empCode,
-                                                                   Integer maxResult,
-                                                                   Integer firstResult
+                                                          Integer maxResult,
+                                                          Integer firstResult
 
     ){
         Criteria criteria = Plan.selectPlanTofirstPage(empCode)
@@ -386,19 +386,19 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
         Date currentDate = new Date();
         String modifiedDate= new SimpleDateFormat("MM/dd/yyyy").format(currentDate);
-//        Date date = new Date(modifiedDate);
+        Date date = new Date(modifiedDate);
 //        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date2);
-        Date date = new Date ("03/01/2016");
-        criteria.add(Restrictions.gt("plan.dateStart",date));
-
+//        Date date = new Date ("06/01/2016");
+        criteria.add(Restrictions.lt("plan.dateEnd",date));
         criteria.createAlias("plan.task","task");
+        criteria.add(Restrictions.eq("task.taskStatus","N"));
         criteria.add(Restrictions.eq("task.empCode", empCode));
         return criteria;
     }
 
     public static List<Plan> Plan.findtaskBackLogPagingData(String empCode,
-                                                          Integer maxResult,
-                                                          Integer firstResult
+                                                            Integer maxResult,
+                                                            Integer firstResult
 
     ){
         Criteria criteria = Plan.selectPlanBaclLogTofirstPage(empCode)
@@ -413,4 +413,5 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
                 .setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
+
 }
