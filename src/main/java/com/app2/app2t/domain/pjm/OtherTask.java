@@ -10,7 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @RooJavaBean
@@ -21,17 +21,20 @@ public class OtherTask extends BaseEntity {
 
     /**
      */
-    @Size(max = 40)
+    @Size(max = 255)
+    @NotNull
     private String taskName;
 
     /**
      */
+    @NotNull
     @Digits(integer = 7, fraction = 4)
     private Double taskCost;
 
     /**
      */
-    @Size(max = 15)
+    @Size(max = 255)
+    @NotNull
     private String empCode;
 
     /**
@@ -48,5 +51,6 @@ public class OtherTask extends BaseEntity {
     /**
      */
     @Digits(integer= 3, fraction = 0)
+    @NotNull
     private Integer progress;
 }
