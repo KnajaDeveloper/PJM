@@ -114,7 +114,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             String empCode = employee.get("empCode").toString();
-            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             String dateBegin = "01/01/1111";
             String dateEnd = "01/01/1111";
@@ -131,9 +130,6 @@ privileged aspect PlanController_Custom_Controller_Json {
                 dateBegin = fm.format(month - 1) + "/25/" + year;
                 dateEnd = fm.format(month + 1) + "/15/" + year;
             }
-
-            LOGGER.debug("=====================> Date begin {}",new Date(dateBegin));
-            LOGGER.debug("=====================> Date end {}",new Date(dateEnd));
 
             List<Plan> result = Plan.findPlansByMonthYear(new Date(dateBegin), new Date(dateEnd), empCode);
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
@@ -157,7 +153,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             String empCode = employee.get("empCode").toString();
-            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             List<Long> listModuleId = new ArrayList<>();
             if (moduleId == 0) {  // all module
@@ -173,7 +168,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
                 listTypeTaskId.add(jsonArrayTypeTask.getLong(i));
             }
-            LOGGER.debug("=================> List module id {}", listModuleId);
 
             List<Task> result = new ArrayList<>();
             if (listModuleId.size() > 0) {

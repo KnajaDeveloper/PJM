@@ -8,6 +8,14 @@ var _year;
 
 var _eventDate = {};
 
+var taskStatusColor = {
+    delay: '#f22613',
+    normal: '#337ab7',
+    other: '#999',
+    pass: '#669900',
+    ready: '#ff6600'
+}
+
 // Ready page ----------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
     // Load and map plan
@@ -32,13 +40,11 @@ $(document).ready(function () {
 
     $("#cPlanDateBegin").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
-            DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
+        DateUtil.setMinDate('cPlanDateBegin', 'cPlanDateEnd');
     });
     $("#cPlanDateEnd").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
-            DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
+        DateUtil.setMaxDate('cPlanDateEnd', 'cPlanDateBegin');
     });
 
     // Date picker for first time in add modal
@@ -47,13 +53,11 @@ $(document).ready(function () {
 
     $("#cAddDateBegin_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
-            DateUtil.setMinDate('cAddDateBegin_0', 'cAddDateEnd_0');
+        DateUtil.setMinDate('cAddDateBegin_0', 'cAddDateEnd_0');
     });
     $("#cAddDateEnd_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
-            DateUtil.setMaxDate('cAddDateEnd_0', 'cAddDateBegin_0');
+        DateUtil.setMaxDate('cAddDateEnd_0', 'cAddDateBegin_0');
     });
 
     // Date picker for edit modal
@@ -62,13 +66,11 @@ $(document).ready(function () {
 
     $("#cEditDateBegin_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
-            DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
+        DateUtil.setMinDate('cEditDateBegin_0', 'cEditDateEnd_0');
     });
     $("#cEditDateEnd_0").on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
-            DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
+        DateUtil.setMaxDate('cEditDateEnd_0', 'cEditDateBegin_0');
     });
 
     loadAndMapAllProject();
@@ -172,7 +174,8 @@ $('#btnSearchByModule').click(function () {
                             v.taskCode + ' ' +
                             (v.dateStart == null ? '' : '[' + dataDateToShortDate(v.dateStart, _language, LABEL.SHORT_MONTH) + ' - ') +
                             (v.dateEnd == null ? '' : dataDateToShortDate(v.dateEnd, _language, LABEL.SHORT_MONTH) + ']' ) +
-                            ' (' + v.taskCost + 'P)' + 
+                            ' [' + v.taskCost + 'P]' +
+                            ' [' + 'Importance_code' + ']' +
                             '</a>');
                     });
                 }
@@ -237,7 +240,7 @@ $('#btnAddOtherPlan').click(function () {
                     $('#txtPlanCost').val('');
                     $('#cPlanDateBegin').val('');
                     $('#cPlanDateEnd').val('');
-                    
+
                     $('#cPlanDateBegin').change();
                     $('#cPlanDateEnd').change();
 
@@ -958,13 +961,13 @@ function loadAndMapPlan(month, year) {
                 startDate = parseFullCalendar(parseFormatDateToString(startDate, commonData.language)) + 'T00:00:00';
                 endDate = parseFullCalendar(parseFormatDateToString(endDate, commonData.language)) + 'T24:00:00';
 
-                var bgColor = '#337ab7';
+                var bgColor = taskStatusColor.normal;
                 if(v.task != null) {
                     if(v.task.dateEnd != null && v.dateEnd > v.task.dateEnd) {
-                        bgColor = '#f22613';
+                        bgColor = taskStatusColor.delay;
                     }
                 } else {
-                    bgColor = '#999';
+                    bgColor = taskStatusColor.other;
                 }
 
                 var event = {

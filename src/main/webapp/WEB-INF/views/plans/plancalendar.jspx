@@ -487,6 +487,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <div class="col-sm-9">
+                                        <label id="lblAddTaskImportant" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <div class="col-sm-9">
+                                        <label id="lblAddTaskFollwer" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-sm-3">${LABEL_ATTACHMENTS} </label>
                                     <div class="col-sm-9">
                                         <button id="btnAddDownloadFile" class="btn btn-primary" onclick="downloadFile('')">${BUTTON_DOWNLOAD_FILE} </button>
@@ -619,6 +631,18 @@
                                     <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
                                     <div class="col-sm-9">
                                         <label id="lblEditTaskCost" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <div class="col-sm-9">
+                                        <label id="lblEditTaskImportant" class="control-label text-left full-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <div class="col-sm-9">
+                                        <label id="lblEditTaskFollwer" class="control-label text-left full-label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
