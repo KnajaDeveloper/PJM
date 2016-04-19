@@ -4,6 +4,7 @@
 package com.app2.app2t.web.pjm;
 
 import com.app2.app2t.domain.pjm.*;
+import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -172,7 +173,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
 
     @RequestMapping(value = "/findProjectBymoduleProjectAll",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.findProjectBymoduleProjectAll(
-        ) {
+    ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
@@ -238,7 +239,7 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
     @RequestMapping(value = "/findModuleProjectByModuleProjectID",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ModuleProjectController.findModuleProjectByModuleProjectID(
             @RequestParam(value = "id", required = false) Long id
-        ) {
+    ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
@@ -362,11 +363,33 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
                 }
                 resultSearch.add(buffer);
             }
-            
+
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/checkRoleByModuleProjectId", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ModuleProjectController.checkRoleByModuleProjectId(
+            @RequestParam(value = "moduleProjectId", required = false) Long moduleProjectId
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            Boolean moduleManager = ModuleManager.checkRoleModule(moduleProjectId, employee.get("empCode").toString());
+            if(moduleManager){
+                return new ResponseEntity<String>("Y", headers, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<String>("N", headers, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

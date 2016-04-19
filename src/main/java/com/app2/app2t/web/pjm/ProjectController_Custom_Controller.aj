@@ -26,49 +26,59 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 privileged aspect ProjectController_Custom_Controller {
 
-	@RequestMapping(value = "/searchproject", produces = "text/html")
+    @RequestMapping(value = "/searchproject", produces = "text/html")
     public String ProjectController.typetask(Model uiModel) {
-     
+
         return "projects/searchproject";
     }
 
     @RequestMapping(value = "/createproject", produces = "text/html")
     public String ProjectController.createproject(Model uiModel) {
-     
+
         return "projects/createproject";
     }
-   //      @RequestMapping(value = "/progressproject", produces = "text/html")
-   //  public String ProjectController.progressproject(Model uiModel)
-   // // ,
-   //    //  @RequestParam(value = "projectCode", required = false) String projectCode
-   //  //) 
-   //  {
-   //      //uiModel.addAttribute("projectCode", projectCode);
-   //      return "projects/progressproject";
-   //  }
+    //      @RequestMapping(value = "/progressproject", produces = "text/html")
+    //  public String ProjectController.progressproject(Model uiModel)
+    // // ,
+    //    //  @RequestParam(value = "projectCode", required = false) String projectCode
+    //  //)
+    //  {
+    //      //uiModel.addAttribute("projectCode", projectCode);
+    //      return "projects/progressproject";
+    //  }
 
-     @RequestMapping(value = "/progressproject", produces = "text/html")
+    @RequestMapping(value = "/progressproject", produces = "text/html")
     public String ProjectController.progressproject(Model uiModel,
-        @RequestParam(value = "id", required = false) Long projectID
+                                                    @RequestParam(value = "id", required = false) Long projectID
     ) {
-             uiModel.addAttribute("projectID", projectID);
-             return "projects/progressproject";
+        uiModel.addAttribute("projectID", projectID);
+        return "projects/progressproject";
     }
 
     @RequestMapping(value = "/editproject", produces = "text/html")
     public String ProjectController.editproject(Model uiModel,
-        @RequestParam(value = "projectId", required = false) String projectId) 
-    {
-        String userName =  AuthorizeUtil.getUserName();
+                                                @RequestParam(value = "projectId", required = false) String projectId) {
+        String userName = AuthorizeUtil.getUserName();
         Map employee = emRestService.getEmployeeByUserName(userName);
-        Boolean check = ProjectManager.checkRoleProjects(Long.parseLong(projectId),employee.get("empCode").toString());
-        if(!check){
+        Boolean projectManager = ProjectManager.checkRoleProjects(Long.parseLong(projectId), employee.get("empCode").toString());
+        List<Project> project = Project.findProjectByIdProject(Long.parseLong(projectId));
+        List<ModuleProject> listModuleProject = ModuleProject.findAllNameModuleByProjectCode(project.get(0));
+
+        if (!projectManager) {
+            for (ModuleProject mp : listModuleProject) {
+                Boolean moduleManager = ModuleManager.checkRoleModule(mp.getId(), employee.get("empCode").toString());
+                if (moduleManager) {
+                    uiModel.addAttribute("projectId", projectId);
+                    uiModel.addAttribute("role", "ModuleManager");
+                    return "projects/editproject";
+                }
+            }
             return "redirect:/";
-        }else {
+        } else {
             uiModel.addAttribute("projectId", projectId);
+            uiModel.addAttribute("role", "ProjectManager");
             return "projects/editproject";
         }
+
     }
-
-
 }
