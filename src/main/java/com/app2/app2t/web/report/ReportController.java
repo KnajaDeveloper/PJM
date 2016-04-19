@@ -3,6 +3,7 @@ package com.app2.app2t.web.report;
 import com.app2.app2t.service.EmRestService;
 import com.app2.app2t.util.AbstractReportJasperXLS;
 import com.app2.app2t.util.AuthorizeUtil;
+import com.app2.app2t.util.ConstantApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,6 +144,8 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("totalAll", getLabelFromPropertiesFile("L0128"));
         params.put("total", getLabelFromPropertiesFile("L0067"));
         params.put("summaryPointEmp", getLabelFromPropertiesFile("L0136"));
+        params.put("fReportCode", getLabelFromPropertiesFile("L0141"));
+        params.put("reportCode", getLabelFromPropertiesFile("L0142"));
         params.put("dateStart", dateStart);
         params.put("dateEnd", dateEnd);
         params.put("printDate", printDate);
@@ -152,6 +155,7 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("EmpTo", empCodeTo);
         params.put("printFName", UFname);
         params.put("printLName", ULname);
+        params.put("c", ConstantApplication.getTaskStatusComplete());
 
 
         StringBuilder sqlQuery = new StringBuilder();
@@ -333,6 +337,8 @@ public class ReportController extends AbstractReportJasperXLS {
         params.put("tPoint", getLabelFromPropertiesFile("L0030"));
         params.put("totalAll", getLabelFromPropertiesFile("L0128"));
         params.put("summaryPointProject", getLabelFromPropertiesFile("L0137"));
+        params.put("fReportCode", getLabelFromPropertiesFile("L0141"));
+        params.put("reportCode", getLabelFromPropertiesFile("L0143"));
         params.put("projectName", projectName);
         params.put("moduleName", moduleName);
         params.put("printDate", printDate);

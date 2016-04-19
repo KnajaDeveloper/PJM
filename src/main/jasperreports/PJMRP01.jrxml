@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PJMRP01" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4410422-c5b7-4d92-8fdf-618d3ba9f80d">
-	<property name="ireport.zoom" value="2.1961500000000296"/>
-	<property name="ireport.x" value="1080"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -110,6 +110,9 @@
 	<parameter name="totalOtAll" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="totalAll" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="summaryPointEmp" class="java.lang.String"/>
+	<parameter name="c" class="java.lang.String"/>
+	<parameter name="fReportCode" class="java.lang.String"/>
+	<parameter name="reportCode" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select * from PJMRP01]]>
 	</queryString>
@@ -127,8 +130,8 @@
 	<field name="PRO_NAME" class="java.lang.String"/>
 	<field name="D_START" class="java.sql.Timestamp"/>
 	<field name="D_END" class="java.sql.Timestamp"/>
-	<field name="T_COST" class="java.lang.Integer"/>
-	<field name="OT_COST" class="java.lang.Integer"/>
+	<field name="T_COST" class="java.lang.Double"/>
+	<field name="OT_COST" class="java.lang.Double"/>
 	<field name="EMPCODE" class="java.lang.String"/>
 	<field name="T_FIRST_NAME" class="java.lang.String"/>
 	<field name="T_LAST_NAME" class="java.lang.String"/>
@@ -136,23 +139,23 @@
 	<field name="OT_LAST_NAME" class="java.lang.String"/>
 	<field name="T_EM_TEAM" class="java.lang.Long"/>
 	<field name="OT_EM_TEAM" class="java.lang.Long"/>
-	<field name="T_PROGRESS" class="java.lang.Integer"/>
+	<field name="T_STATUS" class="java.lang.String"/>
 	<field name="OT_PROGRESS" class="java.lang.Integer"/>
-	<variable name="sumPointT" class="java.lang.Integer" resetType="Group" resetGroup="report" calculation="Sum">
-		<variableExpression><![CDATA[$F{T_COST}]]></variableExpression>
+	<variable name="sumPointT" class="java.lang.Double" resetType="Group" resetGroup="report" calculation="Sum">
+		<variableExpression><![CDATA[$F{T_STATUS}.equals($P{c})?$F{T_COST}:0]]></variableExpression>
 		<initialValueExpression><![CDATA[]]></initialValueExpression>
 	</variable>
-	<variable name="sumPointOT" class="java.lang.Integer" resetType="Group" resetGroup="report" calculation="Sum">
-		<variableExpression><![CDATA[$F{OT_COST}]]></variableExpression>
+	<variable name="sumPointOT" class="java.lang.Double" resetType="Group" resetGroup="report" calculation="Sum">
+		<variableExpression><![CDATA[$F{OT_PROGRESS}==100?$F{OT_COST}:0]]></variableExpression>
 	</variable>
-	<variable name="sumTotalTaskAll" class="java.lang.Integer" resetType="Group" resetGroup="emp" calculation="Sum">
-		<variableExpression><![CDATA[$F{T_COST}==null?0:$F{T_COST}]]></variableExpression>
+	<variable name="sumTotalTaskAll" class="java.lang.Double" resetType="Group" resetGroup="emp" calculation="Sum">
+		<variableExpression><![CDATA[$F{T_STATUS}.equals($P{c})?$F{T_COST}:0]]></variableExpression>
 	</variable>
-	<variable name="sumTotalOtTaskAll" class="java.lang.Integer" resetType="Group" resetGroup="emp" calculation="Sum">
-		<variableExpression><![CDATA[$F{OT_COST}==null?0:$F{OT_COST}]]></variableExpression>
+	<variable name="sumTotalOtTaskAll" class="java.lang.Double" resetType="Group" resetGroup="emp" calculation="Sum">
+		<variableExpression><![CDATA[$F{OT_PROGRESS}==100?$F{OT_COST}:0]]></variableExpression>
 	</variable>
-	<variable name="sumTotalAll" class="java.lang.Integer" resetType="Group" resetGroup="emp" calculation="Sum">
-		<variableExpression><![CDATA[($F{T_COST}==null?0:$F{T_COST})+($F{OT_COST}==null?0:$F{OT_COST})]]></variableExpression>
+	<variable name="sumTotalAll" class="java.lang.Double" resetType="None">
+		<variableExpression><![CDATA[($V{sumTotalTaskAll}==null?0:$V{sumTotalTaskAll})+($V{sumTotalOtTaskAll}==null?0:$V{sumTotalOtTaskAll})]]></variableExpression>
 	</variable>
 	<group name="emp">
 		<groupExpression><![CDATA[$F{EMPCODE}]]></groupExpression>
@@ -166,14 +169,13 @@
 						<bottomPen lineWidth="0.0"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[($F{EMPCODE}).concat(" : ")+($F{T_FIRST_NAME}==null?$F{OT_FIRST_NAME}:$F{T_FIRST_NAME}).concat("     ")+($F{T_LAST_NAME}==null?$F{OT_LAST_NAME}:$F{T_LAST_NAME})]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement uuid="c0a0b8cd-d339-4bcd-8527-378749afc6e9" x="0" y="0" width="802" height="30"/>
 					<textElement/>
-					<textFieldExpression><![CDATA[]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -189,11 +191,11 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalAll}]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Band" isBlankWhenNull="true">
+				<textField evaluationTime="Band" pattern="#######.####" isBlankWhenNull="true">
 					<reportElement uuid="0f8c9c88-5b46-4bb1-b970-aeb3d68ab09a" mode="Transparent" x="158" y="76" width="160" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.5"/>
@@ -203,7 +205,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{sumTotalAll}]]></textFieldExpression>
 				</textField>
@@ -235,7 +237,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalOtAll}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
+				<textField pattern="#######.####" isBlankWhenNull="true">
 					<reportElement uuid="70ea69b3-1ff0-403e-b15c-228274daa98a" mode="Transparent" x="158" y="26" width="160" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.5"/>
@@ -247,9 +249,9 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{sumTotalTaskAll}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{sumTotalTaskAll}==null?0:$V{sumTotalTaskAll}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
+				<textField pattern="#######.####" isBlankWhenNull="true">
 					<reportElement uuid="0c1e4ad6-2821-4f32-9ea7-c6f454e8bc1a" mode="Transparent" x="158" y="51" width="160" height="25" backcolor="#D3D3D3"/>
 					<box>
 						<pen lineWidth="0.5"/>
@@ -261,7 +263,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="TH Sarabun New" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{sumTotalOtTaskAll}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{sumTotalOtTaskAll}==null?0:$V{sumTotalOtTaskAll}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement uuid="e699de87-ddfa-4c1a-8328-bfbcd63565d3" mode="Transparent" x="158" y="0" width="160" height="26" backcolor="#CCCCFF"/>
@@ -273,7 +275,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{tPoint}]]></textFieldExpression>
 				</textField>
@@ -287,7 +289,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{summaryPointEmp}.concat(" : ")+($F{EMPCODE}==null?"":$F{EMPCODE})]]></textFieldExpression>
 				</textField>
@@ -311,7 +313,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{tDateStart}]]></textFieldExpression>
 				</textField>
@@ -325,7 +327,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{fModuleName}]]></textFieldExpression>
 				</textField>
@@ -339,7 +341,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{tPoint}]]></textFieldExpression>
 				</textField>
@@ -353,7 +355,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{fTaskName}]]></textFieldExpression>
 				</textField>
@@ -367,7 +369,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{fProjectName}]]></textFieldExpression>
 				</textField>
@@ -381,7 +383,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{tDateEnd}]]></textFieldExpression>
 				</textField>
@@ -395,7 +397,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{MONTH}.equals("01")?$P{January}:
 $F{MONTH}.equals("02")?$P{February}:
@@ -415,7 +417,7 @@ $P{Error}]]></textFieldExpression>
 		</groupHeader>
 		<groupFooter>
 			<band height="50">
-				<textField isBlankWhenNull="true">
+				<textField pattern="#######.####" isBlankWhenNull="true">
 					<reportElement uuid="f2858849-28f7-49ae-901d-088a7ca8da80" x="690" y="0" width="112" height="25"/>
 					<box>
 						<pen lineWidth="0.5"/>
@@ -425,11 +427,11 @@ $P{Error}]]></textFieldExpression>
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{sumPointT}==null?0:$V{sumPointT}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
+				<textField pattern="#######.####" isBlankWhenNull="true">
 					<reportElement uuid="b4d4b333-60e4-435e-97e3-c91065a6a526" x="690" y="25" width="112" height="25"/>
 					<box>
 						<pen lineWidth="0.5"/>
@@ -439,7 +441,7 @@ $P{Error}]]></textFieldExpression>
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{sumPointOT}==null?0:$V{sumPointOT}]]></textFieldExpression>
 				</textField>
@@ -453,7 +455,7 @@ $P{Error}]]></textFieldExpression>
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalTask}]]></textFieldExpression>
 				</textField>
@@ -467,7 +469,7 @@ $P{Error}]]></textFieldExpression>
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="TH Sarabun New" size="12"/>
+						<font fontName="TH Sarabun New" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalOT}]]></textFieldExpression>
 				</textField>
@@ -482,111 +484,125 @@ $P{Error}]]></textFieldExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="63b33197-5858-439d-aafe-17dab4157351" mode="Transparent" x="0" y="0" width="802" height="32" backcolor="#B7CEFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="14" isBold="true"/>
+					<font fontName="TH Sarabun New" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fTitle}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="83" splitType="Stretch">
+		<band height="103" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="40139f04-825d-47d8-9c96-314e2e4973f7" x="158" y="63" width="160" height="20"/>
+				<reportElement uuid="40139f04-825d-47d8-9c96-314e2e4973f7" x="158" y="83" width="160" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateEnd}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="3065e10e-9f51-409c-aeef-785ef6e5989d" x="158" y="42" width="160" height="21"/>
+				<reportElement uuid="3065e10e-9f51-409c-aeef-785ef6e5989d" x="158" y="62" width="160" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateStart}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="580" y="63" width="222" height="20"/>
+				<reportElement uuid="39638b16-34c8-4d7a-a297-d74c87fa5e08" x="580" y="83" width="222" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{printDate}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="67da8abe-9b4f-4acc-9965-519e2cfad0c1" x="0" y="42" width="158" height="21"/>
+				<reportElement uuid="67da8abe-9b4f-4acc-9965-519e2cfad0c1" x="0" y="62" width="158" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fDateStart}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="4072ddf4-f200-4dec-85bc-3079d26c4cd1" x="0" y="63" width="158" height="20"/>
+				<reportElement uuid="4072ddf4-f200-4dec-85bc-3079d26c4cd1" x="0" y="83" width="158" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fDateEnd}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="31353aae-9acd-40cf-aa3b-009cbd415670" x="465" y="42" width="115" height="21"/>
+				<reportElement uuid="31353aae-9acd-40cf-aa3b-009cbd415670" x="465" y="62" width="115" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fPrintName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="580" y="42" width="222" height="21"/>
+				<reportElement uuid="f4ecaedf-8539-4eef-88b8-f92ad3310bef" x="580" y="62" width="222" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{printFName}.concat("      ")+$P{printLName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="a0f595c0-df49-4532-a760-b74fcfb9c649" x="0" y="21" width="158" height="21"/>
+				<reportElement uuid="a0f595c0-df49-4532-a760-b74fcfb9c649" x="0" y="41" width="158" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fEmpFrom}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="89e0d377-5180-43b4-991f-8c263c56c02d" x="158" y="21" width="93" height="21"/>
+				<reportElement uuid="89e0d377-5180-43b4-991f-8c263c56c02d" x="158" y="41" width="93" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{EmpFrom}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="2695ddab-0876-4ae7-b06a-b026d0fdaaa5" x="251" y="21" width="67" height="21"/>
+				<reportElement uuid="2695ddab-0876-4ae7-b06a-b026d0fdaaa5" x="251" y="41" width="67" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fEmpTo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="dd5cafac-1c01-4df1-a7c8-283562195570" x="318" y="21" width="147" height="21"/>
+				<reportElement uuid="dd5cafac-1c01-4df1-a7c8-283562195570" x="318" y="41" width="147" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{EmpTo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="4e5770ef-887f-484f-a15e-4f9714e9e40b" x="0" y="0" width="158" height="21"/>
+				<reportElement uuid="4e5770ef-887f-484f-a15e-4f9714e9e40b" x="0" y="20" width="158" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fTeam}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="771a0777-9d9b-47e6-b340-1af8c38d955a" x="158" y="0" width="160" height="21"/>
+				<reportElement uuid="771a0777-9d9b-47e6-b340-1af8c38d955a" x="158" y="20" width="160" height="21"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Team}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="06f70bee-a98c-45c2-856a-fe54b877c404" x="465" y="63" width="115" height="20"/>
+				<reportElement uuid="06f70bee-a98c-45c2-856a-fe54b877c404" x="465" y="83" width="115" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fPrintDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="930f71ca-80ab-414f-8b47-9611bbad97d0" x="0" y="0" width="158" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fReportCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="48a54dff-1051-45d1-9a4f-c353f7672d96" x="158" y="0" width="160" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportCode}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -662,7 +678,7 @@ $P{Error}]]></textFieldExpression>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SUB_DATE_START}+(Integer.parseInt($F{SUB_YEAR_START})+$P{PlusYear})]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#######.####" isBlankWhenNull="true">
 				<reportElement uuid="09667f72-b974-46f2-98a7-4345cca8b8b6" mode="Opaque" x="690" y="0" width="112" height="26"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -674,7 +690,7 @@ $P{Error}]]></textFieldExpression>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="TH Sarabun New" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{T_COST}==null?$F{OT_COST}:$F{T_COST}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{T_COST}==null?($F{OT_PROGRESS}==100?$F{OT_COST}:0):($F{T_STATUS}.equals($P{c})?$F{T_COST}:0)]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
