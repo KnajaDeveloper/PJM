@@ -70,13 +70,13 @@
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-3">${L_Task_Type_Code}</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="sTypeTaskCode" placeholder="${L_Task_Type_Code}"/>
+                                    <input type="text" class="form-control" id="sTypeTaskCode" placeholder="${L_Task_Type_Code}" maxlength="255"/>
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label class="control-label col-sm-4">${L_Task_Type_Name}</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="sTypeTaskName" placeholder="${L_Task_Type_Name}"/>
+                                    <input type="text" class="form-control" id="sTypeTaskName" placeholder="${L_Task_Type_Name}" maxlength="255"/>
                                 </div>
                             </div>
                         </form>
@@ -121,7 +121,8 @@
                             <tbody id="tbody">
 
                             </tbody>
-                        </table></div>
+                        </table>
+                    </div>
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <component:pagging id="paggingSimple"/>
@@ -150,7 +151,7 @@
                             <label class="control-label col-sm-4 required">${L_Task_Type_Code}</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="aTypeTaskCode" placeholder="${L_Task_Type_Code}"
-                                        data-placement="bottom"/>
+                                        data-placement="bottom" maxlength="255"/>
                             </div>
                         </div>
 
@@ -158,7 +159,7 @@
                             <label class="control-label col-sm-4 required">${L_Task_Type_Name}</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="aTypeTaskName" placeholder="${L_Task_Type_Name}"
-                                       data-content="${M_Please_Input}" data-placement="bottom"/>
+                                       data-content="${M_Please_Input}" data-placement="bottom" maxlength="255"/>
                             </div>
                         </div>
                     </form>
@@ -186,14 +187,14 @@
                         <div class="form-group">
                             <label class="control-label col-sm-4 required">${L_Task_Type_Code}</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="eTypeTaskCode" placeholder="${L_Task_Type_Code}" disabled="disabled"/>
+                                <input type="text" class="form-control" id="eTypeTaskCode" placeholder="${L_Task_Type_Code}" disabled="disabled" maxlength="255"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm-4 required">${L_Task_Type_Name}</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="eTypeTaskName" placeholder="${L_Task_Type_Name}"/>
+                                <input type="text" class="form-control" id="eTypeTaskName" placeholder="${L_Task_Type_Name}" maxlength="255"/>
                             </div>
                         </div>
                     </form>

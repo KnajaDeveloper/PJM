@@ -21,11 +21,14 @@ var paggination = Object.create(UtilPaggination);
 
 paggination.setEventPaggingBtn("paggingSimple", paggination);
 paggination.loadTable = function loadTable(jsonData) {
+    $('#tbody').empty();
+
     if (jsonData.length <= 0) {
-        bootbox.alert(Message.Data_not_found);
+        //bootbox.alert(Message.Data_not_found);
+        $('#tbody').append('<tr><td colspan = 4 class="text-center">' + Message.Data_not_found + '</td></tr>');
     }
 
-    $('#tbody').empty();
+
     $("#checkAll").prop("checked", false);
 
     var tableData = "";
