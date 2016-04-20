@@ -96,7 +96,7 @@
                                 <label class="control-label col-sm-4 required">${Start_Date}</label>
                                 <div class="col-sm-7">
                                     <div class='input-group date'>
-                                        <input type="text" class="form-control" id="cDateBegin" placeholder="dd/mm/yyyy" data-placement="bottom"/>
+                                        <input type="text" class="form-control" id="cDateBegin" placeholder="dd/mm/yyyy" data-placement="bottom" maxlength="10"/>
                                         <span id="spanBegin" class="input-group-addon date">
     										<span class="glyphicon glyphicon-calendar"></span>
     									</span>
@@ -109,7 +109,7 @@
                                 <label class="control-label col-sm-3 required">${End_Date}</label>
                                 <div class="col-sm-7">
                                     <div class='input-group date'>
-                                        <input type='text' class="form-control" id="cDateEnd" placeholder="dd/mm/yyyy"   data-placement="bottom"/>
+                                        <input type='text' class="form-control" id="cDateEnd" placeholder="dd/mm/yyyy"   data-placement="bottom" maxlength="10"/>
     									<span id="spanEnd" class="input-group-addon date">
     										<span class="glyphicon glyphicon-calendar"></span>
     									</span>
