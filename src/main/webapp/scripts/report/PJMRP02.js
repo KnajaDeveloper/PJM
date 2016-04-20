@@ -3,39 +3,39 @@ var _language = commonData.language;  // ค่าของ language อยู�
 //--------------------------------------------------------------------------------
 $(document).ready(function () {
 
-    var ddlProject;
-    ddlProject = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        type: "GET",
-        url: contextPath + '/projects/findAllProject',
-        data: {},
-        complete: function (xhr) {
-        },
-        async: false
-    });
-
-    var addData = ddlProject.responseJSON;
-    $('#ddlProject').empty();
-    $('#ddlProject').append("<option></option>");
-    addData.forEach(function (value) {
-        var text = value.projectName;
-        $('#ddlProject').append("<option value=" + value.id + ">" + text + "</option>");
-    });
+    //var ddlProject;
+    //ddlProject = $.ajax({
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "json",
+    //    headers: {
+    //        Accept: "application/json"
+    //    },
+    //    type: "GET",
+    //    url: contextPath + '/projects/findAllProject',
+    //    data: {},
+    //    complete: function (xhr) {
+    //    },
+    //    async: false
+    //});
+    //
+    //var addData = ddlProject.responseJSON;
+    //$('#ddlProject').empty();
+    //$('#ddlProject').append("<option></option>");
+    //addData.forEach(function (value) {
+    //    var text = value.projectName;
+    //    $('#ddlProject').append("<option value=" + value.id + ">" + text + "</option>");
+    //});
 
 });
 
 //--------------------------------------------------------------------------------
-$("#ddlProject").change(function () {
+$("#lovProject").change(function () {
 
     var ddlModule;
 
 
     var dataJsonData = {
-        projectId: $('#ddlProject').find('option:selected').val()
+        projectId: $('#lovProject').data("data-id")
     }
 
     ddlModule = $.ajax({
@@ -72,16 +72,16 @@ $("#export").click(function () {
 //--------------------------------------------------------------------------------
 
 function sendData() {
-    if ($("#ddlProject").val() == "") {
+    if ($("#lovProject").val() == "") {
 
-        $("#ddlProject").attr("data-content", Message.Please_Select).popover('show');
+        $("#lovProject").attr("data-content", Message.Please_Select).popover('show');
     }else {
 
     var date = new Date();
 
 
-    var projectId = $('#ddlProject').find('option:selected').val();
-    var projectName = $('#ddlProject').find('option:selected').text();
+    var projectId = $('#lovProject').data("data-id");
+    var projectName = $('#lovProject').data("dataDescription");
     var moduleCode = $('#ddlModule').find('option:selected').val();
     var moduleName = $('#ddlModule').find('option:selected').text();
     var plusYear = 0;
