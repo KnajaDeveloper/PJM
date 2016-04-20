@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
-import java.util.Date;
-import java.util.List;
-
-
+import java.util.*;
 
 
 privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
@@ -218,11 +216,31 @@ privileged aspect ModuleProject_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class, "ModuleMember");
         criteria.add(Restrictions.eq("empCode", empCode));
         criteria.createAlias("ModuleMember.moduleProject", "ModuleProject");
-        criteria.add(Restrictions.eq("ModuleProject.moduleStatus", "Not Success"));
         criteria.setProjection(Projections.distinct(Projections.property("ModuleMember.moduleProject")));
-        criteria.createAlias("ModuleProject.project", "Project");
-        criteria.add(Restrictions.eq("Project.id", projectId));
+
+        if(projectId != 0L){
+            criteria.createAlias("ModuleProject.project", "Project");
+            criteria.add(Restrictions.eq("Project.id", projectId));
+        }
+
         return criteria.list();
+    }
+
+    public static List<ModuleProject> ModuleProject.findUnFinishModuleByEmpCode(String empCode) {
+        List<Task> tasks = Task.findTaskByTaskStatus(ConstantApplication.getTaskStatusNew());
+        Set<Long> moduleId = new HashSet<>();
+        for(Task task : tasks) {
+            moduleId.add(task.getProgram().getModuleProject().getId());
+        }
+
+        EntityManager ent = ModuleMember.entityManager();
+        Criteria cr = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class, "ModuleMember");
+        cr.add(Restrictions.eq("empCode", empCode));
+        cr.createAlias("ModuleMember.moduleProject", "ModuleProject");
+        cr.setProjection(Projections.distinct(Projections.property("ModuleMember.moduleProject")));
+        cr.add(Restrictions.in("ModuleProject.id", moduleId));
+
+        return cr.list();
     }
 
 }

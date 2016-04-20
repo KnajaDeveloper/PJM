@@ -27,6 +27,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     protected static Logger LOGGER = LoggerFactory.getLogger(Task_Custom_Jpa_ActiveRecord.class);
 
     public static List<Task> Task.findTaskByModuleAndTypeTask(List<Long> listModuleId, List<Long> listTypeTaskId, boolean getMyTask, boolean getOtherTask, String empCode) {
+        // find task in plan -------------------------------------------------------------------------------------------
         DetachedCriteria subCriteria = DetachedCriteria.forClass(Plan.class);
         subCriteria.add(Restrictions.not(Restrictions.isNull("task")));
         subCriteria.setProjection(Projections.distinct(Projections.property("task")));
@@ -37,11 +38,11 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.createAlias("Task.typeTask", "typeTask");
         criteria.createAlias("Task.program", "program");
         criteria.createAlias("program.moduleProject", "moduleProject");
-        criteria.add(Restrictions.in("moduleProject.id", listModuleId));                    // where in my module
-        criteria.add(Subqueries.propertyNotIn("Task.id", subCriteria));                     // not in my plan
+        criteria.add(Restrictions.in("moduleProject.id", listModuleId));                    // by module (only member)
+        criteria.add(Subqueries.propertyNotIn("Task.id", subCriteria));                     // not in plan
 
         if (listTypeTaskId.size() > 0) {
-            criteria.add(Restrictions.in("typeTask.id", listTypeTaskId));
+            criteria.add(Restrictions.in("typeTask.id", listTypeTaskId));                   // by task type
         }
 
         if (getMyTask && !getOtherTask) {
@@ -56,8 +57,16 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
                 .addOrder(Order.asc("typeTask.typeTaskName"))
                 .addOrder(Order.asc("dateStart"))
                 .addOrder(Order.asc("dateEnd"));
+
         List<Task> tasks = criteria.list();
         return tasks;
+    }
+
+    public static List<Task> Task.findTaskByTaskStatus(String taskStatus){
+        EntityManager ent = Task.entityManager();
+        Criteria cr = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        cr.add(Restrictions.eq("taskStatus", taskStatus));
+        return cr.list();
     }
 
     public static List<Task> Task.findProjectByTask(long typeCode) {

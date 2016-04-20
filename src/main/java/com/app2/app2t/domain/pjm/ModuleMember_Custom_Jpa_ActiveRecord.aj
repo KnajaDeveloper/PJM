@@ -18,20 +18,6 @@ privileged aspect ModuleMember_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(ModuleMember_Custom_Jpa_ActiveRecord.class);
     
-    public static List<Long> ModuleMember.findDistinctModuleByProjectAndEmpCode(Long projectId, String empCode) {
-        EntityManager ent = ModuleMember.entityManager();
-        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class, "ModuleMember");
-        criteria.add(Restrictions.eq("ModuleMember.empCode", empCode));
-        criteria.createAlias("ModuleMember.moduleProject", "ModuleProject", JoinType.LEFT_OUTER_JOIN);
-        criteria.createAlias("ModuleProject.project", "Project", JoinType.LEFT_OUTER_JOIN);
-        if(projectId != 0) {
-            criteria.add(Restrictions.eq("Project.id", projectId));
-        }
-        criteria.setProjection(Projections.distinct(Projections.property("moduleProject.id")));
-        List<Long> moduleId = criteria.list();
-        return moduleId;
-    }
-
     public static void ModuleMember.saveModuleMemberByModuleProject(ModuleProject moduleproject,String[] empCode) {
         EntityManager ent = ModuleMember.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class);
