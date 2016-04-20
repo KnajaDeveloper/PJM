@@ -363,4 +363,19 @@ privileged aspect TaskController_Custom_Controller_Json {
                 }
             }
 
+    @RequestMapping(value = "/editTaskStatus",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.editTaskStatus(
+            @RequestParam(value = "taskId", required = false) Long taskId
+            ,@RequestParam(value = "status", required = false) String status
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Task> result = Task.updateStatusTask(taskId, status);
+            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
