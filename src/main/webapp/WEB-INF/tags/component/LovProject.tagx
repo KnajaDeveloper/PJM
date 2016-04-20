@@ -1,0 +1,27 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true"/>
+    <jsp:directive.attribute name="placeholder" type="java.lang.String" required="false" rtexprvalue="true"/>
+    <jsp:directive.attribute name="classes" type="java.lang.Boolean" required="false" rtexprvalue="true"/>
+    <jsp:directive.attribute name="dataContent" type="java.lang.String" required="false" rtexprvalue="true"/>
+
+    <c:set var="MESSAGE_CAN_PRESS_ENTER"><spring:message javaScriptEscape="true" code="M0064"/></c:set>
+
+    <div id="Container${id}" class="input-group">
+        <input id='${id}' onkeypress="UtilLov.onChangeInputLovEmp(this,event)" onfocus="UtilLov.onFocus(this)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">
+        <span class="input-group-addon">
+            <span id="Btn${id}" onclick="UtilLov.lovEmp(this)" target="${id}" class="fa fa-search" style="cursor:pointer;">
+                <jsp:text/>
+            </span>
+        </span>
+        </input>
+    </div>
+
+    <script type="text/javascript">
+        var canPressEnter = '${MESSAGE_CAN_PRESS_ENTER}';
+        jQuery(document).ready(function() {
+            UtilLov.onLoadInputLovEmp('${id}');
+        });
+    </script>
+</jsp:root>

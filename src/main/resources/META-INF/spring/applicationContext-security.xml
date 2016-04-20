@@ -16,6 +16,7 @@
     <http entry-point-ref="casEntryPoint">
 
        <intercept-url pattern="/menus/findEmcodeInAllTable/**" access="permitAll or isAuthenticated()" />
+        <intercept-url pattern="/projects/findProjectByTextLov/**" access="permitAll or isAuthenticated()" />
         <!--<intercept-url pattern="/caevauserforms/findCaEvaUserFormByEmpCode/**" access="permitAll or isAuthenticated()" />-->
         <!--<intercept-url pattern="/caevauserforms/findCaEvaTemplateMinerByYear/**" access="permitAll or isAuthenticated()" />-->
         <!--<intercept-url pattern="/caevaformstatuses/findAllCaEvaStatus/**" access="permitAll or isAuthenticated()" />-->

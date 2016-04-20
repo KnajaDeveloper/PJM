@@ -3,16 +3,27 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes"/>
 
-	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
-	<c:set var="LABEL_MODULE"><spring:message javaScriptEscape="true" code="L0009"/></c:set>
-	<c:set var="LABEL_TEAM"><spring:message javaScriptEscape="true" code="L0031"/></c:set>
-	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
-	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
-	<c:set var="LABEL_EMPLOYEE_NAME"><spring:message javaScriptEscape="true" code="L0003"/></c:set>
-	<c:set var="LABEL_TASK_NAME"><spring:message javaScriptEscape="true" code="L0033"/></c:set>
-	<c:set var="LABEL_TASK_TYPE_NAME"><spring:message javaScriptEscape="true" code="L0071"/></c:set>
-
-	<c:set var="BUTTON_SEARCH"><spring:message javaScriptEscape="true" code="B0002"/></c:set>
+	<c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
+	<c:set var="BUTTON_CLOSE" scope="request"><spring:message code="B0012"/></c:set>
+	<c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
+	<c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
+	<c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0010"/></c:set>
+	<c:set var="LABEL_END_DATE" scope="request"><spring:message code="L0011"/></c:set>
+	<c:set var="LABEL_CHECK_TASK" scope="request"><spring:message text="L0147"/></c:set>
+	<c:set var="LABEL_PROJECT_NAME" scope="request"><spring:message code="L0008"/></c:set>
+	<c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
+	<c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message code="L0082"/></c:set>
+	<c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+	<c:set var="LABEL_TASK_TODAY" scope="request"><spring:message text="L0144"/></c:set>
+	<c:set var="LABEL_TASK_AR" scope="request"><spring:message text="L0145"/></c:set>
+	<c:set var="LABEL_TASK_FOLLOW" scope="request"><spring:message text="L0146"/></c:set>
+	<c:set var="LABEL_PASS" scope="request"><spring:message text="L0148"/></c:set>
+	<c:set var="LABEL_FAIL" scope="request"><spring:message text="L0149"/></c:set>
+	<c:set var="LABEL_MANAGER" scope="request"><spring:message code="L0077"/></c:set>
+	<c:set var="LABEL_FOLLOWER" scope="request"><spring:message text="L0139"/></c:set>
+	<c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
+	<c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
+	<c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
 
 	<div id="containerData" name="cotainerData" class="col-md-12">
 		<div class="panel panel-primary">
@@ -24,9 +35,7 @@
 						<div class="col-sm-8">
 						<label class="col-sm-5 control-label">โปรเจค</label>
 							<div class="col-sm-7">
-								<select id="ddlProject" class="form-control">
-									<option value="null"><!-- Not Empty --></option>
-								</select>
+								<component:LovProject id="txtProjectName"/>
 							</div>
 						</div>
 						<div class="col-sm-2"><!--Not--></div>
@@ -91,26 +100,24 @@
 	<div id="containerResult" name="containerResult" class="col-md-12" style="padding-top: 20px">
 		<div class="panel panel-primary">
 			<div class="panel-body">
-				<div class="form-group">
-					<div class="table-stripted table-responsive">
-						<table id="Table" class="table table-bordered table-stripted ">
-							<tdead>
-								<tr>
-									<th class="text-center"  width="5%">ผลการตรวจสอบ</th>
-									<th class="text-center"  width="5%">โปรเจค</th>
-									<th class="text-center"  width="5%">โมดูล</th>
-									<th class="text-center"  width="5%">โปรแกรม</th>
-									<th class="text-center"  width="5%">งาน</th>
-									<th class="text-center"  width="5%">เปอร์เซ็น</th>
-								</tr>
-							</tdead>
-							<tbody id="ResualtSearch" style="cursor:pointer"></tbody>
-						</table>
-					</div>
-					<div class="form-horizontal">
-						<div class="form-group">
-							<component:pagging id="paggingSimple"/>
-						</div>
+				<div class=" table-responsive">
+					<table id="taskFollow" class="table table-bordered table-stripted table-hover ">
+						<thead>
+						<tr class="">
+							<th class="text-center" style="width: 40px ;color:#000">${LABEL_CHECK_TASK}</th>
+							<th class="text-center" style="width: 200px ;color:#000">${LABEL_PROJECT_NAME}</th>
+							<th class="text-center" style="width: 100px ;color:#000">${LABEL_MODULE_NAME}</th>
+							<th class="text-center" style="width: 70px ;color:#000">${LABEL_PROGRAM_NAME}</th>
+							<th class="text-center" style="width: 70px ;color:#000">${LABEL_TASK_NAME}</th>
+							<th class="text-center" style="width: 15px ;color:#000">${LABEL_PROGRESS}</th>
+						</tr>
+						</thead>
+						<tbody id="ResualtSearchTaskFollow" ></tbody>
+					</table>
+				</div>
+				<div class="form-horizontal">
+					<div class="form-group">
+						<component:pagging id="paggingSimple3"/>
 					</div>
 				</div>
 			</div>
@@ -121,11 +128,14 @@
 		var contextPath = '${pageContext.request.contextPath}';
 	</script>
 
+	<spring:url value="/resources/scripts//worktrack.js" var="worktrack"/>
+	<script src="${worktrack}" type="text/javascript"><!--Not Empty--></script>
+
 	<spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
 	<script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
-	<spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
-	<script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
+	<spring:url value="/resources/scripts/component/UtilLovProject.js" var="UtilLovProject"/>
+	<script src="${UtilLovProject}" type="text/javascript"><!--Not Empty --></script>
 
 	<!-- Script Calendar -->
 	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>

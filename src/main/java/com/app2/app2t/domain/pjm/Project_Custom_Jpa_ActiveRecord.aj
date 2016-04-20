@@ -6,10 +6,7 @@ package com.app2.app2t.domain.pjm;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.hibernate.criterion.*;
 import org.hibernate.type.IntegerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -271,6 +268,16 @@ privileged aspect Project_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("ModuleProject.moduleStatus", "Not Success"));
         criteria.setProjection(Projections.distinct(Projections.property("ModuleProject.project")));
 
+        return criteria.list();
+    }
+
+    public static List<Project> Project.findEmployeeByTextLov(String text) {
+        Session session = (Session) Project.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Project.class);
+        criteria.add(Restrictions.disjunction()
+                .add(Restrictions.ilike("projectCode", "%" + text + "%"))
+                .add(Restrictions.ilike("projectName", "%" + text + "%")));
+        criteria.addOrder(Order.asc("projectCode"));
         return criteria.list();
     }
 

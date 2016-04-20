@@ -306,6 +306,32 @@ privileged aspect ProjectController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/findProjectByTextLov", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> ProjectController.findProjectByTextLov(
+            @RequestParam(value = "text", required = false) String text
+    ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        try {
+            List<Project> projectList = Project.findEmployeeByTextLov(text);
+            List<Map> list = new ArrayList<>();
+            for (Project pj : projectList) {
+                Map map = new HashMap();
+                map.put("projectCode", pj.getProjectCode());
+                map.put("projectName", pj.getProjectName());
+                int year = Integer.parseInt(""+pj.getDateStart().getYear())+1900;
+                map.put("projectYear", year);
+                map.put("projectId", pj.getId());
+                list.add(map);
+            }
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("findEvaPeriodTime :{}", e);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
 
