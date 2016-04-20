@@ -300,4 +300,15 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static List<Task> Task.updateStatusTask(Long taskId, String status) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("id", taskId));
+        List<Task> result = criteria.list();
+        Task task = result.get(0);
+        task.setTaskStatus(status);
+        task.merge();
+        return criteria.list();
+    }
+
 }

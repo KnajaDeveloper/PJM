@@ -27,6 +27,7 @@ pagginationBackLog.setEventPaggingBtn("paggingSimple2", pagginationBackLog);
 pagginationBackLog.loadTable = function loadTable(jsonData) {
     $('#ResualtSearchTaskBackLog').empty();
     var tableData = "";
+    if(jsonData.length > 0 ) {
     jsonData.forEach(function (value) {
         tableData = ''
             + '<tr>'
@@ -48,4 +49,18 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
         );
 
     });
+
+}
+else {
+    tableData = ''
+        + '<tr class="text-center" >'
+        + '<td colspan="4" style="color: #000">'
+        + MESSAGE.MS_DATA_NOT_FOUND
+        + '</td>'
+        + '</tr>';
+    $('#ResualtSearchTaskBackLog').append(
+        tableData
+    );
+}
+
 }

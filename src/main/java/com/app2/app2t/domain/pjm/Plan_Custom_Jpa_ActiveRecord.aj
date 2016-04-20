@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
@@ -391,7 +392,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 //        Date date = new Date ("06/01/2016");
         criteria.add(Restrictions.lt("plan.dateEnd",date));
         criteria.createAlias("plan.task","task");
-        criteria.add(Restrictions.eq("task.taskStatus","N"));
+        criteria.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusNew()));
         criteria.add(Restrictions.eq("task.empCode", empCode));
         return criteria;
     }

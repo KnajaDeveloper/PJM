@@ -61,8 +61,10 @@ $("#FnDateEnd").on('change', function () {
 $('#calendarFnTo').click(function () {
     $( "#FnDateEnd" ).focus();
 });
+var st,en = 0 ;
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $("#search").click(function () {
+    st = 0; en = 0;
 
     if ($('#checkAll').prop('checked') == true){
         $('#checkAll').prop('checked', false);
@@ -98,22 +100,58 @@ $("#search").click(function () {
     else {
         fnDateEnd = "";
     }
-    //console.log($("#lovPm").data("dataCode"));
-    dataJsonData = {
-        projectManage: $("#lovPm").data("dataCode"),
-        moduleManager : $("#lovMm").data("dataCode"),
-        StDateBegin: dateStart,
-        StDateEnd: dateEnd,
-        FnDateBegin: fnDateStart,
-        FnDateEnd: fnDateEnd,
-        costStart: $('#costStart').val(),
-        costEnd: $('#costEnd').val(),
+
+    if($('#costStart').val() != "") {
+        if ($.isNumeric($('#costStart').val())){
+            if($('#costStart').val().indexOf('.') > -1 ) {
+                if (($('#costStart').val().length - 1) - $('#costStart').val().indexOf('.') > 4) {
+                    $('#costStart').attr("data-content", MESSAGE.ALERT_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS).popover('show');
+                    st = 0;
+                }
+                else {
+                    st = 1;
+                }
+            }
+            else {
+                st = 1;
+            }
+
+        }
+        else {
+            $('#costStart').attr("data-content", MESSAGE.ALERT_PLEASE_ENTER_ONLY_NUMBERS).popover('show');
+            st = 0;
+        }
     }
-    searchData();
-    if(json.length <= 0)
+    else {st = 1 ;}
+
+    if($('#costEnd').val() != "") {
+        if ($.isNumeric($('#costEnd').val())){
+            if($('#costEnd').val().indexOf('.') > -1 ) {
+                if (($('#costEnd').val().length - 1) - $('#costEnd').val().indexOf('.') > 4) {
+                    $('#costEnd').attr("data-content", MESSAGE.ALERT_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS).popover('show');
+                    en = 0;
+                }
+                else {
+                    en = 1;
+                }
+            }
+            else {
+                en = 1;
+            }
+        }
+        else {
+            $('#costEnd').attr("data-content", MESSAGE.ALERT_PLEASE_ENTER_ONLY_NUMBERS).popover('show');
+            en = 0;
+        }
+    }
+    else {en = 1 ;}
+
+    if(st ==1 && en == 1)
     {
-        bootbox.alert(MESSAGE.ALERT_DATA_NOT_FOUND);
+        searchData();
     }
+
+
 }); //-- searchData --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $("#addProject").click(function () {
@@ -153,6 +191,7 @@ paggination.loadTable = function loadTable(jsonData) {
 
     var tableData = "";
     var key = 1;
+    if(jsonData.length > 0 ) {
     jsonData.forEach(function (value) {
         dataModule =[];
             tableData = ''
@@ -188,6 +227,18 @@ paggination.loadTable = function loadTable(jsonData) {
             );
 
     });
+    }
+    else {
+        tableData = ''
+            + '<tr class="text-center" >'
+            + '<td colspan="8" style="color: #000">'
+            + MESSAGE.ALERT_DATA_NOT_FOUND
+            + '</td>'
+            + '</tr>';
+        $('#ResualtSearch').append(
+            tableData
+        );
+    }
 
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,7 +318,16 @@ $("#btnDelete").click(function () {
 }); //-- deleteData--//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function searchData() {
-
+    dataJsonData = {
+        projectManage: $("#lovPm").data("dataCode"),
+        moduleManager: $("#lovMm").data("dataCode"),
+        StDateBegin: dateStart,
+        StDateEnd: dateEnd,
+        FnDateBegin: fnDateStart,
+        FnDateEnd: fnDateEnd,
+        costStart: $('#costStart').val(),
+        costEnd: $('#costEnd').val(),
+    }
     paggination.setOptionJsonData({
         url: contextPath + "/projects/findProjectSearchData",
         data: dataJsonData

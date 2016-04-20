@@ -1,6 +1,6 @@
 <div xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
      xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:component="urn:jsptagdir:/WEB-INF/tags/component"
-     xmlns:form="http://www.springframework.org/tags/form" version="2.0">
+     xmlns:form="http://www.springframework.org/tags/form"  xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <!--<spring:message var="app_name" code="application_name" htmlEscape="false" />-->
@@ -16,13 +16,57 @@
 
   <!--<input id="checkAll" class="check" type="checkbox"/>-->
 
+  <c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
+  <c:set var="BUTTON_CLOSE" scope="request"><spring:message code="B0012"/></c:set>
+  <c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
+  <c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
+  <c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0010"/></c:set>
+  <c:set var="LABEL_END_DATE" scope="request"><spring:message code="L0011"/></c:set>
+  <c:set var="LABEL_CHECK_TASK" scope="request"><spring:message code="L0147"/></c:set>
+  <c:set var="LABEL_PROJECT_NAME" scope="request"><spring:message code="L0008"/></c:set>
+  <c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
+  <c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message code="L0082"/></c:set>
+  <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+  <c:set var="LABEL_TASK_TODAY" scope="request"><spring:message code="L0144"/></c:set>
+  <c:set var="LABEL_TASK_AR" scope="request"><spring:message code="L0145"/></c:set>
+  <c:set var="LABEL_TASK_FOLLOW" scope="request"><spring:message code="L0146"/></c:set>
+  <c:set var="LABEL_PASS" scope="request"><spring:message code="L0148"/></c:set>
+  <c:set var="LABEL_FAIL" scope="request"><spring:message code="L0149"/></c:set>
+  <c:set var="LABEL_MANAGER" scope="request"><spring:message code="L0077"/></c:set>
+  <c:set var="LABEL_FOLLOWER" scope="request"><spring:message code="L0139"/></c:set>
+  <c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
+  <c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
+  <c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
+
+
+  <script>
+    var MESSAGE = {};
+
+    MESSAGE.MS_DATA_NOT_FOUND = '${MS_DATA_NOT_FOUND}';
+    MESSAGE.MS_SAVE_SUCCESS = '${MS_SAVE_SUCCESS}';
+    MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+    MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+
+    var LABEL = {};
+    LABEL.LABEL_PASS = '${LABEL_PASS}';
+    LABEL.LABEL_FAIL = '${LABEL_FAIL}';
+    LABEL.LABEL_PROJECT_NAME = '${LABEL_PROJECT_NAME}';
+    LABEL.LABEL_MODULE_NAME = '${LABEL_MODULE_NAME}';
+    LABEL.LABEL_PROGRAM_NAME = '${LABEL_PROGRAM_NAME}';
+    LABEL.LABEL_TASK_NAME = '${LABEL_TASK_NAME}';
+    LABEL.LABEL_MANAGER = '${LABEL_MANAGER}';
+    LABEL.LABEL_FOLLOWER = '${LABEL_FOLLOWER}';
+
+  </script>
+
+
   <div class="row">
     <div class="col-sm-12">
       <div class="panel-group" id="accordion">
         <div class="panel panel-success">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse">งานวันนี้</a>
+              <a data-toggle="collapse">${LABEL_TASK_TODAY}</a>
             </h4>
           </div>
           <div id="collapse1" class="">
@@ -32,10 +76,10 @@
                 <table id="taskToday" class="table table-bordered table-stripted  table-hover ">
                   <thead>
                   <tr class="">
-                    <th class="text-center" style="width: 15px ;color:#000" >Task Code</th>
-                    <th class="text-center" style="width: 200px ;color:#000">Task Name</th>
-                    <th class="text-center" style="width: 40px ;color:#000">Start Date</th>
-                    <th class="text-center" style="width: 40px ;color:#000">End Date</th>
+                    <th class="text-center" style="width: 15px ;color:#000" >${LABEL_TASK_CODE}</th>
+                    <th class="text-center" style="width: 200px ;color:#000">${LABEL_TASK_NAME}</th>
+                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_START_DATE}</th>
+                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_END_DATE}</th>
                   </tr>
                   </thead>
                   <tbody id="ResualtSearchTaskToday" ></tbody>
@@ -55,7 +99,7 @@
         <div class="panel panel-danger">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse">งานค้าง</a>
+              <a data-toggle="collapse">${LABEL_TASK_AR}</a>
             </h4>
           </div>
           <div id="collapse2" class="">
@@ -65,10 +109,10 @@
                 <table id="taskBacklog" class="table table-bordered table-stripted  table-hover ">
                   <thead>
                   <tr class="">
-                    <th class="text-center" style="width: 15px ;color:#000">Task Code</th>
-                    <th class="text-center" style="width: 200px ;color:#000">Task Name</th>
-                    <th class="text-center" style="width: 40px ;color:#000">Start Date</th>
-                    <th class="text-center" style="width: 40px ;color:#000">End Date</th>
+                    <th class="text-center" style="width: 15px ;color:#000">${LABEL_TASK_CODE}</th>
+                    <th class="text-center" style="width: 200px ;color:#000">${LABEL_TASK_NAME}</th>
+                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_START_DATE}</th>
+                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_END_DATE}</th>
                   </tr>
                   </thead>
                   <tbody id="ResualtSearchTaskBackLog" ></tbody>
@@ -89,7 +133,7 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse">งานที่ติดตาม</a>
+          <a data-toggle="collapse">${LABEL_TASK_FOLLOW}</a>
         </h4>
       </div>
       <div id="collapse3" class="">
@@ -99,12 +143,12 @@
             <table id="taskFollow" class="table table-bordered table-stripted  table-hover ">
               <thead>
               <tr class="">
-                <th class="text-center" style="width: 20px ;color:#000">Check Task</th>
-                <th class="text-center" style="width: 200px ;color:#000">Project Name</th>
-                <th class="text-center" style="width: 200px ;color:#000">Module Name</th>
-                <th class="text-center" style="width: 100px ;color:#000">Program Name</th>
-                <th class="text-center" style="width: 100px ;color:#000">Task Name</th>
-                <th class="text-center" style="width: 20px ;color:#000">Progress</th>
+                <th class="text-center" style="width: 40px ;color:#000">${LABEL_CHECK_TASK}</th>
+                <th class="text-center" style="width: 200px ;color:#000">${LABEL_PROJECT_NAME}</th>
+                <th class="text-center" style="width: 100px ;color:#000">${LABEL_MODULE_NAME}</th>
+                <th class="text-center" style="width: 70px ;color:#000">${LABEL_PROGRAM_NAME}</th>
+                <th class="text-center" style="width: 70px ;color:#000">${LABEL_TASK_NAME}</th>
+                <th class="text-center" style="width: 15px ;color:#000">${LABEL_PROGRESS}</th>
               </tr>
               </thead>
               <tbody id="ResualtSearchTaskFollow" ></tbody>
@@ -126,7 +170,7 @@
       <!-- Modal content-->
       <div class="modal-content ">
         <div class="modal-header bg-primary">
-          <h4 class="modal-title">ตรวจสอบงาน</h4>
+          <h4 class="modal-title">${LABEL_CHECK_TASK}</h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal">
@@ -135,8 +179,8 @@
           </form>
         </div>
         <div class="modal-footer ">
-          <button id="btnModalTaskAdd" type="button" class="btn btn-primary">Save</button>
-          <button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >Cancel</button>
+          <button id="btnsave" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+          <button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >${BUTTON_CLOSE}</button>
         </div>
       </div>
     </div>

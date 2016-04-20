@@ -1,6 +1,7 @@
 package com.app2.app2t.domain.pjm;
 
 
+import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -17,7 +18,7 @@ public aspect FollowerTask_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(FollowerTask.class,"follow");
         criteria.add(Restrictions.eq("follow.empCode",empCode));
         criteria.createAlias("follow.task","task");
-        criteria.add(Restrictions.eq("task.taskStatus","R"));
+        criteria.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusReady()));
         return criteria;
     }
 

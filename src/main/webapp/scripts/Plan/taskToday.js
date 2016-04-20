@@ -27,27 +27,41 @@ function taskTodayPlanTofirstPage() {
     paggination.loadTable = function loadTable(jsonData) {
         $('#ResualtSearchTaskToday').empty();
         var tableData1 = "";
-        jsonData.forEach(function (value) {
-            tableData1 = ''
-                + '<tr>'
-                + '<td id="taskCode' + value.id + '" class="text-center" style="color: #000">'
-                + value.taskCode
-                + '</td>'
-                + '<td id="taskName' + value.id + '" class="text-left" style="color: #000">'
-                + value.taskName
-                + '</td>'
-                + '<td id="dateStart' + value.id + '" class="text-center" style="color: #000">'
-                + DateUtil.dataDateToFrontend(value.stDate, _language)
-                + '</td>'
-                + '<td id="dateEnd' + value.id + '" class="text-center" style="color: #000">'
-                + DateUtil.dataDateToFrontend(value.enDate, _language)
-                + '</td>'
-                + '</tr>';
-            $('#ResualtSearchTaskToday').append(
-                tableData1
-            );
+        if(jsonData.length > 0 ) {
+            jsonData.forEach(function (value) {
+                tableData1 = ''
+                    + '<tr>'
+                    + '<td id="taskCode' + value.id + '" class="text-center" style="color: #000">'
+                    + value.taskCode
+                    + '</td>'
+                    + '<td id="taskName' + value.id + '" class="text-left" style="color: #000">'
+                    + value.taskName
+                    + '</td>'
+                    + '<td id="dateStart' + value.id + '" class="text-center" style="color: #000">'
+                    + DateUtil.dataDateToFrontend(value.stDate, _language)
+                    + '</td>'
+                    + '<td id="dateEnd' + value.id + '" class="text-center" style="color: #000">'
+                    + DateUtil.dataDateToFrontend(value.enDate, _language)
+                    + '</td>'
+                    + '</tr>';
+                $('#ResualtSearchTaskToday').append(
+                    tableData1
+                );
 
-        });
+            });
+        }
+        else {
+                tableData1 = ''
+                    + '<tr class="text-center" >'
+                    + '<td colspan="4" style="color: #000">'
+                    + MESSAGE.MS_DATA_NOT_FOUND
+                    + '</td>'
+                    + '</tr>';
+                $('#ResualtSearchTaskToday').append(
+                    tableData1
+                );
+            }
+
     }
 
 
