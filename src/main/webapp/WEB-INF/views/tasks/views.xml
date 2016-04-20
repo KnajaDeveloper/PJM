@@ -13,4 +13,7 @@
 <definition extends="default" name="tasks/update">
         <put-attribute name="body" value="/WEB-INF/views/tasks/update.jspx"/>
     </definition>
+    <definition extends="default" name="followertasks/workTrack">
+        <put-attribute name="body" value="/WEB-INF/views/tasks/worktrack.jspx"/>
+    </definition>
 </tiles-definitions>

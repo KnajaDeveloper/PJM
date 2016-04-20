@@ -242,6 +242,23 @@ public class EmRestService extends AbstractAPP2Service {
         }
 
     }
+
+    public List<Map> findProjectByTextLov(String text) {
+        List<Map> listMap = new ArrayList<>();
+        try {
+            setWebServicesString("http://" + this.APP2Server + "/pjm/findProjectByTextLov?text=" + text);
+            if (!getResultString().equals("[{}]")) {
+                JsonArray jArray = parser.parse(getResultString()).getAsJsonArray();
+                for (JsonElement obj : jArray) {
+                    listMap.add(gson.fromJson(obj, Map.class));
+                }
+            }
+            return listMap;
+        } catch (Exception e) {
+            LOGGER.error("Error : {}", e.getMessage());
+            return listMap;
+        }
+    }
 }
 
 
