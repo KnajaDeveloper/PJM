@@ -66,6 +66,8 @@
     <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
     <c:set var="LABEL_DETAILS" scope="request"><spring:message code="L0085"/></c:set>
     <c:set var="LABEL_ATTACHMENTS" scope="request"><spring:message code="L0084"/></c:set>
+    <c:set var="LABEL_TASK_FOLLOWER" scope="request"><spring:message code="L0139"/></c:set>
+    <c:set var="LABEL_IMPORTANT" scope="request"><spring:message code="L0140"/></c:set>
 
     <c:set var="BUTTON_ADD" scope="request"><spring:message code="B0003"/></c:set>
     <c:set var="BUTTON_DELETE" scope="request"><spring:message code="B0014"/></c:set>
@@ -487,13 +489,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <label class="control-label col-sm-3">${LABEL_IMPORTANT} </label>
                                     <div class="col-sm-9">
                                         <label id="lblAddTaskImportant" class="control-label text-left full-label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <label class="control-label col-sm-3">${LABEL_TASK_FOLLOWER} </label>
                                     <div class="col-sm-9">
                                         <label id="lblAddTaskFollwer" class="control-label text-left full-label"></label>
                                     </div>
@@ -553,8 +555,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4">${LABEL_NOTE} </label>
-
-                                <div class="col-sm-6">
+                                <div class="col-sm-7">
                                     <textarea id="txtAddNote" class="form-control" rows="5">.</textarea>
                                 </div>
                             </div>
@@ -634,13 +635,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <label class="control-label col-sm-3">${LABEL_IMPORTANT} </label>
                                     <div class="col-sm-9">
                                         <label id="lblEditTaskImportant" class="control-label text-left full-label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">${LABEL_TOTAL_COST} </label>
+                                    <label class="control-label col-sm-3">${LABEL_TASK_FOLLOWER} </label>
                                     <div class="col-sm-9">
                                         <label id="lblEditTaskFollwer" class="control-label text-left full-label"></label>
                                     </div>

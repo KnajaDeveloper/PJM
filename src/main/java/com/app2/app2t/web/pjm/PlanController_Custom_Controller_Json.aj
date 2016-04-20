@@ -65,10 +65,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             Date dtNextMonthBegin = new Date(dateNextMonthBegin);
             Date dtMonthEnd = DateUtils.addDays(dtNextMonthBegin, -1);
 
-            LOGGER.debug("=====================> dtYearBegin {}", dtYearBegin);
-            LOGGER.debug("=====================> dtYearEnd {}",dtYearEnd);
-            LOGGER.debug("=====================> dtMonthBegin {}",dtMonthBegin);
-            LOGGER.debug("=====================> dtMonthEnd {}", dtMonthEnd);
             List<Task> monthPlanTaskComplete = Plan.getPointPlanTaskComplete(dtMonthBegin, dtMonthEnd, empCode);
             List<Task> yearPlanTaskComplete = Plan.getPointPlanTaskComplete(dtYearBegin, dtYearEnd, empCode);
             List<OtherTask> monthPlanOtherTaskComplete = Plan.getPointPlanOtherTaskComplete(dtMonthBegin, dtMonthEnd, empCode);
@@ -144,6 +140,7 @@ privileged aspect PlanController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             JSONArray jsonArray = new JSONArray(json);
+
             Long projectId = jsonArray.getLong(0);
             Long moduleId = jsonArray.getLong(1);
             JSONArray jsonArrayTypeTask = jsonArray.getJSONArray(2);
@@ -154,16 +151,18 @@ privileged aspect PlanController_Custom_Controller_Json {
             Map employee = emRestService.getEmployeeByUserName(userName);
             String empCode = employee.get("empCode").toString();
 
+            // Manage list of module -----------------------------------------------------------------------------------
             List<Long> listModuleId = new ArrayList<>();
-            if (moduleId == 0) {  // all module
-                List<Long> moduleIds = ModuleMember.findDistinctModuleByProjectAndEmpCode(projectId, empCode);
-                for (Long mdId : moduleIds) {
-                    listModuleId.add(mdId);
+            if (moduleId == 0) {                            // select all module
+                List<ModuleProject> moduleProjects = ModuleProject.findUnFinishModuleByEmpCode(empCode);
+                for (ModuleProject module : moduleProjects) {
+                    listModuleId.add(module.getId());
                 }
-            } else {    // some module
+            } else {                                        // some module
                 listModuleId.add(moduleId);
             }
 
+            // Manage list of task type --------------------------------------------------------------------------------
             List<Long> listTypeTaskId = new ArrayList<>();
             for (int i = 0; i < jsonArrayTypeTask.length(); i++) {
                 listTypeTaskId.add(jsonArrayTypeTask.getLong(i));
@@ -172,28 +171,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             List<Task> result = new ArrayList<>();
             if (listModuleId.size() > 0) {
                 result = Task.findTaskByModuleAndTypeTask(listModuleId, listTypeTaskId, getMyTask, getOtherTask, empCode);
-            }
-
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/findAllModule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<String> PlanController.findAllModule() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            String userName = AuthorizeUtil.getUserName();
-            Map employee = emRestService.getEmployeeByUserName(userName);
-            String empCode = employee.get("empCode").toString();
-            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
-
-            List<Long> moduleIds = ModuleMember.findDistinctModuleByProjectAndEmpCode(0L, empCode);
-            List<ModuleProject> result = new ArrayList<>();
-            for (Long mdId : moduleIds) {
-                result.add(ModuleProject.findModuleProject(mdId));
             }
 
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);

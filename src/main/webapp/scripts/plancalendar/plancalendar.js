@@ -74,7 +74,7 @@ $(document).ready(function () {
     });
 
     loadAndMapAllProject();
-    loadAndMapAllModule();
+    loadAndMapModule(0);
     loadAndMapAllTaskType();
 });
 
@@ -112,7 +112,7 @@ function searchPlan() {
 $('#ddlProject').change(function() {
     var projectId = $(this).val();
     if(projectId == 0){
-        loadAndMapAllModule();
+        loadAndMapModule(0);
     }else{
         loadAndMapModule(projectId);
     }
@@ -303,6 +303,7 @@ function openModalAddPlan(taskElement) {
     $('#lblAddDateBegin').html(taskBegin == '' ? '-' : taskBegin);
     $('#lblAddDateEnd').html(taskEnd == '' ? '-' : taskEnd);
     $('#txtAddTaskDetail').html(taskDetail);
+    loadAndMapFollower('lblAddTaskFollwer', taskId);
 
     $('#lblAddDownloadFile').html(taskFile);
     $('#btnAddDownloadFile').attr('onclick', 'downloadFile("' + taskProgramId + '", "' + taskCode + '", "' + taskFile + '")');
@@ -598,6 +599,9 @@ function openModalEditPlan(event) {
         $('#lblEditDateBegin').html(event.taskBegin != '-'? DateUtil.dataDateToFrontend(event.taskBegin, _language) : '-').parent().parent().show();
         $('#lblEditDateEnd').html(event.taskEnd != '-'? DateUtil.dataDateToFrontend(event.taskEnd, _language): '-').parent().parent().show();
         $('#lblEditDownloadFile').html(event.taskFile).parent().parent().show();
+        $('#lblEditTaskImportant').html('').parent().parent().show();  // **
+        loadAndMapFollower('lblEditTaskFollwer', taskId);
+        $('#lblEditTaskFollwer').parent().parent().show();
         $('#btnEditDownloadFile').attr('onclick', 'downloadFile("'+ event.taskProgramId +'", "' + event.taskCode + '", "' + event.taskFile + '")');
         $('#txtEditTaskDetail').html(event.taskDetail).parent().parent().show();
     } else {    // Other task
@@ -608,6 +612,8 @@ function openModalEditPlan(event) {
         $('#lblEditTaskCode').parent().parent().children(':first').hide();
         $('#lblEditDateBegin').parent().parent().hide();
         $('#lblEditDateEnd').parent().parent().hide();
+        $('#lblEditTaskImportant').html('').parent().parent().hide();
+        $('#lblEditTaskFollwer').html('').parent().parent().hide();
         $('#lblEditDownloadFile').parent().parent().hide();
         $('#txtEditTaskDetail').parent().parent().hide();
     }
@@ -784,10 +790,8 @@ $('#btnSaveEditPlan').click(function () {
         }
 
         if(changePlan()) {
-
-            var taskBegin = $('#mdEditToPlan').attr('taskBegin');
             var taskEnd = $('#mdEditToPlan').attr('taskEnd');
-
+            taskEnd = DateUtil.dataDateToFrontend(Number(taskEnd), _language);
             if(taskEnd != '' && isExpiredDate(plans.slice(3), taskEnd)){
                 bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
                     if (result) {
@@ -1074,28 +1078,6 @@ function loadAndMapAllProject(){
     });
 }
 
-function loadAndMapAllModule(){
-    $('#ddlJobModule').children('option[value!=0]').remove();
-
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=UTF-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: contextPath + '/plans/findAllModule',
-        success: function (data, status, xhr) {
-            if (xhr.status === 200) {
-                $.each(data, function (k, v) {
-                    $('#ddlJobModule').append('<option value="' + v.id + '">' + v.moduleName + '</option>');
-                });
-            }
-        },
-        async: false
-    });
-}
-
 function loadAndMapModule(projectId){
     $('#ddlJobModule').children('option[value!=0]').remove();
 
@@ -1171,6 +1153,28 @@ function loadAndMapSummaryPlan(month, year){
     });
 }
 
+function loadAndMapFollower(lableElementId, taskId) {
+    $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: contextPath + '/followertasks/findFollowerTaskByTaskId?id=' + taskId,
+            success: function (data, status, xhr) {
+                $('#'+lableElementId).html('-');
+
+                if (xhr.status == 200 && data.length > 0) {
+                    $('#'+lableElementId).html('');
+                    $.each(data, function(k, v){
+                        $('#'+lableElementId).append(v.nameFollower + '<br/>');
+                    });
+                }
+            },
+            async: false
+        });
+}
 
 Date.prototype.withoutTime = function () {
     var d = new Date(this);

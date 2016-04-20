@@ -23,7 +23,6 @@ public class Program extends BaseEntity {
      */
     @NotNull
     @Size(max = 255)
-    @Column(unique = true)
     private String programCode;
 
     /**
