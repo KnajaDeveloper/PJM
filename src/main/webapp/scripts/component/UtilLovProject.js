@@ -87,7 +87,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
         updater: function (item) {
             var map = $(inputId).data('map');
             $(inputId).data(LovEmployeeDataItem,map[item]);
-            $(inputId).data(LovEmployeeDataId,map[item].id);
+            $(inputId).data(LovEmployeeDataId,map[item].projectId);
             $(inputId).data(LovEmployeeDataCode,map[item].projectCode);
             $(inputId).data(LovEmployeeDataDescription,map[item].projectName);
             return item;

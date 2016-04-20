@@ -38,9 +38,7 @@
 
 
                                     <div class="col-sm-5">
-                                        <select class="form-control "  id="ddlProject" name="ddlProject" data-placement="bottom">
-                                            <option></option>
-                                        </select>
+                                        <component:LovProject id="lovProject"/>
                                     </div>
 
                                 </div>
@@ -82,6 +80,8 @@
         </div>
     </div>
 
+    <spring:url value="/resources/scripts/component/UtilLovProject.js" var="UtilLovProject"/>
+    <script src="${UtilLovProject}" type="text/javascript"><!--Not Empty --></script>
 
     <spring:url value="/resources/scripts/report/PJMRP02.js" var="PJMRP02"/>
     <script src="${PJMRP02}" type="text/javascript"><!--Not Empty --></script>
