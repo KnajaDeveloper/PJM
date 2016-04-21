@@ -10,6 +10,10 @@ $("#txtProjectName").on('change',function(){
 });
 
 $("#btnSearch").click(function (){
+    findData();
+});
+
+function findData(){
     var empCode = $("#txtFollower").data("dataCode");
     var projectId = "" + $("#txtProjectName").data("data-id");
     if (projectId == "" || projectId == "undefined") projectId = "";
@@ -73,7 +77,7 @@ $("#btnSearch").click(function (){
         });
         pagginationFollow.search(pagginationFollow);
     }
-});
+}
 
 pagginationFollow.setEventPaggingBtn("paggingSimple3", pagginationFollow);
 pagginationFollow.loadTable = function loadTable(jsonData) {
@@ -225,7 +229,7 @@ $('#taskFollow').on("click", "[id^=checkTask_]", function () {
         program = $(this).attr('programName');
         task = $(this).attr('taskName');
         var detailManager = getEmpDeatailToFrontEnd(empCode);
-        appendLabel(detailManager, detailFollower);
+        appendLabel(detailManager, detailFollower,this.id.split("_")[1]);
         $("#modalFollowTask").modal('show');
     }
     else{
@@ -237,28 +241,64 @@ $("#close").click(function () {
     $("#modalFollowTask").modal('hide');
 });
 
+$("#btnModalTaskAdd").click(function () {
+    var id = ''; var taskStatus ='';
+    $('input[name=optradio]:checked').each(function () {
+        id = $(this).attr('taskId');
+        taskStatus = $(this).attr('status');
+    });
+    editTaskStatus(id,taskStatus);
+    findData();
+});
+
 var labelModal = "";
 
-function appendLabel(detailManager,detailFollower) {
+function appendLabel(detailManager,detailFollower,taskId) {
     $('#label_modal').empty();
     labelModal = ''
-        + '<div class="form-group"><label class="control-label col-sm-5 ">Project</label>'
-        + ' <label class="control-label">'+ project +'</label></div>'
-        + '<div class="form-group"><label class="control-label col-sm-5 ">Module Project</label>'
-        + ' <label class="control-label">'+ module +'</label></div>'
-        + '<div class="form-group"><label class="control-label col-sm-5 ">Program</label>'
-        + ' <label class="control-label">'+ program +'</label></div>'
-        + '<div class="form-group"><label class="control-label col-sm-5 ">Task</label>'
-        + ' <label class="control-label">'+ task +'</label></div>'
-        + '<div class="form-group"><label class="control-label col-sm-5 ">Manager</label>'
+        + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_PROJECT_NAME +'</h5></label>'
+        + ' <label class="control-label"><h5>'+ project +'</h5></label></div>'
+        + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_MODULE_NAME+'</h5></label>'
+        + ' <label class="control-label"><h5>'+ module +'</h5></label></div>'
+        + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_PROGRAM_NAME+'</h5></label>'
+        + ' <label class="control-label"><h5>'+ program +'</h5></label></div>'
+        + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_TASK_NAME+'</h5></label>'
+        + ' <label class="control-label"><h5>'+ task +'</h5></label></div>'
+        + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_MANAGER+'</h5></label>'
         + ' <label class="control-label">' +detailManager+'</label></div>'
-        + '<div class="form-group"><label class="control-label col-sm-5 ">Follower</label>'
+        + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_FOLLOWER+'</h5></label>'
         + ' <label class="control-label">' +detailFollower+'</label></div>'
-        +'<div class="form-group"> <label class="radio-inline control-label col-sm-6"><input type="radio" name="optradio" checked="check"/>Pass</label>'
-        + '<label class="radio-inline "><input type="radio" name="optradio"/>Fail</label> </div>'
+        +'<div class="form-group"> <label class="radio-inline control-label col-sm-6"><input id="radioPass" type="radio" taskId="'+ taskId +'" status="C" name="optradio" checked="check"/>'+ LABEL.LABEL_PASS +'</label>'
+        + '<label class="radio-inline "><input id="radioFail" type="radio" taskId="'+ taskId +'" status="N" name="optradio"/>'+ LABEL.LABEL_FAIL +'</label></div>'
     ;
     $('#label_modal').append(
         labelModal
     );
     empCodeToPage = []
+}
+
+function editTaskStatus(id, status) {
+    var dataJsonData = {
+        taskId: id,
+        status: status
+    }
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/tasks/editTaskStatus',
+        data: dataJsonData,
+        complete: function (xhr) {
+            if (xhr.status === 200) {
+                $('#modalFollowTask').modal('hide');
+                bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
+            } else if (xhr.status === 500) {
+                bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            }
+        },
+        async: false
+    });
 }
