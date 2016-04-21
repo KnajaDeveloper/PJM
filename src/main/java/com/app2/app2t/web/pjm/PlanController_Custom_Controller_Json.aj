@@ -5,6 +5,7 @@ package com.app2.app2t.web.pjm;
 
 import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
+import com.app2.app2t.util.ConstantApplication;
 import com.app2.app2t.web.pjm.PlanController;
 
 import java.text.DecimalFormat;
@@ -334,7 +335,6 @@ privileged aspect PlanController_Custom_Controller_Json {
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             String empCode = employee.get("empCode").toString();
-            LOGGER.debug("==========> userName : {} empCode : {} ", userName, empCode);
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Task task = null;
@@ -368,6 +368,11 @@ privileged aspect PlanController_Custom_Controller_Json {
 
                     if (task != null) {
                         task.setProgress(progress);
+                        if(progress == 100) {
+                            task.setTaskStatus(ConstantApplication.getTaskStatusReady());
+                        }else if(progress < 100) {
+                            task.setTaskStatus(ConstantApplication.getTaskStatusNew());
+                        }
                         task.merge();
                     }
                     if (otherTask != null) {

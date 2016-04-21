@@ -9,11 +9,18 @@ var _year;
 var _eventDate = {};
 
 var taskStatusColor = {
-    delay: '#f22613',
+    delay: '#cc3333',
     normal: '#337ab7',
     other: '#999',
-    pass: '#669900',
-    ready: '#ff6600'
+    passTask: '#669900',
+    passOtherTask: '#33cc33',
+    ready: '#ff8000'
+}
+
+var taskStatus = {
+    new: 'N',
+    ready: 'R',
+    complete: 'C'
 }
 
 // Ready page ----------------------------------------------------------------------------------------------------------
@@ -308,10 +315,10 @@ function openModalAddPlan(taskElement) {
     $('#lblAddDownloadFile').html(taskFile);
     $('#btnAddDownloadFile').attr('onclick', 'downloadFile("' + taskProgramId + '", "' + taskCode + '", "' + taskFile + '")');
 
-    $('#taskDetailPartAdd').show();
+    $('#taskDetailPartAdd').hide();
     $('#taskDetailHeaderAdd').children('span')
-                            .addClass('fa-angle-up')
-                            .removeClass('fa-angle-down');
+                            .removeClass('fa-angle-up')
+                            .addClass('fa-angle-down');
 
     // default date picker
     dateAddMaxId = 0;
@@ -587,6 +594,7 @@ $('#btnCancelTask').click(function () {
 // Edit/Delete plan -----------------------------------------------------------------------------------------------------------
 function openModalEditPlan(event) {
     _eventDate = event;
+    //console.log(event);
 
     // set data
     if(event.taskCode != '') {     // Task
@@ -600,7 +608,7 @@ function openModalEditPlan(event) {
         $('#lblEditDateEnd').html(event.taskEnd != '-'? DateUtil.dataDateToFrontend(event.taskEnd, _language): '-').parent().parent().show();
         $('#lblEditDownloadFile').html(event.taskFile).parent().parent().show();
         $('#lblEditTaskImportant').html('').parent().parent().show();  // **
-        loadAndMapFollower('lblEditTaskFollwer', taskId);
+        loadAndMapFollower('lblEditTaskFollwer', event.taskId);
         $('#lblEditTaskFollwer').parent().parent().show();
         $('#btnEditDownloadFile').attr('onclick', 'downloadFile("'+ event.taskProgramId +'", "' + event.taskCode + '", "' + event.taskFile + '")');
         $('#txtEditTaskDetail').html(event.taskDetail).parent().parent().show();
@@ -621,18 +629,18 @@ function openModalEditPlan(event) {
     $('#lblEditTaskCost').html(event.taskCost + ' ' + LABEL.POINT);
 
     $('#txtPercentage').val(event.progress);
-    if(event.progress == 100) {
+    if(event.taskStatus == taskStatus.complete || (event.taskStatus == 'otherTask' && event.progress == 100)) {
         $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, [name=optradio]').attr('disabled', 'disabled');
         $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').hide();
-    }else{
+    } else {
         $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, [name=optradio]').removeAttr('disabled');
         $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').show();
     }
 
-    $('#taskDetailPartEdit').show();
+    $('#taskDetailPartEdit').hide();
     $('#taskDetailHeaderEdit').children('span')
-                            .addClass('fa-angle-up')
-                            .removeClass('fa-angle-down');
+                            .removeClass('fa-angle-up')
+                            .addClass('fa-angle-down');
 
     // set begin/end date picker
     var startDate = event.start._i.split('T')[0];
@@ -791,8 +799,11 @@ $('#btnSaveEditPlan').click(function () {
 
         if(changePlan()) {
             var taskEnd = $('#mdEditToPlan').attr('taskEnd');
-            taskEnd = DateUtil.dataDateToFrontend(Number(taskEnd), _language);
-            if(taskEnd != '' && isExpiredDate(plans.slice(3), taskEnd)){
+            if(taskEnd != '' && taskEnd != '-') {
+                taskEnd = DateUtil.dataDateToFrontend(Number(taskEnd), _language);
+            }
+
+            if(taskEnd != '' && taskEnd != '-' && isExpiredDate(plans.slice(3), taskEnd)){
                 bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
                     if (result) {
                         $.ajax({
@@ -965,14 +976,30 @@ function loadAndMapPlan(month, year) {
                 startDate = parseFullCalendar(parseFormatDateToString(startDate, commonData.language)) + 'T00:00:00';
                 endDate = parseFullCalendar(parseFormatDateToString(endDate, commonData.language)) + 'T24:00:00';
 
+                // set bg color ----------------------------------------------------------------------------------------
                 var bgColor = taskStatusColor.normal;
+                var allDay = true;
                 if(v.task != null) {
                     if(v.task.dateEnd != null && v.dateEnd > v.task.dateEnd) {
-                        bgColor = taskStatusColor.delay;
+                        //bgColor = taskStatusColor.delay;
+                        allDay = false;
                     }
+                    if(v.task.taskStatus == taskStatus.new) {
+                        bgColor = taskStatusColor.normal;
+                    } else if(v.task.taskStatus == taskStatus.ready) {
+                        bgColor = taskStatusColor.ready;
+                    } else if(v.task.taskStatus == taskStatus.complete) {
+                        bgColor = taskStatusColor.passTask;
+                    }
+
                 } else {
-                    bgColor = taskStatusColor.other;
+                    if(v.otherTask.progress == 100){
+                        bgColor = taskStatusColor.passOtherTask;
+                    }else{
+                        bgColor = taskStatusColor.other;
+                    }
                 }
+                // -----------------------------------------------------------------------------------------------------
 
                 var event = {
                     _id: v.id,
@@ -989,11 +1016,13 @@ function loadAndMapPlan(month, year) {
                     taskProgramId: v.task != null ? v.task.program.id : '',
                     taskProject: v.task != null ? v.task.program.moduleProject.project.projectName : '',
                     taskModule: v.task != null ? v.task.program.moduleProject.moduleName : '',
+                    taskStatus: v.task != null ? v.task.taskStatus : 'otherTask',
                     otherTaskId: v.otherTask != null ? v.otherTask.id : null,
                     planId: v.id,
                     note: v.note,
                     progress: v.task != null ? v.task.progress : v.otherTask.progress,
-                    backgroundColor: bgColor
+                    backgroundColor: bgColor,
+                    allDay: allDay
                 };
                 events.push(event);
             });
@@ -1005,6 +1034,7 @@ function loadAndMapPlan(month, year) {
     });
 
     loadAndMapSummaryPlan(month, year);
+    $('.fc-time').html('*');
 }
 
 function date2EnStyle(date) {
