@@ -3,7 +3,7 @@
      xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <spring:message var="title" code="error_resourcenotfound_title" htmlEscape="false" />
+  <!--<spring:message var="title" code="error_resourcenotfound_title" htmlEscape="false" />-->
   <!--<util:panel id="title" title="${title}">-->
     <!--<h5>${fn:escapeXml(title)}</h5>-->
     <!--<p>-->
@@ -31,10 +31,10 @@
   <!--</util:panel>-->
 
   <body style="background-color: #9d9d9d" >
-
+  <spring:url value="/resources/images/404.png" var="image404"/>
   <div class="row">
   <div class="col-sm-12 text-center" >
-      <span><img src="images/404.png" class="text-center" style="width: 60%;position: relative"/>
+      <span><img src="${image404}" class="text-center" style="width: 60%;position: relative"/>
       </span>
     <br></br>
      <span class="text-center" style="position: relative;">

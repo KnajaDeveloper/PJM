@@ -138,7 +138,7 @@ $("#btnsave").click(function () {
              id = $(this).attr('taskId');
              taskStatus = $(this).attr('status');
         });
-    console.log(id + taskStatus);
+    //console.log(id + taskStatus);
     editTaskStatus(id,taskStatus);
     tasktaskFollowPlanTofirstPage();
 });
