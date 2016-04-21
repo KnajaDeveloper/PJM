@@ -102,11 +102,9 @@ pagginationModule.search(pagginationModule);
 //var pagginationModule = Object.create(UtilPaggination);
 pagginationModule.setEventPaggingBtn("paggingSimpleModuleProject",pagginationModule);
 pagginationModule.loadTable = function loadTable (jsonData) {
-
-    if(jsonData.length <= 0)
-        bootbox.alert(Message.MSG_DATA_NOT_FOUND);
-
     $('#ResualtSearch').empty();
+    if(jsonData.length <= 0)
+        $('#ResualtSearch').append('<tr><td colspan = 5 class="text-center">' + Message.MSG_DATA_NOT_FOUND + '</td></tr>');
     var link = "";
     var i = 1;
     var tableData = "";
