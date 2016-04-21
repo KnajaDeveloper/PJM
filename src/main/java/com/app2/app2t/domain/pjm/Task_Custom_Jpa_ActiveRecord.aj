@@ -151,6 +151,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         task.setDetail(detail.equals("null") ? null : detail);
         task.setProgress(progress);
         task.setProgram(program);
+        task.setTaskStatus(ConstantApplication.getTaskStatusNew());
         task.persist();
         return task;
     }

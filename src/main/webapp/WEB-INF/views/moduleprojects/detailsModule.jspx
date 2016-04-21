@@ -419,7 +419,7 @@
                                     <label class="control-label required">${LABEL_PROGRAM_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtProgramCode" data-placement="bottom" placeholder="รหัสโปรแกรม" />
+                                    <input type="text" maxlength="255" class="form-control" id="txtProgramCode" data-placement="bottom" placeholder="รหัสโปรแกรม" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -427,7 +427,7 @@
                                     <label class="control-label required">${LABEL_PROGRAM_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtProgramName" data-placement="bottom" placeholder="ชื่อโปรแกรม" />
+                                    <input type="text" maxlength="255" class="form-control" id="txtProgramName" data-placement="bottom" placeholder="ชื่อโปรแกรม" />
                                 </div>
                             </div>
                         </form>
@@ -454,7 +454,7 @@
                                     <label class="control-label required">${LABEL_TASK_CODE}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtTaskCode" data-placement="bottom" placeholder="${LABEL_TASK_CODE}" />
+                                    <input type="text" maxlength="255" class="form-control" id="txtTaskCode" data-placement="bottom" placeholder="${LABEL_TASK_CODE}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -462,7 +462,7 @@
                                     <label class="control-label required">${LABEL_TASK_NAME}</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="txtTaskName" data-placement="bottom" placeholder="${LABEL_TASK_NAME}" />
+                                    <input type="text" maxlength="255" class="form-control" id="txtTaskName" data-placement="bottom" placeholder="${LABEL_TASK_NAME}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -471,7 +471,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="txtTaskCost" data-placement="bottom" placeholder="${LABEL_TOTAL_COST}" />
+                                        <input type="text" maxlength="12" class="form-control" id="txtTaskCost" data-placement="bottom" placeholder="${LABEL_TOTAL_COST}" />
                                         <span class="input-group-addon">${LABEL_POINT}</span>
                                     </div>
                                 </div>
