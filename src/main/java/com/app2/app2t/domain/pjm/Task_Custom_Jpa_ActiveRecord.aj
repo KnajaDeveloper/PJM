@@ -7,6 +7,7 @@ import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
+import org.hibernate.sql.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -317,6 +318,31 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         Task task = result.get(0);
         task.setTaskStatus(status);
         task.merge();
+        return criteria.list();
+    }
+
+    public static List<Task> Task.findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus(
+            Integer maxResult,
+            Integer firstResult,
+            String projectId,
+            String moduleId,
+            String typeTaskId,
+            String statusTask,
+            String option
+    ){
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class,"task");
+        criteria.createAlias("task.program", "program", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("program.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("moduleProject.project", "project", JoinType.LEFT_OUTER_JOIN);
+        if(!projectId.equals("")) criteria.add(Restrictions.eq("project.id", Long.parseLong(projectId)));
+        if(!moduleId.equals("")) criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleId)));
+        if(!typeTaskId.equals("")) criteria.add(Restrictions.eq("task.typeTask.id", Long.parseLong(typeTaskId)));
+        if(!statusTask.equals("")) criteria.add(Restrictions.eq("task.taskStatus", statusTask));
+        if(!option.toLowerCase().equals("size")) {
+            criteria.setFirstResult(firstResult);
+            criteria.setMaxResults(maxResult);
+        }
         return criteria.list();
     }
 

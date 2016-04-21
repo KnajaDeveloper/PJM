@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -46,6 +47,34 @@ public aspect FollowerTask_Custom_Jpa_ActiveRecord {
         cr.createAlias("FollowerTask.task", "Task");
         cr.add(Restrictions.eq("Task.id", taskId));
         return cr.list();
+    }
+
+    public static List<FollowerTask> FollowerTask.findFollowerTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus(
+            Integer maxResult,
+            Integer firstResult,
+            String projectId,
+            String moduleId,
+            String typeTaskId,
+            String statusTask,
+            String option,
+            String empCode
+    ){
+        EntityManager ent = FollowerTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(FollowerTask.class,"followerTask");
+        criteria.createAlias("followerTask.task", "task", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("task.program", "program", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("program.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("moduleProject.project", "project", JoinType.LEFT_OUTER_JOIN);
+        if(!projectId.equals("")) criteria.add(Restrictions.eq("project.id", Long.parseLong(projectId)));
+        if(!moduleId.equals("")) criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleId)));
+        if(!typeTaskId.equals("")) criteria.add(Restrictions.eq("task.typeTask.id", Long.parseLong(typeTaskId)));
+        if(!statusTask.equals("")) criteria.add(Restrictions.eq("task.taskStatus", statusTask));
+        if(!empCode.equals("")) criteria.add(Restrictions.eq("followerTask.empCode", empCode));
+        if(!option.toLowerCase().equals("size")) {
+            criteria.setFirstResult(firstResult);
+            criteria.setMaxResults(maxResult);
+        }
+        return criteria.list();
     }
 
 }

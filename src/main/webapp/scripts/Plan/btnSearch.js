@@ -1,22 +1,22 @@
 findTeam();
 
-$('#txtYear').focusout(function(){
-	var bool = checkYear();
-	if(bool == true) {
-		var yearSearch = parseInt($("#txtYear").val());
-		if (commonData.language == "TH") yearSearch -= 543;
-		searchProjectByYear(yearSearch);
-	}
-});
+//$('#txtYear').focusout(function(){
+//	var bool = checkYear();
+//	if(bool == true) {
+//		var yearSearch = parseInt($("#txtYear").val());
+//		if (commonData.language == "TH") yearSearch -= 543;
+//		searchProjectByYear(yearSearch);
+//	}
+//});
 
 $("#btnSearch").click(function(){
-	var bool_year = checkYear();
-	if(bool_year == true){
+	//var bool_year = checkYear();
+	//if(bool_year == true){
 		var bool_Date = checkDate();
 		if(bool_Date==true){
 			showPlan();
 		}
-	}
+	//}
 });
 
 $("#btnReset").click(function(){
@@ -30,7 +30,7 @@ $("#btnReset").click(function(){
 });
 
 $("#ddlProject").change(function(){
-	var idProject = $("#ddlProject").val();
+	var idProject = $("#ddlProject").data("data-Id");
 	if(idProject != "null" && idProject != null){
 		searchModuleProjectByProjectId(idProject);
 	}else{
