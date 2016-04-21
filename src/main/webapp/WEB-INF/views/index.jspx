@@ -186,7 +186,6 @@
     </div>
   </div>
 
-
   <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
   <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
