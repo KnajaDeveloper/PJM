@@ -8,15 +8,15 @@
     <c:set var="CENTRAL_LABEL_RECORD" scope="request"><spring:message code="label_pagging_record"/></c:set>
     <c:set var="CENTRAL_LABEL_PAGE" scope="request"><spring:message code="label_pagging_page"/></c:set>
 
-    <div class="form-inline">
-        <div class="form-group col-sm-4">
-            <label style="margin-left:20px">${CENTRAL_LABEL_DISPLAYING}</label>
+    <div class="form-horizontal">
+        <div class="form-group col-sm-4" style="margin: 0px">
+            <label id="displayPage" style="">${CENTRAL_LABEL_DISPLAYING}</label>
             <span style="margin-left:10px">
                 <span id="${id}StartDisplayRecords">0</span> - <span id="${id}ToDisplayRecords">0</span>&#160;${CENTRAL_LABEL_Of}&#160;<span id="${id}DisplayTotalRecord">0</span>&#160;${CENTRAL_LABEL_RECORD}
             </span>
         </div>
 
-        <div class="form-group col-sm-8">
+        <div class="form-group col-sm-8" style="margin: 0px">
             <div class="pull-right">
                 <button type="button" id="${id}BtnFirst" class="btn btn-default ">
                     <span class="fa fa-backward"></span>

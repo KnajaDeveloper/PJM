@@ -49,6 +49,7 @@ pagginationProgram.loadTable = function loadTable (jsonData) {
             tableData
         );
     });
+    $("#displayPage").hide();
 };
 
 var programID;
