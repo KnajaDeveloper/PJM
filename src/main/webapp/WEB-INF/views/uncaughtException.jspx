@@ -1,5 +1,7 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=utf-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message var="title" code="error_uncaughtexception_title" htmlEscape="false" />
   <util:panel id="title" title="${title}">
@@ -26,5 +28,21 @@
       </p>
     </c:if>
   </util:panel>
+
+  <!--<body style="background-color: #9d9d9d" >-->
+  <!--<spring:url value="/resources/images/500.png" var="image500"/>-->
+  <!--<div class="row">-->
+    <!--<div class="col-sm-12 text-center" >-->
+      <!--<span><img src="${image500}" class="text-center" style="width: 60%;position: relative"/>-->
+      <!--</span>-->
+      <!--<br></br>-->
+      <!--<span class="text-center" style="position: relative;">-->
+      <!--<label class="label" style="align-content: center; font-size: 200%; font-family: 'TH Sarabun New'">-->
+      <!--<spring:message code="L0150" /></label>-->
+      <!--</span>-->
+
+    <!--</div>-->
+  <!--</div>-->
+  <!--</body>-->
 
 </div>
