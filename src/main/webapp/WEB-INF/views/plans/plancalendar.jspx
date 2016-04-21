@@ -168,7 +168,9 @@
         }
 
         #calendar .fc-time {
-            display: none;
+            background-color: #cc3333;
+            padding-left: 5px;
+            padding-right: 5px;
         }
 
         #calendar td {
@@ -289,7 +291,6 @@
         <!-- Calendar -->
         <div class="col-sm-8">
             <br/>
-
             <div id='calendar'><jsp:text/></div>
         </div>
 
@@ -433,6 +434,43 @@
             </div>
         </div>
 
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #337ab7; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Normal task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #ff8000; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Ready task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #669900; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Complete task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #cc3333; color: #fff; padding-right: 7px; padding-left: 7px;"><jsp:text/>*</span>
+                        <span style="margin-left: 5px;"> Delay task</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #999; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Other task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #33cc33; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Complete other task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
     </div>
 
     <!-- Modal -->

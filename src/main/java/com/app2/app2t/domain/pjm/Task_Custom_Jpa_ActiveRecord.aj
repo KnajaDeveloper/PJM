@@ -94,6 +94,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
             List<Task> tasks = criteria.list();
             Task task = tasks.get(0);
             task.setEmpCode(empCode);
+//            task.setStatus(ConstantApplication.getTaskStatusNew());
             task.merge();
 
             return task;

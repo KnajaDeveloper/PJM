@@ -138,7 +138,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             dcTaskBetweenBeginAndEnd.add(Restrictions.ge("dateEnd", beginDate));
             dcTaskBetweenBeginAndEnd.add(Restrictions.le("dateEnd", endDate));
             dcTaskBetweenBeginAndEnd.createAlias("plan.task", "task");
-            dcTaskBetweenBeginAndEnd.add(Restrictions.eq("task.progress", 100));
+            dcTaskBetweenBeginAndEnd.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusComplete()));
             dcTaskBetweenBeginAndEnd.add(Restrictions.eq("task.empCode", empCode));
             dcTaskBetweenBeginAndEnd.setProjection(Projections.distinct(Projections.property("plan.task")));
 
@@ -146,7 +146,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             DetachedCriteria dcTaskMoreThanDateEndInBeginAndEnd = DetachedCriteria.forClass(Plan.class, "plan");
             dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.gt("dateEnd", endDate));
             dcTaskMoreThanDateEndInBeginAndEnd.createAlias("plan.task", "task");
-            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("task.progress", 100));
+            dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusComplete()));
             dcTaskMoreThanDateEndInBeginAndEnd.add(Restrictions.eq("task.empCode", empCode));
             dcTaskMoreThanDateEndInBeginAndEnd.setProjection(Projections.distinct(Projections.property("plan.task")));
             dcTaskMoreThanDateEndInBeginAndEnd.add(Subqueries.propertyIn("plan.task", dcTaskBetweenBeginAndEnd));
@@ -156,7 +156,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             criteria.add(Restrictions.ge("dateEnd", beginDate));
             criteria.add(Restrictions.le("dateEnd", endDate));
             criteria.createAlias("plan.task", "task");
-            criteria.add(Restrictions.eq("task.progress", 100));
+            criteria.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusComplete()));
             criteria.add(Restrictions.eq("task.empCode", empCode));
             criteria.add(Subqueries.propertyNotIn("task.id", dcTaskMoreThanDateEndInBeginAndEnd));
             criteria.setProjection(Projections.distinct(Projections.property("plan.task")));
