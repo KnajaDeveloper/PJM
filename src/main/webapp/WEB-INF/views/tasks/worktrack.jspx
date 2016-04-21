@@ -9,18 +9,18 @@
 	<c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
 	<c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0010"/></c:set>
 	<c:set var="LABEL_END_DATE" scope="request"><spring:message code="L0011"/></c:set>
-	<c:set var="LABEL_CHECK_TASK" scope="request"><spring:message text="L0147"/></c:set>
+	<c:set var="LABEL_CHECK_TASK" scope="request"><spring:message code="L0147"/></c:set>
 	<c:set var="LABEL_PROJECT_NAME" scope="request"><spring:message code="L0008"/></c:set>
 	<c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
 	<c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message code="L0082"/></c:set>
 	<c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
-	<c:set var="LABEL_TASK_TODAY" scope="request"><spring:message text="L0144"/></c:set>
-	<c:set var="LABEL_TASK_AR" scope="request"><spring:message text="L0145"/></c:set>
-	<c:set var="LABEL_TASK_FOLLOW" scope="request"><spring:message text="L0146"/></c:set>
-	<c:set var="LABEL_PASS" scope="request"><spring:message text="L0148"/></c:set>
-	<c:set var="LABEL_FAIL" scope="request"><spring:message text="L0149"/></c:set>
+	<c:set var="LABEL_TASK_TODAY" scope="request"><spring:message code="L0144"/></c:set>
+	<c:set var="LABEL_TASK_AR" scope="request"><spring:message code="L0145"/></c:set>
+	<c:set var="LABEL_TASK_FOLLOW" scope="request"><spring:message code="L0146"/></c:set>
+	<c:set var="LABEL_PASS" scope="request"><spring:message code="L0148"/></c:set>
+	<c:set var="LABEL_FAIL" scope="request"><spring:message code="L0149"/></c:set>
 	<c:set var="LABEL_MANAGER" scope="request"><spring:message code="L0077"/></c:set>
-	<c:set var="LABEL_FOLLOWER" scope="request"><spring:message text="L0139"/></c:set>
+	<c:set var="LABEL_FOLLOWER" scope="request"><spring:message code="L0139"/></c:set>
 	<c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
 	<c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
 	<c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
@@ -146,6 +146,22 @@
 	<script>
 		var contextPath = '${pageContext.request.contextPath}';
 		var nowUser = '${nowUser}';
+		var MESSAGE = {};
+
+		MESSAGE.MS_DATA_NOT_FOUND = '${MS_DATA_NOT_FOUND}';
+		MESSAGE.MS_SAVE_SUCCESS = '${MS_SAVE_SUCCESS}';
+		MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+		MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+
+		var LABEL = {};
+		LABEL.LABEL_PASS = '${LABEL_PASS}';
+		LABEL.LABEL_FAIL = '${LABEL_FAIL}';
+		LABEL.LABEL_PROJECT_NAME = '${LABEL_PROJECT_NAME}';
+		LABEL.LABEL_MODULE_NAME = '${LABEL_MODULE_NAME}';
+		LABEL.LABEL_PROGRAM_NAME = '${LABEL_PROGRAM_NAME}';
+		LABEL.LABEL_TASK_NAME = '${LABEL_TASK_NAME}';
+		LABEL.LABEL_MANAGER = '${LABEL_MANAGER}';
+		LABEL.LABEL_FOLLOWER = '${LABEL_FOLLOWER}';
 	</script>
 
 	<spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
