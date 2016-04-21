@@ -117,9 +117,9 @@ pagginationTask.loadTable = function loadTable (jsonData) {
                 + '<button onclick="openEditTask($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="tdCodeTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
-            + '<td id="tdNameTask" taskCode="' + value.taskCode + '" class="" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
-            + '<td id="tdCostTask" taskCode="' + value.taskCode + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCost + ' ' + Label.LABEL_POINT + '</td>'
-            + '<td id="tdProgressTask" taskCode="' + value.taskCode + '" onclick="onClickTrTask(this)">'
+            + '<td id="tdNameTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" class="" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
+            + '<td id="tdCostTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCost + ' ' + Label.LABEL_POINT + '</td>'
+            + '<td id="tdProgressTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" onclick="onClickTrTask(this)">'
                 + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
                 + 'style="width: ' + value.progress + '%;">' + value.progress + '%</div>'
             + '</td>'
@@ -132,9 +132,10 @@ pagginationTask.loadTable = function loadTable (jsonData) {
 
     findEmpNameAndEmpPositionNameByEmpCode(dataEmpCode);
     dataEmpName = [];
+
     for(var i = 0; i < empFirstNameTask.length; i++){
-        if(empFirstNameTask[i] == "" && empLastNameTask[i] == "" && empPositionNameTask[i] == ""){
-            dataEmpName[i] = ""
+        if(empFirstNameTask[i] == "" && empLastNameTask[i] == ""  && empNickNameTask[i] == "" && empPositionNameTask[i] == ""){
+            dataEmpName[i] = "";
         }else{
             dataEmpName[i] = empFirstNameTask[i] + " " +
             empLastNameTask[i] + " (" + empPositionNameTask[i] + ")";
@@ -180,6 +181,42 @@ var checkProgress;
 var checkFileName;
 var checkDescription;
 
+var empCodeTaskFollower = [];
+var empLastNameTask = [];
+var empFirstNameTask = [];
+var empNickNameTask = [];
+
+function findEmpCodeByTaskID(TaskID){
+    var valueEmp = $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/followertasks/findEmpCodeByTaskID',
+        data: {
+            taskId : TaskID
+        },
+        complete: function(xhr){
+        },
+        async: false
+    });
+
+    empCodeTaskFollower = [];
+    empFirstNameTask = [];
+    empLastNameTask = [];
+    empNickNameTask = [];
+
+    valueEmp = valueEmp.responseJSON
+    valueEmp.forEach(function(value){
+        empCodeTaskFollower.push(value.empCode);
+        empFirstNameTask.push(value.empFirstName);
+        empLastNameTask.push(value.empLastName);
+        empNickNameTask.push(value.empNickName);
+    });
+}
+
 function openEditTask(element){
     var id = element.parent().parent().attr("id").split('k')[1];
 
@@ -196,10 +233,18 @@ function openEditTask(element){
     $('#dateEndProject').val(null).popover('hide').change();
 
     $('#txtProgress').val(null);
-    document.getElementById("myInput").value = "";
+    $("#myInput").val("");
     $('#fileName').text("");
     $('#txtaDescription').val("");
     $('#btnModalTaskNext').hide();
+
+    var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+    for(var i = 0; i < count_Element; i++){
+        var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+        btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+    }
+    
+    $('#txtEmpNameTaskFollower1').val("");
 
     TaskID = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdCodeTask").attr("taskId");
 
@@ -214,11 +259,39 @@ function openEditTask(element){
     $('#txtTaskCost').val(checkTaskCost).text().split(' ')[0];
 
     checkTypeTask = dataTypeTask[id - 1];
-    document.getElementById("ddlTypeTask").value = checkTypeTask;
+    $('#ddlTypeTask').val(checkTypeTask);
+
+    findEmpCodeByTaskID(TaskID);
+
+    for(var i = 1; i < empCodeTaskFollower.length + 1; i++){
+        if(i > 1){
+            var html = "" +
+            "<div id='container_subModuleMember" + (i) + "'>" +
+                "<div class='col-sm-offset-4 col-sm-6' style='margin-top: 10px;'>" +
+                    "<div class='input-group'>" +
+                        "<input id='txtEmpNameTaskFollower" + (i) + "' class='form-control' type='department-lov' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEmpNameTaskFollower" + (i) + "' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' autocomplete='off'>" +
+                            "<span class='input-group-addon'>"+
+                                "<span id='BtnEmpNameTaskFolower" + (i) + "' class='fa fa-search' onclick='UtilLov.lovEmp(this)' target='txtEmpNameTaskFollower" + (i) + "' style='cursor:pointer;'>" +
+                                    "<jsp:text/>" +
+                                "</span>" +
+                            "</span>" +
+                        "</input>" +
+                    "</div>" +
+                "</div>" +
+                "<div class='col-sm-2' style='margin-top: 10px;'>" +
+                    "<button id='btnDeleteEmpNameTaskFollower" + (i) + "' type='button' class='btn btn-danger' onclick='btnDeleteEmpNameTaskFollower(this.id)' style='margin:0px;'>" + Button.BUTTON_DELETE + "</button>" +
+                "</div>" +
+            "<div>";
+            $("#subTaskFollower").append(html);
+        }
+
+        $("#" + $('[id^=txtEmpNameTaskFollower]')[i - 1].id).val(empCodeTaskFollower[i - 1] + " : " + empFirstNameTask[i - 1] + "  " + empLastNameTask[i - 1] + "  (" + empNickNameTask[i - 1] + ")");
+        $("#" + $('[id^=txtEmpNameTaskFollower]')[i - 1].id).data("dataCode", empCodeTaskFollower[i - 1]);
+    }
 
     if(dataEmpName[id - 1] != ""){
         var empName = dataEmpName[id - 1].split(" ");
-        checkEmpName = dataEmpCode[id - 1] + " : " + empName[0] + " " + empName[1];   
+        checkEmpName = dataEmpCode[id - 1] + " : " + empName[0] + "  " + empName[1] + "  (" + empNickNameTask[id - 1] + ")";   
     }else{ checkEmpName = dataEmpName[id - 1]; }
     
     $('#txtEmpName').val(checkEmpName);
@@ -249,8 +322,49 @@ function openEditTask(element){
 var taskCode;
 var fileNameDownload;
 
+var empLastNameTaskShow = [];
+var empFirstNameTaskShow = [];
+var empPositionNameShow = [];
+
+function findEmpCodeByTaskIDShow(TaskID){
+    var valueEmp = $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/followertasks/findEmpCodeByTaskID',
+        data: {
+            taskId : TaskID
+        },
+        complete: function(xhr){
+        },
+        async: false
+    });
+
+    empFirstNameTaskShow = [];
+    empLastNameTaskShow = [];
+    empPositionNameShow = [];
+
+    valueEmp = valueEmp.responseJSON
+    valueEmp.forEach(function(value){
+        empFirstNameTaskShow.push(value.empFirstName);
+        empLastNameTaskShow.push(value.empLastName);
+        empPositionNameShow.push(value.empPositionName);
+    });
+}
+
 function onClickTrTask(object){
     var id = object.parentElement.id.split('k')[1];
+    findEmpCodeByTaskIDShow(object.attributes.taskId.textContent);
+    var TaskFollower = "";
+    $('#lblTaskFollower').text("");
+    for (var i = 0; i < empFirstNameTaskShow.length; i++) {
+        TaskFollower += empFirstNameTaskShow[i]  + " " + empLastNameTaskShow[i]  + " (" +  empPositionNameShow[i] + ")<br/>";
+    }
+
+    $('#lblTaskFollower').append(TaskFollower == "" ? "-" : TaskFollower);
     $('#lblEmpName').text(dataEmpName[id - 1] == "" ? "-" : dataEmpName[id - 1]);
     $('#lblTaskName').text(dataTypeTaskName[id - 1]);
     $('#lblSDate').text(dataDateStart[id - 1] == "" ? "-" : dataDateStart[id - 1]);
@@ -290,7 +404,45 @@ $('#btnAddTask').click(function() {
     DateUtil.setMaxDate('dateEndProject', 'dateStartProject');
     $('#txtProgress').val("0");
     $('#txtaDescription').val("");
+
+    var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+    for(var i = 0; i < count_Element; i++){
+        var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+        btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+    }
+    
+    $('#txtEmpNameTaskFollower1').val("");
 });
+
+$('#btnAddLovEmployee').click(function() {
+    var count_elements = parseInt($('[id^=txtEmpNameTaskFollower]')[($('[id^=txtEmpNameTaskFollower]').length) - 1].id.split('r')[1]) + 1;
+    if($("#" + $('[id^=txtEmpNameTaskFollower]')[($('[id^=txtEmpNameTaskFollower]').length) - 1].id).val() != ""){
+        var html = "" +
+        "<div id='container_subModuleMember" + count_elements + "'>" +
+            "<div class='col-sm-offset-4 col-sm-6' style='margin-top: 10px;'>" +
+                "<div class='input-group'>" +
+                    "<input id='txtEmpNameTaskFollower" + count_elements + "' class='form-control' type='department-lov' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEmpNameTaskFollower" + count_elements + "' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' autocomplete='off'>" +
+                        "<span class='input-group-addon'>"+
+                            "<span id='BtnEmpNameTaskFolower" + count_elements + "' class='fa fa-search' onclick='UtilLov.lovEmp(this)' target='txtEmpNameTaskFollower" + count_elements + "' style='cursor:pointer;'>" +
+                                "<jsp:text/>" +
+                            "</span>" +
+                        "</span>" +
+                    "</input>" +
+                "</div>" +
+            "</div>" +
+            "<div class='col-sm-2' style='margin-top: 10px;'>" +
+                "<button id='btnDeleteEmpNameTaskFollower" + count_elements + "' type='button' class='btn btn-danger' onclick='btnDeleteEmpNameTaskFollower(this.id)' style='margin:0px;'>" + Button.BUTTON_DELETE + "</button>" +
+            "</div>" +
+        "<div>";
+        $("#subTaskFollower").append(html);
+        count_elements++;
+    }
+});
+
+function btnDeleteEmpNameTaskFollower(id) {
+    id = id.replace("btnDeleteEmpNameTaskFollower","container_subModuleMember");
+    $("#" + id).remove();
+}
 
 var chkAETask = 0;
 
@@ -345,6 +497,29 @@ function convertDate(date){
     return splitDate[0] + "-" + splitDate[1] + "-" + splitDate[2];
 }
 
+var empCodeFollowerTask = [];
+
+function getEmpCodeTaskFollower(){
+    var checkEmpcode = false;
+    empCodeFollowerTask = [];
+    var count_Element = $('[id^=txtEmpNameTaskFollower]').length;
+    for(var i = 0; i < count_Element; i++){
+        var id = $('[id^=txtEmpNameTaskFollower]')[i].id;
+        if($("#"+id).val().split(' ')[0] == ""){
+            empCodeFollowerTask.push("null");
+        }else{
+            empCodeFollowerTask.push($("#"+id).val().split(' ')[0]);
+            for(var j = 0 ; j < empCodeFollowerTask.length - 1; j++){
+                if(empCodeFollowerTask[empCodeFollowerTask.length - 1] == empCodeFollowerTask[j]){
+                    checkEmpcode = true;
+                }
+            }
+        }
+    }
+
+    return checkEmpcode;
+}
+
 function saveDataToDataBase(id) {
     var dateStart = $('#dateStartProject').val() == "" ? null : convertDate(parseFormatDateToString($('#dateStartProject').val(), commonData.language));
     var dateEnd = $('#dateEndProject').val() == "" ? null : convertDate(parseFormatDateToString($('#dateEndProject').val(), commonData.language));
@@ -358,62 +533,76 @@ function saveDataToDataBase(id) {
                     formData.append("myInput", myInput.files[0]);
                     var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
                     var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
-                    $.ajax({
-                        type: "POST",
-                        headers: {
-                            Accept: 'application/json',
-                        },
-                        contentType: "application/json; charset=UTF-8",
-                        dataType: "json",
-                        url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
-                                                          '/' + $('#txtTaskName').val() +
-                                                          '/' + $('#txtTaskCost').val() +
-                                                          '/' + dataTypeTaskCode[index] +
-                                                          '/' + empName +
-                                                          '/' + dateStart +
-                                                          '/' + dateEnd +
-                                                          '/' + fileName +
-                                                          '/' + description +
-                                                          '/' + $('#txtProgress').val() +
-                                                          '/' + programID,
-                        processData: false,
-                        contentType: false,
-                        data: formData,
-                        complete: function(xhr){
-                            if(xhr.status == 201){
-                                if(id == 'Add'){
-                                    bootbox.alert(Message.MSG_SAVE_SUCCESS);
-                                    $('#modalTask').modal('hide');
+                    if(!getEmpCodeTaskFollower()){
+                        $.ajax({
+                            type: "POST",
+                            headers: {
+                                Accept: 'application/json',
+                            },
+                            contentType: "application/json; charset=UTF-8",
+                            dataType: "json",
+                            url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
+                                                              '/' + $('#txtTaskName').val() +
+                                                              '/' + $('#txtTaskCost').val() +
+                                                              '/' + dataTypeTaskCode[index] +
+                                                              '/' + JSON.stringify(empCodeFollowerTask) +
+                                                              '/' + empName +
+                                                              '/' + dateStart +
+                                                              '/' + dateEnd +
+                                                              '/' + fileName +
+                                                              '/' + description +
+                                                              '/' + $('#txtProgress').val() +
+                                                              '/' + programID,
+                            processData: false,
+                            contentType: false,
+                            data: formData,
+                            complete: function(xhr){
+                                if(xhr.status == 201){
+                                    if(id == 'Add'){
+                                        bootbox.alert(Message.MSG_SAVE_SUCCESS);
+                                        $('#modalTask').modal('hide');
+                                    }
+                                    $('#txtTaskCode').val(null);
+                                    $('#txtTaskName').val(null);
+                                    $('#txtTaskCost').val(null);
+                                    $('#txtEmpName').val(null);
+                                    $('#dateStartProject').val(null);
+                                    $('#dateEndProject').val(null);
+                                    $("#dateStartProject").change();
+                                    $("#dateEndProject").change();
+                                    $('#myInput').val("");
+                                    $('#fileName').text("");
+                                    $('#txtaDescription').val("");
+
+                                    var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+                                    for(var i = 0; i < count_Element; i++){
+                                        var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                                        btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+                                    }
+                                    
+                                    $('#txtEmpNameTaskFollower1').val("");
+
+                                    DDLData();
+
+                                    var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
+                                    searchDataProgram();
+                                    pagginationProgram.loadPage(pageNumber, pagginationProgram);
+
+                                    var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                                    searchDataTask();
+                                    pagginationTask.loadPage(pageNumber, pagginationTask);
+
+                                    $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
+                                    $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
+                                }else if(xhr.status == 500){
+                                    bootbox.alert(Message.MSG_SAVE_FAILED);
                                 }
-                                $('#txtTaskCode').val(null);
-                                $('#txtTaskName').val(null);
-                                $('#txtTaskCost').val(null);
-                                $('#txtEmpName').val(null);
-                                $('#dateStartProject').val(null);
-                                $('#dateEndProject').val(null);
-                                $("#dateStartProject").change();
-                                $("#dateEndProject").change();
-                                document.getElementById("myInput").value = "";
-                                $('#fileName').text("");
-                                $('#txtaDescription').val("");
-                                DDLData();
-
-                                var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
-                                searchDataProgram();
-                                pagginationProgram.loadPage(pageNumber, pagginationProgram);
-
-                                var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
-                                searchDataTask();
-                                pagginationTask.loadPage(pageNumber, pagginationTask);
-
-                                $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
-                                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
-                            }else if(xhr.status == 500){
-                                bootbox.alert(Message.MSG_SAVE_FAILED);
-                            }
-                        },
-                        async: false
-                    });
+                            },
+                            async: false
+                        });
+                    }else{
+                        bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
+                    }
                 }else{
                     bootbox.alert(Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT);
                 }
@@ -422,75 +611,110 @@ function saveDataToDataBase(id) {
             bootbox.alert(Message.MSG_PLEASE_ENTER_A_NEW_TASK_CODE);
         }
     }else if(chkAETask == 1){
-        if($('#txtTaskName').val() == checkTaskName &&
-            $('#txtTaskCost').val() == checkTaskCost &&
-            dataTypeTaskCode[index] == checkTypeTask &&
-            $('#txtEmpName').val() == checkEmpName &&
-            $('#dateStartProject').val() == checkdateStart &&
-            $('#dateEndProject').val() == checkdateEnd &&
-            $('#txtProgress').val() == checkProgress &&
-            $('#fileName').attr('title') == checkFileName &&
-            $('#txtaDescription').val() == checkDescription){
-            bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
-        }else{
-            if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
-                bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
-            }else{
-                if(fileSize <= 104857600){
-                    var formData = new FormData();
-                    formData.append("myInput", myInput.files[0]);
-                    var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
-                    var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
-                    $.ajax({
-                        type: "POST",
-                        headers: {
-                            Accept: 'application/json',
-                        },
-                        contentType: "application/json; charset=UTF-8",
-                        dataType: "json",
-                        url: contextPath + '/tasks/findEditTask/' + TaskID +
-                                                              '/' + $('#txtTaskCode').val() +
-                                                              '/' + $('#txtTaskName').val() +
-                                                              '/' + $('#txtTaskCost').val() +
-                                                              '/' + dataTypeTaskCode[index] +
-                                                              '/' + empName +
-                                                              '/' + dateStart +
-                                                              '/' + dateEnd +
-                                                              '/' + fileName +
-                                                              '/' + description +
-                                                              '/' + $('#txtProgress').val() +
-                                                              '/' + programID,
-                        processData: false,
-                        contentType: false,
-                        data: formData,
-                        complete: function(xhr){
-                            if(xhr.status == 200){
-                                bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
-                                $('#modalTask').modal('hide');
-                                $('#txtTaskCode').val(null);
-                                $('#txtTaskName').val(null);
-                                $('#txtTaskCost').val(null);
-                                $('#txtEmpName').val(null);
-                                $('#dateStartProject').val(null);
-                                $('#dateEndProject').val(null);
-                                document.getElementById("myInput").value = "";
-                                $('#fileName').text("");
-                                $('#txtaDescription').val("");
+        var checkTaskFollower = false;
+        var countTaskFollower = 0;
+        if(!getEmpCodeTaskFollower()){
+            if(empCodeTaskFollower.length == empCodeFollowerTask.length){                                                                                      
+                for(var i = 0; i < empCodeTaskFollower.length; i++){
+                    for(var j = 0; j < empCodeTaskFollower.length; j++){
+                        if(empCodeTaskFollower[i] == empCodeFollowerTask[j]){
+                            countTaskFollower++;
+                        }
+                    }
+                }
 
-                                var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
-                                pagginationTask.loadPage(pageNumber, pagginationTask);
-
-                                $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
-                            }else if(xhr.status == 500){
-                                bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                            }
-                        },
-                        async: false
-                    });
-                }else{
-                    bootbox.alert(Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT);
+                if(empCodeTaskFollower.length == countTaskFollower){
+                    checkTaskFollower = true;
                 }
             }
+
+            if($('#txtTaskName').val() == checkTaskName &&
+                $('#txtTaskCost').val() == checkTaskCost &&
+                dataTypeTaskCode[index] == checkTypeTask &&
+                $('#txtEmpName').val() == checkEmpName &&
+                $('#dateStartProject').val() == checkdateStart &&
+                $('#dateEndProject').val() == checkdateEnd &&
+                $('#txtProgress').val() == checkProgress &&
+                $('#fileName').attr('title') == checkFileName &&
+                $('#txtaDescription').val() == checkDescription &&
+                empCodeTaskFollower.length == empCodeFollowerTask.length &&
+                checkTaskFollower == true){
+                bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
+            }else{
+                if(parseInt($('#txtTaskCost').val()) > parseInt($("#lblModuleCostBalance").text())){
+                    bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
+                }else{
+                    if(fileSize <= 104857600){
+                        var formData = new FormData();
+                        formData.append("myInput", myInput.files[0]);
+                        var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
+                        var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
+                        if(!getEmpCodeTaskFollower()){
+                            $.ajax({
+                                type: "POST",
+                                headers: {
+                                    Accept: 'application/json',
+                                },
+                                contentType: "application/json; charset=UTF-8",
+                                dataType: "json",
+                                url: contextPath + '/tasks/findEditTask/' + TaskID +
+                                                                      '/' + $('#txtTaskCode').val() +
+                                                                      '/' + $('#txtTaskName').val() +
+                                                                      '/' + $('#txtTaskCost').val() +
+                                                                      '/' + dataTypeTaskCode[index] +
+                                                                      '/' + JSON.stringify(empCodeFollowerTask) +
+                                                                      '/' + empName +
+                                                                      '/' + dateStart +
+                                                                      '/' + dateEnd +
+                                                                      '/' + fileName +
+                                                                      '/' + description +
+                                                                      '/' + $('#txtProgress').val() +
+                                                                      '/' + programID,
+                                processData: false,
+                                contentType: false,
+                                data: formData,
+                                complete: function(xhr){
+                                    if(xhr.status == 200){
+                                        bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                                        $('#modalTask').modal('hide');
+                                        $('#txtTaskCode').val(null);
+                                        $('#txtTaskName').val(null);
+                                        $('#txtTaskCost').val(null);
+                                        $('#txtEmpName').val(null);
+                                        $('#dateStartProject').val(null);
+                                        $('#dateEndProject').val(null);
+                                        $("#myInput").val("");
+                                        $('#fileName').text("");
+                                        $('#txtaDescription').val("");
+
+                                        var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+                                        for(var i = 0; i < count_Element; i++){
+                                            var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                                            btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+                                        }
+                                        
+                                        $('#txtEmpNameTaskFollower1').val("");
+
+                                        var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                                        pagginationTask.loadPage(pageNumber, pagginationTask);
+
+                                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
+                                    }else if(xhr.status == 500){
+                                        bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                                    }
+                                },
+                                async: false
+                            });
+                        }else{
+                            bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
+                        }
+                    }else{
+                        bootbox.alert(Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT);
+                    }
+                }
+            }
+        }else{
+            bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
         }
     }
 }
@@ -500,6 +724,28 @@ $('[id^=btnModalTask]').click(function() {
     myFunction();
     if(id === 'Cancel'){
         if(chkAETask == 1){
+            var checkTaskFollower = false;
+            var countTaskFollower = 0;
+            getEmpCodeTaskFollower();
+
+            if(empCodeTaskFollower.length == 0){
+                empCodeTaskFollower.push("null");
+            }
+
+            if(empCodeTaskFollower.length == empCodeFollowerTask.length){                                                                                      
+                for(var i = 0; i < empCodeTaskFollower.length; i++){
+                    for(var j = 0; j < empCodeTaskFollower.length; j++){
+                        if(empCodeTaskFollower[i] == empCodeFollowerTask[j]){
+                            countTaskFollower++;
+                        }
+                    }
+                }
+
+                if(empCodeTaskFollower.length == countTaskFollower){
+                    checkTaskFollower = true;
+                }
+            }
+            
             if($('#txtTaskName').val() == checkTaskName &&
                 $('#txtTaskCost').val() == checkTaskCost &&
                 dataTypeTaskCode[index] == checkTypeTask &&
@@ -508,7 +754,9 @@ $('[id^=btnModalTask]').click(function() {
                 $('#dateEndProject').val() == checkdateEnd &&
                 $('#txtProgress').val() == checkProgress &&
                 $('#fileName').attr('title') == checkFileName &&
-                $('#txtaDescription').val() == checkDescription){
+                $('#txtaDescription').val() == checkDescription &&
+                empCodeTaskFollower.length == empCodeFollowerTask.length &&
+                checkTaskFollower == true){
                 $('#modalTask').modal('hide');
                 $('#txtTaskCode').popover('hide'); $('#txtTaskCode').val(null);
                 $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
@@ -517,9 +765,17 @@ $('[id^=btnModalTask]').click(function() {
                 $('#txtEmpName').val(null);
                 $('#dateStartProject').val(null);
                 $('#dateEndProject').val(null);
-                document.getElementById("myInput").value = "";
+                $("#myInput").val("");
                 $('#fileName').text("");
                 $('#txtaDescription').val("");
+
+                var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+                for(var i = 0; i < count_Element; i++){
+                    var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                    btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+                }
+        
+                $('#txtEmpNameTaskFollower1').val("");
             }else{
                 bootbox.confirm(Message.MSG_WANT_TO_CANCEL_EDITING_THE_DATA_HAS_CHANGED_OR_NOT, function(result) {
                     if(result == true){
@@ -531,9 +787,17 @@ $('[id^=btnModalTask]').click(function() {
                         $('#txtEmpName').val(null);
                         $('#dateStartProject').val(null);
                         $('#dateEndProject').val(null);
-                        document.getElementById("myInput").value = "";
+                        $("#myInput").val("");
                         $('#fileName').text("");
                         $('#txtaDescription').val("");
+
+                        var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+                        for(var i = 0; i < count_Element; i++){
+                            var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                            btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+                        }
+                        
+                        $('#txtEmpNameTaskFollower1').val("");
                     }
                 });
             }
@@ -546,9 +810,17 @@ $('[id^=btnModalTask]').click(function() {
             $('#txtEmpName').val(null);
             $('#dateStartProject').val(null);
             $('#dateEndProject').val(null);
-            document.getElementById("myInput").value = "";
+            $("#myInput").val("");
             $('#fileName').text("");
             $('#txtaDescription').val("");
+
+            var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+            for(var i = 0; i < count_Element; i++){
+                var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+            }
+            
+            $('#txtEmpNameTaskFollower1').val("");
         }
     }else{
         if($('#txtTaskCode').val() == ""){

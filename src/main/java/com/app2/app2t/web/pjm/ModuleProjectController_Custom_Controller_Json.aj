@@ -354,11 +354,13 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
                     Map employee = emRestService.getEmployeeByEmpCode(jsonArray.getString(i));
                     buffer.put("empFirstName", employee.get("empFirstName"));
                     buffer.put("empLastName", employee.get("empLastName"));
+                    buffer.put("empNickName", employee.get("empNickName"));
                     buffer.put("empPositionName", employee.get("empPositionName"));
                 }
                 else{
                     buffer.put("empFirstName", "");
                     buffer.put("empLastName", "");
+                    buffer.put("empNickName", "");
                     buffer.put("empPositionName", "");
                 }
                 resultSearch.add(buffer);

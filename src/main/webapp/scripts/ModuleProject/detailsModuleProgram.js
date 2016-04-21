@@ -72,6 +72,7 @@ function onClickTrProgram(object) {
     paramProgramId(programId, object.parentElement.id.split('m')[1]);
     searchDataTask();
   	$('#checkboxAllTask').prop('checked', false);
+    $('#lblTaskFollower').text("-");
     $('#lblEmpName').text("-");
     $('#lblTaskName').text("-");
     $('#lblSDate').text("-");
