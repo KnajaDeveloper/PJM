@@ -96,6 +96,7 @@
     <c:set var="LABEL_EDIT_PROGRAM" scope="request"><spring:message code="L0086"/></c:set>
     <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message code="L0087"/></c:set>
     <c:set var="LABEL_FILE_SIZE_OF_NO_MORE_THAN_100_MB" scope="request"><spring:message code="L0138"/></c:set>
+    <c:set var="LABEL_TASK_FOLLOWER" scope="request"><spring:message code="L0139"/></c:set>
 
     <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message code="B0015"/></c:set>
     <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message code="B0016"/></c:set>
@@ -105,6 +106,7 @@
     <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
     <c:set var="BUTTON_SELECT_FILE" scope="request"><spring:message code="B0017"/></c:set>
     <c:set var="BUTTON_DOWNLOAD_FILE" scope="request"><spring:message code="B0018"/></c:set>
+    <c:set var="BUTTON_DELETE" scope="request"><spring:message code="B0014"/></c:set>
 
     <c:set var="MSG_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9" scope="request"><spring:message code="M0022"/></c:set>
@@ -135,7 +137,7 @@
     <c:set var="MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS" scope="request"><spring:message code="M0065"/></c:set>
     <c:set var="MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS" scope="request"><spring:message code="M0067"/></c:set>
     <c:set var="MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT" scope="request"><spring:message code="M0068"/></c:set>
-
+    <c:set var="MSG_IT_IS_HAS_A_SAME_NAMES" scope="request"><spring:message code="M0035"/></c:set>
     
     <script type="text/javascript">
         var Label = {};
@@ -149,7 +151,7 @@
         Label.LABEL_ADD_TASK = '${LABEL_ADD_TASK}';
         Label.LABEL_POINT = '${LABEL_POINT}';
 
-        Button.BUTTON_OK = '${BUTTON_OK}';
+        Button.BUTTON_DELETE = '${BUTTON_DELETE}';
 
         Message.MSG_DATA_NOT_FOUND = '${MSG_DATA_NOT_FOUND}';
         Message.MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9 = '${MSG_PLEASE_ENTER_THE_PROGRAM_CODE_AS_a_TO_z_OR_A_TO_Z_OR_0_TO_9}';
@@ -180,6 +182,7 @@
         Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS = '${MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS}';
         Message.MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS = '${MSG_PLEASE_ENTER_A_ONLY_POSITIVE_INTEGER_NUMBERS}';
         Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT = '${MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT}';
+        Message.MSG_IT_IS_HAS_A_SAME_NAMES = '${MSG_IT_IS_HAS_A_SAME_NAMES}';
     </script>
 
     <div class="row">
@@ -342,6 +345,14 @@
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-sm-3">
+                                    <label class="">${LABEL_TASK_FOLLOWER}</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label id="lblTaskFollower" class=""><jsp:text/></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_MANAGER}</label>
                                 </div>
                                 <div class="col-sm-9">
@@ -486,6 +497,20 @@
                                         data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><jsp:text/><span class="caret"></span>
                                    </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-3">
+                                    <label class="control-label">${LABEL_TASK_FOLLOWER}</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <component:LovEmployee id="txtEmpNameTaskFollower1" controller="findEmpCodeByModuleProjectId" moduleProject="${moduleProjectID}"/>
+                                </div>
+                                <span id="subTaskFollower"><!--Not Empty--></span>
+                            </div>                      
+                            <div class="form-group">
+                                <div class="col-sm-offset-4 col-sm-6">
+                                    <button id="btnAddLovEmployee" type="button" class="btn btn-success"> + ${LABEL_TASK_FOLLOWER}</button>
                                 </div>
                             </div>
                             <div class="form-group">

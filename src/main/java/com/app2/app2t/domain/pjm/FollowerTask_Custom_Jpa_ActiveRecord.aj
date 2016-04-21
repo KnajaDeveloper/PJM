@@ -77,4 +77,34 @@ public aspect FollowerTask_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static FollowerTask FollowerTask.saveTaskFollower(Task task, String empCode) {
+        EntityManager ent = FollowerTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(FollowerTask.class);
+        FollowerTask followerTask = new FollowerTask();
+        followerTask.setTask(task);
+        followerTask.setEmpCode(empCode);
+        followerTask.persist();
+        return followerTask;
+    }
+
+    public static List<FollowerTask> FollowerTask.findEmpCodeByTaskID(long taskId) {
+        EntityManager ent = FollowerTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(FollowerTask.class, "FollowerTask");
+        criteria.createAlias("FollowerTask.task", "task");
+        criteria.add(Restrictions.eq("task.id", taskId));
+        return criteria.list();
+    }
+
+    public static List<FollowerTask> FollowerTask.findDeleteFollowerTask(Long taskId) {
+        EntityManager ent = FollowerTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(FollowerTask.class, "FollowerTask");
+        criteria.createAlias("FollowerTask.task", "task");
+        criteria.add(Restrictions.eq("task.id", taskId));
+        List<FollowerTask> followerTask = criteria.list();
+        for(int i = 0; i < followerTask.size(); i++){  
+            FollowerTask edfollowerTask = followerTask.get(i);
+            edfollowerTask.remove();
+        }
+        return criteria.list();
+    }
 }

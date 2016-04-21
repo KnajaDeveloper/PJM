@@ -160,7 +160,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return splitDate[1] + "/" + splitDate[0] + "/" + splitDate[2];
     }
 
-    public static List<Task> Task.findEditTask(Long id, String taskCode,
+    public static Task Task.findEditTask(Long id, String taskCode,
         String taskName, Double taskCost, TypeTask typeTask, String empCode,
         String dateStart, String dateEnd, String fileName, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
@@ -181,7 +181,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.setDetail(detail.equals("null") ? null : detail);
         edTask.setProgress(progress);
         edTask.merge();
-        return criteria.list();
+        return edTask;
     }
 
     public static List<Task> Task.findDeleteTask(Long programID, Long taskID, String taskCode) {

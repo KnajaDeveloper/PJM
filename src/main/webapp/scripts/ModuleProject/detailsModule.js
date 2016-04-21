@@ -83,7 +83,8 @@ var empLastName = [];
 var empFirstName = []; 
 var empPositionName = [];
 var empLastNameTask = [];
-var empFirstNameTask = []; 
+var empFirstNameTask = [];
+var empNickNameTask = [];
 var empPositionNameTask = [];
 var check = false;
 
@@ -108,6 +109,7 @@ function findEmpNameAndEmpPositionNameByEmpCode(empCode){
 	empPositionName = [];
 	empFirstNameTask = [];
 	empLastNameTask = [];
+	empNickNameTask = [];
 	empPositionNameTask = [];
 
 	valueEmp = valueEmp.responseJSON
@@ -119,6 +121,7 @@ function findEmpNameAndEmpPositionNameByEmpCode(empCode){
 		}else{
 			empFirstNameTask.push(value.empFirstName);
 			empLastNameTask.push(value.empLastName);
+			empNickNameTask.push(value.empNickName);
 			empPositionNameTask.push(value.empPositionName);
 		}
 	});
