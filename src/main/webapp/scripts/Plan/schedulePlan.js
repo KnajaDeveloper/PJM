@@ -91,6 +91,10 @@ function addName() {
 			works.push(work);
 		}
 	}
+	if(recieveWork.responseJSON.Name.length == 0){
+		var emptyData = "<tr><td colspan='"+diffDay+"' class='text-center'>"+Message.MS_DATA_NOT_FOUND+"</td></tr>";
+		$("#tableData").append(emptyData);
+	}
 
 	for (var i = 0; i < names.length; i++) {
 		var _rowspan = findSameRow(works[i]);

@@ -230,13 +230,19 @@ function checkDataBeforeSave(option){
 		var textCost = ""+$("#txtIncreseCostModuleCost").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
+			if(!$.isNumeric(textCost)){
 				$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
 				$('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
 				$('#txtIncreseCostModuleCost').popover('show');
 				return false;
 				break;
 			}
+		}
+		if(textCost.split('.')[1].length > 4){
+			$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
+			$('#txtIncreseCostModuleCost').attr("data-content",Message.More_than_digit);
+			$('#txtIncreseCostModuleCost').popover('show');
+			return false;
 		}
 	}
 	return true;

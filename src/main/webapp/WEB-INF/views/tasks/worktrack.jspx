@@ -24,6 +24,11 @@
 	<c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
 	<c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
 	<c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
+	<c:set var="MS_NO_ROLE" scope="request"><spring:message code="M0063"/></c:set>
+
+	<c:set var="LABEL_NEW_TASK" scope="request"><spring:message text="งานใหม่"/></c:set>
+	<c:set var="LABEL_READY_TASK" scope="request"><spring:message text="งานพร้อมทดสอบ"/></c:set>
+	<c:set var="LABEL_COMPLETE_TASK" scope="request"><spring:message text="งานที่ผ่าน"/></c:set>
 
 	<div id="containerData" name="cotainerData" class="col-md-12">
 		<div class="panel panel-primary">
@@ -152,6 +157,7 @@
 		MESSAGE.MS_SAVE_SUCCESS = '${MS_SAVE_SUCCESS}';
 		MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
 		MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+		MESSAGE.MS_NO_ROLE = '${MS_NO_ROLE}';
 
 		var LABEL = {};
 		LABEL.LABEL_PASS = '${LABEL_PASS}';
@@ -162,6 +168,9 @@
 		LABEL.LABEL_TASK_NAME = '${LABEL_TASK_NAME}';
 		LABEL.LABEL_MANAGER = '${LABEL_MANAGER}';
 		LABEL.LABEL_FOLLOWER = '${LABEL_FOLLOWER}';
+		LABEL.LABEL_NEW_TASK = '${LABEL_NEW_TASK}';
+		LABEL.LABEL_READY_TASK = '${LABEL_READY_TASK}';
+		LABEL.LABEL_COMPLETE_TASK = '${LABEL_COMPLETE_TASK}';
 	</script>
 
 	<spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>

@@ -52,11 +52,17 @@ function checkYear(){
 	}
 	var checkKey = textYear.split('');
 	for(var i=0;i<checkKey.length;i++){
-		if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'){
+		if(!$.isNumeric(textCost)){
 			$('#txtYear').attr("data-content",""+Message.Number_only);
 			$('#txtYear').popover('show');
 			return false;
 		}
+	}
+	if(textCost.split('.')[1].length > 4){
+		$('#txtYear').attr("data-placement","bottom");
+		$('#txtYear').attr("data-content",Message.More_than_digit);
+		$('#txtYear').popover('show');
+		return false;
 	}
 	return true;
 }
