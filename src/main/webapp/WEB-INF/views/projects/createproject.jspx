@@ -61,6 +61,8 @@
 	<c:set var="MESSAGE_COMFIRM_EXIT"><spring:message javaScriptEscape="true" code="M0031"/></c:set>
 	<c:set var="MESSAGE_PLEASE_SELECT_MODULE"><spring:message javaScriptEscape="true" text="Please select module."/></c:set>
 	<c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
+	<c:set var="MESSAGE_MORE_THAN_4_DIGIT" scope="request"><spring:message code="M0065"/></c:set>
+
 
 	<style>
 	.input-group-addon{
@@ -124,6 +126,7 @@
 		Message.Please_select_module = '${MESSAGE_PLEASE_SELECT_MODULE}';
 		Message.Data_no_change = '${MESSAGE_NO_CHANGE_DATA}';
 		Message.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
+		Message.More_than_digit = '${MESSAGE_MORE_THAN_4_DIGIT}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';
@@ -144,20 +147,20 @@
 				<div name="container_Name" class="form-group">
 					<label class="col-sm-3 control-label required" >${LABEL_PROJECT_NAME}</label>
 					<div class="col-sm-7">
-						<input type="text" class="form-control" id="txtProjectName" data-placement="bottom"></input>
+						<input type="text" maxlength="255" class="form-control" id="txtProjectName" data-placement="bottom"></input>
 					</div>
 				</div>
 
 				<div name="container_initialName_costsProject" class="form-group">
 					<label class="col-sm-3 control-label required" >${LABEL_INITIAL_NAME}</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="txtInitialProjectName" data-placement="bottom"></input>
+						<input type="text" maxlength="255" class="form-control" id="txtInitialProjectName" data-placement="bottom"></input>
 					</div>
 					<div class="col-sm-6">
 						<div class="col-sm-6">
 							<label class="col-sm-5 control-label required " >${LABEL_COST}</label>
 							<div class="col-sm-7 input-group">
-								<input type="text" class="form-control" id="txtCostsProject" data-placement="bottom"></input>
+								<input type="text" maxlength="12" class="form-control" id="txtCostsProject" data-placement="bottom"></input>
 								<span class="input-group-addon">${LABEL_POINT}</span>
 							</div>
 						</div>
@@ -177,7 +180,7 @@
 						<div class="col-sm-6">
 							<label class="col-sm-6 control-label required" >${LABEL_START_DATE}</label>
 							<div class="col-sm-5 input-group" style="margin-left: 15px;">
-								<input class="form-control" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
+								<input class="form-control" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" maxlength="10" id="dateStartProject" name="dateStartProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateStartProject').focus();"></span>
 								</span>
@@ -186,7 +189,7 @@
 						<div class="col-sm-6">
 							<label class="col-sm-3 control-label required" style="margin-left: -20px;">${LABEL_END_DATE}</label>
 							<div class="col-sm-5  input-group">
-								<input class="form-control" type="text" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" id="dateEndProject" name="dateEndProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
+								<input class="form-control" type="text" maxlength="10" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" id="dateEndProject" name="dateEndProject" placeholder="dd/mm/yyyy" style="background-color:white" data-placement="bottom"></input>
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateEndProject').focus();"></span>
 								</span>
@@ -229,18 +232,18 @@
 		                        <div name="container_Name" class="form-group">
 									<label class="col-sm-3 control-label required" >${LABEL_MODULE_NAME}</label>
 									<div class="col-sm-7">
-										<input type="text" class="form-control" id="txtModuleName1"></input>
+										<input type="text" maxlength="255" class="form-control" id="txtModuleName1"></input>
 									</div>
 								</div>
 
 								<div name="container_initialName_costsProject" class="form-group">
 									<label class="col-sm-3 control-label required" >${LABEL_INITIAL_NAME_MODULE}</label>
 									<div class="col-sm-3">
-										<input type="text" class="form-control" id="txtInitialModuleName1"></input>
+										<input type="text" maxlength="255" class="form-control" id="txtInitialModuleName1"></input>
 									</div>
 									<label class="col-sm-2 control-label required" style="margin-left: -40px">${LABEL_COST} </label>
 									<div class="col-sm-2 input-group">
-										<input type="text" class="form-control marginLeft5" id="txtCostsModule1"></input>
+										<input type="text" maxlength="12" class="form-control marginLeft5" id="txtCostsModule1"></input>
 										<span class="input-group-addon">${LABEL_POINT}</span>
 									</div>
 								</div>
@@ -250,7 +253,7 @@
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
 											<div class="col-sm-5 input-group" style="margin-left: 10px">
-												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateStartModule" name="dateStartModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
+												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" maxlength="10" id="dateStartModule" name="dateStartModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar " style="cursor:pointer;" onclick="$('#dateStartModule').focus();"></span>
 												</span>
@@ -259,7 +262,7 @@
 										<div class="col-sm-6 ">
 											<label class="col-sm-3 control-label required" style="margin-left: -10px" >${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
-												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateEndModule" name="dateEndModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
+												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" maxlength="10" id="dateEndModule" name="dateEndModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar " style="cursor:pointer;" onclick="$('#dateEndModule').focus();"></span>
 												</span>
@@ -320,18 +323,18 @@
 		                        <div name="container_Name" class="form-group">
 									<label class="col-sm-3 control-label required">${LABEL_MODULE_NAME}</label>
 									<div class="col-sm-7">
-										<input type="text" class="form-control" id="txtEditModuleName1"></input>
+										<input type="text" maxlength="255" class="form-control" id="txtEditModuleName1"></input>
 									</div>
 								</div>
 
 								<div name="container_initialName_costsProject" class="form-group">
 									<label class="col-sm-3 control-label required" >${LABEL_INITIAL_NAME} </label>
 									<div class="col-sm-3">
-										<input type="text" class="form-control" id="txtEditInitialModuleName1"></input>
+										<input type="text" maxlength="255" class="form-control" id="txtEditInitialModuleName1"></input>
 									</div>
 									<label class="col-sm-2 control-label required" style="margin-left: -40px" >${LABEL_COST} </label>
 									<div class="col-sm-2 input-group">
-										<input type="text" class="form-control marginLeft5" id="txtCostsEditModule1"></input>
+										<input type="text" maxlength="12" class="form-control marginLeft5" id="txtCostsEditModule1"></input>
 										<span class="input-group-addon">${LABEL_POINT}</span>
 									</div>
 								</div>
@@ -341,7 +344,7 @@
 										<div class="col-sm-6">
 											<label class="col-sm-6 control-label required" >${LABEL_START_DATE} </label>
 											<div class="col-sm-5 input-group" style="margin-left: 15px;">
-												<input class="form-control" type="text" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" id="dateStartEditModule" name="dateStartEditModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
+												<input class="form-control" type="text" maxlength="10" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" id="dateStartEditModule" name="dateStartEditModule" placeholder="dd/mm/yyyy" style="background-color:white;"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateStartEditModule').focus();"></span>
 												</span>
@@ -350,7 +353,7 @@
 										<div class="col-sm-6 ">
 											<label class="col-sm-3 control-label required " style="margin-left: -10px;">${LABEL_END_DATE} </label>
 											<div class="col-sm-5  input-group">
-												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" id="dateEndEditModule" name="dateEndEditModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
+												<input class="form-control marginLeft5" onchange="checkDateFormat($(this), Message.DATE_FORMAT,'')" type="text" maxlength="10" id="dateEndEditModule" name="dateEndEditModule" placeholder="dd/mm/yyyy" style="background-color:white"></input>
 												<span class="input-group-addon">
 													<span class="glyphicon glyphicon-calendar" style="cursor:pointer;" onclick="$('#dateEndEditModule').focus();"></span>
 												</span>
@@ -429,7 +432,7 @@
 										<div name="container_Name" class="form-group">
 											<label class="col-sm-4 control-label required" >${LABEL_COST}</label>
 											<div class="col-sm-3 input-group">
-												<input type="text" class="form-control marginLeft5" id="txtIncreseCostModuleCost"></input>
+												<input type="text" maxlength="12" class="form-control marginLeft5" id="txtIncreseCostModuleCost"></input>
 												<span class="input-group-addon">${LABEL_POINT}</span>
 											</div>
 										</div>

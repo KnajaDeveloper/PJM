@@ -362,13 +362,19 @@ function checkModal(){
 		var textCost = ""+$("#txtCostsModule1").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
+			if(!$.isNumeric(textCost)){
 				$('#txtCostsModule1').attr("data-placement","bottom");
 				$('#txtCostsModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsModule1').popover('show');
 				return false;
 				break;
 			}
+		}
+		if(textCost.split('.')[1].length > 4){
+			$('#txtCostsModule1').attr("data-placement","bottom");
+			$('#txtCostsModule1').attr("data-content",Message.More_than_digit);
+			$('#txtCostsModule1').popover('show');
+			return false;
 		}
 	}
 	if($("#dateStartModule").val() == "" || $("#dateStartModule").val() == " ") {
@@ -483,12 +489,18 @@ function checkEditModal(){
 		var textCost = ""+$("#txtCostsEditModule1").val();
 		var checkKey = textCost.split('');
 		for(var i=0;i<checkKey.length;i++){
-			if(checkKey[i]!='0'&&checkKey[i]!='1'&&checkKey[i]!='2'&&checkKey[i]!='3'&&checkKey[i]!='4'&&checkKey[i]!='5'&&checkKey[i]!='6'&&checkKey[i]!='7'&&checkKey[i]!='8'&&checkKey[i]!='9'&&checkKey[i]!='.'){
+			if(!$.isNumeric(textCost)){
 				$('#txtCostsEditModule1').attr("data-placement","bottom");
 				$('#txtCostsEditModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsEditModule1').popover('show');
 				break;
 			}
+		}
+		if(textCost.split('.')[1].length > 4){
+			$('#txtCostsEditModule1').attr("data-placement","bottom");
+			$('#txtCostsEditModule1').attr("data-content",Message.More_than_digit);
+			$('#txtCostsEditModule1').popover('show');
+			return false;
 		}
 	}
 	if($("#dateStartEditModule").val() == "" || $("#dateStartEditModule").val() == " ") {

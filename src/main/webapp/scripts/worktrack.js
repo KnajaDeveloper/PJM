@@ -83,6 +83,12 @@ pagginationFollow.setEventPaggingBtn("paggingSimple3", pagginationFollow);
 pagginationFollow.loadTable = function loadTable(jsonData) {
     $('#ResualtSearchTaskFollow').empty();
     var tableData = "";
+    if(jsonData.length==0){
+        tableData = "<tr><td colspan='6' class='text-center'>"+MESSAGE.MS_DATA_NOT_FOUND+"</td></tr>";
+        $('#ResualtSearchTaskFollow').append(
+            tableData
+        );
+    }
     jsonData.forEach(function (value) {
         var empManager = "";
         for(i=0;i<value.moduleManager.length;i++){
@@ -154,9 +160,9 @@ function addModuleToDDL() {
 }
 
 function addStatusToDDL(){
-    $("#ddlStatusTask").append("<option value='N'>งานใหม่</option>");
-    $("#ddlStatusTask").append("<option value='R'>พร้อมทดสอบ</option>");
-    $("#ddlStatusTask").append("<option value='C'>สำเร็จ</option>");
+    $("#ddlStatusTask").append("<option value='N'>"+LABEL.LABEL_NEW_TASK+"</option>");
+    $("#ddlStatusTask").append("<option value='R'>"+LABEL.LABEL_READY_TASK+"</option>");
+    $("#ddlStatusTask").append("<option value='C'>"+LABEL.LABEL_COMPLETE_TASK+"</option>");
 }
 
 function addTaskToDDL(){
@@ -233,7 +239,7 @@ $('#taskFollow').on("click", "[id^=checkTask_]", function () {
         $("#modalFollowTask").modal('show');
     }
     else{
-        bootbox.alert("ไม่มีสิทธิ์");
+        bootbox.alert(MESSAGE.MS_NO_ROLE);
     }
 });
 

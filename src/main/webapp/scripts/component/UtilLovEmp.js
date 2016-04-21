@@ -48,6 +48,7 @@ function LovEmpAfterCheckEmpty(inputId) {
 };
 
 function LovEmpQueryEvent(inputId) {
+    $("#typeahead_menu_").hide();
     var inputData = $(inputId).val();
     if(team!="") {
         var data = {

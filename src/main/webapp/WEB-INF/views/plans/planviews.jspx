@@ -17,6 +17,7 @@
 	<c:set var="MESSAGE_COMPLETE_THIS_FIELD"><spring:message javaScriptEscape="true" code="M0002"/></c:set>
 	<c:set var="MESSAGE_COMPLETE_DATE"><spring:message javaScriptEscape="true" code="M0011"/></c:set>
 	<c:set var="MESSAGE_DATE_FORMAT_INVALID" scope="request"><spring:message code="M0032"/></c:set>
+	<c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
 
 	<c:set var="LABEL_VIEW_PLAN"><spring:message javaScriptEscape="true" code="L0099"/></c:set>
 	<c:set var="LABEL_EMPLOYEE_SCHEDULE"><spring:message javaScriptEscape="true" code="L0100"/></c:set>
@@ -82,6 +83,7 @@
 		Message.Number_only = '${MESSAGE_NUMBER_ONLY}';
 		Message.MESSAGE_COMPLETE_DATE = '${MESSAGE_COMPLETE_DATE}';
 		Message.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
+		Message.MS_DATA_NOT_FOUND = '${MS_DATA_NOT_FOUND}';
 
 		function slidePlan(){
 			var delay = 500;
@@ -122,12 +124,6 @@
 			<div class="panel-heading">${LABEL_VIEW_PLAN}</div><br/>
 			<div class="panel-body">
 				<form class="form-horizontal">
-					<!--<div name="container_Year" class="form-group">-->
-						<!--<label class="col-sm-4 control-label required" >${LABEL_YEAR_CREATE_PROJECT}</label>-->
-						<!--<div class="col-sm-2">-->
-							<!--<input type="text" class="form-control" id="txtYear" data-placement="bottom"></input>-->
-						<!--</div>-->
-					<!--</div> -->
 					<div name="container_Project" class="form-group ">
 						<label class="col-sm-4 control-label">${LABEL_PROJECT_NAME}</label>
 						<div class="col-sm-5">

@@ -48,15 +48,16 @@ function LovProjectAfterCheckProjectty(inputId) {
 };
 
 function LovProjectQueryEvent(inputId) {
+    $("#typeahead_menu_").hide();
     var inputData = $(inputId).val();
     var data = {
         text: LovProjectSplitSpaceAndRetrunFirstIdentity(inputData)
-    }
+    };
     var jsonData = AjaxUtil.get({
         url: contextPath + "/central/findProjectByText",
         data: data
-    })
-LovProjectAfterQuery(inputId, jsonData, inputData);
+    });
+    LovProjectAfterQuery(inputId, jsonData, inputData);
     LovProjectKeyDownEvent(inputId);
     LovProjectKeyUpEvent(inputId) ;
 };
@@ -86,10 +87,10 @@ function LovProjectAfterQuery(inputId, jsonData, dataInput) {
         menu: "<ul id='typeahead_menu_'+" + inputId.split("#")[1] + " class='typeahead dropdown-menu' style='width: "+$("#Container"+idText).width()+"px; height: 200px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888'></ul>",
         updater: function (item) {
             var map = $(inputId).data('map');
-            $(inputId).data(LovEmployeeDataItem,map[item]);
-            $(inputId).data(LovEmployeeDataId,map[item].projectId);
-            $(inputId).data(LovEmployeeDataCode,map[item].projectCode);
-            $(inputId).data(LovEmployeeDataDescription,map[item].projectName);
+            $(inputId).data(LovProjectDataItem,map[item]);
+            $(inputId).data(LovProjectDataId,map[item].projectId);
+            $(inputId).data(LovProjectDataCode,map[item].projectCode);
+            $(inputId).data(LovProjectDataDescription,map[item].projectName);
             return item;
         }
     }).focus().val("").keyup().val(dataInput);
