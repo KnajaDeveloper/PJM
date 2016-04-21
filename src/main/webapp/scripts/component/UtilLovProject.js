@@ -1,11 +1,11 @@
-var LovEmployeeDataId = "data-id";
-var LovEmployeeDataItem = "data-item";
-var LovEmployeeDataCode = "data-code";
-var LovEmployeeDataDescription = "data-description";
+var LovProjectDataId = "data-id";
+var LovProjectDataItem = "data-item";
+var LovProjectDataCode = "data-code";
+var LovProjectDataDescription = "data-description";
 var first = true ;
 var idText = "";
 
-UtilLov.onChangeInputLovEmp = function (input,e) {
+UtilLov.onChangeInputLovProject = function (input,e) {
     $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + input.id;
     var idText = ""+input.id;
@@ -13,12 +13,12 @@ UtilLov.onChangeInputLovEmp = function (input,e) {
         $(inputId).attr("data-content",canPressEnter);
         $(inputId).popover('show');
     }
-    $(inputId).data(LovEmployeeDataItem, "");
-    $(inputId).data(LovEmployeeDataCode, "");
-    $(inputId).data(LovEmployeeDataDescription, "");
+    $(inputId).data(LovProjectDataItem, "");
+    $(inputId).data(LovProjectDataCode, "");
+    $(inputId).data(LovProjectDataDescription, "");
     if (e.keyCode == 13) {
-        //LovEmpAfterCheckEmpty(input);
-        UtilLov.lovEmp(input);
+        //LovProjectAfterCheckProjectty(input);
+        UtilLov.lovProject(input);
     }
 };
 
@@ -26,46 +26,46 @@ UtilLov.onFocus = function (input){
     $("[data-toggle='popover']").popover('destroy');
 };
 
-UtilLov.lovEmp = function (btn) {
+UtilLov.lovProject = function (btn) {
     $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + $("#" + btn.id).attr("target");
-    LovEmpQueryEvent(inputId);
+    LovProjectQueryEvent(inputId);
 };
 
-UtilLov.onLoadInputLovEmp = function (id) {
+UtilLov.onLoadInputLovProject = function (id) {
     var inputId = "#" + id;
-    LovEmpAfterCheckEmpty(inputId);
-    LovEmpKeyUpEvent(inputId);
+    LovProjectAfterCheckProjectty(inputId);
+    LovProjectKeyUpEvent(inputId);
 };
 
-function LovEmpAfterCheckEmpty(inputId) {
+function LovProjectAfterCheckProjectty(inputId) {
     var inputVal = $(inputId).val();
     if (inputVal.trim() === "") {
-        $(inputId).data(LovEmployeeDataItem, "");
-        $(inputId).data(LovEmployeeDataCode, "");
-        $(inputId).data(LovEmployeeDataDescription, "");
+        $(inputId).data(LovProjectDataItem, "");
+        $(inputId).data(LovProjectDataCode, "");
+        $(inputId).data(LovProjectDataDescription, "");
     }
 };
 
-function LovEmpQueryEvent(inputId) {
+function LovProjectQueryEvent(inputId) {
     var inputData = $(inputId).val();
     var data = {
-        text: LovEmpSplitSpaceAndRetrunFirstIdentity(inputData)
+        text: LovProjectSplitSpaceAndRetrunFirstIdentity(inputData)
     }
     var jsonData = AjaxUtil.get({
         url: contextPath + "/central/findProjectByText",
         data: data
     })
-LovEmpAfterQuery(inputId, jsonData, inputData);
-    LovEmpKeyDownEvent(inputId);
-    LovEmpKeyUpEvent(inputId) ;
+LovProjectAfterQuery(inputId, jsonData, inputData);
+    LovProjectKeyDownEvent(inputId);
+    LovProjectKeyUpEvent(inputId) ;
 };
 
-function LovEmpSplitSpaceAndRetrunFirstIdentity(input) {
+function LovProjectSplitSpaceAndRetrunFirstIdentity(input) {
     return input == null || input == undefined || input.length == 0 ? "": input.split(" ")[0];
 };
 
-function LovEmpAfterQuery(inputId, jsonData, dataInput) {
+function LovProjectAfterQuery(inputId, jsonData, dataInput) {
     $(inputId).typeahead("destroy").typeahead({
         source: function (query, process) {
             var states = [];
@@ -95,7 +95,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
     }).focus().val("").keyup().val(dataInput);
 };
 
-function LovEmpKeyDownEvent(inputId) {
+function LovProjectKeyDownEvent(inputId) {
     $("typeahead_menu_"+inputId).scrollTop = 0;
     $(inputId).bind("keydown", function (evt) {
         if (evt.which === 40 && $(inputId + "_typeahead_menu")[0] != undefined) {
@@ -107,7 +107,7 @@ function LovEmpKeyDownEvent(inputId) {
     });
 };
 
-function LovEmpKeyUpEvent(inputId) {
+function LovProjectKeyUpEvent(inputId) {
     var inputIdTargetLovFrom = "#" + $(inputId).attr("data-iddepartmentfrom");
     var timeChecker;
     $(inputId).bind("keyup", function (evt) {

@@ -57,9 +57,7 @@
 						<div class="col-sm-8">
 							<label class="col-sm-5 control-label">ชื่อผู้ติดตาม</label>
 							<div class="col-sm-5">
-								<select id="ddlTeam" class="form-control">
-									<option value="null"><!--Not Empty--></option>
-								</select>
+								<component:LovEmployee id="txtFollower" controller="findEmployeeByText"/>
 							</div>
 						</div>
 						<div class="col-sm-2"><!--Not--></div>
@@ -124,9 +122,34 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalFollowTask" role="dialog" data-backdrop="static">
+		<div class="modal-dialog ">
+			<!-- Modal content-->
+			<div class="modal-content ">
+				<div class="modal-header bg-primary">
+					<h4 class="modal-title">ตรวจสอบงาน</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div id="label_modal" class="">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer ">
+					<button id="btnModalTaskAdd" type="button" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script>
 		var contextPath = '${pageContext.request.contextPath}';
+		var nowUser = '${nowUser}';
 	</script>
+
+	<spring:url value="/resources/scripts/component/UtilPagination.js" var="UtilPagination"/>
+	<script src="${UtilPagination}" type="text/javascript"><!--Not Empty --></script>
 
 	<spring:url value="/resources/scripts//worktrack.js" var="worktrack"/>
 	<script src="${worktrack}" type="text/javascript"><!--Not Empty--></script>
@@ -136,6 +159,9 @@
 
 	<spring:url value="/resources/scripts/component/UtilLovProject.js" var="UtilLovProject"/>
 	<script src="${UtilLovProject}" type="text/javascript"><!--Not Empty --></script>
+
+	<spring:url value="/resources/scripts/component/UtilLovEmp.js" var="UtilLovEmp"/>
+	<script src="${UtilLovEmp}" type="text/javascript"><!--Not Empty --></script>
 
 	<!-- Script Calendar -->
 	<spring:url value="/resources/scripts/fullcalendar/lib/moment.min.js" var="moment_js"/>

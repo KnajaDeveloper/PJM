@@ -5,13 +5,14 @@
     <jsp:directive.attribute name="placeholder" type="java.lang.String" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="classes" type="java.lang.Boolean" required="false" rtexprvalue="true"/>
     <jsp:directive.attribute name="dataContent" type="java.lang.String" required="false" rtexprvalue="true"/>
+    <jsp:directive.attribute name="func" type="java.lang.String" required="false" rtexprvalue="true"/>
 
     <c:set var="MESSAGE_CAN_PRESS_ENTER"><spring:message javaScriptEscape="true" code="M0064"/></c:set>
 
     <div id="Container${id}" class="input-group">
-        <input id='${id}' onkeypress="UtilLov.onChangeInputLovEmp(this,event)" onfocus="UtilLov.onFocus(this)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">
+        <input id='${id}' onkeypress="UtilLov.onChangeInputLovProject(this,event)" onchange="${func}" onfocus="UtilLov.onFocus(this)" target="${id}" data-toggle="popover" data-content="${dataContent}" data-placement="bottom" placeholder="${placeholder}" class="form-control" autocomplete="off" type="department-lov">
         <span class="input-group-addon">
-            <span id="Btn${id}" onclick="UtilLov.lovEmp(this)" target="${id}" class="fa fa-search" style="cursor:pointer;">
+            <span id="Btn${id}" onclick="UtilLov.lovProject(this)" target="${id}" class="fa fa-search" style="cursor:pointer;">
                 <jsp:text/>
             </span>
         </span>
@@ -21,7 +22,7 @@
     <script type="text/javascript">
         var canPressEnter = '${MESSAGE_CAN_PRESS_ENTER}';
         jQuery(document).ready(function() {
-            UtilLov.onLoadInputLovEmp('${id}');
+            UtilLov.onLoadInputLovProject('${id}');
         });
     </script>
 </jsp:root>

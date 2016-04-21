@@ -3,10 +3,12 @@ var LovEmployeeDataItem = "data-item";
 var LovEmployeeDataCode = "data-code";
 var LovEmployeeDataDescription = "data-description";
 var first = true ;
+var idTextEmpLov = "";
 
 UtilLov.onChangeInputLovEmp = function (input,e) {
     $("[data-toggle='popover']").popover('destroy');
     var inputId = "#" + input.id;
+    var idTextEmpLov = ""+input.id;
     if(first){
         $(inputId).attr("data-content",canPressEnter);
         $(inputId).popover('show');
@@ -100,7 +102,7 @@ function LovEmpAfterQuery(inputId, jsonData, dataInput) {
         },
         minLength: 0,
         items: 20,
-        menu: "<ul id='typeahead_menu_'+" + inputId.split("#")[1] + " class='typeahead dropdown-menu' style='width: "+$(inputId).width()+"px; height: 200px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888'></ul>",
+        menu: "<ul id='typeahead_menu_'+" + inputId.split("#")[1] + " class='typeahead dropdown-menu' style='width: "+$("#Container"+idTextEmpLov).width()+"px; height: 200px; overflow-x: scroll; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888'></ul>",
         updater: function (item) {
             var map = $(inputId).data('map');
             $(inputId).data(LovEmployeeDataItem,map[item]);

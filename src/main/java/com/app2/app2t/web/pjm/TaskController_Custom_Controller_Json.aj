@@ -378,4 +378,80 @@ privileged aspect TaskController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus",method = RequestMethod.GET, headers = "Accept=application/json")
+    public ResponseEntity<String> TaskController.selectTaskFollower(
+            @RequestParam(value = "maxResult", required = false) Integer maxResult,
+            @RequestParam(value = "firstResult", required = false) Integer firstResult,
+            @RequestParam(value = "option", required = false) String option,
+            @RequestParam(value = "projectId", required = false) String projectId,
+            @RequestParam(value = "moduleId", required = false) String moduleId,
+            @RequestParam(value = "typeTaskId", required = false) String typeTaskId,
+            @RequestParam(value = "statusTask", required = false) String statusTask,
+            @RequestParam(value = "empCode", required = false) String empCode
+
+    )
+        {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/json;charset=UTF-8");
+
+            try{
+                List<Map<String,Object>> resultSearch = new ArrayList<>();
+                if(empCode.equals("")) {
+                    List<Task> taskList = Task.findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus(
+                            maxResult,firstResult,projectId,moduleId,typeTaskId,statusTask,option);
+                    if(!option.toLowerCase().equals("size")) {
+                        for(Task task : taskList) {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("taskCode", task.getTaskCode());
+                            map.put("id", task.getId());
+                            map.put("taskName", task.getTaskName());
+                            map.put("progress", task.getProgress());
+                            map.put("program", task.getProgram().getProgramName());
+                            map.put("module", task.getProgram().getModuleProject().getModuleName());
+                            List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getProgram().getModuleProject().getId()));
+                            map.put("moduleManager" ,listMM);
+                            map.put("project", task.getProgram().getModuleProject().getProject().getProjectName());
+                            map.put("follower","");
+                            resultSearch.add(map);
+                        }
+                        return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+                    }
+                    else {
+                        Map dataSendToFront = new HashMap();
+                        dataSendToFront.put("size",taskList.size());
+                        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
+                    }
+                }
+                else{
+                    List<FollowerTask> taskList = FollowerTask.findFollowerTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus(
+                            maxResult,firstResult,projectId,moduleId,typeTaskId,statusTask,option,empCode);
+                    if(!option.toLowerCase().equals("size")) {
+                        for(FollowerTask task : taskList) {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("taskCode", task.getTask().getTaskCode());
+                            map.put("id", task.getTask().getId());
+                            map.put("taskName", task.getTask().getTaskName());
+                            map.put("progress", task.getTask().getProgress());
+                            map.put("program", task.getTask().getProgram().getProgramName());
+                            map.put("module", task.getTask().getProgram().getModuleProject().getModuleName());
+                            List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getTask().getProgram().getModuleProject().getId()));
+                            map.put("moduleManager" ,listMM);
+                            map.put("project", task.getTask().getProgram().getModuleProject().getProject().getProjectName());
+                            map.put("follower",task.getEmpCode());
+                            resultSearch.add(map);
+                        }
+                        return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
+                    }
+                    else {
+                        Map dataSendToFront = new HashMap();
+                        dataSendToFront.put("size",taskList.size());
+                        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(dataSendToFront), headers, HttpStatus.OK);
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
 }
