@@ -21,11 +21,13 @@ function searchDataProgram() {
 pagginationProgram.setEventPaggingBtn("paggingSimpleProgram",pagginationProgram);
 pagginationProgram.loadTable = function loadTable (jsonData) {
 
-    if(jsonData.length <= 0)
-       bootbox.alert(Message.MSG_DATA_NOT_FOUND);
+    $('#ResualtSearchProgram').empty();
+
+    if(jsonData.length <= 0){
+        $('#ResualtSearchProgram').append('<tr><td colspan = 4 class="text-center">' + Message.MSG_DATA_NOT_FOUND + '</td></tr>');
+    }
 
     $('#checkboxAllProgram').prop('checked', false);
-    $('#ResualtSearchProgram').empty();
 
     var tableData = "";
     var i = 1;

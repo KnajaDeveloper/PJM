@@ -76,7 +76,20 @@ function searchTaskCost(moduleCost){
 		async: false
 	});
 
-	return moduleCost - checkdDb.responseJSON;
+	var moduleCost = (moduleCost - checkdDb.responseJSON).toFixed(4) + "";
+	if(moduleCost.split('.')[1] == "0000"){
+		moduleCost = moduleCost.split('.')[0]
+	}else if(parseInt(moduleCost.split('.')[1]) % 10 == 0){
+		if(parseInt(moduleCost.split('.')[1]) % 1000 == 0){
+			moduleCost = moduleCost.split('.')[0] + "." + parseInt(moduleCost.split('.')[1]) / 1000;
+		}else if(parseInt(moduleCost.split('.')[1]) % 100 == 0){
+			moduleCost = moduleCost.split('.')[0] + "." + parseInt(moduleCost.split('.')[1]) / 100;	
+		}else if(parseInt(moduleCost.split('.')[1]) % 10 == 0){
+			moduleCost = moduleCost.split('.')[0] + "." + parseInt(moduleCost.split('.')[1]) / 10;	
+		}
+	}
+
+	return moduleCost;
 }
 
 var empLastName = [];

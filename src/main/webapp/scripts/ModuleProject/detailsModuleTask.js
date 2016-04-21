@@ -594,6 +594,7 @@ function saveDataToDataBase(id) {
 
                                     $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                                     $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
+                                    $("#txtBalancTaskCost").val($("#lblModuleCostBalance").text());
                                 }else if(xhr.status == 500){
                                     bootbox.alert(Message.MSG_SAVE_FAILED);
                                 }
