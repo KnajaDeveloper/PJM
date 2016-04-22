@@ -56,6 +56,8 @@ function searchDataTask() {
 
 var dataTypeTask = [];
 var dataTypeTaskName = [];
+var dataTaskImportance = [];
+var dataTaskImportanceName = [];
 var dataEmpCode = [];
 var dataEmpName = [];
 var dataDateStart = [];
@@ -80,6 +82,9 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     var tableData = "";
 
     dataTypeTask = [];
+    dataTypeTaskName = [];
+    dataTaskImportance = [];
+    dataTaskImportanceName = [];
     dataEmpCode = [];
     dataDateStart = [];
     dataDateEnd = [];
@@ -91,6 +96,8 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     jsonData.forEach(function(value){
         dataTypeTask.push(value.typeTaskCode);
         dataTypeTaskName.push(value.typeTaskName);
+        dataTaskImportance.push(value.TaskImportanceCode);
+        dataTaskImportanceName.push(value.TaskImportanceName);
         dataEmpCode.push(checkNullData(value.empCode));
 
         if(value.dateStart == null)
@@ -143,10 +150,9 @@ pagginationTask.loadTable = function loadTable (jsonData) {
     }
 };
 
-var ddlData;
 var dataTypeTaskCode = [];
-function DDLData() {
-    ddlData = $.ajax({
+function DDLDataTypeTask() {
+    var ddlDataTypeTask = $.ajax({
         headers: {
             Accept: "application/json"
         },
@@ -160,13 +166,37 @@ function DDLData() {
     });
 
     dataTypeTaskCode = [];
-    ddlData = ddlData.responseJSON;
+    ddlDataTypeTask = ddlDataTypeTask.responseJSON;
     $('#ddlTypeTask').empty();
     $('#ddlTypeTask').append("<option></option>");
-    ddlData.forEach(function(value){
+    ddlDataTypeTask.forEach(function(value){
         dataTypeTaskCode.push(value.typeTaskCode);
-        var text = value.typeTaskName;
-        $('#ddlTypeTask').append("<option value=" + value.typeTaskCode + ">" + text + "</option>");
+        $('#ddlTypeTask').append("<option value=" + value.typeTaskCode + ">" + value.typeTaskName + "</option>");
+    });
+}
+
+var dataTaskImportanceCode = [];
+function DDLDataTaskImportance() {
+    var ddlDataTaskImportance = $.ajax({
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/importancetasks/findAllTaskImportance',
+        data : {},
+        complete: function(xhr){
+
+        },
+        async: false
+    });
+
+    dataTaskImportanceCode = [];
+    ddlDataTaskImportance = ddlDataTaskImportance.responseJSON;
+    $('#ddlTaskImportance').empty();
+    $('#ddlTaskImportance').append("<option></option>");
+    ddlDataTaskImportance.forEach(function(value){
+        dataTaskImportanceCode.push(value.importanceTaskCode);
+        $('#ddlTaskImportance').append("<option value=" + value.importanceTaskCode + ">" + value.importanceTaskName + "</option>");
     });
 }
 
@@ -174,6 +204,7 @@ var TaskID;
 var checkTaskName;
 var checkTaskCost;
 var checkTypeTask;
+var checkTaskImportance;
 var checkEmpName;
 var checkdateStart;
 var checkdateEnd;
@@ -221,7 +252,8 @@ function openEditTask(element){
     var id = element.parent().parent().attr("id").split('k')[1];
 
     chkAETask = 1;
-    DDLData();
+    DDLDataTypeTask();
+    DDLDataTaskImportance();
 
     $(".modal-title").text(Label.LABEL_EDIT_TASK);
     $('#txtTaskCode').val(null).popover('hide').attr('disabled', false);
@@ -260,6 +292,9 @@ function openEditTask(element){
 
     checkTypeTask = dataTypeTask[id - 1];
     $('#ddlTypeTask').val(checkTypeTask);
+
+    checkTaskImportance = dataTaskImportance[id - 1];
+    $('#ddlTaskImportance').val(checkTaskImportance);
 
     findEmpCodeByTaskID(TaskID);
 
@@ -367,6 +402,7 @@ function onClickTrTask(object){
     $('#lblTaskFollower').append(TaskFollower == "" ? "-" : TaskFollower);
     $('#lblEmpName').text(dataEmpName[id - 1] == "" ? "-" : dataEmpName[id - 1]);
     $('#lblTaskName').text(dataTypeTaskName[id - 1]);
+    $('#lblTaskImportance').text(dataTaskImportanceName[id - 1]);
     $('#lblSDate').text(dataDateStart[id - 1] == "" ? "-" : dataDateStart[id - 1]);
     $('#lblEDate').text(dataDateEnd[id - 1] == "" ? "-" : dataDateEnd[id - 1]);
 
@@ -392,7 +428,8 @@ $('#btnAddTask').click(function() {
     chkAETask = 0;
     $(".modal-title").text(Label.LABEL_ADD_TASK);
     $('#btnModalTaskNext').show();
-    DDLData();
+    DDLDataTypeTask();
+    DDLDataTaskImportance();
     $('#txtTaskCode').val(null).popover('hide').attr('disabled', false);
     $('#txtTaskName').val(null).popover('hide');
     $('#txtTaskCost').val(null).popover('hide');
@@ -456,9 +493,14 @@ var chkAETask = 0;
 //     }
 // };
 
-var index;
-function myFunction() {
-    index = (document.getElementById("ddlTypeTask").selectedIndex) - 1;
+var indexTypeTask;
+function myFunctionTypeTask() {
+    indexTypeTask = (document.getElementById("ddlTypeTask").selectedIndex) - 1;
+}
+
+var indexTaskImportance;
+function myFunctionTaskImportance() {
+    indexTaskImportance = (document.getElementById("ddlTaskImportance").selectedIndex) - 1;
 }
 
 function checkDateBeforeSaveData(dateEndTask, dateEndModule) {
@@ -544,7 +586,8 @@ function saveDataToDataBase(id) {
                             url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
                                                               '/' + $('#txtTaskName').val() +
                                                               '/' + $('#txtTaskCost').val() +
-                                                              '/' + dataTypeTaskCode[index] +
+                                                              '/' + dataTypeTaskCode[indexTypeTask] +
+                                                              '/' + dataTaskImportanceCode[indexTaskImportance] +
                                                               '/' + JSON.stringify(empCodeFollowerTask) +
                                                               '/' + empName +
                                                               '/' + dateStart +
@@ -582,7 +625,8 @@ function saveDataToDataBase(id) {
                                     
                                     $('#txtEmpNameTaskFollower1').val("");
 
-                                    DDLData();
+                                    DDLDataTypeTask();
+                                    DDLDataTaskImportance();
 
                                     var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
                                     searchDataProgram();
@@ -631,7 +675,8 @@ function saveDataToDataBase(id) {
 
             if($('#txtTaskName').val() == checkTaskName &&
                 $('#txtTaskCost').val() == checkTaskCost &&
-                dataTypeTaskCode[index] == checkTypeTask &&
+                dataTypeTaskCode[indexTypeTask] == checkTypeTask &&
+                dataTaskImportanceCode[indexTaskImportance] == checkTaskImportance &&
                 $('#txtEmpName').val() == checkEmpName &&
                 $('#dateStartProject').val() == checkdateStart &&
                 $('#dateEndProject').val() == checkdateEnd &&
@@ -662,7 +707,8 @@ function saveDataToDataBase(id) {
                                                                       '/' + $('#txtTaskCode').val() +
                                                                       '/' + $('#txtTaskName').val() +
                                                                       '/' + $('#txtTaskCost').val() +
-                                                                      '/' + dataTypeTaskCode[index] +
+                                                                      '/' + dataTypeTaskCode[indexTypeTask] +
+                                                                      '/' + dataTaskImportanceCode[indexTaskImportance] +
                                                                       '/' + JSON.stringify(empCodeFollowerTask) +
                                                                       '/' + empName +
                                                                       '/' + dateStart +
@@ -722,8 +768,9 @@ function saveDataToDataBase(id) {
 
 $('[id^=btnModalTask]').click(function() {
     var id = this.id.split('k')[1];
-    myFunction();
-    if(id === 'Cancel'){
+    myFunctionTypeTask();
+    myFunctionTaskImportance();
+    if(id == 'Cancel'){
         if(chkAETask == 1){
             var checkTaskFollower = false;
             var countTaskFollower = 0;
@@ -749,7 +796,8 @@ $('[id^=btnModalTask]').click(function() {
             
             if($('#txtTaskName').val() == checkTaskName &&
                 $('#txtTaskCost').val() == checkTaskCost &&
-                dataTypeTaskCode[index] == checkTypeTask &&
+                dataTypeTaskCode[indexTypeTask] == checkTypeTask &&
+                dataTaskImportanceCode[indexTaskImportance] == checkTaskImportance &&
                 $('#txtEmpName').val() == checkEmpName &&
                 $('#dateStartProject').val() == checkdateStart &&
                 $('#dateEndProject').val() == checkdateEnd &&
@@ -834,8 +882,8 @@ $('[id^=btnModalTask]').click(function() {
             $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else{
             if($.isNumeric($('#txtTaskCost').val())){
-                if(parseInt($('#txtTaskCost').val()) >= 0){
-                    if(($('#txtTaskCost').val().length - 1) - $('#txtTaskCost').val().indexOf('.') > 4){
+                if(parseFloat($('#txtTaskCost').val()) >= 0){
+                    if((($('#txtTaskCost').val().length - 1) - $('#txtTaskCost').val().indexOf('.')) > 4 && $('#txtTaskCost').val().indexOf('.') != -1){
                         $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_ENTER_NO_MORE_THAN_FOUR_DECIMAL_NUMBERS).popover('show');
                     }else{
                         if($.isNumeric($('#txtProgress').val()) &&
@@ -925,6 +973,7 @@ $('#btnDeleteTask').click(function() {
                 dataTaskCode = [];
                 dataTypeTask = [];
                 dataTypeTaskName = [];
+                dataTaskImportanceName = [];
                 dataEmpCode = [];
                 dataDateStart = [];
                 dataDateEnd = [];

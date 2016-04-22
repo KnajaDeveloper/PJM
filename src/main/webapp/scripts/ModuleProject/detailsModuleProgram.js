@@ -78,6 +78,7 @@ function onClickTrProgram(object) {
     $('#lblTaskFollower').text("-");
     $('#lblEmpName').text("-");
     $('#lblTaskName').text("-");
+    $('#lblTaskImportance').text("-");
     $('#lblSDate').text("-");
     $('#lblEDate').text("-");
     $('#lblFileName').text("");
