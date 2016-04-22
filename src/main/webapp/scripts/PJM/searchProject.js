@@ -262,7 +262,8 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
     }
     var checkNum = $('input[rolePm=true][status=check]').length;
     var checkBoxCheck =  $('input[rolePm=true][status=check]:checked').length;
-    if (checkBoxCheck == checkNum){
+    console.log(checkBoxCheck +"2......"+ checkNum)
+    if (checkBoxCheck >0 && checkBoxCheck == checkNum){
         $('#checkAll').prop('checked', true);
     }
     else
@@ -399,6 +400,7 @@ $('#data').on("click", "[id^=addTask_]", function () {
     $('#ResualtModule').empty();
     var tableData = "";
     var key = 1;
+    if(dataModule.length > 0 ) {
     $.each(dataModule, function (key,value) {
         tableData = ''
             + '<tr>'
@@ -421,6 +423,18 @@ $('#data').on("click", "[id^=addTask_]", function () {
         $('#ResualtModule').append(
             tableData);
     });
+    }
+    else {
+        tableData = ''
+            + '<tr class="text-center" >'
+            + '<td colspan="5" style="color: #000">'
+            + MESSAGE.ALERT_DATA_NOT_FOUND
+            + '</td>'
+            + '</tr>';
+        $('#ResualtModule').append(
+            tableData
+        );
+    }
 
         $("#modalAddModule").modal('show');
 
