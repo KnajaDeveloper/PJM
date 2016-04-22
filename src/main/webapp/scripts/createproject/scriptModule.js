@@ -370,11 +370,13 @@ function checkModal(){
 				break;
 			}
 		}
-		if(textCost.split('.')[1].length > 4){
-			$('#txtCostsModule1').attr("data-placement","bottom");
-			$('#txtCostsModule1').attr("data-content",Message.More_than_digit);
-			$('#txtCostsModule1').popover('show');
-			return false;
+		if(textCost.indexOf('.') > 0) {
+			if (textCost.split('.')[1].length > 4) {
+				$('#txtCostsModule1').attr("data-placement", "bottom");
+				$('#txtCostsModule1').attr("data-content", Message.More_than_digit);
+				$('#txtCostsModule1').popover('show');
+				return false;
+			}
 		}
 	}
 	if($("#dateStartModule").val() == "" || $("#dateStartModule").val() == " ") {
@@ -496,11 +498,13 @@ function checkEditModal(){
 				break;
 			}
 		}
-		if(textCost.split('.')[1].length > 4){
-			$('#txtCostsEditModule1').attr("data-placement","bottom");
-			$('#txtCostsEditModule1').attr("data-content",Message.More_than_digit);
-			$('#txtCostsEditModule1').popover('show');
-			return false;
+		if(textCost.indexOf('.') > 0) {
+			if (textCost.split('.')[1].length > 4) {
+				$('#txtCostsEditModule1').attr("data-placement", "bottom");
+				$('#txtCostsEditModule1').attr("data-content", Message.More_than_digit);
+				$('#txtCostsEditModule1').popover('show');
+				return false;
+			}
 		}
 	}
 	if($("#dateStartEditModule").val() == "" || $("#dateStartEditModule").val() == " ") {
