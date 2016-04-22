@@ -46,11 +46,13 @@ function checkDataProject(){
 				break;
 			}
 		}
-		if(textCost.split('.')[1].length > 4){
-			$('#txtCostsProject').attr("data-placement","bottom");
-			$('#txtCostsProject').attr("data-content",Message.More_than_digit);
-			$('#txtCostsProject').popover('show');
-			return false;
+		if(textCost.indexOf('.') > 0) {
+			if (textCost.split('.')[1].length > 4) {
+				$('#txtCostsProject').attr("data-placement", "bottom");
+				$('#txtCostsProject').attr("data-content", Message.More_than_digit);
+				$('#txtCostsProject').popover('show');
+				return false;
+			}
 		}
 	}
 	if($("#dateStartProject").val() == "" || $("#dateStartProject").val() == " ") {

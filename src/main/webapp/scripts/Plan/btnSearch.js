@@ -58,11 +58,13 @@ function checkYear(){
 			return false;
 		}
 	}
-	if(textCost.split('.')[1].length > 4){
-		$('#txtYear').attr("data-placement","bottom");
-		$('#txtYear').attr("data-content",Message.More_than_digit);
-		$('#txtYear').popover('show');
-		return false;
+	if(textCost.indexOf('.') > 0) {
+		if (textCost.split('.')[1].length > 4) {
+			$('#txtYear').attr("data-placement", "bottom");
+			$('#txtYear').attr("data-content", Message.More_than_digit);
+			$('#txtYear').popover('show');
+			return false;
+		}
 	}
 	return true;
 }

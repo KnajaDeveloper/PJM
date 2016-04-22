@@ -238,11 +238,13 @@ function checkDataBeforeSave(option){
 				break;
 			}
 		}
-		if(textCost.split('.')[1].length > 4){
-			$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
-			$('#txtIncreseCostModuleCost').attr("data-content",Message.More_than_digit);
-			$('#txtIncreseCostModuleCost').popover('show');
-			return false;
+		if(textCost.indexOf('.') > 0) {
+			if (textCost.split('.')[1].length > 4) {
+				$('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
+				$('#txtIncreseCostModuleCost').attr("data-content", Message.More_than_digit);
+				$('#txtIncreseCostModuleCost').popover('show');
+				return false;
+			}
 		}
 	}
 	return true;
