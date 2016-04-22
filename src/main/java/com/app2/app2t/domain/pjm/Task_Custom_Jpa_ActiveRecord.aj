@@ -134,7 +134,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     public static Task Task.saveTask(String taskCode, String taskName, Double taskCost,
         TypeTask typeTask, String empCode, String dateStart, String dateEnd, String fileName,
-        String detail, Integer progress, Program program) {
+        String detail, Integer progress, Program program, ImportanceTask importanceTask) {
 
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
@@ -153,6 +153,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         task.setProgress(progress);
         task.setProgram(program);
         task.setTaskStatus(ConstantApplication.getTaskStatusNew());
+        task.setImportanceTask(importanceTask);
         task.persist();
         return task;
     }
@@ -163,7 +164,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
     }
 
     public static Task Task.findEditTask(Long id, String taskCode,
-        String taskName, Double taskCost, TypeTask typeTask, String empCode,
+        String taskName, Double taskCost, TypeTask typeTask, ImportanceTask importanceTask, String empCode,
         String dateStart, String dateEnd, String fileName, String detail, Integer progress) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
@@ -174,6 +175,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         edTask.setTaskName(taskName);
         edTask.setTaskCost(taskCost);
         edTask.setTypeTask(typeTask);
+        edTask.setImportanceTask(importanceTask);
         edTask.setEmpCode(empCode.equals("null") ? null : empCode);
         if(dateStart.equals("null")){edTask.setDateStart(null);}
         else{edTask.setDateStart(new Date(convertDate(dateStart)));}     

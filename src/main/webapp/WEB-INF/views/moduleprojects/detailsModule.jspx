@@ -97,6 +97,7 @@
     <c:set var="LABEL_EDIT_TASK" scope="request"><spring:message code="L0087"/></c:set>
     <c:set var="LABEL_FILE_SIZE_OF_NO_MORE_THAN_100_MB" scope="request"><spring:message code="L0138"/></c:set>
     <c:set var="LABEL_TASK_FOLLOWER" scope="request"><spring:message code="L0139"/></c:set>
+    <c:set var="LABEL_TASK_IMPORTANCE" scope="request"><spring:message code="L0140"/></c:set>
 
     <c:set var="BUTTON_ADD_PROGRAM" scope="request"><spring:message code="B0015"/></c:set>
     <c:set var="BUTTON_ADD_TASK" scope="request"><spring:message code="B0016"/></c:set>
@@ -369,6 +370,14 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
+                                    <label class="">${LABEL_TASK_IMPORTANCE}</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label id="lblTaskImportance" class=""><jsp:text/></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
                                     <label class="">${LABEL_START_DATE}</label>
                                 </div>
                                 <div class="col-sm-9">
@@ -494,6 +503,18 @@
                                 <div class="col-sm-6">
                                     <div class="dropdown">
                                         <select class="form-control" id="ddlTypeTask"
+                                        data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><jsp:text/><span class="caret"></span>
+                                   </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-3">
+                                    <label class="control-label required">${LABEL_TASK_IMPORTANCE}</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="dropdown">
+                                        <select class="form-control" id="ddlTaskImportance"
                                         data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><jsp:text/><span class="caret"></span>
                                    </select>
                                     </div>

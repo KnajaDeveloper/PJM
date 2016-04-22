@@ -14,6 +14,7 @@ import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 @RooWebScaffold(path = "tasks", formBackingObject = Task.class)
 @RooWebJson(jsonObject = Task.class)
 public class TaskController {
+	
     @Autowired
     EmRestService emRestService;
     protected Logger LOGGER = LoggerFactory.getLogger(TaskController.class);

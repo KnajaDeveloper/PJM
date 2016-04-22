@@ -58,6 +58,8 @@ privileged aspect TaskController_Custom_Controller_Json {
                 buffer.put("taskCost", task.getTaskCost());
                 buffer.put("typeTaskCode", task.getTypeTask().getTypeTaskCode());
                 buffer.put("typeTaskName", task.getTypeTask().getTypeTaskName());
+                buffer.put("TaskImportanceCode", task.getImportanceTask().getImportanceTaskCode());
+                buffer.put("TaskImportanceName", task.getImportanceTask().getImportanceTaskName());
                 buffer.put("empCode", task.getEmpCode());
                 buffer.put("dateStart", task.getDateStart());
                 buffer.put("dateEnd", task.getDateEnd());
@@ -92,13 +94,14 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/saveTask/{taskCode}/{taskName}/{taskCost}/{typeTask}/{empCodeFollowerTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{id}",
+    @RequestMapping(value = "/saveTask/{taskCode}/{taskName}/{taskCost}/{typeTask}/{taskImportance}/{empCodeFollowerTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{id}",
                     method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.saveTask(
             @PathVariable("taskCode") String taskCode,
             @PathVariable("taskName") String taskName,
             @PathVariable("taskCost") Double taskCost,
             @PathVariable("typeTask") String typeTask,
+            @PathVariable("taskImportance") String taskImportance,
             @PathVariable("empCodeFollowerTask") String empCodeFollowerTask,
             @PathVariable("empCode") String empCode,
             @PathVariable("dateStart") String dateStart,
@@ -116,10 +119,11 @@ privileged aspect TaskController_Custom_Controller_Json {
                 Task.uploadFileAndInsertDataFile(id, taskCode, multipartHttpServletRequest);
             }
 
-            List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
-            List<Program> pg = Program.findProgramByID(id);
-            Task task = Task.saveTask(taskCode, taskName, taskCost, tt.get(0), empCode,
-                dateStart, dateEnd, fileName, detail, progress, pg.get(0));
+            List<TypeTask> typeTaskes = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
+            List<ImportanceTask> importanceTaskes = ImportanceTask.findTaskImportanceByImportanceTaskCode(taskImportance);
+            List<Program> programes = Program.findProgramByID(id);
+            Task task = Task.saveTask(taskCode, taskName, taskCost, typeTaskes.get(0), empCode,
+                dateStart, dateEnd, fileName, detail, progress, programes.get(0), importanceTaskes.get(0));
 
             JSONArray jsonArray = new JSONArray(empCodeFollowerTask);
             for(int i = 0; i < jsonArray.length(); i++){
@@ -135,7 +139,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{empCodeFollowerTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{programID}",
+    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{taskImportance}/{empCodeFollowerTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{programID}",
                     method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findEditTask(
             @PathVariable("id") Long id,
@@ -143,6 +147,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             @PathVariable("taskName") String taskName,
             @PathVariable("taskCost") Double taskCost,
             @PathVariable("typeTask") String typeTask,
+            @PathVariable("taskImportance") String taskImportance,
             @PathVariable("empCodeFollowerTask") String empCodeFollowerTask,
             @PathVariable("empCode") String empCode,
             @PathVariable("dateStart") String dateStart,
@@ -159,9 +164,10 @@ privileged aspect TaskController_Custom_Controller_Json {
             if(!fileName.equals("null")){
                 Task.uploadFileAndInsertDataFile(programID, taskCode, multipartHttpServletRequest);
             }
-            List<TypeTask> tt = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
-            Task task = Task.findEditTask(id, taskCode, taskName, taskCost, tt.get(0), empCode,
-                    dateStart, dateEnd, fileName, detail, progress);
+            List<TypeTask> typeTaskes = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
+            List<ImportanceTask> importanceTaskes = ImportanceTask.findTaskImportanceByImportanceTaskCode(taskImportance);
+            Task task = Task.findEditTask(id, taskCode, taskName, taskCost, typeTaskes.get(0), importanceTaskes.get(0),
+                    empCode, dateStart, dateEnd, fileName, detail, progress);
             
             FollowerTask.findDeleteFollowerTask(id);
 
