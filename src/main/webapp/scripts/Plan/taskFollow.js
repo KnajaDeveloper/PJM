@@ -32,23 +32,23 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
             tableData = ''
                 + '<tr>'
                 + '<td class="text-center">'
-                + '<button id="checkTask_' + value.id + '" projectName="' + value.project.projectName
-                + '" moduleName="' + value.module.moduleName
-                + '" programName="' + value.program.programName + '" taskName="' + value.taskName
+                + '<button id="checkTask_' + value.id + '" projectName="' + value.project
+                + '" moduleName="' + value.module
+                + '" programName="' + value.program + '" taskName="' + value.taskName
                 + '" managerEmpCode="' + value.managerEmpCode + '" followEmpCode="' + value.followEmpCode
                 + '" class="btn btn-info btn-xs" type="button" >' +
                 '<span name="editClick" class="glyphicon glyphicon-check" aria-hidden="true" ></span></button>'
                 + '</td>'
                 + '<td id="' + value.id + '" class="text-left" style="color: #000">'
-                + value.project.projectName
+                + value.project
                 + '</td>'
                 + '</td>'
                 + '<td id="' + value.id + '" class="text-left" style="color: #000">'
-                + value.module.moduleName
+                + value.module
                 + '</td>'
                 + '</td>'
                 + '<td id="' + value.id + '" class="text-left" style="color: #000">'
-                + value.program.programName
+                + value.program
                 + '</td>'
                 + '<td id="taskName' + value.id + '" class="text-left" style="color: #000">'
                 + value.taskName
@@ -175,12 +175,12 @@ function editTaskStatus(id, status) {
         status: status
     }
     $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
+        type: "POST",
+        //contentType: "application/json; charset=utf-8",
+        //dataType: "json",
+        //headers: {
+        //    Accept: "application/json"
+        //},
         url: contextPath + '/tasks/editTaskStatus',
         data: dataJsonData,
         complete: function (xhr) {

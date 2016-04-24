@@ -355,9 +355,9 @@ privileged aspect TaskController_Custom_Controller_Json {
                         map.put("managerEmpCode", followerTask.getTask().getEmpCode());
                         map.put("followEmpCode", followerTask.getEmpCode());
                         map.put("progress", followerTask.getTask().getProgress());
-                        map.put("program", Program.findProgram(followerTask.getTask().getId()));
-                        map.put("module", ModuleProject.findModuleProject(Program.findProgram(followerTask.getTask().getId()).getModuleProject().getId()));
-                        map.put("project", Project.findProject(Program.findProgram(followerTask.getTask().getId()).getModuleProject().getProject().getId()));
+                        map.put("program", followerTask.getTask().getProgram().getProgramName());
+                        map.put("module", followerTask.getTask().getProgram().getModuleProject().getModuleName());
+                        map.put("project", followerTask.getTask().getProgram().getModuleProject().getProject().getProjectName());
                         resultSearch.add(map);
 
                     }
@@ -389,7 +389,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                 }
             }
 
-    @RequestMapping(value = "/editTaskStatus",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/editTaskStatus",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.editTaskStatus(
             @RequestParam(value = "taskId", required = false) Long taskId
             ,@RequestParam(value = "status", required = false) String status
