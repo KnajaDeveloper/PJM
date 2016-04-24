@@ -160,16 +160,16 @@ $("#addProject").click(function () {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $('#data').on("click", "[id^=editProject_]", function () {
     var projectId =  this.id.split('editProject_')[1];
-    var result =  roleProject(projectId,null);
+    //var result =  roleProject(projectId,null);
     // console.log(s);
-    if(result)
-    {
+    //if(result)
+    //{
         window.location.href = contextPath + '/projects/editproject?projectId='+projectId;
-    }
-    else
-    {
-        bootbox.alert(MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS);
-    }
+    //}
+    //else
+    //{
+    //    bootbox.alert(MESSAGE.ALERT_YOU_NOT_ACCESS_RIGHTS);
+    //}
 
 }); //-- link editProject --//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

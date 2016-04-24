@@ -118,6 +118,7 @@ pagginationModule.loadTable = function loadTable (jsonData) {
             checkPercent = checkProgress;
         }else{
             checkPercent = parseFloat(checkProgress).toFixed(4);
+            //console.log(checkPercent);
         }
         text =  ''
             +'<tr id ="trData' + key++ + '">'
