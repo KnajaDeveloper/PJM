@@ -351,4 +351,13 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+    public static Long Task.findImportanceByID(Long importance) {
+        Session session = (Session) Task.entityManager().getDelegate();
+        Criteria criteria = session.createCriteria(Task.class, "Task");
+        criteria.createAlias("Task.importanceTask", "importanceTask");
+        criteria.add(Restrictions.eq("importanceTask.id", importance));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
 }

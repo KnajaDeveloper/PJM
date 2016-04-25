@@ -13,4 +13,7 @@
 <definition extends="default" name="importancetasks/update">
         <put-attribute name="body" value="/WEB-INF/views/importancetasks/update.jspx"/>
     </definition>
+<definition extends="default" name="importancetasks/addtaskimportance">
+        <put-attribute name="body" value="/WEB-INF/views/importancetasks/addtaskimportance.jspx"/>
+    </definition>
 </tiles-definitions>
