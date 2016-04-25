@@ -159,10 +159,33 @@ function addModuleToDDL() {
     }
 }
 
+var resultTaskStatus;
 function addStatusToDDL(){
-    $("#ddlStatusTask").append("<option value='N'>"+LABEL.LABEL_NEW_TASK+"</option>");
-    $("#ddlStatusTask").append("<option value='R'>"+LABEL.LABEL_READY_TASK+"</option>");
-    $("#ddlStatusTask").append("<option value='C'>"+LABEL.LABEL_COMPLETE_TASK+"</option>");
+    resultTaskStatus = $.ajax({
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/parameterdetails/getStatusTask',
+        success: function (xhr) {
+            if (xhr.status === 201 || xhr.status === 200) {
+
+            } else if (xhr.status === 500) {
+
+            }
+        },
+        async: false
+    });
+    $("#ddlStatusTask").empty();
+    $("#ddlStatusTask").append("<option value='null'</option>");
+    for (var i = 0; i < resultTaskStatus.responseJSON.length; i++) {
+        var statusCode = resultTaskStatus.responseJSON[i].parameterValue1;
+        var text = "";
+        if (statusCode == 'N') text = LABEL.LABEL_NEW_TASK;
+        else if (statusCode == 'R') text = LABEL.LABEL_READY_TASK;
+        else if (statusCode == 'C') text = LABEL.LABEL_COMPLETE_TASK;
+        $("#ddlStatusTask").append("<option value='" + statusCode + "'>" + text + "</option>");
+    }
 }
 
 function addTaskToDDL(){
@@ -226,7 +249,8 @@ var empCode = "";
 var project,module,program,task;
 
 $('#taskFollow').on("click", "[id^=checkTask_]", function () {
-    var checkRole = $(this).attr('followempcode').split('==');
+    var checkRole = $(this).attr('followempcode');
+    checkRole+="=="+$(this).attr('managerempcode').split('==');
     if(checkRole.indexOf(""+nowUser) > -1) {
         empCode = ($(this).attr('managerEmpCode'));
         var detailFollower = getEmpDeatailToFrontEnd($(this).attr('followempcode'));
@@ -271,9 +295,9 @@ function appendLabel(detailManager,detailFollower,taskId) {
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_TASK_NAME+'</h5></label>'
         + ' <label class="control-label"><h5>'+ task +'</h5></label></div>'
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_MANAGER+'</h5></label>'
-        + ' <label class="control-label">' +detailManager+'</label></div>'
+        + ' <label class="control-label"><h5>' +detailManager+'<h5></label></div>'
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_FOLLOWER+'</h5></label>'
-        + ' <label class="control-label">' +detailFollower+'</label></div>'
+        + ' <label class="control-label"><h5>' +detailFollower+'<h5></label></div>'
         +'<div class="form-group"> <label class="radio-inline control-label col-sm-6"><input id="radioPass" type="radio" taskId="'+ taskId +'" status="C" name="optradio" checked="check"/>'+ LABEL.LABEL_PASS +'</label>'
         + '<label class="radio-inline "><input id="radioFail" type="radio" taskId="'+ taskId +'" status="N" name="optradio"/>'+ LABEL.LABEL_FAIL +'</label></div>'
     ;
@@ -289,7 +313,7 @@ function editTaskStatus(id, status) {
         status: status
     }
     $.ajax({
-        type: "GET",
+        type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {

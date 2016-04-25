@@ -24,7 +24,7 @@ $(document).ready(function (){
     $("#dateEndModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
     DateUtil.setMaxDate('dateEndProject', 'dateEndEditModule');
 
-    $("#dateStartModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
+    $("#dateStartModule").datepicker('option', 'minDate', $("#dateStartProject").val());
     $("#dateStartModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
 
     $("#dateStartProject").on('change', function () {
@@ -49,8 +49,6 @@ $(document).ready(function (){
         DateUtil.setMaxDate('dateEndProject', 'dateEndModule');
         DateUtil.setMinDate('dateStartModule','dateEndModule');
         DateUtil.setMinDate('dateStartEditModule','dateEndEditModule');
-        $("#dateStartModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
-        $("#dateStartModule").datepicker('option', 'maxDate', $("#dateEndProject").val());
     });
 
     $("#dateStartEditModule").on('change', function () {

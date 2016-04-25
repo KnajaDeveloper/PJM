@@ -146,9 +146,9 @@ function sumTaskAndOtherTask(index){
 	}
 	for(var i = 0 ; i < recieveWork.responseJSON.Plan[index].OtherTask.length ; i++){
 		var plan = {};
-		plan.name = recieveWork.responseJSON.Plan[index].OtherTask[i][0];
-		plan.dateStart = recieveWork.responseJSON.Plan[index].OtherTask[i][1];
-		plan.dateEnd = recieveWork.responseJSON.Plan[index].OtherTask[i][2];
+		plan.name = recieveWork.responseJSON.Plan[index].OtherTask[i].otherTask.taskName;
+		plan.dateStart = recieveWork.responseJSON.Plan[index].OtherTask[i].dateStart;
+		plan.dateEnd = recieveWork.responseJSON.Plan[index].OtherTask[i].dateEnd;
 		arr.push(plan);
 	}
 	return arr ;

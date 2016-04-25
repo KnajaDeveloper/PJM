@@ -360,20 +360,26 @@ function checkModal(){
 	}
 	else{
 		var textCost = ""+$("#txtCostsModule1").val();
-		var checkKey = textCost.split('');
-		for(var i=0;i<checkKey.length;i++){
-			if(!$.isNumeric(textCost)){
-				$('#txtCostsModule1').attr("data-placement","bottom");
-				$('#txtCostsModule1').attr("data-content",Message.Number_only);
-				$('#txtCostsModule1').popover('show');
-				return false;
-				break;
-			}
+		if(!$.isNumeric(textCost)){
+			$('#txtCostsModule1').attr("data-placement", "bottom");
+			$('#txtCostsModule1').attr("data-content", Message.Number_only);
+			$('#txtCostsModule1').popover('show');
+			return false;
+		}
+		else if(parseFloat(textCost) < 0) {
+			$('#txtCostsProject').attr("data-content", Message.Number_only);
+			$('#txtCostsProject').popover('show');
+			return false;
 		}
 		if(textCost.indexOf('.') > 0) {
 			if (textCost.split('.')[1].length > 4) {
 				$('#txtCostsModule1').attr("data-placement", "bottom");
 				$('#txtCostsModule1').attr("data-content", Message.More_than_digit);
+				$('#txtCostsModule1').popover('show');
+				return false;
+			}
+			else if(textCost.split('.')[1].length==0){
+				$('#txtCostsModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsModule1').popover('show');
 				return false;
 			}
@@ -489,19 +495,26 @@ function checkEditModal(){
 	}
 	else{
 		var textCost = ""+$("#txtCostsEditModule1").val();
-		var checkKey = textCost.split('');
-		for(var i=0;i<checkKey.length;i++){
-			if(!$.isNumeric(textCost)){
-				$('#txtCostsEditModule1').attr("data-placement","bottom");
-				$('#txtCostsEditModule1').attr("data-content",Message.Number_only);
-				$('#txtCostsEditModule1').popover('show');
-				break;
-			}
+		if(!$.isNumeric(textCost)){
+			$('#txtCostsEditModule1').attr("data-placement", "bottom");
+			$('#txtCostsEditModule1').attr("data-content", Message.Number_only);
+			$('#txtCostsEditModule1').popover('show');
+			return false;
+		}
+		else if(parseFloat(textCost) < 0) {
+			$('#txtCostsEditModule1').attr("data-content", Message.Number_only);
+			$('#txtCostsEditModule1').popover('show');
+			return false;
 		}
 		if(textCost.indexOf('.') > 0) {
 			if (textCost.split('.')[1].length > 4) {
 				$('#txtCostsEditModule1').attr("data-placement", "bottom");
 				$('#txtCostsEditModule1').attr("data-content", Message.More_than_digit);
+				$('#txtCostsEditModule1').popover('show');
+				return false;
+			}
+			else if(textCost.split('.')[1].length==0){
+				$('#txtCostsEditModule1').attr("data-content",Message.Number_only);
 				$('#txtCostsEditModule1').popover('show');
 				return false;
 			}

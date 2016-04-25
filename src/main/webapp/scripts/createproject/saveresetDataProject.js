@@ -37,19 +37,25 @@ function checkDataProject(){
 	}
 	else{
 		var textCost = ""+$("#txtCostsProject").val();
-		var checkKey = textCost.split('');
-		for(var i=0;i<checkKey.length;i++){
-			if(!$.isNumeric(textCost)){
-				$('#txtCostsProject').attr("data-content",Message.Number_only);
-				$('#txtCostsProject').popover('show');
-				return false;
-				break;
-			}
+		if(!$.isNumeric(textCost)){
+			$('#txtCostsProject').attr("data-content", Message.Number_only);
+			$('#txtCostsProject').popover('show');
+			return false;
+		}
+		else if(parseFloat(textCost) < 0) {
+			$('#txtCostsProject').attr("data-content", Message.Number_only);
+			$('#txtCostsProject').popover('show');
+			return false;
 		}
 		if(textCost.indexOf('.') > 0) {
 			if (textCost.split('.')[1].length > 4) {
 				$('#txtCostsProject').attr("data-placement", "bottom");
 				$('#txtCostsProject').attr("data-content", Message.More_than_digit);
+				$('#txtCostsProject').popover('show');
+				return false;
+			}
+			else if(textCost.split('.')[1].length==0){
+				$('#txtCostsProject').attr("data-content",Message.Number_only);
 				$('#txtCostsProject').popover('show');
 				return false;
 			}

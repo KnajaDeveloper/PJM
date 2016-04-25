@@ -15,7 +15,7 @@ import java.util.Map;
 privileged aspect FollowerTaskController_Custom_Controller {
 
 	@RequestMapping(value = "/workTrack", produces = "text/html")
-	public String FollowerTaskController.detailsModule(Model uiModel) {
+	public String FollowerTaskController.workTrack(Model uiModel) {
 		String userName = AuthorizeUtil.getUserName();
 		Map employee = emRestService.getEmployeeByUserName(userName);
 		String empCode = employee.get("empCode").toString();

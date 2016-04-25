@@ -438,7 +438,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                             List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getProgram().getModuleProject().getId()));
                             map.put("moduleManager" ,listMM);
                             map.put("project", task.getProgram().getModuleProject().getProject().getProjectName());
-                            map.put("follower","");
+                            map.put("follower",task.getEmpCode());
                             resultSearch.add(map);
                         }
                         return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);

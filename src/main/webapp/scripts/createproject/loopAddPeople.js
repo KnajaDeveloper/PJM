@@ -109,8 +109,8 @@ $("#btnEditAddMMem1").click(function(){
 								"</span>"+
 							"</input>"+
 						"</div>"+
-						"<button id='btnDeleteMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)' style='margin:0px;'>"+Button.Delete+"</button>" +
-					"</div>"+
+						"</div>"+
+						"<button id='btnDeleteEditMMem"+[count_elements+1]+"' type='button' class='btn btn-danger' onclick='btnDeleteEditModuleMember(this.id)' style='margin:0px;'>"+Button.Delete+"</button>" +
 				"</div>";
 	$("#subEditModuleMember").append(html);
 	countEditModuleMember++;
