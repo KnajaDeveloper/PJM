@@ -166,7 +166,7 @@ $('#btnSearchByModule').click(function () {
                         $('#grpResultModuleSearch').append(
                             '<a class="list-group-item ' + (v.empCode == null || v.empCode == '' ? 'danger' : 'success') +
                             '" taskId="' + v.id +
-                            '" taskBegin="' + (v.dateStart != null ? DateUtil.dataDateToFrontend(v.dateStart, _language) : '') + 
+                            '" taskBegin="' + (v.dateStart != null ? DateUtil.dataDateToFrontend(v.dateStart, _language) : '') +
                             '" taskEnd="' + (v.dateEnd != null ? DateUtil.dataDateToFrontend(v.dateEnd, _language) : '') +
                             '" taskType="' + (v.empCode == null || v.empCode == '' ? 'public' : 'private') +
                             '" taskCode="' + v.taskCode +
@@ -177,12 +177,13 @@ $('#btnSearchByModule').click(function () {
                             '" taskModule="' + v.program.moduleProject.moduleName +
                             '" taskDetail="' + (v.detail == null ? '' : v.detail) +
                             '" taskFile="' + (v.fileName == null ? '' : v.fileName) +
+                            '" taskImportance="' + v.importanceTask.importanceTaskName + ' (' + v.importanceTask.importanceTaskCode + ')' +
                             '" onclick="openModalAddPlan(this)">(' + v.typeTask.typeTaskName + ') ' +
                             v.taskCode + ' ' +
                             (v.dateStart == null ? '' : '[' + dataDateToShortDate(v.dateStart, _language, LABEL.SHORT_MONTH) + ' - ') +
                             (v.dateEnd == null ? '' : dataDateToShortDate(v.dateEnd, _language, LABEL.SHORT_MONTH) + ']' ) +
                             ' [' + v.taskCost + 'P]' +
-                            ' [' + 'Importance_code' + ']' +
+                            ' [' + v.importanceTask.importanceTaskCode + ']' +
                             '</a>');
                     });
                 }
@@ -194,6 +195,7 @@ $('#btnSearchByModule').click(function () {
     $('#searchTaskPart').slideUp();
     $('#searchTaskShow').show();
     $('#grpResultModuleSearch').slideDown();
+    $('#noteTask').show();
 });
 
 $('#searchTaskShow').click(function(){
@@ -201,6 +203,7 @@ $('#searchTaskShow').click(function(){
     $('#grpResultModuleSearch').hide();
     $('#lblNoResultSerchByModule').hide();
     $(this).hide();
+    $('#noteTask').hide();
 });
 
 // Add other plan -----------------------------------------------------------------------------------------------
@@ -217,6 +220,8 @@ $('#btnAddOtherPlan').click(function () {
         $('#txtPlanCost').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if(!$.isNumeric(taskCost)) {
         $('#txtPlanCost').attr('data-content', MESSAGE.COST_FORMAT).popover('show');
+    } else if(taskCost < 0){
+        $('#txtPlanCost').attr('data-content', MESSAGE.ONLY_INTEGER).popover('show');
     } else if(taskCost.indexOf('.') > 0 && taskCost.split('.')[1].length > 4) {
         $('#txtPlanCost').attr('data-content', MESSAGE.COST_DECIMAL_FORMAT).popover('show');
     } else if (dateStart.length == 0) {
@@ -294,6 +299,7 @@ function openModalAddPlan(taskElement) {
     var taskDetail = taskElement.getAttribute('taskDetail');
     var taskProgramId = taskElement.getAttribute('taskProgramId');
     var taskFile = taskElement.getAttribute('taskFile');
+    var taskImportance = taskElement.getAttribute('taskImportance');
 
     if(taskType == 'public') {
         $('#btnCancelTask').hide();
@@ -310,6 +316,7 @@ function openModalAddPlan(taskElement) {
     $('#lblAddDateBegin').html(taskBegin == '' ? '-' : taskBegin);
     $('#lblAddDateEnd').html(taskEnd == '' ? '-' : taskEnd);
     $('#txtAddTaskDetail').html(taskDetail);
+    $('#lblAddTaskImportant').html(taskImportance);
     loadAndMapFollower('lblAddTaskFollwer', taskId);
 
     $('#lblAddDownloadFile').html(taskFile);
@@ -428,7 +435,7 @@ $('#btnAddTime').click(function () {
             + '<div class="input-group">'
             + '<input id="cAddDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom"/>'
+            + '" type="text" class="form-control" data-placement="bottom" maxlength="10"/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
@@ -440,7 +447,7 @@ $('#btnAddTime').click(function () {
             + '<div class="input-group">'
             + '<input id="cAddDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom"/>'
+            + '" type="text" class="form-control" data-placement="bottom" maxlength="10"/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
@@ -607,7 +614,7 @@ function openModalEditPlan(event) {
         $('#lblEditDateBegin').html(event.taskBegin != '-'? DateUtil.dataDateToFrontend(event.taskBegin, _language) : '-').parent().parent().show();
         $('#lblEditDateEnd').html(event.taskEnd != '-'? DateUtil.dataDateToFrontend(event.taskEnd, _language): '-').parent().parent().show();
         $('#lblEditDownloadFile').html(event.taskFile).parent().parent().show();
-        $('#lblEditTaskImportant').html('').parent().parent().show();  // **
+        $('#lblEditTaskImportant').html(event.taskImportance).parent().parent().show();
         loadAndMapFollower('lblEditTaskFollwer', event.taskId);
         $('#lblEditTaskFollwer').parent().parent().show();
         $('#btnEditDownloadFile').attr('onclick', 'downloadFile("'+ event.taskProgramId +'", "' + event.taskCode + '", "' + event.taskFile + '")');
@@ -701,7 +708,7 @@ $('#btnAddTime_edit').click(function () {
             + '<div class="input-group">'
             + '<input id="cEditDateBegin_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content="" maxlength="10"/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
@@ -713,7 +720,7 @@ $('#btnAddTime_edit').click(function () {
             + '<div class="input-group">'
             + '<input id="cEditDateEnd_'
             + dateAddMaxId
-            + '" type="text" class="form-control" data-placement="bottom" data-content=""/>'
+            + '" type="text" class="form-control" data-placement="bottom" data-content="" maxlength="10"/>'
             + '<span class="input-group-addon date"><span class="glyphicon glyphicon-calendar "></span></span>'
             + '</div>'
             + '</div>'
@@ -1013,6 +1020,7 @@ function loadAndMapPlan(month, year) {
                     taskCost: v.task != null ? v.task.taskCost : v.otherTask.taskCost,
                     taskDetail: v.task != null ? (v.task.detail != null ? v.task.detail : '') : '',
                     taskFile: v.task != null ? (v.task.fileName != null ? v.task.fileName : '') : '',
+                    taskImportance: v.task != null ? (v.task.importanceTask.importanceTaskName != null ? v.task.importanceTask.importanceTaskName + ' ('+ v.task.importanceTask.importanceTaskCode + ')' : '') : '',
                     taskProgramId: v.task != null ? v.task.program.id : '',
                     taskProject: v.task != null ? v.task.program.moduleProject.project.projectName : '',
                     taskModule: v.task != null ? v.task.program.moduleProject.moduleName : '',

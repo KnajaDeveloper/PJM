@@ -97,7 +97,7 @@
     <c:set var="MESSAGE_CONFIRM_SAVE_WITH_EXPIRED" scope="request"><spring:message code="M0056"/></c:set>
 
     <c:set var="MESSAGE_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
-
+    <c:set var="MESSAGE_ONLY_INTEGER" scope="request"><spring:message code="M0067"/></c:set>
     <script>
         var MESSAGE = {};
         var LABEL = {};
@@ -127,6 +127,7 @@
         MESSAGE.FILE_NOT_FOUND = '${MESSAGE_FILE_NOT_FOUND}';
 
         MESSAGE.CONFIRM_SAVE_WITH_EXPIRED = '${MESSAGE_CONFIRM_SAVE_WITH_EXPIRED}';
+        MESSAGE.ONLY_INTEGER = '${MESSAGE_ONLY_INTEGER}';
 
         LABEL.DATE_BEGIN = '${LABEL_DATE_BEGIN}';
         LABEL.DATE_END = '${LABEL_DATE_END}';
@@ -273,7 +274,7 @@
                     </div>
                     <div class="col-sm-8">
                         <input data-content="" data-placement="bottom" type="text" class="form-control"
-                               id="txtYearSearch" name="txtYearSearch" placeholder=""/>
+                               id="txtYearSearch" name="txtYearSearch" placeholder="" maxlength="4"/>
                     </div>
                 </div>
             </div>
@@ -292,6 +293,37 @@
         <div class="col-sm-8">
             <br/>
             <div id='calendar'><jsp:text/></div>
+            <div class="row">
+                <br/>
+                <div class="col-sm-6">
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #337ab7; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Normal task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #ff8000; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Ready task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #669900; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Complete task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #cc3333; color: #fff; padding-right: 7px; padding-left: 7px;"><jsp:text/>*</span>
+                        <span style="margin-left: 5px;"> Delay task</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #999; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Other task</span>
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="background-color: #33cc33; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
+                        <span style="margin-left: 10px;"> Complete other task</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Search job -->
@@ -343,6 +375,11 @@
                             <div id="grpResultModuleSearch" class="list-group" style="height: 410px; cursor: pointer; display: none;">
                                 <jsp:text/>
                             </div>
+                            <div id="noteTask" style="display:none;">
+                                <b>Note:</b>
+                                <div style="margin-left: 20px;">Private task is green color</div>
+                                <div style="margin-left: 20px;">Public task is red color</div>
+                            </div>
                         </div>
                     </div>
 
@@ -351,7 +388,8 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <input data-content="" data-placement="bottom"
-                                           class="form-control" type="text" id="txtPlanName" placeholder="${LABEL_TASK_NAME}"/>
+                                           class="form-control" type="text" id="txtPlanName" placeholder="${LABEL_TASK_NAME}"
+                                           maxlength="255"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -359,7 +397,8 @@
                                     <div class="input-group">
                                         <input data-content="" data-placement="bottom"
                                                class="form-control" type="text" id="txtPlanCost"
-                                               placeholder="${LABEL_TASK_COST}"/>
+                                               placeholder="${LABEL_TASK_COST}"
+                                               maxlength="12"/>
                                         <span class="input-group-addon">${LABEL_POINT}</span>
                                     </div>
                                 </div>
@@ -369,7 +408,8 @@
                                     <div class="input-group">
                                         <input data-content="" data-placement="bottom"
                                                class="form-control" type="text" id="cPlanDateBegin"
-                                               placeholder="${LABEL_DATE_BEGIN}"/>
+                                               placeholder="${LABEL_DATE_BEGIN}"
+                                               maxlength="10"/>
                                         <span class="input-group-addon date">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
@@ -381,7 +421,8 @@
                                     <div class="input-group">
                                         <input data-content="" data-placement="bottom"
                                                class="form-control" type="text" id="cPlanDateEnd"
-                                               placeholder="${LABEL_DATE_END}"/>
+                                               placeholder="${LABEL_DATE_END}"
+                                               maxlength="10"/>
                                         <span class="input-group-addon date">
                                             <span class="glyphicon glyphicon-calendar "></span>
                                         </span>
@@ -434,43 +475,6 @@
             </div>
         </div>
 
-    </div>
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div style="margin-bottom: 5px;">
-                        <span style="background-color: #337ab7; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
-                        <span style="margin-left: 10px;"> Normal task</span>
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <span style="background-color: #ff8000; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
-                        <span style="margin-left: 10px;"> Ready task</span>
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <span style="background-color: #669900; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
-                        <span style="margin-left: 10px;"> Complete task</span>
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <span style="background-color: #cc3333; color: #fff; padding-right: 7px; padding-left: 7px;"><jsp:text/>*</span>
-                        <span style="margin-left: 5px;"> Delay task</span>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div style="margin-bottom: 5px;">
-                        <span style="background-color: #999; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
-                        <span style="margin-left: 10px;"> Other task</span>
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <span style="background-color: #33cc33; color: #fff; padding-right: 10px; padding-left: 10px;"><jsp:text/></span>
-                        <span style="margin-left: 10px;"> Complete other task</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-
-        </div>
     </div>
 
     <!-- Modal -->
@@ -565,7 +569,8 @@
                                         <div class="col-sm-5">
                                             <div class="input-group">
                                                 <input id="cAddDateBegin_0" type="text" class="form-control"
-                                                   data-placement="bottom" data-content=""/>
+                                                   data-placement="bottom" data-content=""
+                                                   maxlength="10"/>
                                                 <span class="input-group-addon date">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -578,7 +583,8 @@
                                         <div class="col-sm-5">
                                             <div class="input-group">
                                                 <input id="cAddDateEnd_0" type="text" class="form-control"
-                                                   data-placement="bottom" data-content=""/>
+                                                   data-placement="bottom" data-content=""
+                                                   maxlength="10"/>
                                                 <span class="input-group-addon date">
                                                     <span class="glyphicon glyphicon-calendar "></span>
                                                 </span>
@@ -594,7 +600,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-4">${LABEL_NOTE} </label>
                                 <div class="col-sm-7">
-                                    <textarea id="txtAddNote" class="form-control" rows="5">.</textarea>
+                                    <textarea id="txtAddNote" class="form-control" rows="5" maxlength="255"><jsp:text/></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -710,7 +716,8 @@
                                 <div class="col-sm-5">
                                     <div class="input-group">
                                         <input class="form-control" type="text" id="txtPercentage" name="txtPercentage"
-                                               data-placement="bottom" data-content=""/>
+                                               data-placement="bottom" data-content=""
+                                               maxlength="3"/>
                                         <span class="input-group-addon">%</span>
                                     </div>
                                 </div>
@@ -721,7 +728,8 @@
 
                                     <div class="col-sm-5">
                                         <div class="input-group">
-                                            <input id="cEditDateBegin_0" type="text" data-placement="bottom" class="form-control"/>
+                                            <input id="cEditDateBegin_0" type="text" data-placement="bottom" class="form-control"
+                                                maxlength="10"/>
                                             <span class="input-group-addon date">
                                                 <span class="glyphicon glyphicon-calendar "></span>
                                             </span>
@@ -733,7 +741,8 @@
 
                                     <div class="col-sm-5">
                                         <div class="input-group">
-                                            <input id="cEditDateEnd_0" type="text" data-placement="bottom" class="form-control"/>
+                                            <input id="cEditDateEnd_0" type="text" data-placement="bottom" class="form-control"
+                                                maxlength="10"/>
                                             <span class="input-group-addon date">
                                                 <span class="glyphicon glyphicon-calendar "></span>
                                             </span>
@@ -774,7 +783,7 @@
     <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
     <c:choose>
-        <c:when test="${lang == 'TH'}">
+        <c:when test="${lang == 'TH_TH' || lang == 'TH'}">
            <spring:url value="/resources/scripts/fullcalendar/lang/th.js" var="plancalendar_lang_th"/>
             <script src="${plancalendar_lang_th}" type="text/javascript"><!--Not Empty --></script>
         </c:when>
