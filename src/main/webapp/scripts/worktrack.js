@@ -226,7 +226,8 @@ var empCode = "";
 var project,module,program,task;
 
 $('#taskFollow').on("click", "[id^=checkTask_]", function () {
-    var checkRole = $(this).attr('followempcode').split('==');
+    var checkRole = $(this).attr('followempcode');
+    checkRole+="=="+$(this).attr('managerempcode').split('==');
     if(checkRole.indexOf(""+nowUser) > -1) {
         empCode = ($(this).attr('managerEmpCode'));
         var detailFollower = getEmpDeatailToFrontEnd($(this).attr('followempcode'));
@@ -271,9 +272,9 @@ function appendLabel(detailManager,detailFollower,taskId) {
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_TASK_NAME+'</h5></label>'
         + ' <label class="control-label"><h5>'+ task +'</h5></label></div>'
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_MANAGER+'</h5></label>'
-        + ' <label class="control-label">' +detailManager+'</label></div>'
+        + ' <label class="control-label"><h5>' +detailManager+'<h5></label></div>'
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_FOLLOWER+'</h5></label>'
-        + ' <label class="control-label">' +detailFollower+'</label></div>'
+        + ' <label class="control-label"><h5>' +detailFollower+'<h5></label></div>'
         +'<div class="form-group"> <label class="radio-inline control-label col-sm-6"><input id="radioPass" type="radio" taskId="'+ taskId +'" status="C" name="optradio" checked="check"/>'+ LABEL.LABEL_PASS +'</label>'
         + '<label class="radio-inline "><input id="radioFail" type="radio" taskId="'+ taskId +'" status="N" name="optradio"/>'+ LABEL.LABEL_FAIL +'</label></div>'
     ;
@@ -289,7 +290,7 @@ function editTaskStatus(id, status) {
         status: status
     }
     $.ajax({
-        type: "GET",
+        type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
