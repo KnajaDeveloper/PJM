@@ -228,20 +228,27 @@ function checkDataBeforeSave(option){
 	}
 	else{
 		var textCost = ""+$("#txtIncreseCostModuleCost").val();
-		var checkKey = textCost.split('');
-		for(var i=0;i<checkKey.length;i++){
-			if(!$.isNumeric(textCost)){
-				$('#txtIncreseCostModuleCost').attr("data-placement","bottom");
-				$('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
-				$('#txtIncreseCostModuleCost').popover('show');
-				return false;
-				break;
-			}
+		if(!$.isNumeric(textCost)){
+			$('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
+			$('#txtIncreseCostModuleCost').attr("data-content", Message.Number_only);
+			$('#txtIncreseCostModuleCost').popover('show');
+			return false;
+		}
+		else if(parseFloat(textCost) < 0) {
+			$('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
+			$('#txtIncreseCostModuleCost').attr("data-content", Message.Number_only);
+			$('#txtIncreseCostModuleCost').popover('show');
+			return false;
 		}
 		if(textCost.indexOf('.') > 0) {
 			if (textCost.split('.')[1].length > 4) {
 				$('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
 				$('#txtIncreseCostModuleCost').attr("data-content", Message.More_than_digit);
+				$('#txtIncreseCostModuleCost').popover('show');
+				return false;
+			}
+			else if(textCost.split('.')[1].length==0){
+				$('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
 				$('#txtIncreseCostModuleCost').popover('show');
 				return false;
 			}

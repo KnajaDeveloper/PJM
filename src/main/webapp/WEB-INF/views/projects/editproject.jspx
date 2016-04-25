@@ -15,7 +15,7 @@
 	<c:set var="LABEL_CREATE_MODULE"><spring:message javaScriptEscape="true" code="L0097"/></c:set>
 	<c:set var="LABEL_PROJECT_NAME"><spring:message javaScriptEscape="true" code="L0008"/></c:set>
 	<c:set var="LABEL_PROJECT"><spring:message javaScriptEscape="true" code="L0027"/></c:set>
-	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" code="L0089"/></c:set>
+	<c:set var="LABEL_INITIAL_NAME"><spring:message javaScriptEscape="true" code="L0076"/></c:set>
 	<c:set var="LABEL_COST"><spring:message javaScriptEscape="true" code="L0092"/></c:set>
 	<c:set var="LABEL_POINT"><spring:message javaScriptEscape="true" code="L0049"/></c:set>
 	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>

@@ -50,18 +50,23 @@ function checkYear(){
 		$('#txtYear').popover('show');
 		return false;
 	}
-	var checkKey = textYear.split('');
-	for(var i=0;i<checkKey.length;i++){
-		if(!$.isNumeric(textCost)){
-			$('#txtYear').attr("data-content",""+Message.Number_only);
+	if(!$.isNumeric(textCost)){
+		if(parseFloat(textCost) < 0) {
+			$('#txtYear').attr("data-content", "" + Message.Number_only);
 			$('#txtYear').popover('show');
 			return false;
 		}
+		return false;
 	}
 	if(textCost.indexOf('.') > 0) {
 		if (textCost.split('.')[1].length > 4) {
 			$('#txtYear').attr("data-placement", "bottom");
 			$('#txtYear').attr("data-content", Message.More_than_digit);
+			$('#txtYear').popover('show');
+			return false;
+		}
+		else if(textCost.split('.')[1].length==0){
+			$('#txtYear').attr("data-content",Message.Number_only);
 			$('#txtYear').popover('show');
 			return false;
 		}

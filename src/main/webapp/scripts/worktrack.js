@@ -159,10 +159,33 @@ function addModuleToDDL() {
     }
 }
 
+var resultTaskStatus;
 function addStatusToDDL(){
-    $("#ddlStatusTask").append("<option value='N'>"+LABEL.LABEL_NEW_TASK+"</option>");
-    $("#ddlStatusTask").append("<option value='R'>"+LABEL.LABEL_READY_TASK+"</option>");
-    $("#ddlStatusTask").append("<option value='C'>"+LABEL.LABEL_COMPLETE_TASK+"</option>");
+    resultTaskStatus = $.ajax({
+        headers: {
+            Accept: "application/json"
+        },
+        type: "GET",
+        url: contextPath + '/parameterdetails/getStatusTask',
+        success: function (xhr) {
+            if (xhr.status === 201 || xhr.status === 200) {
+
+            } else if (xhr.status === 500) {
+
+            }
+        },
+        async: false
+    });
+    $("#ddlStatusTask").empty();
+    $("#ddlStatusTask").append("<option value='null'</option>");
+    for (var i = 0; i < resultTaskStatus.responseJSON.length; i++) {
+        var statusCode = resultTaskStatus.responseJSON[i].parameterValue1;
+        var text = "";
+        if (statusCode == 'N') text = LABEL.LABEL_NEW_TASK;
+        else if (statusCode == 'R') text = LABEL.LABEL_READY_TASK;
+        else if (statusCode == 'C') text = LABEL.LABEL_COMPLETE_TASK;
+        $("#ddlStatusTask").append("<option value='" + statusCode + "'>" + text + "</option>");
+    }
 }
 
 function addTaskToDDL(){

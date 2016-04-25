@@ -308,7 +308,7 @@ function saveEditModule(object, cost) {
             }
         }
         else if (boolSameName == false) {
-            bootbox.alert("" + Message.It_has_same_names)
+
         }
     }
     else {
@@ -379,19 +379,27 @@ function checkEditModal() {
     }
     else {
         var textCost = "" + $("#txtCostsEditModule1").val();
-        var checkKey = textCost.split('');
-        for (var i = 0; i < checkKey.length; i++) {
-            if (!$.isNumeric(textCost)) {
-                $('#txtCostsEditModule1').attr("data-placement", "bottom");
-                $('#txtCostsEditModule1').attr("data-content", Message.Number_only);
-                $('#txtCostsEditModule1').popover('show');
-                break;
-            }
+        if (!$.isNumeric(textCost)) {
+            $('#txtCostsEditModule1').attr("data-placement", "bottom");
+            $('#txtCostsEditModule1').attr("data-content", Message.Number_only);
+            $('#txtCostsEditModule1').popover('show');
+            return false;
+        }
+        else if(parseFloat(textCost) < 0) {
+            $('#txtCostsEditModule1').attr("data-placement", "bottom");
+            $('#txtCostsEditModule1').attr("data-content", Message.Number_only);
+            $('#txtCostsEditModule1').popover('show');
+            return false;
         }
         if(textCost.indexOf('.') > 0) {
             if (textCost.split('.')[1].length > 4) {
                 $('#txtCostsEditModule1').attr("data-placement", "bottom");
                 $('#txtCostsEditModule1').attr("data-content", Message.More_than_digit);
+                $('#txtCostsEditModule1').popover('show');
+                return false;
+            }
+            else if(textCost.split('.')[1].length==0){
+                $('#txtCostsEditModule1').attr("data-content",Message.Number_only);
                 $('#txtCostsEditModule1').popover('show');
                 return false;
             }
@@ -436,21 +444,22 @@ function checkEditModal() {
 }
 
 function checkSameNameBeforeEdit() {
-    var count_Element = $("[id^=txtEditModuleManagerName").length;
+    var count_Element = $("[id^=txtEditModuleManagerName]").length;
     var arrManager = [];
     for (var i = 0; i < count_Element; i++) {
-        var id = $("[id^=txtEditModuleManagerName")[i].id;
-        var name = "" + $("#" + id).val();
+        var id = $("[id^=txtEditModuleManagerName]")[i].id;
+        var name = "" + $("#" + id).data('dataCode');
         if (arrManager.indexOf("" + name) < 0) arrManager.push("" + name);
         else {
             return false;
         }
     }
-    var count_Element2 = $("[id^=txtEditModuleMemberName").length;
+    var count_Element2 = $("[id^=txtEditModuleMemberName]").length;
     var arrMember = [];
     for (var i = 0; i < count_Element2; i++) {
-        var id = $("[id^=txtEditModuleMemberName")[i].id;
-        var name = "" + $("#" + id).val();
+        var id = $("[id^=txtEditModuleMemberName]")[i].id;
+        //var name = "" + $("#" + id).val();
+        var name = "" + $("#" + id).data('dataCode');
         if (arrMember.indexOf("" + name) < 0) arrMember.push("" + name);
         else {
             bootbox.alert(Message.It_has_same_names);
@@ -489,20 +498,27 @@ function checkDataProject() {
     }
     else {
         var textCost = "" + $("#txtCostsProject").val();
-        var checkKey = textCost.split('');
-        for (var i = 0; i < checkKey.length; i++) {
-            if (!$.isNumeric(textCost)) {
-                $('#txtCostsProject').attr("data-placement","bottom");
-                $('#txtCostsProject').attr("data-content", Message.Number_only);
-                $('#txtCostsProject').popover('show');
-                return false;
-                break;
-            }
+        if (!$.isNumeric(textCost)) {
+            $('#txtCostsProject').attr("data-placement", "bottom");
+            $('#txtCostsProject').attr("data-content", Message.Number_only);
+            $('#txtCostsProject').popover('show');
+            return false;
+        }
+        else if(parseFloat(textCost) < 0) {
+            $('#txtCostsProject').attr("data-placement", "bottom");
+            $('#txtCostsProject').attr("data-content", Message.Number_only);
+            $('#txtCostsProject').popover('show');
+            return false;
         }
         if(textCost.indexOf('.') > 0) {
             if (textCost.split('.')[1].length > 4) {
                 $('#txtCostsProject').attr("data-placement", "bottom");
                 $('#txtCostsProject').attr("data-content", Message.More_than_digit);
+                $('#txtCostsProject').popover('show');
+                return false;
+            }
+            else if(textCost.split('.')[1].length==0){
+                $('#txtCostsProject').attr("data-content",Message.Number_only);
                 $('#txtCostsProject').popover('show');
                 return false;
             }
@@ -565,7 +581,7 @@ function getAllModuleMember(){
 
 function SaveModule(cost) {
     var boolData = checkModal();
-    var boolCost = checkCost();
+    //var boolCost = checkCost();
     if (boolData == true) {
         if (cost == null) boolCost = checkCost($("#txtCostsModule1").val());
         else boolCost = true;
@@ -593,7 +609,6 @@ function SaveModule(cost) {
                             $("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
                             first = true;
                             keepDataForCheckChange("project","oldDataProject");
-                            saveDataProject();
                             return true;
                         }
                     },
@@ -1046,20 +1061,27 @@ function checkModal() {
     }
     else {
         var textCost = "" + $("#txtCostsModule1").val();
-        var checkKey = textCost.split('');
-        for (var i = 0; i < checkKey.length; i++) {
-            if (!$.isNumeric(textCost)){
-                $('#txtCostsModule1').attr("data-placement", "bottom");
-                $('#txtCostsModule1').attr("data-content", Message.Number_only);
-                $('#txtCostsModule1').popover('show');
-                return false;
-                break;
-            }
+        if (!$.isNumeric(textCost)){
+            $('#txtCostsModule1').attr("data-placement", "bottom");
+            $('#txtCostsModule1').attr("data-content", Message.Number_only);
+            $('#txtCostsModule1').popover('show');
+            return false;
+        }
+        else if(parseFloat(textCost) < 0) {
+            $('#txtCostsModule1').attr("data-placement", "bottom");
+            $('#txtCostsModule1').attr("data-content", Message.Number_only);
+            $('#txtCostsModule1').popover('show');
+            return false;
         }
         if(textCost.indexOf('.') > 0) {
             if (textCost.split('.')[1].length > 4) {
                 $('#txtCostsModule1').attr("data-placement", "bottom");
                 $('#txtCostsModule1').attr("data-content", Message.More_than_digit);
+                $('#txtCostsModule1').popover('show');
+                return false;
+            }
+            else if(textCost.split('.')[1].length==0){
+                $('#txtCostsModule1').attr("data-content",Message.Number_only);
                 $('#txtCostsModule1').popover('show');
                 return false;
             }
@@ -1305,18 +1327,18 @@ function checkSameNameBeforeSave() {
     var count_Element = $("[id^=txtModuleManagerName").length;
     var arrManager = [];
     for (var i = 0; i < count_Element; i++) {
-        var id = $("[id^=txtModuleManagerName")[i].id;
-        var name = "" + $("#" + id).val();
+        var id = $("[id^=txtModuleManagerName]")[i].id;
+        var name = "" + $("#" + id).data('dataCode');
         if (arrManager.indexOf("" + name) < 0) arrManager.push("" + name);
         else {
             return false;
         }
     }
-    var count_Element2 = $("[id^=txtModuleMemberName").length;
+    var count_Element2 = $("[id^=txtModuleMemberName]").length;
     var arrMember = [];
     for (var i = 0; i < count_Element2; i++) {
-        var id = $("[id^=txtModuleMemberName")[i].id;
-        var name = "" + $("#" + id).val();
+        var id = $("[id^=txtModuleMemberName]")[i].id;
+        var name = "" + $("#" + id).data('dataCode');
         if (arrMember.indexOf("" + name) < 0) arrMember.push("" + name);
         else {
             return false;
@@ -1328,7 +1350,7 @@ function checkSameNameBeforeSave() {
 function deleteModule(object) {
     var id = object.id.replace("btnDeleteModule", "subrecordsModule");
     var statusEditModule = "Y";
-    if(role!="ProjectManager"){
+    if(role=="ProjectManager") {
         var number = parseInt(id.split('subrecordsModule')[1]);
         statusEditModule = $.ajax({
             type: "GET",
@@ -1347,39 +1369,39 @@ function deleteModule(object) {
             async: false
         });
         statusEditModule = statusEditModule.responseText;
-    }
-    if(statusEditModule=="Y") {
-        if (compareData() == true) {
-            bootbox.confirm(Message.Confirm_delete, function (result) {
-                if (result == true) {
-                    var number = parseInt(id.split('subrecordsModule')[1]);
-                    var dataJsonData = {
-                        moduleCode: $("#headName" + number).text().split(')')[0].split('(')[1],
-                        projectId: projectId
+        if (statusEditModule == "Y") {
+            if (compareData() == true) {
+                bootbox.confirm(Message.Confirm_delete, function (result) {
+                    if (result == true) {
+                        var number = parseInt(id.split('subrecordsModule')[1]);
+                        var dataJsonData = {
+                            moduleCode: $("#headName" + number).text().split(')')[0].split('(')[1],
+                            projectId: projectId
+                        }
+                        reciveProject = $.ajax({
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            headers: {
+                                Accept: "application/json"
+                            },
+                            url: contextPath + '/moduleprojects/deleteModuleByModuleCodeAndProjectId',
+                            data: dataJsonData,
+                            complete: function (xhr) {
+                                if (xhr.status === 201 || xhr.status === 200) {
+                                    $("#" + id).remove();
+                                    bootbox.alert("" + Message.Delete_module_success);
+                                } else {
+                                    bootbox.alert("" + Message.Delete_module_failed);
+                                }
+                            },
+                            async: false
+                        });
                     }
-                    reciveProject = $.ajax({
-                        type: "GET",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        headers: {
-                            Accept: "application/json"
-                        },
-                        url: contextPath + '/moduleprojects/deleteModuleByModuleCodeAndProjectId',
-                        data: dataJsonData,
-                        complete: function (xhr) {
-                            if (xhr.status === 201 || xhr.status === 200) {
-                                $("#" + id).remove();
-                                bootbox.alert("" + Message.Delete_module_success);
-                            } else {
-                                bootbox.alert("" + Message.Delete_module_failed);
-                            }
-                        },
-                        async: false
-                    });
-                }
-            });
-        } else {
-            bootbox.alert(Message.Cant_make_any_action + "\n" + Message.Confirm_editing_data);
+                });
+            } else {
+                bootbox.alert(Message.Cant_make_any_action + "\n" + Message.Confirm_editing_data);
+            }
         }
     }else{
         bootbox.alert(Message.No_role);
@@ -1666,20 +1688,27 @@ function checkDataBeforeSave(option) {
     }
     else {
         var textCost = "" + $("#txtIncreseCostModuleCost").val();
-        var checkKey = textCost.split('');
-        for (var i = 0; i < checkKey.length; i++) {
-            if (!$.isNumeric(textCost)) {
-                $('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
-                $('#txtIncreseCostModuleCost').attr("data-content", Message.Number_only);
-                $('#txtIncreseCostModuleCost').popover('show');
-                return false;
-                break;
-            }
+        if (!$.isNumeric(textCost) ) {
+            $('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
+            $('#txtIncreseCostModuleCost').attr("data-content", Message.Number_only);
+            $('#txtIncreseCostModuleCost').popover('show');
+            return false;
+        }
+        else if(parseFloat(textCost) < 0) {
+            $('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
+            $('#txtIncreseCostModuleCost').attr("data-content", Message.Number_only);
+            $('#txtIncreseCostModuleCost').popover('show');
+            return false;
         }
         if(textCost.indexOf('.') > 0) {
             if (textCost.split('.')[1].length > 4) {
                 $('#txtIncreseCostModuleCost').attr("data-placement", "bottom");
                 $('#txtIncreseCostModuleCost').attr("data-content", Message.More_than_digit);
+                $('#txtIncreseCostModuleCost').popover('show');
+                return false;
+            }
+            else if(textCost.split('.')[1].length==0){
+                $('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
                 $('#txtIncreseCostModuleCost').popover('show');
                 return false;
             }
