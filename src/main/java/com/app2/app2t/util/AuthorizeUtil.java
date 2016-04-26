@@ -13,9 +13,10 @@ import java.util.HashMap;
 @Component
 @Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthorizeUtil {
-    private static String userName = null;
+
     private Map empData = new HashMap();
     private List<Map> listMenu = new ArrayList<>();
+    static String userName = null;
 
     public static String getUserName() {
         if(userName == null) {
@@ -23,8 +24,9 @@ public class AuthorizeUtil {
         }
         return userName;
     }
-    public static void setUserName(String name){
-        userName = name;
+
+    public static void setUserName(String userNameInput) {
+        userName = userNameInput;
     }
 
     public Map getEmpData() {
