@@ -325,7 +325,7 @@ function projectManagerToArrayDetail(){
 		var id = $("[id^=txtProjectManagerName]")[i].id;
 		if(arrText.indexOf($("#"+id).data("dataCode")) == -1){
 			arrText.push($("#"+id).data("dataCode"));
-			projectManager+=""+$("#"+id).val();
+			projectManager+=""+$("#"+id).data('dataCode');
 			if(i!=$("[id^=txtProjectManagerName]").length-1) projectManager+="==";
 		}
 	}

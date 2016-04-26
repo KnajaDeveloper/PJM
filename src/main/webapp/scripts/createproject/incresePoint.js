@@ -253,6 +253,11 @@ function checkDataBeforeSave(option){
 				return false;
 			}
 		}
+		if(textCost.indexOf('.')==0){
+			$('#txtIncreseCostModuleCost').attr("data-content",Message.Number_only);
+			$('#txtIncreseCostModuleCost').popover('show');
+			return false;
+		}
 	}
 	return true;
 }
