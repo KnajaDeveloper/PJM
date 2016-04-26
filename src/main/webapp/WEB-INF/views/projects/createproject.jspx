@@ -30,6 +30,7 @@
 	<c:set var="LABEL_EDIT_MODULE"><spring:message javaScriptEscape="true" code="L0096"/></c:set>
 	<c:set var="LABEL_NAME_MODAL_INCRESE_DECRESE_POINT"><spring:message javaScriptEscape="true" code="L0123"/></c:set>
 
+	<c:set var="MESSAGE_EDIT_NOT_SUCCESS"><spring:message javaScriptEscape="true" code="M0021"/></c:set>
 	<c:set var="MESSAGE_CONFIRM_DELETE"><spring:message javaScriptEscape="true" code="M0004"/></c:set>
 	<c:set var="MESSAGE_HAS_IN_PROJECT"><spring:message javaScriptEscape="true" code="M0033"/></c:set>
 	<c:set var="MESSAGE_HAS_IN_DATABASE"><spring:message javaScriptEscape="true" code="M0034"/></c:set>
@@ -127,6 +128,7 @@
 		Message.Data_no_change = '${MESSAGE_NO_CHANGE_DATA}';
 		Message.DATE_FORMAT = '${MESSAGE_DATE_FORMAT_INVALID}';
 		Message.More_than_digit = '${MESSAGE_MORE_THAN_4_DIGIT}';
+		Message.Edit_not_success = '${MESSAGE_EDIT_NOT_SUCCESS}';
 
 		Button.Delete = '${BUTTON_DELETE}';
 		Button.Edit = '${BUTTON_EDIT}';

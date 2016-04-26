@@ -166,7 +166,7 @@ function addStatusToDDL(){
             Accept: "application/json"
         },
         type: "GET",
-        url: contextPath + '/parameterdetails/getStatusTask',
+        url: contextPath + '/parameterdetails   ',
         success: function (xhr) {
             if (xhr.status === 201 || xhr.status === 200) {
 
@@ -311,14 +311,14 @@ function editTaskStatus(id, status) {
     var dataJsonData = {
         taskId: id,
         status: status
-    }
+    };
     $.ajax({
         type: "POST",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
+        //contentType: "application/json; charset=utf-8",
+        //dataType: "json",
+        //headers: {
+        //    Accept: "application/json"
+        //},
         url: contextPath + '/tasks/editTaskStatus',
         data: dataJsonData,
         complete: function (xhr) {

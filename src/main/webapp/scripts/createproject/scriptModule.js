@@ -114,7 +114,7 @@ function checkSameNameMember(text){
 	var count_Element2 = $("[id^=txtModuleMemberName]").length;
 	for(var i=0;i<count_Element2;i++){
 		var id = $("[id^=txtModuleMemberName]")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		if(name==text) {
 			return false;
 		}
@@ -159,7 +159,7 @@ function checkEditSameNameMember(text){
 	var count_Element2 = $("[id^=txtEditModuleMemberName]").length;
 	for(var i=0;i<count_Element2;i++){
 		var id = $("[id^=txtEditModuleMemberName]")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		if(name==text) {
 			return false;
 		}
@@ -384,6 +384,11 @@ function checkModal(){
 				return false;
 			}
 		}
+		if(textCost.indexOf('.')==0){
+			$('#txtCostsModule1').attr("data-content",Message.Number_only);
+			$('#txtCostsModule1').popover('show');
+			return false;
+		}
 	}
 	if($("#dateStartModule").val() == "" || $("#dateStartModule").val() == " ") {
 		$('#dateStartModule').attr("data-placement","bottom");
@@ -518,6 +523,11 @@ function checkEditModal(){
 				$('#txtCostsEditModule1').popover('show');
 				return false;
 			}
+		}
+		if(textCost.indexOf('.')==0){
+			$('#txtCostsEditModule1').attr("data-content",Message.Number_only);
+			$('#txtCostsEditModule1').popover('show');
+			return false;
 		}
 	}
 	if($("#dateStartEditModule").val() == "" || $("#dateStartEditModule").val() == " ") {
@@ -781,14 +791,14 @@ function findSameModuleManagerOrProjectManager(needKnow){
 	var arrManager = [];
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtEditModuleManagerName]")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		arrManager.push(""+name);
 	}
 	count_Element = $("[id^=txtProjectManagerName]").length;
 	var arrProjectManager = [];
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtProjectManagerName]")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		arrProjectManager.push(""+name.trim());
 	}
 	if(arrManager.indexOf(""+needKnow) >= 0){
@@ -807,7 +817,7 @@ function checkSameNameBeforeEdit(){
 	var arrManager = [];
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtEditModuleManagerName")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		if(arrManager.indexOf(""+name) < 0) arrManager.push(""+name);
 		else {
 			return false;
@@ -817,7 +827,7 @@ function checkSameNameBeforeEdit(){
 	var arrMember = [];
 	for(var i=0;i<count_Element2;i++){
 		var id = $("[id^=txtEditModuleMemberName")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		if(arrMember.indexOf(""+name) < 0) arrMember.push(""+name);
 		else {
 			bootbox.alert(Message.It_has_same_names);
@@ -832,7 +842,7 @@ function checkSameNameBeforeSave(){
 	var arrManager = [];
 	for(var i=0;i<count_Element;i++){
 		var id = $("[id^=txtModuleManagerName")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		if(arrManager.indexOf(""+name) < 0) arrManager.push(""+name);
 		else {
 			return false;
@@ -842,7 +852,7 @@ function checkSameNameBeforeSave(){
 	var arrMember = [];
 	for(var i=0;i<count_Element2;i++){
 		var id = $("[id^=txtModuleMemberName")[i].id;
-		var name = ""+$("#"+id).val();
+		var name = ""+$("#"+id).data('dataCode');
 		if(arrMember.indexOf(""+name) < 0) arrMember.push(""+name);
 		else {
 			return false;
