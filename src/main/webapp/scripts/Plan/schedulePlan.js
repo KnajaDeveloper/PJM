@@ -38,12 +38,13 @@ function addDate(dateStart,dateEnd){
 
 function addName() {
 	recieveWork = null ;
+	works = [];
 	var year = parseInt($("#txtYear").val()) ;
 	if(commonData.language == "TH") year-=543 ;
 	var start = "01/01/"+year;
 	var end = "31/12/"+year;
-	var projectId = $("#ddlProject").val();
-	if(projectId=="null") projectId=null;
+	var projectId = ""+$("#ddlProject").data('dataId');
+	if(projectId=="null" || projectId=='undefined') projectId="";
 	var moduleId = $("#ddlModule").val();
 	if(moduleId=="null") moduleId=null;
 	var teamId = $("#ddlTeam").val();
@@ -92,7 +93,7 @@ function addName() {
 		}
 	}
 	if(recieveWork.responseJSON.Name.length == 0){
-		var emptyData = "<tr><td colspan='"+diffDay+"' class='text-center'>"+Message.MS_DATA_NOT_FOUND+"</td></tr>";
+		var emptyData = "<tr><td colspan='"+diffDay+2+"' class='text-center'>"+Message.MS_DATA_NOT_FOUND+"</td></tr>";
 		$("#tableData").append(emptyData);
 	}
 
@@ -140,8 +141,9 @@ function sumTaskAndOtherTask(index){
 	for(var i = 0 ; i < recieveWork.responseJSON.Plan[index].Task.length ; i++){
 		var plan = {};
 		plan.name = recieveWork.responseJSON.Plan[index].Task[i][0];
-		plan.dateStart = recieveWork.responseJSON.Plan[index].Task[i][1];
-		plan.dateEnd = recieveWork.responseJSON.Plan[index].Task[i][2];
+		plan.dateStart = recieveWork.responseJSON.Plan[index].Task[i][2];
+		plan.dateEnd = recieveWork.responseJSON.Plan[index].Task[i][3];
+		plan.cost = recieveWork.responseJSON.Plan[index].Task[i][1];
 		arr.push(plan);
 	}
 	for(var i = 0 ; i < recieveWork.responseJSON.Plan[index].OtherTask.length ; i++){
@@ -149,6 +151,7 @@ function sumTaskAndOtherTask(index){
 		plan.name = recieveWork.responseJSON.Plan[index].OtherTask[i].otherTask.taskName;
 		plan.dateStart = recieveWork.responseJSON.Plan[index].OtherTask[i].dateStart;
 		plan.dateEnd = recieveWork.responseJSON.Plan[index].OtherTask[i].dateEnd;
+		plan.cost = recieveWork.responseJSON.Plan[index].OtherTask[i].otherTask.taskCost;
 		arr.push(plan);
 	}
 	return arr ;
@@ -165,7 +168,7 @@ function arrObjectToFormat(data,newDay){
 		if(diff>=0){
 			var diff1 = newDay - dateEnd ;
 			if(diff1<=0) {
-				textReturn += ""+data[i].name;
+				textReturn += "("+data[i].cost+") "+data[i].name;
 				if(i!=data.length-1) textReturn+="===";
 			}
 		}
@@ -216,7 +219,7 @@ function addEmptyTask(){
 	for(var i = 0 ; i < resultEmptyTask.responseJSON.Task.length ; i++){
 		var html = "";
 		html+="<tr>" +
-			"<td class='text-center' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].taskCode+"</font></td>" +
+			"<td class='text-left' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].taskName+"</font></td>" +
 			"<td class='text-left' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].program.moduleProject.moduleName+"</font></td>" +
 			"<td class='text-left' style='vertical-align: middle;'><font size='2'>"+resultEmptyTask.responseJSON.Task[i].typeTask.typeTaskName+"</font></td>" +
 			"</tr>";

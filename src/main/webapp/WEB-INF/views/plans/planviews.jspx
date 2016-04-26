@@ -9,7 +9,7 @@
 	<c:set var="LABEL_START_DATE"><spring:message javaScriptEscape="true" code="L0010"/></c:set>
 	<c:set var="LABEL_END_DATE"><spring:message javaScriptEscape="true" code="L0011"/></c:set>
 	<c:set var="LABEL_EMPLOYEE_NAME"><spring:message javaScriptEscape="true" code="L0003"/></c:set>
-	<c:set var="LABEL_TASK_NAME"><spring:message javaScriptEscape="true" code="L0033"/></c:set>
+	<c:set var="LABEL_TASK_NAME"><spring:message javaScriptEscape="true" code="L0034"/></c:set>
 	<c:set var="LABEL_TASK_TYPE_NAME"><spring:message javaScriptEscape="true" code="L0071"/></c:set>
 
 	<c:set var="BUTTON_SEARCH"><spring:message javaScriptEscape="true" code="B0002"/></c:set>

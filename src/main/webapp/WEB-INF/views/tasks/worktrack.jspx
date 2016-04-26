@@ -21,6 +21,10 @@
 	<c:set var="LABEL_FAIL" scope="request"><spring:message code="L0149"/></c:set>
 	<c:set var="LABEL_MANAGER" scope="request"><spring:message code="L0077"/></c:set>
 	<c:set var="LABEL_FOLLOWER" scope="request"><spring:message code="L0139"/></c:set>
+	<c:set var="LABEL_PROJECT" scope="request"><spring:message code="L0027"/></c:set>
+	<c:set var="LABEL_MODULE" scope="request"><spring:message code="L0009"/></c:set>
+	<c:set var="LABEL_TYPE_TASK" scope="request"><spring:message code="L0083"/></c:set>
+
 	<c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
 	<c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
 	<c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
@@ -29,71 +33,59 @@
 	<c:set var="LABEL_NEW_TASK" scope="request"><spring:message text="งานใหม่"/></c:set>
 	<c:set var="LABEL_READY_TASK" scope="request"><spring:message text="งานพร้อมทดสอบ"/></c:set>
 	<c:set var="LABEL_COMPLETE_TASK" scope="request"><spring:message text="งานที่ผ่าน"/></c:set>
+	<c:set var="LABEL_FOLLOW_TASK" scope="request"><spring:message text="ติดตามงาน"/></c:set>
+	<c:set var="LABEL_STATUS_TASK" scope="request"><spring:message text="สถานะงาน"/></c:set>
+
+	<c:set var="BUTTON_SEARCH" scope="request"><spring:message code="B0002"/></c:set>
 
 	<div id="containerData" name="cotainerData" class="col-md-12">
 		<div class="panel panel-primary">
-			<div class="panel-heading">ค้นหางาน</div><br/>
+			<div class="panel-heading">${LABEL_FOLLOW_TASK}</div><br/>
 			<div class="panel-body">
 				<form class="form-horizontal">
-					<div name="container_Project" class="form-group ">
-						<div class="col-sm-1"><!--Not--></div>
-						<div class="col-sm-8">
-						<label class="col-sm-5 control-label">โปรเจค</label>
-							<div class="col-sm-7">
-								<component:LovProject id="txtProjectName"/>
-							</div>
+					<div name="container_Project" class="form-group" >
+						<label class="col-sm-3 control-label">${LABEL_PROJECT}</label>
+						<div class="col-sm-6">
+							<component:LovProject id="txtProjectName"/>
 						</div>
-						<div class="col-sm-2"><!--Not--></div>
 					</div>
-					<div name="container_Module" class="form-group">
-						<div class="col-sm-1"><!--Not--></div>
-						<div class="col-sm-8">
-							<label class="col-sm-5 control-label">โมดูล</label>
-							<div class="col-sm-7">
-								<select id="ddlModule" class="form-control">
-									<option value="null"><!--Not Empty--></option>
-								</select>
-							</div>
+					<div class="form-group col-sm-12">
+						<label class="control-label col-sm-3">${LABEL_MODULE}</label>
+						<div class="col-sm-4">
+							<select id="ddlModule" class="form-control">
+								<option value="null"><!--Not Empty--></option>
+							</select>
 						</div>
-						<div class="col-sm-2"><!--Not--></div>
 					</div>
-					<div name="container_Team" class="form-group">
-						<div class="col-sm-1"><!--Not--></div>
-						<div class="col-sm-8">
-							<label class="col-sm-5 control-label">ชื่อผู้ติดตาม</label>
+
+					<div class="form-group col-sm-12">
+						<label class="control-label col-sm-3">${LABEL_FOLLOWER}</label>
+						<div class="col-sm-4">
+							<component:LovEmployee id="txtFollower" controller="findEmployeeByText"/>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group col-sm-6">
+							<label class="control-label col-sm-6">${LABEL_TYPE_TASK}</label>
 							<div class="col-sm-5">
-								<component:LovEmployee id="txtFollower" controller="findEmployeeByText"/>
-							</div>
-						</div>
-						<div class="col-sm-2"><!--Not--></div>
-					</div>
-					<div name="container_TypeTask" class="form-group">
-						<div class="col-sm-1"><!--Not--></div>
-						<div class="col-sm-8">
-							<label class="col-sm-5 control-label">ประเภทงาน</label>
-							<div class="col-sm-4">
 								<select id="ddlTypeTask" class="form-control">
 									<option value="null"><!--Not Empty--></option>
 								</select>
 							</div>
 						</div>
-						<div class="col-sm-2"><!--Not--></div>
-					</div>
-					<div name="container_StatuseTask" class="form-group">
-						<div class="col-sm-1"><!--Not--></div>
-						<div class="col-sm-8">
-							<label class="col-sm-5 control-label">สถานะงาน</label>
-							<div class="col-sm-4">
+
+						<div class="form-group col-sm-6">
+							<label class="control-label col-sm-2">${LABEL_STATUS_TASK}</label>
+							<div class="col-sm-5" style="padding: 0px">
 								<select id="ddlStatusTask" class="form-control">
 									<option value="null"><!--Not Empty--></option>
 								</select>
 							</div>
 						</div>
-						<div class="col-sm-2"><!--Not--></div>
 					</div>
 					<div name="btnSearchAndReset" class="form-group">
-						<div class="col-sm-6"><!--Not Empty --></div>
-						<button id="btnSearch" type="button" class="btn btn-primary">ค้นหา</button>
+						<div class="col-sm-5"><!--Not Empty --></div>
+						<button id="btnSearch" type="button" class="btn btn-primary" style="margin-left: 20px; margin-top: 5px;">${BUTTON_SEARCH}</button>
 					</div>
 				</form>
 			</div>

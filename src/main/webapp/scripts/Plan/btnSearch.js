@@ -179,6 +179,7 @@ function addDDLToModuleDDL(module){
 }
 
 function showPlan(){
+
 	clearPlan();
 	var dateStart = new Date(dataDateToDataBase($('#dateStart').val(), commonData.language));
 	var dateEnd = new Date(dataDateToDataBase($('#dateEnd').val(), commonData.language));
