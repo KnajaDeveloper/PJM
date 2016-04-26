@@ -320,6 +320,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("id", taskId));
         List<Task> result = criteria.list();
         Task task = result.get(0);
+        if(status.equals(ConstantApplication.getTaskStatusComplete())){
+            status = ConstantApplication.getTaskStatusComplete();
+        }
+        else if(status.equals(ConstantApplication.getTaskStatusReady())){
+            status = ConstantApplication.getTaskStatusNew();
+        }
         task.setTaskStatus(status);
         task.setProgress(0);
         task.merge();
@@ -351,6 +357,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
+
     public static Long Task.findImportanceByID(Long importance) {
         Session session = (Session) Task.entityManager().getDelegate();
         Criteria criteria = session.createCriteria(Task.class, "Task");
@@ -358,6 +365,25 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         criteria.add(Restrictions.eq("importanceTask.id", importance));
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
+    }
+
+    public static void Task.updateTaskStatusAndProgress(Long taskId, Integer progress) {
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("id", taskId));
+        List<Task> result = criteria.list();
+        Task task = result.get(0);
+        task.setProgress(progress);
+        if(progress >= 0 && progress < 100)
+        {
+            task.setTaskStatus(ConstantApplication.getTaskStatusNew());
+        }
+        else
+        {
+            task.setTaskStatus(ConstantApplication.getTaskStatusReady());
+        }
+        task.merge();
+
     }
 
 }

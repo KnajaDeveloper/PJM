@@ -3,6 +3,7 @@
 
 package com.app2.app2t.web.pjm;
 
+import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
 import com.app2.app2t.domain.pjm.ModuleManager;
@@ -75,5 +76,40 @@ privileged aspect ProjectManagerController_Custom_Controller_Json {
         }
     }
 
+    @RequestMapping(value = "/checkRolePmAndMm", method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+    public ResponseEntity<String>ProjectManagerController.checkRolePmAndMm(
+            @RequestParam(value = "projectId", required = false) Long projectId
+
+    ){
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Content-Type","application/json;charset=UTF-8");
+        try{
+            Boolean result ;
+            String userName = AuthorizeUtil.getUserName();
+            Map employee = emRestService.getEmployeeByUserName(userName);
+            Boolean rolePm = ProjectManager.checkRoleProjects(projectId,employee.get("empCode").toString());
+            List<Project> project = Project.findProjectByIdProject(projectId);
+            List<ModuleProject> listModuleProject = ModuleProject.findAllNameModuleByProjectCode(project.get(0));
+
+            if (!rolePm) {
+                Boolean moduleProject = false ;
+                for (ModuleProject mp : listModuleProject) {
+                    Boolean moduleManager = ModuleManager.checkRoleModule(mp.getId(), employee.get("empCode").toString());
+                    if (moduleManager) {
+                        moduleProject = moduleManager;
+                        break;
+                    }
+                }
+                result = moduleProject;
+            } else {
+                result = true;
+            }
+
+            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result),headers,HttpStatus.OK);
+        }catch(Exception e){
+            LOGGER.error(e.getMessage(),e);
+            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}",headers,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

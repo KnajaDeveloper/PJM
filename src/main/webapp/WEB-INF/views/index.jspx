@@ -17,6 +17,7 @@
   <!--<input id="checkAll" class="check" type="checkbox"/>-->
 
   <c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
+  <c:set var="BUTTON_CANCEL" scope="request"><spring:message code="B0007"/></c:set>
   <c:set var="BUTTON_CLOSE" scope="request"><spring:message code="B0012"/></c:set>
   <c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
   <c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
@@ -27,6 +28,7 @@
   <c:set var="LABEL_MODULE_NAME" scope="request"><spring:message code="L0065"/></c:set>
   <c:set var="LABEL_PROGRAM_NAME" scope="request"><spring:message code="L0082"/></c:set>
   <c:set var="LABEL_PROGRESS" scope="request"><spring:message code="L0037"/></c:set>
+  <c:set var="LABEL_ADD_PROGRESS" scope="request"><spring:message code="L0167"/></c:set>
   <c:set var="LABEL_TASK_TODAY" scope="request"><spring:message code="L0144"/></c:set>
   <c:set var="LABEL_TASK_AR" scope="request"><spring:message code="L0145"/></c:set>
   <c:set var="LABEL_TASK_FOLLOW" scope="request"><spring:message code="L0146"/></c:set>
@@ -37,7 +39,10 @@
   <c:set var="MS_DATA_NOT_FOUND" scope="request"><spring:message code="M0018"/></c:set>
   <c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
   <c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
-
+  <c:set var="MS_COMPLETE_THIS_FIELD" scope="request"><spring:message code="M0002"/></c:set>
+  <c:set var="MS_COMPLETE_INTEGER_NUMBER" scope="request"><spring:message code="M0067"/></c:set>
+  <c:set var="MS_NO_INFORMATION_CHANGED" scope="request"><spring:message code="M0012"/></c:set>
+  <c:set var="MS_EDIT_CHANGED" scope="request"><spring:message code="M0031"/></c:set>
 
   <script>
     var MESSAGE = {};
@@ -45,7 +50,13 @@
     MESSAGE.MS_DATA_NOT_FOUND = '${MS_DATA_NOT_FOUND}';
     MESSAGE.MS_SAVE_SUCCESS = '${MS_SAVE_SUCCESS}';
     MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+    MESSAGE.MS_DATA_NOT_FOUND = '${MS_DATA_NOT_FOUND}';
+    MESSAGE.MS_SAVE_SUCCESS = '${MS_SAVE_SUCCESS}';
     MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
+    MESSAGE.MS_COMPLETE_THIS_FIELD = '${MS_COMPLETE_THIS_FIELD}';
+    MESSAGE.MS_COMPLETE_INTEGER_NUMBER = '${MS_COMPLETE_INTEGER_NUMBER}';
+    MESSAGE.MS_NO_INFORMATION_CHANGED = '${MS_NO_INFORMATION_CHANGED}';
+    MESSAGE.MS_EDIT_CHANGED = '${MS_EDIT_CHANGED}';
 
     var LABEL = {};
     LABEL.LABEL_PASS = '${LABEL_PASS}';
@@ -76,10 +87,13 @@
                 <table id="taskToday" class="table table-bordered table-stripted  table-hover ">
                   <thead>
                   <tr class="">
-                    <th class="text-center" style="width: 15px ;color:#000" >${LABEL_TASK_CODE}</th>
-                    <th class="text-center" style="width: 200px ;color:#000">${LABEL_TASK_NAME}</th>
-                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_START_DATE}</th>
-                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_END_DATE}</th>
+                    <th class="text-center" style="width: 10% ;color:#000">${LABEL_ADD_PROGRESS}</th>
+                    <th class="text-center" style="width: 5% ;color:#000" >${LABEL_TASK_CODE}</th>
+                    <th class="text-center" style="width: 15% ;color:#000">${LABEL_TASK_NAME}</th>
+                    <th class="text-center" style="width: 10% ;color:#000">${LABEL_START_DATE}</th>
+                    <th class="text-center" style="width: 10% ;color:#000">${LABEL_END_DATE}</th>
+                    <th class="text-center" style="width: 10% ;color:#000" >${LABEL_PROGRESS}</th>
+
                   </tr>
                   </thead>
                   <tbody id="ResualtSearchTaskToday" ></tbody>
@@ -109,10 +123,13 @@
                 <table id="taskBacklog" class="table table-bordered table-stripted  table-hover ">
                   <thead>
                   <tr class="">
-                    <th class="text-center" style="width: 15px ;color:#000">${LABEL_TASK_CODE}</th>
-                    <th class="text-center" style="width: 200px ;color:#000">${LABEL_TASK_NAME}</th>
-                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_START_DATE}</th>
-                    <th class="text-center" style="width: 40px ;color:#000">${LABEL_END_DATE}</th>
+                    <th class="text-center" style="width: 10% ;color:#000">${LABEL_ADD_PROGRESS}</th>
+                    <th class="text-center" style="width: 5% ;color:#000" >${LABEL_TASK_CODE}</th>
+                    <th class="text-center" style="width: 15% ;color:#000">${LABEL_TASK_NAME}</th>
+                    <th class="text-center" style="width: 10% ;color:#000">${LABEL_START_DATE}</th>
+                    <th class="text-center" style="width: 10% ;color:#000">${LABEL_END_DATE}</th>
+                    <th class="text-center" style="width: 10% ;color:#000" >${LABEL_PROGRESS}</th>
+
                   </tr>
                   </thead>
                   <tbody id="ResualtSearchTaskBackLog" ></tbody>
@@ -164,6 +181,146 @@
     </div>
   </div>
 
+  <div class="modal fade" id="modalProgress" role="dialog" data-backdrop="static">
+    <div class="modal-dialog ">
+
+      <!-- Modal content-->
+      <div class="modal-content ">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title">${LABEL_PROGRESS}</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="control-label col-sm-4 ">${LABEL_TASK_CODE}</label>
+              <div class="col-sm-7">
+                <div class="input-group">
+                  <label id="taskCodeToday" class="control-label col-sm-7 "></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-4 ">${LABEL_TASK_NAME}</label>
+              <div class="col-sm-7">
+                <div class="input-group">
+                  <label id="taskNameToday" class="control-label col-sm-12 "></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-4 ">${LABEL_START_DATE}</label>
+              <div class="col-sm-7">
+                <div class="input-group">
+                  <label id="taskStDateToday" class="control-label col-sm-7 "></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-4 ">${LABEL_END_DATE}</label>
+              <div class="col-sm-7">
+                <div class="input-group">
+                  <label id="taskEnDateToday" class="control-label col-sm-7 "></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-4 ">${LABEL_PROGRESS}</label>
+              <div class="col-sm-5">
+                <div class="input-group">
+                  <input class="form-control" type="text" id="progressToday" name="" maxlength="3"
+                         data-placement="bottom" />
+                  <span class="input-group-addon">%</span>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="modal-footer ">
+          <button id="btnsaveToday" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+          <button type="button" class="btn btn-primary" id="closeToday" >${BUTTON_CANCEL}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalProgressBackLog" role="dialog" data-backdrop="static">
+    <div class="modal-dialog ">
+
+      <!-- Modal content-->
+      <div class="modal-content ">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title">${LABEL_PROGRESS}</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-sm-4 ">${LABEL_TASK_CODE}</label>
+                <div class="col-sm-7">
+                  <div class="input-group">
+                    <label id="taskCodeBackLog" class="control-label col-sm-4 "></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-4 ">${LABEL_TASK_NAME}</label>
+                <div class="col-sm-7">
+                  <div class="input-group">
+                    <label id="taskNameBackLog" class="control-label col-sm-12 "></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-4 ">${LABEL_START_DATE}</label>
+                <div class="col-sm-7">
+                  <div class="input-group">
+                    <label id="taskStDateBackLog" class="control-label col-sm-4 "></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-4 ">${LABEL_END_DATE}</label>
+                <div class="col-sm-7">
+                  <div class="input-group">
+                    <label id="taskEnDateBackLog" class="control-label col-sm-4 "></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-4 ">${LABEL_PROGRESS}</label>
+                <div class="col-sm-5">
+                  <div class="input-group">
+                    <input class="form-control" type="text" id="txtProgressBackLog" name="" maxlength="3"
+                           data-placement="bottom" data-content=""/>
+                    <span class="input-group-addon">%</span>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+        <div class="modal-footer ">
+          <button id="btnsaveBackLog" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+          <button  type="button" class="btn btn-primary" id="closeBaclLog" >${BUTTON_CANCEL}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade" id="modalFollowTask" role="dialog" data-backdrop="static">
     <div class="modal-dialog ">
 
@@ -186,6 +343,10 @@
     </div>
   </div>
 
+  <script>
+    var contextPath = '${pageContext.request.contextPath}';
+  </script>
+
   <spring:url value="/resources/scripts/component/UtilDate.js" var="UtilDate"/>
   <script src="${UtilDate}" type="text/javascript"><!--Not Empty --></script>
 
@@ -206,9 +367,5 @@
 
   <spring:url value="/resources/scripts/Plan/taskFollow.js" var="taskFollow"/>
   <script src="${taskFollow}" type="text/javascript"><!--Not Empty --></script>
-
-  <script>
-    var contextPath = '${pageContext.request.contextPath}';
-  </script>
 
 </div>
