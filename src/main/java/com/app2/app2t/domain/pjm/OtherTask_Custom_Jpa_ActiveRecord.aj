@@ -3,6 +3,7 @@
 
 package com.app2.app2t.domain.pjm;
 
+import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -49,6 +50,17 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(OtherTask.class);
         criteria.add(Restrictions.eq("empCode", empCode));
         return criteria.list();
+    }
+
+    public static void OtherTask.updateOtherTaskProgress(Long taskId, Integer progress) {
+        EntityManager ent = OtherTask.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(OtherTask.class);
+        criteria.add(Restrictions.eq("id", taskId));
+        List<OtherTask> result = criteria.list();
+        OtherTask otherTask = result.get(0);
+        otherTask.setProgress(progress);
+        otherTask.merge();
+
     }
     
 }

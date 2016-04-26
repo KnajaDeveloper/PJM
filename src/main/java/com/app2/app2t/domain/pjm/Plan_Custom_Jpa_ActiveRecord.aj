@@ -353,13 +353,19 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         Date currentDate = new Date();
         String modifiedDate= new SimpleDateFormat("MM/dd/yyyy").format(currentDate);
         Date date = new Date(modifiedDate);
-//        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date2);
+//        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date);
 //        Date date = new Date ("03/01/2016");
         criteria.add(Restrictions.le("plan.dateStart",date));
         criteria.add(Restrictions.ge("plan.dateEnd",date));
 
-        criteria.createAlias("plan.task","task");
-        criteria.add(Restrictions.eq("task.empCode", empCode));
+        criteria.createAlias("plan.task","task",JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("plan.otherTask","otherTask",JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or(
+                Restrictions.eq("task.empCode", empCode),
+                Restrictions.eq("otherTask.empCode", empCode)
+        ));
+
+
         return criteria;
     }
 
@@ -391,9 +397,16 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 //        LOGGER.debug("><<><><><><><>++++++++++++++++++++++ \n" + date2);
 //        Date date = new Date ("06/01/2016");
         criteria.add(Restrictions.lt("plan.dateEnd",date));
-        criteria.createAlias("plan.task","task");
-        criteria.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusNew()));
-        criteria.add(Restrictions.eq("task.empCode", empCode));
+        criteria.createAlias("plan.task","task",JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("plan.otherTask","otherTask",JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.or(
+                Restrictions.eq("task.empCode", empCode),
+                Restrictions.eq("otherTask.empCode", empCode)
+        ));
+        criteria.add(Restrictions.or(
+                Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusNew()),
+                Restrictions.lt("otherTask.progress", 100)
+        ));
         return criteria;
     }
 

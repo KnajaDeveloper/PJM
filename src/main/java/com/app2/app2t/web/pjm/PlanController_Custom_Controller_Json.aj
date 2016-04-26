@@ -484,9 +484,19 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("stDate", plan.getDateStart());
                         map.put("enDate", plan.getDateEnd());
                         map.put("note", plan.getNote());
-                        map.put("taskCode", plan.getTask().getTaskCode());
                         map.put("id", plan.getId());
-                        map.put("taskName", plan.getTask().getTaskName());
+                        if(plan.getTask() != null){
+                            map.put("taskId", plan.getTask().getId());
+                            map.put("taskCode", plan.getTask().getTaskCode());
+                            map.put("taskName", plan.getTask().getTaskName());
+                            map.put("taskProgress", plan.getTask().getProgress());
+                        }
+                        if(plan.getOtherTask() != null){
+                            map.put("otherTaskId", plan.getOtherTask().getId());
+                            map.put("otherTaskName", plan.getOtherTask().getTaskName());
+                            map.put("otherTaskProgress", plan.getOtherTask().getProgress());
+                        }
+
                         resultSearch.add(map);
 
                     }
@@ -538,9 +548,18 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("stDate", plan.getDateStart());
                         map.put("enDate", plan.getDateEnd());
                         map.put("note", plan.getNote());
-                        map.put("taskCode", plan.getTask().getTaskCode());
                         map.put("id", plan.getId());
-                        map.put("taskName", plan.getTask().getTaskName());
+                        if(plan.getTask() != null){
+                            map.put("taskId", plan.getTask().getId());
+                            map.put("taskCode", plan.getTask().getTaskCode());
+                            map.put("taskName", plan.getTask().getTaskName());
+                            map.put("taskProgress", plan.getTask().getProgress());
+                        }
+                        if(plan.getOtherTask() != null){
+                            map.put("otherTaskId", plan.getOtherTask().getId());
+                            map.put("otherTaskName", plan.getOtherTask().getTaskName());
+                            map.put("otherTaskProgress", plan.getOtherTask().getProgress());
+                        }
                         resultSearch.add(map);
 
                     }
