@@ -213,9 +213,9 @@ var checkFileName;
 var checkDescription;
 
 var empCodeTaskFollower = [];
-var empLastNameTask = [];
-var empFirstNameTask = [];
-var empNickNameTask = [];
+var empFirstNameTaskFollower = [];
+var empLastNameTaskFollower = [];
+var empNickNameTaskFollower = [];
 
 function findEmpCodeByTaskID(TaskID){
     var valueEmp = $.ajax({
@@ -235,16 +235,16 @@ function findEmpCodeByTaskID(TaskID){
     });
 
     empCodeTaskFollower = [];
-    empFirstNameTask = [];
-    empLastNameTask = [];
-    empNickNameTask = [];
+    empFirstNameTaskFollower = [];
+    empLastNameTaskFollower = [];
+    empNickNameTaskFollower = [];
 
     valueEmp = valueEmp.responseJSON
     valueEmp.forEach(function(value){
         empCodeTaskFollower.push(value.empCode);
-        empFirstNameTask.push(value.empFirstName);
-        empLastNameTask.push(value.empLastName);
-        empNickNameTask.push(value.empNickName);
+        empFirstNameTaskFollower.push(value.empFirstName);
+        empLastNameTaskFollower.push(value.empLastName);
+        empNickNameTaskFollower.push(value.empNickName);
     });
 }
 
@@ -320,7 +320,7 @@ function openEditTask(element){
             $("#subTaskFollower").append(html);
         }
 
-        $("#" + $('[id^=txtEmpNameTaskFollower]')[i - 1].id).val(empCodeTaskFollower[i - 1] + " : " + empFirstNameTask[i - 1] + "  " + empLastNameTask[i - 1] + "  (" + empNickNameTask[i - 1] + ")");
+        $("#" + $('[id^=txtEmpNameTaskFollower]')[i - 1].id).val(empCodeTaskFollower[i - 1] + " : " + empFirstNameTaskFollower[i - 1] + "  " + empLastNameTaskFollower[i - 1] + "  (" + empNickNameTaskFollower[i - 1] + ")");
         $("#" + $('[id^=txtEmpNameTaskFollower]')[i - 1].id).data("dataCode", empCodeTaskFollower[i - 1]);
     }
 
