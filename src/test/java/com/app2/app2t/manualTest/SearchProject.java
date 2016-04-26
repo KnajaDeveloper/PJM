@@ -142,6 +142,7 @@ public class SearchProject {
     @Before
     public void setup()throws Exception
     {
+
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         insertDataTodateBase("1457456400000","1459357200000","EM001","PT01","ProjectTest1",20.0);//date 09/03/2016 - 31/03/2016
         insertDataTodateBase("1457456400000","1458061200000","EM002","PT02","ProjectTest2",30.0);//date 09/03/2016 - 16/03/2016

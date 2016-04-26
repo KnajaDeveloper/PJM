@@ -88,7 +88,7 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
 else {
     tableData = ''
         + '<tr class="text-center" >'
-        + '<td colspan="4" style="color: #000">'
+        + '<td colspan="6" style="color: #000">'
         + MESSAGE.MS_DATA_NOT_FOUND
         + '</td>'
         + '</tr>';

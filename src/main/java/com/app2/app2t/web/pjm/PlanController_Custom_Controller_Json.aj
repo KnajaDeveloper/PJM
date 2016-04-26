@@ -510,11 +510,18 @@ privileged aspect PlanController_Custom_Controller_Json {
                             map.put("taskCode", plan.getTask().getTaskCode());
                             map.put("taskName", plan.getTask().getTaskName());
                             map.put("taskProgress", plan.getTask().getProgress());
+                            map.put("stDateTask", plan.getTask().getDateStart());
+                            map.put("enDateTask", plan.getTask().getDateEnd());
+                            map.put("cost", plan.getTask().getTaskCost());
+                            map.put("importanceName", plan.getTask().getImportanceTask().getImportanceTaskName());
+                            map.put("importanceCode", plan.getTask().getImportanceTask().getImportanceTaskCode());
+                            map.put("followerName", FollowerTask.findFollowerTaskByTaskId(plan.getTask().getId()));
                         }
                         if(plan.getOtherTask() != null){
                             map.put("otherTaskId", plan.getOtherTask().getId());
                             map.put("otherTaskName", plan.getOtherTask().getTaskName());
                             map.put("otherTaskProgress", plan.getOtherTask().getProgress());
+                            map.put("cost", plan.getOtherTask().getTaskCost());
                         }
 
                         resultSearch.add(map);
