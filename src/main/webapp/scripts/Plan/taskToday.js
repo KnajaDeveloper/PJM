@@ -6,6 +6,23 @@ $(document).ready(function(){
 
 });
 
+$('#taskDetailHeaderAdd, #taskDetailHeaderEdit').click(function(){
+    var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
+
+    if(isOpenCollapse){
+        $(this).children('span').removeClass('fa-angle-up');
+        $(this).children('span').addClass('fa-angle-down');
+        $('#taskDetailPartAdd, #taskDetailPartEdit').slideUp();
+    }else{
+        $(this).children('span').removeClass('fa-angle-down');
+        $(this).children('span').addClass('fa-angle-up');
+        $('#taskDetailPartAdd, #taskDetailPartEdit').slideDown();
+    }
+
+
+});
+
+
 
 function taskTodayPlanTofirstPage() {
     var dataJsonData = {} ;
@@ -29,7 +46,7 @@ function taskTodayPlanTofirstPage() {
         var tableData1 = "";
         if(jsonData.length > 0 ) {
             jsonData.forEach(function (value) {
-                var progress,taskId,taskCode,taskName,stDate,enDate,taskType = 0 ;
+                var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,cost,importanceName,importanceCode,followerLastName,followerFirstName,taskType = 0 ;
                if(value.taskProgress != null ){
                    progress = value.taskProgress ;
                    taskId = value.taskId ;
@@ -38,6 +55,25 @@ function taskTodayPlanTofirstPage() {
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
                    enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
                    taskType = 1 ;
+                   stDateTask = DateUtil.dataDateToFrontend(value.stDateTask,_language);
+                   enDateTask = DateUtil.dataDateToFrontend(value.enDateTask,_language);
+                   cost = value.cost ;
+                   if(value.importanceName && value.importanceCode){
+                       importanceCode = value.importanceCode;
+                       importanceName = value.importanceName;
+                   }
+                   else {
+                       importanceCode = null;
+                       importanceName = null;
+                   }
+                   if(value.followerName != "") {
+                       followerLastName = value.followerName.lastName;
+                       followerFirstName = value.followerName.firstName;
+                   }
+                   else {
+                       followerLastName = null;
+                       followerFirstName = null;
+                   }
                }
                 else {
                    progress = value.otherTaskProgress ;
@@ -46,12 +82,14 @@ function taskTodayPlanTofirstPage() {
                    taskName = value.otherTaskName;
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
                    enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
+                   cost = value.cost ;
                }
                 var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
                 tableData1 = ''
                     + '<tr>'
                     + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-                    + '<button id="taskId_'+taskId+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
+                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" enDateTask="'+enDateTask+'" cost="'+cost+'" followerLastName="'+followerLastName+'" followerFirstName="'+followerFirstName+'" importanceCode="'+importanceCode+'" ' +
+                    'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
                     '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
                     + '</td>'
                 + '<td id="' + value.id + '" class="text-center" style="color: #000">'
@@ -80,7 +118,7 @@ function taskTodayPlanTofirstPage() {
         else {
                 tableData1 = ''
                     + '<tr class="text-center" >'
-                    + '<td colspan="4" style="color: #000">'
+                    + '<td colspan="6" style="color: #000">'
                     + MESSAGE.MS_DATA_NOT_FOUND
                     + '</td>'
                     + '</tr>';
@@ -94,6 +132,8 @@ function taskTodayPlanTofirstPage() {
     var idTask; var taskType ; var checkEdit ;
 $('#taskToday').on("click", "[id^=taskId_]", function () {
 
+    $('#taskDetailPartAdd, #taskDetailPartEdit').slideUp();
+
     var id = this.id.split('taskId_')[1];
     idTask = id ;
     taskType = $(this).attr('taskType');
@@ -101,8 +141,8 @@ $('#taskToday').on("click", "[id^=taskId_]", function () {
     $('#progressToday').val($(this).attr('progress'));
     $('#taskCodeToday').html($(this).attr('taskCode'));
     $('#taskNameToday').html($(this).attr('taskName'));
-    $('#taskStDateToday').html($(this).attr('stDate'));
-    $('#taskEnDateToday').html($(this).attr('enDate'));
+    $('#stDatePlan').html($(this).attr('stDate'));
+    $('#enDatePlan').html($(this).attr('enDate'));
     checkEdit =  $(this).attr('progress');
     $("#modalProgress").modal('show');
 

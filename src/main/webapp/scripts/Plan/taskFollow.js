@@ -141,6 +141,8 @@ $("#btnsave").click(function () {
     //console.log(id + taskStatus);
     editTaskStatus(id,taskStatus);
     tasktaskFollowPlanTofirstPage();
+    taskBacklogPlanTofirstPage();
+    taskTodayPlanTofirstPage();
 });
 
 

@@ -190,56 +190,105 @@
           <h4 class="modal-title">${LABEL_PROGRESS}</h4>
         </div>
         <div class="modal-body">
-          <form class="form-horizontal">
-            <div class="form-group">
-              <label class="control-label col-sm-4 ">${LABEL_TASK_CODE}</label>
-              <div class="col-sm-7">
-                <div class="input-group">
-                  <label id="taskCodeToday" class="control-label col-sm-7 "></label>
+          <div class="form-horizontal">
+            <fieldset>
+              <legend id="taskDetailHeaderEdit" style="cursor: pointer;">LABEL_TASK_DETAILS} <span class="fa fa-angle-down"></span></legend>
+              <div id="taskDetailPartEdit">
+                <div class="form-group">
+                  <label class="control-label col-sm-3">PROJECT} </label>
+                  <div class="col-sm-9">
+                    <label id="projectNameToday" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">MODULE} </label>
+                  <div class="col-sm-9">
+                    <label id="moduleNameToday" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">${LABEL_TASK_CODE}</label>
+                  <div class="col-sm-9">
+                    <label id="taskCodeToday" class="control-label text-left full-label"></label>
+                  </div>
+                  </div>
+                <div class="form-group">
+                  <label id="lblTaskName" class="control-label col-sm-3">${LABEL_TASK_NAME}</label>
+                  <div class="col-sm-9">
+                    <label id="taskNameToday" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">${LABEL_START_DATE}</label>
+                  <div class="col-sm-3">
+                    <label id="stDateTask" class="control-label text-left full-label"></label>
+                  </div>
+                  <label class="control-label col-sm-2">${LABEL_END_DATE} </label>
+                  <div class="col-sm-4">
+                    <label id="enDateTask" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">TOTAL_COST} </label>
+                  <div class="col-sm-9">
+                    <label id="lblEditTaskCost" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">IMPORTANT} </label>
+                  <div class="col-sm-9">
+                    <label id="taskImportant" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">LABEL_TASK_FOLLOWER} </label>
+                  <div class="col-sm-9">
+                    <label id="taskFollwer" class="control-label text-left full-label"></label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">LABEL_DETAILS} </label>
+                  <div class="col-sm-8">
+                    <textarea id="taskDetail" class="control-label text-left full-label" disabled="disabled">
+                      <jsp:text/>
+                    </textarea>
+                  </div>
                 </div>
               </div>
-            </div>
+            </fieldset>
+            <br/>
+            <fieldset>
+              <legend>LABEL_PLAN}</legend>
+              <div class="form-group">
+                <label class="control-label col-sm-4 ">${LABEL_PROGRESS} </label>
 
-            <div class="form-group">
-              <label class="control-label col-sm-4 ">${LABEL_TASK_NAME}</label>
-              <div class="col-sm-7">
-                <div class="input-group">
-                  <label id="taskNameToday" class="control-label col-sm-12 "></label>
+                <div class="col-sm-5">
+                  <div class="input-group">
+                  <input class="form-control" type="text" id="progressToday" name="" maxlength="3"
+                  data-placement="bottom" />
+                  <span class="input-group-addon">%</span>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div class="form-group">
+              <div class="form-group">
               <label class="control-label col-sm-4 ">${LABEL_START_DATE}</label>
               <div class="col-sm-7">
-                <div class="input-group">
-                  <label id="taskStDateToday" class="control-label col-sm-7 "></label>
-                </div>
+              <div class="input-group">
+              <label id="stDatePlan" class="control-label col-sm-7 "></label>
               </div>
-            </div>
+              </div>
+              </div>
 
-            <div class="form-group">
+              <div class="form-group">
               <label class="control-label col-sm-4 ">${LABEL_END_DATE}</label>
               <div class="col-sm-7">
-                <div class="input-group">
-                  <label id="taskEnDateToday" class="control-label col-sm-7 "></label>
-                </div>
+              <div class="input-group">
+              <label id="enDatePlan" class="control-label col-sm-7 "></label>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-4 ">${LABEL_PROGRESS}</label>
-              <div class="col-sm-5">
-                <div class="input-group">
-                  <input class="form-control" type="text" id="progressToday" name="" maxlength="3"
-                         data-placement="bottom" />
-                  <span class="input-group-addon">%</span>
-                </div>
               </div>
-            </div>
-
-          </form>
-
+              </div>
+            </fieldset>
+          </div>
         </div>
         <div class="modal-footer ">
           <button id="btnsaveToday" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
