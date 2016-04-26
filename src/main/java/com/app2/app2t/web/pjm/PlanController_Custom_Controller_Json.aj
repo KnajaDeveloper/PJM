@@ -438,25 +438,45 @@ privileged aspect PlanController_Custom_Controller_Json {
             List<ModuleManager> listManager = Plan.findEmpCodeInModuleManagerByYearAndProjectAndModuleProjectAndTeam(statProject,endProject,projectId,moduleProjectId,listEmpByTeam);
             List<ProjectManager> listProjectManager = Plan.findEmpCodeInProjectManagerByYearAndProjectAndTeam(statProject,endProject,projectId,listEmpByTeam);
             List<String> listEmpCode = new ArrayList<>();
-            String sempCode = "";
-            for(int i = 0 ; i < listMember.size() ; i++){
-                if(listEmpCode.indexOf(listMember.get(i).getEmpCode())==-1) {
+            for (int i = 0; i < listMember.size(); i++) {
+                if (listEmpCode.indexOf(listMember.get(i).getEmpCode()) == -1) {
                     listEmpCode.add(listMember.get(i).getEmpCode());
-                    sempCode+=""+listMember.get(i).getEmpCode()+"==";
                 }
             }
-            for(int i = 0 ; i < listManager.size() ; i++){
-                if(listEmpCode.indexOf(listManager.get(i).getEmpCode())==-1) listEmpCode.add(listManager.get(i).getEmpCode());
+            for (int i = 0; i < listManager.size(); i++) {
+                if (listEmpCode.indexOf(listManager.get(i).getEmpCode()) == -1)
+                    listEmpCode.add(listManager.get(i).getEmpCode());
             }
-            for(int i = 0 ; i < listProjectManager.size() ; i++){
-                if(listEmpCode.indexOf(listProjectManager.get(i).getEmpCode())==-1) listEmpCode.add(listProjectManager.get(i).getEmpCode());
+            for (int i = 0; i < listProjectManager.size(); i++) {
+                if (listEmpCode.indexOf(listProjectManager.get(i).getEmpCode()) == -1)
+                    listEmpCode.add(listProjectManager.get(i).getEmpCode());
             }
-            maps.put("Name",listEmpCode);
-            for(int i = 0 ; i < listEmpCode.size() ; i++){
-                Map<String,Object> plan = Plan.findPlansByEmpCode(listEmpCode.get(i),statProject);
+            maps.put("Name", listEmpCode);
+            for (int i = 0; i < listEmpCode.size(); i++) {
+                Map<String, Object> plan = Plan.findPlansByEmpCode(listEmpCode.get(i), statProject,endProject);
                 listPlan.add(plan);
             }
-            maps.put("Plan",listPlan);
+            maps.put("Plan", listPlan);
+
+//            else{
+//                Map planTotal = Plan.findPlansByDateStartAndDateEnd(statProject,endProject);
+//                List<Task> listTask = (List<Task>) planTotal.get("Task");
+//                for(Task task:listTask){
+//                    if (listEmpCode.indexOf(task.getEmpCode()) == -1)
+//                        listEmpCode.add(task.getEmpCode());
+//                }
+//                List<OtherTask> listOtherTask = (List<OtherTask>) planTotal.get("OtherTask");
+//                for(OtherTask task:listOtherTask){
+//                    if (listEmpCode.indexOf(task.getEmpCode()) == -1)
+//                        listEmpCode.add(task.getEmpCode());
+//                }
+//                maps.put("Name", listEmpCode);
+//                for (int i = 0; i < listEmpCode.size(); i++) {
+//                    Map<String, Object> plan = Plan.findPlansByEmpCode(listEmpCode.get(i), statProject);
+//                    listPlan.add(plan);
+//                }
+//                maps.put("Plan", listPlan);
+//            }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps),headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

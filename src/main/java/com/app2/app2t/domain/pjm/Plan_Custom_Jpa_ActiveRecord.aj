@@ -225,8 +225,8 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleMember.class , "ModuleMember");
         criteria.createAlias("ModuleMember.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("moduleProject.project", "Project", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.ge("Project.dateStart", dStart));
-        criteria.add(Restrictions.le("Project.dateStart", dEnd));
+//        criteria.add(Restrictions.ge("Project.dateStart", dStart));
+//        criteria.add(Restrictions.le("Project.dateStart", dEnd));
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
         if(moduleProjectId!="") criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleProjectId)));
         if(listEmp.size()!=0) criteria.add(Restrictions.in("ModuleMember.empCode", listEmp));
@@ -254,8 +254,8 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ModuleManager.class , "ModuleManager");
         criteria.createAlias("ModuleManager.moduleProject", "moduleProject", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("moduleProject.project", "Project", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.ge("Project.dateStart", dStart));
-        criteria.add(Restrictions.le("Project.dateStart", dEnd));
+//        criteria.add(Restrictions.ge("Project.dateStart", dStart));
+//        criteria.add(Restrictions.le("Project.dateStart", dEnd));
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
         if(moduleProjectId!="") criteria.add(Restrictions.eq("moduleProject.id", Long.parseLong(moduleProjectId)));
         if(listEmp.size()!=0) criteria.add(Restrictions.in("ModuleManager.empCode", listEmp));
@@ -282,19 +282,21 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         EntityManager ent = Plan.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(ProjectManager.class , "projectManager");
         criteria.createAlias("projectManager.project", "Project", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.ge("Project.dateStart", dStart));
-        criteria.add(Restrictions.le("Project.dateStart", dEnd));
+//        criteria.add(Restrictions.ge("Project.dateStart", dStart));
+//        criteria.add(Restrictions.le("Project.dateStart", dEnd));
         if(projectId != "") criteria.add(Restrictions.eq("Project.id", Long.parseLong(projectId)));
         if(listEmp.size()!=0) criteria.add(Restrictions.in("projectManager.empCode", listEmp));
         List<ProjectManager> listManager = criteria.list();
         return listManager;
     }
 
-    public static Map<String,Object> Plan.findPlansByEmpCode (String empCode, String statProject) throws Exception {
+    public static Map<String,Object> Plan.findPlansByEmpCode (String empCode, String statProject, String endProject) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date dStart = new Date(Long.parseLong(statProject));
+        Date dEnd = new Date(Long.parseLong(endProject));
         try {
             dStart = formatter.parse(formatter.format(dStart));
+            dEnd = formatter.parse(formatter.format(dEnd));
         }catch (ParseException e){
             e.printStackTrace();
         }
@@ -303,8 +305,10 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria.createAlias("plan.task", "Task");
         criteria.add(Restrictions.eq("Task.empCode", empCode));
         criteria.add(Restrictions.ge("plan.dateStart",dStart));
+//        criteria.add(Restrictions.le("plan.dateEnd",dEnd));
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.property("Task.taskName"))
+                .add(Projections.property("Task.taskCost"))
                 .add(Projections.property("plan.dateStart"))
                 .add(Projections.property("plan.dateEnd"))
         );
@@ -315,8 +319,10 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         criteria1.createAlias("plan.otherTask", "otherTask");
         criteria1.add(Restrictions.eq("otherTask.empCode", empCode));
         criteria1.add(Restrictions.ge("plan.dateStart",dStart));
+//        criteria.add(Restrictions.le("plan.dateEnd",dEnd));
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.property("otherTask.taskName"))
+                .add(Projections.property("otherTask.taskCost"))
                 .add(Projections.property("plan.dateStart"))
                 .add(Projections.property("plan.dateEnd"))
         );
@@ -426,6 +432,47 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         Criteria criteria = Plan.selectPlanBaclLogTofirstPage(empCode)
                 .setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
+    }
+
+    public static Map<String,Object> Plan.findPlansByDateStartAndDateEnd (String statProject,String endProject) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date dStart = new Date(Long.parseLong(statProject));
+        Date dEnd = new Date(Long.parseLong(endProject));
+        try {
+            dStart = formatter.parse(formatter.format(dStart));
+            dEnd = formatter.parse(formatter.format(dEnd));
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        EntityManager ent = Plan.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class , "plan");
+        criteria.createAlias("plan.task", "Task");
+        criteria.add(Restrictions.ge("plan.dateStart",dStart));
+        criteria.add(Restrictions.le("plan.dateEnd",dEnd));
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.property("Task.taskName"))
+                .add(Projections.property("Task.taskCost"))
+                .add(Projections.property("plan.dateStart"))
+                .add(Projections.property("plan.dateEnd"))
+        );
+        List<Plan> listTask = criteria.list();
+
+        EntityManager ent1 = Plan.entityManager();
+        Criteria criteria1 = ((Session) ent1.getDelegate()).createCriteria(Plan.class , "plan");
+        criteria1.createAlias("plan.otherTask", "otherTask");
+        criteria1.add(Restrictions.ge("plan.dateStart",dStart));
+        criteria.add(Restrictions.le("plan.dateEnd",dEnd));
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.property("otherTask.taskName"))
+                .add(Projections.property("otherTask.taskCost"))
+                .add(Projections.property("plan.dateStart"))
+                .add(Projections.property("plan.dateEnd"))
+        );
+        List<Plan> listOtherTask = criteria1.list();
+        Map<String,Object> maps = new HashMap<>();
+        maps.put("Task",listTask);
+        maps.put("OtherTask",listOtherTask);
+        return maps;
     }
 
 }
