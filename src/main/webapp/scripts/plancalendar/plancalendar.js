@@ -151,7 +151,7 @@ $('#btnSearchByModule').click(function () {
         url: contextPath + '/plans/findTaskByModuleAndTypeTask',
         data: JSON.stringify([projectCode, moduleCode, arrTypeTask, getMyTask, getOtherTask]),
         success: function (data, status, xhr) {
-            if (xhr.status === 200) {
+            if (xhr.status == 200) {
 
                 if(data.length > 10)
                     $('#grpResultModuleSearch').addClass('task-scorebar');
@@ -244,7 +244,7 @@ $('#btnAddOtherPlan').click(function () {
                 dateEnd: DateUtil.dataDateToDataBase(dateEnd, _language)
             }),
             success: function (data, status, xhr) {
-                if (xhr.status === 200) {
+                if (xhr.status == 200) {
                     bootbox.alert(MESSAGE.SAVE_COMPLETED);
                     loadAndMapPlan(_month, _year-543);
 
@@ -256,7 +256,7 @@ $('#btnAddOtherPlan').click(function () {
                     $('#cPlanDateBegin').change();
                     $('#cPlanDateEnd').change();
 
-                } else if (xhr.status === 500) {
+                } else {
                     bootbox.alert(MESSAGE.SAVE_FAILED);
                 }
             },
@@ -527,12 +527,12 @@ $('#btnSaveAddPlan').click(function () {
                         url: contextPath + '/plans/insertPlan',
                         data: JSON.stringify(plans),
                         success: function (data, status, xhr) {
-                            if (xhr.status === 200) {
+                            if (xhr.status == 200) {
                                 bootbox.alert(MESSAGE.SAVE_COMPLETED);
                                 $('#mdAddToPlan').modal('hide');
                                 $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
                                 loadAndMapPlan(_month, _year-543);
-                            } else if (xhr.status === 500) {
+                            } else {
                                 bootbox.alert(MESSAGE.SAVE_FAILED);
                             }
                         },
@@ -551,12 +551,12 @@ $('#btnSaveAddPlan').click(function () {
                 url: contextPath + '/plans/insertPlan',
                 data: JSON.stringify(plans),
                 success: function (data, status, xhr) {
-                    if (xhr.status === 200) {
+                    if (xhr.status == 200) {
                         bootbox.alert(MESSAGE.SAVE_COMPLETED);
                         $('#mdAddToPlan').modal('hide');
                         $('#grpResultModuleSearch').children('[taskId=' + taskId + ']').remove();
                         loadAndMapPlan(_month, _year-543);
-                    } else if (xhr.status === 500) {
+                    } else {
                         bootbox.alert(MESSAGE.SAVE_FAILED);
                     }
                 },
@@ -584,11 +584,11 @@ $('#btnCancelTask').click(function () {
                 url: contextPath + '/plans/cancelTask',
                 data: taskId,
                 complete: function (xhr) {
-                    if (xhr.status === 201) {
+                    if (xhr.status == 201) {
                         bootbox.alert(MESSAGE.LEAVE_COMPLETED);
                         $('#mdAddToPlan').modal('hide');
                         $('[taskId=' + taskId + ']').removeClass('success').addClass('danger');
-                    } else if (xhr.status === 500) {
+                    } else {
                         bootbox.alert(MESSAGE.LEAVE_FAILED);
                     }
                 },
@@ -827,7 +827,7 @@ $('#btnSaveEditPlan').click(function () {
                                     bootbox.alert(MESSAGE.SAVE_COMPLETED);
                                     $('#mdEditToPlan').modal('hide');
                                     loadAndMapPlan(_month, _year-543);
-                                } else if (xhr.status === 500) {
+                                } else {
                                     bootbox.alert(MESSAGE.SAVE_FAILED);
                                 }
                             },
@@ -850,7 +850,7 @@ $('#btnSaveEditPlan').click(function () {
                             bootbox.alert(MESSAGE.SAVE_COMPLETED);
                             $('#mdEditToPlan').modal('hide');
                             loadAndMapPlan(_month, _year-543);
-                        } else if (xhr.status === 500) {
+                        } else {
                             bootbox.alert(MESSAGE.SAVE_FAILED);
                         }
                     },
@@ -886,7 +886,7 @@ $('#btnDeleteEditPlan').click(function () {
                         $('#mdEditToPlan').modal('hide');
                         $('#calendar').fullCalendar('removeEvents', planId);
                         $('#calendar').fullCalendar("rerenderEvents");
-                    } else if (xhr.status === 500) {
+                    } else {
                         bootbox.alert(MESSAGE.DELETE_FAILED);
                     }
                 },
@@ -1106,7 +1106,7 @@ function loadAndMapAllProject(){
         },
         url: contextPath + '/plans/findAllProject',
         success: function (data, status, xhr) {
-            if (xhr.status === 200) {
+            if (xhr.status == 200) {
                 $.each(data, function (k, v) {
                     $('#ddlProject').append('<option value="' + v.id + '">' + v.projectName + '</option>');
                 });
@@ -1128,7 +1128,7 @@ function loadAndMapModule(projectId){
         },
         url: contextPath + '/plans/findModuleByProject?id=' + projectId,
         success: function (data, status, xhr) {
-            if (xhr.status === 200) {
+            if (xhr.status == 200) {
                 $.each(data, function (k, v) {
                     $('#ddlJobModule').append('<option value="' + v.id + '">' + v.moduleName + '</option>');
                 });
@@ -1181,7 +1181,7 @@ function loadAndMapSummaryPlan(month, year){
         },
         url: contextPath + '/plans/getTotalPlanPoint?month=' + month + '&year=' + year,
         success: function (data, status, xhr) {
-            if (xhr.status === 200){
+            if (xhr.status == 200){
                 $('#lblTaskPointInMonth').html(data.pointCompleteTaskMonth + ' ' + LABEL.POINT);
                 $('#lblTaskPointInYear').html(data.pointCompleteTaskYear + ' ' + LABEL.POINT);
                 $('#lblOtherTaskPointInMonth').html(data.pointCompleteOtherTaskMonth + ' ' + LABEL.POINT);
