@@ -3,6 +3,7 @@ package com.app2.app2t.manualtest;
 import com.app2.app2t.domain.pjm.OtherTask;
 import com.app2.app2t.domain.pjm.Task;
 import com.app2.app2t.domain.pjm.TypeTask;
+import com.app2.app2t.util.AuthorizeUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,7 +21,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,16 +37,15 @@ public class TypeTaskTest {
 
     @Autowired
     protected WebApplicationContext wac;
-
     protected MockMvc mockMvc;
 
     @Before
     public void setup()throws Exception
     {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        AuthorizeUtil.setUserName("admin");
 
-
-       TypeTask typeTask1 =  insertDataTodateBaseTypeTask("001","TypeTask1");
+        TypeTask typeTask1 =  insertDataTodateBaseTypeTask("001","TypeTask1");
         TypeTask typeTask2 = insertDataTodateBaseTypeTask("002","TypeTask2");
         TypeTask typeTask3 = insertDataTodateBaseTypeTask("003","TypeTask3");
         TypeTask typeTask4 = insertDataTodateBaseTypeTask("004","TypeTask4");
