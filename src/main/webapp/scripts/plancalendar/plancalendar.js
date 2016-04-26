@@ -1168,8 +1168,9 @@ function loadAndMapAllTaskType(){
 
 function loadAndMapSummaryPlan(month, year){
     var textMonth = $('#ddlMonthSearch option:selected').text();
+    var textYear = $('#txtYearSearch').val();
     $('#lblTaskPlanSummaryMonth, #lblOtherTaskPlanSummaryMonth').html(textMonth);
-    $('#lblTaskPlanSummaryYear, #lblOtherTaskPlanSummaryYear').html(_year);
+    $('#lblTaskPlanSummaryYear, #lblOtherTaskPlanSummaryYear').html(textYear);
 
     $.ajax({
         type: "GET",

@@ -18,12 +18,9 @@ public class AuthorizeUtil {
     private List<Map> listMenu = new ArrayList<>();
 
     public static String getUserName() {
-//        if(userName == null){
+        if(userName == null) {
             userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        ///---------- ใช้ตอนรัน J unit Test ของ SearchProject ----------///
-//            userName = "admin";
-        ///---------- ใช้ตอนรัน J unit Test ของ SearchProject ----------///
-//        }
+        }
         return userName;
     }
     public static void setUserName(String name){

@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $.ajax({
         type: "GET",
@@ -9,7 +10,7 @@ $(document).ready(function () {
         url: contextPath + '/menus/findAppMenu',
         success: function (data, status, xhr) {
             if (xhr.status === 200) {
-                
+
                 $('#menuContainer').empty();
 
                 $.each(data, function (key, menu) {
@@ -39,7 +40,7 @@ $(document).ready(function () {
                     } else if (menu.menuLevel == 2) {
                         var menuLv1 = $('[menuLv1='+ menu.parent +']');
                         menuLv1.attr('data-toggle', 'collapse');
-                        
+
                         if (menuLv1.parent().hasClass('dropdown')) {
                             $('#dropdown_menuLv1_' + menu.parent).children().children().append('<li><a menuLv2="'+ menu.id +'" href="'+ menu.link +'">'+ menuName +'</a></li>');
                         } else {
@@ -76,4 +77,9 @@ $(document).ready(function () {
         },
         async: false
     });
+
+    $('#menuContainer').on('click', '[data-toggle=collapse]',function(){
+        console.log($(this));
+    });
 });
+
