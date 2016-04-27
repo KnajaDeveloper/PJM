@@ -4,11 +4,13 @@ package com.app2.app2t.domain.pjm;
 import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import javax.persistence.EntityManager;
+
 import java.util.List;
 
 public aspect FollowerTask_Custom_Jpa_ActiveRecord {
@@ -19,7 +21,7 @@ public aspect FollowerTask_Custom_Jpa_ActiveRecord {
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(FollowerTask.class, "follow");
         criteria.add(Restrictions.eq("follow.empCode", empCode));
         criteria.createAlias("follow.task", "task");
-        criteria.add(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusReady()));
+        criteria.add(Restrictions.not(Restrictions.eq("task.taskStatus", ConstantApplication.getTaskStatusComplete())));
         return criteria;
     }
 
@@ -29,8 +31,11 @@ public aspect FollowerTask_Custom_Jpa_ActiveRecord {
 
     ) {
         Criteria criteria = FollowerTask.selectTaskFollow(empCode)
+                .addOrder(Order.desc("task.progress"))
+                .addOrder(Order.asc("task.dateEnd"))
                 .setFirstResult(firstResult)
                 .setMaxResults(maxResult);
+
         return criteria.list();
     }
     public static Long FollowerTask.taskFollowPaggingSizeTask(String empCode

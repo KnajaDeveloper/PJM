@@ -28,13 +28,16 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
     $('#ResualtSearchTaskFollow').empty();
     var tableData = "";
     if(jsonData.length > 0 ) {
+
         jsonData.forEach(function (value) {
+            var progress =  value.progress ;
+            var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
             tableData = ''
                 + '<tr>'
                 + '<td class="text-center">'
                 + '<button id="checkTask_' + value.id + '" projectName="' + value.project
                 + '" moduleName="' + value.module
-                + '" programName="' + value.program + '" taskName="' + value.taskName
+                + '" programName="' + value.program + '" status="'+value.status+'" taskName="' + value.taskName
                 + '" managerEmpCode="' + value.managerEmpCode + '" followEmpCode="' + value.followEmpCode
                 + '" class="btn btn-info btn-xs" type="button" >' +
                 '<span name="editClick" class="glyphicon glyphicon-check" aria-hidden="true" ></span></button>'
@@ -50,11 +53,12 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
                 + '<td id="' + value.id + '" class="text-left" style="color: #000">'
                 + value.program
                 + '</td>'
-                + '<td id="taskName' + value.id + '" class="text-left" style="color: #000">'
+                + '<td id="taskName_' + value.id + '" class="text-left" style="color: #000">'
                 + value.taskName
                 + '</td>'
-                + '<td id="taskName' + value.id + '" class="text-center" style="color: #000">'
-                + value.progress + '%'
+                + '<td id="' + value.id + '" class="text-center" style="">'
+                + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
+                + 'style="width: ' + progress + '%; color: black; ">' +progress + '%</div>'
                 + '</td>'
                 + '</tr>';
             $('#ResualtSearchTaskFollow').append(
@@ -110,8 +114,10 @@ var empCodeToPage = [];
 var empCode =[];
 var project,module,program,task;
 ////////////////////////////////////////////////////////////////////////////////////////
+var statusTask ;
 $('#taskFollow').on("click", "[id^=checkTask_]", function () {
     var id = this.id.split('checkTask_')[1];
+    statusTask = $(this).attr('status');
     empCode.push($(this).attr('managerEmpCode'));
     empCode.push($(this).attr('followEmpCode'));
     project = $(this).attr('projectName');
@@ -133,16 +139,24 @@ $("#close").click(function () {
 });
 
 $("#btnsave").click(function () {
-    var id = ''; var taskStatus ='';
+
+    if( statusTask == 'R'){
+        var id = ''; var taskStatus ='';
         $('input[name=optradio]:checked').each(function () {
-             id = $(this).attr('taskId');
-             taskStatus = $(this).attr('status');
+            id = $(this).attr('taskId');
+            taskStatus = $(this).attr('status');
         });
-    //console.log(id + taskStatus);
-    editTaskStatus(id,taskStatus);
-    tasktaskFollowPlanTofirstPage();
-    taskBacklogPlanTofirstPage();
-    taskTodayPlanTofirstPage();
+        //console.log(id + taskStatus);
+        editTaskStatus(id,taskStatus);
+        tasktaskFollowPlanTofirstPage();
+        taskBacklogPlanTofirstPage();
+        taskTodayPlanTofirstPage();
+    }
+    else
+    {
+        bootbox.alert('งานนี้ยังไม่ถึง 100% ไม่สามรถตรวจสอบได้');
+    }
+
 });
 
 

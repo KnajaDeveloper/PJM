@@ -503,9 +503,10 @@ privileged aspect PlanController_Custom_Controller_Json {
                         Map<String, Object> map = new HashMap<>();
                         map.put("stDate", plan.getDateStart());
                         map.put("enDate", plan.getDateEnd());
-                        map.put("note", plan.getNote());
                         map.put("id", plan.getId());
                         if(plan.getTask() != null){
+                            map.put("project", plan.getTask().getProgram().getModuleProject().getProject().getProjectName());
+                            map.put("module", plan.getTask().getProgram().getModuleProject().getModuleName());
                             map.put("taskId", plan.getTask().getId());
                             map.put("taskCode", plan.getTask().getTaskCode());
                             map.put("taskName", plan.getTask().getTaskName());
@@ -515,7 +516,14 @@ privileged aspect PlanController_Custom_Controller_Json {
                             map.put("cost", plan.getTask().getTaskCost());
                             map.put("importanceName", plan.getTask().getImportanceTask().getImportanceTaskName());
                             map.put("importanceCode", plan.getTask().getImportanceTask().getImportanceTaskCode());
-                            map.put("followerName", FollowerTask.findFollowerTaskByTaskId(plan.getTask().getId()));
+                            map.put("note", plan.getTask().getDetail());
+                            List<FollowerTask> followerTasks =  FollowerTask.findFollowerTaskByTaskId(plan.getTask().getId());
+                            if(!followerTasks.isEmpty()) {
+                                for (FollowerTask followerTask : followerTasks) {
+                                    map.put("follower",emRestService.getEmployeeByEmpCode(followerTask.getEmpCode()));
+                                }
+                            }
+
                         }
                         if(plan.getOtherTask() != null){
                             map.put("otherTaskId", plan.getOtherTask().getId());
@@ -577,15 +585,30 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("note", plan.getNote());
                         map.put("id", plan.getId());
                         if(plan.getTask() != null){
+                            map.put("project", plan.getTask().getProgram().getModuleProject().getProject().getProjectName());
+                            map.put("module", plan.getTask().getProgram().getModuleProject().getModuleName());
                             map.put("taskId", plan.getTask().getId());
                             map.put("taskCode", plan.getTask().getTaskCode());
                             map.put("taskName", plan.getTask().getTaskName());
                             map.put("taskProgress", plan.getTask().getProgress());
+                            map.put("stDateTask", plan.getTask().getDateStart());
+                            map.put("enDateTask", plan.getTask().getDateEnd());
+                            map.put("cost", plan.getTask().getTaskCost());
+                            map.put("importanceName", plan.getTask().getImportanceTask().getImportanceTaskName());
+                            map.put("importanceCode", plan.getTask().getImportanceTask().getImportanceTaskCode());
+                            map.put("note", plan.getTask().getDetail());
+                            List<FollowerTask> followerTasks =  FollowerTask.findFollowerTaskByTaskId(plan.getTask().getId());
+                            if(!followerTasks.isEmpty()) {
+                                for (FollowerTask followerTask : followerTasks) {
+                                    map.put("follower",emRestService.getEmployeeByEmpCode(followerTask.getEmpCode()));
+                                }
+                            }
                         }
                         if(plan.getOtherTask() != null){
                             map.put("otherTaskId", plan.getOtherTask().getId());
                             map.put("otherTaskName", plan.getOtherTask().getTaskName());
                             map.put("otherTaskProgress", plan.getOtherTask().getProgress());
+                            map.put("cost", plan.getOtherTask().getTaskCost());
                         }
                         resultSearch.add(map);
 
