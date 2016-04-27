@@ -6,8 +6,8 @@ function saveModuleProjectToDB(){
 	if(boolSameModuleCode==true){
 		var textdateStart = $('#dateStartModule').val();
 		var textdateEnd = $('#dateEndModule').val();
-		var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase(textdateStart, _language));
-		var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase(textdateEnd, _language));
+		var convertFormatDateStart = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase(textdateStart, _language),'EN');
+		var convertFormatDateEnd = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase(textdateEnd, _language),'EN');
 		var crateModuleProject = {
 				moduleCode:$("#txtInitialModuleName1").val() ,
 				moduleName:$("#txtModuleName1").val() ,

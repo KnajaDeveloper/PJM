@@ -9,8 +9,8 @@ function saveProjectToDB(){
 	var statusReturn ;
 		var textdateStart = $('#dateStartProject').val();
 		var textdateEnd = $('#dateEndProject').val();
-		var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase(textdateStart, _language));
-		var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase(textdateEnd, _language));
+		var convertFormatDateStart = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase(textdateStart, _language),'EN');
+		var convertFormatDateEnd =  DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase(textdateEnd, _language),'EN');
 		var crateProject = {
 			projectCode: $('#txtInitialProjectName').val(),
 			projectName: $('#txtProjectName').val(),
@@ -70,7 +70,7 @@ function updateProjectToDB(){
 			Accept: "application/json"
 		},
 		type: "POST",
-		url: contextPath + '/projects//updateProjectByIdProject',
+		url: contextPath + '/projects/updateProjectByIdProject',
 		data : crateProject,
 		complete: function(xhr){
 			if(xhr.status === 201){
@@ -240,8 +240,8 @@ function editDataModuleInDBWhenEdit(number,cost){
 	var moduleCost = $("#txtCostsEditModule1").val();
 	//if(cost!=null) moduleCost = cost ;
 	var returnStatus = false ;
-	var convertFormatDateStart = new Date(convertDate($('#dateStartEditModule').val()));
-	var convertFormatDateEnd = new Date(convertDate($('#dateEndEditModule').val()));
+	var convertFormatDateStart = DateUtil.dataDateToFrontend(convertDate($('#dateStartEditModule').val()),'EN');
+	var convertFormatDateEnd = DateUtil.dataDateToFrontend(convertDate($('#dateEndEditModule').val()),'EN');
 	var crateModuleProject = {
 		moduleNeedEdit: editModuleName,
 		moduleCode:$("#txtEditInitialModuleName1").val() ,
@@ -330,29 +330,6 @@ function projectManagerToArrayDetail(){
 		}
 	}
 	return projectManager;
-}
-
-function findSameProjectCode(){
-	var dataJsonData = {
-		projectCode:$('#txtInitialProjectName').val()
-    };
-
-    var size = $.ajax({
-		type: "GET",
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		headers: {
-			Accept: "application/json"
-		},
-		url: contextPath + '/projects/findProjectByProjectCode',
-		data : dataJsonData,
-		complete: function(xhr){
-		},
-		async: false
-	});
-    var returnSize = jQuery.parseJSON(size.responseText);
-    if(returnSize != 0) return false;
-    return true;
 }
 
 function convertDate(input){

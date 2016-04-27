@@ -106,7 +106,8 @@ $("#btnAddModule").click(function () {
             var namePM = getAllProjectManager().split("<br/>");
             $("#txtModuleMemberName1").val("" + namePM[0]);
             $("#txtModuleMemberName1").data("dataCode", "" + namePM[0].split(' ')[0]);
-            $("#txtModuleMemberName1").disableSelection();
+            $("#txtModuleMemberName1").prop('disabled',true);
+            $("#txtModuleMemberName1").prop('style','background-color:white');
             for (var i = 1; i < namePM.length - 1; i++) {
                 var count_elements = countModuleMember + 1;
                 var html = "<div style='' id='container_subModuleMember" + [count_elements + 1] + "' from='project' class='form-group'><label class='col-sm-3 control-label'></label>" +
@@ -126,7 +127,8 @@ $("#btnAddModule").click(function () {
                 $("#subModuleMember").append(html);
                 $("#txtModuleMemberName" + [count_elements + 1]).val("" + namePM[i]);
                 $("#txtModuleMemberName" + [count_elements + 1]).data("dataCode", "" + namePM[i].split(' ')[0]);
-                $("#txtModuleMemberName" + [count_elements + 1]).disableSelection();
+                $("#txtModuleMemberName"+[count_elements + 1]).prop('disabled',true);
+                $("#txtModuleMemberName"+[count_elements + 1]).prop('style','background-color:white');
                 countModuleMember++;
                 saveDataModule();
             }
@@ -337,8 +339,8 @@ function editDataModuleInDB(number, cost) {
     var moduleCost = ($("#txtCostsEditModule1").val());
     //if(cost!=null) moduleCost += cost ;
     var returnStatus = false;
-    var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase($('#dateStartEditModule').val(), _language));
-    var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase($('#dateEndEditModule').val(), _language));
+    var convertFormatDateStart = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase($('#dateStartEditModule').val(), _language),'EN');
+    var convertFormatDateEnd = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase($('#dateEndEditModule').val(), _language),'EN');
     var crateModuleProject = {
         moduleNeedEdit: editModuleName,
         moduleCode: $("#txtEditInitialModuleName1").val(),
@@ -981,7 +983,6 @@ function editModule(objectModule) {
             var splitTextModuleManager = textModuleManager.split("<br/>");
             $("#txtEditModuleManagerName1").val(detailEmp[splitTextModuleManager[0]]);
             $("#txtEditModuleManagerName1").data("dataCode", "" + splitTextModuleManager[0]);
-            $("#txtEditModuleManagerName1").disableSelection();
             for (var i = 2; i < splitTextModuleManager.length; i++) {
                 var html = "<div style='' id='container_subEditModuleManager" + i + "' class='form-group'><label class='col-sm-3 control-label'></label>" +
                     "<div class='col-sm-4 display:inline-block''>" +
@@ -1006,7 +1007,8 @@ function editModule(objectModule) {
             var splitTextModuleMember = textModuleMember.split("<br/>");
             $("#txtEditModuleMemberName1").val(detailEmp[splitTextModuleMember[0]]);
             $("#txtEditModuleMemberName1").data("dataCode", "" + splitTextModuleMember[0]);
-            $("#txtEditModuleMemberName1").disableSelection();
+            $("#txtEditModuleMemberName1").prop('disabled',true);
+            $("#txtEditModuleMemberName1").prop('style','background-color:white');
             for (var i = 2; i < splitTextModuleMember.length; i++) {
                 var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
                 var html =
@@ -1034,7 +1036,9 @@ function editModule(objectModule) {
                 if (same != "nosame") {
                     if (same == "module") $("#container_subEditModuleMember" + i).attr("from", "modulemanager");
                     else $("#container_subEditModuleMember" + i).attr("from", "project");
-                    $("#txtEditModuleMemberName" + i).disableSelection();
+                    $("#txtEditModuleMemberName1").data("dataCode", "" + splitTextModuleMember[0]);
+                    $("#txtEditModuleMemberName1").prop('disabled',true);
+                    $("#txtEditModuleMemberName1").prop('style','background-color:white');
                 }
             }
             countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
@@ -1219,8 +1223,8 @@ function saveModuleProjectToDB() {
     if (boolSameModuleCode == true) {
         var textdateStart = $('#dateStartModule').val();
         var textdateEnd = $('#dateEndModule').val();
-        var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase(textdateStart, _language));
-        var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase(textdateEnd, _language));
+        var convertFormatDateStart = DateUtil.dataDateToFrontend((DateUtil.dataDateToDataBase(textdateStart, _language)),'EN');
+        var convertFormatDateEnd = DateUtil.dataDateToFrontend((DateUtil.dataDateToDataBase(textdateEnd, _language)),'EN');
         var crateModuleProject = {
             moduleCode: $("#txtInitialModuleName1").val(),
             moduleName: $("#txtModuleName1").val(),
@@ -1823,7 +1827,8 @@ function moduleManagerChange(obj){
     $("[from=modulemanager]").remove();
     var count = $("[id^=txtModuleManagerName]").length;
     for(var i = 0 ; i < count  ; i++) {
-        var checkSame = checkSameNameMember($("[id^=txtModuleManagerName]")[i].value);
+        var textId = $("[id^=txtModuleManagerName]")[i].id;
+        var checkSame = checkSameNameMember($("#"+textId).data('dataCode'));
         if(checkSame) {
             var count_elements = countModuleMember + 1;
             var html =
@@ -1847,7 +1852,8 @@ function moduleManagerChange(obj){
             $("#subModuleMember").append(html);
             $("#txtModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtModuleManagerName]")[i].value);
             $("#txtModuleMemberName"+[count_elements + 1]).data("dataCode",""+$("[id^=txtModuleManagerName]")[i].value.split(' ')[0]);
-            $("#txtModuleMemberName" + [count_elements + 1]).disableSelection();
+            $("#txtModuleMemberName" + [count_elements + 1]).prop('disabled',true);
+            $("#txtModuleMemberName" + [count_elements + 1]).prop('style','background-color:white');
             countModuleMember++;
         }
     }
@@ -1883,7 +1889,8 @@ function editModuleManagerChange(obj){
     $("[from=modulemanager]").remove();
     var count = $("[id^=txtEditModuleManagerName]").length;
     for(var i = 0 ; i < count  ; i++) {
-        var checkSame = checkEditSameNameMember($("[id^=txtEditModuleManagerName]")[i].value);
+        var textId = $("[id^=txtEditModuleManagerName]")[i].id;
+        var checkSame = checkEditSameNameMember($("#"+textId).data('dataCode'));
         if(checkSame) {
             var count_elements = countEditModuleMember + 1;
             var html =
@@ -1904,7 +1911,8 @@ function editModuleManagerChange(obj){
                 "</div>";
             $("#subEditModuleMember").append(html);
             $("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
-            $("#txtEditModuleMemberName" + [count_elements + 1]).disableSelection();
+            $("#txtEditModuleMemberName" + [count_elements + 1]).prop('disabled',true);
+            $("#txtEditModuleMemberName" + [count_elements + 1]).prop('style','background-color:white');
             countEditModuleMember++;
         }
     }
@@ -2094,8 +2102,8 @@ function saveEditModuleWhenEdit(object,cost){
 function editDataModuleInDBWhenEdit(number,cost){
     var moduleCost = ($("#txtCostsEditModule1").val());
     var returnStatus = false;
-    var convertFormatDateStart = new Date(DateUtil.dataDateToDataBase($('#dateStartEditModule').val(), _language));
-    var convertFormatDateEnd = new Date(DateUtil.dataDateToDataBase($('#dateEndEditModule').val(), _language));
+    var convertFormatDateStart = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase($('#dateStartEditModule').val(), _language),'EN');
+    var convertFormatDateEnd = DateUtil.dataDateToFrontend(DateUtil.dataDateToDataBase($('#dateEndEditModule').val(), _language),'EN');
     var crateModuleProject = {
         moduleNeedEdit: editModuleName,
         moduleCode: $("#txtEditInitialModuleName1").val(),
