@@ -277,61 +277,66 @@ function EditProjectByProjectId() {
 }
 
 function saveEditModule(object, cost) {
-    var id = object.id;
-    var number = id.split("btnEditSaveModule");
-    var bool = checkEditModal();
-    var boolSameName = checkSameNameBeforeEdit();
-    if (cost == null) boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(), id, object);
-    else boolCheckCost = true;
-    var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
-    if (boolSameModuleCode == true) {
-        if (bool == true && boolSameName == true && boolCheckCost == true) {
-            var boolSave = editDataModuleInDB(number[1], cost);
-            if (boolSave == true) {
-                findDataKeepToParameter(projectId);
-                if (cost != null) {
-                    var editCostProject = {
-                        projectId: projectId,
-                        increseCost: cost
-                    };
-                    var project = $.ajax({
-                        headers: {
-                            Accept: "application/json"
-                        },
-                        type: "POST",
-                        url: contextPath + '/projects/incresePointProjectByIdProject',
-                        data: editCostProject,
-                        complete: function (xhr) {
-                            if (xhr.status === 201 || xhr.status === 200) {
-                                findDataKeepToParameter(projectId);
-                                $("#txtCostsProject").val("" + dataDetail.responseJSON.Project[0].projectCost);
-                                return true;
-                            }
-                        },
-                        async: false
-                    });
-                }
-                var allModuleManager = "" + getAllEditModuleManager();
-                var allModuleMember = "" + getAllEditModuleMember();
-                $("#headName" + number[1]).text("(" + $("#txtEditInitialModuleName1").val() + ")  " + $("#txtEditModuleName1").val() + "  [" + $("#txtCostsEditModule1").val() + "]");
-                $("#lbDateStartEditModule" + number[1]).text("" + $("#dateStartEditModule").val());
-                $("#lbDateEndEditModule" + number[1]).text("" + $("#dateEndEditModule").val());
-                $("#lbEditModuleManager" + number[1]).empty();
-                $("#lbEditModuleManager" + number[1]).append("" + allModuleManager);
-                $("#lbEditModuleMember" + number[1]).empty();
-                $("#lbEditModuleMember" + number[1]).append("" + allModuleMember);
-
-                $('#modalEditModule').modal('toggle');
-                first = true ;
-                keepDataForCheckChange("project","oldDataProject");
-            }
-        }
-        else if (boolSameName == false) {
-
-        }
+    if(compareEditData()){
+        bootbox.alert("" + Message.Data_no_change);
     }
     else {
-        bootbox.alert("[" + $('#txtEditInitialModuleName1').val() + "] " + Message.Has_in_database);
+        var id = object.id;
+        var number = id.split("btnEditSaveModule");
+        var bool = checkEditModal();
+        var boolSameName = checkSameNameBeforeEdit();
+        if (cost == null) boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(), id, object);
+        else boolCheckCost = true;
+        var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
+        if (boolSameModuleCode == true) {
+            if (bool == true && boolSameName == true && boolCheckCost == true) {
+                var boolSave = editDataModuleInDB(number[1], cost);
+                if (boolSave == true) {
+                    findDataKeepToParameter(projectId);
+                    if (cost != null) {
+                        var editCostProject = {
+                            projectId: projectId,
+                            increseCost: cost
+                        };
+                        var project = $.ajax({
+                            headers: {
+                                Accept: "application/json"
+                            },
+                            type: "POST",
+                            url: contextPath + '/projects/incresePointProjectByIdProject',
+                            data: editCostProject,
+                            complete: function (xhr) {
+                                if (xhr.status === 201 || xhr.status === 200) {
+                                    findDataKeepToParameter(projectId);
+                                    $("#txtCostsProject").val("" + dataDetail.responseJSON.Project[0].projectCost);
+                                    return true;
+                                }
+                            },
+                            async: false
+                        });
+                    }
+                    var allModuleManager = "" + getAllEditModuleManager();
+                    var allModuleMember = "" + getAllEditModuleMember();
+                    $("#headName" + number[1]).text("(" + $("#txtEditInitialModuleName1").val() + ")  " + $("#txtEditModuleName1").val() + "  [" + $("#txtCostsEditModule1").val() + "]");
+                    $("#lbDateStartEditModule" + number[1]).text("" + $("#dateStartEditModule").val());
+                    $("#lbDateEndEditModule" + number[1]).text("" + $("#dateEndEditModule").val());
+                    $("#lbEditModuleManager" + number[1]).empty();
+                    $("#lbEditModuleManager" + number[1]).append("" + allModuleManager);
+                    $("#lbEditModuleMember" + number[1]).empty();
+                    $("#lbEditModuleMember" + number[1]).append("" + allModuleMember);
+
+                    $('#modalEditModule').modal('toggle');
+                    first = true;
+                    keepDataForCheckChange("project", "oldDataProject");
+                }
+            }
+            else if (boolSameName == false) {
+
+            }
+        }
+        else {
+            bootbox.alert("[" + $('#txtEditInitialModuleName1').val() + "] " + Message.Has_in_database);
+        }
     }
 }
 
@@ -726,12 +731,19 @@ function checkRole(){
         $("#btnIncresePoint").hide();
         $("#btnDecresePoint").hide();
         $("#btnAddPM").hide();
-        $("#txtProjectName").disableSelection();
-        $("#txtInitialProjectName").disableSelection();
-        $("#txtCostsProject").disableSelection();
-        $("#dateStartProject").disableSelection();
-        $("#dateEndProject").disableSelection();
-        $("[id^=txtProjectManagerName]").disableSelection();
+        $("#txtProjectName").prop('disabled','true');
+        $("#txtProjectName").prop('style','background-color:white');
+        $("#txtInitialProjectName").prop('disabled','true');
+        $("#txtInitialProjectName").prop('style','background-color:white');
+        $("#txtCostsProject").prop('disabled','true');
+        $("#txtCostsProject").prop('style','background-color:white');
+        $("#dateStartProject").prop('disabled','true');
+        $("#dateStartProject").prop('style','background-color:white');
+        $("#dateEndProject").prop('disabled','true');
+        $("#dateEndProject").prop('style','background-color:white');
+        $("[id^=txtProjectManagerName]").prop('disabled','true');
+        $("[id^=txtProjectManagerName]").prop('style','background-color:white');
+        $("[id^=btnDeletePM]").hide();
     }
 }
 
@@ -1010,7 +1022,7 @@ function editModule(objectModule) {
             $("#txtEditModuleMemberName1").prop('disabled',true);
             $("#txtEditModuleMemberName1").prop('style','background-color:white');
             for (var i = 2; i < splitTextModuleMember.length; i++) {
-                var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
+                var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1].split(' ')[0]);
                 var html =
                     "<div style='' id='container_subEditModuleMember" + i + "' class='form-group'>" +
                     "<label class='col-sm-3 control-label'></label>" +
@@ -1036,14 +1048,17 @@ function editModule(objectModule) {
                 if (same != "nosame") {
                     if (same == "module") $("#container_subEditModuleMember" + i).attr("from", "modulemanager");
                     else $("#container_subEditModuleMember" + i).attr("from", "project");
-                    $("#txtEditModuleMemberName1").data("dataCode", "" + splitTextModuleMember[0]);
-                    $("#txtEditModuleMemberName1").prop('disabled',true);
-                    $("#txtEditModuleMemberName1").prop('style','background-color:white');
+                    $("#txtEditModuleMemberName" + i).data("dataCode", "" + splitTextModuleMember[i - 1]);
+                    $("#txtEditModuleMemberName" + i).prop('disabled','true');
+                    $("#txtEditModuleMemberName" + i).prop('style','background-color:white');
                 }
             }
             countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
             countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
             saveDataEditModule();
+            if(role!="ProjectManager"){
+                $("[id^=btnDeleteEdit]").hide();
+            }
         } else {
             bootbox.alert(Message.Cant_make_any_action + "\n" + Message.Confirm_editing_data);
         }
@@ -1911,6 +1926,7 @@ function editModuleManagerChange(obj){
                 "</div>";
             $("#subEditModuleMember").append(html);
             $("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
+            $("#txtEditModuleMemberName"+[count_elements + 1]).data("dataCode",""+$("[id^=txtEditModuleManagerName]")[i].value.split(' ')[0]);
             $("#txtEditModuleMemberName" + [count_elements + 1]).prop('disabled',true);
             $("#txtEditModuleMemberName" + [count_elements + 1]).prop('style','background-color:white');
             countEditModuleMember++;

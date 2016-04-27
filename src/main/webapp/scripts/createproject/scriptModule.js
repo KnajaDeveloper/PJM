@@ -13,6 +13,7 @@ var oldDataModule = [] ;
 var newDataModule = [] ;
 var oldDataEditModule = [] ;
 var newDataEditModule = [] ;
+var dataE1 = [],data2 = [];
 $("#btnSaveModule").click(function(){
 	SaveModule(null);
 });
@@ -184,71 +185,76 @@ function getAllProjectManager(){
 }
 
 function saveEditModule(object,cost){
-	var id = object.id;
-	var number = id.split("btnEditSaveModule");
-	var bool = checkEditModal();
-	var boolSameName = checkSameNameBeforeEdit();
-	if(cost==null) boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(),id,object);
-	else boolCheckCost = true;
-	var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
-	if(boolSameModuleCode==true){
-		if(bool==true && boolSameName==true && boolCheckCost==true){
-			var boolSave = editDataModuleInDB(number[1],cost);
-			if(boolSave==true){
-				if(cost!=null){
-					var editCostProject = {
-						projectId: dataAfterSave.responseJSON.id,
-						increseCost: cost
-					};
-					dataAfterSave = $.ajax({
-						headers: {
-							Accept: "application/json"
-						},
-						type: "POST",
-						url: contextPath + '/projects/incresePointProjectByIdProject',
-						data: editCostProject,
-						complete: function (xhr) {
-							if (xhr.status === 201 || xhr.status === 200) {
-								dataAfterSave=xhr;
-								$("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
-								saveDataProject();
-								return true;
-							}
-						},
-						async: false
-					});
-				}
-				var allModuleManager = ""+getAllEditModuleManager();
-				var allModuleMember = ""+getAllEditModuleMember();
-				arr_nameModule[number[1]] = $("#txtEditModuleName1").val();
-				arr_initialNameModule[number[1]] = $("#txtEditInitialModuleName1").val();
-				arr_costModule[number[1]] = $("#txtCostsEditModule1").val();
-				ModuleProject[number[1]].moduleCost = ($("#txtCostsEditModule1").val());
-				$("#headName"+number[1]).text("("+$("#txtEditInitialModuleName1").val()+")  "+$("#txtEditModuleName1").val()+"  ["+$("#txtCostsEditModule1").val()+"]");
-
-				arr_startDate[number[1]] = $("#dateStartEditModule").val();
-				$("#lbDateStartEditModule"+number[1]).text(""+$("#dateStartEditModule").val());
-
-				arr_endDate[number[1]] = $("#dateEndEditModule").val();
-				$("#lbDateEndEditModule"+number[1]).text(""+$("#dateEndEditModule").val());
-
-				arr_moduleManager[number[1]] = allModuleManager;
-				$("#lbEditModuleManager"+number[1]).empty();
-				$("#lbEditModuleManager"+number[1]).append(""+allModuleManager);
-
-				arr_moduleMember[number[1]] = allModuleMember;
-				$("#lbEditModuleMember"+number[1]).empty();
-				$("#lbEditModuleMember"+number[1]).append(""+allModuleMember);
-
-				$('#modalEditModule').modal('toggle');
-			}
-		}
-		else if(boolSameName==false){
-			bootbox.alert(""+Message.It_has_same_names);
-		}
+	if(compareEditData()){
+		bootbox.alert("" + Message.Data_no_change);
 	}
 	else {
-		bootbox.alert("["+$('#txtEditInitialModuleName1').val()+"] "+Message.Has_in_database);
+		var id = object.id;
+		var number = id.split("btnEditSaveModule");
+		var bool = checkEditModal();
+		var boolSameName = checkSameNameBeforeEdit();
+		if (cost == null) boolCheckCost = checkEditCost($("#txtCostsEditModule1").val(), id, object);
+		else boolCheckCost = true;
+		var boolSameModuleCode = findSameModuleCodeWhenEdit(editModuleName);
+		if (boolSameModuleCode == true) {
+			if (bool == true && boolSameName == true && boolCheckCost == true) {
+				var boolSave = editDataModuleInDB(number[1], cost);
+				if (boolSave == true) {
+					if (cost != null) {
+						var editCostProject = {
+							projectId: dataAfterSave.responseJSON.id,
+							increseCost: cost
+						};
+						dataAfterSave = $.ajax({
+							headers: {
+								Accept: "application/json"
+							},
+							type: "POST",
+							url: contextPath + '/projects/incresePointProjectByIdProject',
+							data: editCostProject,
+							complete: function (xhr) {
+								if (xhr.status === 201 || xhr.status === 200) {
+									dataAfterSave = xhr;
+									$("#txtCostsProject").val("" + dataAfterSave.responseJSON.projectCost);
+									saveDataProject();
+									return true;
+								}
+							},
+							async: false
+						});
+					}
+					var allModuleManager = "" + getAllEditModuleManager();
+					var allModuleMember = "" + getAllEditModuleMember();
+					arr_nameModule[number[1]] = $("#txtEditModuleName1").val();
+					arr_initialNameModule[number[1]] = $("#txtEditInitialModuleName1").val();
+					arr_costModule[number[1]] = $("#txtCostsEditModule1").val();
+					ModuleProject[number[1]].moduleCost = ($("#txtCostsEditModule1").val());
+					$("#headName" + number[1]).text("(" + $("#txtEditInitialModuleName1").val() + ")  " + $("#txtEditModuleName1").val() + "  [" + $("#txtCostsEditModule1").val() + "]");
+
+					arr_startDate[number[1]] = $("#dateStartEditModule").val();
+					$("#lbDateStartEditModule" + number[1]).text("" + $("#dateStartEditModule").val());
+
+					arr_endDate[number[1]] = $("#dateEndEditModule").val();
+					$("#lbDateEndEditModule" + number[1]).text("" + $("#dateEndEditModule").val());
+
+					arr_moduleManager[number[1]] = allModuleManager;
+					$("#lbEditModuleManager" + number[1]).empty();
+					$("#lbEditModuleManager" + number[1]).append("" + allModuleManager);
+
+					arr_moduleMember[number[1]] = allModuleMember;
+					$("#lbEditModuleMember" + number[1]).empty();
+					$("#lbEditModuleMember" + number[1]).append("" + allModuleMember);
+
+					$('#modalEditModule').modal('toggle');
+				}
+			}
+			else if (boolSameName == false) {
+				bootbox.alert("" + Message.It_has_same_names);
+			}
+		}
+		else {
+			bootbox.alert("[" + $('#txtEditInitialModuleName1').val() + "] " + Message.Has_in_database);
+		}
 	}
 }
 
