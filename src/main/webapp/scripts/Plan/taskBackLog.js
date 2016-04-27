@@ -197,7 +197,7 @@ $('#btnsaveBackLog').click( function(){
     } else if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
         $('#txtProgressBackLog').attr('data-content', MESSAGE.MS_COMPLETE_INTEGER_NUMBER).popover('show');
     } else if (progress < 0 || progress > 100) {
-        $('#txtProgressBackLog').attr('data-content', "0-100").popover('show');
+        $('#txtProgressBackLog').attr('data-content', MESSAGE.MS_COMPLETE_INTEGER_NUMBER).popover('show');
     }
     else {
         var check = $('#txtProgressBackLog').val();
