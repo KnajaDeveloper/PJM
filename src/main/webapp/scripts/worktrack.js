@@ -90,6 +90,9 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
         );
     }
     jsonData.forEach(function (value) {
+        var progress =  value.progress ;
+        var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
+
         var empManager = "";
         for(i=0;i<value.moduleManager.length;i++){
             empManager+=""+value.moduleManager[i].empCode ;
@@ -101,7 +104,7 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
             + '<button id="checkTask_'+value.id +'" projectName="'+ value.project
             +'" moduleName="'+ value.module
             +'" programName="'+ value.program +'" taskName="'+ value.taskName
-            +'" managerEmpCode="'+ empManager +'" followEmpCode="'+ value.follower
+            +'" managerEmpCode="'+ empManager +'" followEmpCode="'+ value.follower + '" taskStatus="'+ value.taskStatus
             +'" class="btn btn-info btn-xs" type="button" >' +
             '<span name="editClick" class="glyphicon glyphicon-check" aria-hidden="true" ></span></button>'
             + '</td>'
@@ -119,8 +122,9 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
             + '<td id="taskName' + value.id + '" class="text-left" style="color: #000">'
             + value.taskName
             + '</td>'
-            + '<td id="taskName' + value.id + '" class="text-center" style="color: #000">'
-            + value.progress +'%'
+            + '<td id="' + value.id + '" class="text-center" style="">'
+            + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
+            + 'style="width: ' + progress + '%; color: black; ">' +progress + '%</div>'
             + '</td>'
             + '</tr>';
         $('#ResualtSearchTaskFollow').append(
@@ -252,6 +256,7 @@ $('#taskFollow').on("click", "[id^=checkTask_]", function () {
     var checkRole = $(this).attr('followempcode');
     checkRole+="=="+$(this).attr('managerempcode').split('==');
     if(checkRole.indexOf(""+nowUser) > -1) {
+        var taskStatus = $(this).attr('taskStatus');
         empCode = ($(this).attr('managerEmpCode'));
         var detailFollower = getEmpDeatailToFrontEnd($(this).attr('followempcode'));
         project = $(this).attr('projectName');
@@ -261,6 +266,14 @@ $('#taskFollow').on("click", "[id^=checkTask_]", function () {
         var detailManager = getEmpDeatailToFrontEnd(empCode);
         appendLabel(detailManager, detailFollower,this.id.split("_")[1]);
         $("#modalFollowTask").modal('show');
+        if(taskStatus!='R'){
+            $("#selectorPF").hide();
+            $("#btnModalTaskAdd").hide();
+        }
+        else{
+            $("#selectorPF").show();
+            $("#btnModalTaskAdd").show();
+        }
     }
     else{
         bootbox.alert(MESSAGE.MS_NO_ROLE);
@@ -298,7 +311,7 @@ function appendLabel(detailManager,detailFollower,taskId) {
         + ' <label class="control-label"><h5>' +detailManager+'<h5></label></div>'
         + '<div class="form-group"><label class="control-label col-sm-5 "><h5>'+LABEL.LABEL_FOLLOWER+'</h5></label>'
         + ' <label class="control-label"><h5>' +detailFollower+'<h5></label></div>'
-        +'<div class="form-group"> <label class="radio-inline control-label col-sm-6"><input id="radioPass" type="radio" taskId="'+ taskId +'" status="C" name="optradio" checked="check"/>'+ LABEL.LABEL_PASS +'</label>'
+        +'<div id="selectorPF" class="form-group"> <label class="radio-inline control-label col-sm-6"><input id="radioPass" type="radio" taskId="'+ taskId +'" status="C" name="optradio" checked="check"/>'+ LABEL.LABEL_PASS +'</label>'
         + '<label class="radio-inline "><input id="radioFail" type="radio" taskId="'+ taskId +'" status="N" name="optradio"/>'+ LABEL.LABEL_FAIL +'</label></div>'
     ;
     $('#label_modal').append(
@@ -319,7 +332,7 @@ function editTaskStatus(id, status) {
         //headers: {
         //    Accept: "application/json"
         //},
-        url: contextPath + '/tasks/editTaskStatus',
+        url: contextPath + '/tasks/editTaskStatusCheckWhoCanEdit',
         data: dataJsonData,
         complete: function (xhr) {
             if (xhr.status === 200) {

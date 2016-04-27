@@ -5,6 +5,7 @@
 
 	<c:set var="BUTTON_SAVE" scope="request"><spring:message code="B0006"/></c:set>
 	<c:set var="BUTTON_CLOSE" scope="request"><spring:message code="B0012"/></c:set>
+	<c:set var="BUTTON_CANCLE" scope="request"><spring:message code="B0007"/></c:set>
 	<c:set var="LABEL_TASK_CODE" scope="request"><spring:message code="L0033"/></c:set>
 	<c:set var="LABEL_TASK_NAME" scope="request"><spring:message code="L0034"/></c:set>
 	<c:set var="LABEL_START_DATE" scope="request"><spring:message code="L0010"/></c:set>
@@ -30,11 +31,11 @@
 	<c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
 	<c:set var="MS_NO_ROLE" scope="request"><spring:message code="M0063"/></c:set>
 
-	<c:set var="LABEL_NEW_TASK" scope="request"><spring:message text="งานใหม่"/></c:set>
-	<c:set var="LABEL_READY_TASK" scope="request"><spring:message text="งานพร้อมทดสอบ"/></c:set>
-	<c:set var="LABEL_COMPLETE_TASK" scope="request"><spring:message text="งานที่ผ่าน"/></c:set>
-	<c:set var="LABEL_FOLLOW_TASK" scope="request"><spring:message text="ติดตามงาน"/></c:set>
-	<c:set var="LABEL_STATUS_TASK" scope="request"><spring:message text="สถานะงาน"/></c:set>
+	<c:set var="LABEL_NEW_TASK" scope="request"><spring:message code="L0152"/></c:set>
+	<c:set var="LABEL_READY_TASK" scope="request"><spring:message code="L0153"/></c:set>
+	<c:set var="LABEL_COMPLETE_TASK" scope="request"><spring:message code="L0154"/></c:set>
+	<c:set var="LABEL_FOLLOW_TASK" scope="request"><spring:message code="L0165"/></c:set>
+	<c:set var="LABEL_STATUS_TASK" scope="request"><spring:message code="L0166"/></c:set>
 
 	<c:set var="BUTTON_SEARCH" scope="request"><spring:message code="B0002"/></c:set>
 
@@ -124,7 +125,7 @@
 			<!-- Modal content-->
 			<div class="modal-content ">
 				<div class="modal-header bg-primary">
-					<h4 class="modal-title">ตรวจสอบงาน</h4>
+					<h4 class="modal-title">${LABEL_CHECK_TASK}</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
@@ -133,8 +134,8 @@
 					</form>
 				</div>
 				<div class="modal-footer ">
-					<button id="btnModalTaskAdd" type="button" class="btn btn-primary">Save</button>
-					<button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >Cancel</button>
+					<button id="btnModalTaskAdd" type="button" class="btn btn-primary">${BUTTON_SAVE}</button>
+					<button type="button" class="btn btn-primary" id="close" data-dismiss="modal" >${BUTTON_CANCLE}</button>
 				</div>
 			</div>
 		</div>
