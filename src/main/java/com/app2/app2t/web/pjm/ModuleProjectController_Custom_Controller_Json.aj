@@ -6,6 +6,7 @@ package com.app2.app2t.web.pjm;
 import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             @RequestParam(value = "moduleCode", required = false) String moduleCode,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             @RequestParam(value = "moduleCost", required = false) Double moduleCost,
-            @RequestParam(value = "dateStart", required = false) Date dateStart,
-            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "dateStart", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateEnd,
             @RequestParam(value = "projectId", required = false) long projectId,
             @RequestParam(value = "arr_moduleManager", required = false) String moduleManager,
             @RequestParam(value = "arr_moduleMember", required = false) String moduleMember
@@ -105,8 +106,8 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             @RequestParam(value = "moduleCode", required = false) String moduleCode,
             @RequestParam(value = "moduleName", required = false) String moduleName,
             @RequestParam(value = "moduleCost", required = false) Double moduleCost,
-            @RequestParam(value = "dateStart", required = false) Date dateStart,
-            @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+            @RequestParam(value = "dateStart", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateStart,
+            @RequestParam(value = "dateEnd", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateEnd,
             @RequestParam(value = "arr_moduleManager", required = false) String arr_moduleManager,
             @RequestParam(value = "arr_moduleMember", required = false) String arr_moduleMember,
             @RequestParam(value = "projectId", required = false) long projectId

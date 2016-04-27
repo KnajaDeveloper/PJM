@@ -6,6 +6,7 @@ package com.app2.app2t.web.pjm;
 import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
 import flexjson.JSONSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ privileged aspect ProjectController_Custom_Controller_Json {
         @RequestParam(value = "projectCode", required = false) String projectCode,
         @RequestParam(value = "projectName", required = false) String projectName,
         @RequestParam(value = "projectCost", required = false) Double projectCost,
-        @RequestParam(value = "dateStart", required = false) Date dateStart,
-        @RequestParam(value = "dateEnd", required = false) Date dateEnd,
+        @RequestParam(value = "dateStart", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateStart,
+        @RequestParam(value = "dateEnd", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateEnd,
         @RequestParam(value = "arr_ProjectManager", required = false) String arr_ProjectManager
     ) {
         HttpHeaders headers = new HttpHeaders();

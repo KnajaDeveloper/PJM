@@ -88,29 +88,6 @@ function checkDate(){
 	return true;
 }
 
-function searchProjectByYear(year){
-	var dataJsonData = {
-		year:year
-	};
-	var resultProject = $.ajax({
-		headers: {
-			Accept: "application/json"
-		},
-		type: "GET",
-		url: contextPath + '/projects/findProjectByYearAndProjectId',
-		data : dataJsonData,
-		complete: function(xhr){
-			if(xhr.status === 201 || xhr.status === 200){
-
-			}else if(xhr.status === 500){
-				resultProject = null ;
-			}
-		},
-		async: false
-	});
-	if(resultProject!=null) addDDLToProjectDDL(resultProject.responseJSON);
-}
-
 function searchModuleProjectByProjectId(projectId){
 	var dataJsonData = {
 		projectId:projectId

@@ -4,8 +4,8 @@ function editDataModuleInDB(number,cost){
 	var moduleCost = $("#txtCostsEditModule1").val();
 	//if(cost!=null) moduleCost = cost ;
 	var returnStatus = false ;
-	var convertFormatDateStart = new Date(convertDate($('#dateStartEditModule').val()));
-	var convertFormatDateEnd = new Date(convertDate($('#dateEndEditModule').val()));
+	var convertFormatDateStart =  DateUtil.dataDateToFrontend(convertDate($('#dateStartEditModule').val()),'EN');
+	var convertFormatDateEnd =  DateUtil.dataDateToFrontend(convertDate($('#dateEndEditModule').val()),'EN');
 	var crateModuleProject = {
 			moduleNeedEdit: editModuleName,
 			moduleCode:$("#txtEditInitialModuleName1").val() ,

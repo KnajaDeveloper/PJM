@@ -24,7 +24,8 @@ $("#btnAddModule").click(function(){
 		var namePM = getAllProjectManager().split("===");
 		$("#txtModuleMemberName1").val(""+namePM[0]);
 		$("#txtModuleMemberName1").data("dataCode",""+namePM[0].split(' ')[0]);
-		$("#txtModuleMemberName1").disableSelection();
+		$("#txtModuleMemberName1").prop('disabled',true);
+		$("#txtModuleMemberName1").prop('style','background-color:white');
 		for(var i = 1 ; i < namePM.length - 1 ; i++) {
 			var count_elements = countModuleMember+1;
 			var html = "<div style='' id='container_subModuleMember"+[count_elements+1]+"' from='project' class='form-group'><label class='col-sm-3 control-label'></label>" +
@@ -45,7 +46,8 @@ $("#btnAddModule").click(function(){
 			$("#subModuleMember").append(html);
 			$("#txtModuleMemberName"+[count_elements + 1]).val(""+namePM[i]);
 			$("#txtModuleMemberName"+[count_elements + 1]).data("dataCode",""+namePM[i].split(' ')[0]);
-			$("#txtModuleMemberName"+[count_elements + 1]).disableSelection();
+			$("#txtModuleMemberName"+[count_elements + 1]).prop('disabled',true);
+			$("#txtModuleMemberName"+[count_elements + 1]).prop('style','background-color:white');
 			countModuleMember++;
 		}
 		saveDataModule();
@@ -81,7 +83,8 @@ function moduleManagerChange(obj){
 	$("[from=modulemanager]").remove();
 	var count = $("[id^=txtModuleManagerName]").length;
 	for(var i = 0 ; i < count  ; i++) {
-		var checkSame = checkSameNameMember($("[id^=txtModuleManagerName]")[i].value);
+		var textId = $("[id^=txtModuleManagerName]")[i].id;
+		var checkSame = checkSameNameMember($("#"+textId).data('dataCode'));
 		if(checkSame) {
 			var count_elements = countModuleMember + 1;
 			var html = 
@@ -104,7 +107,8 @@ function moduleManagerChange(obj){
 			$("#subModuleMember").append(html);
 			$("#txtModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtModuleManagerName]")[i].value);
 			$("#txtModuleMemberName"+[count_elements + 1]).data("dataCode",""+$("[id^=txtModuleManagerName]")[i].value.split(' ')[0]);
-			$("#txtModuleMemberName" + [count_elements + 1]).disableSelection();
+			$("#txtModuleMemberName" + [count_elements + 1]).prop('disabled',true);
+			$("#txtModuleMemberName" + [count_elements + 1]).prop('style','background-color:white');
 			countModuleMember++;
 		}
 	}
@@ -126,7 +130,8 @@ function editModuleManagerChange(obj){
 	$("[from=modulemanager]").remove();
 	var count = $("[id^=txtEditModuleManagerName]").length;
 	for(var i = 0 ; i < count  ; i++) {
-		var checkSame = checkEditSameNameMember($("[id^=txtEditModuleManagerName]")[i].value);
+		var textId = $("[id^=txtEditModuleManagerName]")[i].id;
+		var checkSame = checkEditSameNameMember($("#"+textId).data('dataCode'));
 		if(checkSame) {
 			var count_elements = countEditModuleMember + 1;
 			var html = 
@@ -149,7 +154,8 @@ function editModuleManagerChange(obj){
 			$("#subEditModuleMember").append(html);
 			$("#txtEditModuleMemberName" + [count_elements + 1]).val("" + $("[id^=txtEditModuleManagerName]")[i].value);
 			$("#txtEditModuleMemberName" + [count_elements + 1]).data("dataCode","" + $("[id^=txtEditModuleManagerName]")[i].value.split(' ')[0]);
-			$("#txtEditModuleMemberName" + [count_elements + 1]).disableSelection();
+			$("#txtEditModuleMemberName" + [count_elements + 1]).prop('disabled',true);
+			$("#txtEditModuleMemberName" + [count_elements + 1]).prop('style','background-color:white');
 			countEditModuleMember++;
 		}
 	}
@@ -724,9 +730,10 @@ function editModule(objectModule){
 		var splitTextModuleMember = textModuleMember.split("<br/>");
 		$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
 		$("#txtEditModuleMemberName1").data("dataCode",""+splitTextModuleMember[0].split(' ')[0]);
-		$("#txtEditModuleMemberName1").disableSelection();
+		$("#txtEditModuleMemberName1").prop('disabled',true);
+		$("#txtEditModuleMemberName1").prop('style','background-color:white');
 		for (var i = 2; i < splitTextModuleMember.length; i++) {
-			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1]);
+			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1].split(' ')[0]);
 			var html =
 				"<div style='' id='container_subEditModuleMember"+ i +"' class='form-group'>" +
 					"<label class='col-sm-3 control-label'></label>" +
@@ -752,7 +759,8 @@ function editModule(objectModule){
 			if(same!="nosame"){
 				if(same=="module") $("#container_subEditModuleMember" + i).attr("from","modulemanager");
 				else $("#container_subEditModuleMember" + i).attr("from","project");
-				$("#txtEditModuleMemberName" + i).disableSelection();
+				$("#txtEditModuleMemberName" + i).prop('disabled',true);
+				$("#txtEditModuleMemberName" + i).prop('style','background-color:white');
 			}
 		}
 		countEditModuleManager = $("[id^=btnDeleteEditMM]").length;
