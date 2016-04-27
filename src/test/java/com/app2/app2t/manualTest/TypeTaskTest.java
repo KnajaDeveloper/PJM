@@ -45,17 +45,17 @@ public class TypeTaskTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         AuthorizeUtil.setUserName("admin");
 
-        TypeTask typeTask1 =  insertDataTodateBaseTypeTask("001","TypeTask1");
-        TypeTask typeTask2 = insertDataTodateBaseTypeTask("002","TypeTask2");
-        TypeTask typeTask3 = insertDataTodateBaseTypeTask("003","TypeTask3");
-        TypeTask typeTask4 = insertDataTodateBaseTypeTask("004","TypeTask4");
-        insertDataTodateBaseTypeTask("005","TypeTask5");
-        insertDataTodateBaseTypeTask("006","TypeTask6");
-        insertDataTodateBaseTypeTask("007","TypeTask7");
-        insertDataTodateBaseTask(typeTask1);
-        insertDataTodateBaseTask(typeTask2);
-        insertDataTodateBaseOtherTask (typeTask3);
-        insertDataTodateBaseOtherTask(typeTask4);
+        TypeTask typeTask1 = insertDataTodataBaseTypeTask("001","TypeTask1");
+        TypeTask typeTask2 = insertDataTodataBaseTypeTask("002","TypeTask2");
+        TypeTask typeTask3 = insertDataTodataBaseTypeTask("003","TypeTask3");
+        TypeTask typeTask4 = insertDataTodataBaseTypeTask("004","TypeTask4");
+        insertDataTodataBaseTypeTask("005","TypeTask5");
+        insertDataTodataBaseTypeTask("006","TypeTask6");
+        insertDataTodataBaseTypeTask("007","TypeTask7");
+        insertDataTodataBaseTask(typeTask1);
+        insertDataTodataBaseTask(typeTask2);
+        insertDataTodataBaseOtherTask (typeTask3);
+        insertDataTodataBaseOtherTask(typeTask4);
 
     }
 
@@ -64,7 +64,7 @@ public class TypeTaskTest {
         LOGGER.debug("----------------------------------After---------------------------------------");
     }
 
-    public TypeTask insertDataTodateBaseTypeTask (String typeTaskCode,String typeTaskName)throws Exception{
+    public TypeTask insertDataTodataBaseTypeTask (String typeTaskCode,String typeTaskName)throws Exception{
 
         TypeTask typeTask = new TypeTask();
         typeTask.setTypeTaskCode(typeTaskCode);
@@ -73,17 +73,25 @@ public class TypeTaskTest {
         return typeTask;
     }
 
-    public void insertDataTodateBaseTask (TypeTask typeTaskId)throws Exception{
+    public void insertDataTodataBaseTask (TypeTask typeTaskId)throws Exception{
 
         Task task = new Task();
         task.setTypeTask(typeTaskId);
+        task.setTaskCode(typeTaskId.getId().toString());
+        task.setTaskName("");
+        task.setTaskCost(0.0);
+        task.setProgress(100);
         task.persist();
 
     }
 
-    public void insertDataTodateBaseOtherTask (TypeTask typeTaskId)throws Exception{
+    public void insertDataTodataBaseOtherTask (TypeTask typeTaskId)throws Exception{
         OtherTask otherTask = new OtherTask();
         otherTask.setTypeTask(typeTaskId);
+        otherTask.setTaskName("");
+        otherTask.setTaskCost(0.0);
+        otherTask.setEmpCode("");
+        otherTask.setProgress(100);
         otherTask.persist();
     }
 
