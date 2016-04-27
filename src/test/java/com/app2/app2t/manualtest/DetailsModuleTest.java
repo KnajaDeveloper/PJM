@@ -23,7 +23,6 @@ import org.hibernate.criterion.*;
 import org.springframework.expression.spel.ast.Projection;
 import org.springframework.test.annotation.DirtiesContext;
 import javax.persistence.EntityManager;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -147,10 +146,10 @@ public class DetailsModuleTest {
   }
 
   public void insertDataTodateBaseModuleMember (String empCode, ModuleProject moduleProject)throws Exception{
-    ModuleManager moduleManager = new ModuleManager();
-    moduleManager.setEmpCode(empCode);
-    moduleManager.setModuleProject(moduleProject);
-    moduleManager.persist();
+    ModuleMember moduleMember = new ModuleMember();
+    moduleMember.setEmpCode(empCode);
+    moduleMember.setModuleProject(moduleProject);
+    moduleMember.persist();
   }
 
   public TypeTask insertDataTodateBaseTypeTask (String typeTaskCode, String typeTaskName)throws Exception{
@@ -563,12 +562,12 @@ public class DetailsModuleTest {
       ).andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
-        // .andExpect(jsonPath("$[0].empCode", is("EM001")))
-        // .andExpect(jsonPath("$[1].empCode", is("EM002")))
-        // .andExpect(jsonPath("$[1].empCode", is("EM003")))
-        // .andExpect(jsonPath("$[1].empCode", is("EM004")))
-        // .andExpect(jsonPath("$[1].empCode", is("EM005")))
-        // .andExpect(jsonPath("$[1].empCode", is("EM006")))
+        .andExpect(jsonPath("$[0].empCode", is("EM001")))
+        .andExpect(jsonPath("$[1].empCode", is("EM002")))
+        .andExpect(jsonPath("$[2].empCode", is("EM003")))
+        .andExpect(jsonPath("$[3].empCode", is("EM004")))
+        .andExpect(jsonPath("$[4].empCode", is("EM005")))
+        .andExpect(jsonPath("$[5].empCode", is("EM006")))
         .andReturn();
   }
 }
