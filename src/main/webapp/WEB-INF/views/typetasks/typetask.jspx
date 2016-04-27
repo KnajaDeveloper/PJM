@@ -165,7 +165,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnMAdd" >${B_Add}</button>
+                    <button type="button" class="btn btn-primary" id="btnMAdd" >${B_Save}</button>
                     <button type="button" class="btn btn-primary" id="btnMNext" >${B_Next}</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnMCancel">${B_Cancel}</button>
                 </div>
