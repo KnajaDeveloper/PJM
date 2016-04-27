@@ -243,7 +243,6 @@ public class DetailsModuleTest {
   }
 
   public void insertDataTodateBaseTask2 (String taskCode, String taskName, Double taskCost, String typeTask, String empCode, String dateStart, String dateEnd, String fileName, String detail, Integer progress)throws Exception{
-    //final File file = getFileFromResource("fileName.txt");
     MvcResult mvcResult = this.mockMvc.perform(post("/tasks/saveTask/" + taskCode + 
        																                             "/" + taskName +
        																                             "/" + taskCost +
@@ -255,7 +254,6 @@ public class DetailsModuleTest {
        																                             "/" + detail +
        																                             "/" + progress +
        																                             "/" + 1)
-       		//.multipart("file", file)
     ).andDo(print())
       .andExpect(status().isCreated())
       .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -516,22 +514,6 @@ public class DetailsModuleTest {
   }
 
   @Test
-  public void dateTestFindEmpNameAndEmpPositionNameByEmpCode ()throws Exception{
-      MvcResult mvcResult = this.mockMvc.perform(post("/moduleprojects/findEmpNameAndEmpPositionNameByEmpCode")
-        .content("['EM001', 'EM005']")
-      ).andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(jsonPath("$[0].empFirstName", is("กิตติศักดิ์")))
-        .andExpect(jsonPath("$[0].empLastName", is("บำรุงเขต")))
-        .andExpect(jsonPath("$[0].empPositionName", is("Administrator")))
-        .andExpect(jsonPath("$[1].empFirstName", is("ณัฐดนัย")))
-        .andExpect(jsonPath("$[1].empLastName", is("ศรีดาวงษ์")))
-        .andExpect(jsonPath("$[1].empPositionName", is("Software Developer")))
-        .andReturn();
-  }
-
-  @Test
   public void dateTestFindAllTypeTask ()throws Exception{
     MvcResult mvcResult = this.mockMvc.perform(get("/typetasks/findAllTypeTask")
     ).andDo(print())
@@ -554,20 +536,4 @@ public class DetailsModuleTest {
   //     .andExpect(content().contentType("application/json;charset=UTF-8"))
   //     .andReturn();
   // }
-
-  @Test
-  public void dateTestFindEmpCodeByModuleProjectId ()throws Exception{
-      MvcResult mvcResult = this.mockMvc.perform(get("/central/findEmpCodeByModuleProjectId")
-        .param("moduleProjectId", "1")
-      ).andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(jsonPath("$[0].empCode", is("EM001")))
-        .andExpect(jsonPath("$[1].empCode", is("EM002")))
-        .andExpect(jsonPath("$[2].empCode", is("EM003")))
-        .andExpect(jsonPath("$[3].empCode", is("EM004")))
-        .andExpect(jsonPath("$[4].empCode", is("EM005")))
-        .andExpect(jsonPath("$[5].empCode", is("EM006")))
-        .andReturn();
-  }
 }
