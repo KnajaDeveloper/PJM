@@ -1,6 +1,8 @@
 
 package com.app2.app2t.manualtest;
 
+import com.app2.app2t.domain.pjm.ModuleManager;
+import com.app2.app2t.domain.pjm.ModuleProject;
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
 import com.app2.app2t.util.AuthorizeUtil;
@@ -28,7 +30,8 @@ import com.app2.app2t.util.AuthorizeUtil;
         import static org.hamcrest.core.Is.is;
         import static org.junit.Assert.assertEquals;
         import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-        import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
         import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
         @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,9 +45,7 @@ import com.app2.app2t.util.AuthorizeUtil;
             @Autowired
             protected WebApplicationContext wac;
             protected MockMvc mockMvc;
-            ///--------------------------------------------------------------------------------------------------------------------///
-            ///----------Run  J unit Test ของ SearchProject  ให้แก้ userName ที่ AuthorizeUtil เป็น admin หรือ ที่มีใน Data base ----------///
-            ///-------------------------------------------------------------------------------------------------------------------///
+
             public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,double cost)throws Exception{
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 Date stDate = new Date(Long.parseLong(stDate_));//date = 09/03/2016
@@ -63,6 +64,8 @@ import com.app2.app2t.util.AuthorizeUtil;
                 pjm.setEmpCode(pm);
                 pjm.setProject(project);
                 pjm.persist();
+
+
             }
             public void dateTest  (long dateLong,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
                 MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
@@ -353,6 +356,28 @@ import com.app2.app2t.util.AuthorizeUtil;
         Assert.assertEquals(mvcResult.getResponse().getContentAsString(),"[]");
 
     }
+    @Test
+    public void checkRoleEditProjectUserAdmin () throws Exception{
+    MvcResult mvcResult =this.mockMvc.perform(post("/projectmanagers/checkRolePmAndMm")
+                        .param("projectId","1")
+                ).andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                        .andReturn()
+                        ;
+        Assert.assertEquals(mvcResult.getResponse().getContentAsString(),"true");
+            }
 
+            @Test
+            public void checkRoleEditProjectUser58060 () throws Exception{
+                MvcResult mvcResult =this.mockMvc.perform(post("/projectmanagers/checkRolePmAndMm")
+                        .param("projectId","2")
+                ).andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                        .andReturn()
+                        ;
+                Assert.assertEquals(mvcResult.getResponse().getContentAsString(),"false");
+            }
 
-}
+        }

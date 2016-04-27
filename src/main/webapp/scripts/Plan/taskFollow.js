@@ -154,7 +154,7 @@ $("#btnsave").click(function () {
     }
     else
     {
-        bootbox.alert('งานนี้ยังไม่ถึง 100% ไม่สามรถตรวจสอบได้');
+        bootbox.alert( MESSAGE.LABEL_NOT_TEST);
     }
 
 });
