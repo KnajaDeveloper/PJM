@@ -355,6 +355,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                         map.put("managerEmpCode", followerTask.getTask().getEmpCode());
                         map.put("followEmpCode", followerTask.getEmpCode());
                         map.put("progress", followerTask.getTask().getProgress());
+                        map.put("status", followerTask.getTask().getTaskStatus());
                         map.put("program", followerTask.getTask().getProgram().getProgramName());
                         map.put("module", followerTask.getTask().getProgram().getModuleProject().getModuleName());
                         map.put("project", followerTask.getTask().getProgram().getModuleProject().getProject().getProjectName());

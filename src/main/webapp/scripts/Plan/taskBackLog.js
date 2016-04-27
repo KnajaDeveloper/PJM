@@ -24,7 +24,20 @@ function taskBacklogPlanTofirstPage() {
     pagginationBackLog.search(pagginationBackLog);
 }  //--functionSearch--//
 
+$('#taskDetailHeaderEditBackLog').click(function(){
+    var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
 
+    if(isOpenCollapse){
+        $(this).children('span').removeClass('fa-angle-up');
+        $(this).children('span').addClass('fa-angle-down');
+        $('#taskDetailPartEditBackLog').slideUp();
+    }else{
+        $(this).children('span').removeClass('fa-angle-down');
+        $(this).children('span').addClass('fa-angle-up');
+        $('#taskDetailPartEditBackLog').slideDown();
+    }
+
+});
 
 pagginationBackLog.setEventPaggingBtn("paggingSimple2", pagginationBackLog);
 pagginationBackLog.loadTable = function loadTable(jsonData) {
@@ -33,7 +46,7 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
     if(jsonData.length > 0 ) {
     jsonData.forEach(function (value) {
 
-        var progress,taskId,taskCode,taskName,stDate,enDate,taskType = 0 ;
+        var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,projectName,moduleName,cost,importanceName,importanceCode,followerName,note,taskType = 0 ;
         if(value.taskProgress != null ){
             progress = value.taskProgress ;
             taskId = value.taskId ;
@@ -41,7 +54,51 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
             taskName = value.taskName;
             stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
             enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
+            cost = value.cost +' '+LABEL.LABEL_POINT+'';
             taskType = 1 ;
+            if(value.stDateTask != null){ stDateTask = DateUtil.dataDateToFrontend(value.stDateTask,_language);
+            }
+            else{
+                stDateTask = '-';
+            }
+            if(value.enDateTask != null){
+                enDateTask = DateUtil.dataDateToFrontend(value.enDateTask,_language);
+            }
+            else {
+                enDateTask = '-';
+            }
+
+            if(value.project != null) {
+                projectName = value.project ;
+            }
+            else {
+                projectName = '-';
+            }
+            if(value.module != null){
+                moduleName = value.module ;
+            }
+            else{
+                moduleName = '-';
+            }
+            if(value.note == null){
+                note = '';
+            }
+            if(value.importanceName && value.importanceCode){
+                //importanceCode = value.importanceCode ;
+                importanceName = value.importanceName + ' ('+ value.importanceCode+')' ;
+
+            }
+            else {
+                importanceName = null;
+            }
+
+            if(value.follower != null) {
+                followerName = value.follower.empFirstName + ' '+ value.follower.empLastName ;
+                //console.log(followerName);
+            }
+            else {
+                followerName = '-';
+            }
         }
         else {
             progress = value.otherTaskProgress ;
@@ -50,6 +107,7 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
             taskName = value.otherTaskName;
             stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
             enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
+            cost = value.cost +' '+LABEL.LABEL_POINT+'';
         }
         var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
 
@@ -57,7 +115,8 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
 
             + '<tr>'
             + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-            + '<button id="taskId_'+taskId+'"  progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
+            + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
+            'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
             '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="' + value.id + '" class="text-center" style="color: #000">'
@@ -101,16 +160,30 @@ else {
 
 var idTask; var taskType ; var checkEdit ;
 $('#taskBacklog').on("click", "[id^=taskId_]", function () {
-
+    $('[hide=1]').show();
+    $('#taskDetailPartEditBackLog').slideUp();
     var id = this.id.split('taskId_')[1];
     idTask = id ;
     taskType = $(this).attr('taskType');
+
+    $('#projectNameBackLog').html($(this).attr('project'));
+    $('#moduleNameBackLog').html($(this).attr('module'));
+    $('#stDateTaskBackLog').html($(this).attr('stDateTask'));
+    $('#enDateTaskBackLog').html($(this).attr('enDateTask'));
+    $('#taskCostBackLog').html($(this).attr('cost'));
+    $('#taskImportantBackLog').html($(this).attr('importanceName'));
+    $('#taskFollwerBackLog').html($(this).attr('followerName'));
+    $('#taskDetailBackLog').html($(this).attr('note'));
 
     $('#txtProgressBackLog').val($(this).attr('progress'));
     $('#taskCodeBackLog').html($(this).attr('taskCode'));
     $('#taskNameBackLog').html($(this).attr('taskName'));
     $('#taskStDateBackLog').html($(this).attr('stDate'));
     $('#taskEnDateBackLog').html($(this).attr('enDate'));
+    if(taskType != 1){
+        $('[hide=1]').hide();
+    }
+
     checkEdit =  $(this).attr('progress');
     $("#modalProgressBackLog").modal('show');
 });
@@ -135,7 +208,9 @@ $('#btnsaveBackLog').click( function(){
         {
             updateTaskStatusAndProgress(idTask,progress,taskType);
             $("#modalProgressBackLog").modal('hide');
+            tasktaskFollowPlanTofirstPage();
             taskBacklogPlanTofirstPage();
+            taskTodayPlanTofirstPage();
         }
 
     }

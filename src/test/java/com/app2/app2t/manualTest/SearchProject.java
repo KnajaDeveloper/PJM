@@ -3,168 +3,169 @@ package com.app2.app2t.manualtest;
 
 import com.app2.app2t.domain.pjm.Project;
 import com.app2.app2t.domain.pjm.ProjectManager;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
+import com.app2.app2t.util.AuthorizeUtil;
+        import org.junit.After;
+        import org.junit.Assert;
+        import org.junit.Before;
+        import org.junit.Test;
+        import org.junit.runner.RunWith;
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.test.annotation.DirtiesContext;
+        import org.springframework.test.context.ContextConfiguration;
+        import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+        import org.springframework.test.context.web.WebAppConfiguration;
+        import org.springframework.test.web.servlet.MockMvc;
+        import org.springframework.test.web.servlet.MvcResult;
+        import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+        import org.springframework.transaction.annotation.Transactional;
+        import org.springframework.web.context.WebApplicationContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+        import static org.hamcrest.core.Is.is;
+        import static org.junit.Assert.assertEquals;
+        import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+        import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+        import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@Transactional
-@ContextConfiguration({"classpath:META-INF/spring/applicationContext*.xml", "file:src/main/webapp/WEB-INF/spring/webmvc-config.xml"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class SearchProject {
+        @RunWith(SpringJUnit4ClassRunner.class)
+        @WebAppConfiguration
+        @Transactional
+        @ContextConfiguration({"classpath:META-INF/spring/applicationContext*.xml", "file:src/main/webapp/WEB-INF/spring/webmvc-config.xml"})
+        @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+        public class SearchProject {
 
-    private Logger LOGGER = LoggerFactory.getLogger(SearchProject.class);
-    @Autowired
-    protected WebApplicationContext wac;
-    protected MockMvc mockMvc;
-    ///--------------------------------------------------------------------------------------------------------------------///
-    ///----------Run  J unit Test ของ SearchProject  ให้แก้ userName ที่ AuthorizeUtil เป็น admin หรือ ที่มีใน Data base ----------///
-    ///-------------------------------------------------------------------------------------------------------------------///
-    public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,double cost)throws Exception{
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date stDate = new Date(Long.parseLong(stDate_));//date = 09/03/2016
-        stDate = formatter.parse(formatter.format(stDate));
-        Date enDate = new Date(Long.parseLong(enDate_));//date = 31/03/2016
-        enDate = formatter.parse(formatter.format(enDate));
-        Project project = new Project();
-        project.setProjectCode(name);
-        project.setProjectName(code);
-        project.setProjectCost(cost);
-        project.setDateStart(stDate);
-        project.setDateEnd(enDate);
-        project.persist();
+            private Logger LOGGER = LoggerFactory.getLogger(SearchProject.class);
+            @Autowired
+            protected WebApplicationContext wac;
+            protected MockMvc mockMvc;
+            ///--------------------------------------------------------------------------------------------------------------------///
+            ///----------Run  J unit Test ของ SearchProject  ให้แก้ userName ที่ AuthorizeUtil เป็น admin หรือ ที่มีใน Data base ----------///
+            ///-------------------------------------------------------------------------------------------------------------------///
+            public void insertDataTodateBase (String stDate_,String enDate_,String pm,String name,String code,double cost)throws Exception{
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date stDate = new Date(Long.parseLong(stDate_));//date = 09/03/2016
+                stDate = formatter.parse(formatter.format(stDate));
+                Date enDate = new Date(Long.parseLong(enDate_));//date = 31/03/2016
+                enDate = formatter.parse(formatter.format(enDate));
+                Project project = new Project();
+                project.setProjectCode(name);
+                project.setProjectName(code);
+                project.setProjectCost(cost);
+                project.setDateStart(stDate);
+                project.setDateEnd(enDate);
+                project.persist();
 
-        ProjectManager pjm = new ProjectManager();
-        pjm.setEmpCode(pm);
-        pjm.setProject(project);
-        pjm.persist();
-    }
-    public void dateTest  (long dateLong,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
-        MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
-                .param("StDateBegin",stDatefrom)
-                .param("StDateEnd",stDateTo)
-                .param("FnDateBegin",fnDateFrom)
-                .param("FnDateEnd",fnDateTo)
-                .param("costStart",costFrom)
-                .param("costEnd",costTo)
-                .param("projectManage",pm)
-                .param("maxResult","15")
-                .param("firstResult","0")
-                .param("moduleManager","")
-        ).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath(json, is(dateLong)))
-                .andReturn()
-                ;
-    }
-    public void dataTestReturnInt  (double dataJson,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
-        MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
-                .param("StDateBegin",stDatefrom)
-                .param("StDateEnd",stDateTo)
-                .param("FnDateBegin",fnDateFrom)
-                .param("FnDateEnd",fnDateTo)
-                .param("costStart",costFrom)
-                .param("costEnd",costTo)
-                .param("projectManage",pm)
-                .param("maxResult","15")
-                .param("firstResult","0")
-                .param("moduleManager","")
-        ).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath(json, is(dataJson)))
-                .andReturn()
-                ;
-    }
-    public void dataTestReturnString  (String dataJson,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
-        MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
-                .param("StDateBegin",stDatefrom)
-                .param("StDateEnd",stDateTo)
-                .param("FnDateBegin",fnDateFrom)
-                .param("FnDateEnd",fnDateTo)
-                .param("costStart",costFrom)
-                .param("costEnd",costTo)
-                .param("projectManage",pm)
-                .param("maxResult","15")
-                .param("firstResult","0")
-                .param("moduleManager","")
-        ).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath(json, is(dataJson)))
-                .andReturn()
-                ;
-    }
-    public void dataTestReturnIsEmpty  (String dataJson, String json, String stDatefrom, String stDateTo, String fnDateFrom, String fnDateTo, String costFrom, String costTo, String pm)throws Exception{
-        MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
-                .param("StDateBegin",stDatefrom)
-                .param("StDateEnd",stDateTo)
-                .param("FnDateBegin",fnDateFrom)
-                .param("FnDateEnd",fnDateTo)
-                .param("costStart",costFrom)
-                .param("costEnd",costTo)
-                .param("projectManage",pm)
-                .param("maxResult","15")
-                .param("firstResult","0")
-                .param("moduleManager","")
-        ).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andReturn()
-                ;
-        assertEquals(mvcResult.getResponse().getContentAsString(),dataJson);
-    }
-    @Before
-    public void setup()throws Exception
-    {
-
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        insertDataTodateBase("1457456400000","1459357200000","EM001","PT01","ProjectTest1",20.0);//date 09/03/2016 - 31/03/2016
-        insertDataTodateBase("1457456400000","1458061200000","EM002","PT02","ProjectTest2",30.0);//date 09/03/2016 - 16/03/2016
-        insertDataTodateBase("1457456400000","1459357200000","EM003","PT03","ProjectTest3",20.0);//date 09/03/2016 - 31/03/2016
-        insertDataTodateBase("1457456400000","1458061200000","EM004","PT04","ProjectTest4",30.0);//date 09/03/2016 - 16/03/2016
-        insertDataTodateBase("1457456400000","1459357200000","EM005","PT05","ProjectTest5",25.0);//date 09/03/2016 - 31/03/2016
-    }
-    @After
-    public void logger()throws Exception{
-        LOGGER.debug("****************************************************************************************************");
-    }
-    public void selectProjectReturnLong(long dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
-        dateTest(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
-    }
-    public void selectProjectReturnInt(double dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
-        dataTestReturnInt(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
-    }
-    public void selectProjectReturnString(String  data,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
-        dataTestReturnString(data,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
-    }
-    public void selectProjectReturnEmpty(String data,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
-        dataTestReturnIsEmpty(data,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
+                ProjectManager pjm = new ProjectManager();
+                pjm.setEmpCode(pm);
+                pjm.setProject(project);
+                pjm.persist();
+            }
+            public void dateTest  (long dateLong,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
+                MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
+                        .param("StDateBegin",stDatefrom)
+                        .param("StDateEnd",stDateTo)
+                        .param("FnDateBegin",fnDateFrom)
+                        .param("FnDateEnd",fnDateTo)
+                        .param("costStart",costFrom)
+                        .param("costEnd",costTo)
+                        .param("projectManage",pm)
+                        .param("maxResult","15")
+                        .param("firstResult","0")
+                        .param("moduleManager","")
+                ).andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                        .andExpect(jsonPath(json, is(dateLong)))
+                        .andReturn()
+                        ;
+            }
+            public void dataTestReturnInt  (double dataJson,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
+                MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
+                        .param("StDateBegin",stDatefrom)
+                        .param("StDateEnd",stDateTo)
+                        .param("FnDateBegin",fnDateFrom)
+                        .param("FnDateEnd",fnDateTo)
+                        .param("costStart",costFrom)
+                        .param("costEnd",costTo)
+                        .param("projectManage",pm)
+                        .param("maxResult","15")
+                        .param("firstResult","0")
+                        .param("moduleManager","")
+                ).andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                        .andExpect(jsonPath(json, is(dataJson)))
+                        .andReturn()
+                        ;
+            }
+            public void dataTestReturnString  (String dataJson,String json,String stDatefrom,String stDateTo,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm)throws Exception{
+                MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
+                        .param("StDateBegin",stDatefrom)
+                        .param("StDateEnd",stDateTo)
+                        .param("FnDateBegin",fnDateFrom)
+                        .param("FnDateEnd",fnDateTo)
+                        .param("costStart",costFrom)
+                        .param("costEnd",costTo)
+                        .param("projectManage",pm)
+                        .param("maxResult","15")
+                        .param("firstResult","0")
+                        .param("moduleManager","")
+                ).andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                        .andExpect(jsonPath(json, is(dataJson)))
+                        .andReturn()
+                        ;
+            }
+            public void dataTestReturnIsEmpty  (String dataJson, String json, String stDatefrom, String stDateTo, String fnDateFrom, String fnDateTo, String costFrom, String costTo, String pm)throws Exception{
+                MvcResult mvcResult = this.mockMvc.perform(get("/projects/findProjectSearchData")
+                        .param("StDateBegin",stDatefrom)
+                        .param("StDateEnd",stDateTo)
+                        .param("FnDateBegin",fnDateFrom)
+                        .param("FnDateEnd",fnDateTo)
+                        .param("costStart",costFrom)
+                        .param("costEnd",costTo)
+                        .param("projectManage",pm)
+                        .param("maxResult","15")
+                        .param("firstResult","0")
+                        .param("moduleManager","")
+                ).andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                        .andReturn()
+                        ;
+                assertEquals(mvcResult.getResponse().getContentAsString(),dataJson);
+            }
+            @Before
+            public void setup()throws Exception
+            {
+                this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+                AuthorizeUtil.setUserName("admin");
+                insertDataTodateBase("1457456400000","1459357200000","EM001","PT01","ProjectTest1",20.0);//date 09/03/2016 - 31/03/2016
+                insertDataTodateBase("1457456400000","1458061200000","EM002","PT02","ProjectTest2",30.0);//date 09/03/2016 - 16/03/2016
+                insertDataTodateBase("1457456400000","1459357200000","EM003","PT03","ProjectTest3",20.0);//date 09/03/2016 - 31/03/2016
+                insertDataTodateBase("1457456400000","1458061200000","EM004","PT04","ProjectTest4",30.0);//date 09/03/2016 - 16/03/2016
+                insertDataTodateBase("1457456400000","1459357200000","EM005","PT05","ProjectTest5",25.0);//date 09/03/2016 - 31/03/2016
+            }
+            @After
+            public void logger()throws Exception{
+                LOGGER.debug("****************************************************************************************************");
+            }
+            public void selectProjectReturnLong(long dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
+                dateTest(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
+            }
+            public void selectProjectReturnInt(double dateLong,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
+                dataTestReturnInt(dateLong,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
+            }
+            public void selectProjectReturnString(String  data,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
+                dataTestReturnString(data,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
+            }
+            public void selectProjectReturnEmpty(String data,String json,String stDatefrom,String stDate_To,String fnDateFrom,String fnDateTo,String costFrom,String costTo,String pm) throws Exception{
+                dataTestReturnIsEmpty(data,json,stDatefrom,stDate_To,fnDateFrom,fnDateTo,costFrom,costTo,pm);
     }
     @Test
     public void selectWhereStar () throws Exception{

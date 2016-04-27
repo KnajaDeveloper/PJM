@@ -6,19 +6,18 @@ $(document).ready(function(){
 
 });
 
-$('#taskDetailHeaderAdd, #taskDetailHeaderEdit').click(function(){
+$('#taskDetailHeaderEdit').click(function(){
     var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
 
     if(isOpenCollapse){
         $(this).children('span').removeClass('fa-angle-up');
         $(this).children('span').addClass('fa-angle-down');
-        $('#taskDetailPartAdd, #taskDetailPartEdit').slideUp();
+        $('#taskDetailPartEdit').slideUp();
     }else{
         $(this).children('span').removeClass('fa-angle-down');
         $(this).children('span').addClass('fa-angle-up');
-        $('#taskDetailPartAdd, #taskDetailPartEdit').slideDown();
+        $('#taskDetailPartEdit').slideDown();
     }
-
 
 });
 
@@ -46,7 +45,7 @@ function taskTodayPlanTofirstPage() {
         var tableData1 = "";
         if(jsonData.length > 0 ) {
             jsonData.forEach(function (value) {
-                var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,cost,importanceName,importanceCode,followerLastName,followerFirstName,taskType = 0 ;
+                var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,projectName,moduleName,cost,importanceName,importanceCode,followerName,note,taskType = 0 ;
                if(value.taskProgress != null ){
                    progress = value.taskProgress ;
                    taskId = value.taskId ;
@@ -54,41 +53,66 @@ function taskTodayPlanTofirstPage() {
                    taskName = value.taskName;
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
                    enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
+                   cost = value.cost +' '+LABEL.LABEL_POINT+'';
                    taskType = 1 ;
-                   stDateTask = DateUtil.dataDateToFrontend(value.stDateTask,_language);
-                   enDateTask = DateUtil.dataDateToFrontend(value.enDateTask,_language);
-                   cost = value.cost ;
-                   if(value.importanceName && value.importanceCode){
-                       importanceCode = value.importanceCode;
-                       importanceName = value.importanceName;
+                   if(value.stDateTask != null){ stDateTask = DateUtil.dataDateToFrontend(value.stDateTask,_language);
+                   }
+                  else{
+                       stDateTask = '-';
+                   }
+                   if(value.enDateTask != null){
+                       enDateTask = DateUtil.dataDateToFrontend(value.enDateTask,_language);
                    }
                    else {
-                       importanceCode = null;
+                       enDateTask = '-';
+                   }
+
+                   if(value.project != null) {
+                       projectName = value.project ;
+                   }
+                   else {
+                       projectName = '-';
+                   }
+                   if(value.module != null){
+                       moduleName = value.module ;
+                   }
+                   else{
+                       moduleName = '-';
+                   }
+                   if(value.note == null){
+                       note = '';
+                   }
+                   if(value.importanceName && value.importanceCode){
+                       //importanceCode = value.importanceCode ;
+                       importanceName = value.importanceName + ' ('+ value.importanceCode+')' ;
+
+                   }
+                   else {
                        importanceName = null;
                    }
-                   if(value.followerName != "") {
-                       followerLastName = value.followerName.lastName;
-                       followerFirstName = value.followerName.firstName;
+
+                   if(value.follower != null) {
+                       followerName = value.follower.empFirstName + ' '+ value.follower.empLastName ;
+                       //console.log(followerName);
                    }
                    else {
-                       followerLastName = null;
-                       followerFirstName = null;
+                       followerName = '-';
                    }
                }
-                else {
+               else {
                    progress = value.otherTaskProgress ;
                    taskId = value.otherTaskId ;
                    taskCode = '';
                    taskName = value.otherTaskName;
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
                    enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
-                   cost = value.cost ;
+                   cost = value.cost +' '+LABEL.LABEL_POINT+'';
                }
                 var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
                 tableData1 = ''
                     + '<tr>'
                     + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" enDateTask="'+enDateTask+'" cost="'+cost+'" followerLastName="'+followerLastName+'" followerFirstName="'+followerFirstName+'" importanceCode="'+importanceCode+'" ' +
+                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
                     'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
                     '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
                     + '</td>'
@@ -131,18 +155,32 @@ function taskTodayPlanTofirstPage() {
 
     var idTask; var taskType ; var checkEdit ;
 $('#taskToday').on("click", "[id^=taskId_]", function () {
-
-    $('#taskDetailPartAdd, #taskDetailPartEdit').slideUp();
+    $('[hide=1]').show();
+    $('#taskDetailPartEdit').slideUp();
 
     var id = this.id.split('taskId_')[1];
     idTask = id ;
     taskType = $(this).attr('taskType');
+
+    $('#projectNameToday').html($(this).attr('project'));
+    $('#moduleNameToday').html($(this).attr('module'));
+    //$('#taskCodeToday').html($(this).attr('taskCode'));
+    //$('#taskNameToday').val($(this).attr('taskName'));
+    $('#stDateTask').html($(this).attr('stDateTask'));
+    $('#enDateTask').html($(this).attr('enDateTask'));
+    $('#taskCost').html($(this).attr('cost'));
+    $('#taskImportant').html($(this).attr('importanceName'));
+    $('#taskFollwer').html($(this).attr('followerName'));
+    $('#taskDetail').html($(this).attr('note'));
 
     $('#progressToday').val($(this).attr('progress'));
     $('#taskCodeToday').html($(this).attr('taskCode'));
     $('#taskNameToday').html($(this).attr('taskName'));
     $('#stDatePlan').html($(this).attr('stDate'));
     $('#enDatePlan').html($(this).attr('enDate'));
+    if(taskType != 1){
+        $('[hide=1]').hide();
+    }
     checkEdit =  $(this).attr('progress');
     $("#modalProgress").modal('show');
 
@@ -168,6 +206,8 @@ $('#btnsaveToday').click( function(){
         {
             updateTaskStatusAndProgress(idTask,progress,taskType);
             $("#modalProgress").modal('hide');
+            tasktaskFollowPlanTofirstPage();
+            taskBacklogPlanTofirstPage();
             taskTodayPlanTofirstPage();
         }
 
