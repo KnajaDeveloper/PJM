@@ -213,6 +213,7 @@ $('#btnAddOtherPlan').click(function () {
     var taskCost = $('#txtPlanCost').val();
     var dateStart = $('#cPlanDateBegin').val();
     var dateEnd = $('#cPlanDateEnd').val();
+    var note = $('#txtPlanNote').val();
 
     if (taskName.length == 0) {
         $('#txtPlanName').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
@@ -241,7 +242,8 @@ $('#btnAddOtherPlan').click(function () {
                 taskName: taskName,
                 taskCost: taskCost,
                 dateStart: DateUtil.dataDateToDataBase(dateStart, _language),
-                dateEnd: DateUtil.dataDateToDataBase(dateEnd, _language)
+                dateEnd: DateUtil.dataDateToDataBase(dateEnd, _language),
+                note: note
             }),
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
@@ -252,6 +254,7 @@ $('#btnAddOtherPlan').click(function () {
                     $('#txtPlanCost').val('');
                     $('#cPlanDateBegin').val('');
                     $('#cPlanDateEnd').val('');
+                    $('#txtPlanNote').val('');
 
                     $('#cPlanDateBegin').change();
                     $('#cPlanDateEnd').change();
@@ -474,6 +477,7 @@ $('#btnSaveAddPlan').click(function () {
     var b = getFirstEmptyDate('cAddDateBegin_');
     var e = getFirstEmptyDate('cAddDateEnd_');
     var shiftPlan = $('#radioPostpone_add').prop('checked');
+    var note = $('#txtAddNote').val();
 
     if (b !== null) {
         b.attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
@@ -483,7 +487,7 @@ $('#btnSaveAddPlan').click(function () {
         bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         var taskId = $('#mdAddToPlan').attr('taskId');
-        var plans = [taskId, shiftPlan];
+        var plans = [taskId, shiftPlan, note];
 
         if (_language == 'TH') {
             $('[id^=cAddDateBegin_][id$=_convert]').each(function () {
@@ -637,10 +641,10 @@ function openModalEditPlan(event) {
 
     $('#txtPercentage').val(event.progress);
     if(event.taskStatus == taskStatus.complete || (event.taskStatus == 'otherTask' && event.progress == 100)) {
-        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, [name=optradio]').attr('disabled', 'disabled');
+        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, #txtEditNote,[name=optradio]').attr('disabled', 'disabled');
         $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').hide();
     } else {
-        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, [name=optradio]').removeAttr('disabled');
+        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, #txtEditNote, [name=optradio]').removeAttr('disabled');
         $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').show();
     }
 
@@ -666,6 +670,7 @@ function openModalEditPlan(event) {
         $('#cEditDateEnd_0').val(parseDatePicker(endDate));
     }
 
+    $('#txtEditNote').val(event.note);
     $('#cEditDateBegin_0, #cEditDateEnd_0').popover('hide');
 
     dateAddMaxId = 0;
@@ -761,6 +766,7 @@ $('#btnSaveEditPlan').click(function () {
     var e = getFirstEmptyDate('cEditDateEnd_');
     var progress = $('#txtPercentage').val();
     var shiftPlan = $('#radioPostpone_edit').prop('checked');
+    var note = $('#txtEditNote').val();
 
     if(progress == '') {
         $('#txtPercentage').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
@@ -776,7 +782,7 @@ $('#btnSaveEditPlan').click(function () {
         bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         var planId = $('#mdEditToPlan').attr('planId');
-        var plans = [planId, shiftPlan, progress];
+        var plans = [planId, shiftPlan, progress, note];
 
         if (_language == 'TH') {
             $('[id^=cEditDateBegin_][id$=_convert]').each(function () {
@@ -1071,6 +1077,7 @@ function changePlan(){
     var dateEnd = $('#cEditDateEnd_0').val();
     var inputBegin = (_language == 'TH') ? $('[id^=cEditDateBegin_][id$=_convert]') : $('[id^=cEditDateBegin_]');
     var isShift = $('#radioPostpone_edit').prop('checked');
+    var note = $('#txtEditNote').val();
 
     if(FormUtil.isDateFormat(dateBegin)) {
         if(_language == 'TH') {
@@ -1088,9 +1095,10 @@ function changePlan(){
     var percentageOld = _eventDate.progress;
     var dateBeginOld = _eventDate.start._i.split('T')[0];
     var dateEndOld = _eventDate.end._i.split('T')[0];
+    var noteOld = _eventDate.note;
 
     var noChangeDate = (inputBegin.length == 1) ? (dateBeginOld == dateBegin && dateEndOld == dateEnd): false;
-    if(percentageOld != percentage || !noChangeDate || isShift) {
+    if(percentageOld != percentage || !noChangeDate || isShift || noteOld != note) {
         return true;
     }
     return false;

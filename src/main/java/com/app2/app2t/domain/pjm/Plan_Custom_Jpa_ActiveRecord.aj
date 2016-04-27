@@ -21,19 +21,21 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
 
     protected static Logger LOGGER = LoggerFactory.getLogger(Plan_Custom_Jpa_ActiveRecord.class);
 
-    public static void Plan.insertPlan(Task task, Date dateStart, Date dateEnd) {
+    public static void Plan.insertPlan(Task task, Date dateStart, Date dateEnd, String note) {
         Plan plan = new Plan();
         plan.setTask(task);
         plan.setDateStart(dateStart);
         plan.setDateEnd(dateEnd);
+        plan.setNote(note);
         plan.persist();
     }
 
-    public static void Plan.insertOtherPlan(OtherTask otherTask, Date dateStart, Date dateEnd) {
+    public static void Plan.insertOtherPlan(OtherTask otherTask, Date dateStart, Date dateEnd, String note) {
         Plan plan = new Plan();
         plan.setOtherTask(otherTask);
         plan.setDateStart(dateStart);
         plan.setDateEnd(dateEnd);
+        plan.setNote(note);
         plan.persist();
     }
 
@@ -97,7 +99,7 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static Plan Plan.updatePlan(Long planId, Date dateStart, Date dateEnd) {
+    public static Plan Plan.updatePlan(Long planId, Date dateStart, Date dateEnd, String note) {
         try {
             EntityManager ent = Plan.entityManager();
             Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
@@ -106,7 +108,10 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
             Plan plan = plans.get(0);
             plan.setDateStart(dateStart);
             plan.setDateEnd(dateEnd);
+            plan.setNote(note);
             plan.merge();
+
+            Plan.updatePlanNote(plan.getTask(), plan.getOtherTask(), note);
 
             return plan;
         } catch (Exception ex) {
@@ -114,6 +119,27 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         }
 
         return null;
+    }
+
+    public static void Plan.updatePlanNote(Task task, OtherTask otherTask, String note) {
+        try {
+            EntityManager ent = Plan.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+            if(task != null){
+                criteria.add(Restrictions.eq("task", task));
+            }
+            if(otherTask != null){
+                criteria.add(Restrictions.eq("otherTask", otherTask));
+            }
+
+            List<Plan> plans = criteria.list();
+            for(Plan plan : plans){
+                plan.setNote(note);
+                plan.merge();
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
     public static OtherTask Plan.deleteById(long planId) {

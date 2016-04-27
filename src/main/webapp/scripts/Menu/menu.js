@@ -79,7 +79,15 @@ $(document).ready(function () {
     });
 
     $('#menuContainer').on('click', '[data-toggle=collapse]',function(){
-        console.log($(this));
+        var dropdown = $(this).parent().children()[1];
+        console.log(dropdown);
+        if(dropdown.indexOf('in') >= 0 || dropdown.indexOf('collapse') >= 0) {
+            if($(this).hasClass('open-collapse')) {
+                $(this).removeClass('open-collapse');
+            } else {
+                $(this).addClass('open-collapse');
+            }
+        }
     });
 });
 
