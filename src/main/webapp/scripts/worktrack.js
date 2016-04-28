@@ -98,6 +98,10 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
             empManager+=""+value.moduleManager[i].empCode ;
             if(i!=value.moduleManager.length - 1) empManager+="==";
         }
+        for(i=0;i<value.projectManager.length;i++){
+            empManager+=""+value.projectManager[i].empCode ;
+            if(i!=value.projectManager.length - 1) empManager+="==";
+        }
         tableData = ''
             + '<tr>'
             + '<td class="text-center">'

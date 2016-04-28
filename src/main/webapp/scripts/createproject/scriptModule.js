@@ -820,11 +820,11 @@ function findSameModuleManagerOrProjectManager(needKnow){
 		var name = ""+$("#"+id).data('dataCode');
 		arrProjectManager.push(""+name.trim());
 	}
-	if(arrManager.indexOf(""+needKnow) >= 0){
-		return "module";
-	}
-	else if(arrProjectManager.indexOf(""+needKnow) >= 0){
+	if(arrProjectManager.indexOf(""+needKnow) >= 0){
 		return "project";
+	}
+	else if(arrManager.indexOf(""+needKnow) >= 0){
+		return "module";
 	}
 	else{
 		return "nosame";

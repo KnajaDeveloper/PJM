@@ -327,7 +327,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
             status = ConstantApplication.getTaskStatusNew();
         }
         task.setTaskStatus(status);
-        task.setProgress(0);
+//        task.setProgress(0);
         task.merge();
         return criteria.list();
     }
