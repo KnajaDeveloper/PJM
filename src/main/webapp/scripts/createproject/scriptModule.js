@@ -716,7 +716,7 @@ function editModule(objectModule){
 			var html = "<div style='' id='container_subEditModuleManager"+ i +"' class='form-group'><label class='col-sm-3 control-label'></label>" +
 				"<div class='col-sm-4 display:inline-block''>"+
 				"<div class='input-group display:inline-block'>"+
-				"<input id='txtEditModuleManagerName"+i+"' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName"+i+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
+				"<input id='txtEditModuleManagerName"+i+"' onchange='editModuleManagerChange(this)' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName"+i+"' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>"+
 				"<span class='input-group-addon'>"+
 				"<span id='BtntxtEditModuleManagerName"+i+"' onclick='UtilLov.lovEmp(this)' target='txtEditModuleManagerName"+i+"' class='fa fa-search' style='cursor:pointer;'>"+
 				"<jsp:text/>"+
@@ -734,10 +734,15 @@ function editModule(objectModule){
 
 		var textModuleMember = arr_moduleMember[number];
 		var splitTextModuleMember = textModuleMember.split("<br/>");
+		var same1 = findSameModuleManagerOrProjectManager(splitTextModuleMember[0].split(' ')[0]);
 		$("#txtEditModuleMemberName1").val(splitTextModuleMember[0]);
 		$("#txtEditModuleMemberName1").data("dataCode",""+splitTextModuleMember[0].split(' ')[0]);
 		$("#txtEditModuleMemberName1").prop('disabled',true);
 		$("#txtEditModuleMemberName1").prop('style','background-color:white');
+		if (same1 != "nosame") {
+			if (same1 == "module") $("#container_subEditModuleMember1").attr("from", "modulemanager");
+			else $("#container_subEditModuleMember1").attr("from", "project");
+		}
 		for (var i = 2; i < splitTextModuleMember.length; i++) {
 			var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1].split(' ')[0]);
 			var html =
