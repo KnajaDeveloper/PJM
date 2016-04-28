@@ -50,7 +50,7 @@ function checkTotalUse(pjCost){
     for (var i = 0; i < count_Element; i++) {
         var id = $('[id^=btnEditModule]')[i].id;
         var number = parseInt(id.split("btnEditModule")[1]);
-        totalUse += parseFloat(ModuleProject[number].moduleCost);
+        totalUse += parseFloat(dataDetail.responseJSON.ModuleProject[number].moduleCost);
     }
     if(totalUse > pjCost) return false;
     else return true;
@@ -999,7 +999,7 @@ function editModule(objectModule) {
                 var html = "<div style='' id='container_subEditModuleManager" + i + "' class='form-group'><label class='col-sm-3 control-label'></label>" +
                     "<div class='col-sm-4 display:inline-block''>" +
                     "<div class='input-group display:inline-block'>" +
-                    "<input id='txtEditModuleManagerName" + i + "' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName" + i + "' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>" +
+                    "<input id='txtEditModuleManagerName" + i + "' onchange='editModuleManagerChange(this)' onkeypress='UtilLov.onChangeInputLovEmp(this,event)' onfocus='UtilLov.onFocus(this)' target='txtEditModuleManagerName" + i + "' data-toggle='popover' data-content='${dataContent}' data-placement='bottom' class='form-control' autocomplete='off' type='department-lov'>" +
                     "<span class='input-group-addon'>" +
                     "<span id='BtntxtEditModuleManagerName" + i + "' onclick='UtilLov.lovEmp(this)' target='txtEditModuleManagerName" + i + "' class='fa fa-search' style='cursor:pointer;'>" +
                     "<jsp:text/>" +
@@ -1014,13 +1014,17 @@ function editModule(objectModule) {
                 $("#txtEditModuleManagerName" + i).val(detailEmp[splitTextModuleManager[i - 1]]);
                 $("#txtEditModuleManagerName" + i).data("dataCode", "" + splitTextModuleManager[i - 1].split(' ')[0]);
             }
-
             var textModuleMember = moduleMemberToFrontEnd(number);
             var splitTextModuleMember = textModuleMember.split("<br/>");
+            var same1 = findSameModuleManagerOrProjectManager(splitTextModuleMember[0].split(' ')[0]);
             $("#txtEditModuleMemberName1").val(detailEmp[splitTextModuleMember[0]]);
             $("#txtEditModuleMemberName1").data("dataCode", "" + splitTextModuleMember[0]);
             $("#txtEditModuleMemberName1").prop('disabled',true);
             $("#txtEditModuleMemberName1").prop('style','background-color:white');
+            if (same1 != "nosame") {
+                if (same1 == "module") $("#container_subEditModuleMember1").attr("from", "modulemanager");
+                else $("#container_subEditModuleMember1").attr("from", "project");
+            }
             for (var i = 2; i < splitTextModuleMember.length; i++) {
                 var same = findSameModuleManagerOrProjectManager(splitTextModuleMember[i - 1].split(' ')[0]);
                 var html =
@@ -1992,11 +1996,11 @@ function editModuleWhenEdit(objectModule){
     clearEditModal();
     var changeIDbtnSave = $('[id^=btnEditSaveModule]')[0].id;
     $('#' + changeIDbtnSave).attr('id', 'btnEditSaveModule' + number);
-    $("#txtEditModuleName1").val(ModuleProject[number].moduleName);
-    $("#txtEditInitialModuleName1").val(ModuleProject[number].moduleCode);
-    $("#txtCostsEditModule1").val(ModuleProject[number].moduleCost);
-    $("#dateStartEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateStart, _language));
-    $("#dateEndEditModule").val(DateUtil.dataDateToFrontend(ModuleProject[number].dateEnd, _language));
+    $("#txtEditModuleName1").val(dataDetail.responseJSON.ModuleProject[number].moduleName);
+    $("#txtEditInitialModuleName1").val(dataDetail.responseJSON.ModuleProject[number].moduleCode);
+    $("#txtCostsEditModule1").val(dataDetail.responseJSON.ModuleProject[number].moduleCost);
+    $("#dateStartEditModule").val(DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[number].dateStart, _language));
+    $("#dateEndEditModule").val(DateUtil.dataDateToFrontend(dataDetail.responseJSON.ModuleProject[number].dateEnd, _language));
     var textModuleManager = moduleManagerToFrontEnd(number);
     var splitTextModuleManager = textModuleManager.split("<br/>");
     $("#txtEditModuleManagerName1").val(splitTextModuleManager[0]);

@@ -367,7 +367,7 @@
 								<div id="container_nameEditModuleManager" class="form-horizontal">
 									<div style='' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MANAGER} </label>
-										<div class="col-sm-4">
+										<div id='container_subEditModuleMember1' class="col-sm-4">
 											<component:LovEmployee id="txtEditModuleManagerName1" controller="findEmployeeByText" func="editModuleManagerChange(this)"/>
 										</div>
 										<div class='btn'><!--Not Empty--></div>
@@ -383,7 +383,7 @@
 								<div id="container_nameEditModuleMember" class="form-horizontal">
 									<div style='' class='form-group'>
 										<label class="col-sm-3 control-label required">${LABEL_MODULE_MEMBER} </label>
-										<div class="col-sm-4">
+										<div id='container_subEditModuleMember1' class="col-sm-4">
 											<!--<input type="text" class="form-control" id="txtEditModuleMemberName1"></input>-->
 											<component:LovEmployee id="txtEditModuleMemberName1" controller="findEmployeeByText"/>
 										</div>
