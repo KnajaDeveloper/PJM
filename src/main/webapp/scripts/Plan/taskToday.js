@@ -195,7 +195,7 @@ $('#btnsaveToday').click( function(){
     } else if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
         $('#progressToday').attr('data-content', MESSAGE.MS_COMPLETE_INTEGER_NUMBER).popover('show');
     } else if (progress < 0 || progress > 100) {
-        $('#progressToday').attr('data-content', MESSAGE.MS_COMPLETE_INTEGER_NUMBER).popover('show');
+        $('#progressToday').attr('data-content',MESSAGE.MS_ZERO_TO_HUNDRED).popover('show');
     }
     else {
         var check = $('#progressToday').val();
@@ -221,12 +221,19 @@ $('#closeToday').click( function(){
         bootbox.confirm( MESSAGE.MS_EDIT_CHANGED, function (result) {
             if (result === true) {
                 $("#modalProgress").modal('hide');
+                $('#progressToday').popover('hide');
+                $('#taskDetailPartEdit').slideUp()
+                $('#taskDetailHeaderEdit').children('span').removeClass('fa-angle-up');
+                $('#taskDetailHeaderEdit').children('span').addClass('fa-angle-down');
             }
         })
     }
     else
     {
         $("#modalProgress").modal('hide');
+        $('#taskDetailPartEdit').slideUp()
+        $('#taskDetailHeaderEdit').children('span').removeClass('fa-angle-up');
+        $('#taskDetailHeaderEdit').children('span').addClass('fa-angle-down');
     }
 
 });

@@ -53,6 +53,7 @@
   <c:set var="LABEL_PLAN" scope="request"><spring:message code="L0135"/></c:set>
   <c:set var="LABEL_POINT" scope="request"><spring:message code="L0030"/></c:set>
   <c:set var="LABEL_NOT_TEST" scope="request"><spring:message code="L0168"/></c:set>
+  <c:set var="MS_ZERO_TO_HUNDRED" scope="request"><spring:message code="M0017"/></c:set>
 
   <script>
     var MESSAGE = {};
@@ -68,6 +69,7 @@
     MESSAGE.MS_NO_INFORMATION_CHANGED = '${MS_NO_INFORMATION_CHANGED}';
     MESSAGE.MS_EDIT_CHANGED = '${MS_EDIT_CHANGED}';
     MESSAGE.LABEL_NOT_TEST = '${LABEL_NOT_TEST}';
+    MESSAGE.MS_ZERO_TO_HUNDRED = '${MS_ZERO_TO_HUNDRED}';
 
     var LABEL = {};
     LABEL.LABEL_PASS = '${LABEL_PASS}';
@@ -210,7 +212,7 @@
         <div class="modal-body">
           <div class="form-horizontal">
             <fieldset>
-              <legend id="taskDetailHeaderEdit" style="cursor: pointer;">${LABEL_TASK_DETAIL}<span class="fa fa-angle-down"></span></legend>
+              <legend id="taskDetailHeaderEdit" style="cursor: pointer;">${LABEL_TASK_DETAIL} <span class="fa fa-angle-down"></span></legend>
               <div id="taskDetailPartEdit">
                 <div hide="1" class="form-group">
                   <label class="control-label col-sm-3">${LABEL_PROJECT} </label>
@@ -327,7 +329,7 @@
         <div class="modal-body">
           <div class="form-horizontal">
             <fieldset>
-              <legend id="taskDetailHeaderEditBackLog" style="cursor: pointer;">${LABEL_TASK_DETAIL}<span class="fa fa-angle-down"></span></legend>
+              <legend id="taskDetailHeaderEditBackLog" style="cursor: pointer;">${LABEL_TASK_DETAIL} <span class="fa fa-angle-down"></span></legend>
               <div id="taskDetailPartEditBackLog">
                 <div hide="1" class="form-group">
                   <label class="control-label col-sm-3">${LABEL_PROJECT}</label>
