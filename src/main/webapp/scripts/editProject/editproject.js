@@ -1061,7 +1061,11 @@ function editModule(objectModule) {
             countEditModuleMember = $("[id^=txtEditModuleMemberName]").length;
             saveDataEditModule();
             if(role!="ProjectManager"){
-                $("[id^=btnDeleteEdit]").hide();
+                $("[id^=btnDeleteEditMM]").hide();
+                $("[id^=btnDeleteEditMMem]").show();
+                $("[id^=txtEditModuleManagerName]").prop('disabled',true);
+                $("[id^=txtEditModuleManagerName]").prop('style','background-color:white');
+                $("#btnEditAddMM1").hide();
             }
         } else {
             bootbox.alert(Message.Cant_make_any_action + "\n" + Message.Confirm_editing_data);
@@ -1503,7 +1507,6 @@ function getAllEditDetailModuleMember() {
     return allNameModuleMember;
 }
 
-
 function btnDeleteEditModuleManager(id) {
     id = id.replace("btnDeleteEditMM", "container_subEditModuleManager");
     $("#" + id).remove();
@@ -1893,11 +1896,11 @@ function findSameModuleManagerOrProjectManager(needKnow){
         var name = ""+$("#"+id).data('dataCode');
         arrProjectManager.push(""+name);
     }
-    if(arrManager.indexOf(""+needKnow) >= 0){
-        return "module";
-    }
-    else if(arrProjectManager.indexOf(""+needKnow) >= 0){
+    if(arrProjectManager.indexOf(""+needKnow) >= 0){
         return "project";
+    }
+    else if(arrManager.indexOf(""+needKnow) >= 0){
+        return "module";
     }
     else{
         return "nosame";

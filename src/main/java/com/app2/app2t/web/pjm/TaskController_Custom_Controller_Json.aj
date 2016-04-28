@@ -442,6 +442,8 @@ privileged aspect TaskController_Custom_Controller_Json {
                             map.put("project", task.getProgram().getModuleProject().getProject().getProjectName());
                             map.put("follower",task.getEmpCode());
                             map.put("taskStatus",task.getTaskStatus());
+                            List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getProgram().getModuleProject().getProject());
+                            map.put("projectManager",listPM);
                             resultSearch.add(map);
                         }
                         return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
@@ -469,6 +471,8 @@ privileged aspect TaskController_Custom_Controller_Json {
                             map.put("project", task.getTask().getProgram().getModuleProject().getProject().getProjectName());
                             map.put("follower",task.getEmpCode());
                             map.put("taskStatus",task.getTask().getTaskStatus());
+                            List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getTask().getProgram().getModuleProject().getProject());
+                            map.put("projectManager",listPM);
                             resultSearch.add(map);
                         }
                         return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
@@ -523,7 +527,11 @@ privileged aspect TaskController_Custom_Controller_Json {
             List<FollowerTask> taskList = FollowerTask.findFollowerTaskByTaskId(taskId);
             for(FollowerTask task : taskList) {
                 List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getTask().getProgram().getModuleProject().getId()));
+                List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getTask().getProgram().getModuleProject().getProject());
                 for(ModuleManager mm : listMM){
+                    empCodeCanEdit.add(mm.getEmpCode());
+                }
+                for(ProjectManager mm : listPM){
                     empCodeCanEdit.add(mm.getEmpCode());
                 }
                 empCodeCanEdit.add(task.getEmpCode());
