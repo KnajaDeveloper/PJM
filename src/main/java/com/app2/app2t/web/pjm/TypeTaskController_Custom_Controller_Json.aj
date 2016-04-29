@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 privileged aspect TypeTaskController_Custom_Controller_Json {
+
+     protected static Logger LOGGER = LoggerFactory.getLogger(TypeTaskController_Custom_Controller_Json.class);
 
     @RequestMapping(value = "/findAllProject",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> TypeTaskController.findAllProject(
@@ -75,12 +79,20 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
     public ResponseEntity<String> TypeTaskController.editAllProject(
             @RequestParam(value = "editTypeID", required = false) Long edittypeID
             ,@RequestParam(value = "editTypeName", required = false) String edittypename
+            ,@RequestParam(value = "version", required = false) Integer version
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            TypeTask result = TypeTask.editAllProject(edittypeID, edittypename);
-            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+            boolean result = TypeTask.editAllProject(edittypeID, edittypename , version);
+
+           if (result){
+             return  new ResponseEntity<String>(headers, HttpStatus.OK);
+           }else{
+             return  new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+           }
+
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,6 +139,7 @@ privileged aspect TypeTaskController_Custom_Controller_Json {
                 map.put("typeTaskName",results.getTypeTaskName());
                 map.put("inUseTask", Task.findAllTypeTaskByID(results.getId()));
                 map.put("inUseOtherTask", OtherTask.findAllTypeTaskByID(results.getId()));
+                map.put("version", results.getVersion());
                 list.add(map);
             }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(list), headers, HttpStatus.OK);
