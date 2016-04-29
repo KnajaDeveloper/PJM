@@ -52,7 +52,7 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static void OtherTask.updateOtherTaskProgress(Long taskId, Integer progress) {
+    public static void OtherTask.updateOtherTaskProgress(Long taskId, Integer progress,String note) {
         EntityManager ent = OtherTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(OtherTask.class);
         criteria.add(Restrictions.eq("id", taskId));
@@ -60,6 +60,8 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         OtherTask otherTask = result.get(0);
         otherTask.setProgress(progress);
         otherTask.merge();
+
+        Plan.updatePlanNote(null,otherTask, note);
 
     }
     

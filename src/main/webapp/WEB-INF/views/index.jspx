@@ -54,6 +54,7 @@
   <c:set var="LABEL_POINT" scope="request"><spring:message code="L0030"/></c:set>
   <c:set var="LABEL_NOT_TEST" scope="request"><spring:message code="L0168"/></c:set>
   <c:set var="MS_ZERO_TO_HUNDRED" scope="request"><spring:message code="M0017"/></c:set>
+  <c:set var="LABEL_NOTE" scope="request"><spring:message code="L0058"/></c:set>
 
   <script>
     var MESSAGE = {};
@@ -269,7 +270,8 @@
                 <div hide="1" class="form-group">
                   <label class="control-label col-sm-3">${LABEL_DETAIL} </label>
                   <div class="col-sm-8">
-                    <textarea id="taskDetail" class="control-label text-left full-label" disabled="disabled">
+                    <textarea id="taskDetail" class="control-label text-left full-label" disabled="disabled"
+                              style="height: 100px;" maxlength="255">>
                       <jsp:text/>
                     </textarea>
                   </div>
@@ -288,6 +290,12 @@
                   data-placement="bottom" />
                   <span class="input-group-addon">%</span>
                   </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-4">${LABEL_NOTE} </label>
+                <div class="col-sm-7">
+                  <textarea id="txtEditNoteToday" class="form-control" style="height: 100px;" maxlength="255"><jsp:text/></textarea>
                 </div>
               </div>
               <div class="form-group">
@@ -386,7 +394,9 @@
                 <div hide="1" class="form-group">
                   <label class="control-label col-sm-3">${LABEL_TASK_DETAIL}</label>
                   <div class="col-sm-8">
-                    <textarea id="taskDetailBackLog" class="control-label text-left full-label" disabled="disabled">
+                    <textarea id="taskDetailBackLog" class="control-label text-left full-label" disabled="disabled"
+                              style="height: 100px;" maxlength="255">>
+
                       <jsp:text/>
                     </textarea>
                   </div>
@@ -405,6 +415,12 @@
                            data-placement="bottom" />
                     <span class="input-group-addon">%</span>
                   </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-4">${LABEL_NOTE} </label>
+                <div class="col-sm-7">
+                  <textarea id="txtEditNoteBacklog" class="form-control" style="height: 100px;" maxlength="255"><jsp:text/></textarea>
                 </div>
               </div>
               <div class="form-group">

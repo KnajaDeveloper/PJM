@@ -262,7 +262,7 @@ $('#data').on("click", "[id^=checkBoxDelete]", function () {
     }
     var checkNum = $('input[rolePm=true][status=check]').length;
     var checkBoxCheck =  $('input[rolePm=true][status=check]:checked').length;
-    console.log(checkBoxCheck +"2......"+ checkNum)
+    //console.log(checkBoxCheck +"2......"+ checkNum)
     if (checkBoxCheck >0 && checkBoxCheck == checkNum){
         $('#checkAll').prop('checked', true);
     }
@@ -284,6 +284,7 @@ $('#data').on("click", "#checkAll", function () {
     }
 }); //--checkAllData--//
 //////////////////////////////////////////////////////////////////////////////////////////////////
+var sessionError  = false ;
 $("#btnDelete").click(function () {
     checkedRows = [];
     $('input[status=check]:checked').each(function () {
@@ -299,18 +300,25 @@ $("#btnDelete").click(function () {
             if (result === true) {
                 for (var i=0; checkedRows.length > i; i++) {
                     DeleteData(i);
+                    //console.log(i);
+                    if(sessionError){break;}
                 }
-                if(DeFail === 0){
+                if(DeSuccess > 0 && sessionError == false){
                     bootbox.alert(MESSAGE.ALERT_DELETE_SUCCESS +" " + DeSuccess + " " + MESSAGE.ALERT_LIST);
-                }else{
+                    $("#checkAll").attr('checked', false);
+                    DeSuccess = 0;
+                    DeFail = 0;
+                    checkedRows = [];
+                    searchData();
+                }else if(DeFail > 0 && sessionError == false) {
                     bootbox.alert(MESSAGE.ALERT_DELETE_SUCCESS+ " " + DeSuccess +" "+ MESSAGE.ALERT_LIST + " " + MESSAGE.ALERT_DELETE_FAIL + DeFail + " " + MESSAGE.ALERT_LIST);
+                    DeSuccess = 0;
+                    DeFail = 0;
+                    checkedRows = [];
+                    searchData();
                 }
                 //bootbox.alert( MESSAGE.ALERT_DELETE_SUCCESS +" : " + DeSuccess +" "+  MESSAGE.ALERT_DELETE_FAIL +" : "+ DeFail);
-                DeSuccess = 0;
-                DeFail = 0;
-                checkedRows = [];
-                $("#checkAll").attr('checked', false);
-                searchData();
+                sessionError = false;
             }
         });
     } else if (checkedRows.length == 0) {
@@ -358,10 +366,12 @@ function DeleteData(i) {
         complete: function (xhr) {
             if (xhr.status === 200) {
                 DeSuccess++;
-
             } else if (xhr.status === 500) {
                 DeFail++;
+            }else if (xhr.status === 0 ){
 
+                bootbox.alert(MESSAGE.ALERT_DELETE_FAIL);
+                sessionError = true ;
             }
         },
         async: false
