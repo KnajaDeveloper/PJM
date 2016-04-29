@@ -205,6 +205,8 @@ function editTaskStatus(id, status) {
                 bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
             } else if (xhr.status === 500) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            } else if (xhr.status === 0) {
+                bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             }
         },
         async: false

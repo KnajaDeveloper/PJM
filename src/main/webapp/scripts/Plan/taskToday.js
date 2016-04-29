@@ -45,7 +45,7 @@ function taskTodayPlanTofirstPage() {
         var tableData1 = "";
         if(jsonData.length > 0 ) {
             jsonData.forEach(function (value) {
-                var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,projectName,moduleName,cost,importanceName,importanceCode,followerName,note,taskType = 0 ;
+                var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,projectName,moduleName,cost,importanceName,planNote,followerName,note,taskType = 0 ;
                if(value.taskProgress != null ){
                    progress = value.taskProgress ;
                    taskId = value.taskId ;
@@ -79,9 +79,11 @@ function taskTodayPlanTofirstPage() {
                    else{
                        moduleName = '-';
                    }
-                   if(value.note == null){
-                       note = '';
+                   if(value.note != null){
+
+                       note = value.note ;
                    }
+                   else { note = '';}
                    if(value.importanceName && value.importanceCode){
                        //importanceCode = value.importanceCode ;
                        importanceName = value.importanceName + ' ('+ value.importanceCode+')' ;
@@ -98,6 +100,12 @@ function taskTodayPlanTofirstPage() {
                    else {
                        followerName = '-';
                    }
+                   if(value.notePlan != null){
+                       planNote = value.notePlan ;
+                   }
+                   else {
+                       planNote = '';
+                   }
                }
                else {
                    progress = value.otherTaskProgress ;
@@ -107,12 +115,18 @@ function taskTodayPlanTofirstPage() {
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
                    enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
                    cost = value.cost +' '+LABEL.LABEL_POINT+'';
+                   if(value.notePlan != null){
+                       planNote = value.notePlan ;
+                   }
+                   else {
+                       planNote = '';
+                   }
                }
                 var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
                 tableData1 = ''
                     + '<tr>'
                     + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
+                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" planNote="'+planNote+'" planId="'+value.id+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
                     'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
                     '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
                     + '</td>'
@@ -153,7 +167,7 @@ function taskTodayPlanTofirstPage() {
 
     };
 
-    var idTask; var taskType ; var checkEdit ;
+    var idTask; var taskType ; var checkEdit ; var checkNote ;
 $('#taskToday').on("click", "[id^=taskId_]", function () {
     $('[hide=1]').show();
     $('#taskDetailPartEdit').slideUp();
@@ -161,7 +175,6 @@ $('#taskToday').on("click", "[id^=taskId_]", function () {
     var id = this.id.split('taskId_')[1];
     idTask = id ;
     taskType = $(this).attr('taskType');
-
     $('#projectNameToday').html($(this).attr('project'));
     $('#moduleNameToday').html($(this).attr('module'));
     //$('#taskCodeToday').html($(this).attr('taskCode'));
@@ -178,10 +191,13 @@ $('#taskToday').on("click", "[id^=taskId_]", function () {
     $('#taskNameToday').html($(this).attr('taskName'));
     $('#stDatePlan').html($(this).attr('stDate'));
     $('#enDatePlan').html($(this).attr('enDate'));
+    $('#txtEditNoteToday').val($(this).attr('planNote'));
     if(taskType != 1){
         $('[hide=1]').hide();
     }
     checkEdit =  $(this).attr('progress');
+    checkNote =  $(this).attr('planNote');
+    //console.log(checkNote);
     $("#modalProgress").modal('show');
 
 });
@@ -190,6 +206,7 @@ $('#taskToday').on("click", "[id^=taskId_]", function () {
 $('#btnsaveToday').click( function(){
 
     var progress = $('#progressToday').val();
+    var notePlan = $('#txtEditNoteToday').val();
     if(progress == '') {
         $('#progressToday').attr('data-content',MESSAGE.MS_COMPLETE_THIS_FIELD).popover('show');
     } else if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
@@ -199,13 +216,16 @@ $('#btnsaveToday').click( function(){
     }
     else {
         var check = $('#progressToday').val();
-        if(checkEdit == check){
+        var check2 = $('#txtEditNoteToday').val();
+        //console.log(check2);
+        if(checkEdit == check && check2 == checkNote){
             bootbox.alert(MESSAGE.MS_NO_INFORMATION_CHANGED);
         }
         else
         {
-            updateTaskStatusAndProgress(idTask,progress,taskType);
-            $("#modalProgress").modal('hide');
+            //console.log(notePlan);
+            updateTaskStatusAndProgressToday(idTask,progress,taskType,notePlan);
+            //$("#modalProgress").modal('hide');
             tasktaskFollowPlanTofirstPage();
             taskBacklogPlanTofirstPage();
             taskTodayPlanTofirstPage();
@@ -217,7 +237,8 @@ $('#btnsaveToday').click( function(){
 $('#closeToday').click( function(){
 
     var check = $('#progressToday').val();
-    if(checkEdit != check){
+    var check2 = $('#txtEditNoteToday').val();
+    if(checkEdit != check || check2 != checkNote){
         bootbox.confirm( MESSAGE.MS_EDIT_CHANGED, function (result) {
             if (result === true) {
                 $("#modalProgress").modal('hide');
@@ -238,11 +259,13 @@ $('#closeToday').click( function(){
 
 });
 
-function updateTaskStatusAndProgress(id,progress,taskType) {
+function updateTaskStatusAndProgressToday(id,progress,taskType,notePlan) {
+
     var dataJsonData = {
         taskId: id,
         taskType : taskType,
-        progress: progress
+        progress: progress,
+        notePlan : notePlan
 
     }
     $.ajax({
@@ -261,6 +284,10 @@ function updateTaskStatusAndProgress(id,progress,taskType) {
             } else if (xhr.status === 500) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             }
+            else  if (xhr.status == 0){
+                bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            }
+
         },
         async: false
     });

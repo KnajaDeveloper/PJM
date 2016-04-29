@@ -367,7 +367,7 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return (Long) criteria.uniqueResult();
     }
 
-    public static void Task.updateTaskStatusAndProgress(Long taskId, Integer progress) {
+    public static void Task.updateTaskStatusAndProgress(Long taskId, Integer progress,String note) {
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
         criteria.add(Restrictions.eq("id", taskId));
@@ -383,6 +383,8 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
             task.setTaskStatus(ConstantApplication.getTaskStatusReady());
         }
         task.merge();
+
+        Plan.updatePlanNote(task,null,note);
 
     }
 

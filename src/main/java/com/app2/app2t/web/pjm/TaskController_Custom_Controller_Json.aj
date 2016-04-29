@@ -491,6 +491,7 @@ privileged aspect TaskController_Custom_Controller_Json {
 
     @RequestMapping(value = "/updateTaskStatusAndProgress",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.updateTaskStatusAndProgress(
+            @RequestParam(value = "notePlan", required = false) String note,
             @RequestParam(value = "taskId", required = false) Long taskId,
             @RequestParam(value = "progress", required = false) Integer progress,
             @RequestParam(value = "taskType", required = false) Integer taskType
@@ -499,11 +500,11 @@ privileged aspect TaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             if(taskType == 1){
-                Task.updateTaskStatusAndProgress(taskId, progress);
+                Task.updateTaskStatusAndProgress(taskId, progress,note);
             }
             else
             {
-                OtherTask.updateOtherTaskProgress(taskId, progress);
+                OtherTask.updateOtherTaskProgress(taskId, progress,note);
             }
 
             return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize("null"), headers, HttpStatus.OK);

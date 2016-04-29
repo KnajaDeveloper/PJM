@@ -507,6 +507,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("stDate", plan.getDateStart());
                         map.put("enDate", plan.getDateEnd());
                         map.put("id", plan.getId());
+                        map.put("notePlan",plan.getNote());
                         if(plan.getTask() != null){
                             map.put("project", plan.getTask().getProgram().getModuleProject().getProject().getProjectName());
                             map.put("module", plan.getTask().getProgram().getModuleProject().getModuleName());
@@ -587,6 +588,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("enDate", plan.getDateEnd());
                         map.put("note", plan.getNote());
                         map.put("id", plan.getId());
+                        map.put("notePlan",plan.getNote());
                         if(plan.getTask() != null){
                             map.put("project", plan.getTask().getProgram().getModuleProject().getProject().getProjectName());
                             map.put("module", plan.getTask().getProgram().getModuleProject().getModuleName());

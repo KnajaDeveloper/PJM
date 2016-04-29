@@ -46,7 +46,7 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
     if(jsonData.length > 0 ) {
     jsonData.forEach(function (value) {
 
-        var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,projectName,moduleName,cost,importanceName,importanceCode,followerName,note,taskType = 0 ;
+        var progress,taskId,taskCode,taskName,stDate,enDate,stDateTask,enDateTask,projectName,moduleName,cost,importanceName,planNote,followerName,note,taskType = 0 ;
         if(value.taskProgress != null ){
             progress = value.taskProgress ;
             taskId = value.taskId ;
@@ -80,9 +80,11 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
             else{
                 moduleName = '-';
             }
-            if(value.note == null){
-                note = '';
+            if(value.note != null){
+
+                note = value.note ;
             }
+            else { note = '';}
             if(value.importanceName && value.importanceCode){
                 //importanceCode = value.importanceCode ;
                 importanceName = value.importanceName + ' ('+ value.importanceCode+')' ;
@@ -99,6 +101,12 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
             else {
                 followerName = '-';
             }
+            if(value.notePlan != null){
+                planNote = value.notePlan ;
+            }
+            else {
+                planNote = '';
+            }
         }
         else {
             progress = value.otherTaskProgress ;
@@ -108,6 +116,12 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
             stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
             enDate = DateUtil.dataDateToFrontend(value.enDate, _language);
             cost = value.cost +' '+LABEL.LABEL_POINT+'';
+            if(value.notePlan != null){
+                planNote = value.notePlan ;
+            }
+            else {
+                planNote = '';
+            }
         }
         var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
 
@@ -115,7 +129,7 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
 
             + '<tr>'
             + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-            + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
+            + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" planNote="'+planNote+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
             'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
             '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
             + '</td>'
@@ -158,7 +172,7 @@ else {
 
 };
 
-var idTask; var taskType ; var checkEdit ;
+var idTask; var taskType ; var checkEdit ; var checkNote ;
 $('#taskBacklog').on("click", "[id^=taskId_]", function () {
     $('[hide=1]').show();
     $('#taskDetailPartEditBackLog').slideUp();
@@ -180,11 +194,13 @@ $('#taskBacklog').on("click", "[id^=taskId_]", function () {
     $('#taskNameBackLog').html($(this).attr('taskName'));
     $('#taskStDateBackLog').html($(this).attr('stDate'));
     $('#taskEnDateBackLog').html($(this).attr('enDate'));
+    $('#txtEditNoteBacklog').val($(this).attr('planNote'));
     if(taskType != 1){
         $('[hide=1]').hide();
     }
 
     checkEdit =  $(this).attr('progress');
+    checkNote =  $(this).attr('planNote');
     $("#modalProgressBackLog").modal('show');
 });
 
@@ -192,6 +208,7 @@ $('#taskBacklog').on("click", "[id^=taskId_]", function () {
 $('#btnsaveBackLog').click( function(){
 
     var progress = $('#txtProgressBackLog').val();
+    var notePlan = $('#txtEditNoteBacklog').val();
     if(progress == '') {
         $('#txtProgressBackLog').attr('data-content',MESSAGE.MS_COMPLETE_THIS_FIELD).popover('show');
     } else if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
@@ -201,13 +218,14 @@ $('#btnsaveBackLog').click( function(){
     }
     else {
         var check = $('#txtProgressBackLog').val();
-        if(checkEdit == check){
+        var check2 = $('#txtEditNoteBacklog').val();
+        if(checkEdit == check && check2 == checkNote ){
             bootbox.alert(MESSAGE.MS_NO_INFORMATION_CHANGED);
         }
         else
         {
-            updateTaskStatusAndProgress(idTask,progress,taskType);
-            $("#modalProgressBackLog").modal('hide');
+            updateTaskStatusAndProgressBackLog(idTask,progress,taskType,notePlan);
+            //$("#modalProgressBackLog").modal('hide');
             tasktaskFollowPlanTofirstPage();
             taskBacklogPlanTofirstPage();
             taskTodayPlanTofirstPage();
@@ -219,7 +237,8 @@ $('#btnsaveBackLog').click( function(){
 $('#closeBaclLog').click( function(){
 
     var check = $('#txtProgressBackLog').val();
-    if(checkEdit != check){
+    var check2 = $('#txtEditNoteBacklog').val();
+    if(checkEdit != check || check2 != checkNote){
         bootbox.confirm(MESSAGE.MS_EDIT_CHANGED, function (result) {
             if (result === true) {
                 $("#modalProgressBackLog").modal('hide');
@@ -240,11 +259,12 @@ $('#closeBaclLog').click( function(){
 
 });
 
-function updateTaskStatusAndProgress(id,progress,taskType) {
+function updateTaskStatusAndProgressBackLog(id,progress,taskType,notePlan) {
     var dataJsonData = {
         taskId: id,
         taskType : taskType,
-        progress: progress
+        progress: progress,
+        notePlan : notePlan
 
     }
     $.ajax({
@@ -261,6 +281,9 @@ function updateTaskStatusAndProgress(id,progress,taskType) {
                 $("#modalProgressBackLog").modal('hide');
                 bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
             } else if (xhr.status === 500) {
+                bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            }
+            else  if (xhr.status == 0){
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             }
         },
