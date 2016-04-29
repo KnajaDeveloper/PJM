@@ -36,6 +36,7 @@
     <c:set var="M_Data_is_use" scope="request"><spring:message code="M0028"/></c:set>
     <c:set var="M_Want_to_cancel" scope="request"><spring:message code="M0031"/></c:set>
     <c:set var="M_Data_all_is_use" scope="request"><spring:message code="M0061"/></c:set>
+    <c:set var="M_Not_updated_data" scope="request"><spring:message code="M0072"/></c:set>
 
     <script>
         var Message = {} ;
@@ -56,6 +57,7 @@
         Message.Data_is_use = '${M_Data_is_use}';
         Message.Want_to_cancel = '${M_Want_to_cancel}';
         Message.M_Data_all_is_use = '${M_Data_all_is_use}';
+        Message.M_Not_updated_data = '${M_Not_updated_data}';
 
     </script>
 
@@ -93,7 +95,7 @@
         </div>
     </div>
 
-    
+
     <div class="row">
         <div class=" col-sm-12">
             <div class="card">
@@ -107,7 +109,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div><div class=" table-responsive">
                         <table id="table" class="table table-bordered table-stripted table-hover">
                             <thead>
@@ -134,7 +136,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <!-- Modal Add -->
     <div class="modal fade" id="add" role="dialog" data-backdrop="static">
@@ -220,4 +222,3 @@
     </script>
 
 </div>
-

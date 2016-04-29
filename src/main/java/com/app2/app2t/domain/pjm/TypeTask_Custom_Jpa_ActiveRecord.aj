@@ -78,15 +78,20 @@ privileged aspect TypeTask_Custom_Jpa_ActiveRecord {
 
     //---------Edit Data---------------------------------------------------------------------------
 
-    public static TypeTask TypeTask.editAllProject(Long typeTid, String typeTName) {
+    public static boolean TypeTask.editAllProject(Long typeTid, String typeTName , Integer version) {
+        boolean status = false;
         EntityManager ent = TypeTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(TypeTask.class);
         criteria.add(Restrictions.eq("id", typeTid));
         List<TypeTask> result = criteria.list();
         TypeTask edTypeTask = result.get(0);
-        edTypeTask.setTypeTaskName(typeTName);
-        edTypeTask.merge();
-        return edTypeTask;
+        if(edTypeTask.getVersion() == version){
+          edTypeTask.setTypeTaskName(typeTName);
+          edTypeTask.merge();
+          status = true;
+        }
+
+        return status;
     }
 
     //---------Delete Data---------------------------------------------------------------------------

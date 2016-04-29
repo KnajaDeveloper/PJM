@@ -1,5 +1,5 @@
 var checkPaggingLoad = false;
-
+var version;
 //-----Check Syntax-------------------------------------------------------------------------------
 
 //function checkString() {
@@ -40,7 +40,7 @@ paggination.loadTable = function loadTable(jsonData) {
             + '<input '+ (value.inUseTask > 0 || value.inUseOtherTask > 0 ?' inUseTask="' + value.inUseTask + '" inUseOtherTask="' + value.inUseOtherTask + '" ': 'status="check" ') + '  id="' + value.id + '"  class="checkboxTable" type="checkbox" />'
             + '</td>'
             + '<td class="text-center">'
-            + '<button onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static"><span  class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+            + '<button  onclick="openModalEdit($(this))" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit" data-backdrop="static" version="'+ value.version +'"><span  class="glyphicon glyphicon-pencil" aria-hidden="true"  ></span></button>'
             + '</td>'
             + '<td id="tdTypeTaskCode" typeTaskID=" ' + value.id + ' " class="text-center">' + value.typeTaskCode + '</td>'
             + '<td id="tdTypeTaskName" class="">' + value.typeTaskName + '</td>'
@@ -54,11 +54,14 @@ paggination.loadTable = function loadTable(jsonData) {
 var typeTaskID;
 var typeTaskName;
 
+
 function openModalEdit(element) {
     $('#eTypeTaskCode').val(element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskCode").text()).attr('disabled', true);
     typeTaskID = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskCode").attr("typeTaskID");
     typeTaskName = element.parent("td:eq(0)").parent("tr:eq(0)").children("#tdTypeTaskName").text();
     $('#eTypeTaskName').val(typeTaskName);
+    version= element.attr('version');
+    console.log(version);
 }
 
 //------------------------------------------------------------------------------------
@@ -104,7 +107,11 @@ function checkData() {
         url: contextPath + '/typetasks/checkAllProject',
         data: checkTypeTask,
         complete: function (xhr) {
+          if (xhr.status == 0) {
 
+              bootbox.alert(Message.Save_Failed);
+
+          }
         },
         async: false /*ต้องใส่*/
     });
@@ -123,6 +130,8 @@ $('[id^=btnM]').click(function () {
         $('#aTypeTaskCode').val(null);
         $('#aTypeTaskName').val(null);
 
+    }else if (id == 'Update'){
+      edit();
     } else {
 
         if ($("#aTypeTaskCode").val() == "") {
@@ -163,18 +172,24 @@ $('[id^=btnM]').click(function () {
 
                                 $('#add').modal('hide');
                                 bootbox.alert(Message.Save_Success);
+                                if(checkPaggingLoad == true){
+                                    searchData();
+                                    console.log(checkPaggingLoad);
+                                }
+                            }
 
+                            if(id == "Next"){
+                              if(checkPaggingLoad == true){
+                                  searchData();
+                                  console.log(checkPaggingLoad);
+                              }
                             }
 
                             $('#aTypeTaskCode').val(null);
                             $('#aTypeTaskName').val(null);
 
-
-
-                        } else if (xhr.status == 500) {
-
+                        } else  {
                             bootbox.alert(Message.Save_Failed);
-
                         }
                     },
                     async: false /*ต้องใส่*/
@@ -185,10 +200,7 @@ $('[id^=btnM]').click(function () {
         }
     }
 
-    if(checkPaggingLoad == true){
-        searchData();
-        console.log(checkPaggingLoad);
-    }
+
 });
 
 //-----Delete-------------------------------------------------------------------------------
@@ -212,7 +224,6 @@ $('#btnDelete').click(function () {
                 } else {
                     bootbox.alert(Message.Delete_Success+ " " + success+ " " + Message.List+ " " + Message.Delete_Failed + " " + fail + " " + Message.List);
                 }
-
                 success = 0;
                 fail = 0;
             }
@@ -263,8 +274,9 @@ $('#checkAll').click(function () {
 //-----Function Delete-------------------------------------------------------------------------------
 var success = 0;
 var fail = 0;
-
+var session = true;
 function deleteData() {
+
     $.each($(".checkboxTable:checked"), function (index, value) {
         $.ajax({
             type: "GET",
@@ -282,33 +294,41 @@ function deleteData() {
                     success++;
                 } else if (xhr.status == 500) {
                     fail++;
+                }else if (xhr.status == 0) {
+                    session = false;
                 }
             },
             async: false
         });
     });
+
+  if (session == false){
+
+    bootbox.alert(Message.Delete_Failed);
+  }
 }
 
 
 //-----Edit-------------------------------------------------------------------------------
 
 
-$('#btnMUpdate').click(function () {
+function edit() {
+  console.log("as");
     if ($('#eTypeTaskName').val() === typeTaskName) {
         bootbox.alert(Message.No_information_changed);
-
     } else {
-
         editData();
     }
-});
+}
 
 //-----Function Edit-------------------------------------------------------------------------------
 
 function editData() {
+
     var dataJsonData = {
         editTypeID: typeTaskID,
-        editTypeName: $('#eTypeTaskName').val()
+        editTypeName: $('#eTypeTaskName').val(),
+        version : version
     };
 
     $.ajax({
@@ -321,12 +341,17 @@ function editData() {
         url: contextPath + '/typetasks/editAllProject',
         data: dataJsonData,
         complete: function (xhr) {
-            if (xhr.status === 200) {
+          console.log(xhr.status);
+            if (xhr.status == 200) {
                 bootbox.alert(Message.Edit_Success);
                 $('#edit').modal('hide');
-                    searchData();
-            } else if (xhr.status === 500) {
+                searchData();
+            } else if (xhr.status == 500) {
                 bootbox.alert(Message.Edit_Failed);
+            }else if (xhr.status == 0) {
+                bootbox.alert(Message.Edit_Failed);
+            }else if (xhr.status == 404) {
+                bootbox.alert(Message.M_Not_updated_data);
             }
         },
         async: false
@@ -380,5 +405,3 @@ $("#btnECancel").click(function(){
         });
     }
 });
-
-
