@@ -402,4 +402,12 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
 
     }
 
+    public static Long Task.findCherckVersionByIdAndVersion(Long id, Integer version){
+        EntityManager ent = Task.entityManager();
+        Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
+        criteria.add(Restrictions.eq("id", id));
+        criteria.add(Restrictions.eq("version", version));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
 }

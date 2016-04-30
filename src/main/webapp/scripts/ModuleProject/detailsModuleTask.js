@@ -121,7 +121,7 @@ pagginationTask.loadTable = function loadTable (jsonData) {
                 + '<input inUse="' + (value.inUse > 0 ? 1 : 0) + '" id="' + value.id + '" taskCode="' + value.taskCode + '" class="checkboxTableTask" type="checkbox" name="chkdelete" />'
             + '</td>'
             + '<td class="text-center">'
-                + '<button onclick="openEditTask($(this))" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
+                + '<button onclick="openEditTask($(this), ' + value.version + ')" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalTask" data-backdrop="static"><span name="editClick" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></button>'
             + '</td>'
             + '<td id="tdCodeTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" class="text-center" onclick="onClickTrTask(this)">' + value.taskCode + '</td>'
             + '<td id="tdNameTask" taskCode="' + value.taskCode + '" taskId="' + value.id + '" class="" onclick="onClickTrTask(this)">' + value.taskName + '</td>'
@@ -211,6 +211,7 @@ var checkdateEnd;
 var checkProgress;
 var checkFileName;
 var checkDescription;
+var TaskVersion;
 
 var empCodeTaskFollower = [];
 var empFirstNameTaskFollower = [];
@@ -248,9 +249,9 @@ function findEmpCodeByTaskID(TaskID){
     });
 }
 
-function openEditTask(element){
+function openEditTask(element, version){
     var id = element.parent().parent().attr("id").split('k')[1];
-
+    TaskVersion = version;
     chkAETask = 1;
     DDLDataTypeTask();
     DDLDataTaskImportance();
@@ -716,13 +717,19 @@ function saveDataToDataBase(id) {
                                                                       '/' + fileName +
                                                                       '/' + description +
                                                                       '/' + $('#txtProgress').val() +
-                                                                      '/' + programID,
+                                                                      '/' + programID +
+                                                                      '/' + TaskVersion,
                                 processData: false,
                                 contentType: false,
                                 data: formData,
                                 complete: function(xhr){
                                     if(xhr.status == 200){
-                                        bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                                        if(xhr.responseJSON == false){
+                                            bootbox.alert(Message.MSG_NOT_UPDATED_DATA_PLEASE_REFRESH_AND_CONTINUE_YOUR_TRANSACTION);
+                                        }else {
+                                            bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                                        }
+                                        
                                         $('#modalTask').modal('hide');
                                         $('#txtTaskCode').val(null);
                                         $('#txtTaskName').val(null);

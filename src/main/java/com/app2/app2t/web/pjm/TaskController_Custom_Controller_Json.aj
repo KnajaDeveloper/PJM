@@ -68,6 +68,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                 buffer.put("fileName", task.getFileName());
                 buffer.put("detail", task.getDetail());
                 buffer.put("inUse", Plan.findPlanByID(task.getId()));
+                buffer.put("version", task.getVersion());
                 resultSearch.add(buffer);
             }
             return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
@@ -140,7 +141,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{taskImportance}/{empCodeFollowerTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{programID}",
+    @RequestMapping(value = "/findEditTask/{id}/{taskCode}/{taskName}/{taskCost}/{typeTask}/{taskImportance}/{empCodeFollowerTask}/{empCode}/{dateStart}/{dateEnd}/{fileName}/{detail}/{progress}/{programID}/{version}",
                     method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findEditTask(
             @PathVariable("id") Long id,
@@ -157,29 +158,37 @@ privileged aspect TaskController_Custom_Controller_Json {
             @PathVariable("detail") String detail,
             @PathVariable("progress") Integer progress,
             @PathVariable("programID") Long programID,
+            @PathVariable("version") Integer version,
             MultipartHttpServletRequest multipartHttpServletRequest
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            if(!fileName.equals("null")){
-                Task.uploadFileAndInsertDataFile(programID, taskCode, multipartHttpServletRequest);
-            }
-            List<TypeTask> typeTaskes = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
-            List<ImportanceTask> importanceTaskes = ImportanceTask.findTaskImportanceByImportanceTaskCode(taskImportance);
-            Task task = Task.findEditTask(id, taskCode, taskName, taskCost, typeTaskes.get(0), importanceTaskes.get(0),
-                    empCode, dateStart, dateEnd, fileName, detail, progress);
-            
-            FollowerTask.findDeleteFollowerTask(id);
+            Long val = Task.findCherckVersionByIdAndVersion(id, version);
+            Boolean bl = false;
 
-            JSONArray jsonArray = new JSONArray(empCodeFollowerTask);
-            for(int i = 0; i < jsonArray.length(); i++){
-                if(!jsonArray.getString(i).equals("null")){
-                    FollowerTask.saveTaskFollower(task, jsonArray.getString(i));
+            if(val == 1) {
+                bl = true;
+                if(!fileName.equals("null")){
+                    Task.uploadFileAndInsertDataFile(programID, taskCode, multipartHttpServletRequest);
+                }
+
+                List<TypeTask> typeTaskes = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
+                List<ImportanceTask> importanceTaskes = ImportanceTask.findTaskImportanceByImportanceTaskCode(taskImportance);
+                Task task = Task.findEditTask(id, taskCode, taskName, taskCost, typeTaskes.get(0), importanceTaskes.get(0),
+                        empCode, dateStart, dateEnd, fileName, detail, progress);
+                
+                FollowerTask.findDeleteFollowerTask(id);
+
+                JSONArray jsonArray = new JSONArray(empCodeFollowerTask);
+                for(int i = 0; i < jsonArray.length(); i++){
+                    if(!jsonArray.getString(i).equals("null")){
+                        FollowerTask.saveTaskFollower(task, jsonArray.getString(i));
+                    }
                 }
             }
 
-            return  new ResponseEntity<String>(headers, HttpStatus.OK);
+            return  new ResponseEntity<String>(bl + "", headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

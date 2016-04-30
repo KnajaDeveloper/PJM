@@ -25,7 +25,7 @@ function searchData() {
     paggination.search(paggination);
 }
 
-paggination.setEventPaggingBtn("paggingSimple",paggination);
+paggination.setEventPaggingBtn("paggingSimple", paggination);
 paggination.loadTable = function loadTable (jsonData) {
 
    	$('#ResualtSearch').empty();
@@ -202,9 +202,9 @@ function deleteData() {
 				importanceID: $(this).attr("id")
 			},
 			complete: function(xhr){
-				if(xhr.status === 200)
+				if(xhr.status == 200)
 					status200++;
-				if(xhr.status === 500)
+				if(xhr.status == 500)
 					status500++;
 			},
 			async: false
@@ -251,11 +251,13 @@ function checkData() {
 		data : {
 			importanceCode:$('#txtImportanceCode').val()
 		},
-		complete: function(xhr){
+		complete: function(xhr) {
 		},
+
 		async: false
 	});
-    return checkdDb.responseJSON;
+
+    return checkdDb.responseJSON + "";
 }
 
 $("#checkboxAll").click(function(){
