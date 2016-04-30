@@ -6,6 +6,8 @@ $(document).ready(function(){
 
 });
 
+var idTask; var taskType ; var checkEdit ; var checkNote ; var versionPlan,versionTask ;
+
 $('#taskDetailHeaderEdit').click(function(){
     var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
 
@@ -126,7 +128,7 @@ function taskTodayPlanTofirstPage() {
                 tableData1 = ''
                     + '<tr>'
                     + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" planNote="'+planNote+'" planId="'+value.id+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
+                    + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" versionPlan="'+value.versionPlan+'" versionTask="'+value.versionTask+'" project="'+projectName+'" planNote="'+planNote+'" planId="'+value.id+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
                     'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
                     '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
                     + '</td>'
@@ -167,7 +169,6 @@ function taskTodayPlanTofirstPage() {
 
     };
 
-    var idTask; var taskType ; var checkEdit ; var checkNote ;
 $('#taskToday').on("click", "[id^=taskId_]", function () {
     $('[hide=1]').show();
     $('#taskDetailPartEdit').slideUp();
@@ -197,6 +198,8 @@ $('#taskToday').on("click", "[id^=taskId_]", function () {
     }
     checkEdit =  $(this).attr('progress');
     checkNote =  $(this).attr('planNote');
+    versionPlan = $(this).attr('versionPlan');
+    versionTask = $(this).attr('versionTask');
     //console.log(checkNote);
     $("#modalProgress").modal('show');
 
@@ -224,11 +227,8 @@ $('#btnsaveToday').click( function(){
         else
         {
             //console.log(notePlan);
-            updateTaskStatusAndProgressToday(idTask,progress,taskType,notePlan);
-            //$("#modalProgress").modal('hide');
-            tasktaskFollowPlanTofirstPage();
-            taskBacklogPlanTofirstPage();
-            taskTodayPlanTofirstPage();
+            updateTaskStatusAndProgressToday(idTask,progress,taskType,notePlan,versionPlan,versionTask);
+
         }
 
     }
@@ -259,13 +259,15 @@ $('#closeToday').click( function(){
 
 });
 
-function updateTaskStatusAndProgressToday(id,progress,taskType,notePlan) {
+function updateTaskStatusAndProgressToday(id,progress,taskType,notePlan,versionPlan,versionTask) {
 
     var dataJsonData = {
         taskId: id,
         taskType : taskType,
         progress: progress,
-        notePlan : notePlan
+        notePlan : notePlan,
+        versionPlan :versionPlan,
+        versionTask : versionTask
 
     }
     $.ajax({
@@ -281,11 +283,18 @@ function updateTaskStatusAndProgressToday(id,progress,taskType,notePlan) {
             if (xhr.status === 200) {
                 $("#modalProgress").modal('hide');
                 bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
+                tasktaskFollowPlanTofirstPage();
+                taskBacklogPlanTofirstPage();
+                taskTodayPlanTofirstPage();
+
             } else if (xhr.status === 500) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             }
             else  if (xhr.status == 0){
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            }
+            else  if (xhr.status == 404){
+                bootbox.alert('dddddddddddddddddddvvvvvvvvvvvv');
             }
 
         },

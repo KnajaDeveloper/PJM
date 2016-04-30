@@ -4,6 +4,7 @@
 package com.app2.app2t.domain.pjm;
 
 import com.app2.app2t.util.ConstantApplication;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
@@ -367,24 +368,37 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return (Long) criteria.uniqueResult();
     }
 
-    public static void Task.updateTaskStatusAndProgress(Long taskId, Integer progress,String note) {
+    public static boolean Task.updateTaskStatusAndProgress(Long taskId, Integer progress, String note, Integer versionPlan, Integer versionTask) {
+        boolean statusTask = false; boolean statusPlan = false ;
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
         criteria.add(Restrictions.eq("id", taskId));
         List<Task> result = criteria.list();
         Task task = result.get(0);
-        task.setProgress(progress);
-        if(progress >= 0 && progress < 100)
-        {
-            task.setTaskStatus(ConstantApplication.getTaskStatusNew());
+        if(task.getVersion() == versionTask){
+            task.setProgress(progress);
+            if(progress >= 0 && progress < 100)
+            {
+                task.setTaskStatus(ConstantApplication.getTaskStatusNew());
+            }
+            else
+            {
+                task.setTaskStatus(ConstantApplication.getTaskStatusReady());
+            }
+            task.merge();
+            statusTask =true ;
         }
-        else
-        {
-            task.setTaskStatus(ConstantApplication.getTaskStatusReady());
-        }
-        task.merge();
+//        if(!note.isEmpty()){
+            statusPlan = Plan.updatePlanNotePageHome(task,null,note,versionPlan);
+//        }
 
-        Plan.updatePlanNote(task,null,note);
+        if(statusTask && statusPlan)
+        {
+            return  true ;
+        }
+        else {
+            return  false ;
+        }
 
     }
 

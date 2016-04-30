@@ -52,17 +52,31 @@ privileged aspect OtherTask_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static void OtherTask.updateOtherTaskProgress(Long taskId, Integer progress,String note) {
+    public static boolean OtherTask.updateOtherTaskProgress(Long taskId, Integer progress,String note,Integer versionPlan,Integer versionTask) {
+        boolean statusTask = false; boolean statusPlan = false ;
         EntityManager ent = OtherTask.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(OtherTask.class);
         criteria.add(Restrictions.eq("id", taskId));
         List<OtherTask> result = criteria.list();
         OtherTask otherTask = result.get(0);
-        otherTask.setProgress(progress);
-        otherTask.merge();
+        if(otherTask.getVersion() == versionTask)
+        {
+            otherTask.setProgress(progress);
+            otherTask.merge();
+            statusTask = true ;
+        }
 
-        Plan.updatePlanNote(null,otherTask, note);
+//        if(!note.isEmpty()){
+          statusPlan = Plan.updatePlanNotePageHome(null,otherTask, note,versionPlan);
+//        }
 
+        if(statusTask && statusPlan)
+        {
+            return  true ;
+        }
+        else {
+            return  false ;
+        }
     }
     
 }

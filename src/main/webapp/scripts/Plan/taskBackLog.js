@@ -7,6 +7,8 @@ $(document).ready(function(){
 
 });
 
+var versionPlan,versionTask ;
+
 $('#taskBacklog').on("click", "[id^=taskId_]", function () {
     $("#modalProgressBackLog").modal('show');
 });
@@ -129,7 +131,7 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
 
             + '<tr>'
             + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-            + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" planNote="'+planNote+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
+            + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" versionPlan="'+value.versionPlan+'" versionTask="'+value.versionTask+'" planNote="'+planNote+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
             'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
             '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
             + '</td>'
@@ -201,6 +203,8 @@ $('#taskBacklog').on("click", "[id^=taskId_]", function () {
 
     checkEdit =  $(this).attr('progress');
     checkNote =  $(this).attr('planNote');
+    versionPlan = $(this).attr('versionPlan');
+    versionTask = $(this).attr('versionTask');
     $("#modalProgressBackLog").modal('show');
 });
 
@@ -224,11 +228,9 @@ $('#btnsaveBackLog').click( function(){
         }
         else
         {
-            updateTaskStatusAndProgressBackLog(idTask,progress,taskType,notePlan);
+            updateTaskStatusAndProgressBackLog(idTask,progress,taskType,notePlan,versionPlan,versionTask);
             //$("#modalProgressBackLog").modal('hide');
-            tasktaskFollowPlanTofirstPage();
-            taskBacklogPlanTofirstPage();
-            taskTodayPlanTofirstPage();
+
         }
 
     }
@@ -264,7 +266,9 @@ function updateTaskStatusAndProgressBackLog(id,progress,taskType,notePlan) {
         taskId: id,
         taskType : taskType,
         progress: progress,
-        notePlan : notePlan
+        notePlan : notePlan,
+        versionPlan :versionPlan,
+        versionTask : versionTask
 
     }
     $.ajax({
@@ -280,11 +284,17 @@ function updateTaskStatusAndProgressBackLog(id,progress,taskType,notePlan) {
             if (xhr.status === 200) {
                 $("#modalProgressBackLog").modal('hide');
                 bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
+                tasktaskFollowPlanTofirstPage();
+                taskBacklogPlanTofirstPage();
+                taskTodayPlanTofirstPage();
+
             } else if (xhr.status === 500) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             }
             else  if (xhr.status == 0){
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            } else  if (xhr.status == 404){
+                bootbox.alert('dddddddddddddddddddvvvvvvvvvvvv');
             }
         },
         async: false

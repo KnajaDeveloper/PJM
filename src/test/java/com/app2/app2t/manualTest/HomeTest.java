@@ -43,7 +43,7 @@ public class HomeTest {
     protected MockMvc mockMvc;
 
 
-    public void insertDataToDataBase(String empCode,String taskCode,String taskName,String dateSt,String dateEn,int count){
+    public void insertDataToDataBase(String empCode,String taskCode,String taskName,String dateSt,String dateEn,int count,String taskStatus,Integer progress){
 
         Date stDate = new Date(dateSt);
         LOGGER.debug(stDate.toString()+"---------------------------------------------------------------");
@@ -95,11 +95,12 @@ public class HomeTest {
         task.setTaskCode(taskCode);
         task.setEmpCode(empCode);
         task.setTaskName(taskName);
-        task.setProgress(0);
+        task.setProgress(progress);
         task.setTaskStatus(ConstantApplication.getTaskStatusNew());
         task.setTaskCost(0.0);
         task.setDateStart(stDate);
         task.setDateEnd(enDate);
+        task.setTaskStatus(taskStatus);
         task.persist();
 
         Plan plan = new Plan();
@@ -108,6 +109,10 @@ public class HomeTest {
         plan.setDateEnd(enDate);
         plan.persist();
 
+        FollowerTask followerTask = new FollowerTask();
+        followerTask.setEmpCode("EM001");
+        followerTask.setTask(task);
+        followerTask.persist();
     }
     @Before
     public void setup()throws Exception
@@ -116,9 +121,11 @@ public class HomeTest {
         AuthorizeUtil.setUserName("admin");
         int count = 0 ;
 
-        insertDataToDataBase("EM001","T001","TestToday","03/04/2016","12/9/2016",count++);
-        insertDataToDataBase("EM001","T002","TestToday2","03/04/2016","3/9/2016",count++);
-        insertDataToDataBase("EM001","T003","TestToday3","03/04/2016","12/9/2016",count++);
+        insertDataToDataBase("EM001","T001","TestToday","03/04/2016","12/9/2016",count++,"R",100);
+        insertDataToDataBase("EM001","T002","TestToday2","03/04/2016","3/9/2016",count++,"N",50);
+        insertDataToDataBase("EM001","T003","TestToday3","03/04/2016","12/9/2016",count++,"N",50);
+        insertDataToDataBase("EM001","T004","TestToday4","03/04/2016","3/9/2016",count++,"R",100);
+        insertDataToDataBase("EM001","T005","TestToday5","03/04/2016","12/9/2016",count++,"R",100);
 
 
     }
@@ -146,7 +153,7 @@ public class HomeTest {
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.size",is(2)))
+                .andExpect(jsonPath("$.size",is(3)))
                 .andReturn()
                 ;
     }
@@ -182,6 +189,9 @@ public class HomeTest {
                 .param("taskId","3")
                 .param("progress","100")
                 .param("taskType","1")
+                .param("notePlan","")
+                .param("versionPlan","0")
+                .param("versionTask","0")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -204,6 +214,9 @@ public class HomeTest {
                 .param("taskId","3")
                 .param("progress","50")
                 .param("taskType","1")
+                .param("notePlan","")
+                .param("versionPlan","0")
+                .param("versionTask","0")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -220,4 +233,54 @@ public class HomeTest {
         ;
     }
 
+    @Test
+    public void taskFollower()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/selectTaskFollowTofirstPage")
+                .param("maxResult","15")
+                .param("firstResult","0")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$[0].taskCode", is("T004")))
+                .andReturn()
+                ;
+    }
+
+    @Test
+    public void taskFollowerSize()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/taskPaggingSizeTaskFollow")
+                .param("maxResult","15")
+                .param("firstResult","0")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.size",is(5)))
+                .andReturn()
+                ;
+    }
+
+    @Test
+    public void updateTaskStatusComplete()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(post("/tasks/editTaskStatus")
+                .param("taskId","4")
+                .param("status","C")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andReturn()
+                ;
+
+    }
+    @Test
+    public void updateTaskStatusNew()throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(post("/tasks/editTaskStatus")
+                .param("taskId","5")
+                .param("status","N")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andReturn()
+                ;
+
+    }
 }
