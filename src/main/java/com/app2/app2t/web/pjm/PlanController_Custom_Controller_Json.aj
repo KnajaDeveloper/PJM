@@ -508,6 +508,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("enDate", plan.getDateEnd());
                         map.put("id", plan.getId());
                         map.put("notePlan",plan.getNote());
+                        map.put("versionPlan",plan.getVersion());
                         if(plan.getTask() != null){
                             map.put("project", plan.getTask().getProgram().getModuleProject().getProject().getProjectName());
                             map.put("module", plan.getTask().getProgram().getModuleProject().getModuleName());
@@ -521,6 +522,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                             map.put("importanceName", plan.getTask().getImportanceTask().getImportanceTaskName());
                             map.put("importanceCode", plan.getTask().getImportanceTask().getImportanceTaskCode());
                             map.put("note", plan.getTask().getDetail());
+                            map.put("versionTask",plan.getTask().getVersion());
                             List<FollowerTask> followerTasks =  FollowerTask.findFollowerTaskByTaskId(plan.getTask().getId());
                             if(!followerTasks.isEmpty()) {
                                 for (FollowerTask followerTask : followerTasks) {
@@ -534,6 +536,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                             map.put("otherTaskName", plan.getOtherTask().getTaskName());
                             map.put("otherTaskProgress", plan.getOtherTask().getProgress());
                             map.put("cost", plan.getOtherTask().getTaskCost());
+                            map.put("versionTask",plan.getOtherTask().getVersion());
                         }
 
                         resultSearch.add(map);
@@ -589,6 +592,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                         map.put("note", plan.getNote());
                         map.put("id", plan.getId());
                         map.put("notePlan",plan.getNote());
+                        map.put("versionPlan",plan.getVersion());
                         if(plan.getTask() != null){
                             map.put("project", plan.getTask().getProgram().getModuleProject().getProject().getProjectName());
                             map.put("module", plan.getTask().getProgram().getModuleProject().getModuleName());
@@ -602,6 +606,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                             map.put("importanceName", plan.getTask().getImportanceTask().getImportanceTaskName());
                             map.put("importanceCode", plan.getTask().getImportanceTask().getImportanceTaskCode());
                             map.put("note", plan.getTask().getDetail());
+                            map.put("versionTask",plan.getTask().getVersion());
                             List<FollowerTask> followerTasks =  FollowerTask.findFollowerTaskByTaskId(plan.getTask().getId());
                             if(!followerTasks.isEmpty()) {
                                 for (FollowerTask followerTask : followerTasks) {
@@ -614,6 +619,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                             map.put("otherTaskName", plan.getOtherTask().getTaskName());
                             map.put("otherTaskProgress", plan.getOtherTask().getProgress());
                             map.put("cost", plan.getOtherTask().getTaskCost());
+                            map.put("versionTask",plan.getOtherTask().getVersion());
                         }
                         resultSearch.add(map);
 

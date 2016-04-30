@@ -501,4 +501,34 @@ privileged aspect Plan_Custom_Jpa_ActiveRecord {
         return maps;
     }
 
+    public static Boolean Plan.updatePlanNotePageHome(Task task, OtherTask otherTask, String note,Integer versionPlan) {
+        boolean status =false;
+        try {
+            EntityManager ent = Plan.entityManager();
+            Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Plan.class);
+            if(task != null){
+                criteria.add(Restrictions.eq("task", task));
+            }
+            if(otherTask != null){
+                criteria.add(Restrictions.eq("otherTask", otherTask));
+            }
+
+            List<Plan> plans = criteria.list();
+            if(plans.get(0).getVersion() == versionPlan)
+            {
+                for (Plan plan : plans) {
+                    plan.setNote(note);
+                    plan.merge();
+                    status = true;
+                }
+                return status;
+            }
+            else {
+                return  status ;
+            }
+
+        } catch (Exception ex) {
+            return null ;
+        }
+    }
 }

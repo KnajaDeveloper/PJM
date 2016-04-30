@@ -494,20 +494,33 @@ privileged aspect TaskController_Custom_Controller_Json {
             @RequestParam(value = "notePlan", required = false) String note,
             @RequestParam(value = "taskId", required = false) Long taskId,
             @RequestParam(value = "progress", required = false) Integer progress,
-            @RequestParam(value = "taskType", required = false) Integer taskType
+            @RequestParam(value = "taskType", required = false) Integer taskType,
+            @RequestParam(value = "versionPlan", required = false) Integer versionPlan,
+            @RequestParam(value = "versionTask", required = false) Integer versionTask
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             if(taskType == 1){
-                Task.updateTaskStatusAndProgress(taskId, progress,note);
+                boolean status = Task.updateTaskStatusAndProgress(taskId, progress,note,versionPlan,versionTask);
+                if(status){
+                    return new ResponseEntity<String>(headers, HttpStatus.OK);
+                }
+                else {
+                    return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+                }
             }
             else
             {
-                OtherTask.updateOtherTaskProgress(taskId, progress,note);
+                boolean status = OtherTask.updateOtherTaskProgress(taskId, progress,note,versionPlan,versionTask);
+                if(status){
+                    return new ResponseEntity<String>(headers, HttpStatus.OK);
+                }
+                else {
+                    return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+                }
             }
 
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize("null"), headers, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
