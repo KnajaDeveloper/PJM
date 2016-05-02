@@ -107,7 +107,7 @@
     <c:set var="MESSAGE_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
     <c:set var="MESSAGE_ONLY_INTEGER" scope="request"><spring:message code="M0067"/></c:set>
 
-    <c:set var="MESSAGE_VERSION_NOT_MATCH" scope="request"><spring:message text="M0072"/></c:set>
+    <c:set var="MESSAGE_VERSION_NOT_MATCH" scope="request"><spring:message code="M0072"/></c:set>
     <script>
         var MESSAGE = {};
         var LABEL = {};
