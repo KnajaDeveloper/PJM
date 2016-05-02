@@ -90,7 +90,7 @@ privileged aspect ImportanceTaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findeditImportance",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findeditImportance",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ImportanceTaskController.findeditImportance(
         @RequestParam(value = "importanceTaskCode", required = false) String importanceCode
         ,@RequestParam(value = "importanceTaskName", required = false) String importanceName
@@ -106,7 +106,7 @@ privileged aspect ImportanceTaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findDeleteImportance",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findDeleteImportance",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ImportanceTaskController.findDeleteImportance(
         @RequestParam(value = "importanceID", required = false) Long importanceID
     ) {

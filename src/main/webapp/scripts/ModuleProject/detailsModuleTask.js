@@ -261,6 +261,7 @@ function openEditTask(element, version){
     $('#txtTaskName').val(null).popover('hide');
     $('#txtTaskCost').val(null).popover('hide');
     $('#ddlTypeTask').popover('hide');
+    $('#ddlTaskImportance').popover('hide');
     $('#txtEmpName').val(null);
     $('#dateStartProject').val(null).popover('hide').change();
     $('#dateEndProject').val(null).popover('hide').change();
@@ -640,7 +641,7 @@ function saveDataToDataBase(id) {
                                     $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                                     $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
                                     $("#txtBalancTaskCost").val($("#lblModuleCostBalance").text());
-                                }else if(xhr.status == 500){
+                                }else if(xhr.status == 500 || xhr.status == 0){
                                     bootbox.alert(Message.MSG_SAVE_FAILED);
                                 }
                             },
@@ -753,7 +754,7 @@ function saveDataToDataBase(id) {
                                         pagginationTask.loadPage(pageNumber, pagginationTask);
 
                                         $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
-                                    }else if(xhr.status == 500){
+                                    }else if(xhr.status == 500 || xhr.status == 0){
                                         bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                     }
                                 },
@@ -818,6 +819,7 @@ $('[id^=btnModalTask]').click(function() {
                 $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
                 $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
                 $('#ddlTypeTask').popover('hide');
+                $('#ddlTaskImportance').popover('hide');
                 $('#txtEmpName').val(null);
                 $('#dateStartProject').val(null);
                 $('#dateEndProject').val(null);
@@ -840,6 +842,7 @@ $('[id^=btnModalTask]').click(function() {
                         $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
                         $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
                         $('#ddlTypeTask').popover('hide');
+                        $('#ddlTaskImportance').popover('hide');
                         $('#txtEmpName').val(null);
                         $('#dateStartProject').val(null);
                         $('#dateEndProject').val(null);
@@ -863,6 +866,7 @@ $('[id^=btnModalTask]').click(function() {
             $('#txtTaskName').popover('hide'); $('#txtTaskName').val(null);
             $('#txtTaskCost').popover('hide'); $('#txtTaskCost').val(null);
             $('#ddlTypeTask').popover('hide');
+            $('#ddlTaskImportance').popover('hide');
             $('#txtEmpName').val(null);
             $('#dateStartProject').val(null);
             $('#dateEndProject').val(null);
@@ -887,6 +891,8 @@ $('[id^=btnModalTask]').click(function() {
             $('#txtTaskCost').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else if($('#ddlTypeTask').val() == ""){
             $('#ddlTypeTask').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
+        }else if($('#ddlTaskImportance').val() == ""){
+            $('#ddlTaskImportance').attr("data-content" , Message.MSG_PLEASE_COMPLETE_THIS_FIEID).popover('show');
         }else{
             if($.isNumeric($('#txtTaskCost').val())){
                 if(parseFloat($('#txtTaskCost').val()) >= 0){
@@ -936,18 +942,21 @@ function checkDataTask() {
         async: false
     });
 
+    if(checkdDb.responseJSON == null){
+        return 0;
+    }
+
     return checkdDb.responseJSON;
 }
 
+var chkDTaskStatus0 = 0;
 var chkDTaskStatus200 = 0;
 var chkDTaskStatus500 = 0;
 
 function deleteDataTask() {
     $.each($(".checkboxTableTask:checked"),function(index,value){
         $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            type: "POST",
             headers: {
                 Accept: "application/json"
             },
@@ -958,9 +967,11 @@ function deleteDataTask() {
                 taskCode: $(this).attr("taskCode")
             },
             complete: function(xhr){
-                if(xhr.status === 200)
+                if(xhr.status == 0)
+                    chkDTaskStatus0++;
+                if(xhr.status == 200)
                     chkDTaskStatus200++;
-                if(xhr.status === 500)
+                if(xhr.status == 500)
                     chkDTaskStatus500++;
             },
             async: false
@@ -976,6 +987,18 @@ $('#btnDeleteTask').click(function() {
         bootbox.confirm(Message.MSG_DO_YOU_WANT_TO_REMOVE_THE_SELECTED_ITEMS, function(result) {
             if(result == true){
                 deleteDataTask();
+
+                if(chkDTaskStatus0 > 0){
+                    bootbox.alert(Message.MSG_DELETE_FAILED);
+                }else if(chkDTaskStatus500 == 0){
+                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + chkDTaskStatus200 + " " + Message.MSG_LIST);
+                }else{
+                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + chkDTaskStatus200 + " " + Message.MSG_LIST + " " + Message.MSG_DELETE_FAILED + " " + chkDTaskStatus500 + " " + Message.MSG_LIST);
+                }
+
+                chkDTaskStatus0 = 0;
+                chkDTaskStatus200 = 0;
+                chkDTaskStatus500 = 0;
 
                 dataTaskCode = [];
                 dataTypeTask = [];
@@ -997,15 +1020,6 @@ $('#btnDeleteTask').click(function() {
 
                 $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
                 $('#checkboxAllTask').prop('checked', false);
-
-                if(chkDTaskStatus500 === 0){
-                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + chkDTaskStatus200 + " " + Message.MSG_LIST);
-                }else{
-                    bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + chkDTaskStatus200 + " " + Message.MSG_LIST + " " + Message.MSG_DELETE_FAILED + " " + chkDTaskStatus500 + " " + Message.MSG_LIST);
-                }
-
-                chkDTaskStatus200 = 0;
-                chkDTaskStatus500 = 0;
 
                 $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
             }
