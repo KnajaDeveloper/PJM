@@ -142,10 +142,10 @@ $('[id^=btnModalProgram]').click(function() {
             if(chkAEProgram == 0){
                 if(checkDataProgram() == 0){
                     $.ajax({
+                        type: "POST",
                         headers: {
                             Accept: "application/json"
                         },
-                        type: "POST",
                         url: contextPath + '/programs/saveProgram',
                         data : {
                             programCode: $('#txtProgramCode').val(),
@@ -163,8 +163,8 @@ $('[id^=btnModalProgram]').click(function() {
                                 var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
                                 searchDataProgram();
                                 pagginationProgram.loadPage(pageNumber, pagginationProgram);
-                            }else if(xhr.status == 500){
-                                bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
+                            }else if(xhr.status == 500 || xhr.status == 0){
+                                bootbox.alert(Message.MSG_SAVE_FAILED);
                             }
                         },
                         async: false
@@ -177,10 +177,10 @@ $('[id^=btnModalProgram]').click(function() {
                         bootbox.alert(Message.MSG_NO_INFORMATION_CHANGED);
                 }else{
                     $.ajax({
+                        type: "POST",
                         headers: {
                             Accept: "application/json"
                         },
-                        type: "GET",
                         url: contextPath + '/programs/findEditProgram',
                         data : {
                             programCode: $('#txtProgramCode').val(),
@@ -195,7 +195,7 @@ $('[id^=btnModalProgram]').click(function() {
                                 $('#txtProgramName').val(null);
                                 var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
                                 pagginationProgram.loadPage(pageNumber, pagginationProgram);
-                            }else if(xhr.status == 500){
+                            }else if(xhr.status == 500 || xhr.status == 0){
                                 bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                             }
                         },
@@ -225,18 +225,21 @@ function checkDataProgram() {
         async: false
     });
 
+    if(checkdDb.responseJSON == null){
+        return 0;
+    }
+
     return checkdDb.responseJSON;
 }
 
+var statusProgram0 = 0;
 var statusProgram200 = 0;
 var statusProgram500 = 0;
 
 function deleteDataProgram() {
     $.each($(".checkboxTableProgram:checked"),function(index,value){
         $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            type: "POST",
             headers: {
                 Accept: "application/json"
             },
@@ -246,6 +249,8 @@ function deleteDataProgram() {
                 programId: $(this).attr("id")
             },
             complete: function(xhr){
+                if(xhr.status == 0)
+                    statusProgram0++;
                 if(xhr.status == 200)
                     statusProgram200++;
                 if(xhr.status == 500)
@@ -265,19 +270,23 @@ $('#btnDeleteProgram').click(function() {
             if(result == true){
                 deleteDataProgram();
 
-                var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
-                searchDataProgram();
-                pagginationProgram.loadPage(pageNumber, pagginationProgram);
-
-                $('#checkboxAllProgram').prop('checked', false);
-                if(statusProgram500 == 0){
+                if(statusProgram0 > 0){
+                    bootbox.alert(Message.MSG_DELETE_FAILED);
+                }else if(statusProgram500 == 0){
                     bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + statusProgram200 + " " + Message.MSG_LIST);
                 }else{
                     bootbox.alert(Message.MSG_DELETE_SUCCESS + " " + statusProgram200 + " " + Message.MSG_LIST + " " + Message.MSG_DELETE_FAILED + " " + statusProgram500 + " " + Message.MSG_LIST);
                 }
 
+                statusProgram0 = 0;
                 statusProgram200 = 0;
                 statusProgram500 = 0;
+
+                var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
+                searchDataProgram();
+                pagginationProgram.loadPage(pageNumber, pagginationProgram);
+
+                $('#checkboxAllProgram').prop('checked', false);
             }
         });
     }

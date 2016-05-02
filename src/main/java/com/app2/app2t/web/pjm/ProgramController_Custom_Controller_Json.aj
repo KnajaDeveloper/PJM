@@ -92,7 +92,7 @@ privileged aspect ProgramController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findEditProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findEditProgram",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProgramController.findEditProgram(
         @RequestParam(value = "id", required = false) Long id
         ,@RequestParam(value = "programCode", required = false) String programCode
@@ -108,7 +108,7 @@ privileged aspect ProgramController_Custom_Controller_Json {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @RequestMapping(value = "/findDeleteProgram",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findDeleteProgram",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> ProgramController.findDeleteProgram(
         @RequestParam(value = "id", required = false) Long id
         ,@RequestParam(value = "programId", required = false) Long programId

@@ -195,7 +195,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         }
     }
 
-    @RequestMapping(value = "/findDeleteTask",method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
+    @RequestMapping(value = "/findDeleteTask",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findDeleteTask(
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "taskID", required = false) Long taskID,
