@@ -573,82 +573,86 @@ function saveDataToDataBase(id) {
                 bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
             }else{
                 if(fileSize <= 104857600){
-                    var formData = new FormData();
-                    formData.append("myInput", myInput.files[0]);
-                    var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
-                    var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
-                    if(!getEmpCodeTaskFollower()){
-                        $.ajax({
-                            type: "POST",
-                            headers: {
-                                Accept: 'application/json',
-                            },
-                            contentType: "application/json; charset=UTF-8",
-                            dataType: "json",
-                            url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
-                                                              '/' + $('#txtTaskName').val() +
-                                                              '/' + $('#txtTaskCost').val() +
-                                                              '/' + dataTypeTaskCode[indexTypeTask] +
-                                                              '/' + dataTaskImportanceCode[indexTaskImportance] +
-                                                              '/' + JSON.stringify(empCodeFollowerTask) +
-                                                              '/' + empName +
-                                                              '/' + dateStart +
-                                                              '/' + dateEnd +
-                                                              '/' + fileName +
-                                                              '/' + description +
-                                                              '/' + $('#txtProgress').val() +
-                                                              '/' + programID,
-                            processData: false,
-                            contentType: false,
-                            data: formData,
-                            complete: function(xhr){
-                                if(xhr.status == 201){
-                                    if(id == 'Add'){
-                                        bootbox.alert(Message.MSG_SAVE_SUCCESS);
-                                        $('#modalTask').modal('hide');
+                    if($('#txtaDescription').val().indexOf('~') == -1){
+                        var formData = new FormData();
+                        formData.append("myInput", myInput.files[0]);
+                        var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
+                        var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val().replace(/\//g, "~");
+                        if(!getEmpCodeTaskFollower()){
+                            $.ajax({
+                                type: "POST",
+                                headers: {
+                                    Accept: 'application/json',
+                                },
+                                contentType: "application/json; charset=UTF-8",
+                                dataType: "json",
+                                url: contextPath + '/tasks/saveTask/' + $('#txtTaskCode').val() + 
+                                                                  '/' + $('#txtTaskName').val() +
+                                                                  '/' + $('#txtTaskCost').val() +
+                                                                  '/' + dataTypeTaskCode[indexTypeTask] +
+                                                                  '/' + dataTaskImportanceCode[indexTaskImportance] +
+                                                                  '/' + JSON.stringify(empCodeFollowerTask) +
+                                                                  '/' + empName +
+                                                                  '/' + dateStart +
+                                                                  '/' + dateEnd +
+                                                                  '/' + fileName +
+                                                                  '/' + description +
+                                                                  '/' + $('#txtProgress').val() +
+                                                                  '/' + programID,
+                                processData: false,
+                                contentType: false,
+                                data: formData,
+                                complete: function(xhr){
+                                    if(xhr.status == 201){
+                                        if(id == 'Add'){
+                                            bootbox.alert(Message.MSG_SAVE_SUCCESS);
+                                            $('#modalTask').modal('hide');
+                                        }
+                                        $('#txtTaskCode').val(null);
+                                        $('#txtTaskName').val(null);
+                                        $('#txtTaskCost').val(null);
+                                        $('#txtEmpName').val(null);
+                                        $('#dateStartProject').val(null);
+                                        $('#dateEndProject').val(null);
+                                        $("#dateStartProject").change();
+                                        $("#dateEndProject").change();
+                                        $('#myInput').val("");
+                                        $('#fileName').text("");
+                                        $('#txtaDescription').val("");
+
+                                        var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+                                        for(var i = 0; i < count_Element; i++){
+                                            var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                                            btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+                                        }
+                                        
+                                        $('#txtEmpNameTaskFollower1').val("");
+
+                                        DDLDataTypeTask();
+                                        DDLDataTaskImportance();
+
+                                        var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
+                                        searchDataProgram();
+                                        pagginationProgram.loadPage(pageNumber, pagginationProgram);
+
+                                        var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                                        searchDataTask();
+                                        pagginationTask.loadPage(pageNumber, pagginationTask);
+
+                                        $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
+                                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
+                                        $("#txtBalancTaskCost").val($("#lblModuleCostBalance").text());
+                                    }else if(xhr.status == 500 || xhr.status == 0){
+                                        bootbox.alert(Message.MSG_SAVE_FAILED);
                                     }
-                                    $('#txtTaskCode').val(null);
-                                    $('#txtTaskName').val(null);
-                                    $('#txtTaskCost').val(null);
-                                    $('#txtEmpName').val(null);
-                                    $('#dateStartProject').val(null);
-                                    $('#dateEndProject').val(null);
-                                    $("#dateStartProject").change();
-                                    $("#dateEndProject").change();
-                                    $('#myInput').val("");
-                                    $('#fileName').text("");
-                                    $('#txtaDescription').val("");
-
-                                    var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
-                                    for(var i = 0; i < count_Element; i++){
-                                        var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
-                                        btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
-                                    }
-                                    
-                                    $('#txtEmpNameTaskFollower1').val("");
-
-                                    DDLDataTypeTask();
-                                    DDLDataTaskImportance();
-
-                                    var pageNumber = $("#paggingSimpleProgramCurrentPage").val();
-                                    searchDataProgram();
-                                    pagginationProgram.loadPage(pageNumber, pagginationProgram);
-
-                                    var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
-                                    searchDataTask();
-                                    pagginationTask.loadPage(pageNumber, pagginationTask);
-
-                                    $('#trProgram' + trProgramNum).css('background-color', '#F5F5F5');
-                                    $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
-                                    $("#txtBalancTaskCost").val($("#lblModuleCostBalance").text());
-                                }else if(xhr.status == 500 || xhr.status == 0){
-                                    bootbox.alert(Message.MSG_SAVE_FAILED);
-                                }
-                            },
-                            async: false
-                        });
+                                },
+                                async: false
+                            });
+                        }else{
+                            bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
+                        }
                     }else{
-                        bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
+                        bootbox.alert(Message.MSG_CAN_NOT_PUT_MARK_INTO_IN_DETAILS);
                     }
                 }else{
                     bootbox.alert(Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT);
@@ -693,75 +697,79 @@ function saveDataToDataBase(id) {
                     bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
                 }else{
                     if(fileSize <= 104857600){
-                        var formData = new FormData();
-                        formData.append("myInput", myInput.files[0]);
-                        var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
-                        var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val()
-                        if(!getEmpCodeTaskFollower()){
-                            $.ajax({
-                                type: "POST",
-                                headers: {
-                                    Accept: 'application/json',
-                                },
-                                contentType: "application/json; charset=UTF-8",
-                                dataType: "json",
-                                url: contextPath + '/tasks/findEditTask/' + TaskID +
-                                                                      '/' + $('#txtTaskCode').val() +
-                                                                      '/' + $('#txtTaskName').val() +
-                                                                      '/' + $('#txtTaskCost').val() +
-                                                                      '/' + dataTypeTaskCode[indexTypeTask] +
-                                                                      '/' + dataTaskImportanceCode[indexTaskImportance] +
-                                                                      '/' + JSON.stringify(empCodeFollowerTask) +
-                                                                      '/' + empName +
-                                                                      '/' + dateStart +
-                                                                      '/' + dateEnd +
-                                                                      '/' + fileName +
-                                                                      '/' + description +
-                                                                      '/' + $('#txtProgress').val() +
-                                                                      '/' + programID +
-                                                                      '/' + TaskVersion,
-                                processData: false,
-                                contentType: false,
-                                data: formData,
-                                complete: function(xhr){
-                                    if(xhr.status == 200){
-                                        if(xhr.responseJSON == false){
-                                            bootbox.alert(Message.MSG_NOT_UPDATED_DATA_PLEASE_REFRESH_AND_CONTINUE_YOUR_TRANSACTION);
-                                        }else {
-                                            bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                        if($('#txtaDescription').val().indexOf('~') == -1){
+                            var formData = new FormData();
+                            formData.append("myInput", myInput.files[0]);
+                            var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
+                            var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val().replace(/\//g, "~");
+                            if(!getEmpCodeTaskFollower()){
+                                $.ajax({
+                                    type: "POST",
+                                    headers: {
+                                        Accept: 'application/json',
+                                    },
+                                    contentType: "application/json; charset=UTF-8",
+                                    dataType: "json",
+                                    url: contextPath + '/tasks/findEditTask/' + TaskID +
+                                                                          '/' + $('#txtTaskCode').val() +
+                                                                          '/' + $('#txtTaskName').val() +
+                                                                          '/' + $('#txtTaskCost').val() +
+                                                                          '/' + dataTypeTaskCode[indexTypeTask] +
+                                                                          '/' + dataTaskImportanceCode[indexTaskImportance] +
+                                                                          '/' + JSON.stringify(empCodeFollowerTask) +
+                                                                          '/' + empName +
+                                                                          '/' + dateStart +
+                                                                          '/' + dateEnd +
+                                                                          '/' + fileName +
+                                                                          '/' + description +
+                                                                          '/' + $('#txtProgress').val() +
+                                                                          '/' + programID +
+                                                                          '/' + TaskVersion,
+                                    processData: false,
+                                    contentType: false,
+                                    data: formData,
+                                    complete: function(xhr){
+                                        if(xhr.status == 200){
+                                            if(xhr.responseJSON == false){
+                                                bootbox.alert(Message.MSG_NOT_UPDATED_DATA_PLEASE_REFRESH_AND_CONTINUE_YOUR_TRANSACTION);
+                                            }else {
+                                                bootbox.alert(Message.MSG_EDIT_SUCCESSFULLY);
+                                            }
+                                            
+                                            $('#modalTask').modal('hide');
+                                            $('#txtTaskCode').val(null);
+                                            $('#txtTaskName').val(null);
+                                            $('#txtTaskCost').val(null);
+                                            $('#txtEmpName').val(null);
+                                            $('#dateStartProject').val(null);
+                                            $('#dateEndProject').val(null);
+                                            $("#myInput").val("");
+                                            $('#fileName').text("");
+                                            $('#txtaDescription').val("");
+
+                                            var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
+                                            for(var i = 0; i < count_Element; i++){
+                                                var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
+                                                btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
+                                            }
+                                            
+                                            $('#txtEmpNameTaskFollower1').val("");
+
+                                            var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
+                                            pagginationTask.loadPage(pageNumber, pagginationTask);
+
+                                            $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
+                                        }else if(xhr.status == 500 || xhr.status == 0){
+                                            bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
                                         }
-                                        
-                                        $('#modalTask').modal('hide');
-                                        $('#txtTaskCode').val(null);
-                                        $('#txtTaskName').val(null);
-                                        $('#txtTaskCost').val(null);
-                                        $('#txtEmpName').val(null);
-                                        $('#dateStartProject').val(null);
-                                        $('#dateEndProject').val(null);
-                                        $("#myInput").val("");
-                                        $('#fileName').text("");
-                                        $('#txtaDescription').val("");
-
-                                        var count_Element = $('[id^=btnDeleteEmpNameTaskFollower]').length;
-                                        for(var i = 0; i < count_Element; i++){
-                                            var idBtnDeleteEmpNameTaskFollower = $('[id^=btnDeleteEmpNameTaskFollower]')[0].id;
-                                            btnDeleteEmpNameTaskFollower(idBtnDeleteEmpNameTaskFollower);
-                                        }
-                                        
-                                        $('#txtEmpNameTaskFollower1').val("");
-
-                                        var pageNumber = $("#paggingSimpleTaskCurrentPage").val();
-                                        pagginationTask.loadPage(pageNumber, pagginationTask);
-
-                                        $("#lblModuleCostBalance").text(searchTaskCost($("#lblModuleCost").text()) + " " + Label.LABEL_POINT);
-                                    }else if(xhr.status == 500 || xhr.status == 0){
-                                        bootbox.alert(Message.MSG_EDIT_UNSUCCESSFUL);
-                                    }
-                                },
-                                async: false
-                            });
+                                    },
+                                    async: false
+                                });
+                            }else{
+                                bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
+                            }
                         }else{
-                            bootbox.alert(Message.MSG_IT_IS_HAS_A_SAME_NAMES);
+                            bootbox.alert(Message.MSG_CAN_NOT_PUT_MARK_INTO_IN_DETAILS);
                         }
                     }else{
                         bootbox.alert(Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT);
