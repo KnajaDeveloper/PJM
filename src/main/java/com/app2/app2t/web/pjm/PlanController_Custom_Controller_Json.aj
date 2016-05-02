@@ -334,64 +334,78 @@ privileged aspect PlanController_Custom_Controller_Json {
             boolean shiftPlan = jsonArrayPlan.getBoolean(1);
             int progress = jsonArrayPlan.getInt(2);
             String note = jsonArrayPlan.getString(3);
+            int versionPlan = jsonArrayPlan.getInt(4);
+            int versionTaskOrOtherTask = jsonArrayPlan.getInt(5);
 
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             String empCode = employee.get("empCode").toString();
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Task task = null;
             OtherTask otherTask = null;
-            for (int i = 4; i < jsonArrayPlan.length(); i++) {
-                JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
-                Date dateStart = new Date(jsonPlan.getLong("dateStart"));
-                Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
-                dateStart = formatter.parse(formatter.format(dateStart));
-                dateEnd = formatter.parse(formatter.format(dateEnd));
 
-                if (shiftPlan) {                                                    // ถ้าต้องเลื่อนแผนงาน
-                    List<Plan> plansOverlap = Plan.findPlanOverlap(dateStart, dateEnd, planId, empCode);
-                    if(plansOverlap.size() > 0) {
-                        List<Plan> plans = Plan.findPlanEndAfter(dateStart, planId, empCode);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
-                        long diffInMillies = dateEnd.getTime() - plans.get(0).getDateStart().getTime();
-                        int shiftDate = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1;
-                        for (int j = 0; j < plans.size(); j++) {
-                            Plan plan = plans.get(j);
-                            plan.setDateStart(DateUtils.addDays(plan.getDateStart(), shiftDate));
-                            plan.setDateEnd(DateUtils.addDays(plan.getDateEnd(), shiftDate));
-                            plan.merge();
+            Plan planLasted = Plan.findPlan(planId);
+            task = planLasted.getTask();
+            otherTask = planLasted.getOtherTask();
+            int version = -1;
+
+            if(task != null)
+                version = task.getVersion();
+            if(otherTask != null)
+                version = otherTask.getVersion();
+
+            if(planLasted.getVersion() == versionPlan && version == versionTaskOrOtherTask){
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                for (int i = 6; i < jsonArrayPlan.length(); i++) {
+                    JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
+                    Date dateStart = new Date(jsonPlan.getLong("dateStart"));
+                    Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
+                    dateStart = formatter.parse(formatter.format(dateStart));
+                    dateEnd = formatter.parse(formatter.format(dateEnd));
+
+                    if (shiftPlan) {                                                    // ถ้าต้องเลื่อนแผนงาน
+                        List<Plan> plansOverlap = Plan.findPlanOverlap(dateStart, dateEnd, planId, empCode);
+                        if(plansOverlap.size() > 0) {
+                            List<Plan> plans = Plan.findPlanEndAfter(dateStart, planId, empCode);            // หาแผนงานที่วันสิ้นสุด ชนกับ วันเริ่มของแผนงานใหม่
+                            long diffInMillies = dateEnd.getTime() - plans.get(0).getDateStart().getTime();
+                            int shiftDate = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1;
+                            for (int j = 0; j < plans.size(); j++) {
+                                Plan plan = plans.get(j);
+                                plan.setDateStart(DateUtils.addDays(plan.getDateStart(), shiftDate));
+                                plan.setDateEnd(DateUtils.addDays(plan.getDateEnd(), shiftDate));
+                                plan.merge();
+                            }
                         }
+                    }
+
+                    if (i == 6) {               // update
+                        Plan tmpPlan = Plan.updatePlan(planId, dateStart, dateEnd, note);
+
+                        if (task != null) {
+                            task.setProgress(progress);
+                            if(progress == 100) {
+                                task.setTaskStatus(ConstantApplication.getTaskStatusReady());
+                            } else if(progress < 100) {
+                                task.setTaskStatus(ConstantApplication.getTaskStatusNew());
+                            }
+                            task.merge();
+                        }
+                        if (otherTask != null) {
+                            otherTask.setProgress(progress);
+                            otherTask.merge();
+                        }
+                    } else {                    // insert more plan
+                        if (task != null)
+                            Plan.insertPlan(task, dateStart, dateEnd, note);
+                        if (otherTask != null)
+                            Plan.insertOtherPlan(otherTask, dateStart, dateEnd, note);
                     }
                 }
 
-                if (i == 4) {               // update
-                    Plan tmpPlan = Plan.updatePlan(planId, dateStart, dateEnd, note);
-                    task = tmpPlan.getTask();
-                    otherTask = tmpPlan.getOtherTask();
-
-                    if (task != null) {
-                        task.setProgress(progress);
-                        if(progress == 100) {
-                            task.setTaskStatus(ConstantApplication.getTaskStatusReady());
-                        }else if(progress < 100) {
-                            task.setTaskStatus(ConstantApplication.getTaskStatusNew());
-                        }
-                        task.merge();
-                    }
-                    if (otherTask != null) {
-                        otherTask.setProgress(progress);
-                        otherTask.merge();
-                    }
-                } else {                    // insert more plan
-                    if (task != null)
-                        Plan.insertPlan(task, dateStart, dateEnd, note);
-                    if (otherTask != null)
-                        Plan.insertOtherPlan(otherTask, dateStart, dateEnd, note);
-                }
+                return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize("not match version"), headers, HttpStatus.OK);
             }
-
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(null), headers, HttpStatus.OK);
-
         } catch (Exception e) {
             LOGGER.debug("error " + e);
             return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -654,4 +668,3 @@ privileged aspect PlanController_Custom_Controller_Json {
 
 
 }
-

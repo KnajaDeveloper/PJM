@@ -263,6 +263,9 @@ $('#btnAddOtherPlan').click(function () {
                     bootbox.alert(MESSAGE.SAVE_FAILED);
                 }
             },
+            error: function(){
+                bootbox.alert(MESSAGE.SAVE_FAILED);
+            },
             async: false
         });
     }
@@ -404,12 +407,12 @@ function setDatePicker(idDateBegin, idDateEnd, id) {
 
     $("#" + idDateBegin + id).on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
+
             DateUtil.setMinDate(idDateBegin + id, idDateEnd + id);
     });
     $("#" + idDateEnd + id).on('change', function () {
         checkDateFormat($(this), MESSAGE.DATE_FORMAT, MESSAGE.COMPLETE_THIS_FIELD);
-        
+
             DateUtil.setMaxDate(idDateEnd + id, idDateBegin + id);
     });
 
@@ -518,7 +521,7 @@ $('#btnSaveAddPlan').click(function () {
         var taskBegin = $('#mdAddToPlan').attr('taskBegin');
         var taskEnd = $('#mdAddToPlan').attr('taskEnd');
 
-        if(taskEnd != '' && isExpiredDate(plans.slice(2), taskEnd)){
+        if(taskEnd != '' && isExpiredDate(plans.slice(3), taskEnd)){
             bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
                 if (result) {
                     $.ajax({
@@ -539,6 +542,9 @@ $('#btnSaveAddPlan').click(function () {
                             } else {
                                 bootbox.alert(MESSAGE.SAVE_FAILED);
                             }
+                        },
+                        error: function(){
+                            bootbox.alert(MESSAGE.SAVE_FAILED);
                         },
                         async: false
                     });
@@ -563,6 +569,9 @@ $('#btnSaveAddPlan').click(function () {
                     } else {
                         bootbox.alert(MESSAGE.SAVE_FAILED);
                     }
+                },
+                error: function(){
+                    bootbox.alert(MESSAGE.SAVE_FAILED);
                 },
                 async: false
             });
@@ -605,7 +614,6 @@ $('#btnCancelTask').click(function () {
 // Edit/Delete plan -----------------------------------------------------------------------------------------------------------
 function openModalEditPlan(event) {
     _eventDate = event;
-    //console.log(event);
 
     // set data
     if(event.taskCode != '') {     // Task
@@ -659,6 +667,9 @@ function openModalEditPlan(event) {
 
     $('#mdEditToPlan').attr('taskBegin', event.taskBegin);
     $('#mdEditToPlan').attr('taskEnd', event.taskEnd);
+
+    $('#mdEditToPlan').attr('versionPlan', event.versionPlan);
+    $('#mdEditToPlan').attr('versionTaskOrOtherTask', event.versionTaskOrOtherTask);
 
     if (commonData.language == 'TH') {
         $('#cEditDateBegin_0').val(parseDateToBE(parseDatePicker(startDate)));
@@ -753,7 +764,7 @@ $('#grpEditDate').on('click', '[id^=btnDeleteEditDate_]', function () {
 $('#btnCancelEditPlan').click(function () {
     if(changePlan()) {
         bootbox.confirm(MESSAGE.CONFIRM_CANCEL, function (result) {
-            if (result) 
+            if (result)
                 $('#mdEditToPlan').modal('hide');
         });
     } else {
@@ -767,6 +778,8 @@ $('#btnSaveEditPlan').click(function () {
     var progress = $('#txtPercentage').val();
     var shiftPlan = $('#radioPostpone_edit').prop('checked');
     var note = $('#txtEditNote').val();
+    var versionPlan = $('#mdEditToPlan').attr('versionPlan');
+    var versionTaskOrOtherTask = $('#mdEditToPlan').attr('versionTaskOrOtherTask');
 
     if(progress == '') {
         $('#txtPercentage').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
@@ -782,7 +795,7 @@ $('#btnSaveEditPlan').click(function () {
         bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         var planId = $('#mdEditToPlan').attr('planId');
-        var plans = [planId, shiftPlan, progress, note];
+        var plans = [planId, shiftPlan, progress, note, versionPlan, versionTaskOrOtherTask];
 
         if (_language == 'TH') {
             $('[id^=cEditDateBegin_][id$=_convert]').each(function () {
@@ -816,7 +829,7 @@ $('#btnSaveEditPlan').click(function () {
                 taskEnd = DateUtil.dataDateToFrontend(Number(taskEnd), _language);
             }
 
-            if(taskEnd != '' && taskEnd != '-' && isExpiredDate(plans.slice(3), taskEnd)){
+            if(taskEnd != '' && taskEnd != '-' && isExpiredDate(plans.slice(6), taskEnd)){
                 bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
                     if (result) {
                         $.ajax({
@@ -829,13 +842,18 @@ $('#btnSaveEditPlan').click(function () {
                             url: contextPath + '/plans/updatePlan',
                             data: JSON.stringify(plans),
                             success: function (data, status, xhr) {
-                                if (xhr.status === 200) {
+                                if (xhr.status == 200 && data == 'not match version') {
+                                    bootbox.alert(MESSAGE.VERSION_NOT_MATCH);
+                                } else if(xhr.status == 200) {
                                     bootbox.alert(MESSAGE.SAVE_COMPLETED);
                                     $('#mdEditToPlan').modal('hide');
                                     loadAndMapPlan(_month, _year-543);
                                 } else {
                                     bootbox.alert(MESSAGE.SAVE_FAILED);
                                 }
+                            },
+                            error: function(){
+                                bootbox.alert(MESSAGE.SAVE_FAILED);
                             },
                             async: false
                         });
@@ -860,6 +878,9 @@ $('#btnSaveEditPlan').click(function () {
                             bootbox.alert(MESSAGE.SAVE_FAILED);
                         }
                     },
+                    error: function(){
+                        bootbox.alert(MESSAGE.SAVE_FAILED);
+                    },
                     async: false
                 });
             }
@@ -867,12 +888,12 @@ $('#btnSaveEditPlan').click(function () {
             bootbox.alert(MESSAGE.DATA_NO_CHANGE);
         }
 
-        
+
     }
 });
 
 $('#btnDeleteEditPlan').click(function () {
-    
+
     var planId = $('#mdEditToPlan').attr('planId');
 
     bootbox.confirm(MESSAGE.CONFIRM_DELETE, function (result) {
@@ -1034,6 +1055,8 @@ function loadAndMapPlan(month, year) {
                     otherTaskId: v.otherTask != null ? v.otherTask.id : null,
                     planId: v.id,
                     note: v.note,
+                    versionPlan: v.version,
+                    versionTaskOrOtherTask: v.task != null ? v.task.version : v.otherTask.version,
                     progress: v.task != null ? v.task.progress : v.otherTask.progress,
                     backgroundColor: bgColor,
                     allDay: allDay
@@ -1081,13 +1104,13 @@ function changePlan(){
 
     if(FormUtil.isDateFormat(dateBegin)) {
         if(_language == 'TH') {
-            dateBegin = dateBegin.split('/')[0] + '/' + dateBegin.split('/')[1] + '/' + (parseInt(dateBegin.split('/')[2]) - 543);    
+            dateBegin = dateBegin.split('/')[0] + '/' + dateBegin.split('/')[1] + '/' + (parseInt(dateBegin.split('/')[2]) - 543);
         }
         dateBegin = parseFullCalendar(dateBegin);
     }
     if(FormUtil.isDateFormat(dateEnd)) {
         if(_language == 'TH') {
-            dateEnd = dateEnd.split('/')[0] + '/' + dateEnd.split('/')[1] + '/' + (parseInt(dateEnd.split('/')[2]) - 543);  
+            dateEnd = dateEnd.split('/')[0] + '/' + dateEnd.split('/')[1] + '/' + (parseInt(dateEnd.split('/')[2]) - 543);
         }
         dateEnd = parseFullCalendar(dateEnd);
     }
@@ -1096,6 +1119,9 @@ function changePlan(){
     var dateBeginOld = _eventDate.start._i.split('T')[0];
     var dateEndOld = _eventDate.end._i.split('T')[0];
     var noteOld = _eventDate.note;
+    if(noteOld == null || noteOld == 'null'){
+        noteOld = '';
+    }
 
     var noChangeDate = (inputBegin.length == 1) ? (dateBeginOld == dateBegin && dateEndOld == dateEnd): false;
     if(percentageOld != percentage || !noChangeDate || isShift || noteOld != note) {

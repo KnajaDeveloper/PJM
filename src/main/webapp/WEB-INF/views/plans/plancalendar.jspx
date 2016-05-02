@@ -106,6 +106,8 @@
 
     <c:set var="MESSAGE_FILE_NOT_FOUND" scope="request"><spring:message code="M0062"/></c:set>
     <c:set var="MESSAGE_ONLY_INTEGER" scope="request"><spring:message code="M0067"/></c:set>
+
+    <c:set var="MESSAGE_VERSION_NOT_MATCH" scope="request"><spring:message text="M0072"/></c:set>
     <script>
         var MESSAGE = {};
         var LABEL = {};
@@ -136,6 +138,7 @@
 
         MESSAGE.CONFIRM_SAVE_WITH_EXPIRED = '${MESSAGE_CONFIRM_SAVE_WITH_EXPIRED}';
         MESSAGE.ONLY_INTEGER = '${MESSAGE_ONLY_INTEGER}';
+        MESSAGE.VERSION_NOT_MATCH = '${MESSAGE_VERSION_NOT_MATCH}';
 
         LABEL.DATE_BEGIN = '${LABEL_DATE_BEGIN}';
         LABEL.DATE_END = '${LABEL_DATE_END}';
