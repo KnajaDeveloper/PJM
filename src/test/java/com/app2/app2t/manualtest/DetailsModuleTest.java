@@ -212,7 +212,7 @@ public class DetailsModuleTest {
   }
 
   public void editDataTodateBaseProgram (String programCode, String programName)throws Exception{
-    MvcResult mvcResult = this.mockMvc.perform(get("/programs/findEditProgram")
+    MvcResult mvcResult = this.mockMvc.perform(post("/programs/findEditProgram")
       .param("id", "1")
       .param("programCode", programCode)
       .param("programName", programName)
@@ -223,7 +223,7 @@ public class DetailsModuleTest {
   }
 
   public void deleteDataTodateBaseProgram (String id)throws Exception{
-    MvcResult mvcResult = this.mockMvc.perform(get("/programs/findDeleteProgram")
+    MvcResult mvcResult = this.mockMvc.perform(post("/programs/findDeleteProgram")
       .param("id", "1")
       .param("programId", id)
     ).andDo(print())
@@ -261,7 +261,7 @@ public class DetailsModuleTest {
   }
 
   public void editDataTodateBaseTask (String id, String taskCode, String taskName, String taskCost, String typeTask, String empCode, String dateStart, String dateEnd, String fileName, String detail, String progress)throws Exception{
-    MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findEditTask")
+    MvcResult mvcResult = this.mockMvc.perform(post("/tasks/findEditTask")
       .param("id", id)
       .param("taskCode", taskCode)
       .param("taskName", taskName)
@@ -280,7 +280,7 @@ public class DetailsModuleTest {
   }
 
   public void deleteDataTodateBaseTask (String id)throws Exception{
-    MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findDeleteTask")
+    MvcResult mvcResult = this.mockMvc.perform(post("/tasks/findDeleteTask")
       .param("id", "1")
       .param("taskID", id)
     ).andDo(print())

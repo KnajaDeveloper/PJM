@@ -140,6 +140,7 @@
     <c:set var="MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT" scope="request"><spring:message code="M0068"/></c:set>
     <c:set var="MSG_IT_IS_HAS_A_SAME_NAMES" scope="request"><spring:message code="M0035"/></c:set>
     <c:set var="MSG_NOT_UPDATED_DATA_PLEASE_REFRESH_AND_CONTINUE_YOUR_TRANSACTION" scope="request"><spring:message code="M0072"/></c:set>
+    <c:set var="MSG_CAN_NOT_PUT_MARK_INTO_IN_DETAILS" scope="request"><spring:message text="Can not put mark ~ into in details"/></c:set>
     
     <script type="text/javascript">
         var Label = {};
@@ -186,6 +187,7 @@
         Message.MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT = '${MSG_YOU_SELECT_A_FILE_SIZE_OVER_LIMIT}';
         Message.MSG_IT_IS_HAS_A_SAME_NAMES = '${MSG_IT_IS_HAS_A_SAME_NAMES}';
         Message.MSG_NOT_UPDATED_DATA_PLEASE_REFRESH_AND_CONTINUE_YOUR_TRANSACTION = '${MSG_NOT_UPDATED_DATA_PLEASE_REFRESH_AND_CONTINUE_YOUR_TRANSACTION}';
+        Message.MSG_CAN_NOT_PUT_MARK_INTO_IN_DETAILS = '${MSG_CAN_NOT_PUT_MARK_INTO_IN_DETAILS}';
     </script>
 
     <div class="row">
