@@ -369,6 +369,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                         map.put("program", followerTask.getTask().getProgram().getProgramName());
                         map.put("module", followerTask.getTask().getProgram().getModuleProject().getModuleName());
                         map.put("project", followerTask.getTask().getProgram().getModuleProject().getProject().getProjectName());
+                        map.put("version",followerTask.getTask().getVersion());
                         resultSearch.add(map);
 
                     }
@@ -400,21 +401,25 @@ privileged aspect TaskController_Custom_Controller_Json {
                 }
             }
 
-    @RequestMapping(value = "/editTaskStatus",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
-    public ResponseEntity<String> TaskController.editTaskStatus(
-            @RequestParam(value = "taskId", required = false) Long taskId
-            ,@RequestParam(value = "status", required = false) String status
-    ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json;charset=UTF-8");
-        try {
-            List<Task> result = Task.updateStatusTask(taskId, status);
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @RequestMapping(value = "/editTaskStatus",method = RequestMethod.POST, produces = "text/html", headers = "Accept=application/json")
+//    public ResponseEntity<String> TaskController.editTaskStatus(
+//            @RequestParam(value = "taskId", required = false) Long taskId
+//            ,@RequestParam(value = "status", required = false) String status
+//            ,@RequestParam(value = "version", required = false) Integer version
+//    ) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", "application/json;charset=UTF-8");
+//        try {
+//            Task.updateStatusTask(taskId, status,version);
+//
+//                return  new ResponseEntity<String>(headers, HttpStatus.OK);
+//
+//
+//        } catch (Exception e) {
+//            LOGGER.error(e.getMessage(), e);
+//            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @RequestMapping(value = "/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus",method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.selectTaskFollower(
@@ -540,41 +545,49 @@ privileged aspect TaskController_Custom_Controller_Json {
     public ResponseEntity<String> TaskController.editTaskStatusCheckWhoCanEdit(
             @RequestParam(value = "taskId", required = false) Long taskId
             ,@RequestParam(value = "status", required = false) String status
+            ,@RequestParam(value = "version", required = false) Integer version
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
+
             List<String> empCodeCanEdit = new ArrayList<>();
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             List<FollowerTask> taskList = FollowerTask.findFollowerTaskByTaskId(taskId);
-            for(FollowerTask task : taskList) {
+            for (FollowerTask task : taskList) {
                 List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getTask().getProgram().getModuleProject().getId()));
                 List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getTask().getProgram().getModuleProject().getProject());
-                for(ModuleManager mm : listMM){
+                for (ModuleManager mm : listMM) {
                     empCodeCanEdit.add(mm.getEmpCode());
                 }
-                for(ProjectManager mm : listPM){
+                for (ProjectManager mm : listPM) {
                     empCodeCanEdit.add(mm.getEmpCode());
                 }
                 empCodeCanEdit.add(task.getEmpCode());
             }
-            if(empCodeCanEdit.indexOf(employee.get("empCode").toString()) > 0){
+            if (empCodeCanEdit.indexOf(employee.get("empCode").toString()) > 0) {
                 Task task = Task.findTask(taskId);
-                if(task.getTaskStatus().equals(ConstantApplication.getTaskStatusReady())){
-                    List<Task> result = Task.updateStatusTask(taskId, status);
-                    return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(result), headers, HttpStatus.OK);
+                if (task.getVersion() == version) {
+                    if (task.getTaskStatus().equals(ConstantApplication.getTaskStatusReady())) {
+                         Task.updateStatusTask(taskId, status, version);
+                        return new ResponseEntity<String>(headers, HttpStatus.OK);
+                    }
+                    else
+                    {
+                        return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
                 }
-                else{
-                    return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                else {
+                    return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
                 }
-            }
-            else{
+            } else
+            {
                 return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("{\"ERROR\":" + e.getMessage() + "\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

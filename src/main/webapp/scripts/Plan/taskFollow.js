@@ -7,6 +7,10 @@ $(document).ready(function(){
 
 });
 
+var empCodeToPage = [];
+var empCode =[];
+var project,module,program,task,version;
+var statusTask ;
 
 function tasktaskFollowPlanTofirstPage() {
     var dataJsonData = {} ;
@@ -35,7 +39,7 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
             tableData = ''
                 + '<tr>'
                 + '<td class="text-center">'
-                + '<button id="checkTask_' + value.id + '" projectName="' + value.project
+                + '<button id="checkTask_' + value.id + '" version="'+value.version+'" projectName="' + value.project
                 + '" moduleName="' + value.module
                 + '" programName="' + value.program + '" status="'+value.status+'" taskName="' + value.taskName
                 + '" managerEmpCode="' + value.managerEmpCode + '" followEmpCode="' + value.followEmpCode
@@ -110,11 +114,7 @@ function findEmpNameAndEmpPositionNameByEmpCode(empCode){
 
     check = false;
 }
-var empCodeToPage = [];
-var empCode =[];
-var project,module,program,task;
-////////////////////////////////////////////////////////////////////////////////////////
-var statusTask ;
+
 $('#taskFollow').on("click", "[id^=checkTask_]", function () {
     var id = this.id.split('checkTask_')[1];
     statusTask = $(this).attr('status');
@@ -124,6 +124,7 @@ $('#taskFollow').on("click", "[id^=checkTask_]", function () {
     module = $(this).attr('moduleName');
     program = $(this).attr('programName');
     task = $(this).attr('taskName');
+    version = $(this).attr('version');
     findEmpNameAndEmpPositionNameByEmpCode(empCode);
     empCodeToPage = empCode ;
     empCode = [];
@@ -146,11 +147,9 @@ $("#btnsave").click(function () {
             id = $(this).attr('taskId');
             taskStatus = $(this).attr('status');
         });
-        //console.log(id + taskStatus);
-        editTaskStatus(id,taskStatus);
-        tasktaskFollowPlanTofirstPage();
-        taskBacklogPlanTofirstPage();
-        taskTodayPlanTofirstPage();
+        //console.log(version);
+        editTaskStatus(id,taskStatus,version);
+
     }
     else
     {
@@ -185,10 +184,11 @@ function appendLabel(taskId) {
     empCodeToPage = []
 }
 
-function editTaskStatus(id, status) {
+function editTaskStatus(id, status,version) {
     var dataJsonData = {
         taskId: id,
-        status: status
+        status: status,
+        version : version
     }
     $.ajax({
         type: "POST",
@@ -197,16 +197,22 @@ function editTaskStatus(id, status) {
         //headers: {
         //    Accept: "application/json"
         //},
-        url: contextPath + '/tasks/editTaskStatus',
+        url: contextPath + '/tasks/editTaskStatusCheckWhoCanEdit',
         data: dataJsonData,
         complete: function (xhr) {
             if (xhr.status === 200) {
                 $('#modalFollowTask').modal('hide');
                 bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
+                tasktaskFollowPlanTofirstPage();
+                taskBacklogPlanTofirstPage();
+                taskTodayPlanTofirstPage();
             } else if (xhr.status === 500) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             } else if (xhr.status === 0) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            }
+            else  if (xhr.status == 404){
+                bootbox.alert(MESSAGE.MS_REFRESH);
             }
         },
         async: false

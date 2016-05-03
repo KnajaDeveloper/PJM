@@ -315,22 +315,26 @@ privileged aspect Task_Custom_Jpa_ActiveRecord {
         return criteria.list();
     }
 
-    public static List<Task> Task.updateStatusTask(Long taskId, String status) {
+    public static void Task.updateStatusTask(Long taskId, String status,Integer version) {
+        boolean statusReturn = false ;
         EntityManager ent = Task.entityManager();
         Criteria criteria = ((Session) ent.getDelegate()).createCriteria(Task.class);
         criteria.add(Restrictions.eq("id", taskId));
         List<Task> result = criteria.list();
         Task task = result.get(0);
-        if(status.equals(ConstantApplication.getTaskStatusComplete())){
-            status = ConstantApplication.getTaskStatusComplete();
+        if(task.getVersion() == version){
+            if(status.equals(ConstantApplication.getTaskStatusComplete())){
+                status = ConstantApplication.getTaskStatusComplete();
+                task.setTaskStatus(status);
+            }
+            else if(status.equals(ConstantApplication.getTaskStatusReady())){
+                status = ConstantApplication.getTaskStatusNew();
+                task.setTaskStatus(status);
+                task.setProgress(0);
+            }
+            task.merge();
         }
-        else if(status.equals(ConstantApplication.getTaskStatusReady())){
-            status = ConstantApplication.getTaskStatusNew();
-        }
-        task.setTaskStatus(status);
-//        task.setProgress(0);
-        task.merge();
-        return criteria.list();
+
     }
 
     public static List<Task> Task.findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus(
