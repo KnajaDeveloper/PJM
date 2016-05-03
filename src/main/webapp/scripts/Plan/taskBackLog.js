@@ -294,7 +294,7 @@ function updateTaskStatusAndProgressBackLog(id,progress,taskType,notePlan) {
             else  if (xhr.status == 0){
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
             } else  if (xhr.status == 404){
-                bootbox.alert('dddddddddddddddddddvvvvvvvvvvvv');
+                bootbox.alert(MESSAGE.MS_REFRESH);
             }
         },
         async: false

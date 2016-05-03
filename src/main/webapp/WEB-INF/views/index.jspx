@@ -55,6 +55,7 @@
   <c:set var="LABEL_NOT_TEST" scope="request"><spring:message code="L0168"/></c:set>
   <c:set var="MS_ZERO_TO_HUNDRED" scope="request"><spring:message code="M0017"/></c:set>
   <c:set var="LABEL_NOTE" scope="request"><spring:message code="L0058"/></c:set>
+  <c:set var="MS_REFRESH" scope="request"><spring:message code="M0072"/></c:set>
 
   <script>
     var MESSAGE = {};
@@ -71,6 +72,7 @@
     MESSAGE.MS_EDIT_CHANGED = '${MS_EDIT_CHANGED}';
     MESSAGE.LABEL_NOT_TEST = '${LABEL_NOT_TEST}';
     MESSAGE.MS_ZERO_TO_HUNDRED = '${MS_ZERO_TO_HUNDRED}';
+    MESSAGE.MS_REFRESH = '${MS_REFRESH}';
 
     var LABEL = {};
     LABEL.LABEL_PASS = '${LABEL_PASS}';
