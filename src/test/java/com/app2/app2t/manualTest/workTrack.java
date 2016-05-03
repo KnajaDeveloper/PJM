@@ -2,7 +2,6 @@ package com.app2.app2t.manualtest;
 
 import com.app2.app2t.domain.pjm.*;
 import com.app2.app2t.util.AuthorizeUtil;
-import com.app2.app2t.util.ConstantApplication;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -38,9 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @ContextConfiguration({"classpath:META-INF/spring/applicationContext*.xml", "file:src/main/webapp/WEB-INF/spring/webmvc-config.xml"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class PlanViewsTest {
 
-    private Logger LOGGER = LoggerFactory.getLogger(PlanViewsTest.class);
+public class workTrack {
+
+    private Logger LOGGER = LoggerFactory.getLogger(workTrack.class);
 
     @Autowired
     protected WebApplicationContext wac;
@@ -49,37 +49,96 @@ public class PlanViewsTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        AuthorizeUtil.setUserName("admin");
+        AuthorizeUtil.setUserName("58024");
         insertProjectToDB("1457456400000","1459357200000","EM003","JUnitProject1","Unit1",20.0);//date 09/03/2016 - 31/03/2016
         ModuleProject mp1 = insertModuleToDB("Module1","ModuleUnitTest1",5.0,"1457456400000","1459357200000","EM003","EM002==EM003",1);
         insertModuleToDB("Module2","ModuleUnitTest2",5.0,"1457456400000","1459357200000","EM002","EM002==EM003",1);
         TypeTask typeTask = insertTypeTaskToDB("Type01","Dev");
         Program program = insertProgramToDB("Program01","Project",mp1);
-        insertTaskToDB("T001","CreateProject",1.0,"",typeTask,program);
-        insertTaskToDB("T002","EditProject",2.0,"EM006",typeTask,program);
-        insertOtherTaskToDB("See movie",1.0,"EM002",typeTask);
+        Task task = insertTaskToDB("T001","CreateProject",1.0,"",typeTask,program,"R");
+        Task task1 = insertTaskToDB("T002","EditProject",2.0,"EM006",typeTask,program,"C");
+        insertFollower(task,"EM003");
+        insertFollower(task1,"EM003");
     }
 
     @Test
-    public void findEmptyTask() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findEmptyTask")
+    public void findTask() throws Exception {
+        MvcResult mvcResult ;
+//        MvcResult mvcResult = this.mockMvc.perform(get("/tasks/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus")
+//                .param("statusTask", "R")
+//                .param("empCode", "")
+//                .param("projectId", "")
+//                .param("moduleId", "")
+//                .param("typeTaskId", "")
+//                .param("option","")
+//                .param("maxResult", "0")
+//                .param("firstResult", "15")
+//        ).andDo(print())
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        mvcResult = this.mockMvc.perform(get("/tasks/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus")
+//                .param("statusTask", "C")
+//                .param("projectId", "")
+//                .param("moduleId", "")
+//                .param("typeTaskId", "")
+//                .param("empCode", "")
+//                .param("option","")
+//                .param("maxResult", "0")
+//                .param("firstResult", "15")
+//        ).andDo(print())
+//                .andExpect(status().isOk())
+//                .andReturn();
+
+        mvcResult = this.mockMvc.perform(get("/tasks/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus")
+                .param("empCode", "EM003")
+                .param("projectId", "")
+                .param("moduleId", "")
+                .param("typeTaskId", "")
+                .param("option","")
+                .param("maxResult", "0")
+                .param("firstResult", "15")
+                .param("statusTask", "R")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.Task[0].id", is(1)))
                 .andReturn();
+
+        mvcResult = this.mockMvc.perform(get("/tasks/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus")
+                .param("option", "size")
+                .param("empCode", "EM003")
+                .param("projectId", "")
+                .param("moduleId", "")
+                .param("typeTaskId", "")
+                .param("maxResult", "0")
+                .param("firstResult", "15")
+                .param("statusTask", "R")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size", is(1)))
+                .andReturn();
+
+        mvcResult = this.mockMvc.perform(get("/tasks/findTaskByProjectIdOrModuleIdOrTypeTaskIdOrTaskStatus")
+                .param("empCode", "EM003")
+                .param("option", "size")
+                .param("projectId", "")
+                .param("moduleId", "")
+                .param("typeTaskId", "")
+                .param("maxResult", "0")
+                .param("firstResult", "15")
+                .param("statusTask", "R")
+        ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size", is(1)))
+                .andReturn();
     }
 
     @Test
-    public void findDataByYearAndProjectAndModuleProjectAndTeam() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(get("/plans/findDataByYearAndProjectAndModuleProjectAndTeam")
-                .param("statProject", "1459494182791")
-                .param("endProject", "1461999782791")
-                .param("projectId", "1")
-                .param("moduleProjectId", "")
-                .param("teamId", "")
+    public void findAllTypeTask() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(get("/typetasks/findAllTypeTask")
         ).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.Name[0]", is("EM002")))
+                .andExpect(jsonPath("$[0].typeTaskCode", is("Type01")))
                 .andReturn();
     }
 
@@ -168,7 +227,7 @@ public class PlanViewsTest {
         return tt;
     }
 
-    public void insertTaskToDB(String taskCode,String taskName,Double taskCost,String empCode,TypeTask typeTask,Program programs){
+    public Task insertTaskToDB(String taskCode,String taskName,Double taskCost,String empCode,TypeTask typeTask,Program programs,String status){
         Task task = new Task();
         task.setTaskCode(taskCode);
         task.setTaskName(taskName);
@@ -178,20 +237,16 @@ public class PlanViewsTest {
         else task.setEmpCode(null);
         task.setProgress(0);
         task.setProgram(programs);
-        task.setTaskStatus("N");
+        task.setTaskStatus(status);
         task.setImportanceTask(null);
         task.persist();
+        return task;
     }
 
-    public void insertOtherTaskToDB(String taskName,Double taskCost,String empCode,TypeTask typeTask){
-        OtherTask task = new OtherTask();
-        task.setTaskName(taskName);
-        task.setTaskCost(taskCost);
-        task.setTypeTask(typeTask);
-        if(empCode!="") task.setEmpCode(empCode);
-        else task.setEmpCode(null);
-        task.setProgress(0);
-        task.persist();
+    public void insertFollower(Task task , String empCode){
+        FollowerTask ff = new FollowerTask();
+        ff.setEmpCode(empCode);
+        ff.setTask(task);
+        ff.persist();
     }
 }
-

@@ -458,6 +458,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                             map.put("taskStatus",task.getTaskStatus());
                             List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getProgram().getModuleProject().getProject());
                             map.put("projectManager",listPM);
+                            map.put("version",task.getVersion());
                             resultSearch.add(map);
                         }
                         return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);
@@ -487,6 +488,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                             map.put("taskStatus",task.getTask().getTaskStatus());
                             List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getTask().getProgram().getModuleProject().getProject());
                             map.put("projectManager",listPM);
+                            map.put("version",task.getTask().getVersion());
                             resultSearch.add(map);
                         }
                         return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(resultSearch), headers, HttpStatus.OK);

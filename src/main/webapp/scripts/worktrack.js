@@ -108,7 +108,7 @@ pagginationFollow.loadTable = function loadTable(jsonData) {
             + '<button id="checkTask_'+value.id +'" projectName="'+ value.project
             +'" moduleName="'+ value.module
             +'" programName="'+ value.program +'" taskName="'+ value.taskName
-            +'" managerEmpCode="'+ empManager +'" followEmpCode="'+ value.follower + '" taskStatus="'+ value.taskStatus
+            +'" managerEmpCode="'+ empManager +'" followEmpCode="'+ value.follower + '" taskStatus="'+ value.taskStatus  + '" version="'+ value.version
             +'" class="btn btn-info btn-xs" type="button" >' +
             '<span name="editClick" class="glyphicon glyphicon-check" aria-hidden="true" ></span></button>'
             + '</td>'
@@ -174,7 +174,7 @@ function addStatusToDDL(){
             Accept: "application/json"
         },
         type: "GET",
-        url: contextPath + '/parameterdetails   ',
+        url: contextPath + '/parameterdetails',
         success: function (xhr) {
             if (xhr.status === 201 || xhr.status === 200) {
 
