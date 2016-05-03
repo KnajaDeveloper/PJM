@@ -125,7 +125,7 @@ privileged aspect TaskController_Custom_Controller_Json {
             List<ImportanceTask> importanceTaskes = ImportanceTask.findTaskImportanceByImportanceTaskCode(taskImportance);
             List<Program> programes = Program.findProgramByID(id);
             Task task = Task.saveTask(taskCode, taskName, taskCost, typeTaskes.get(0), empCode,
-                dateStart, dateEnd, fileName, detail.replaceAll("~", "/"), progress, programes.get(0), importanceTaskes.get(0));
+                dateStart, dateEnd, fileName, detail.replaceAll("~", "/").replaceAll("`", "?"), progress, programes.get(0), importanceTaskes.get(0));
 
             JSONArray jsonArray = new JSONArray(empCodeFollowerTask);
             for(int i = 0; i < jsonArray.length(); i++){
@@ -176,7 +176,7 @@ privileged aspect TaskController_Custom_Controller_Json {
                 List<TypeTask> typeTaskes = TypeTask.findTypeTaskByTypeTaskCode(typeTask);
                 List<ImportanceTask> importanceTaskes = ImportanceTask.findTaskImportanceByImportanceTaskCode(taskImportance);
                 Task task = Task.findEditTask(id, taskCode, taskName, taskCost, typeTaskes.get(0), importanceTaskes.get(0),
-                        empCode, dateStart, dateEnd, fileName, detail.replaceAll("~", "/"), progress);
+                        empCode, dateStart, dateEnd, fileName, detail.replaceAll("~", "/").replaceAll("`", "?"), progress);
                 
                 FollowerTask.findDeleteFollowerTask(id);
 
