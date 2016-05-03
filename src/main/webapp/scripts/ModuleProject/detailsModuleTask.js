@@ -573,11 +573,11 @@ function saveDataToDataBase(id) {
                 bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
             }else{
                 if(fileSize <= 104857600){
-                    if($('#txtaDescription').val().indexOf('~') == -1){
+                    if($('#txtaDescription').val().indexOf('~') == -1 && $('#txtaDescription').val().indexOf('`') == -1){
                         var formData = new FormData();
                         formData.append("myInput", myInput.files[0]);
                         var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
-                        var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val().replace(/\//g, "~");
+                        var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val().replace(/\//g, "~").replace(/\?/g, "`");
                         if(!getEmpCodeTaskFollower()){
                             $.ajax({
                                 type: "POST",
@@ -697,11 +697,11 @@ function saveDataToDataBase(id) {
                     bootbox.alert(Message.MSG_TOTAL_COST_OVER_BALANCE_TOTAL_COST);
                 }else{
                     if(fileSize <= 104857600){
-                        if($('#txtaDescription').val().indexOf('~') == -1){
+                        if($('#txtaDescription').val().indexOf('~') == -1 && $('#txtaDescription').val().indexOf('`') == -1){
                             var formData = new FormData();
                             formData.append("myInput", myInput.files[0]);
                             var empName = $('#txtEmpName').val() == "" ? null : $("#txtEmpName").data("dataCode")
-                            var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val().replace(/\//g, "~");
+                            var description = $('#txtaDescription').val() == "" ? null : $('#txtaDescription').val().replace(/\//g, "~").replace(/\?/g, "`");
                             if(!getEmpCodeTaskFollower()){
                                 $.ajax({
                                     type: "POST",
