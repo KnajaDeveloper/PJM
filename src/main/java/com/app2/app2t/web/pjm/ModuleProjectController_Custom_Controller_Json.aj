@@ -110,39 +110,53 @@ privileged aspect ModuleProjectController_Custom_Controller_Json {
             @RequestParam(value = "dateEnd", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dateEnd,
             @RequestParam(value = "arr_moduleManager", required = false) String arr_moduleManager,
             @RequestParam(value = "arr_moduleMember", required = false) String arr_moduleMember,
-            @RequestParam(value = "projectId", required = false) long projectId
+            @RequestParam(value = "projectId", required = false) long projectId,
+            @RequestParam(value = "version", required = false) Integer version
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
             Project project = Project.findProject(projectId);
-            ModuleProject moduleProject = ModuleProject.editModuleProjectByModuleProjectCodeAndProjectId(moduleNeedEdit,moduleCode,
-                    moduleName,moduleCost,dateStart,dateEnd,project);
-            // Edit
-            ModuleManager.deleteModuleManagerByModuleProject(moduleProject);
-            ModuleManager.saveModuleManagerByModuleProject(moduleProject, arr_moduleManager.split("=="));
-
-            ModuleMember.deleteModuleMemberByModuleProject(moduleProject);
-            ModuleMember.saveModuleMemberByModuleProject(moduleProject, arr_moduleMember.split("=="));
-
-            // return value
-            List<ModuleProject> listModuleProject = ModuleProject.findAllModuleByProjectId(project);
-            List<List<ModuleManager>> dataModuleManager = new ArrayList<>();
-            List<List<ModuleMember>> dataModuleMember = new ArrayList<>();
-            for(int i = 0 ; i < listModuleProject.size() ; i++){
-                List<ModuleManager> getData = ModuleManager.findModuleManagerByModuleProject(listModuleProject.get(i));
-                dataModuleManager.add(getData);
+            List<ModuleProject> md = ModuleProject.findAllModuleByProjectId(project);
+            int versionOld = 0;
+            for(ModuleProject mp : md){
+                if(mp.getModuleCode().equals(moduleNeedEdit)) {
+                    versionOld = mp.getVersion();
+                    break;
+                }
             }
-            for(int i = 0 ; i < listModuleProject.size() ; i++){
-                List<ModuleMember> getData = ModuleMember.findModuleMemberByModuleProject(listModuleProject.get(i));
-                dataModuleMember.add(getData);
-            }
-            Map<String,Object> maps = new HashMap<>();
-            maps.put("ModuleProject",moduleProject);
-            maps.put("ModuleManager",dataModuleManager);
-            maps.put("ModuleMember",dataModuleMember);
+            if(version.equals(versionOld)) {
+                ModuleProject moduleProject = ModuleProject.editModuleProjectByModuleProjectCodeAndProjectId(moduleNeedEdit, moduleCode,
+                        moduleName, moduleCost, dateStart, dateEnd, project);
+                // Edit
+                ModuleManager.deleteModuleManagerByModuleProject(moduleProject);
+                ModuleManager.saveModuleManagerByModuleProject(moduleProject, arr_moduleManager.split("=="));
 
-            return  new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps), HttpStatus.OK);
+                ModuleMember.deleteModuleMemberByModuleProject(moduleProject);
+                ModuleMember.saveModuleMemberByModuleProject(moduleProject, arr_moduleMember.split("=="));
+
+                // return value
+                List<ModuleProject> listModuleProject = ModuleProject.findAllModuleByProjectId(project);
+                List<List<ModuleManager>> dataModuleManager = new ArrayList<>();
+                List<List<ModuleMember>> dataModuleMember = new ArrayList<>();
+                for (int i = 0; i < listModuleProject.size(); i++) {
+                    List<ModuleManager> getData = ModuleManager.findModuleManagerByModuleProject(listModuleProject.get(i));
+                    dataModuleManager.add(getData);
+                }
+                for (int i = 0; i < listModuleProject.size(); i++) {
+                    List<ModuleMember> getData = ModuleMember.findModuleMemberByModuleProject(listModuleProject.get(i));
+                    dataModuleMember.add(getData);
+                }
+                Map<String, Object> maps = new HashMap<>();
+                maps.put("ModuleProject", moduleProject);
+                maps.put("ModuleManager", dataModuleManager);
+                maps.put("ModuleMember", dataModuleMember);
+
+                return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(maps), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);

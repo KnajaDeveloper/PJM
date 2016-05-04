@@ -556,23 +556,25 @@ privileged aspect TaskController_Custom_Controller_Json {
             List<String> empCodeCanEdit = new ArrayList<>();
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
-            List<FollowerTask> taskList = FollowerTask.findFollowerTaskByTaskId(taskId);
-            for (FollowerTask task : taskList) {
-                List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getTask().getProgram().getModuleProject().getId()));
-                List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getTask().getProgram().getModuleProject().getProject());
-                for (ModuleManager mm : listMM) {
-                    empCodeCanEdit.add(mm.getEmpCode());
-                }
-                for (ProjectManager mm : listPM) {
-                    empCodeCanEdit.add(mm.getEmpCode());
-                }
-                empCodeCanEdit.add(task.getEmpCode());
+            Task task = Task.findTask(taskId);
+            List<ModuleManager> listMM = ModuleManager.findModuleManagerByModuleProject(ModuleProject.findModuleProject(task.getProgram().getModuleProject().getId()));
+            List<ProjectManager> listPM = ProjectManager.findManagerByProject(task.getProgram().getModuleProject().getProject());
+            for (ModuleManager mm : listMM) {
+                empCodeCanEdit.add(mm.getEmpCode());
             }
+            for (ProjectManager mm : listPM) {
+                empCodeCanEdit.add(mm.getEmpCode());
+            }
+            empCodeCanEdit.add(task.getEmpCode());
+
             if (empCodeCanEdit.indexOf(employee.get("empCode").toString()) > 0) {
-                Task task = Task.findTask(taskId);
-                if (task.getVersion() == version) {
+                if (task.getVersion().equals(version)) {
                     if (task.getTaskStatus().equals(ConstantApplication.getTaskStatusReady())) {
                          Task.updateStatusTask(taskId, status, version);
+                        return new ResponseEntity<String>(headers, HttpStatus.OK);
+                    }
+                    else if(task.getTaskStatus().equals(ConstantApplication.getTaskStatusComplete())) {
+                        Task.updateStatusTask(taskId, status, version);
                         return new ResponseEntity<String>(headers, HttpStatus.OK);
                     }
                     else

@@ -238,16 +238,23 @@ privileged aspect ProjectController_Custom_Controller_Json {
             @RequestParam(value = "projectCost", required = false) Double projectCost,
             @RequestParam(value = "dateStart", required = false) Date dateStart,
             @RequestParam(value = "dateEnd", required = false) Date dateEnd,
-            @RequestParam(value = "arr_ProjectManager", required = false) String arr_ProjectManager
+            @RequestParam(value = "arr_ProjectManager", required = false) String arr_ProjectManager,
+            @RequestParam(value = "version", required = false) Integer version
     ) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
-            String[] arrPJM = arr_ProjectManager.split("==");
-            Project project = Project.updateProjectByIdProject(projectID, projectCode, projectName, projectCost, dateStart, dateEnd);
-            ProjectManager.deleteAllProjectManagerByProjectId(project);
-            ProjectManager.saveProjectManagerByProJect(project, arrPJM);
-            return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(project),headers, HttpStatus.CREATED);
+            Project pj = Project.findProject(projectID);
+            if (pj.getVersion().equals(version)) {
+                String[] arrPJM = arr_ProjectManager.split("==");
+                Project project = Project.updateProjectByIdProject(projectID, projectCode, projectName, projectCost, dateStart, dateEnd);
+                ProjectManager.deleteAllProjectManagerByProjectId(project);
+                ProjectManager.saveProjectManagerByProJect(project, arrPJM);
+                return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").deepSerialize(project), headers, HttpStatus.CREATED);
+            }
+            else{
+                return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
