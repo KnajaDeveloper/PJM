@@ -171,7 +171,7 @@ public class ProjectTest {
     }
 
     @Test
-    public void updateProjectByIdProject() throws Exception{
+    public void updateProjectByIdProjectSameVersion() throws Exception{
         MvcResult mvcResult = this.mockMvc.perform(post("/projects/updateProjectByIdProject")
                 .param("projectID", "1")
                 .param("projectCode", "excrepj")
@@ -180,9 +180,27 @@ public class ProjectTest {
                 .param("dateStart", "14/04/2016")
                 .param("dateEnd", "21/04/2016")
                 .param("arr_ProjectManager", "EM001==EM002==EM003")
+                .param("version", "0")
         ).andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.projectCost",is(100.0)))
+                .andReturn()
+                ;
+    }
+
+    @Test
+    public void updateProjectByIdProjectNotSameVersion() throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(post("/projects/updateProjectByIdProject")
+                .param("projectID", "1")
+                .param("projectCode", "excrepj")
+                .param("projectName", "Test Create Project")
+                .param("projectCost", "100.0")
+                .param("dateStart", "14/04/2016")
+                .param("dateEnd", "21/04/2016")
+                .param("arr_ProjectManager", "EM001==EM002==EM003")
+                .param("version", "5")
+        ).andDo(print())
+                .andExpect(status().isNotFound())
                 .andReturn()
                 ;
     }
@@ -199,9 +217,29 @@ public class ProjectTest {
                 .param("arr_moduleManager", "EM001==EM002==EM003")
                 .param("arr_moduleMember", "EM001==EM002==EM003")
                 .param("projectId", "1")
+                .param("version", "0")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.ModuleProject.moduleCode",is("mp1")))
+                .andReturn()
+                ;
+    }
+
+    @Test
+    public void editModuleProjectByModuleProjectCodeAndProjectIdNotSameVersion() throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(post("/moduleprojects/editModuleProjectByModuleProjectCodeAndProjectId")
+                .param("moduleNeedEdit", "Module1")
+                .param("moduleCode", "mp1")
+                .param("moduleName", "ModuleTest1")
+                .param("moduleCost", "10.0")
+                .param("dateStart", "14/04/2016")
+                .param("dateEnd", "21/04/2016")
+                .param("arr_moduleManager", "EM001==EM002==EM003")
+                .param("arr_moduleMember", "EM001==EM002==EM003")
+                .param("projectId", "1")
+                .param("version", "5")
+        ).andDo(print())
+                .andExpect(status().isNotFound())
                 .andReturn()
                 ;
     }

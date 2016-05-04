@@ -254,7 +254,7 @@ function getEmpDeatailToFrontEnd(empCode){
 
 var empCodeToPage = [];
 var empCode = "";
-var project,module,program,task;
+var project,module,program,task,version;
 
 $('#taskFollow').on("click", "[id^=checkTask_]", function () {
     var checkRole = $(this).attr('followempcode');
@@ -267,6 +267,7 @@ $('#taskFollow').on("click", "[id^=checkTask_]", function () {
         module = $(this).attr('moduleName');
         program = $(this).attr('programName');
         task = $(this).attr('taskName');
+        version = $(this).attr('version');
         var detailManager = getEmpDeatailToFrontEnd(empCode);
         appendLabel(detailManager, detailFollower,this.id.split("_")[1]);
         $("#modalFollowTask").modal('show');
@@ -327,7 +328,8 @@ function appendLabel(detailManager,detailFollower,taskId) {
 function editTaskStatus(id, status) {
     var dataJsonData = {
         taskId: id,
-        status: status
+        status: status,
+        version: version
     };
     $.ajax({
         type: "POST",
@@ -342,8 +344,12 @@ function editTaskStatus(id, status) {
             if (xhr.status === 200) {
                 $('#modalFollowTask').modal('hide');
                 bootbox.alert(MESSAGE.MS_SAVE_SUCCESS);
-            } else if (xhr.status === 500) {
+            }
+            else if (xhr.status === 500) {
                 bootbox.alert(MESSAGE.MS_SAVE_FAIL);
+            }
+            else if (xhr.status === 404) {
+                bootbox.alert(MESSAGE.MS_VERSION);
             }
         },
         async: false

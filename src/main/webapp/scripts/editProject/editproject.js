@@ -237,7 +237,8 @@ function EditProjectByProjectId() {
         projectCost: $('#txtCostsProject').val(),
         dateStart: convertFormatDateStart,
         dateEnd: convertFormatDateEnd,
-        arr_ProjectManager: arr_ProjectManager
+        arr_ProjectManager: arr_ProjectManager,
+        version: dataDetail.responseJSON.Project[0].version
     };
     var project = $.ajax({
         headers: {
@@ -262,7 +263,11 @@ function EditProjectByProjectId() {
                     saveEditModuleWhenEdit(object,null);
                 }
                 findDataKeepToParameter(projectId);
-            } else {
+            }
+            else if (xhr.status === 404) {
+                bootbox.alert(Message.MS_VERSION);
+            }
+            else {
                 bootbox.alert("" + Message.Edit_error);
                 statusReturn = false;
             }
@@ -355,7 +360,8 @@ function editDataModuleInDB(number, cost) {
         dateEnd: convertFormatDateEnd,
         arr_moduleManager: editModuleManagerToArray(),
         arr_moduleMember: editModuleMemberToArray(),
-        projectId: projectId
+        projectId: projectId,
+        version: ModuleProject[number].version
     };
     var responseHeader = null;
     var recieve = $.ajax({
@@ -372,6 +378,9 @@ function editDataModuleInDB(number, cost) {
             } else if (xhr.status === 500) {
                 bootbox.alert("" + Message.Edit_error);
                 returnStatus = false;
+            }
+            else if (xhr.status === 404) {
+                bootbox.alert(Message.MS_VERSION);
             }
         },
         async: false
@@ -2136,7 +2145,8 @@ function editDataModuleInDBWhenEdit(number,cost){
         dateEnd: convertFormatDateEnd,
         arr_moduleManager: editModuleManagerToArray(),
         arr_moduleMember: editModuleMemberToArray(),
-        projectId: projectId
+        projectId: projectId,
+        version: ModuleProject[number].version
     };
     var responseHeader = null;
     var recieve = $.ajax({

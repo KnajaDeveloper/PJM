@@ -30,6 +30,7 @@
 	<c:set var="MS_SAVE_SUCCESS" scope="request"><spring:message code="M0001"/></c:set>
 	<c:set var="MS_SAVE_FAIL" scope="request"><spring:message code="M0019"/></c:set>
 	<c:set var="MS_NO_ROLE" scope="request"><spring:message code="M0063"/></c:set>
+	<c:set var="MS_VERSION" scope="request"><spring:message code="M0072"/></c:set>
 
 	<c:set var="LABEL_NEW_TASK" scope="request"><spring:message code="L0152"/></c:set>
 	<c:set var="LABEL_READY_TASK" scope="request"><spring:message code="L0153"/></c:set>
@@ -151,6 +152,7 @@
 		MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
 		MESSAGE.MS_SAVE_FAIL = '${MS_SAVE_FAIL}';
 		MESSAGE.MS_NO_ROLE = '${MS_NO_ROLE}';
+		MESSAGE.MS_VERSION = '${MS_VERSION}';
 
 		var LABEL = {};
 		LABEL.LABEL_PASS = '${LABEL_PASS}';
