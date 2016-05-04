@@ -166,6 +166,7 @@ public class TypeTaskTest {
                 //"maxResult" ตรงกับ RequestParam
                 .param("editTypeID","1")
                 .param("editTypeName","1")
+                .param("version","0")
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -412,4 +413,6 @@ public class TypeTaskTest {
                 .andReturn();
         LOGGER.debug("-------------------------InuseOtherTaskIsEmpty");
     }
+
+
 }
