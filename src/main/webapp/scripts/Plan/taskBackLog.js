@@ -126,36 +126,37 @@ pagginationBackLog.loadTable = function loadTable(jsonData) {
             }
         }
         var colorProgress =  progress  == "100" ? "progress-bar-success" : "progress-bar-warning";
+        if(taskId != idTaskBackLog_Today) {
+            tableData = ''
 
-        tableData = ''
+                + '<tr>'
+                + '<td id="' + taskId + '" class="text-center" style="color: #000">'
+                + '<button id="taskId_' + taskId + '" stDateTask="' + stDateTask + '" project="' + projectName + '" versionPlan="' + value.versionPlan + '" versionTask="' + value.versionTask + '" planNote="' + planNote + '" module="' + moduleName + '" enDateTask="' + enDateTask + '" note="' + note + '" cost="' + cost + '" followerName="' + followerName + '"  ' +
+                'importanceName="' + importanceName + '" progress="' + progress + '" taskType="' + taskType + '" taskCode="' + taskCode + '" taskName="' + taskName + '" stDate="' + stDate + '" enDate="' + enDate + '" class="btn btn-info btn-xs" type="button">' +
+                '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
+                + '</td>'
+                + '<td id="' + value.id + '" class="text-center" style="color: #000">'
+                + (value.taskCode != null ? '' + value.taskCode + '' : '')
+                + '</td>'
+                + '<td id="' + value.id + '" class="text-left" style="color: #000">'
+                + ( value.taskName != null ? '' + value.taskName + '' : '' + value.otherTaskName + '')
+                + '</td>'
+                + '<td id="dateStart' + value.id + '" class="text-center" style="color: #000">'
+                + DateUtil.dataDateToFrontend(value.stDate, _language)
+                + '</td>'
+                + '<td id="dateEnd' + value.id + '" class="text-center" style="color: #000">'
+                + DateUtil.dataDateToFrontend(value.enDate, _language)
+                + '</td>'
+                + '<td id="' + value.id + '" class="text-center" style="">'
+                + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
+                + 'style="width: ' + progress + '%; color: black; ">' + progress + '%</div>'
+                + '</td>'
 
-            + '<tr>'
-            + '<td id="' + taskId + '" class="text-center" style="color: #000">'
-            + '<button id="taskId_'+taskId+'" stDateTask="'+stDateTask+'" project="'+projectName+'" versionPlan="'+value.versionPlan+'" versionTask="'+value.versionTask+'" planNote="'+planNote+'" module="'+moduleName+'" enDateTask="'+enDateTask+'" note="'+note+'" cost="'+cost+'" followerName="'+followerName+'"  ' +
-            'importanceName="'+importanceName+'" progress="'+progress+'" taskType="'+taskType+'" taskCode="'+taskCode+'" taskName="'+taskName+'" stDate="'+stDate+'" enDate="'+enDate+'" class="btn btn-info btn-xs" type="button">' +
-            '<span name="editClick" class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>'
-            + '</td>'
-            + '<td id="' + value.id + '" class="text-center" style="color: #000">'
-            + (value.taskCode != null ? ''+value.taskCode+'':'')
-            + '</td>'
-            + '<td id="' + value.id + '" class="text-left" style="color: #000">'
-            + ( value.taskName != null ? ''+ value.taskName+'':''+value.otherTaskName+'')
-            + '</td>'
-            + '<td id="dateStart' + value.id + '" class="text-center" style="color: #000">'
-            + DateUtil.dataDateToFrontend(value.stDate, _language)
-            + '</td>'
-            + '<td id="dateEnd' + value.id + '" class="text-center" style="color: #000">'
-            + DateUtil.dataDateToFrontend(value.enDate, _language)
-            + '</td>'
-            + '<td id="' + value.id + '" class="text-center" style="">'
-            + '<div class="progress-bar ' + colorProgress + '" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'
-            + 'style="width: ' + progress + '%; color: black; ">' +progress + '%</div>'
-            + '</td>'
-
-            + '</tr>';
-        $('#ResualtSearchTaskBackLog').append(
-            tableData
-        );
+                + '</tr>';
+            $('#ResualtSearchTaskBackLog').append(
+                tableData
+            );
+        }
 
     });
 

@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 });
 
-var idTask; var taskType ; var checkEdit ; var checkNote ; var versionPlan,versionTask ;
+var idTask; var taskType ; var checkEdit ; var checkNote ; var versionPlan,versionTask ; var idTaskBackLog_Today;
 
 $('#taskDetailHeaderEdit').click(function(){
     var isOpenCollapse = $(this).children('span').hasClass('fa-angle-up');
@@ -51,6 +51,7 @@ function taskTodayPlanTofirstPage() {
                if(value.taskProgress != null ){
                    progress = value.taskProgress ;
                    taskId = value.taskId ;
+                   idTaskBackLog_Today = taskId;
                    taskCode = value.taskCode;
                    taskName = value.taskName;
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
@@ -111,7 +112,8 @@ function taskTodayPlanTofirstPage() {
                }
                else {
                    progress = value.otherTaskProgress ;
-                   taskId = value.otherTaskId ;
+                   taskId = value.otherTaskId
+                   idTaskBackLog_Today = taskId;
                    taskCode = '';
                    taskName = value.otherTaskName;
                    stDate = DateUtil.dataDateToFrontend(value.stDate, _language);
