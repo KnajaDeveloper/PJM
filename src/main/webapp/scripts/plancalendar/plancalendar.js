@@ -7,6 +7,7 @@ var _month;
 var _year;
 
 var _eventDate = {};
+var _otherTaskDate = {};
 
 var taskStatusColor = {
     delay: '#cc3333',
@@ -614,9 +615,9 @@ $('#btnCancelTask').click(function () {
 // Edit/Delete plan -----------------------------------------------------------------------------------------------------------
 function openModalEditPlan(event) {
     _eventDate = event;
+    _otherTaskDate = {};
 
-    // set data
-    if(event.taskCode != '') {     // Task
+    if(event.taskStatus != 'otherTask') {
         $('#lblEditTaskProject').html(event.taskProject).parent().parent().show();
         $('#lblEditTaskModule').html(event.taskModule).parent().parent().show();
         $('#lblTaskName').removeClass('col-sm-3').addClass('col-sm-2');
@@ -631,7 +632,14 @@ function openModalEditPlan(event) {
         $('#lblEditTaskFollwer').parent().parent().show();
         $('#btnEditDownloadFile').attr('onclick', 'downloadFile("'+ event.taskProgramId +'", "' + event.taskCode + '", "' + event.taskFile + '")');
         $('#txtEditTaskDetail').html(event.taskDetail).parent().parent().show();
-    } else {    // Other task
+
+        $('#lblEditNameWork').parent().show();
+        $('#lblEditTaskCost').parent().show();
+        $('#txtEditNameWork').hide();
+        $('#txtEditTaskCost').parent().hide();
+
+        $('#mdEditToPlan').attr('typeTask', 'task');
+    } else {
         $('#lblEditTaskProject').parent().parent().hide();
         $('#lblEditTaskModule').parent().parent().hide();
         $('#lblTaskName').removeClass('col-sm-2').addClass('col-sm-3');
@@ -643,13 +651,27 @@ function openModalEditPlan(event) {
         $('#lblEditTaskFollwer').html('').parent().parent().hide();
         $('#lblEditDownloadFile').parent().parent().hide();
         $('#txtEditTaskDetail').parent().parent().hide();
+
+        $('#lblEditNameWork').parent().hide();
+        $('#lblEditTaskCost').parent().hide();
+        $('#txtEditNameWork').show();
+        $('#txtEditTaskCost').parent().show();
+
+        $('#mdEditToPlan').attr('typeTask', 'otherTask');
+
+        _otherTaskDate = {
+            taskName: event.title,
+            taskCost: event.taskCost
+        };
     }
     $('#lblEditNameWork').html(event.title);
     $('#lblEditTaskCost').html(event.taskCost + ' ' + LABEL.POINT);
+    $('#txtEditTaskCost').val(event.taskCost);
+    $('#txtEditNameWork').val(event.title);
 
     $('#txtPercentage').val(event.progress);
     if(event.taskStatus == taskStatus.complete || (event.taskStatus == 'otherTask' && event.progress == 100)) {
-        $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, #txtEditNote,[name=optradio]').attr('disabled', 'disabled');
+        $('#txtEditNameWork, #txtEditTaskCost, #txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, #txtEditNote,[name=optradio]').attr('disabled', 'disabled');
         $('#btnSaveEditPlan, #btnAddTime_edit, #btnDeleteEditPlan').hide();
     } else {
         $('#txtPercentage, #cEditDateBegin_0, #cEditDateEnd_0, #txtEditNote, [name=optradio]').removeAttr('disabled');
@@ -780,8 +802,24 @@ $('#btnSaveEditPlan').click(function () {
     var note = $('#txtEditNote').val();
     var versionPlan = $('#mdEditToPlan').attr('versionPlan');
     var versionTaskOrOtherTask = $('#mdEditToPlan').attr('versionTaskOrOtherTask');
+    var typeTask = $('#mdEditToPlan').attr('typeTask');
 
-    if(progress == '') {
+    var otherTaskName = $('#txtEditNameWork').val();
+    var otherTaskPoint = $('#txtEditTaskCost').val();
+
+    if(typeTask == 'otherTask' && otherTaskName == '') {
+        $('#txtEditNameWork').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
+    } else if(typeTask == 'otherTask' && otherTaskPoint == '') {
+        $('#txtEditTaskCost').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
+    } else if(typeTask == 'otherTask' && !$.isNumeric(otherTaskPoint)){
+        $('#txtEditTaskCost').attr('data-content', MESSAGE.COST_FORMAT).popover('show');
+    } else if(typeTask == 'otherTask' && otherTaskPoint < 0){
+        $('#txtEditTaskCost').attr('data-content', MESSAGE.ONLY_INTEGER).popover('show');
+    } else if(typeTask == 'otherTask' && (otherTaskPoint.indexOf('.') > 0 && otherTaskPoint.split('.')[1].length > 4)){
+        $('#txtEditTaskCost').attr('data-content', MESSAGE.COST_DECIMAL_FORMAT).popover('show');
+    }
+
+    else if(progress == '') {
         $('#txtPercentage').attr('data-content', MESSAGE.COMPLETE_THIS_FIELD).popover('show');
     } else if (!$.isNumeric(progress) || progress.indexOf('.') >= 0) {
         $('#txtPercentage').attr('data-content', MESSAGE.PROGRESS_FORMAT).popover('show');
@@ -795,7 +833,7 @@ $('#btnSaveEditPlan').click(function () {
         bootbox.alert(MESSAGE.DATE_OVERLAY);
     } else {
         var planId = $('#mdEditToPlan').attr('planId');
-        var plans = [planId, shiftPlan, progress, note, versionPlan, versionTaskOrOtherTask];
+        var plans = [planId, shiftPlan, progress, note, versionPlan, versionTaskOrOtherTask, otherTaskName, otherTaskPoint];
 
         if (_language == 'TH') {
             $('[id^=cEditDateBegin_][id$=_convert]').each(function () {
@@ -832,57 +870,11 @@ $('#btnSaveEditPlan').click(function () {
             if(taskEnd != '' && taskEnd != '-' && isExpiredDate(plans.slice(6), taskEnd)){
                 bootbox.confirm(MESSAGE.CONFIRM_SAVE_WITH_EXPIRED, function (result) {
                     if (result) {
-                        $.ajax({
-                            type: "POST",
-                            contentType: "application/json; charset=UTF-8",
-                            dataType: "json",
-                            headers: {
-                                Accept: "application/json"
-                            },
-                            url: contextPath + '/plans/updatePlan',
-                            data: JSON.stringify(plans),
-                            success: function (data, status, xhr) {
-                                if (xhr.status == 200 && data == 'not match version') {
-                                    bootbox.alert(MESSAGE.VERSION_NOT_MATCH);
-                                } else if(xhr.status == 200) {
-                                    bootbox.alert(MESSAGE.SAVE_COMPLETED);
-                                    $('#mdEditToPlan').modal('hide');
-                                    loadAndMapPlan(_month, _year-543);
-                                } else {
-                                    bootbox.alert(MESSAGE.SAVE_FAILED);
-                                }
-                            },
-                            error: function(){
-                                bootbox.alert(MESSAGE.SAVE_FAILED);
-                            },
-                            async: false
-                        });
+                        updatePlan(plans);
                     }
                 });
             } else {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=UTF-8",
-                    dataType: "json",
-                    headers: {
-                        Accept: "application/json"
-                    },
-                    url: contextPath + '/plans/updatePlan',
-                    data: JSON.stringify(plans),
-                    success: function (data, status, xhr) {
-                        if (xhr.status === 200) {
-                            bootbox.alert(MESSAGE.SAVE_COMPLETED);
-                            $('#mdEditToPlan').modal('hide');
-                            loadAndMapPlan(_month, _year-543);
-                        } else {
-                            bootbox.alert(MESSAGE.SAVE_FAILED);
-                        }
-                    },
-                    error: function(){
-                        bootbox.alert(MESSAGE.SAVE_FAILED);
-                    },
-                    async: false
-                });
+                updatePlan(plans);
             }
         } else {
             bootbox.alert(MESSAGE.DATA_NO_CHANGE);
@@ -891,6 +883,34 @@ $('#btnSaveEditPlan').click(function () {
 
     }
 });
+
+function updatePlan(plans) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: contextPath + '/plans/updatePlan',
+        data: JSON.stringify(plans),
+        success: function (data, status, xhr) {
+            if (xhr.status == 200 && data == 'not match version') {
+                bootbox.alert(MESSAGE.VERSION_NOT_MATCH);
+            } else if(xhr.status == 200) {
+                bootbox.alert(MESSAGE.SAVE_COMPLETED);
+                $('#mdEditToPlan').modal('hide');
+                loadAndMapPlan(_month, _year-543);
+            } else {
+                bootbox.alert(MESSAGE.SAVE_FAILED);
+            }
+        },
+        error: function(){
+            bootbox.alert(MESSAGE.SAVE_FAILED);
+        },
+        async: false
+    });
+}
 
 $('#btnDeleteEditPlan').click(function () {
 
@@ -1101,6 +1121,8 @@ function changePlan(){
     var inputBegin = (_language == 'TH') ? $('[id^=cEditDateBegin_][id$=_convert]') : $('[id^=cEditDateBegin_]');
     var isShift = $('#radioPostpone_edit').prop('checked');
     var note = $('#txtEditNote').val();
+    var otherTaskName = $('#txtEditNameWork').val();
+    var otherTaskCost = $('#txtEditTaskCost').val();
 
     if(FormUtil.isDateFormat(dateBegin)) {
         if(_language == 'TH') {
@@ -1124,7 +1146,16 @@ function changePlan(){
     }
 
     var noChangeDate = (inputBegin.length == 1) ? (dateBeginOld == dateBegin && dateEndOld == dateEnd): false;
-    if(percentageOld != percentage || !noChangeDate || isShift || noteOld != note) {
+    var changeOther = _eventDate.taskStatus == 'otherTask' ? changeOtherTask(otherTaskName, otherTaskCost) : false;
+
+    if(percentageOld != percentage || !noChangeDate || isShift || noteOld != note || changeOther) {
+        return true;
+    }
+    return false;
+}
+
+function changeOtherTask(taskName, taskCost){
+    if(_eventDate.title != taskName || _eventDate.taskCost != taskCost){
         return true;
     }
     return false;
