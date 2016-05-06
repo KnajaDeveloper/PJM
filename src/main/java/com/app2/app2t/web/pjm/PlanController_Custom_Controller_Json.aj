@@ -336,6 +336,8 @@ privileged aspect PlanController_Custom_Controller_Json {
             String note = jsonArrayPlan.getString(3);
             int versionPlan = jsonArrayPlan.getInt(4);
             int versionTaskOrOtherTask = jsonArrayPlan.getInt(5);
+            String otherTaskName = jsonArrayPlan.getString(6);
+            Double otherTaskCost = jsonArrayPlan.getDouble(7);
 
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
@@ -356,7 +358,7 @@ privileged aspect PlanController_Custom_Controller_Json {
 
             if(planLasted.getVersion() == versionPlan && version == versionTaskOrOtherTask){
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                for (int i = 6; i < jsonArrayPlan.length(); i++) {
+                for (int i = 8; i < jsonArrayPlan.length(); i++) {
                     JSONObject jsonPlan = jsonArrayPlan.getJSONObject(i);
                     Date dateStart = new Date(jsonPlan.getLong("dateStart"));
                     Date dateEnd = new Date(jsonPlan.getLong("dateEnd"));
@@ -378,7 +380,7 @@ privileged aspect PlanController_Custom_Controller_Json {
                         }
                     }
 
-                    if (i == 6) {               // update
+                    if (i == 8) {               // update
                         Plan tmpPlan = Plan.updatePlan(planId, dateStart, dateEnd, note);
 
                         if (task != null) {
@@ -392,6 +394,8 @@ privileged aspect PlanController_Custom_Controller_Json {
                         }
                         if (otherTask != null) {
                             otherTask.setProgress(progress);
+                            otherTask.setTaskName(otherTaskName);
+                            otherTask.setTaskCost(otherTaskCost);
                             otherTask.merge();
                         }
                     } else {                    // insert more plan
