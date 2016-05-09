@@ -21,8 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.net.*;
 import java.io.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 privileged aspect TaskController_Custom_Controller_Json {
+
+    protected static Logger LOGGER = LoggerFactory.getLogger(TaskController_Custom_Controller_Json.class);
 
     @RequestMapping(value = "/findProjectByTask", method = RequestMethod.GET, produces = "text/html", headers = "Accept=application/json")
     public ResponseEntity<String> TaskController.findProjectByTask(
@@ -553,7 +557,7 @@ privileged aspect TaskController_Custom_Controller_Json {
         headers.add("Content-Type", "application/json;charset=UTF-8");
         try {
 
-            List<String> empCodeCanEdit = new ArrayList<>();
+            ArrayList<String> empCodeCanEdit = new ArrayList<>();
             String userName = AuthorizeUtil.getUserName();
             Map employee = emRestService.getEmployeeByUserName(userName);
             Task task = Task.findTask(taskId);
@@ -566,8 +570,10 @@ privileged aspect TaskController_Custom_Controller_Json {
                 empCodeCanEdit.add(mm.getEmpCode());
             }
             empCodeCanEdit.add(task.getEmpCode());
+            LOGGER.debug("------"+empCodeCanEdit);
+            LOGGER.debug("------"+empCodeCanEdit.indexOf(employee.get("empCode").toString()));
+            if (empCodeCanEdit.contains(employee.get("empCode").toString())) {
 
-            if (empCodeCanEdit.indexOf(employee.get("empCode").toString()) > 0) {
                 if (task.getVersion().equals(version)) {
                     if (task.getTaskStatus().equals(ConstantApplication.getTaskStatusReady())) {
                          Task.updateStatusTask(taskId, status, version);
@@ -579,14 +585,17 @@ privileged aspect TaskController_Custom_Controller_Json {
                     }
                     else
                     {
+                    LOGGER.debug("---1---");
                         return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+                        
+
                     }
                 }
                 else {
                     return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
                 }
-            } else
-            {
+            } else {
+                LOGGER.debug("---2---");
                 return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
